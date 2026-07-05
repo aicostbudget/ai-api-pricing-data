@@ -12,6 +12,15 @@ CANONICAL = ROOT / "data" / "canonical"
 DATA = ROOT / "data"
 API = ROOT / "api" / "v1"
 PRICE_FIELDS = ("input", "output", "cached_input", "cache_write", "batch_input", "batch_output")
+HISTORY_COMPARE_FIELDS = (
+    "provider_id",
+    "model_id",
+    "pricing",
+    "official_source_url",
+    "effective_from",
+    "last_verified_at",
+    "notes",
+)
 
 
 def read_json(path: Path) -> Any:
@@ -31,16 +40,25 @@ def load_models() -> list[dict[str, Any]]:
     return read_json(CANONICAL / "models.json")
 
 
-def build_dataset() -> dict[str, Any]:
+def utc_now() -> str:
+    return datetime.now(timezone.utc).replace(microsecond=0).isoformat().replace("+00:00", "Z")
+
+
+def utc_today() -> str:
+    return datetime.now(timezone.utc).date().isoformat()
+
+
+def build_dataset(generated_at: str | None = None) -> dict[str, Any]:
     providers = sorted(load_providers(), key=lambda item: item["provider_id"])
     models = sorted(load_models(), key=lambda item: (item["provider_id"], item["model_id"]))
     source_urls = sorted({model["official_source_url"] for model in models})
     last_verified = max(model["last_verified_at"] for model in models) if models else None
+    generated_at = generated_at or utc_now()
     return {
         "dataset_name": "AICostBudget AI API Pricing Dataset",
         "dataset_version": "1.0.0",
         "description": "Open, machine-readable pricing data for LLM and AI APIs.",
-        "generated_at": "1970-01-01T00:00:00Z",
+        "generated_at": generated_at,
         "homepage": "https://aicostbudget.com",
         "licenses": {
             "code": "MIT",
@@ -90,7 +108,7 @@ def write_csv(path: Path, models: list[dict[str, Any]]) -> None:
     rows = csv_rows(models)
     fieldnames = list(rows[0].keys()) if rows else []
     with path.open("w", encoding="utf-8", newline="") as handle:
-        writer = csv.DictWriter(handle, fieldnames=fieldnames)
+        writer = csv.DictWriter(handle, fieldnames=fieldnames, lineterminator="\n")
         writer.writeheader()
         writer.writerows(rows)
 
@@ -101,8 +119,6 @@ def clean_generated() -> None:
         DATA / "prices.csv",
         DATA / "providers",
         DATA / "models",
-        DATA / "history",
-        DATA / "snapshots",
         API,
     ]:
         if path.is_dir():
@@ -111,6 +127,38 @@ def clean_generated() -> None:
             path.unlink()
 
 
-def utc_now() -> str:
-    return datetime.now(timezone.utc).replace(microsecond=0).isoformat().replace("+00:00", "Z")
+def history_entry(model: dict[str, Any], recorded_at: str) -> dict[str, Any]:
+    return {
+        "recorded_at": recorded_at,
+        "provider_id": model["provider_id"],
+        "model_id": model["model_id"],
+        "pricing": model["pricing"],
+        "official_source_url": model["official_source_url"],
+        "effective_from": model.get("effective_from"),
+        "last_verified_at": model["last_verified_at"],
+        "notes": model.get("notes", ""),
+    }
 
+
+def comparable_history(entry: dict[str, Any]) -> dict[str, Any]:
+    return {field: entry.get(field) for field in HISTORY_COMPARE_FIELDS}
+
+
+def latest_history_entry(path: Path) -> dict[str, Any] | None:
+    if not path.exists():
+        return None
+    latest = None
+    for line in path.read_text(encoding="utf-8").splitlines():
+        if line.strip():
+            latest = json.loads(line)
+    return latest
+
+
+def append_history_if_changed(path: Path, entry: dict[str, Any]) -> bool:
+    previous = latest_history_entry(path)
+    if previous is not None and comparable_history(previous) == comparable_history(entry):
+        return False
+    path.parent.mkdir(parents=True, exist_ok=True)
+    with path.open("a", encoding="utf-8") as handle:
+        handle.write(json.dumps(entry, sort_keys=True) + "\n")
+    return True

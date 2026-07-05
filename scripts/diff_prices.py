@@ -9,6 +9,16 @@ def key(model: dict) -> tuple[str, str]:
     return model["provider_id"], model["model_id"]
 
 
+def pricing_metadata(model: dict) -> dict:
+    return {
+        "pricing": model.get("pricing"),
+        "official_source_url": model.get("official_source_url"),
+        "effective_from": model.get("effective_from"),
+        "last_verified_at": model.get("last_verified_at"),
+        "notes": model.get("notes", ""),
+    }
+
+
 def main() -> None:
     parser = argparse.ArgumentParser(description="Compare two prices.json files.")
     parser.add_argument("old")
@@ -21,10 +31,11 @@ def main() -> None:
     for item in sorted(old.keys() - new.keys()):
         print(f"removed {item[0]}/{item[1]}")
     for item in sorted(old.keys() & new.keys()):
-        if old[item]["pricing"] != new[item]["pricing"]:
+        if old[item].get("pricing") != new[item].get("pricing"):
             print(f"changed {item[0]}/{item[1]}")
+        elif pricing_metadata(old[item]) != pricing_metadata(new[item]):
+            print(f"metadata_changed {item[0]}/{item[1]}")
 
 
 if __name__ == "__main__":
     main()
-

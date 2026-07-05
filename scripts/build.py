@@ -2,14 +2,15 @@ from __future__ import annotations
 
 from collections import defaultdict
 
-from lib import API, DATA, build_dataset, clean_generated, load_models, load_providers, write_csv, write_json
+from lib import API, DATA, append_history_if_changed, build_dataset, clean_generated, history_entry, load_models, load_providers, utc_now, utc_today, write_csv, write_json
 
 
 def main() -> None:
     clean_generated()
     providers = load_providers()
     models = load_models()
-    dataset = build_dataset()
+    generated_at = utc_now()
+    dataset = build_dataset(generated_at)
 
     write_json(DATA / "prices.json", dataset)
     write_csv(DATA / "prices.csv", models)
@@ -30,19 +31,10 @@ def main() -> None:
         provider_id = model["provider_id"]
         model_id = model["model_id"]
         write_json(DATA / "models" / provider_id / f"{model_id}.json", model)
-        history_entry = {
-            "recorded_at": model["last_verified_at"],
-            "provider_id": provider_id,
-            "model_id": model_id,
-            "pricing": model["pricing"],
-            "official_source_url": model["official_source_url"],
-            "notes": model["notes"],
-        }
         history_path = DATA / "history" / provider_id / f"{model_id}.jsonl"
-        history_path.parent.mkdir(parents=True, exist_ok=True)
-        history_path.write_text(__import__("json").dumps(history_entry, sort_keys=True) + "\n", encoding="utf-8")
+        append_history_if_changed(history_path, history_entry(model, generated_at))
 
-    snapshot_dir = DATA / "snapshots" / "2026-07-05"
+    snapshot_dir = DATA / "snapshots" / utc_today()
     write_json(snapshot_dir / "prices.json", dataset)
     write_csv(snapshot_dir / "prices.csv", models)
 
@@ -70,4 +62,3 @@ def main() -> None:
 
 if __name__ == "__main__":
     main()
-

@@ -58,8 +58,8 @@ def validate_models() -> None:
 
 
 def validate_outputs() -> None:
-    expected = build_dataset()
     actual = json.loads((DATA / "prices.json").read_text(encoding="utf-8"))
+    expected = build_dataset(actual["generated_at"])
     if actual != expected:
         fail("data/prices.json is not reproducible from canonical data; run scripts/build.py")
 
@@ -134,4 +134,3 @@ def main() -> None:
 
 if __name__ == "__main__":
     main()
-
