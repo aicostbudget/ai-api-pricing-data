@@ -16,6 +16,7 @@ from scripts.lib import (
     build_dataset,
     csv_rows,
     history_entry,
+    comparable_history,
     load_models,
     load_providers,
     utc_now,
@@ -102,6 +103,15 @@ class DatasetTests(unittest.TestCase):
             for line in path.read_text(encoding="utf-8").splitlines():
                 record = json.loads(line)
                 self.assertFalse(required - record.keys(), path)
+
+    def test_no_semantic_duplicate_history_entries(self):
+        for path in sorted((DATA / "history").glob("*/*.jsonl")):
+            seen = set()
+            for line in path.read_text(encoding="utf-8").splitlines():
+                record = json.loads(line)
+                key = json.dumps(comparable_history(record), sort_keys=True)
+                self.assertNotIn(key, seen, path)
+                seen.add(key)
 
     def test_price_change_adds_history_entry(self):
         model = load_models()[0]
