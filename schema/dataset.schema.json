@@ -1,0 +1,22 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://aicostbudget.com/schemas/ai-api-pricing/dataset.schema.json",
+  "title": "AICostBudget AI API Pricing Dataset",
+  "type": "object",
+  "required": ["dataset_name", "dataset_version", "description", "generated_at", "homepage", "licenses", "provider_count", "model_count", "official_source_count", "providers", "models", "official_sources"],
+  "properties": {
+    "dataset_name": {"type": "string"},
+    "dataset_version": {"type": "string"},
+    "description": {"type": "string"},
+    "generated_at": {"type": "string", "format": "date-time"},
+    "homepage": {"type": "string", "format": "uri"},
+    "licenses": {"type": "object"},
+    "provider_count": {"type": "integer", "minimum": 0},
+    "model_count": {"type": "integer", "minimum": 0},
+    "official_source_count": {"type": "integer", "minimum": 0},
+    "providers": {"type": "array", "items": {"$ref": "provider.schema.json"}},
+    "models": {"type": "array", "items": {"$ref": "model.schema.json"}},
+    "official_sources": {"type": "array", "items": {"type": "string", "format": "uri"}}
+  }
+}
+

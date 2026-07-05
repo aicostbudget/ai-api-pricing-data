@@ -1,0 +1,16 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://aicostbudget.com/schemas/ai-api-pricing/provider.schema.json",
+  "title": "AI API Pricing Provider",
+  "type": "object",
+  "required": ["provider_id", "display_name", "website_url", "pricing_url", "docs_url", "notes"],
+  "properties": {
+    "provider_id": {"type": "string", "pattern": "^[a-z0-9][a-z0-9-]*$"},
+    "display_name": {"type": "string"},
+    "website_url": {"type": "string", "format": "uri"},
+    "pricing_url": {"type": "string", "format": "uri"},
+    "docs_url": {"type": "string", "format": "uri"},
+    "notes": {"type": "string"}
+  }
+}
+

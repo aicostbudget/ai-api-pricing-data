@@ -1,0 +1,34 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://aicostbudget.com/schemas/ai-api-pricing/model.schema.json",
+  "title": "AI API Pricing Model",
+  "type": "object",
+  "required": ["provider_id", "model_id", "display_name", "model_family", "status", "pricing", "official_source_url", "accessed_at", "last_verified_at", "effective_from", "notes"],
+  "properties": {
+    "provider_id": {"type": "string", "pattern": "^[a-z0-9][a-z0-9-]*$"},
+    "model_id": {"type": "string"},
+    "display_name": {"type": "string"},
+    "model_family": {"type": "string"},
+    "status": {"type": "string", "enum": ["active", "preview", "deprecated", "retired", "unknown"]},
+    "pricing": {
+      "type": "object",
+      "required": ["currency", "unit", "input", "output", "cached_input", "cache_write", "batch_input", "batch_output"],
+      "properties": {
+        "currency": {"type": "string", "const": "USD"},
+        "unit": {"type": "string", "const": "1M tokens"},
+        "input": {"type": ["number", "null"], "minimum": 0},
+        "output": {"type": ["number", "null"], "minimum": 0},
+        "cached_input": {"type": ["number", "null"], "minimum": 0},
+        "cache_write": {"type": ["number", "null"], "minimum": 0},
+        "batch_input": {"type": ["number", "null"], "minimum": 0},
+        "batch_output": {"type": ["number", "null"], "minimum": 0}
+      }
+    },
+    "official_source_url": {"type": "string", "format": "uri"},
+    "accessed_at": {"type": "string", "format": "date-time"},
+    "last_verified_at": {"type": "string", "format": "date-time"},
+    "effective_from": {"type": ["string", "null"], "format": "date"},
+    "notes": {"type": "string"}
+  }
+}
+
