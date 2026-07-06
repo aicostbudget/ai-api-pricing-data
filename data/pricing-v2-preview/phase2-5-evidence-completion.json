@@ -60,6 +60,7 @@
     "beforeEvidenceCompleteness": "complete",
     "beforeVerificationStatus": "verified",
     "blocker": [
+      "not_production_default_candidate",
       "not_standard_processing_mode"
     ],
     "businessCriticality": "non_default_tier",
@@ -76,7 +77,7 @@
     "pricingId": "price:anthropic/claude-haiku-4.5:batch:short:current",
     "priorityClass": "not_partial",
     "provider": "anthropic",
-    "reason": "Default-safe gate blocked by: not_standard_processing_mode",
+    "reason": "Default-safe gate blocked by: not_production_default_candidate, not_standard_processing_mode",
     "sourceRefs": [
       "source:anthropic:docs-anthropic-com-en-docs-about-claude-pricing",
       "source:anthropic:platform-claude-com-docs-en-about-claude-pricing"
@@ -172,6 +173,7 @@
     "beforeEvidenceCompleteness": "complete",
     "beforeVerificationStatus": "verified",
     "blocker": [
+      "not_production_default_candidate",
       "not_standard_processing_mode"
     ],
     "businessCriticality": "non_default_tier",
@@ -188,7 +190,7 @@
     "pricingId": "price:anthropic/claude-opus-4.8:batch:short:current",
     "priorityClass": "not_partial",
     "provider": "anthropic",
-    "reason": "Default-safe gate blocked by: not_standard_processing_mode",
+    "reason": "Default-safe gate blocked by: not_production_default_candidate, not_standard_processing_mode",
     "sourceRefs": [
       "source:anthropic:docs-anthropic-com-en-docs-about-claude-pricing",
       "source:anthropic:platform-claude-com-docs-en-about-claude-pricing"
@@ -204,6 +206,7 @@
       "criticality_historical",
       "evidence_not_complete",
       "lifecycle_retired",
+      "not_production_default_candidate",
       "verification_not_verified"
     ],
     "businessCriticality": "historical",
@@ -220,7 +223,7 @@
     "pricingId": "price:anthropic/claude-sonnet-4:standard:short:website-preview",
     "priorityClass": "P3",
     "provider": "anthropic",
-    "reason": "Default-safe gate blocked by: criticality_historical, evidence_not_complete, lifecycle_retired, verification_not_verified",
+    "reason": "Default-safe gate blocked by: criticality_historical, evidence_not_complete, lifecycle_retired, not_production_default_candidate, verification_not_verified",
     "sourceRefs": [
       "source:anthropic:platform-claude-com-docs-en-about-claude-pricing"
     ],
@@ -259,6 +262,7 @@
     "beforeEvidenceCompleteness": "complete",
     "beforeVerificationStatus": "verified",
     "blocker": [
+      "not_production_default_candidate",
       "not_standard_processing_mode"
     ],
     "businessCriticality": "non_default_tier",
@@ -275,7 +279,7 @@
     "pricingId": "price:anthropic/claude-sonnet-4.6:batch:short:current",
     "priorityClass": "not_partial",
     "provider": "anthropic",
-    "reason": "Default-safe gate blocked by: not_standard_processing_mode",
+    "reason": "Default-safe gate blocked by: not_production_default_candidate, not_standard_processing_mode",
     "sourceRefs": [
       "source:anthropic:docs-anthropic-com-en-docs-about-claude-pricing",
       "source:anthropic:platform-claude-com-docs-en-about-claude-pricing"
@@ -315,6 +319,37 @@
     "beforeEvidenceCompleteness": "complete",
     "beforeVerificationStatus": "verified",
     "blocker": [
+      "not_current_effective",
+      "not_production_default_candidate"
+    ],
+    "businessCriticality": "future_effective",
+    "currentEffective": false,
+    "currentPrices": {
+      "cached_input": "0.3",
+      "input": "3",
+      "output": "15"
+    },
+    "defaultSafe": false,
+    "modelInternalId": "anthropic/claude-sonnet-5",
+    "officialEvidence": [],
+    "phase25VerifiedAt": null,
+    "pricingId": "price:anthropic/claude-sonnet-5:standard:short:2026-09-01",
+    "priorityClass": "not_partial",
+    "provider": "anthropic",
+    "reason": "Default-safe gate blocked by: not_current_effective, not_production_default_candidate",
+    "sourceRefs": [
+      "source:anthropic:docs-anthropic-com-en-docs-about-claude-pricing-claude-sonnet-5-introductory-pri",
+      "source:anthropic:platform-claude-com-docs-en-about-claude-pricing"
+    ],
+    "verificationDecision": "unchanged"
+  },
+  {
+    "afterEvidenceCompleteness": "complete",
+    "afterVerificationStatus": "verified",
+    "beforeEvidenceCompleteness": "complete",
+    "beforeVerificationStatus": "verified",
+    "blocker": [
+      "not_production_default_candidate",
       "not_standard_processing_mode"
     ],
     "businessCriticality": "non_default_tier",
@@ -331,7 +366,7 @@
     "pricingId": "price:anthropic/claude-sonnet-5:batch:short:current",
     "priorityClass": "not_partial",
     "provider": "anthropic",
-    "reason": "Default-safe gate blocked by: not_standard_processing_mode",
+    "reason": "Default-safe gate blocked by: not_production_default_candidate, not_standard_processing_mode",
     "sourceRefs": [
       "source:anthropic:docs-anthropic-com-en-docs-about-claude-pricing-claude-sonnet-5-introductory-pri",
       "source:anthropic:platform-claude-com-docs-en-about-claude-pricing"
@@ -375,9 +410,10 @@
       "evidence_not_complete",
       "missing_charge_components",
       "missing_text_modality",
+      "not_production_default_candidate",
       "verification_not_verified"
     ],
-    "businessCriticality": "production_default_candidate",
+    "businessCriticality": "production_secondary",
     "currentEffective": true,
     "currentPrices": {
       "cached_input": null,
@@ -389,9 +425,9 @@
     "officialEvidence": [],
     "phase25VerifiedAt": null,
     "pricingId": "price:cohere/command-a-plus:standard:short:current",
-    "priorityClass": "P0",
+    "priorityClass": "P1",
     "provider": "cohere",
-    "reason": "Default-safe gate blocked by: evidence_not_complete, missing_charge_components, missing_text_modality, verification_not_verified",
+    "reason": "Default-safe gate blocked by: evidence_not_complete, missing_charge_components, missing_text_modality, not_production_default_candidate, verification_not_verified",
     "sourceRefs": [
       "source:cohere:cohere-com-pricing"
     ],
@@ -509,6 +545,7 @@
     "beforeEvidenceCompleteness": "complete",
     "beforeVerificationStatus": "verified",
     "blocker": [
+      "not_production_default_candidate",
       "not_standard_processing_mode"
     ],
     "businessCriticality": "non_default_tier",
@@ -525,7 +562,7 @@
     "pricingId": "price:google-gemini/gemini-2.5-flash:batch:short:current",
     "priorityClass": "not_partial",
     "provider": "google-gemini",
-    "reason": "Default-safe gate blocked by: not_standard_processing_mode",
+    "reason": "Default-safe gate blocked by: not_production_default_candidate, not_standard_processing_mode",
     "sourceRefs": [
       "source:google-gemini:ai-google-dev-gemini-api-docs-pricing"
     ],
@@ -563,6 +600,7 @@
     "beforeEvidenceCompleteness": "complete",
     "beforeVerificationStatus": "verified",
     "blocker": [
+      "not_production_default_candidate",
       "not_standard_processing_mode"
     ],
     "businessCriticality": "non_default_tier",
@@ -579,7 +617,7 @@
     "pricingId": "price:google-gemini/gemini-2.5-pro:batch:short:current",
     "priorityClass": "not_partial",
     "provider": "google-gemini",
-    "reason": "Default-safe gate blocked by: not_standard_processing_mode",
+    "reason": "Default-safe gate blocked by: not_production_default_candidate, not_standard_processing_mode",
     "sourceRefs": [
       "source:google-gemini:ai-google-dev-gemini-api-docs-pricing"
     ],
@@ -642,14 +680,11 @@
     "verificationDecision": "official_verified_in_phase2_5"
   },
   {
-    "afterEvidenceCompleteness": "partial",
-    "afterVerificationStatus": "partially_verified",
-    "beforeEvidenceCompleteness": "partial",
-    "beforeVerificationStatus": "partially_verified",
-    "blocker": [
-      "evidence_not_complete",
-      "verification_not_verified"
-    ],
+    "afterEvidenceCompleteness": "complete",
+    "afterVerificationStatus": "verified",
+    "beforeEvidenceCompleteness": "complete",
+    "beforeVerificationStatus": "verified",
+    "blocker": [],
     "businessCriticality": "production_default_candidate",
     "currentEffective": true,
     "currentPrices": {
@@ -657,28 +692,55 @@
       "input": "2",
       "output": "12"
     },
+    "defaultSafe": true,
+    "modelInternalId": "google-gemini/gemini-3.1-pro-preview",
+    "officialEvidence": [
+      "https://ai.google.dev/gemini-api/docs/pricing"
+    ],
+    "phase25VerifiedAt": "2026-07-07T00:00:00Z",
+    "pricingId": "price:google-gemini/gemini-3.1-pro-preview:standard:short:website-preview",
+    "priorityClass": "not_partial",
+    "provider": "google-gemini",
+    "reason": "Default-safe gate passed.",
+    "sourceRefs": [
+      "source:google-gemini:ai-google-dev-gemini-api-docs-pricing"
+    ],
+    "verificationDecision": "official_verified_in_phase2_5"
+  },
+  {
+    "afterEvidenceCompleteness": "complete",
+    "afterVerificationStatus": "verified",
+    "beforeEvidenceCompleteness": "complete",
+    "beforeVerificationStatus": "verified",
+    "blocker": [
+      "not_production_default_candidate"
+    ],
+    "businessCriticality": "production_secondary",
+    "currentEffective": true,
+    "currentPrices": {
+      "cached_input": "0.4",
+      "input": "4",
+      "output": "18"
+    },
     "defaultSafe": false,
     "modelInternalId": "google-gemini/gemini-3.1-pro-preview",
     "officialEvidence": [],
     "phase25VerifiedAt": null,
-    "pricingId": "price:google-gemini/gemini-3.1-pro-preview:standard:short:website-preview",
-    "priorityClass": "P0",
+    "pricingId": "price:google-gemini/gemini-3.1-pro-preview:standard:long:website-preview",
+    "priorityClass": "not_partial",
     "provider": "google-gemini",
-    "reason": "Default-safe gate blocked by: evidence_not_complete, verification_not_verified",
+    "reason": "Default-safe gate blocked by: not_production_default_candidate",
     "sourceRefs": [
       "source:google-gemini:ai-google-dev-gemini-api-docs-pricing"
     ],
-    "verificationDecision": "retain_partial"
+    "verificationDecision": "unchanged"
   },
   {
-    "afterEvidenceCompleteness": "partial",
-    "afterVerificationStatus": "partially_verified",
-    "beforeEvidenceCompleteness": "partial",
-    "beforeVerificationStatus": "partially_verified",
-    "blocker": [
-      "evidence_not_complete",
-      "verification_not_verified"
-    ],
+    "afterEvidenceCompleteness": "complete",
+    "afterVerificationStatus": "verified",
+    "beforeEvidenceCompleteness": "complete",
+    "beforeVerificationStatus": "verified",
+    "blocker": [],
     "businessCriticality": "production_default_candidate",
     "currentEffective": true,
     "currentPrices": {
@@ -686,18 +748,20 @@
       "input": "1.5",
       "output": "9"
     },
-    "defaultSafe": false,
+    "defaultSafe": true,
     "modelInternalId": "google-gemini/gemini-3.5-flash",
-    "officialEvidence": [],
-    "phase25VerifiedAt": null,
+    "officialEvidence": [
+      "https://ai.google.dev/gemini-api/docs/pricing"
+    ],
+    "phase25VerifiedAt": "2026-07-07T00:00:00Z",
     "pricingId": "price:google-gemini/gemini-3.5-flash:standard:short:website-preview",
-    "priorityClass": "P0",
+    "priorityClass": "not_partial",
     "provider": "google-gemini",
-    "reason": "Default-safe gate blocked by: evidence_not_complete, verification_not_verified",
+    "reason": "Default-safe gate passed.",
     "sourceRefs": [
       "source:google-gemini:ai-google-dev-gemini-api-docs-pricing"
     ],
-    "verificationDecision": "retain_partial"
+    "verificationDecision": "official_verified_in_phase2_5"
   },
   {
     "afterEvidenceCompleteness": "complete",
@@ -734,6 +798,7 @@
     "beforeVerificationStatus": "partially_verified",
     "blocker": [
       "evidence_not_complete",
+      "not_production_default_candidate",
       "not_standard_processing_mode",
       "verification_not_verified"
     ],
@@ -751,7 +816,7 @@
     "pricingId": "price:mistral-ai/mistral-large:batch:short:current",
     "priorityClass": "P1",
     "provider": "mistral-ai",
-    "reason": "Default-safe gate blocked by: evidence_not_complete, not_standard_processing_mode, verification_not_verified",
+    "reason": "Default-safe gate blocked by: evidence_not_complete, not_production_default_candidate, not_standard_processing_mode, verification_not_verified",
     "sourceRefs": [
       "source:mistral-ai:mistral-ai-pricing"
     ],
@@ -793,6 +858,7 @@
     "blocker": [
       "criticality_review_only",
       "evidence_not_complete",
+      "not_production_default_candidate",
       "review_required",
       "unresolved_pricing_conflict",
       "verification_not_verified"
@@ -811,7 +877,7 @@
     "pricingId": "price:openai/gpt-4.1:standard:short:current",
     "priorityClass": "P3",
     "provider": "openai",
-    "reason": "Default-safe gate blocked by: criticality_review_only, evidence_not_complete, review_required, unresolved_pricing_conflict, verification_not_verified",
+    "reason": "Default-safe gate blocked by: criticality_review_only, evidence_not_complete, not_production_default_candidate, review_required, unresolved_pricing_conflict, verification_not_verified",
     "sourceRefs": [
       "source:openai:developers-openai-com-api-docs-pricing",
       "source:openai:platform-openai-com-docs-pricing"
@@ -826,6 +892,7 @@
     "blocker": [
       "criticality_review_only",
       "evidence_not_complete",
+      "not_production_default_candidate",
       "not_standard_processing_mode",
       "review_required",
       "unresolved_pricing_conflict",
@@ -845,7 +912,7 @@
     "pricingId": "price:openai/gpt-4.1:batch:short:current",
     "priorityClass": "P3",
     "provider": "openai",
-    "reason": "Default-safe gate blocked by: criticality_review_only, evidence_not_complete, not_standard_processing_mode, review_required, unresolved_pricing_conflict, verification_not_verified",
+    "reason": "Default-safe gate blocked by: criticality_review_only, evidence_not_complete, not_production_default_candidate, not_standard_processing_mode, review_required, unresolved_pricing_conflict, verification_not_verified",
     "sourceRefs": [
       "source:openai:developers-openai-com-api-docs-pricing",
       "source:openai:platform-openai-com-docs-pricing"
@@ -860,6 +927,7 @@
     "blocker": [
       "criticality_review_only",
       "evidence_not_complete",
+      "not_production_default_candidate",
       "review_required",
       "unresolved_pricing_conflict",
       "verification_not_verified"
@@ -878,7 +946,7 @@
     "pricingId": "price:openai/gpt-4.1-mini:standard:short:website-preview",
     "priorityClass": "P3",
     "provider": "openai",
-    "reason": "Default-safe gate blocked by: criticality_review_only, evidence_not_complete, review_required, unresolved_pricing_conflict, verification_not_verified",
+    "reason": "Default-safe gate blocked by: criticality_review_only, evidence_not_complete, not_production_default_candidate, review_required, unresolved_pricing_conflict, verification_not_verified",
     "sourceRefs": [
       "source:openai:developers-openai-com-api-docs-pricing"
     ],
@@ -892,6 +960,7 @@
     "blocker": [
       "criticality_review_only",
       "evidence_not_complete",
+      "not_production_default_candidate",
       "review_required",
       "unresolved_pricing_conflict",
       "verification_not_verified"
@@ -910,7 +979,7 @@
     "pricingId": "price:openai/gpt-4.1-nano:standard:short:website-preview",
     "priorityClass": "P3",
     "provider": "openai",
-    "reason": "Default-safe gate blocked by: criticality_review_only, evidence_not_complete, review_required, unresolved_pricing_conflict, verification_not_verified",
+    "reason": "Default-safe gate blocked by: criticality_review_only, evidence_not_complete, not_production_default_candidate, review_required, unresolved_pricing_conflict, verification_not_verified",
     "sourceRefs": [
       "source:openai:developers-openai-com-api-docs-pricing"
     ],
@@ -923,9 +992,10 @@
     "beforeVerificationStatus": "partially_verified",
     "blocker": [
       "evidence_not_complete",
+      "not_production_default_candidate",
       "verification_not_verified"
     ],
-    "businessCriticality": "production_default_candidate",
+    "businessCriticality": "production_secondary",
     "currentEffective": true,
     "currentPrices": {
       "cached_input": "0.125",
@@ -937,9 +1007,9 @@
     "officialEvidence": [],
     "phase25VerifiedAt": null,
     "pricingId": "price:openai/gpt-5:standard:short:current",
-    "priorityClass": "P0",
+    "priorityClass": "P1",
     "provider": "openai",
-    "reason": "Default-safe gate blocked by: evidence_not_complete, verification_not_verified",
+    "reason": "Default-safe gate blocked by: evidence_not_complete, not_production_default_candidate, verification_not_verified",
     "sourceRefs": [
       "source:openai:platform-openai-com-docs-pricing"
     ],
@@ -952,6 +1022,7 @@
     "beforeVerificationStatus": "partially_verified",
     "blocker": [
       "evidence_not_complete",
+      "not_production_default_candidate",
       "not_standard_processing_mode",
       "verification_not_verified"
     ],
@@ -969,7 +1040,7 @@
     "pricingId": "price:openai/gpt-5:batch:short:current",
     "priorityClass": "P1",
     "provider": "openai",
-    "reason": "Default-safe gate blocked by: evidence_not_complete, not_standard_processing_mode, verification_not_verified",
+    "reason": "Default-safe gate blocked by: evidence_not_complete, not_production_default_candidate, not_standard_processing_mode, verification_not_verified",
     "sourceRefs": [
       "source:openai:platform-openai-com-docs-pricing"
     ],
@@ -1064,6 +1135,7 @@
     "beforeEvidenceCompleteness": "complete",
     "beforeVerificationStatus": "verified",
     "blocker": [
+      "not_production_default_candidate",
       "not_standard_processing_mode"
     ],
     "businessCriticality": "non_default_tier",
@@ -1080,7 +1152,7 @@
     "pricingId": "price:openai/gpt-5.4-mini:batch:short:current",
     "priorityClass": "not_partial",
     "provider": "openai",
-    "reason": "Default-safe gate blocked by: not_standard_processing_mode",
+    "reason": "Default-safe gate blocked by: not_production_default_candidate, not_standard_processing_mode",
     "sourceRefs": [
       "source:openai:developers-openai-com-api-docs-pricing",
       "source:openai:platform-openai-com-docs-pricing"
@@ -1176,6 +1248,7 @@
     "beforeEvidenceCompleteness": "complete",
     "beforeVerificationStatus": "verified",
     "blocker": [
+      "not_production_default_candidate",
       "not_standard_processing_mode"
     ],
     "businessCriticality": "non_default_tier",
@@ -1192,7 +1265,7 @@
     "pricingId": "price:openai/gpt-5.5:batch:short:current",
     "priorityClass": "not_partial",
     "provider": "openai",
-    "reason": "Default-safe gate blocked by: not_standard_processing_mode",
+    "reason": "Default-safe gate blocked by: not_production_default_candidate, not_standard_processing_mode",
     "sourceRefs": [
       "source:openai:developers-openai-com-api-docs-pricing",
       "source:openai:platform-openai-com-docs-pricing"
@@ -1234,9 +1307,10 @@
     "beforeVerificationStatus": "partially_verified",
     "blocker": [
       "evidence_not_complete",
+      "not_production_default_candidate",
       "verification_not_verified"
     ],
-    "businessCriticality": "production_default_candidate",
+    "businessCriticality": "production_secondary",
     "currentEffective": true,
     "currentPrices": {
       "cached_input": "0.5",
@@ -1248,9 +1322,9 @@
     "officialEvidence": [],
     "phase25VerifiedAt": null,
     "pricingId": "price:openai/o3:standard:short:current",
-    "priorityClass": "P0",
+    "priorityClass": "P1",
     "provider": "openai",
-    "reason": "Default-safe gate blocked by: evidence_not_complete, verification_not_verified",
+    "reason": "Default-safe gate blocked by: evidence_not_complete, not_production_default_candidate, verification_not_verified",
     "sourceRefs": [
       "source:openai:platform-openai-com-docs-pricing"
     ],
@@ -1263,6 +1337,7 @@
     "beforeVerificationStatus": "partially_verified",
     "blocker": [
       "evidence_not_complete",
+      "not_production_default_candidate",
       "not_standard_processing_mode",
       "verification_not_verified"
     ],
@@ -1280,7 +1355,7 @@
     "pricingId": "price:openai/o3:batch:short:current",
     "priorityClass": "P1",
     "provider": "openai",
-    "reason": "Default-safe gate blocked by: evidence_not_complete, not_standard_processing_mode, verification_not_verified",
+    "reason": "Default-safe gate blocked by: evidence_not_complete, not_production_default_candidate, not_standard_processing_mode, verification_not_verified",
     "sourceRefs": [
       "source:openai:platform-openai-com-docs-pricing"
     ],

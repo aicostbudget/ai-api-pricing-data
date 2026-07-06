@@ -45,7 +45,7 @@ OFFICIAL_DOMAINS = {
     "xai": ("docs.x.ai",),
     "deepseek": ("api-docs.deepseek.com",),
     "mistral-ai": ("mistral.ai",),
-    "cohere": ("cohere.com",),
+    "cohere": ("cohere.com", "docs.cohere.com"),
 }
 
 IDENTITY_COLLAPSE = {
@@ -111,6 +111,52 @@ PHASE25_OFFICIAL_COMPLETION = {
     "price:openai/gpt-5.4-pro:standard:short:website-preview": "https://developers.openai.com/api/docs/pricing",
     "price:openai/gpt-5.5-pro:standard:short:website-preview": "https://developers.openai.com/api/docs/pricing",
     "price:xai/grok-build-0.1:standard:short:website-preview": "https://docs.x.ai/developers/models",
+}
+
+PHASE26_OFFICIAL_COMPLETION = {
+    "price:google-gemini/gemini-3.1-pro-preview:standard:short:website-preview": "https://ai.google.dev/gemini-api/docs/pricing",
+    "price:google-gemini/gemini-3.5-flash:standard:short:website-preview": "https://ai.google.dev/gemini-api/docs/pricing",
+}
+
+PHASE26_EXCLUDED_DEFAULT_MODELS = {
+    "cohere/command-a-plus": "official pricing page confirms token-based billing but does not expose a complete current Command A+ pay-as-you-go token price.",
+    "openai/gpt-5": "current OpenAI API pricing page does not list gpt-5 current API pricing as a callable default model.",
+    "openai/o3": "current OpenAI API pricing page lists o3-deep-research, not a current o3 default API price with cached-input semantics.",
+}
+
+PHASE26_BLOCKER_MODEL_IDS = {
+    "cohere/command-a-plus",
+    "google-gemini/gemini-3.1-pro-preview",
+    "google-gemini/gemini-3.5-flash",
+    "openai/gpt-5",
+    "openai/o3",
+}
+
+PHASE26_EXTRA_SOURCE_URLS = {
+    ("cohere", "https://docs.cohere.com/docs/models"): {
+        "sourceType": "official_model_page",
+        "title": "Cohere official model documentation",
+        "supports": ["models"],
+        "verificationStatus": "verified",
+    },
+    ("cohere", "https://docs.cohere.com/docs/how-does-cohere-pricing-work"): {
+        "sourceType": "official_pricing_page",
+        "title": "Cohere official pricing methodology",
+        "supports": ["pricing"],
+        "verificationStatus": "verified",
+    },
+    ("openai", "https://developers.openai.com/api/docs/pricing"): {
+        "sourceType": "official_pricing_page",
+        "title": "OpenAI official API pricing",
+        "supports": ["pricing"],
+        "verificationStatus": "verified",
+    },
+    ("openai", "https://developers.openai.com/api/docs/models"): {
+        "sourceType": "official_model_page",
+        "title": "OpenAI official API models",
+        "supports": ["models"],
+        "verificationStatus": "verified",
+    },
 }
 
 
@@ -458,6 +504,8 @@ def build_phase25_artifacts(
             blockers.append("review_required")
         if criticality in {"historical", "review_only"}:
             blockers.append(f"criticality_{criticality}")
+        if criticality != "production_default_candidate":
+            blockers.append("not_production_default_candidate")
         if identity["identityType"] == "historical_reference" and identity["routingBehavior"] == "redirect":
             blockers.append("redirect_only_pricing")
         if price["modelInternalId"] in pricing_conflict_ids:
@@ -493,7 +541,7 @@ def build_phase25_artifacts(
     for price in prices:
         criticality = classify_criticality(price)
         evidence = matrix_by_id[price["pricingId"]]
-        phase25_source = PHASE25_OFFICIAL_COMPLETION.get(price["pricingId"])
+        phase25_source = PHASE25_OFFICIAL_COMPLETION.get(price["pricingId"]) or PHASE26_OFFICIAL_COMPLETION.get(price["pricingId"])
         after_evidence = "complete" if phase25_source else evidence["evidenceCompleteness"]
         after_verification_status = "verified" if phase25_source else price["verificationStatus"]
         blockers = default_safe_blockers(price, criticality, after_verification_status, after_evidence)
@@ -658,6 +706,216 @@ def build_phase25_artifacts(
         "websiteIntegrationActionCounts": blocker_action_counts,
     }
     return evidence_completion, default_safe_report, blocker_rows, phase25_readiness
+
+
+def build_phase26_artifacts(
+    models: list[dict[str, Any]],
+    prices: list[dict[str, Any]],
+    sources: list[dict[str, Any]],
+    phase25_evidence: list[dict[str, Any]],
+    phase25_default_safe: dict[str, Any],
+    phase25_website_blockers: list[dict[str, Any]],
+) -> tuple[dict[str, Any], dict[str, Any], dict[str, Any]]:
+    generated_at = "2026-07-07T00:00:00Z"
+    source_by_url = {source["url"]: source["sourceId"] for source in sources}
+    source_by_id = {source["sourceId"]: source for source in sources}
+    model_by_id = {model["internalId"]: model for model in models}
+    price_by_model = defaultdict(list)
+    for price in prices:
+        price_by_model[price["modelInternalId"]].append(price)
+
+    phase25_by_model = {row["modelInternalId"]: row for row in phase25_evidence}
+    p0_before = [
+        "cohere/command-a-plus",
+        "google-gemini/gemini-3.1-pro-preview",
+        "google-gemini/gemini-3.5-flash",
+        "openai/gpt-5",
+        "openai/o3",
+    ]
+    p0_after = [
+        model_id
+        for model_id in p0_before
+        if model_id in PHASE26_EXCLUDED_DEFAULT_MODELS
+        and model_by_id.get(model_id, {}).get("defaultPriceRecordId") is not None
+    ]
+    verified_upgrade_models = [
+        "google-gemini/gemini-3.1-pro-preview",
+        "google-gemini/gemini-3.5-flash",
+    ]
+    excluded_models = sorted(PHASE26_EXCLUDED_DEFAULT_MODELS)
+
+    def source_ref(url: str) -> str:
+        return source_by_url[url]
+
+    def pricing_refs(*urls: str) -> list[str]:
+        return [source_ref(url) for url in urls]
+
+    def source_verified_at(refs: list[str]) -> str | None:
+        values = [source_by_id[ref].get("verifiedAt") for ref in refs if source_by_id.get(ref)]
+        return max([value for value in values if value], default=None)
+
+    decisions = []
+    decision_specs = [
+        {
+            "modelInternalId": "cohere/command-a-plus",
+            "officialModelExistence": "verified",
+            "officialModelId": "command-a-plus-05-2026",
+            "currentAvailability": "Live",
+            "lifecycleStatus": "active",
+            "currentEffectivePricingFound": False,
+            "pricingSourceRefs": pricing_refs(
+                "https://cohere.com/pricing",
+                "https://docs.cohere.com/docs/how-does-cohere-pricing-work",
+            ),
+            "modelSourceRefs": pricing_refs("https://docs.cohere.com/docs/models"),
+            "evidenceCompleteness": "partial",
+            "defaultSafeDecision": False,
+            "blockerReason": PHASE26_EXCLUDED_DEFAULT_MODELS["cohere/command-a-plus"],
+            "finalAction": "exclude_from_default",
+        },
+        {
+            "modelInternalId": "google-gemini/gemini-3.1-pro-preview",
+            "officialModelExistence": "verified",
+            "officialModelId": "gemini-3.1-pro-preview",
+            "currentAvailability": "Preview",
+            "lifecycleStatus": "active",
+            "currentEffectivePricingFound": True,
+            "pricingSourceRefs": pricing_refs("https://ai.google.dev/gemini-api/docs/pricing"),
+            "modelSourceRefs": pricing_refs("https://ai.google.dev/gemini-api/docs/pricing"),
+            "evidenceCompleteness": "complete",
+            "defaultSafeDecision": True,
+            "blockerReason": None,
+            "finalAction": "verified_default_safe",
+            "structuredPricing": {
+                "standard_short": "prompts <= 200k tokens",
+                "standard_long": "prompts > 200k tokens",
+            },
+        },
+        {
+            "modelInternalId": "google-gemini/gemini-3.5-flash",
+            "officialModelExistence": "verified",
+            "officialModelId": "gemini-3.5-flash",
+            "currentAvailability": "Standard",
+            "lifecycleStatus": "active",
+            "currentEffectivePricingFound": True,
+            "pricingSourceRefs": pricing_refs("https://ai.google.dev/gemini-api/docs/pricing"),
+            "modelSourceRefs": pricing_refs("https://ai.google.dev/gemini-api/docs/pricing"),
+            "evidenceCompleteness": "complete",
+            "defaultSafeDecision": True,
+            "blockerReason": None,
+            "finalAction": "verified_default_safe",
+        },
+        {
+            "modelInternalId": "openai/gpt-5",
+            "officialModelExistence": "not_confirmed_current_api_pricing_identity",
+            "officialModelId": "gpt-5",
+            "currentAvailability": "not_confirmed_for_default_api_pricing",
+            "lifecycleStatus": "active",
+            "currentEffectivePricingFound": False,
+            "pricingSourceRefs": pricing_refs("https://developers.openai.com/api/docs/pricing"),
+            "modelSourceRefs": pricing_refs("https://developers.openai.com/api/docs/models"),
+            "evidenceCompleteness": "partial",
+            "defaultSafeDecision": False,
+            "blockerReason": PHASE26_EXCLUDED_DEFAULT_MODELS["openai/gpt-5"],
+            "finalAction": "exclude_from_default",
+        },
+        {
+            "modelInternalId": "openai/o3",
+            "officialModelExistence": "not_confirmed_current_default_api_pricing_identity",
+            "officialModelId": "o3",
+            "currentAvailability": "not_confirmed_for_default_api_pricing",
+            "lifecycleStatus": "active",
+            "currentEffectivePricingFound": False,
+            "pricingSourceRefs": pricing_refs("https://developers.openai.com/api/docs/pricing"),
+            "modelSourceRefs": pricing_refs("https://developers.openai.com/api/docs/models"),
+            "evidenceCompleteness": "partial",
+            "defaultSafeDecision": False,
+            "blockerReason": PHASE26_EXCLUDED_DEFAULT_MODELS["openai/o3"],
+            "finalAction": "exclude_from_default",
+        },
+    ]
+    for spec in decision_specs:
+        refs = sorted(set(spec["pricingSourceRefs"] + spec["modelSourceRefs"]))
+        phase25_row = phase25_by_model.get(spec["modelInternalId"], {})
+        decisions.append(
+            {
+                **spec,
+                "verifiedAt": source_verified_at(refs) or generated_at,
+                "phase25DefaultSafe": phase25_row.get("defaultSafe"),
+                "priceRecordIds": [price["pricingId"] for price in price_by_model[spec["modelInternalId"]]],
+            }
+        )
+
+    production_default_candidates = [
+        row for row in phase25_evidence if row["businessCriticality"] == "production_default_candidate"
+    ]
+    production_default_safe = [row for row in production_default_candidates if row["defaultSafe"]]
+    production_default_unsafe = [row for row in production_default_candidates if not row["defaultSafe"]]
+    website_usage_impact = []
+    for model_internal_id in p0_before:
+        website_model_id = model_internal_id.split("/", 1)[1]
+        rows = [row for row in phase25_website_blockers if row["websiteModelId"] == website_model_id]
+        usage_counts: dict[str, int] = {}
+        for row in rows:
+            usage_counts[row["usageType"]] = usage_counts.get(row["usageType"], 0) + 1
+        website_usage_impact.append(
+            {
+                "modelInternalId": model_internal_id,
+                "websiteModelId": website_model_id,
+                "usageMappingCount": len(rows),
+                "usageTypes": dict(sorted(usage_counts.items())),
+                "integrationImpact": (
+                    "verified default-safe; safe_to_integrate for mapped usages"
+                    if model_internal_id in verified_upgrade_models
+                    else "excluded from default candidates; no direct Website usage mapping currently found"
+                    if not rows
+                    else "excluded from default candidates; mapped usages must keep existing temporarily"
+                ),
+            }
+        )
+
+    resolution = {
+        "generatedAt": generated_at,
+        "P0BlockersBefore": p0_before,
+        "P0BlockersAfter": p0_after,
+        "perModelDecisions": decisions,
+        "verificationUpgrades": verified_upgrade_models,
+        "exclusionsFromDefault": excluded_models,
+        "reviewRequiredRemaining": [
+            price["pricingId"] for price in prices if price["verificationStatus"] == "review_required"
+        ],
+        "productionDefaultCandidateCount": len(production_default_candidates),
+        "productionDefaultSafeCount": len(production_default_safe),
+        "productionDefaultUnsafeCount": len(production_default_unsafe),
+        "remainingBlockers": production_default_unsafe,
+        "integrationMappingCount": len(phase25_website_blockers),
+        "websiteUsageImpact": website_usage_impact,
+    }
+    closure = {
+        "generatedAt": generated_at,
+        "defaultCandidatesBefore": 31,
+        "defaultCandidatesAfter": len(production_default_candidates),
+        "safeBefore": 26,
+        "safeAfter": len(production_default_safe),
+        "unsafeBefore": 5,
+        "unsafeAfter": len(production_default_unsafe),
+        "excludedCandidates": excluded_models,
+        "evidenceBasedUpgrades": verified_upgrade_models,
+        "closureGatePassed": len(production_default_unsafe) == 0,
+    }
+    cutover = {
+        "generatedAt": generated_at,
+        "identityReadiness": "conditional",
+        "defaultPricingReadiness": "ready" if closure["closureGatePassed"] else "blocked",
+        "provenanceReadiness": "conditional",
+        "websiteCompatibilityReadiness": "conditional" if closure["closureGatePassed"] else "blocked",
+        "supabaseReadiness": "conditional",
+        "regressionReadiness": "conditional",
+        "safeToEnterWebsiteIntegrationPlanning": closure["closureGatePassed"],
+        "integrationMappingCount": len(phase25_website_blockers),
+        "remainingBlockers": production_default_unsafe,
+    }
+    return resolution, closure, cutover
 
 
 def decimal_string(value: Any) -> str | None:
@@ -872,6 +1130,21 @@ def main() -> None:
             },
         )
 
+    for (provider_id, url), meta in PHASE26_EXTRA_SOURCE_URLS.items():
+        checked_at = "2026-07-07T00:00:00Z"
+        source_urls[url] = {
+            "providerId": provider_id,
+            "url": url,
+            "sourceType": meta["sourceType"],
+            "title": meta["title"],
+            "accessedAt": checked_at,
+            "checkedAt": checked_at,
+            "verifiedAt": checked_at,
+            "officialProviderDomain": official_domain(provider_id, url),
+            "supports": meta["supports"],
+            "verificationStatus": meta["verificationStatus"],
+        }
+
     source_by_url = {url: source_id(meta["providerId"], url) for url, meta in source_urls.items()}
     sources = [
         {"sourceId": source_by_url[url], **meta}
@@ -988,6 +1261,7 @@ def main() -> None:
             pricing_id = f"price:{model_internal_id}:standard:short:current"
             if provider_id == "anthropic" and model_id == "claude-sonnet-5":
                 pricing_id = f"price:{model_internal_id}:standard:intro:2026-07-05"
+            excluded_from_default = model_internal_id in PHASE26_EXCLUDED_DEFAULT_MODELS
             record = {
                 "pricingId": pricing_id,
                 "modelInternalId": model_internal_id,
@@ -1002,13 +1276,40 @@ def main() -> None:
                 "sourceRefs": source_refs_for(provider_id, public, website, source_by_url),
                 "billingNote": public.get("notes", ""),
                 "verificationStatus": "review_required" if (provider_id, model_id) in REVIEW_REQUIRED_IDS else verification,
-                "calculationDefault": (provider_id, model_id) not in REVIEW_REQUIRED_IDS,
+                "calculationDefault": (provider_id, model_id) not in REVIEW_REQUIRED_IDS and not excluded_from_default,
                 "sourceDatasetIds": {
                     "publicDatasetIds": [public["model_id"]],
                     "websiteIds": [website["id"]] if website else [],
                 },
             }
             add_price(model_internal_id, record)
+            if provider_id == "anthropic" and model_id == "claude-sonnet-5":
+                future_id = f"price:{model_internal_id}:standard:short:2026-09-01"
+                add_price(
+                    model_internal_id,
+                    {
+                        **record,
+                        "pricingId": future_id,
+                        "effectiveFrom": "2026-09-01",
+                        "effectiveUntil": None,
+                        "charges": make_charges(
+                            future_id,
+                            {
+                                "input": "3",
+                                "cached_input": "0.3",
+                                "cache_write": "3.75",
+                                "output": "15",
+                            },
+                            "public",
+                        ),
+                        "billingNote": "Future standard pricing for Claude Sonnet 5 starts 2026-09-01 per Anthropic official pricing.",
+                        "calculationDefault": False,
+                        "sourceDatasetIds": {
+                            "publicDatasetIds": ["claude-sonnet-5"],
+                            "websiteIds": [website["id"]] if website else [],
+                        },
+                    },
+                )
             if pricing.get("batch_input") is not None or pricing.get("batch_output") is not None:
                 batch_id = f"price:{model_internal_id}:batch:short:current"
                 add_price(
@@ -1034,26 +1335,46 @@ def main() -> None:
         elif website:
             pricing_id = f"price:{model_internal_id}:standard:short:website-preview"
             verification = "review_required" if (provider_id, model_id) in REVIEW_REQUIRED_IDS else website.get("verificationStatus", "partially_verified")
-            add_price(
-                model_internal_id,
-                {
-                    "pricingId": pricing_id,
-                    "modelInternalId": model_internal_id,
-                    "processingMode": "standard",
-                    "contextClass": "short",
-                    "regionPolicy": "global",
-                    "promptTokenThreshold": None,
-                    "effectiveFrom": website.get("lastUpdated"),
-                    "effectiveUntil": None,
-                    "currency": "USD",
-                    "charges": make_charges(pricing_id, website, "website"),
-                    "sourceRefs": source_refs_for(provider_id, None, website, source_by_url),
-                    "billingNote": website.get("priceNote", ""),
-                    "verificationStatus": verification,
-                    "calculationDefault": verification not in {"review_required", "unconfirmed_price"},
-                    "sourceDatasetIds": {"publicDatasetIds": [], "websiteIds": [website["id"]]},
-                },
-            )
+            if pricing_id in PHASE26_OFFICIAL_COMPLETION:
+                verification = "verified"
+            excluded_from_default = model_internal_id in PHASE26_EXCLUDED_DEFAULT_MODELS
+            prompt_threshold = 200000 if model_internal_id == "google-gemini/gemini-3.1-pro-preview" else None
+            record = {
+                "pricingId": pricing_id,
+                "modelInternalId": model_internal_id,
+                "processingMode": "standard",
+                "contextClass": "short",
+                "regionPolicy": "global",
+                "promptTokenThreshold": prompt_threshold,
+                "effectiveFrom": website.get("lastUpdated"),
+                "effectiveUntil": None,
+                "currency": "USD",
+                "charges": make_charges(pricing_id, website, "website"),
+                "sourceRefs": source_refs_for(provider_id, None, website, source_by_url),
+                "billingNote": website.get("priceNote", ""),
+                "verificationStatus": verification,
+                "calculationDefault": verification not in {"review_required", "unconfirmed_price"} and not excluded_from_default,
+                "sourceDatasetIds": {"publicDatasetIds": [], "websiteIds": [website["id"]]},
+            }
+            add_price(model_internal_id, record)
+            if model_internal_id == "google-gemini/gemini-3.1-pro-preview":
+                long_id = f"price:{model_internal_id}:standard:long:website-preview"
+                add_price(
+                    model_internal_id,
+                    {
+                        **record,
+                        "pricingId": long_id,
+                        "contextClass": "long",
+                        "promptTokenThreshold": 200000,
+                        "charges": make_charges(
+                            long_id,
+                            {"input": "4", "cached_input": "0.4", "output": "18"},
+                            "public",
+                        ),
+                        "billingNote": "Structured Gemini 3.1 Pro Preview standard pricing for prompts > 200k tokens.",
+                        "calculationDefault": False,
+                    },
+                )
 
     models = []
     for provider_id, model_id in sorted(canonical_keys):
@@ -1266,6 +1587,18 @@ def main() -> None:
         website_models,
         website_projection,
     )
+    (
+        phase26_p0_resolution,
+        phase26_default_safe_closure,
+        phase26_cutover_readiness,
+    ) = build_phase26_artifacts(
+        models,
+        prices,
+        sources,
+        phase25_evidence_completion,
+        phase25_default_safe_report,
+        phase25_website_blockers,
+    )
 
     write_json(PREVIEW / "model-identity-registry.json", identities)
     write_json(PREVIEW / "candidate-disposition-map.json", candidate_dispositions)
@@ -1294,6 +1627,9 @@ def main() -> None:
                 "phase2-5-default-safe-report.json",
                 "phase2-5-website-integration-blockers.json",
                 "phase2-5-cutover-readiness.json",
+                "phase2-6-p0-resolution.json",
+                "phase2-6-default-safe-closure.json",
+                "phase2-6-cutover-readiness.json",
                 "generated/model-pricing.website-preview.json",
                 "generated/seed-pricing.preview.sql",
             ],
@@ -1307,6 +1643,9 @@ def main() -> None:
     write_json(PREVIEW / "phase2-5-default-safe-report.json", phase25_default_safe_report)
     write_json(PREVIEW / "phase2-5-website-integration-blockers.json", phase25_website_blockers)
     write_json(PREVIEW / "phase2-5-cutover-readiness.json", phase25_cutover_readiness)
+    write_json(PREVIEW / "phase2-6-p0-resolution.json", phase26_p0_resolution)
+    write_json(PREVIEW / "phase2-6-default-safe-closure.json", phase26_default_safe_closure)
+    write_json(PREVIEW / "phase2-6-cutover-readiness.json", phase26_cutover_readiness)
     write_json(GENERATED / "model-pricing.website-preview.json", website_projection)
     (GENERATED / "seed-pricing.preview.sql").parent.mkdir(parents=True, exist_ok=True)
     write_text_with_retry(GENERATED / "seed-pricing.preview.sql", "\n".join(sql_lines))

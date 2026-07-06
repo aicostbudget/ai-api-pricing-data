@@ -2,7 +2,7 @@ from __future__ import annotations
 
 import json
 import re
-from datetime import date
+from datetime import date, datetime, time, timedelta
 from pathlib import Path
 from typing import Any
 from urllib.parse import urlparse
@@ -40,6 +40,13 @@ INTEGRATION_ACTIONS = {
     "blocked",
 }
 READINESS_STATES = {"ready", "conditional", "blocked"}
+PHASE26_FINAL_ACTIONS = {
+    "verified_default_safe",
+    "verified_non_default",
+    "exclude_from_default",
+    "review_required",
+    "remove_candidate_as_invalid_identity",
+}
 CHARGE_COMPONENTS = {
     "input",
     "cached_input",
@@ -97,6 +104,9 @@ def validate_preview() -> dict[str, Any]:
     phase25_default_safe = read_json(PREVIEW / "phase2-5-default-safe-report.json")
     phase25_blockers = read_json(PREVIEW / "phase2-5-website-integration-blockers.json")
     phase25_readiness = read_json(PREVIEW / "phase2-5-cutover-readiness.json")
+    phase26_resolution = read_json(PREVIEW / "phase2-6-p0-resolution.json")
+    phase26_closure = read_json(PREVIEW / "phase2-6-default-safe-closure.json")
+    phase26_readiness = read_json(PREVIEW / "phase2-6-cutover-readiness.json")
     projection = read_json(PREVIEW / "generated" / "model-pricing.website-preview.json")
     seed = PREVIEW / "generated" / "seed-pricing.preview.sql"
     if not seed.exists() or not seed.read_text(encoding="utf-8").strip():
@@ -252,6 +262,25 @@ def validate_preview() -> dict[str, Any]:
         },
         "phase2.5 website blocker row",
     )
+    validate_required_fields(
+        phase26_resolution.get("perModelDecisions", []),
+        {
+            "modelInternalId",
+            "officialModelExistence",
+            "officialModelId",
+            "currentAvailability",
+            "lifecycleStatus",
+            "currentEffectivePricingFound",
+            "pricingSourceRefs",
+            "modelSourceRefs",
+            "verifiedAt",
+            "evidenceCompleteness",
+            "defaultSafeDecision",
+            "blockerReason",
+            "finalAction",
+        },
+        "phase2.6 decision row",
+    )
 
     identity_ids = [item["internalId"] for item in identities]
     if len(identity_ids) != len(set(identity_ids)):
@@ -388,6 +417,62 @@ def validate_preview() -> dict[str, Any]:
             if not isinstance(amount, str) or not DECIMAL_STRING.match(amount):
                 fail(f"invalid decimal string in {price['pricingId']}: {amount}")
 
+    sonnet_standard = [
+        price
+        for price in prices
+        if price["modelInternalId"] == "anthropic/claude-sonnet-5"
+        and price["processingMode"] == "standard"
+    ]
+    sonnet_intro = [
+        price
+        for price in sonnet_standard
+        if price["pricingId"] == "price:anthropic/claude-sonnet-5:standard:intro:2026-07-05"
+    ]
+    sonnet_future = [
+        price
+        for price in sonnet_standard
+        if price["pricingId"] == "price:anthropic/claude-sonnet-5:standard:short:2026-09-01"
+    ]
+    if len(sonnet_intro) != 1 or len(sonnet_future) != 1:
+        fail("Claude Sonnet 5 must have exactly one intro and one future standard PriceRecord")
+    if sonnet_intro[0]["effectiveUntil"] != "2026-08-31":
+        fail("Claude Sonnet 5 intro effectiveUntil must be 2026-08-31")
+    if sonnet_future[0]["effectiveFrom"] != "2026-09-01":
+        fail("Claude Sonnet 5 future standard effectiveFrom must be 2026-09-01")
+
+    def is_effective_at(price: dict[str, Any], moment: datetime) -> bool:
+        start = parse_date(price["effectiveFrom"], "effectiveFrom")
+        end = parse_date(price["effectiveUntil"], "effectiveUntil")
+        if start and moment < datetime.combine(start, time.min):
+            return False
+        if end and moment >= datetime.combine(end + timedelta(days=1), time.min):
+            return False
+        return True
+
+    if [price["pricingId"] for price in sonnet_standard if is_effective_at(price, datetime.fromisoformat("2026-08-31T23:59:59"))] != [
+        "price:anthropic/claude-sonnet-5:standard:intro:2026-07-05"
+    ]:
+        fail("Claude Sonnet 5 boundary must select only intro at 2026-08-31T23:59:59")
+    if [price["pricingId"] for price in sonnet_standard if is_effective_at(price, datetime.fromisoformat("2026-09-01T00:00:00"))] != [
+        "price:anthropic/claude-sonnet-5:standard:short:2026-09-01"
+    ]:
+        fail("Claude Sonnet 5 boundary must select only standard at 2026-09-01T00:00:00")
+
+    gemini31_pro = [
+        price
+        for price in prices
+        if price["modelInternalId"] == "google-gemini/gemini-3.1-pro-preview"
+        and price["processingMode"] == "standard"
+    ]
+    if {price["contextClass"] for price in gemini31_pro} != {"short", "long"}:
+        fail("Gemini 3.1 Pro Preview must have structured short and long standard PriceRecords")
+    for price in gemini31_pro:
+        if price["promptTokenThreshold"] != 200000:
+            fail(f"Gemini 3.1 Pro Preview threshold missing: {price['pricingId']}")
+        components = {charge["component"] for charge in price["charges"]}
+        if not {"input", "cached_input", "output"}.issubset(components):
+            fail(f"Gemini 3.1 Pro Preview structured price missing components: {price['pricingId']}")
+
     for source in sources:
         if not str(source["url"]).startswith("https://"):
             fail(f"source URL must be https: {source['sourceId']}")
@@ -502,10 +587,53 @@ def validate_preview() -> dict[str, Any]:
     ):
         if phase25_readiness[field] not in READINESS_STATES and phase25_readiness[field] != "pending_runtime_validation":
             fail(f"invalid phase2.5 readiness state: {field}")
-    if phase25_readiness["defaultPricingReadiness"] != "blocked":
-        fail("phase2.5 default pricing readiness must remain blocked")
-    if phase25_readiness["safeToEnterWebsiteIntegrationPlanning"] is not False:
-        fail("phase2.5 Website Integration Planning must remain blocked")
+    if not isinstance(phase25_readiness["safeToEnterWebsiteIntegrationPlanning"], bool):
+        fail("phase2.5 Website Integration Planning flag must be boolean")
+
+    if phase26_closure["defaultCandidatesBefore"] != 31:
+        fail("phase2.6 default candidates before must preserve Phase 2.5 baseline")
+    if phase26_closure["unsafeBefore"] != 5:
+        fail("phase2.6 unsafe before must preserve Phase 2.5 baseline")
+    if phase26_closure["defaultCandidatesAfter"] != phase25_default_safe["productionDefaultCandidateCount"]:
+        fail("phase2.6 default candidates after mismatch")
+    if phase26_closure["safeAfter"] != phase25_default_safe["productionDefaultSafeCount"]:
+        fail("phase2.6 safe after mismatch")
+    if phase26_closure["unsafeAfter"] != phase25_default_safe["productionDefaultUnsafeCount"]:
+        fail("phase2.6 unsafe after mismatch")
+    if phase26_closure["unsafeAfter"] != 0 or phase26_closure["closureGatePassed"] is not True:
+        fail("phase2.6 closure gate must leave zero unsafe production default candidates")
+    if phase26_resolution["P0BlockersBefore"] != [
+        "cohere/command-a-plus",
+        "google-gemini/gemini-3.1-pro-preview",
+        "google-gemini/gemini-3.5-flash",
+        "openai/gpt-5",
+        "openai/o3",
+    ]:
+        fail("phase2.6 P0 blocker baseline mismatch")
+    if phase26_resolution["P0BlockersAfter"] != []:
+        fail("phase2.6 P0 blockers after must be empty")
+    if phase26_resolution["integrationMappingCount"] != len(phase25_blockers):
+        fail("phase2.6 integrationMappingCount must count usage mapping entries")
+    for row in phase26_resolution["perModelDecisions"]:
+        if row["finalAction"] not in PHASE26_FINAL_ACTIONS:
+            fail(f"invalid phase2.6 finalAction: {row['modelInternalId']}")
+        for ref in row["pricingSourceRefs"] + row["modelSourceRefs"]:
+            if ref not in source_set:
+                fail(f"phase2.6 decision has orphan sourceRef {ref}")
+    for field in (
+        "identityReadiness",
+        "defaultPricingReadiness",
+        "provenanceReadiness",
+        "websiteCompatibilityReadiness",
+        "supabaseReadiness",
+        "regressionReadiness",
+    ):
+        if phase26_readiness[field] not in READINESS_STATES:
+            fail(f"invalid phase2.6 readiness state: {field}")
+    if phase26_readiness["safeToEnterWebsiteIntegrationPlanning"] is not True:
+        fail("phase2.6 Website Integration Planning must be enabled only after closure")
+    if phase26_readiness["integrationMappingCount"] != len(phase25_blockers):
+        fail("phase2.6 readiness integrationMappingCount mismatch")
 
     for row in projection:
         for field in ("id", "provider", "model", "inputPrice", "cachedInputPrice", "outputPrice", "status"):

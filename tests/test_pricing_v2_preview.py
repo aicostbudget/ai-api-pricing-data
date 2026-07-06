@@ -1,5 +1,6 @@
 import json
 import unittest
+from datetime import datetime, time, timedelta
 
 from scripts.validate_pricing_v2_preview import PREVIEW, validate_preview
 
@@ -26,6 +27,9 @@ class PricingV2PreviewTests(unittest.TestCase):
             (PREVIEW / "phase2-5-website-integration-blockers.json").read_text(encoding="utf-8")
         )
         cls.phase25_readiness = json.loads((PREVIEW / "phase2-5-cutover-readiness.json").read_text(encoding="utf-8"))
+        cls.phase26_resolution = json.loads((PREVIEW / "phase2-6-p0-resolution.json").read_text(encoding="utf-8"))
+        cls.phase26_closure = json.loads((PREVIEW / "phase2-6-default-safe-closure.json").read_text(encoding="utf-8"))
+        cls.phase26_readiness = json.loads((PREVIEW / "phase2-6-cutover-readiness.json").read_text(encoding="utf-8"))
         cls.projection = json.loads((PREVIEW / "generated" / "model-pricing.website-preview.json").read_text(encoding="utf-8"))
 
     def identity(self, internal_id):
@@ -60,6 +64,41 @@ class PricingV2PreviewTests(unittest.TestCase):
         self.assertIsNotNone(sonnet["defaultPriceRecordId"])
         default_price = next(item for item in self.prices if item["pricingId"] == sonnet["defaultPriceRecordId"])
         self.assertEqual(default_price["effectiveUntil"], "2026-08-31")
+        future = next(
+            item
+            for item in self.prices
+            if item["pricingId"] == "price:anthropic/claude-sonnet-5:standard:short:2026-09-01"
+        )
+        self.assertEqual(future["effectiveFrom"], "2026-09-01")
+
+    def test_claude_sonnet_5_effective_date_boundary(self):
+        records = [
+            item
+            for item in self.prices
+            if item["modelInternalId"] == "anthropic/claude-sonnet-5"
+            and item["processingMode"] == "standard"
+        ]
+
+        def active_at(moment):
+            selected = []
+            for record in records:
+                start = record["effectiveFrom"]
+                end = record["effectiveUntil"]
+                if start and moment < datetime.combine(datetime.fromisoformat(start).date(), time.min):
+                    continue
+                if end and moment >= datetime.combine(datetime.fromisoformat(end).date() + timedelta(days=1), time.min):
+                    continue
+                selected.append(record["pricingId"])
+            return selected
+
+        self.assertEqual(
+            active_at(datetime.fromisoformat("2026-08-31T23:59:59")),
+            ["price:anthropic/claude-sonnet-5:standard:intro:2026-07-05"],
+        )
+        self.assertEqual(
+            active_at(datetime.fromisoformat("2026-09-01T00:00:00")),
+            ["price:anthropic/claude-sonnet-5:standard:short:2026-09-01"],
+        )
 
     def test_deepseek_aliases_target_v4_flash(self):
         for internal_id in ("deepseek/deepseek-chat", "deepseek/deepseek-reasoner"):
@@ -125,13 +164,13 @@ class PricingV2PreviewTests(unittest.TestCase):
         self.assertIsNone(self.phase2_conflict["grok3"]["replacementInternalId"])
 
     def test_phase2_5_default_safe_gate_counts(self):
-        self.assertEqual(len(self.phase25_evidence), 47)
-        self.assertEqual(self.phase25_default_safe["productionDefaultCandidateCount"], 31)
-        self.assertEqual(self.phase25_default_safe["defaultSafeCount"], 26)
+        self.assertEqual(len(self.phase25_evidence), 49)
+        self.assertEqual(self.phase25_default_safe["productionDefaultCandidateCount"], 28)
+        self.assertEqual(self.phase25_default_safe["defaultSafeCount"], 28)
         self.assertEqual(self.phase25_default_safe["defaultUnsafeCount"], 21)
-        self.assertEqual(self.phase25_default_safe["P0PartialBefore"], 20)
-        self.assertEqual(self.phase25_default_safe["P0PartialAfter"], 5)
-        self.assertEqual(self.phase25_default_safe["P1PartialCount"], 3)
+        self.assertEqual(self.phase25_default_safe["P0PartialBefore"], 15)
+        self.assertEqual(self.phase25_default_safe["P0PartialAfter"], 0)
+        self.assertEqual(self.phase25_default_safe["P1PartialCount"], 6)
         self.assertEqual(self.phase25_default_safe["P2PartialCount"], 0)
         self.assertEqual(self.phase25_default_safe["P3PartialCount"], 5)
 
@@ -147,15 +186,37 @@ class PricingV2PreviewTests(unittest.TestCase):
         self.assertTrue(grok_3_rows)
         self.assertTrue(all(row["recommendedIntegrationAction"] == "integrate_with_warning" for row in grok_3_rows))
 
-    def test_phase2_5_website_integration_remains_blocked(self):
-        self.assertFalse(self.phase25_readiness["safeToEnterWebsiteIntegrationPlanning"])
-        self.assertEqual(self.phase25_readiness["defaultPricingReadiness"], "blocked")
+    def test_phase2_6_closes_p0_default_safe_gate(self):
+        self.assertTrue(self.phase26_closure["closureGatePassed"])
+        self.assertEqual(self.phase26_closure["defaultCandidatesBefore"], 31)
+        self.assertEqual(self.phase26_closure["defaultCandidatesAfter"], 28)
+        self.assertEqual(self.phase26_closure["safeBefore"], 26)
+        self.assertEqual(self.phase26_closure["safeAfter"], 28)
+        self.assertEqual(self.phase26_closure["unsafeBefore"], 5)
+        self.assertEqual(self.phase26_closure["unsafeAfter"], 0)
+        self.assertEqual(self.phase26_resolution["P0BlockersAfter"], [])
+        self.assertEqual(
+            self.phase26_closure["excludedCandidates"],
+            ["cohere/command-a-plus", "openai/gpt-5", "openai/o3"],
+        )
+        self.assertEqual(
+            self.phase26_closure["evidenceBasedUpgrades"],
+            ["google-gemini/gemini-3.1-pro-preview", "google-gemini/gemini-3.5-flash"],
+        )
+        self.assertTrue(self.phase26_readiness["safeToEnterWebsiteIntegrationPlanning"])
+        self.assertEqual(self.phase26_readiness["defaultPricingReadiness"], "ready")
+        self.assertEqual(self.phase26_readiness["integrationMappingCount"], 162)
+
+    def test_phase2_6_website_usage_counts_are_mapping_entries(self):
+        self.assertTrue(self.phase25_readiness["safeToEnterWebsiteIntegrationPlanning"])
+        self.assertEqual(self.phase25_readiness["defaultPricingReadiness"], "ready")
         counts = self.phase25_readiness["websiteIntegrationActionCounts"]
-        self.assertEqual(counts["safe_to_integrate"], 129)
-        self.assertEqual(counts["integrate_with_warning"], 16)
-        self.assertEqual(counts["exclude_from_default"], 2)
+        self.assertEqual(sum(counts.values()), 162)
+        self.assertEqual(counts["safe_to_integrate"], 139)
+        self.assertEqual(counts["integrate_with_warning"], 8)
+        self.assertEqual(counts.get("exclude_from_default", 0), 0)
         self.assertEqual(counts["keep_existing_temporarily"], 15)
-        self.assertEqual(counts["blocked"], 0)
+        self.assertEqual(counts.get("blocked", 0), 0)
 
 
 if __name__ == "__main__":

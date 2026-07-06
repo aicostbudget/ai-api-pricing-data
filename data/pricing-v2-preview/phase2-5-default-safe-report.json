@@ -1,19 +1,14 @@
 {
-  "P0PartialAfter": 5,
-  "P0PartialBefore": 20,
-  "P1PartialCount": 3,
+  "P0PartialAfter": 0,
+  "P0PartialBefore": 15,
+  "P1PartialCount": 6,
   "P2PartialCount": 0,
   "P3PartialCount": 5,
-  "blockers": [
-    "evidence_not_complete",
-    "missing_charge_components",
-    "missing_text_modality",
-    "verification_not_verified"
-  ],
-  "defaultSafeCount": 26,
+  "blockers": [],
+  "defaultSafeCount": 28,
   "defaultUnsafeCount": 21,
   "generatedAt": "2026-07-07T00:00:00Z",
-  "productionDefaultCandidateCount": 31,
+  "productionDefaultCandidateCount": 28,
   "productionDefaultCandidates": [
     {
       "afterEvidenceCompleteness": "complete",
@@ -236,37 +231,6 @@
       "verificationDecision": "official_verified_in_phase2_5"
     },
     {
-      "afterEvidenceCompleteness": "partial",
-      "afterVerificationStatus": "partially_verified",
-      "beforeEvidenceCompleteness": "partial",
-      "beforeVerificationStatus": "partially_verified",
-      "blocker": [
-        "evidence_not_complete",
-        "missing_charge_components",
-        "missing_text_modality",
-        "verification_not_verified"
-      ],
-      "businessCriticality": "production_default_candidate",
-      "currentEffective": true,
-      "currentPrices": {
-        "cached_input": null,
-        "input": null,
-        "output": null
-      },
-      "defaultSafe": false,
-      "modelInternalId": "cohere/command-a-plus",
-      "officialEvidence": [],
-      "phase25VerifiedAt": null,
-      "pricingId": "price:cohere/command-a-plus:standard:short:current",
-      "priorityClass": "P0",
-      "provider": "cohere",
-      "reason": "Default-safe gate blocked by: evidence_not_complete, missing_charge_components, missing_text_modality, verification_not_verified",
-      "sourceRefs": [
-        "source:cohere:cohere-com-pricing"
-      ],
-      "verificationDecision": "retain_partial"
-    },
-    {
       "afterEvidenceCompleteness": "complete",
       "afterVerificationStatus": "verified",
       "beforeEvidenceCompleteness": "partial",
@@ -455,14 +419,11 @@
       "verificationDecision": "official_verified_in_phase2_5"
     },
     {
-      "afterEvidenceCompleteness": "partial",
-      "afterVerificationStatus": "partially_verified",
-      "beforeEvidenceCompleteness": "partial",
-      "beforeVerificationStatus": "partially_verified",
-      "blocker": [
-        "evidence_not_complete",
-        "verification_not_verified"
-      ],
+      "afterEvidenceCompleteness": "complete",
+      "afterVerificationStatus": "verified",
+      "beforeEvidenceCompleteness": "complete",
+      "beforeVerificationStatus": "verified",
+      "blocker": [],
       "businessCriticality": "production_default_candidate",
       "currentEffective": true,
       "currentPrices": {
@@ -470,28 +431,27 @@
         "input": "2",
         "output": "12"
       },
-      "defaultSafe": false,
+      "defaultSafe": true,
       "modelInternalId": "google-gemini/gemini-3.1-pro-preview",
-      "officialEvidence": [],
-      "phase25VerifiedAt": null,
+      "officialEvidence": [
+        "https://ai.google.dev/gemini-api/docs/pricing"
+      ],
+      "phase25VerifiedAt": "2026-07-07T00:00:00Z",
       "pricingId": "price:google-gemini/gemini-3.1-pro-preview:standard:short:website-preview",
-      "priorityClass": "P0",
+      "priorityClass": "not_partial",
       "provider": "google-gemini",
-      "reason": "Default-safe gate blocked by: evidence_not_complete, verification_not_verified",
+      "reason": "Default-safe gate passed.",
       "sourceRefs": [
         "source:google-gemini:ai-google-dev-gemini-api-docs-pricing"
       ],
-      "verificationDecision": "retain_partial"
+      "verificationDecision": "official_verified_in_phase2_5"
     },
     {
-      "afterEvidenceCompleteness": "partial",
-      "afterVerificationStatus": "partially_verified",
-      "beforeEvidenceCompleteness": "partial",
-      "beforeVerificationStatus": "partially_verified",
-      "blocker": [
-        "evidence_not_complete",
-        "verification_not_verified"
-      ],
+      "afterEvidenceCompleteness": "complete",
+      "afterVerificationStatus": "verified",
+      "beforeEvidenceCompleteness": "complete",
+      "beforeVerificationStatus": "verified",
+      "blocker": [],
       "businessCriticality": "production_default_candidate",
       "currentEffective": true,
       "currentPrices": {
@@ -499,18 +459,20 @@
         "input": "1.5",
         "output": "9"
       },
-      "defaultSafe": false,
+      "defaultSafe": true,
       "modelInternalId": "google-gemini/gemini-3.5-flash",
-      "officialEvidence": [],
-      "phase25VerifiedAt": null,
+      "officialEvidence": [
+        "https://ai.google.dev/gemini-api/docs/pricing"
+      ],
+      "phase25VerifiedAt": "2026-07-07T00:00:00Z",
       "pricingId": "price:google-gemini/gemini-3.5-flash:standard:short:website-preview",
-      "priorityClass": "P0",
+      "priorityClass": "not_partial",
       "provider": "google-gemini",
-      "reason": "Default-safe gate blocked by: evidence_not_complete, verification_not_verified",
+      "reason": "Default-safe gate passed.",
       "sourceRefs": [
         "source:google-gemini:ai-google-dev-gemini-api-docs-pricing"
       ],
-      "verificationDecision": "retain_partial"
+      "verificationDecision": "official_verified_in_phase2_5"
     },
     {
       "afterEvidenceCompleteness": "complete",
@@ -567,35 +529,6 @@
         "source:openai:developers-openai-com-api-docs-pricing"
       ],
       "verificationDecision": "official_verified_in_phase2_5"
-    },
-    {
-      "afterEvidenceCompleteness": "partial",
-      "afterVerificationStatus": "partially_verified",
-      "beforeEvidenceCompleteness": "partial",
-      "beforeVerificationStatus": "partially_verified",
-      "blocker": [
-        "evidence_not_complete",
-        "verification_not_verified"
-      ],
-      "businessCriticality": "production_default_candidate",
-      "currentEffective": true,
-      "currentPrices": {
-        "cached_input": "0.125",
-        "input": "1.25",
-        "output": "10"
-      },
-      "defaultSafe": false,
-      "modelInternalId": "openai/gpt-5",
-      "officialEvidence": [],
-      "phase25VerifiedAt": null,
-      "pricingId": "price:openai/gpt-5:standard:short:current",
-      "priorityClass": "P0",
-      "provider": "openai",
-      "reason": "Default-safe gate blocked by: evidence_not_complete, verification_not_verified",
-      "sourceRefs": [
-        "source:openai:platform-openai-com-docs-pricing"
-      ],
-      "verificationDecision": "retain_partial"
     },
     {
       "afterEvidenceCompleteness": "complete",
@@ -792,35 +725,6 @@
       "verificationDecision": "official_verified_in_phase2_5"
     },
     {
-      "afterEvidenceCompleteness": "partial",
-      "afterVerificationStatus": "partially_verified",
-      "beforeEvidenceCompleteness": "partial",
-      "beforeVerificationStatus": "partially_verified",
-      "blocker": [
-        "evidence_not_complete",
-        "verification_not_verified"
-      ],
-      "businessCriticality": "production_default_candidate",
-      "currentEffective": true,
-      "currentPrices": {
-        "cached_input": "0.5",
-        "input": "2",
-        "output": "8"
-      },
-      "defaultSafe": false,
-      "modelInternalId": "openai/o3",
-      "officialEvidence": [],
-      "phase25VerifiedAt": null,
-      "pricingId": "price:openai/o3:standard:short:current",
-      "priorityClass": "P0",
-      "provider": "openai",
-      "reason": "Default-safe gate blocked by: evidence_not_complete, verification_not_verified",
-      "sourceRefs": [
-        "source:openai:platform-openai-com-docs-pricing"
-      ],
-      "verificationDecision": "retain_partial"
-    },
-    {
       "afterEvidenceCompleteness": "complete",
       "afterVerificationStatus": "verified",
       "beforeEvidenceCompleteness": "complete",
@@ -875,7 +779,7 @@
       "verificationDecision": "official_verified_in_phase2_5"
     }
   ],
-  "productionDefaultSafeCount": 26,
-  "productionDefaultUnsafeCount": 5,
-  "totalPriceRecords": 47
+  "productionDefaultSafeCount": 28,
+  "productionDefaultUnsafeCount": 0,
+  "totalPriceRecords": 49
 }

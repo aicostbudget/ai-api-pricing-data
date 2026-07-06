@@ -534,6 +534,62 @@
     "verificationStatus": "verified"
   },
   {
+    "billingNote": "Future standard pricing for Claude Sonnet 5 starts 2026-09-01 per Anthropic official pricing.",
+    "calculationDefault": false,
+    "charges": [
+      {
+        "amount": "3",
+        "chargeId": "price:anthropic/claude-sonnet-5:standard:short:2026-09-01:input:text:per_1m_tokens",
+        "component": "input",
+        "modality": "text",
+        "unit": "per_1m_tokens"
+      },
+      {
+        "amount": "0.3",
+        "chargeId": "price:anthropic/claude-sonnet-5:standard:short:2026-09-01:cached_input:text:per_1m_tokens",
+        "component": "cached_input",
+        "modality": "text",
+        "unit": "per_1m_tokens"
+      },
+      {
+        "amount": "3.75",
+        "chargeId": "price:anthropic/claude-sonnet-5:standard:short:2026-09-01:cache_write_5m:text:per_1m_tokens",
+        "component": "cache_write_5m",
+        "modality": "text",
+        "unit": "per_1m_tokens"
+      },
+      {
+        "amount": "15",
+        "chargeId": "price:anthropic/claude-sonnet-5:standard:short:2026-09-01:output:text:per_1m_tokens",
+        "component": "output",
+        "modality": "text",
+        "unit": "per_1m_tokens"
+      }
+    ],
+    "contextClass": "short",
+    "currency": "USD",
+    "effectiveFrom": "2026-09-01",
+    "effectiveUntil": null,
+    "modelInternalId": "anthropic/claude-sonnet-5",
+    "pricingId": "price:anthropic/claude-sonnet-5:standard:short:2026-09-01",
+    "processingMode": "standard",
+    "promptTokenThreshold": null,
+    "regionPolicy": "global",
+    "sourceDatasetIds": {
+      "publicDatasetIds": [
+        "claude-sonnet-5"
+      ],
+      "websiteIds": [
+        "claude-sonnet-5"
+      ]
+    },
+    "sourceRefs": [
+      "source:anthropic:docs-anthropic-com-en-docs-about-claude-pricing-claude-sonnet-5-introductory-pri",
+      "source:anthropic:platform-claude-com-docs-en-about-claude-pricing"
+    ],
+    "verificationStatus": "verified"
+  },
+  {
     "billingNote": "Batch projection derived from explicit Public V1 batch fields for anthropic/claude-sonnet-5.",
     "calculationDefault": false,
     "charges": [
@@ -616,7 +672,7 @@
   },
   {
     "billingNote": "Cohere official pricing page lists Command A+ but the extracted public page did not expose a confirmed token price. Values are null rather than guessed.",
-    "calculationDefault": true,
+    "calculationDefault": false,
     "charges": [],
     "contextClass": "short",
     "currency": "USD",
@@ -1076,7 +1132,7 @@
     "modelInternalId": "google-gemini/gemini-3.1-pro-preview",
     "pricingId": "price:google-gemini/gemini-3.1-pro-preview:standard:short:website-preview",
     "processingMode": "standard",
-    "promptTokenThreshold": null,
+    "promptTokenThreshold": 200000,
     "regionPolicy": "global",
     "sourceDatasetIds": {
       "publicDatasetIds": [],
@@ -1087,7 +1143,53 @@
     "sourceRefs": [
       "source:google-gemini:ai-google-dev-gemini-api-docs-pricing"
     ],
-    "verificationStatus": "partially_verified"
+    "verificationStatus": "verified"
+  },
+  {
+    "billingNote": "Structured Gemini 3.1 Pro Preview standard pricing for prompts > 200k tokens.",
+    "calculationDefault": false,
+    "charges": [
+      {
+        "amount": "4",
+        "chargeId": "price:google-gemini/gemini-3.1-pro-preview:standard:long:website-preview:input:text:per_1m_tokens",
+        "component": "input",
+        "modality": "text",
+        "unit": "per_1m_tokens"
+      },
+      {
+        "amount": "0.4",
+        "chargeId": "price:google-gemini/gemini-3.1-pro-preview:standard:long:website-preview:cached_input:text:per_1m_tokens",
+        "component": "cached_input",
+        "modality": "text",
+        "unit": "per_1m_tokens"
+      },
+      {
+        "amount": "18",
+        "chargeId": "price:google-gemini/gemini-3.1-pro-preview:standard:long:website-preview:output:text:per_1m_tokens",
+        "component": "output",
+        "modality": "text",
+        "unit": "per_1m_tokens"
+      }
+    ],
+    "contextClass": "long",
+    "currency": "USD",
+    "effectiveFrom": "2026-07-03",
+    "effectiveUntil": null,
+    "modelInternalId": "google-gemini/gemini-3.1-pro-preview",
+    "pricingId": "price:google-gemini/gemini-3.1-pro-preview:standard:long:website-preview",
+    "processingMode": "standard",
+    "promptTokenThreshold": 200000,
+    "regionPolicy": "global",
+    "sourceDatasetIds": {
+      "publicDatasetIds": [],
+      "websiteIds": [
+        "gemini-3.1-pro-preview"
+      ]
+    },
+    "sourceRefs": [
+      "source:google-gemini:ai-google-dev-gemini-api-docs-pricing"
+    ],
+    "verificationStatus": "verified"
   },
   {
     "billingNote": "Current Gemini Flash tier for higher-quality fast workloads; Google also lists Batch and Priority pricing for eligible usage.",
@@ -1133,7 +1235,7 @@
     "sourceRefs": [
       "source:google-gemini:ai-google-dev-gemini-api-docs-pricing"
     ],
-    "verificationStatus": "partially_verified"
+    "verificationStatus": "verified"
   },
   {
     "billingNote": "Mistral official pricing FAQ states Mistral Large costs $2/M input and $6/M output and batch processing gets a 50% discount.",
@@ -1430,7 +1532,7 @@
   },
   {
     "billingNote": "OpenAI official pricing page lists standard and batch rates per 1M tokens.",
-    "calculationDefault": true,
+    "calculationDefault": false,
     "charges": [
       {
         "amount": "1.25",
@@ -1913,7 +2015,7 @@
   },
   {
     "billingNote": "OpenAI official pricing page lists standard and batch rates per 1M tokens.",
-    "calculationDefault": true,
+    "calculationDefault": false,
     "charges": [
       {
         "amount": "2",
