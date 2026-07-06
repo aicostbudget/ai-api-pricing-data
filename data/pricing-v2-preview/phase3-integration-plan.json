@@ -1,0 +1,77 @@
+{
+  "featureFlag": {
+    "default": "off",
+    "name": "PRICING_V2_ENABLED",
+    "recommended": true,
+    "rollout": [
+      "local",
+      "staging",
+      "limited production",
+      "full production"
+    ]
+  },
+  "generatedAt": "2026-07-07T00:00:00Z",
+  "recommendedSequence": [
+    {
+      "goal": "clean existing Website data/model-pricing.json change before implementation",
+      "name": "Website P0 Hotfix separate commit",
+      "stage": 0
+    },
+    {
+      "goal": "commit repo-local Website-compatible projection without changing consumers",
+      "name": "Add generated projection artifact",
+      "stage": 1
+    },
+    {
+      "goal": "support old and projected shapes with default off",
+      "name": "Add adapter behind feature flag",
+      "stage": 2
+    },
+    {
+      "goal": "compare current Website pricing to canonical projection without changing user results",
+      "name": "Shadow parity",
+      "stage": 3
+    },
+    {
+      "goal": "migrate PricingTable or homepage highlights first",
+      "name": "Low-risk consumer pilot",
+      "stage": 4
+    },
+    {
+      "goal": "enforce defaultSafe for API Cost Calculator and homepage estimator",
+      "name": "Calculator migration",
+      "stage": 5
+    },
+    {
+      "goal": "migrate route presets and cache blending with safe defaults only",
+      "name": "Budget Planner migration",
+      "stage": 6
+    },
+    {
+      "goal": "migrate display pages while preserving editorial metadata",
+      "name": "SEO / Comparison migration",
+      "stage": 7
+    },
+    {
+      "goal": "generate seed/sync artifact from Canonical V2",
+      "name": "Supabase projection",
+      "stage": 8
+    },
+    {
+      "goal": "remove manual dual maintenance only after shadow parity and rollback are proven",
+      "name": "Legacy dataset retirement",
+      "stage": 9
+    }
+  ],
+  "runtimePublicApiDependency": "not_allowed",
+  "shadowMode": {
+    "enabledBeforeUserVisibleMigration": true,
+    "resultBuckets": [
+      "exact_parity",
+      "expected_difference",
+      "unsafe_difference",
+      "null_difference"
+    ],
+    "userVisibleResultChange": "none during shadow mode"
+  }
+}

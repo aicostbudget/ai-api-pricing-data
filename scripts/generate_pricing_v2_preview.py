@@ -918,6 +918,385 @@ def build_phase26_artifacts(
     return resolution, closure, cutover
 
 
+def build_phase3_artifacts(
+    phase25_website_blockers: list[dict[str, Any]],
+    phase26_resolution: dict[str, Any],
+    phase26_closure: dict[str, Any],
+    phase26_readiness: dict[str, Any],
+) -> tuple[dict[str, Any], dict[str, Any], dict[str, Any], list[dict[str, Any]], dict[str, Any], dict[str, Any], dict[str, Any], dict[str, Any]]:
+    generated_at = "2026-07-07T00:00:00Z"
+    consumer_map = {
+        "generatedAt": generated_at,
+        "websiteRepo": r"D:\ai-cost-control-tool\aicostguard-english",
+        "readOnlyStatus": "observed_dirty_do_not_modify",
+        "consumerCount": 13,
+        "consumers": [
+            {
+                "consumerId": "pricing_data_module",
+                "filePath": "src/lib/pricing.ts",
+                "usageType": "central_pricing_utility",
+                "currentDataSource": "data/model-pricing.json",
+                "currentFieldsUsed": ["id", "provider", "model", "status", "availability", "inputPrice", "cachedInputPrice", "outputPrice", "contextWindow", "pricingBasis", "priceNote", "bestFor", "lastUpdated", "officialPriceUrl"],
+                "currentDefaultModelLogic": "exports raw array order and helper labels; no default filtering",
+                "currentFallbackLogic": "callers generally fallback to models[0]",
+                "nullHandling": "cachedInputPrice optional; inputPrice/outputPrice typed required",
+                "statusHandling": "display-only status union; no defaultSafe semantics",
+                "cachedPriceHandling": "modelPriceSummary displays cached price when numeric; calculateCost ignores cached input",
+                "integrationRisk": "high",
+            },
+            {
+                "consumerId": "api_cost_calculator",
+                "filePath": "src/components/cost-calculator.tsx",
+                "usageType": "interactive_default_calculation",
+                "currentDataSource": "@/lib/pricing.models",
+                "currentFieldsUsed": ["id", "provider", "model", "status", "inputPrice", "outputPrice", "pricingBasis", "priceNote", "lastUpdated", "officialPriceUrl"],
+                "currentDefaultModelLogic": "hardcoded gpt-5.4-mini; dropdown maps all models",
+                "currentFallbackLogic": "selected model fallback to models[0]",
+                "nullHandling": "does not support null input/output prices",
+                "statusHandling": "status is shown but not enforced",
+                "cachedPriceHandling": "cached price displayed in summary only; cost uses input/output",
+                "integrationRisk": "high",
+            },
+            {
+                "consumerId": "homepage_estimator",
+                "filePath": "src/components/home-api-cost-estimator.tsx",
+                "usageType": "homepage_default_calculation",
+                "currentDataSource": "@/lib/pricing.models",
+                "currentFieldsUsed": ["id", "provider", "model", "inputPrice", "outputPrice"],
+                "currentDefaultModelLogic": "hardcoded gpt-5.4-mini; dropdown uses models.slice(0, 12)",
+                "currentFallbackLogic": "fallback to first model if hardcoded ID missing",
+                "nullHandling": "does not support null input/output prices",
+                "statusHandling": "not surfaced in calculator body",
+                "cachedPriceHandling": "not used",
+                "integrationRisk": "high",
+            },
+            {
+                "consumerId": "budget_planner_core",
+                "filePath": "src/lib/budget-planner.ts",
+                "usageType": "model_routing_cost_engine",
+                "currentDataSource": "./pricing.models",
+                "currentFieldsUsed": ["id", "inputPrice", "cachedInputPrice", "outputPrice"],
+                "currentDefaultModelLogic": "preset and scenario route IDs are hardcoded",
+                "currentFallbackLogic": "invalid routes fallback to support preset or models[0]",
+                "nullHandling": "cachedInputPrice falls back to inputPrice; input/output required",
+                "statusHandling": "none",
+                "cachedPriceHandling": "cache hit rate blends inputPrice and cachedInputPrice",
+                "integrationRisk": "high",
+            },
+            {
+                "consumerId": "advanced_budget_planner",
+                "filePath": "src/components/advanced-budget-planner.tsx",
+                "usageType": "interactive_routing_ui",
+                "currentDataSource": "@/lib/pricing.models plus src/lib/budget-planner.ts",
+                "currentFieldsUsed": ["id", "provider", "model", "inputPrice", "cachedInputPrice", "outputPrice"],
+                "currentDefaultModelLogic": "initial state from budget-planner support preset; route selects show all models",
+                "currentFallbackLogic": "budget-planner sanitization",
+                "nullHandling": "inherits budget-planner behavior",
+                "statusHandling": "not enforced in route selects",
+                "cachedPriceHandling": "inherits cache hit cost blending",
+                "integrationRisk": "high",
+            },
+            {
+                "consumerId": "pricing_table",
+                "filePath": "src/components/pricing-table.tsx",
+                "usageType": "comparison_table_display",
+                "currentDataSource": "@/lib/pricing.models",
+                "currentFieldsUsed": ["provider", "model", "status", "availability", "inputPrice", "cachedInputPrice", "outputPrice", "contextWindow", "officialPriceUrl", "bestFor", "pricingBasis", "priceNote", "lastUpdated"],
+                "currentDefaultModelLogic": "all models rendered",
+                "currentFallbackLogic": "none",
+                "nullHandling": "cached price optional; input/output assumed present",
+                "statusHandling": "CSS class and display only",
+                "cachedPriceHandling": "display only",
+                "integrationRisk": "medium",
+            },
+            {
+                "consumerId": "model_pricing_comparison_page",
+                "filePath": "src/app/[locale]/model-pricing-comparison/page.tsx",
+                "usageType": "seo_page_wrapper",
+                "currentDataSource": "PricingTable component",
+                "currentFieldsUsed": ["derived through PricingTable"],
+                "currentDefaultModelLogic": "none",
+                "currentFallbackLogic": "none",
+                "nullHandling": "inherits PricingTable",
+                "statusHandling": "inherits PricingTable",
+                "cachedPriceHandling": "inherits PricingTable",
+                "integrationRisk": "medium",
+            },
+            {
+                "consumerId": "homepage_price_highlights",
+                "filePath": "src/app/[locale]/page.tsx",
+                "usageType": "homepage_pricing_display",
+                "currentDataSource": "@/lib/pricing.models",
+                "currentFieldsUsed": ["provider", "model", "inputPrice", "outputPrice"],
+                "currentDefaultModelLogic": "models.slice(0, 4)",
+                "currentFallbackLogic": "none",
+                "nullHandling": "input/output assumed present",
+                "statusHandling": "not shown",
+                "cachedPriceHandling": "not shown",
+                "integrationRisk": "medium",
+            },
+            {
+                "consumerId": "token_calculator",
+                "filePath": "src/components/token-calculator.tsx",
+                "usageType": "input_only_cost_estimator",
+                "currentDataSource": "@/lib/pricing.models",
+                "currentFieldsUsed": ["id", "provider", "model", "status", "inputPrice", "cachedInputPrice", "pricingBasis", "priceNote", "lastUpdated", "officialPriceUrl"],
+                "currentDefaultModelLogic": "hardcoded gpt-5.4-mini; dropdown maps all models",
+                "currentFallbackLogic": "fallback to models[0]",
+                "nullHandling": "inputPrice assumed present",
+                "statusHandling": "display only",
+                "cachedPriceHandling": "display only; input cost uses inputPrice",
+                "integrationRisk": "medium",
+            },
+            {
+                "consumerId": "prompt_cost_optimizer",
+                "filePath": "src/components/prompt-cost-optimizer.tsx",
+                "usageType": "prompt_input_cost_estimator",
+                "currentDataSource": "@/lib/pricing.models",
+                "currentFieldsUsed": ["id", "provider", "model", "status", "inputPrice", "cachedInputPrice", "outputPrice", "pricingBasis", "lastUpdated", "officialPriceUrl"],
+                "currentDefaultModelLogic": "hardcoded gpt-5.4-mini; dropdown maps all models",
+                "currentFallbackLogic": "fallback to models[0]",
+                "nullHandling": "input/output assumed present",
+                "statusHandling": "display only",
+                "cachedPriceHandling": "display only",
+                "integrationRisk": "medium",
+            },
+            {
+                "consumerId": "batch_token_calculator",
+                "filePath": "src/components/batch-calculator.tsx",
+                "usageType": "batch_input_cost_estimator",
+                "currentDataSource": "@/lib/pricing.models",
+                "currentFieldsUsed": ["id", "inputPrice"],
+                "currentDefaultModelLogic": "hardcoded gpt-5.4-mini only",
+                "currentFallbackLogic": "fallback to models[0]",
+                "nullHandling": "inputPrice assumed present",
+                "statusHandling": "none",
+                "cachedPriceHandling": "not used",
+                "integrationRisk": "medium",
+            },
+            {
+                "consumerId": "supabase_model_prices_seed",
+                "filePath": "supabase/seed.sql",
+                "usageType": "database_seed_projection",
+                "currentDataSource": "manually maintained SQL values",
+                "currentFieldsUsed": ["id", "provider", "model", "model_status", "availability", "input_price", "cached_input_price", "output_price", "context_window", "pricing_basis", "pricing_note", "best_for", "price_last_updated", "official_price_url"],
+                "currentDefaultModelLogic": "none",
+                "currentFallbackLogic": "SQL on conflict update",
+                "nullHandling": "cached_input_price nullable; input/output non-null",
+                "statusHandling": "stored as model_status text",
+                "cachedPriceHandling": "stored nullable",
+                "integrationRisk": "high",
+            },
+            {
+                "consumerId": "sitemap_and_seo_shell",
+                "filePath": "src/app/sitemap.ts; src/lib/seo-content.ts; src/lib/blog-posts.ts",
+                "usageType": "indirect_seo_reference",
+                "currentDataSource": "static routes and editorial copy, no direct model-pricing JSON import",
+                "currentFieldsUsed": ["links to comparison/calculator pages", "editorial pricing disclaimers"],
+                "currentDefaultModelLogic": "none",
+                "currentFallbackLogic": "none",
+                "nullHandling": "not applicable",
+                "statusHandling": "not applicable",
+                "cachedPriceHandling": "editorial mentions only",
+                "integrationRisk": "low",
+            },
+        ],
+    }
+
+    ownership_map = {
+        "generatedAt": generated_at,
+        "canonicalPricingFactsOwnedByDataset": [
+            "provider identity",
+            "model identity",
+            "official IDs",
+            "lifecycle",
+            "pricing",
+            "cached pricing",
+            "effective dates",
+            "aliases",
+            "redirects",
+            "verification",
+            "official sources",
+            "defaultSafe eligibility",
+        ],
+        "websiteEditorialMetadataOwnedByWebsite": [
+            "bestFor",
+            "marketing copy",
+            "SEO description",
+            "FAQ",
+            "comparison commentary",
+            "internal links",
+            "page-specific editorial text",
+            "pricing disclaimers",
+        ],
+        "doNotMigrateIntoCanonicalDataset": [
+            "bestFor",
+            "blog copy",
+            "localized page metadata",
+            "CTA text",
+            "commercial plan copy",
+        ],
+        "projectionBoundary": "Canonical V2 emits facts and safe calculation metadata; Website owns presentation and editorial enrichment.",
+    }
+
+    projection_contract = {
+        "generatedAt": generated_at,
+        "recommendedMode": "repo_local_generated_projection",
+        "contractName": "website-pricing-projection-v1",
+        "requiredFields": ["id", "provider", "model", "inputPrice", "cachedInputPrice", "outputPrice", "status", "defaultSafe", "verificationStatus", "officialSourceUrl"],
+        "optionalFields": ["contextWindow", "verifiedAt", "effectiveFrom", "effectiveUntil", "canonicalInternalId", "selectedPriceRecordId", "routingBehavior", "redirectedBilling", "warning"],
+        "doNotRequireWebsiteToUnderstandFullV2Schema": True,
+        "integrationModes": [
+            {"mode": "runtime_fetch_public_api", "recommendation": "do_not_use", "reason": "adds request-time external dependency, latency, stale/failure ambiguity, and rollback complexity"},
+            {"mode": "build_time_fetch", "recommendation": "acceptable_with_pin", "reason": "better latency than runtime fetch but build reproducibility depends on external availability"},
+            {"mode": "repo_local_generated_projection", "recommendation": "recommended", "reason": "deterministic, reviewable, rollback-friendly, and no production runtime dependency on GitHub Pages"},
+            {"mode": "ci_synchronized_artifact", "recommendation": "later_stage", "reason": "good automation after projection contract and rollback policy are approved"},
+        ],
+        "defaultSafePolicy": {
+            "unsafe": "exclude from default calculations and show warning only where explicitly allowed",
+            "review_required": "display only with warning; no default or recommendation placement",
+            "null_price": "do not calculate; show unavailable/review message",
+            "retired": "display as historical only",
+            "redirect_billing": "show original slug as retired/redirected and calculate against billingModelInternalId only with explicit label",
+            "future_effective": "select by effective dates, never by array order",
+            "alias": "resolve alias target while preserving alias mode notes",
+        },
+        "specialPolicies": {
+            "claude-sonnet-5": "Use effective-date selection: intro through 2026-08-31, standard from 2026-09-01.",
+            "xai/grok-3": "Do not display as active; if current cost is offered, label redirected billing to xai/grok-4.3.",
+            "gpt-4.1_family": "review_required and defaultSafe=false; may remain SEO/historical display with warning.",
+            "cohere/command-a-plus": "excluded from default until official token pricing is complete.",
+            "openai/gpt-5": "excluded from default until current API pricing is officially confirmed.",
+            "openai/o3": "excluded from default until current API pricing is officially confirmed.",
+        },
+    }
+
+    integration_mapping = []
+    for row in phase25_website_blockers:
+        action = row["recommendedIntegrationAction"]
+        risk = "low" if action == "safe_to_integrate" else "medium" if action in {"integrate_with_warning", "keep_existing_temporarily"} else "high"
+        integration_mapping.append(
+            {
+                "websiteConsumer": row["usageType"],
+                "websiteModelId": row["websiteModelId"],
+                "canonicalInternalId": row["canonicalInternalId"],
+                "selectedPriceRecord": row["selectedPriceRecordId"],
+                "defaultSafe": row["defaultSafe"],
+                "action": action,
+                "migrationRisk": risk,
+                "blocker": row["blocker"],
+            }
+        )
+
+    action_counts: dict[str, int] = {}
+    for row in integration_mapping:
+        action_counts[row["action"]] = action_counts.get(row["action"], 0) + 1
+
+    integration_plan = {
+        "generatedAt": generated_at,
+        "recommendedSequence": [
+            {"stage": 0, "name": "Website P0 Hotfix separate commit", "goal": "clean existing Website data/model-pricing.json change before implementation"},
+            {"stage": 1, "name": "Add generated projection artifact", "goal": "commit repo-local Website-compatible projection without changing consumers"},
+            {"stage": 2, "name": "Add adapter behind feature flag", "goal": "support old and projected shapes with default off"},
+            {"stage": 3, "name": "Shadow parity", "goal": "compare current Website pricing to canonical projection without changing user results"},
+            {"stage": 4, "name": "Low-risk consumer pilot", "goal": "migrate PricingTable or homepage highlights first"},
+            {"stage": 5, "name": "Calculator migration", "goal": "enforce defaultSafe for API Cost Calculator and homepage estimator"},
+            {"stage": 6, "name": "Budget Planner migration", "goal": "migrate route presets and cache blending with safe defaults only"},
+            {"stage": 7, "name": "SEO / Comparison migration", "goal": "migrate display pages while preserving editorial metadata"},
+            {"stage": 8, "name": "Supabase projection", "goal": "generate seed/sync artifact from Canonical V2"},
+            {"stage": 9, "name": "Legacy dataset retirement", "goal": "remove manual dual maintenance only after shadow parity and rollback are proven"},
+        ],
+        "shadowMode": {
+            "enabledBeforeUserVisibleMigration": True,
+            "resultBuckets": ["exact_parity", "expected_difference", "unsafe_difference", "null_difference"],
+            "userVisibleResultChange": "none during shadow mode",
+        },
+        "featureFlag": {
+            "recommended": True,
+            "name": "PRICING_V2_ENABLED",
+            "default": "off",
+            "rollout": ["local", "staging", "limited production", "full production"],
+        },
+        "runtimePublicApiDependency": "not_allowed",
+    }
+
+    rollback_plan = {
+        "generatedAt": generated_at,
+        "strategy": "single feature flag or single commit rollback to current Website data/model-pricing.json path",
+        "requirements": [
+            "keep legacy data/model-pricing.json until parity and production confidence are proven",
+            "do not migrate all consumers in one commit",
+            "adapter must preserve old shape while flag is off",
+            "projection artifact changes must be reviewable in git",
+            "Supabase sync must remain separate from Website runtime migration",
+        ],
+        "rollbackSteps": [
+            "turn PRICING_V2_ENABLED off",
+            "redeploy Website using legacy dataset path",
+            "if needed revert only the projection/adapter commit",
+            "leave canonical dataset artifacts intact for investigation",
+        ],
+    }
+
+    testing_plan = {
+        "generatedAt": generated_at,
+        "requiredTests": [
+            "projection contract tests",
+            "V1/V2 parity tests",
+            "defaultSafe enforcement",
+            "null price tests",
+            "review_required tests",
+            "retired model tests",
+            "redirect billing tests",
+            "effective date boundary tests",
+            "alias routing tests",
+            "Calculator snapshot tests",
+            "Budget Planner parity tests",
+            "SEO page data tests",
+            "Supabase seed projection tests",
+        ],
+    }
+
+    readiness = {
+        "generatedAt": generated_at,
+        "datasetRepoCleanAtStart": True,
+        "websiteRepoClean": False,
+        "websiteExistingDirtyStatus": ["M data/model-pricing.json"],
+        "websiteP0HotfixSeparateCommit": False,
+        "projectionContractApproved": False,
+        "rollbackPlanApproved": False,
+        "shadowModeDesigned": True,
+        "defaultSafeEnforcementDesigned": True,
+        "noProductionRuntimeDependencyOnGitHubPages": True,
+        "implementationReadiness": "blocked",
+        "planningReadiness": "complete",
+        "blockers": [
+            "Website repo has pre-existing uncommitted data/model-pricing.json change.",
+            "Website P0 Hotfix must be committed separately before implementation.",
+            "Projection contract, rollback plan, and shadow mode need approval before implementation.",
+        ],
+        "phase26Closure": {
+            "productionDefaultCandidateCount": phase26_closure["defaultCandidatesAfter"],
+            "productionDefaultSafeCount": phase26_closure["safeAfter"],
+            "productionDefaultUnsafeCount": phase26_closure["unsafeAfter"],
+            "safeToEnterWebsiteIntegrationPlanning": phase26_readiness["safeToEnterWebsiteIntegrationPlanning"],
+        },
+        "integrationMappingCount": len(integration_mapping),
+        "integrationActionCounts": dict(sorted(action_counts.items())),
+    }
+
+    return (
+        consumer_map,
+        ownership_map,
+        projection_contract,
+        integration_mapping,
+        integration_plan,
+        rollback_plan,
+        testing_plan,
+        readiness,
+    )
+
+
 def decimal_string(value: Any) -> str | None:
     if value is None:
         return None
@@ -1599,6 +1978,21 @@ def main() -> None:
         phase25_default_safe_report,
         phase25_website_blockers,
     )
+    (
+        phase3_website_consumer_map,
+        phase3_data_ownership_map,
+        phase3_website_projection_contract,
+        phase3_integration_mapping,
+        phase3_integration_plan,
+        phase3_rollback_plan,
+        phase3_testing_plan,
+        phase3_readiness,
+    ) = build_phase3_artifacts(
+        phase25_website_blockers,
+        phase26_p0_resolution,
+        phase26_default_safe_closure,
+        phase26_cutover_readiness,
+    )
 
     write_json(PREVIEW / "model-identity-registry.json", identities)
     write_json(PREVIEW / "candidate-disposition-map.json", candidate_dispositions)
@@ -1630,6 +2024,14 @@ def main() -> None:
                 "phase2-6-p0-resolution.json",
                 "phase2-6-default-safe-closure.json",
                 "phase2-6-cutover-readiness.json",
+                "phase3-website-consumer-map.json",
+                "phase3-data-ownership-map.json",
+                "phase3-website-projection-contract.json",
+                "phase3-integration-mapping.json",
+                "phase3-integration-plan.json",
+                "phase3-rollback-plan.json",
+                "phase3-testing-plan.json",
+                "phase3-readiness.json",
                 "generated/model-pricing.website-preview.json",
                 "generated/seed-pricing.preview.sql",
             ],
@@ -1646,6 +2048,14 @@ def main() -> None:
     write_json(PREVIEW / "phase2-6-p0-resolution.json", phase26_p0_resolution)
     write_json(PREVIEW / "phase2-6-default-safe-closure.json", phase26_default_safe_closure)
     write_json(PREVIEW / "phase2-6-cutover-readiness.json", phase26_cutover_readiness)
+    write_json(PREVIEW / "phase3-website-consumer-map.json", phase3_website_consumer_map)
+    write_json(PREVIEW / "phase3-data-ownership-map.json", phase3_data_ownership_map)
+    write_json(PREVIEW / "phase3-website-projection-contract.json", phase3_website_projection_contract)
+    write_json(PREVIEW / "phase3-integration-mapping.json", phase3_integration_mapping)
+    write_json(PREVIEW / "phase3-integration-plan.json", phase3_integration_plan)
+    write_json(PREVIEW / "phase3-rollback-plan.json", phase3_rollback_plan)
+    write_json(PREVIEW / "phase3-testing-plan.json", phase3_testing_plan)
+    write_json(PREVIEW / "phase3-readiness.json", phase3_readiness)
     write_json(GENERATED / "model-pricing.website-preview.json", website_projection)
     (GENERATED / "seed-pricing.preview.sql").parent.mkdir(parents=True, exist_ok=True)
     write_text_with_retry(GENERATED / "seed-pricing.preview.sql", "\n".join(sql_lines))

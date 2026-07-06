@@ -30,6 +30,10 @@ class PricingV2PreviewTests(unittest.TestCase):
         cls.phase26_resolution = json.loads((PREVIEW / "phase2-6-p0-resolution.json").read_text(encoding="utf-8"))
         cls.phase26_closure = json.loads((PREVIEW / "phase2-6-default-safe-closure.json").read_text(encoding="utf-8"))
         cls.phase26_readiness = json.loads((PREVIEW / "phase2-6-cutover-readiness.json").read_text(encoding="utf-8"))
+        cls.phase3_consumer_map = json.loads((PREVIEW / "phase3-website-consumer-map.json").read_text(encoding="utf-8"))
+        cls.phase3_projection_contract = json.loads((PREVIEW / "phase3-website-projection-contract.json").read_text(encoding="utf-8"))
+        cls.phase3_mapping = json.loads((PREVIEW / "phase3-integration-mapping.json").read_text(encoding="utf-8"))
+        cls.phase3_readiness = json.loads((PREVIEW / "phase3-readiness.json").read_text(encoding="utf-8"))
         cls.projection = json.loads((PREVIEW / "generated" / "model-pricing.website-preview.json").read_text(encoding="utf-8"))
 
     def identity(self, internal_id):
@@ -217,6 +221,27 @@ class PricingV2PreviewTests(unittest.TestCase):
         self.assertEqual(counts.get("exclude_from_default", 0), 0)
         self.assertEqual(counts["keep_existing_temporarily"], 15)
         self.assertEqual(counts.get("blocked", 0), 0)
+
+    def test_phase3_planning_artifacts_cover_website_consumers(self):
+        self.assertEqual(self.phase3_consumer_map["consumerCount"], 13)
+        consumer_ids = {row["consumerId"] for row in self.phase3_consumer_map["consumers"]}
+        self.assertIn("api_cost_calculator", consumer_ids)
+        self.assertIn("budget_planner_core", consumer_ids)
+        self.assertIn("supabase_model_prices_seed", consumer_ids)
+        self.assertEqual(self.phase3_projection_contract["recommendedMode"], "repo_local_generated_projection")
+        self.assertIn("defaultSafe", self.phase3_projection_contract["requiredFields"])
+
+    def test_phase3_mapping_and_readiness(self):
+        self.assertEqual(len(self.phase3_mapping), 162)
+        action_counts = {}
+        for row in self.phase3_mapping:
+            action_counts[row["action"]] = action_counts.get(row["action"], 0) + 1
+        self.assertEqual(action_counts["safe_to_integrate"], 139)
+        self.assertEqual(action_counts["integrate_with_warning"], 8)
+        self.assertEqual(action_counts["keep_existing_temporarily"], 15)
+        self.assertEqual(self.phase3_readiness["implementationReadiness"], "blocked")
+        self.assertEqual(self.phase3_readiness["planningReadiness"], "complete")
+        self.assertFalse(self.phase3_readiness["websiteRepoClean"])
 
 
 if __name__ == "__main__":

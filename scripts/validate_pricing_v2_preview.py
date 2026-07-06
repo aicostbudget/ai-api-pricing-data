@@ -107,6 +107,14 @@ def validate_preview() -> dict[str, Any]:
     phase26_resolution = read_json(PREVIEW / "phase2-6-p0-resolution.json")
     phase26_closure = read_json(PREVIEW / "phase2-6-default-safe-closure.json")
     phase26_readiness = read_json(PREVIEW / "phase2-6-cutover-readiness.json")
+    phase3_consumer_map = read_json(PREVIEW / "phase3-website-consumer-map.json")
+    phase3_ownership = read_json(PREVIEW / "phase3-data-ownership-map.json")
+    phase3_projection_contract = read_json(PREVIEW / "phase3-website-projection-contract.json")
+    phase3_mapping = read_json(PREVIEW / "phase3-integration-mapping.json")
+    phase3_integration_plan = read_json(PREVIEW / "phase3-integration-plan.json")
+    phase3_rollback_plan = read_json(PREVIEW / "phase3-rollback-plan.json")
+    phase3_testing_plan = read_json(PREVIEW / "phase3-testing-plan.json")
+    phase3_readiness = read_json(PREVIEW / "phase3-readiness.json")
     projection = read_json(PREVIEW / "generated" / "model-pricing.website-preview.json")
     seed = PREVIEW / "generated" / "seed-pricing.preview.sql"
     if not seed.exists() or not seed.read_text(encoding="utf-8").strip():
@@ -280,6 +288,37 @@ def validate_preview() -> dict[str, Any]:
             "finalAction",
         },
         "phase2.6 decision row",
+    )
+    validate_required_fields(
+        phase3_consumer_map.get("consumers", []),
+        {
+            "consumerId",
+            "filePath",
+            "usageType",
+            "currentDataSource",
+            "currentFieldsUsed",
+            "currentDefaultModelLogic",
+            "currentFallbackLogic",
+            "nullHandling",
+            "statusHandling",
+            "cachedPriceHandling",
+            "integrationRisk",
+        },
+        "phase3 consumer row",
+    )
+    validate_required_fields(
+        phase3_mapping,
+        {
+            "websiteConsumer",
+            "websiteModelId",
+            "canonicalInternalId",
+            "selectedPriceRecord",
+            "defaultSafe",
+            "action",
+            "migrationRisk",
+            "blocker",
+        },
+        "phase3 integration mapping row",
     )
 
     identity_ids = [item["internalId"] for item in identities]
@@ -634,6 +673,66 @@ def validate_preview() -> dict[str, Any]:
         fail("phase2.6 Website Integration Planning must be enabled only after closure")
     if phase26_readiness["integrationMappingCount"] != len(phase25_blockers):
         fail("phase2.6 readiness integrationMappingCount mismatch")
+
+    if phase3_consumer_map["consumerCount"] != len(phase3_consumer_map["consumers"]):
+        fail("phase3 consumer count mismatch")
+    required_consumers = {
+        "pricing_data_module",
+        "api_cost_calculator",
+        "homepage_estimator",
+        "budget_planner_core",
+        "advanced_budget_planner",
+        "pricing_table",
+        "model_pricing_comparison_page",
+        "homepage_price_highlights",
+        "token_calculator",
+        "prompt_cost_optimizer",
+        "batch_token_calculator",
+        "supabase_model_prices_seed",
+        "sitemap_and_seo_shell",
+    }
+    if {row["consumerId"] for row in phase3_consumer_map["consumers"]} != required_consumers:
+        fail("phase3 consumer map coverage mismatch")
+    if "bestFor" not in phase3_ownership["websiteEditorialMetadataOwnedByWebsite"]:
+        fail("phase3 ownership must keep bestFor with Website editorial metadata")
+    if "pricing" not in phase3_ownership["canonicalPricingFactsOwnedByDataset"]:
+        fail("phase3 ownership must keep pricing with canonical dataset")
+    if phase3_projection_contract["recommendedMode"] != "repo_local_generated_projection":
+        fail("phase3 projection contract must recommend repo-local generated projection")
+    for field in ("id", "provider", "model", "inputPrice", "cachedInputPrice", "outputPrice", "status", "defaultSafe", "verificationStatus", "officialSourceUrl"):
+        if field not in phase3_projection_contract["requiredFields"]:
+            fail(f"phase3 projection contract missing required field {field}")
+    if phase3_projection_contract["defaultSafePolicy"]["review_required"] != "display only with warning; no default or recommendation placement":
+        fail("phase3 review_required default-safe policy mismatch")
+    if len(phase3_mapping) != phase3_readiness["integrationMappingCount"]:
+        fail("phase3 integration mapping count mismatch")
+    if len(phase3_mapping) != len(phase25_blockers):
+        fail("phase3 integration mapping must cover Phase 2.5 usage mappings")
+    for row in phase3_mapping:
+        if row["action"] not in INTEGRATION_ACTIONS:
+            fail(f"invalid phase3 integration action: {row['websiteModelId']}")
+        if not isinstance(row["defaultSafe"], bool):
+            fail(f"phase3 mapping defaultSafe must be boolean: {row['websiteModelId']}")
+    action_counts = {
+        action: sum(1 for row in phase3_mapping if row["action"] == action)
+        for action in sorted({row["action"] for row in phase3_mapping})
+    }
+    if phase3_readiness["integrationActionCounts"] != action_counts:
+        fail("phase3 action counts mismatch")
+    if phase3_readiness["implementationReadiness"] != "blocked":
+        fail("phase3 implementation readiness must be blocked")
+    if phase3_readiness["planningReadiness"] != "complete":
+        fail("phase3 planning readiness must be complete")
+    if phase3_readiness["websiteRepoClean"] is not False:
+        fail("phase3 must record Website repo dirty status")
+    if phase3_integration_plan["runtimePublicApiDependency"] != "not_allowed":
+        fail("phase3 must reject production runtime dependency on GitHub Pages")
+    if phase3_integration_plan["featureFlag"]["default"] != "off":
+        fail("phase3 feature flag must default off")
+    if "turn PRICING_V2_ENABLED off" not in phase3_rollback_plan["rollbackSteps"]:
+        fail("phase3 rollback plan must include feature flag rollback")
+    if "defaultSafe enforcement" not in phase3_testing_plan["requiredTests"]:
+        fail("phase3 testing plan must include defaultSafe enforcement")
 
     for row in projection:
         for field in ("id", "provider", "model", "inputPrice", "cachedInputPrice", "outputPrice", "status"):
