@@ -13,6 +13,11 @@ class PricingV2PreviewTests(unittest.TestCase):
         cls.models = json.loads((PREVIEW / "models.json").read_text(encoding="utf-8"))
         cls.prices = json.loads((PREVIEW / "prices.json").read_text(encoding="utf-8"))
         cls.report = json.loads((PREVIEW / "convergence-report.json").read_text(encoding="utf-8"))
+        cls.phase2_conflict = json.loads(
+            (PREVIEW / "phase2-conflict-resolution-report.json").read_text(encoding="utf-8")
+        )
+        cls.phase2_matrix = json.loads((PREVIEW / "phase2-evidence-matrix.json").read_text(encoding="utf-8"))
+        cls.phase2_readiness = json.loads((PREVIEW / "phase2-cutover-readiness.json").read_text(encoding="utf-8"))
         cls.projection = json.loads((PREVIEW / "generated" / "model-pricing.website-preview.json").read_text(encoding="utf-8"))
 
     def identity(self, internal_id):
@@ -90,6 +95,26 @@ class PricingV2PreviewTests(unittest.TestCase):
         self.assertIn("google-gemini/gemini-2.5-flash", expected)
         self.assertEqual(self.projection_row("gemini-2.5-pro")["cachedInputPrice"], 0.125)
         self.assertEqual(self.projection_row("gemini-2.5-flash")["cachedInputPrice"], 0.03)
+
+    def test_phase2_evidence_matrix_covers_every_price(self):
+        self.assertEqual(len(self.phase2_matrix), len(self.prices))
+        self.assertEqual(
+            {row["pricingId"] for row in self.phase2_matrix},
+            {price["pricingId"] for price in self.prices},
+        )
+        verified_rows = [row for row in self.phase2_matrix if row["verificationStatus"] == "verified"]
+        self.assertTrue(verified_rows)
+        self.assertTrue(all(row["evidenceCompleteness"] == "complete" for row in verified_rows))
+
+    def test_phase2_cutover_remains_blocked_by_review_required_gpt_family(self):
+        self.assertEqual(self.phase2_readiness["overall"], "blocked")
+        self.assertFalse(self.phase2_readiness["safeToEnterWebsiteIntegrationPlanning"])
+        self.assertEqual(
+            self.phase2_conflict["unresolvedIdentitiesAfter"],
+            ["openai/gpt-4.1", "openai/gpt-4.1-mini", "openai/gpt-4.1-nano"],
+        )
+        self.assertFalse(self.phase2_conflict["gpt4_1Family"]["safeDefaultCalculationPrice"])
+        self.assertIsNone(self.phase2_conflict["grok3"]["replacementInternalId"])
 
 
 if __name__ == "__main__":

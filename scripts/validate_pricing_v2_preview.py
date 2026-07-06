@@ -72,6 +72,9 @@ def validate_preview() -> dict[str, Any]:
     prices = read_json(PREVIEW / "prices.json")
     sources = read_json(PREVIEW / "sources.json")
     report = read_json(PREVIEW / "convergence-report.json")
+    phase2_conflict = read_json(PREVIEW / "phase2-conflict-resolution-report.json")
+    phase2_matrix = read_json(PREVIEW / "phase2-evidence-matrix.json")
+    phase2_readiness = read_json(PREVIEW / "phase2-cutover-readiness.json")
     projection = read_json(PREVIEW / "generated" / "model-pricing.website-preview.json")
     seed = PREVIEW / "generated" / "seed-pricing.preview.sql"
     if not seed.exists() or not seed.read_text(encoding="utf-8").strip():
@@ -172,6 +175,21 @@ def validate_preview() -> dict[str, Any]:
             "verificationStatus",
         },
         "source",
+    )
+    validate_required_fields(
+        phase2_matrix,
+        {
+            "pricingId",
+            "modelInternalId",
+            "verificationStatus",
+            "sourceRefs",
+            "officialProviderDomain",
+            "sourceType",
+            "verifiedAt",
+            "priceComponents",
+            "evidenceCompleteness",
+        },
+        "phase2 evidence row",
     )
 
     identity_ids = [item["internalId"] for item in identities]
@@ -321,6 +339,29 @@ def validate_preview() -> dict[str, Any]:
         if not source["supports"]:
             fail(f"source missing supports: {source['sourceId']}")
 
+    matrix_price_ids = [row["pricingId"] for row in phase2_matrix]
+    if len(matrix_price_ids) != len(set(matrix_price_ids)):
+        fail("duplicate phase2 evidence pricingId")
+    if set(matrix_price_ids) != set(pricing_ids):
+        fail("phase2 evidence matrix must cover every price exactly once")
+    for row in phase2_matrix:
+        price = price_by_id[row["pricingId"]]
+        if row["modelInternalId"] != price["modelInternalId"]:
+            fail(f"phase2 evidence row model mismatch: {row['pricingId']}")
+        if row["verificationStatus"] != price["verificationStatus"]:
+            fail(f"phase2 evidence row verification mismatch: {row['pricingId']}")
+        if row["sourceRefs"] != price["sourceRefs"]:
+            fail(f"phase2 evidence row sourceRefs mismatch: {row['pricingId']}")
+        if row["evidenceCompleteness"] not in {"complete", "partial", "insufficient"}:
+            fail(f"invalid phase2 evidenceCompleteness: {row['pricingId']}")
+        if price["verificationStatus"] == "verified" and row["evidenceCompleteness"] != "complete":
+            fail(f"verified price lacks complete phase2 evidence: {row['pricingId']}")
+        if len(row["priceComponents"]) != len(price["charges"]):
+            fail(f"phase2 evidence row charge count mismatch: {row['pricingId']}")
+        source_domains = sorted({source_by_id[ref]["officialProviderDomain"] for ref in price["sourceRefs"]})
+        if row["officialProviderDomain"] != source_domains:
+            fail(f"phase2 evidence row source domain mismatch: {row['pricingId']}")
+
     for row in projection:
         for field in ("id", "provider", "model", "inputPrice", "cachedInputPrice", "outputPrice", "status"):
             if field not in row:
@@ -361,6 +402,30 @@ def validate_preview() -> dict[str, Any]:
                 fail("exact parity detail count mismatch")
         elif detail_count != len(bucket):
             fail(f"{classification} detail count mismatch")
+    if phase2_conflict["unresolvedIdentitiesBefore"] != report["unresolvedIdentities"]:
+        fail("phase2 unresolvedIdentitiesBefore mismatch")
+    if phase2_conflict["unresolvedIdentitiesAfter"] != report["unresolvedIdentities"]:
+        fail("phase2 unresolvedIdentitiesAfter mismatch")
+    if phase2_conflict["gpt4_1Family"]["safeDefaultCalculationPrice"] is not False:
+        fail("phase2 GPT-4.1 family must not be safe default")
+    if phase2_conflict["grok3"]["replacementInternalId"] is not None:
+        fail("phase2 Grok 3 must not infer replacement from redirect")
+    if phase2_conflict["deepseekAliases"]["target"] != "deepseek/deepseek-v4-flash":
+        fail("phase2 DeepSeek alias target mismatch")
+    if phase2_readiness["overall"] != "blocked":
+        fail("phase2 cutover readiness must remain blocked")
+    readiness_counts = phase2_readiness["counts"]
+    if readiness_counts["priceRecordCount"] != len(prices):
+        fail("phase2 readiness price count mismatch")
+    if readiness_counts["chargeRecordCount"] != sum(len(item["charges"]) for item in prices):
+        fail("phase2 readiness charge count mismatch")
+    if (
+        readiness_counts["completeEvidencePriceRecordCount"]
+        + readiness_counts["partialEvidencePriceRecordCount"]
+        + readiness_counts["insufficientEvidencePriceRecordCount"]
+        != len(prices)
+    ):
+        fail("phase2 readiness evidence counts mismatch")
 
     return {
         "candidate_count": len(dispositions),

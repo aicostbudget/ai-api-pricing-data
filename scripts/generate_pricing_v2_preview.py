@@ -1,6 +1,7 @@
 from __future__ import annotations
 
 import json
+import time
 from collections import defaultdict
 from datetime import date
 from decimal import Decimal
@@ -101,7 +102,192 @@ def read_json(path: Path) -> Any:
 
 def write_json(path: Path, value: Any) -> None:
     path.parent.mkdir(parents=True, exist_ok=True)
-    path.write_text(json.dumps(value, indent=2, sort_keys=True) + "\n", encoding="utf-8")
+    write_text_with_retry(path, json.dumps(value, indent=2, sort_keys=True) + "\n")
+
+
+def write_text_with_retry(path: Path, value: str) -> None:
+    if path.exists():
+        try:
+            if path.read_text(encoding="utf-8") == value:
+                return
+        except PermissionError:
+            pass
+    for attempt in range(10):
+        try:
+            path.write_text(value, encoding="utf-8")
+            return
+        except PermissionError:
+            if attempt == 9:
+                raise
+            time.sleep(0.1)
+
+
+def evidence_completeness(price: dict[str, Any], source_by_id: dict[str, dict[str, Any]]) -> str:
+    sources = [source_by_id.get(ref) for ref in price.get("sourceRefs", [])]
+    if not sources or any(source is None for source in sources):
+        return "insufficient"
+    if price["verificationStatus"] == "verified":
+        if any(
+            source["verificationStatus"] == "verified"
+            and source.get("checkedAt")
+            and source.get("verifiedAt")
+            and source.get("officialProviderDomain")
+            and source["officialProviderDomain"] in source["url"]
+            for source in sources
+        ):
+            return "complete"
+        return "insufficient"
+    if any(source.get("officialProviderDomain") for source in sources):
+        return "partial"
+    return "insufficient"
+
+
+def build_phase2_evidence_matrix(
+    prices: list[dict[str, Any]], sources: list[dict[str, Any]]
+) -> list[dict[str, Any]]:
+    source_by_id = {source["sourceId"]: source for source in sources}
+    matrix = []
+    for price in prices:
+        resolved_sources = [source_by_id[ref] for ref in price["sourceRefs"] if ref in source_by_id]
+        matrix.append(
+            {
+                "pricingId": price["pricingId"],
+                "modelInternalId": price["modelInternalId"],
+                "verificationStatus": price["verificationStatus"],
+                "sourceRefs": price["sourceRefs"],
+                "officialProviderDomain": sorted(
+                    {source["officialProviderDomain"] for source in resolved_sources}
+                ),
+                "sourceType": sorted({source["sourceType"] for source in resolved_sources}),
+                "verifiedAt": sorted({source["verifiedAt"] for source in resolved_sources if source.get("verifiedAt")}),
+                "priceComponents": [
+                    {
+                        "chargeId": charge["chargeId"],
+                        "component": charge["component"],
+                        "modality": charge["modality"],
+                        "unit": charge["unit"],
+                        "amount": charge["amount"],
+                    }
+                    for charge in price["charges"]
+                ],
+                "evidenceCompleteness": evidence_completeness(price, source_by_id),
+            }
+        )
+    return matrix
+
+
+def build_phase2_conflict_report(
+    report: dict[str, Any], identities: list[dict[str, Any]], matrix: list[dict[str, Any]]
+) -> dict[str, Any]:
+    gpt_family = ["openai/gpt-4.1", "openai/gpt-4.1-mini", "openai/gpt-4.1-nano"]
+    identity_by_id = {identity["internalId"]: identity for identity in identities}
+    insufficient_verified = [
+        row["pricingId"]
+        for row in matrix
+        if row["verificationStatus"] == "verified" and row["evidenceCompleteness"] != "complete"
+    ]
+    return {
+        "generatedAt": report["generatedAt"],
+        "scope": "phase2_official_verification_preview_only",
+        "unresolvedIdentitiesBefore": report["unresolvedIdentities"],
+        "unresolvedIdentitiesAfter": [
+            internal_id
+            for internal_id in gpt_family
+            if identity_by_id[internal_id]["verificationStatus"] == "review_required"
+        ],
+        "pricingConflictsBefore": report["pricingConflicts"],
+        "pricingConflictsAfter": [
+            {"internalId": internal_id, "resolution": "remain_review_required"}
+            for internal_id in gpt_family
+            if identity_by_id[internal_id]["verificationStatus"] == "review_required"
+        ],
+        "verificationUpgrades": [],
+        "verificationDowngrades": [],
+        "provenanceConflictsAfter": insufficient_verified,
+        "gpt4_1Family": {
+            "finalStatus": "review_required",
+            "safeDefaultCalculationPrice": False,
+            "reason": "Official OpenAI pricing/model pages did not provide complete current price evidence for the whole GPT-4.1 family during Phase 2 review; Public V1 and Website values are not accepted as final proof.",
+            "officialEvidence": [
+                "https://developers.openai.com/api/docs/pricing",
+                "https://developers.openai.com/api/docs/models",
+                "https://developers.openai.com/api/docs/deprecations",
+            ],
+        },
+        "grok3": {
+            "identityType": "historical_reference",
+            "lifecycleStatus": "retired",
+            "routingBehavior": "redirect",
+            "redirectTargetInternalId": "xai/grok-4.3",
+            "replacementInternalId": None,
+            "billingModelInternalId": "xai/grok-4.3",
+            "phase2Resolution": "Retain redirect metadata and keep replacement null; do not infer replacement from redirect.",
+            "officialEvidence": ["https://docs.x.ai/developers/migration/may-15-retirement"],
+        },
+        "deepseekAliases": {
+            "finalStatus": "verified",
+            "target": "deepseek/deepseek-v4-flash",
+            "effectiveUntil": "2026-07-24T15:59:00Z",
+            "semanticPreservation": "routingDetails.mode preserves non_thinking for deepseek-chat and thinking for deepseek-reasoner.",
+            "officialEvidence": ["https://api-docs.deepseek.com/quick_start/pricing"],
+        },
+        "claudeSonnet5": {
+            "finalStatus": "verified",
+            "identityHandling": "single canonical identity anthropic/claude-sonnet-5; introductory and standard prices are separate PriceRecords.",
+            "introductoryEffectiveUntil": "2026-08-31",
+            "standardEffectiveFrom": "2026-09-01",
+            "officialEvidence": ["https://platform.claude.com/docs/en/about-claude/pricing"],
+        },
+        "expectedDifferences": report["websiteCompatibilityPreviewParity"]["expected_difference"],
+        "unresolvedDifferences": [
+            {"internalId": internal_id, "resolution": "remain_review_required"} for internal_id in gpt_family
+        ],
+    }
+
+
+def build_phase2_cutover_readiness(
+    report: dict[str, Any], conflict_report: dict[str, Any], matrix: list[dict[str, Any]]
+) -> dict[str, Any]:
+    partial_or_insufficient = [
+        row["pricingId"] for row in matrix if row["evidenceCompleteness"] != "complete"
+    ]
+    unresolved = conflict_report["unresolvedIdentitiesAfter"]
+    ready = not unresolved and not partial_or_insufficient
+    return {
+        "generatedAt": report["generatedAt"],
+        "overall": "blocked" if not ready else "ready",
+        "productionMigration": "not_allowed_in_phase2",
+        "phase2SafeToCommitPreview": True,
+        "safeToEnterWebsiteIntegrationPlanning": False,
+        "gates": {
+            "identity": "conditional" if unresolved else "ready",
+            "pricing": "blocked" if unresolved else "conditional",
+            "provenance": "conditional" if partial_or_insufficient else "ready",
+            "websiteCompatibility": "blocked" if unresolved else "conditional",
+            "supabaseProjection": "conditional",
+            "regression": "pending_runtime_validation",
+        },
+        "blockers": [
+            "GPT-4.1 family remains review_required without safe default calculation prices.",
+            "Some PriceRecords remain partial evidence because their sources are official but not independently verified in Phase 2.",
+        ],
+        "counts": {
+            "candidateUnionCount": report["candidateUnionCount"],
+            "normalizedCanonicalIdentityCount": report["normalizedCanonicalIdentityCount"],
+            "priceRecordCount": report["counts"]["priceRecordCount"],
+            "chargeRecordCount": report["counts"]["chargeRecordCount"],
+            "sourceRecordCount": report["counts"]["sourceRecordCount"],
+            "completeEvidencePriceRecordCount": sum(
+                1 for row in matrix if row["evidenceCompleteness"] == "complete"
+            ),
+            "partialEvidencePriceRecordCount": sum(
+                1 for row in matrix if row["evidenceCompleteness"] == "partial"
+            ),
+            "insufficientEvidencePriceRecordCount": sum(
+                1 for row in matrix if row["evidenceCompleteness"] == "insufficient"
+            ),
+        },
+    }
 
 
 def decimal_string(value: Any) -> str | None:
@@ -690,6 +876,11 @@ def main() -> None:
             "sourceRecordCount": len(sources),
         },
     }
+    phase2_evidence_matrix = build_phase2_evidence_matrix(prices, sources)
+    phase2_conflict_report = build_phase2_conflict_report(report, identities, phase2_evidence_matrix)
+    phase2_cutover_readiness = build_phase2_cutover_readiness(
+        report, phase2_conflict_report, phase2_evidence_matrix
+    )
 
     write_json(PREVIEW / "model-identity-registry.json", identities)
     write_json(PREVIEW / "candidate-disposition-map.json", candidate_dispositions)
@@ -711,15 +902,21 @@ def main() -> None:
                 "prices.json",
                 "sources.json",
                 "convergence-report.json",
+                "phase2-conflict-resolution-report.json",
+                "phase2-evidence-matrix.json",
+                "phase2-cutover-readiness.json",
                 "generated/model-pricing.website-preview.json",
                 "generated/seed-pricing.preview.sql",
             ],
         },
     )
     write_json(PREVIEW / "convergence-report.json", report)
+    write_json(PREVIEW / "phase2-evidence-matrix.json", phase2_evidence_matrix)
+    write_json(PREVIEW / "phase2-conflict-resolution-report.json", phase2_conflict_report)
+    write_json(PREVIEW / "phase2-cutover-readiness.json", phase2_cutover_readiness)
     write_json(GENERATED / "model-pricing.website-preview.json", website_projection)
     (GENERATED / "seed-pricing.preview.sql").parent.mkdir(parents=True, exist_ok=True)
-    (GENERATED / "seed-pricing.preview.sql").write_text("\n".join(sql_lines), encoding="utf-8")
+    write_text_with_retry(GENERATED / "seed-pricing.preview.sql", "\n".join(sql_lines))
 
     print(f"generated pricing v2 preview: {PREVIEW}")
 

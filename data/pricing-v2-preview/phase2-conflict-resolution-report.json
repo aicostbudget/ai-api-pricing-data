@@ -1,0 +1,113 @@
+{
+  "claudeSonnet5": {
+    "finalStatus": "verified",
+    "identityHandling": "single canonical identity anthropic/claude-sonnet-5; introductory and standard prices are separate PriceRecords.",
+    "introductoryEffectiveUntil": "2026-08-31",
+    "officialEvidence": [
+      "https://platform.claude.com/docs/en/about-claude/pricing"
+    ],
+    "standardEffectiveFrom": "2026-09-01"
+  },
+  "deepseekAliases": {
+    "effectiveUntil": "2026-07-24T15:59:00Z",
+    "finalStatus": "verified",
+    "officialEvidence": [
+      "https://api-docs.deepseek.com/quick_start/pricing"
+    ],
+    "semanticPreservation": "routingDetails.mode preserves non_thinking for deepseek-chat and thinking for deepseek-reasoner.",
+    "target": "deepseek/deepseek-v4-flash"
+  },
+  "expectedDifferences": [
+    {
+      "internalId": "google-gemini/gemini-2.5-pro",
+      "reason": "canonical V2 projection has richer condition/source metadata"
+    },
+    {
+      "internalId": "google-gemini/gemini-2.5-flash",
+      "reason": "canonical V2 projection has richer condition/source metadata"
+    },
+    {
+      "internalId": "xai/grok-3",
+      "reason": "canonical V2 projection has richer condition/source metadata"
+    }
+  ],
+  "generatedAt": "2026-07-07T00:00:00Z",
+  "gpt4_1Family": {
+    "finalStatus": "review_required",
+    "officialEvidence": [
+      "https://developers.openai.com/api/docs/pricing",
+      "https://developers.openai.com/api/docs/models",
+      "https://developers.openai.com/api/docs/deprecations"
+    ],
+    "reason": "Official OpenAI pricing/model pages did not provide complete current price evidence for the whole GPT-4.1 family during Phase 2 review; Public V1 and Website values are not accepted as final proof.",
+    "safeDefaultCalculationPrice": false
+  },
+  "grok3": {
+    "billingModelInternalId": "xai/grok-4.3",
+    "identityType": "historical_reference",
+    "lifecycleStatus": "retired",
+    "officialEvidence": [
+      "https://docs.x.ai/developers/migration/may-15-retirement"
+    ],
+    "phase2Resolution": "Retain redirect metadata and keep replacement null; do not infer replacement from redirect.",
+    "redirectTargetInternalId": "xai/grok-4.3",
+    "replacementInternalId": null,
+    "routingBehavior": "redirect"
+  },
+  "pricingConflictsAfter": [
+    {
+      "internalId": "openai/gpt-4.1",
+      "resolution": "remain_review_required"
+    },
+    {
+      "internalId": "openai/gpt-4.1-mini",
+      "resolution": "remain_review_required"
+    },
+    {
+      "internalId": "openai/gpt-4.1-nano",
+      "resolution": "remain_review_required"
+    }
+  ],
+  "pricingConflictsBefore": [
+    {
+      "internalId": "openai/gpt-4.1",
+      "reason": "no safe default calculation price"
+    },
+    {
+      "internalId": "openai/gpt-4.1-mini",
+      "reason": "no safe default calculation price"
+    },
+    {
+      "internalId": "openai/gpt-4.1-nano",
+      "reason": "no safe default calculation price"
+    }
+  ],
+  "provenanceConflictsAfter": [],
+  "scope": "phase2_official_verification_preview_only",
+  "unresolvedDifferences": [
+    {
+      "internalId": "openai/gpt-4.1",
+      "resolution": "remain_review_required"
+    },
+    {
+      "internalId": "openai/gpt-4.1-mini",
+      "resolution": "remain_review_required"
+    },
+    {
+      "internalId": "openai/gpt-4.1-nano",
+      "resolution": "remain_review_required"
+    }
+  ],
+  "unresolvedIdentitiesAfter": [
+    "openai/gpt-4.1",
+    "openai/gpt-4.1-mini",
+    "openai/gpt-4.1-nano"
+  ],
+  "unresolvedIdentitiesBefore": [
+    "openai/gpt-4.1",
+    "openai/gpt-4.1-mini",
+    "openai/gpt-4.1-nano"
+  ],
+  "verificationDowngrades": [],
+  "verificationUpgrades": []
+}
