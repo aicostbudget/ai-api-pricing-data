@@ -34,6 +34,9 @@ class PricingV2PreviewTests(unittest.TestCase):
         cls.phase3_projection_contract = json.loads((PREVIEW / "phase3-website-projection-contract.json").read_text(encoding="utf-8"))
         cls.phase3_mapping = json.loads((PREVIEW / "phase3-integration-mapping.json").read_text(encoding="utf-8"))
         cls.phase3_readiness = json.loads((PREVIEW / "phase3-readiness.json").read_text(encoding="utf-8"))
+        cls.phase35_approval = json.loads((PREVIEW / "phase3-5-approval-report.json").read_text(encoding="utf-8"))
+        cls.phase35_scope = json.loads((PREVIEW / "phase3-5-implementation-scope.json").read_text(encoding="utf-8"))
+        cls.phase35_readiness = json.loads((PREVIEW / "phase3-5-readiness.json").read_text(encoding="utf-8"))
         cls.projection = json.loads((PREVIEW / "generated" / "model-pricing.website-preview.json").read_text(encoding="utf-8"))
 
     def identity(self, internal_id):
@@ -230,6 +233,8 @@ class PricingV2PreviewTests(unittest.TestCase):
         self.assertIn("supabase_model_prices_seed", consumer_ids)
         self.assertEqual(self.phase3_projection_contract["recommendedMode"], "repo_local_generated_projection")
         self.assertIn("defaultSafe", self.phase3_projection_contract["requiredFields"])
+        self.assertIn("verifiedAt", self.phase3_projection_contract["requiredFields"])
+        self.assertIn("contextWindow", self.phase3_projection_contract["requiredFields"])
 
     def test_phase3_mapping_and_readiness(self):
         self.assertEqual(len(self.phase3_mapping), 162)
@@ -242,6 +247,33 @@ class PricingV2PreviewTests(unittest.TestCase):
         self.assertEqual(self.phase3_readiness["implementationReadiness"], "blocked")
         self.assertEqual(self.phase3_readiness["planningReadiness"], "complete")
         self.assertFalse(self.phase3_readiness["websiteRepoClean"])
+
+    def test_phase35_approval_gate_is_ready(self):
+        self.assertEqual(self.phase35_approval["implementationReadiness"], "ready")
+        self.assertTrue(self.phase35_approval["safeToEnterPhase4Implementation"])
+        self.assertTrue(self.phase35_readiness["safeToCommitPhase35"])
+        self.assertTrue(self.phase35_readiness["safeToEnterPhase4Implementation"])
+        self.assertTrue(all(self.phase35_readiness["conditionsSatisfied"].values()))
+        approvals = {row["name"]: row["status"] for row in self.phase35_approval["approvals"]}
+        self.assertEqual(approvals["Projection Contract Approval"], "approved")
+        self.assertEqual(approvals["DefaultSafe Enforcement Approval"], "approved")
+        self.assertEqual(approvals["Rollback Approval"], "approved")
+        self.assertEqual(approvals["Testing Plan Approval"], "approved")
+
+    def test_phase35_mapping_reviews_are_complete(self):
+        temporary = self.phase35_approval["temporaryMappingReview"]
+        warnings = self.phase35_approval["warningMappingReview"]
+        self.assertEqual(len(temporary), 15)
+        self.assertEqual(len(warnings), 8)
+        for row in temporary:
+            self.assertTrue(row["reason"])
+            self.assertTrue(row["owner"])
+            self.assertTrue(row["exitCondition"])
+            self.assertTrue(row["migrationDestination"])
+            self.assertTrue(row["risk"])
+        self.assertEqual(self.phase35_scope["featureFlag"]["name"], "PRICING_V2_ENABLED")
+        self.assertEqual(self.phase35_scope["featureFlag"]["default"], "off")
+        self.assertIn("runtime GitHub Pages fetch", self.phase35_scope["outOfScope"])
 
 
 if __name__ == "__main__":

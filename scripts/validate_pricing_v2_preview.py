@@ -115,6 +115,10 @@ def validate_preview() -> dict[str, Any]:
     phase3_rollback_plan = read_json(PREVIEW / "phase3-rollback-plan.json")
     phase3_testing_plan = read_json(PREVIEW / "phase3-testing-plan.json")
     phase3_readiness = read_json(PREVIEW / "phase3-readiness.json")
+    phase35_approval = read_json(PREVIEW / "phase3-5-approval-report.json")
+    phase35_scope = read_json(PREVIEW / "phase3-5-implementation-scope.json")
+    phase35_risks = read_json(PREVIEW / "phase3-5-risk-register.json")
+    phase35_readiness = read_json(PREVIEW / "phase3-5-readiness.json")
     projection = read_json(PREVIEW / "generated" / "model-pricing.website-preview.json")
     seed = PREVIEW / "generated" / "seed-pricing.preview.sql"
     if not seed.exists() or not seed.read_text(encoding="utf-8").strip():
@@ -699,7 +703,7 @@ def validate_preview() -> dict[str, Any]:
         fail("phase3 ownership must keep pricing with canonical dataset")
     if phase3_projection_contract["recommendedMode"] != "repo_local_generated_projection":
         fail("phase3 projection contract must recommend repo-local generated projection")
-    for field in ("id", "provider", "model", "inputPrice", "cachedInputPrice", "outputPrice", "status", "defaultSafe", "verificationStatus", "officialSourceUrl"):
+    for field in ("id", "provider", "model", "inputPrice", "cachedInputPrice", "outputPrice", "status", "defaultSafe", "verificationStatus", "verifiedAt", "officialSourceUrl", "contextWindow"):
         if field not in phase3_projection_contract["requiredFields"]:
             fail(f"phase3 projection contract missing required field {field}")
     if phase3_projection_contract["defaultSafePolicy"]["review_required"] != "display only with warning; no default or recommendation placement":
@@ -733,6 +737,63 @@ def validate_preview() -> dict[str, Any]:
         fail("phase3 rollback plan must include feature flag rollback")
     if "defaultSafe enforcement" not in phase3_testing_plan["requiredTests"]:
         fail("phase3 testing plan must include defaultSafe enforcement")
+
+    approval_names = {row["name"] for row in phase35_approval["approvals"]}
+    required_approval_names = {
+        "Projection Contract Approval",
+        "DefaultSafe Enforcement Approval",
+        "Integration Mode Approval",
+        "Shadow Mode Approval",
+        "Feature Flag Approval",
+        "Rollback Approval",
+        "Consumer Coverage Approval",
+        "Integration Mapping Approval",
+        "Temporary Mapping Approval",
+        "Warning Mapping Approval",
+        "Claude Sonnet 5 Approval",
+        "Grok 3 Approval",
+        "GPT-4.1 Family Approval",
+        "Excluded Default Candidates Approval",
+        "Supabase Approval",
+        "Migration Sequence Approval",
+        "Testing Plan Approval",
+    }
+    if approval_names != required_approval_names:
+        fail("phase3.5 approval coverage mismatch")
+    if any(row["status"] != "approved" for row in phase35_approval["approvals"]):
+        fail("phase3.5 contains non-approved approval item")
+    if phase35_approval["implementationReadiness"] != "ready":
+        fail("phase3.5 approval report must be ready")
+    if phase35_approval["safeToEnterPhase4Implementation"] is not True:
+        fail("phase3.5 must mark Phase 4 implementation entry safe")
+    if phase35_approval["phase3PlanningInputs"]["integrationMappingCount"] != len(phase3_mapping):
+        fail("phase3.5 integration mapping count mismatch")
+    if phase35_approval["phase3PlanningInputs"]["actionCounts"] != action_counts:
+        fail("phase3.5 action counts mismatch")
+    if len(phase35_approval["temporaryMappingReview"]) != action_counts.get("keep_existing_temporarily", 0):
+        fail("phase3.5 temporary mapping review count mismatch")
+    for row in phase35_approval["temporaryMappingReview"]:
+        for field in ("reason", "owner", "exitCondition", "migrationDestination", "risk"):
+            if not row.get(field):
+                fail(f"phase3.5 temporary mapping missing {field}: {row}")
+    if len(phase35_approval["warningMappingReview"]) != action_counts.get("integrate_with_warning", 0):
+        fail("phase3.5 warning mapping review count mismatch")
+    if phase35_scope["featureFlag"]["name"] != "PRICING_V2_ENABLED":
+        fail("phase3.5 scope feature flag mismatch")
+    if phase35_scope["featureFlag"]["default"] != "off":
+        fail("phase3.5 feature flag must default off")
+    if "runtime GitHub Pages fetch" not in phase35_scope["outOfScope"]:
+        fail("phase3.5 scope must reject runtime GitHub Pages fetch")
+    if not phase35_risks:
+        fail("phase3.5 risk register must not be empty")
+    if phase35_readiness["implementationReadiness"] != "ready":
+        fail("phase3.5 readiness must be ready")
+    if phase35_readiness["safeToCommitPhase35"] is not True:
+        fail("phase3.5 must be safe to commit")
+    if phase35_readiness["safeToEnterPhase4Implementation"] is not True:
+        fail("phase3.5 readiness must allow Phase 4 entry")
+    if not all(phase35_readiness["conditionsSatisfied"].values()):
+        fail("phase3.5 readiness has unsatisfied conditions")
 
     for row in projection:
         for field in ("id", "provider", "model", "inputPrice", "cachedInputPrice", "outputPrice", "status"):

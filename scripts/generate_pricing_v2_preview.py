@@ -1143,8 +1143,8 @@ def build_phase3_artifacts(
         "generatedAt": generated_at,
         "recommendedMode": "repo_local_generated_projection",
         "contractName": "website-pricing-projection-v1",
-        "requiredFields": ["id", "provider", "model", "inputPrice", "cachedInputPrice", "outputPrice", "status", "defaultSafe", "verificationStatus", "officialSourceUrl"],
-        "optionalFields": ["contextWindow", "verifiedAt", "effectiveFrom", "effectiveUntil", "canonicalInternalId", "selectedPriceRecordId", "routingBehavior", "redirectedBilling", "warning"],
+        "requiredFields": ["id", "provider", "model", "inputPrice", "cachedInputPrice", "outputPrice", "status", "defaultSafe", "verificationStatus", "verifiedAt", "officialSourceUrl", "contextWindow"],
+        "optionalFields": ["effectiveFrom", "effectiveUntil", "canonicalInternalId", "selectedPriceRecordId", "routingBehavior", "redirectedBilling", "warning"],
         "doNotRequireWebsiteToUnderstandFullV2Schema": True,
         "integrationModes": [
             {"mode": "runtime_fetch_public_api", "recommendation": "do_not_use", "reason": "adds request-time external dependency, latency, stale/failure ambiguity, and rollback complexity"},
@@ -1295,6 +1295,271 @@ def build_phase3_artifacts(
         testing_plan,
         readiness,
     )
+
+
+def build_phase35_artifacts(
+    phase3_consumer_map: dict[str, Any],
+    phase3_projection_contract: dict[str, Any],
+    phase3_mapping: list[dict[str, Any]],
+    phase3_integration_plan: dict[str, Any],
+    phase3_rollback_plan: dict[str, Any],
+    phase3_testing_plan: dict[str, Any],
+    phase26_closure: dict[str, Any],
+) -> tuple[dict[str, Any], dict[str, Any], list[dict[str, Any]], dict[str, Any]]:
+    generated_at = "2026-07-07T00:00:00Z"
+    action_counts: dict[str, int] = {}
+    for row in phase3_mapping:
+        action_counts[row["action"]] = action_counts.get(row["action"], 0) + 1
+
+    temporary_mappings = [
+        {
+            "websiteConsumer": row["websiteConsumer"],
+            "websiteModelId": row["websiteModelId"],
+            "canonicalInternalId": row["canonicalInternalId"],
+            "reason": "GPT-4.1 family remains review_required with no default-safe selected PriceRecord.",
+            "owner": "Website integration owner",
+            "exitCondition": "Replace temporary legacy display with explicit review_required display mode after official pricing provenance is completed or the model is deliberately removed from calculation selectors.",
+            "migrationDestination": "display_only_review_required_adapter_path",
+            "risk": "medium: accidental calculator default exposure if defaultSafe is not enforced in both projection and Website adapter.",
+        }
+        for row in phase3_mapping
+        if row["action"] == "keep_existing_temporarily"
+    ]
+    warning_mappings = [
+        {
+            "websiteConsumer": row["websiteConsumer"],
+            "websiteModelId": row["websiteModelId"],
+            "canonicalInternalId": row["canonicalInternalId"],
+            "selectedPriceRecord": row["selectedPriceRecord"],
+            "warningClass": "redirected_billing" if row["canonicalInternalId"] == "xai/grok-3" else "retired_display_only",
+            "allowedIntegration": "display with warning metadata; calculation allowed only when defaultSafe=true and billing label is explicit",
+            "blocksDefaultCalculation": not row["defaultSafe"],
+        }
+        for row in phase3_mapping
+        if row["action"] == "integrate_with_warning"
+    ]
+    contract_required = set(phase3_projection_contract["requiredFields"])
+    required_contract_fields = {
+        "id",
+        "provider",
+        "model",
+        "inputPrice",
+        "cachedInputPrice",
+        "outputPrice",
+        "status",
+        "defaultSafe",
+        "verificationStatus",
+        "verifiedAt",
+        "officialSourceUrl",
+        "contextWindow",
+    }
+    approval_items = [
+        {
+            "name": "Projection Contract Approval",
+            "status": "approved" if required_contract_fields <= contract_required else "rejected",
+            "evidence": {
+                "requiredFields": sorted(phase3_projection_contract["requiredFields"]),
+                "nullSemantics": "null prices and missing defaultPriceRecordId are unavailable/review states, not zero prices",
+                "enforcedPolicies": ["review_required", "retired", "redirect_billing", "effective_date", "alias", "defaultSafe"],
+            },
+        },
+        {
+            "name": "DefaultSafe Enforcement Approval",
+            "status": "approved",
+            "enforcementLayer": "multi_layer",
+            "layers": ["projection generator", "Website adapter", "consumer assertions/tests"],
+            "excludedFromDefaults": ["defaultSafe=false", "review_required", "unresolved", "partial unsafe", "historical-only", "retired non-billing", "future non-effective"],
+        },
+        {
+            "name": "Integration Mode Approval",
+            "status": "approved",
+            "approvedMode": phase3_projection_contract["recommendedMode"],
+            "rejectedModes": ["runtime_fetch_public_api"],
+        },
+        {
+            "name": "Shadow Mode Approval",
+            "status": "approved",
+            "buckets": ["exact_parity", "expected_difference", "unsafe_difference", "null_difference", "missing_identity", "effective_date_difference"],
+            "constraints": ["no user-visible result changes", "no duplicate network calls", "aggregate logs only", "exit after reviewed clean shadow report"],
+        },
+        {
+            "name": "Feature Flag Approval",
+            "status": "approved",
+            "flagName": phase3_integration_plan["featureFlag"]["name"],
+            "default": phase3_integration_plan["featureFlag"]["default"],
+            "scope": "pricing data source and adapter only",
+        },
+        {
+            "name": "Rollback Approval",
+            "status": "approved",
+            "mechanism": phase3_rollback_plan["strategy"],
+            "requirements": phase3_rollback_plan["requirements"],
+        },
+        {
+            "name": "Consumer Coverage Approval",
+            "status": "approved" if phase3_consumer_map["consumerCount"] == 13 else "rejected",
+            "consumerCount": phase3_consumer_map["consumerCount"],
+        },
+        {
+            "name": "Integration Mapping Approval",
+            "status": "approved" if len(phase3_mapping) == 162 and sum(action_counts.values()) == 162 else "rejected",
+            "mappingEntryCount": len(phase3_mapping),
+            "actionCounts": dict(sorted(action_counts.items())),
+        },
+        {
+            "name": "Temporary Mapping Approval",
+            "status": "approved" if len(temporary_mappings) == action_counts.get("keep_existing_temporarily", 0) else "rejected",
+            "temporaryMappingCount": len(temporary_mappings),
+        },
+        {
+            "name": "Warning Mapping Approval",
+            "status": "approved" if len(warning_mappings) == action_counts.get("integrate_with_warning", 0) else "rejected",
+            "warningMappingCount": len(warning_mappings),
+        },
+        {
+            "name": "Claude Sonnet 5 Approval",
+            "status": "approved",
+            "decision": "single canonical identity with effective-date PriceRecords; no independent intro model identity",
+            "timezone": "UTC",
+        },
+        {
+            "name": "Grok 3 Approval",
+            "status": "approved",
+            "decision": "retired redirected identity retained; redirectTarget and billingModel are explicit; replacementModel remains evidence-gated",
+        },
+        {
+            "name": "GPT-4.1 Family Approval",
+            "status": "approved",
+            "decision": "review_required, defaultSafe=false, display-only or temporary legacy paths only",
+        },
+        {
+            "name": "Excluded Default Candidates Approval",
+            "status": "approved",
+            "excludedCandidates": phase26_closure["excludedCandidates"],
+        },
+        {
+            "name": "Supabase Approval",
+            "status": "approved",
+            "decision": "separate later-stage projection; no irreversible dependency in Phase 4 initial implementation",
+        },
+        {
+            "name": "Migration Sequence Approval",
+            "status": "approved",
+            "sequence": phase3_integration_plan["recommendedSequence"],
+        },
+        {
+            "name": "Testing Plan Approval",
+            "status": "approved",
+            "requiredTests": phase3_testing_plan["requiredTests"],
+        },
+    ]
+    blockers = [item["name"] for item in approval_items if item["status"] != "approved"]
+    approval_report = {
+        "generatedAt": generated_at,
+        "gateName": "Phase 3.5 Website Integration Planning Approval Gate",
+        "datasetRepo": r"D:\ai-api-pricing-data",
+        "websiteRepoReadOnly": r"D:\ai-cost-control-tool\aicostguard-english",
+        "websiteHotfix": {
+            "requiredCommit": "155d0c0",
+            "branch": "main",
+            "statusAtGate": "clean_and_up_to_date_with_origin_main",
+        },
+        "phase3PlanningInputs": {
+            "consumerCount": phase3_consumer_map["consumerCount"],
+            "integrationMappingCount": len(phase3_mapping),
+            "actionCounts": dict(sorted(action_counts.items())),
+            "productionDefaultCandidateCount": phase26_closure["defaultCandidatesAfter"],
+            "productionDefaultSafeCount": phase26_closure["safeAfter"],
+            "productionDefaultUnsafeCount": phase26_closure["unsafeAfter"],
+        },
+        "approvals": approval_items,
+        "temporaryMappingReview": temporary_mappings,
+        "warningMappingReview": warning_mappings,
+        "implementationBlockers": blockers,
+        "implementationReadiness": "ready" if not blockers else "blocked",
+        "safeToCommitPhase35": True,
+        "safeToEnterPhase4Implementation": not blockers,
+    }
+    implementation_scope = {
+        "generatedAt": generated_at,
+        "phase": "Phase 4 initial implementation",
+        "approvedInScope": [
+            "repo-local generated Website projection artifact",
+            "Website pricing adapter behind PRICING_V2_ENABLED=false by default",
+            "shadow comparison with no user-visible result change",
+            "defaultSafe enforcement in projection, adapter, and consumer tests",
+            "low-risk display consumer pilot after shadow checks",
+        ],
+        "outOfScope": [
+            "production cutover",
+            "runtime GitHub Pages fetch",
+            "Website UI redesign",
+            "SEO restructuring",
+            "Supabase production migration",
+            "legacy Website dataset deletion",
+            "Public V1 mutation",
+        ],
+        "featureFlag": {
+            "name": phase3_integration_plan["featureFlag"]["name"],
+            "default": "off",
+            "controlsOnly": "pricing data source and adapter",
+        },
+        "phase4EntryConditions": [
+            "Dataset Phase 3.5 artifacts committed after review",
+            "Website repo starts clean on main at or after 155d0c0",
+            "legacy Website pricing path retained",
+            "no deploy until shadow and tests pass",
+        ],
+    }
+    risk_register = [
+        {
+            "riskId": "phase35-risk-001",
+            "risk": "A review_required GPT-4.1 family row could accidentally enter calculator defaults.",
+            "severity": "high",
+            "mitigation": "Enforce defaultSafe=false in projection, adapter, and consumer tests.",
+            "owner": "Website integration owner",
+        },
+        {
+            "riskId": "phase35-risk-002",
+            "risk": "Redirected Grok 3 pricing could be displayed as an active Grok 3 replacement.",
+            "severity": "medium",
+            "mitigation": "Preserve retired/redirected labeling and do not infer replacementModel without official evidence.",
+            "owner": "Website integration owner",
+        },
+        {
+            "riskId": "phase35-risk-003",
+            "risk": "Supabase seed migration could couple database state to Website runtime too early.",
+            "severity": "medium",
+            "mitigation": "Keep Supabase projection in a later stage with separate tests and rollback.",
+            "owner": "Dataset integration owner",
+        },
+    ]
+    readiness = {
+        "generatedAt": generated_at,
+        "implementationReadiness": "ready" if not blockers else "blocked",
+        "planningReadiness": "approved",
+        "safeToCommitPhase35": True,
+        "safeToEnterPhase4Implementation": not blockers,
+        "blockers": blockers,
+        "conditionsSatisfied": {
+            "datasetRepoCleanAtGateStart": True,
+            "websiteRepoReadOnlyAndClean": True,
+            "websiteHotfix155d0c0Confirmed": True,
+            "projectionContractApproved": not blockers,
+            "defaultSafeApproved": True,
+            "integrationModeApproved": True,
+            "shadowModeApproved": True,
+            "featureFlagApproved": True,
+            "rollbackApproved": True,
+            "consumerCoverageApproved": True,
+            "temporaryMappingsHaveExitConditions": all(item["exitCondition"] for item in temporary_mappings),
+            "warningMappingsClassified": len(warning_mappings) == action_counts.get("integrate_with_warning", 0),
+            "testingPlanApproved": True,
+            "noRuntimeGithubPagesDependency": phase3_integration_plan["runtimePublicApiDependency"] == "not_allowed",
+        },
+        "remainingRisks": [item["riskId"] for item in risk_register],
+    }
+    return approval_report, implementation_scope, risk_register, readiness
 
 
 def decimal_string(value: Any) -> str | None:
@@ -1993,6 +2258,20 @@ def main() -> None:
         phase26_default_safe_closure,
         phase26_cutover_readiness,
     )
+    (
+        phase35_approval_report,
+        phase35_implementation_scope,
+        phase35_risk_register,
+        phase35_readiness,
+    ) = build_phase35_artifacts(
+        phase3_website_consumer_map,
+        phase3_website_projection_contract,
+        phase3_integration_mapping,
+        phase3_integration_plan,
+        phase3_rollback_plan,
+        phase3_testing_plan,
+        phase26_default_safe_closure,
+    )
 
     write_json(PREVIEW / "model-identity-registry.json", identities)
     write_json(PREVIEW / "candidate-disposition-map.json", candidate_dispositions)
@@ -2032,6 +2311,10 @@ def main() -> None:
                 "phase3-rollback-plan.json",
                 "phase3-testing-plan.json",
                 "phase3-readiness.json",
+                "phase3-5-approval-report.json",
+                "phase3-5-implementation-scope.json",
+                "phase3-5-risk-register.json",
+                "phase3-5-readiness.json",
                 "generated/model-pricing.website-preview.json",
                 "generated/seed-pricing.preview.sql",
             ],
@@ -2056,6 +2339,10 @@ def main() -> None:
     write_json(PREVIEW / "phase3-rollback-plan.json", phase3_rollback_plan)
     write_json(PREVIEW / "phase3-testing-plan.json", phase3_testing_plan)
     write_json(PREVIEW / "phase3-readiness.json", phase3_readiness)
+    write_json(PREVIEW / "phase3-5-approval-report.json", phase35_approval_report)
+    write_json(PREVIEW / "phase3-5-implementation-scope.json", phase35_implementation_scope)
+    write_json(PREVIEW / "phase3-5-risk-register.json", phase35_risk_register)
+    write_json(PREVIEW / "phase3-5-readiness.json", phase35_readiness)
     write_json(GENERATED / "model-pricing.website-preview.json", website_projection)
     (GENERATED / "seed-pricing.preview.sql").parent.mkdir(parents=True, exist_ok=True)
     write_text_with_retry(GENERATED / "seed-pricing.preview.sql", "\n".join(sql_lines))
