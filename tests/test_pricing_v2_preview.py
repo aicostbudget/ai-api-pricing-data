@@ -18,6 +18,14 @@ class PricingV2PreviewTests(unittest.TestCase):
         )
         cls.phase2_matrix = json.loads((PREVIEW / "phase2-evidence-matrix.json").read_text(encoding="utf-8"))
         cls.phase2_readiness = json.loads((PREVIEW / "phase2-cutover-readiness.json").read_text(encoding="utf-8"))
+        cls.phase25_evidence = json.loads((PREVIEW / "phase2-5-evidence-completion.json").read_text(encoding="utf-8"))
+        cls.phase25_default_safe = json.loads(
+            (PREVIEW / "phase2-5-default-safe-report.json").read_text(encoding="utf-8")
+        )
+        cls.phase25_blockers = json.loads(
+            (PREVIEW / "phase2-5-website-integration-blockers.json").read_text(encoding="utf-8")
+        )
+        cls.phase25_readiness = json.loads((PREVIEW / "phase2-5-cutover-readiness.json").read_text(encoding="utf-8"))
         cls.projection = json.loads((PREVIEW / "generated" / "model-pricing.website-preview.json").read_text(encoding="utf-8"))
 
     def identity(self, internal_id):
@@ -115,6 +123,39 @@ class PricingV2PreviewTests(unittest.TestCase):
         )
         self.assertFalse(self.phase2_conflict["gpt4_1Family"]["safeDefaultCalculationPrice"])
         self.assertIsNone(self.phase2_conflict["grok3"]["replacementInternalId"])
+
+    def test_phase2_5_default_safe_gate_counts(self):
+        self.assertEqual(len(self.phase25_evidence), 47)
+        self.assertEqual(self.phase25_default_safe["productionDefaultCandidateCount"], 31)
+        self.assertEqual(self.phase25_default_safe["defaultSafeCount"], 26)
+        self.assertEqual(self.phase25_default_safe["defaultUnsafeCount"], 21)
+        self.assertEqual(self.phase25_default_safe["P0PartialBefore"], 20)
+        self.assertEqual(self.phase25_default_safe["P0PartialAfter"], 5)
+        self.assertEqual(self.phase25_default_safe["P1PartialCount"], 3)
+        self.assertEqual(self.phase25_default_safe["P2PartialCount"], 0)
+        self.assertEqual(self.phase25_default_safe["P3PartialCount"], 5)
+
+    def test_phase2_5_gpt_and_grok_policies(self):
+        evidence_by_model = {row["modelInternalId"]: row for row in self.phase25_evidence}
+        for internal_id in ("openai/gpt-4.1", "openai/gpt-4.1-mini", "openai/gpt-4.1-nano"):
+            matching_rows = [row for row in self.phase25_evidence if row["modelInternalId"] == internal_id]
+            self.assertTrue(matching_rows)
+            self.assertTrue(all(not row["defaultSafe"] for row in matching_rows))
+            self.assertTrue(all(row["priorityClass"] == "P3" for row in matching_rows))
+        self.assertTrue(evidence_by_model["xai/grok-4.3"]["defaultSafe"])
+        grok_3_rows = [row for row in self.phase25_blockers if row["websiteModelId"] == "grok-3"]
+        self.assertTrue(grok_3_rows)
+        self.assertTrue(all(row["recommendedIntegrationAction"] == "integrate_with_warning" for row in grok_3_rows))
+
+    def test_phase2_5_website_integration_remains_blocked(self):
+        self.assertFalse(self.phase25_readiness["safeToEnterWebsiteIntegrationPlanning"])
+        self.assertEqual(self.phase25_readiness["defaultPricingReadiness"], "blocked")
+        counts = self.phase25_readiness["websiteIntegrationActionCounts"]
+        self.assertEqual(counts["safe_to_integrate"], 129)
+        self.assertEqual(counts["integrate_with_warning"], 16)
+        self.assertEqual(counts["exclude_from_default"], 2)
+        self.assertEqual(counts["keep_existing_temporarily"], 15)
+        self.assertEqual(counts["blocked"], 0)
 
 
 if __name__ == "__main__":

@@ -95,6 +95,24 @@ MERGED_DUPLICATES = {
     },
 }
 
+PHASE25_OFFICIAL_COMPLETION = {
+    "price:anthropic/claude-fable-5:standard:short:website-preview": "https://platform.claude.com/docs/en/about-claude/pricing",
+    "price:anthropic/claude-mythos-5:standard:short:website-preview": "https://platform.claude.com/docs/en/about-claude/pricing",
+    "price:anthropic/claude-opus-4.1:standard:short:website-preview": "https://platform.claude.com/docs/en/about-claude/pricing",
+    "price:cohere/aya-expanse-32b:standard:short:current": "https://cohere.com/pricing",
+    "price:cohere/command-r-plus-08-2024:standard:short:current": "https://cohere.com/pricing",
+    "price:google-gemini/gemini-3-flash-preview:standard:short:website-preview": "https://ai.google.dev/gemini-api/docs/pricing",
+    "price:google-gemini/gemini-3.1-flash-lite:standard:short:website-preview": "https://ai.google.dev/gemini-api/docs/pricing",
+    "price:mistral-ai/mistral-large:standard:short:current": "https://mistral.ai/pricing/",
+    "price:openai/chatgpt-chat-latest:standard:short:website-preview": "https://developers.openai.com/api/docs/pricing",
+    "price:openai/gpt-5.3-codex:standard:short:website-preview": "https://developers.openai.com/api/docs/pricing",
+    "price:openai/gpt-5.4:standard:short:website-preview": "https://developers.openai.com/api/docs/pricing",
+    "price:openai/gpt-5.4-nano:standard:short:website-preview": "https://developers.openai.com/api/docs/pricing",
+    "price:openai/gpt-5.4-pro:standard:short:website-preview": "https://developers.openai.com/api/docs/pricing",
+    "price:openai/gpt-5.5-pro:standard:short:website-preview": "https://developers.openai.com/api/docs/pricing",
+    "price:xai/grok-build-0.1:standard:short:website-preview": "https://docs.x.ai/developers/models",
+}
+
 
 def read_json(path: Path) -> Any:
     return json.loads(path.read_text(encoding="utf-8"))
@@ -288,6 +306,358 @@ def build_phase2_cutover_readiness(
             ),
         },
     }
+
+
+def parse_effective_date(value: str | None) -> date | None:
+    if value is None:
+        return None
+    return date.fromisoformat(value)
+
+
+def is_current_effective(price: dict[str, Any], today: date) -> bool:
+    effective_from = parse_effective_date(price["effectiveFrom"])
+    effective_until = parse_effective_date(price["effectiveUntil"])
+    return (effective_from is None or effective_from <= today) and (
+        effective_until is None or effective_until >= today
+    )
+
+
+def price_amounts(price: dict[str, Any]) -> dict[str, str | None]:
+    charges = {charge["component"]: charge["amount"] for charge in price["charges"]}
+    return {
+        "input": charges.get("input"),
+        "cached_input": charges.get("cached_input"),
+        "output": charges.get("output"),
+    }
+
+
+def text_modality_present(price: dict[str, Any]) -> bool:
+    return any(charge["modality"] == "text" for charge in price["charges"])
+
+
+def provider_from_internal_id(internal_id_value: str) -> str:
+    return internal_id_value.split("/", 1)[0]
+
+
+def build_website_usage_map(website_models: list[dict[str, Any]]) -> list[dict[str, str]]:
+    website_ids = [item["id"] for item in website_models]
+    usage_rows: list[dict[str, str]] = []
+
+    def add(website_model_id: str, usage_type: str, source: str) -> None:
+        usage_rows.append(
+            {
+                "websiteModelId": website_model_id,
+                "usageType": usage_type,
+                "source": source,
+            }
+        )
+
+    all_model_consumers = [
+        ("calculator_dropdown_model", "src/components/cost-calculator.tsx"),
+        ("pricing_comparison_model", "src/components/pricing-table.tsx"),
+        ("token_calculator_dropdown_model", "src/components/token-calculator.tsx"),
+        ("prompt_cost_optimizer_dropdown_model", "src/components/prompt-cost-optimizer.tsx"),
+    ]
+    for website_model_id in website_ids:
+        for usage_type, source in all_model_consumers:
+            add(website_model_id, usage_type, source)
+
+    for website_model_id in website_ids[:12]:
+        add(website_model_id, "homepage_estimator_dropdown_model", "src/components/home-api-cost-estimator.tsx")
+
+    for website_model_id, usage_type, source in [
+        ("gpt-5.4-mini", "calculator_default_model", "src/components/cost-calculator.tsx"),
+        ("gpt-5.4-mini", "homepage_estimator_default_model", "src/components/home-api-cost-estimator.tsx"),
+        ("gpt-5.4-mini", "token_calculator_default_model", "src/components/token-calculator.tsx"),
+        ("gpt-5.4-mini", "prompt_cost_optimizer_default_model", "src/components/prompt-cost-optimizer.tsx"),
+    ]:
+        add(website_model_id, usage_type, source)
+
+    budget_routes = [
+        ("gpt-5.4-mini", "support.routeA"),
+        ("gemini-3.1-flash-lite", "support.routeB"),
+        ("claude-haiku-4.5", "support.routeC"),
+        ("gemini-3.5-flash", "summary.routeA"),
+        ("gpt-5.4-mini", "summary.routeB"),
+        ("claude-sonnet-5", "summary.routeC"),
+        ("gpt-5.4-mini", "agent.routeA"),
+        ("gpt-5.5", "agent.routeB"),
+        ("claude-opus-4.8", "agent.routeC"),
+        ("gpt-5.4-nano", "scenario.budget.45"),
+        ("deepseek-v4-flash", "scenario.budget.35"),
+        ("gemini-3.1-flash-lite", "scenario.budget.20"),
+        ("gpt-5.4-mini", "scenario.balanced.45"),
+        ("gemini-3.5-flash", "scenario.balanced.35"),
+        ("claude-haiku-4.5", "scenario.balanced.20"),
+        ("claude-opus-4.8", "scenario.premium.35"),
+        ("gpt-5.5", "scenario.premium.35"),
+        ("grok-4.3", "scenario.premium.30"),
+    ]
+    for website_model_id, route in budget_routes:
+        add(website_model_id, f"budget_planner_routing_model:{route}", "src/lib/budget-planner.ts")
+
+    return sorted(usage_rows, key=lambda item: (item["websiteModelId"], item["usageType"], item["source"]))
+
+
+def build_phase25_artifacts(
+    prices: list[dict[str, Any]],
+    models: list[dict[str, Any]],
+    identities: list[dict[str, Any]],
+    sources: list[dict[str, Any]],
+    phase2_matrix: list[dict[str, Any]],
+    report: dict[str, Any],
+    website_models: list[dict[str, Any]],
+    website_projection: list[dict[str, Any]],
+) -> tuple[list[dict[str, Any]], dict[str, Any], list[dict[str, Any]], dict[str, Any]]:
+    today = date.today()
+    price_by_id = {price["pricingId"]: price for price in prices}
+    model_by_id = {model["internalId"]: model for model in models}
+    identity_by_id = {identity["internalId"]: identity for identity in identities}
+    matrix_by_id = {row["pricingId"]: row for row in phase2_matrix}
+    source_by_id = {source["sourceId"]: source for source in sources}
+    pricing_conflict_ids = {item["internalId"] for item in report["pricingConflicts"]}
+    default_price_ids = {
+        model["defaultPriceRecordId"] for model in models if model["defaultPriceRecordId"] is not None
+    }
+    default_price_ids.update(
+        row["defaultPriceRecordId"] for row in website_projection if row["defaultPriceRecordId"] is not None
+    )
+
+    def default_safe_blockers(
+        price: dict[str, Any],
+        criticality: str,
+        verification_status: str,
+        evidence_completeness_value: str,
+    ) -> list[str]:
+        model = model_by_id[price["modelInternalId"]]
+        identity = identity_by_id[price["modelInternalId"]]
+        blockers: list[str] = []
+        if not is_current_effective(price, today):
+            blockers.append("not_current_effective")
+        if model["lifecycleStatus"] == "retired" or identity["lifecycleStatus"] == "retired":
+            blockers.append("lifecycle_retired")
+        if verification_status != "verified":
+            blockers.append("verification_not_verified")
+        if evidence_completeness_value != "complete":
+            blockers.append("evidence_not_complete")
+        if not price["sourceRefs"]:
+            blockers.append("missing_source_refs")
+        for ref in price["sourceRefs"]:
+            source = source_by_id.get(ref)
+            if source is None:
+                blockers.append("orphan_source_ref")
+            elif not source.get("officialProviderDomain"):
+                blockers.append("missing_official_provider_domain")
+            elif source["verificationStatus"] == "verified" and not source.get("verifiedAt"):
+                blockers.append("missing_verified_at")
+        if price["processingMode"] != "standard":
+            blockers.append("not_standard_processing_mode")
+        if not text_modality_present(price):
+            blockers.append("missing_text_modality")
+        if verification_status == "review_required":
+            blockers.append("review_required")
+        if criticality in {"historical", "review_only"}:
+            blockers.append(f"criticality_{criticality}")
+        if identity["identityType"] == "historical_reference" and identity["routingBehavior"] == "redirect":
+            blockers.append("redirect_only_pricing")
+        if price["modelInternalId"] in pricing_conflict_ids:
+            blockers.append("unresolved_pricing_conflict")
+        if not price["charges"]:
+            blockers.append("missing_charge_components")
+        return sorted(set(blockers))
+
+    def classify_criticality(price: dict[str, Any]) -> str:
+        model = model_by_id[price["modelInternalId"]]
+        identity = identity_by_id[price["modelInternalId"]]
+        effective_from = parse_effective_date(price["effectiveFrom"])
+        effective_until = parse_effective_date(price["effectiveUntil"])
+        if price["verificationStatus"] == "review_required":
+            return "review_only"
+        if identity["identityType"] == "historical_reference" and identity["routingBehavior"] == "redirect":
+            return "retired_redirect"
+        if model["lifecycleStatus"] == "retired":
+            return "historical"
+        if effective_from and effective_from > today:
+            return "future_effective"
+        if effective_until and effective_until < today:
+            return "historical"
+        if price["pricingId"] in default_price_ids and price["processingMode"] == "standard":
+            return "production_default_candidate"
+        if price["processingMode"] != "standard":
+            return "non_default_tier"
+        if model["lifecycleStatus"] == "active":
+            return "production_secondary"
+        return "historical"
+
+    evidence_completion = []
+    for price in prices:
+        criticality = classify_criticality(price)
+        evidence = matrix_by_id[price["pricingId"]]
+        phase25_source = PHASE25_OFFICIAL_COMPLETION.get(price["pricingId"])
+        after_evidence = "complete" if phase25_source else evidence["evidenceCompleteness"]
+        after_verification_status = "verified" if phase25_source else price["verificationStatus"]
+        blockers = default_safe_blockers(price, criticality, after_verification_status, after_evidence)
+        default_safe = not blockers
+        if evidence["evidenceCompleteness"] == "partial":
+            if criticality == "production_default_candidate":
+                priority = "P0"
+            elif criticality in {"production_secondary", "non_default_tier"}:
+                priority = "P1"
+            elif criticality == "future_effective":
+                priority = "P2"
+            else:
+                priority = "P3"
+        else:
+            priority = "not_partial"
+        if phase25_source:
+            verification_decision = "official_verified_in_phase2_5"
+        elif priority.startswith("P") and evidence["evidenceCompleteness"] == "partial":
+            verification_decision = "retain_partial"
+        else:
+            verification_decision = "unchanged"
+        evidence_completion.append(
+            {
+                "pricingId": price["pricingId"],
+                "modelInternalId": price["modelInternalId"],
+                "provider": provider_from_internal_id(price["modelInternalId"]),
+                "businessCriticality": criticality,
+                "priorityClass": priority,
+                "beforeEvidenceCompleteness": evidence["evidenceCompleteness"],
+                "afterEvidenceCompleteness": after_evidence,
+                "beforeVerificationStatus": price["verificationStatus"],
+                "afterVerificationStatus": after_verification_status,
+                "sourceRefs": price["sourceRefs"],
+                "officialEvidence": [phase25_source] if phase25_source else [],
+                "phase25VerifiedAt": f"{today.isoformat()}T00:00:00Z" if phase25_source else None,
+                "verificationDecision": verification_decision,
+                "defaultSafe": default_safe,
+                "currentEffective": is_current_effective(price, today),
+                "currentPrices": price_amounts(price),
+                "blocker": blockers,
+                "reason": "Default-safe gate passed." if default_safe else "Default-safe gate blocked by: " + ", ".join(blockers),
+            }
+        )
+
+    p0_partial_before = sum(
+        1 for item in evidence_completion if item["priorityClass"] == "P0" and item["beforeEvidenceCompleteness"] == "partial"
+    )
+    p0_partial_after = sum(
+        1 for item in evidence_completion if item["priorityClass"] == "P0" and item["afterEvidenceCompleteness"] == "partial"
+    )
+    p1_partial = sum(1 for item in evidence_completion if item["priorityClass"] == "P1")
+    p2_partial = sum(1 for item in evidence_completion if item["priorityClass"] == "P2")
+    p3_partial = sum(1 for item in evidence_completion if item["priorityClass"] == "P3")
+    production_default_candidates = [
+        item for item in evidence_completion if item["businessCriticality"] == "production_default_candidate"
+    ]
+    default_safe_report = {
+        "generatedAt": f"{today.isoformat()}T00:00:00Z",
+        "totalPriceRecords": len(prices),
+        "productionDefaultCandidateCount": len(production_default_candidates),
+        "defaultSafeCount": sum(1 for item in evidence_completion if item["defaultSafe"]),
+        "defaultUnsafeCount": sum(1 for item in evidence_completion if not item["defaultSafe"]),
+        "productionDefaultSafeCount": sum(1 for item in production_default_candidates if item["defaultSafe"]),
+        "productionDefaultUnsafeCount": sum(1 for item in production_default_candidates if not item["defaultSafe"]),
+        "P0PartialBefore": p0_partial_before,
+        "P0PartialAfter": p0_partial_after,
+        "P1PartialCount": p1_partial,
+        "P2PartialCount": p2_partial,
+        "P3PartialCount": p3_partial,
+        "blockers": sorted(
+            {
+                blocker
+                for item in evidence_completion
+                for blocker in item["blocker"]
+                if item["businessCriticality"] == "production_default_candidate"
+            }
+        ),
+        "productionDefaultCandidates": production_default_candidates,
+    }
+
+    projection_by_website_id = {row["id"]: row for row in website_projection}
+    website_by_id = {row["id"]: row for row in website_models}
+    website_usage_map = build_website_usage_map(website_models)
+    evidence_by_price_id = {item["pricingId"]: item for item in evidence_completion}
+    blocker_rows = []
+    for usage in website_usage_map:
+        website_model_id = usage["websiteModelId"]
+        website = website_by_id[website_model_id]
+        provider_id = website_provider_id(website)
+        canonical_internal_id = internal_id(provider_id, website_model_id)
+        projection = projection_by_website_id.get(website_model_id, {})
+        selected_price_record_id = projection.get("defaultPriceRecordId")
+        price_evidence = evidence_by_price_id.get(selected_price_record_id) if selected_price_record_id else None
+        default_safe = bool(price_evidence and price_evidence["defaultSafe"])
+        evidence_completeness_value = (
+            price_evidence["afterEvidenceCompleteness"] if price_evidence else "insufficient"
+        )
+        blockers = [] if default_safe else ["selected_price_not_default_safe"]
+        if selected_price_record_id is None:
+            blockers.append("missing_selected_price_record")
+        if website.get("status") == "retired" or website_model_id == "grok-3":
+            blockers.append("retired_or_redirected_website_model")
+        if website.get("verificationStatus") == "review_required":
+            blockers.append("website_model_review_required")
+
+        usage_type = usage["usageType"]
+        if default_safe and "retired_or_redirected_website_model" not in blockers:
+            action = "safe_to_integrate"
+        elif "retired_or_redirected_website_model" in blockers and selected_price_record_id:
+            action = "integrate_with_warning"
+        elif "default" in usage_type or "routing" in usage_type:
+            action = "exclude_from_default"
+        elif "review_required" in blockers or "missing_selected_price_record" in blockers:
+            action = "keep_existing_temporarily"
+        elif evidence_completeness_value == "partial":
+            action = "integrate_with_warning"
+        else:
+            action = "blocked"
+
+        blocker_rows.append(
+            {
+                "websiteModelId": website_model_id,
+                "usageType": usage_type,
+                "source": usage["source"],
+                "canonicalInternalId": canonical_internal_id,
+                "selectedPriceRecordId": selected_price_record_id,
+                "defaultSafe": default_safe,
+                "evidenceCompleteness": evidence_completeness_value,
+                "blocker": sorted(set(blockers)),
+                "recommendedIntegrationAction": action,
+            }
+        )
+
+    blocker_action_counts = {
+        action: sum(1 for item in blocker_rows if item["recommendedIntegrationAction"] == action)
+        for action in [
+            "safe_to_integrate",
+            "integrate_with_warning",
+            "exclude_from_default",
+            "keep_existing_temporarily",
+            "blocked",
+        ]
+    }
+    p0_blockers = [item for item in production_default_candidates if not item["defaultSafe"]]
+    phase25_readiness = {
+        "generatedAt": f"{today.isoformat()}T00:00:00Z",
+        "identityReadiness": "conditional",
+        "defaultPricingReadiness": "blocked" if p0_blockers else "ready",
+        "secondaryPricingReadiness": "conditional" if p1_partial else "ready",
+        "provenanceReadiness": "blocked" if p0_partial_after else "conditional",
+        "websiteCompatibilityReadiness": "blocked" if any(
+            item["recommendedIntegrationAction"] == "exclude_from_default" for item in blocker_rows
+        ) else "conditional",
+        "supabaseProjectionReadiness": "conditional",
+        "regressionReadiness": "pending_runtime_validation",
+        "safeToEnterWebsiteIntegrationPlanning": not p0_blockers,
+        "blockers": [
+            "P0 partial evidence PriceRecords must not enter default calculators.",
+            "GPT-4.1 family remains review_required and must keep defaultSafe=false.",
+            "Claude Sonnet 5 future standard PriceRecord is not present in the 47-record preview; effective-date switch remains blocked for cutover.",
+        ],
+        "websiteIntegrationActionCounts": blocker_action_counts,
+    }
+    return evidence_completion, default_safe_report, blocker_rows, phase25_readiness
 
 
 def decimal_string(value: Any) -> str | None:
@@ -881,6 +1251,21 @@ def main() -> None:
     phase2_cutover_readiness = build_phase2_cutover_readiness(
         report, phase2_conflict_report, phase2_evidence_matrix
     )
+    (
+        phase25_evidence_completion,
+        phase25_default_safe_report,
+        phase25_website_blockers,
+        phase25_cutover_readiness,
+    ) = build_phase25_artifacts(
+        prices,
+        models,
+        identities,
+        sources,
+        phase2_evidence_matrix,
+        report,
+        website_models,
+        website_projection,
+    )
 
     write_json(PREVIEW / "model-identity-registry.json", identities)
     write_json(PREVIEW / "candidate-disposition-map.json", candidate_dispositions)
@@ -905,6 +1290,10 @@ def main() -> None:
                 "phase2-conflict-resolution-report.json",
                 "phase2-evidence-matrix.json",
                 "phase2-cutover-readiness.json",
+                "phase2-5-evidence-completion.json",
+                "phase2-5-default-safe-report.json",
+                "phase2-5-website-integration-blockers.json",
+                "phase2-5-cutover-readiness.json",
                 "generated/model-pricing.website-preview.json",
                 "generated/seed-pricing.preview.sql",
             ],
@@ -914,6 +1303,10 @@ def main() -> None:
     write_json(PREVIEW / "phase2-evidence-matrix.json", phase2_evidence_matrix)
     write_json(PREVIEW / "phase2-conflict-resolution-report.json", phase2_conflict_report)
     write_json(PREVIEW / "phase2-cutover-readiness.json", phase2_cutover_readiness)
+    write_json(PREVIEW / "phase2-5-evidence-completion.json", phase25_evidence_completion)
+    write_json(PREVIEW / "phase2-5-default-safe-report.json", phase25_default_safe_report)
+    write_json(PREVIEW / "phase2-5-website-integration-blockers.json", phase25_website_blockers)
+    write_json(PREVIEW / "phase2-5-cutover-readiness.json", phase25_cutover_readiness)
     write_json(GENERATED / "model-pricing.website-preview.json", website_projection)
     (GENERATED / "seed-pricing.preview.sql").parent.mkdir(parents=True, exist_ok=True)
     write_text_with_retry(GENERATED / "seed-pricing.preview.sql", "\n".join(sql_lines))

@@ -22,6 +22,24 @@ VERIFICATION_STATUSES = {"verified", "partially_verified", "unconfirmed_price", 
 OFFICIAL_ID_TYPES = {"canonical", "alias", "snapshot", "pinned", "legacy", "historical_reference"}
 PROCESSING_MODES = {"standard", "batch", "flex", "priority", "fast"}
 CONTEXT_CLASSES = {"short", "long"}
+BUSINESS_CRITICALITIES = {
+    "production_default_candidate",
+    "production_secondary",
+    "non_default_tier",
+    "future_effective",
+    "historical",
+    "retired_redirect",
+    "review_only",
+}
+PRIORITY_CLASSES = {"P0", "P1", "P2", "P3", "not_partial"}
+INTEGRATION_ACTIONS = {
+    "safe_to_integrate",
+    "integrate_with_warning",
+    "exclude_from_default",
+    "keep_existing_temporarily",
+    "blocked",
+}
+READINESS_STATES = {"ready", "conditional", "blocked"}
 CHARGE_COMPONENTS = {
     "input",
     "cached_input",
@@ -75,6 +93,10 @@ def validate_preview() -> dict[str, Any]:
     phase2_conflict = read_json(PREVIEW / "phase2-conflict-resolution-report.json")
     phase2_matrix = read_json(PREVIEW / "phase2-evidence-matrix.json")
     phase2_readiness = read_json(PREVIEW / "phase2-cutover-readiness.json")
+    phase25_evidence = read_json(PREVIEW / "phase2-5-evidence-completion.json")
+    phase25_default_safe = read_json(PREVIEW / "phase2-5-default-safe-report.json")
+    phase25_blockers = read_json(PREVIEW / "phase2-5-website-integration-blockers.json")
+    phase25_readiness = read_json(PREVIEW / "phase2-5-cutover-readiness.json")
     projection = read_json(PREVIEW / "generated" / "model-pricing.website-preview.json")
     seed = PREVIEW / "generated" / "seed-pricing.preview.sql"
     if not seed.exists() or not seed.read_text(encoding="utf-8").strip():
@@ -190,6 +212,45 @@ def validate_preview() -> dict[str, Any]:
             "evidenceCompleteness",
         },
         "phase2 evidence row",
+    )
+    validate_required_fields(
+        phase25_evidence,
+        {
+            "pricingId",
+            "modelInternalId",
+            "provider",
+            "businessCriticality",
+            "priorityClass",
+            "beforeEvidenceCompleteness",
+            "afterEvidenceCompleteness",
+            "beforeVerificationStatus",
+            "afterVerificationStatus",
+            "sourceRefs",
+            "officialEvidence",
+            "phase25VerifiedAt",
+            "verificationDecision",
+            "defaultSafe",
+            "currentEffective",
+            "currentPrices",
+            "blocker",
+            "reason",
+        },
+        "phase2.5 evidence row",
+    )
+    validate_required_fields(
+        phase25_blockers,
+        {
+            "websiteModelId",
+            "usageType",
+            "source",
+            "canonicalInternalId",
+            "selectedPriceRecordId",
+            "defaultSafe",
+            "evidenceCompleteness",
+            "blocker",
+            "recommendedIntegrationAction",
+        },
+        "phase2.5 website blocker row",
     )
 
     identity_ids = [item["internalId"] for item in identities]
@@ -361,6 +422,90 @@ def validate_preview() -> dict[str, Any]:
         source_domains = sorted({source_by_id[ref]["officialProviderDomain"] for ref in price["sourceRefs"]})
         if row["officialProviderDomain"] != source_domains:
             fail(f"phase2 evidence row source domain mismatch: {row['pricingId']}")
+
+    phase25_price_ids = [row["pricingId"] for row in phase25_evidence]
+    if set(phase25_price_ids) != set(pricing_ids) or len(phase25_price_ids) != len(pricing_ids):
+        fail("phase2.5 evidence completion must cover every price exactly once")
+    for row in phase25_evidence:
+        price = price_by_id[row["pricingId"]]
+        if row["modelInternalId"] != price["modelInternalId"]:
+            fail(f"phase2.5 evidence model mismatch: {row['pricingId']}")
+        if row["businessCriticality"] not in BUSINESS_CRITICALITIES:
+            fail(f"invalid phase2.5 businessCriticality: {row['pricingId']}")
+        if row["priorityClass"] not in PRIORITY_CLASSES:
+            fail(f"invalid phase2.5 priorityClass: {row['pricingId']}")
+        if row["beforeEvidenceCompleteness"] not in {"complete", "partial", "insufficient"}:
+            fail(f"invalid phase2.5 before evidence: {row['pricingId']}")
+        if row["afterEvidenceCompleteness"] not in {"complete", "partial", "insufficient"}:
+            fail(f"invalid phase2.5 after evidence: {row['pricingId']}")
+        if row["beforeVerificationStatus"] != price["verificationStatus"]:
+            fail(f"phase2.5 before verification mismatch: {row['pricingId']}")
+        if row["afterVerificationStatus"] not in VERIFICATION_STATUSES:
+            fail(f"invalid phase2.5 after verification: {row['pricingId']}")
+        if row["afterVerificationStatus"] == "verified" and row["afterEvidenceCompleteness"] != "complete":
+            fail(f"phase2.5 verified after state requires complete evidence: {row['pricingId']}")
+        if row["verificationDecision"] == "official_verified_in_phase2_5":
+            if not row["officialEvidence"] or not row["phase25VerifiedAt"]:
+                fail(f"phase2.5 official verification must include evidence and timestamp: {row['pricingId']}")
+        if not isinstance(row["defaultSafe"], bool):
+            fail(f"phase2.5 defaultSafe must be boolean: {row['pricingId']}")
+        if not isinstance(row["blocker"], list):
+            fail(f"phase2.5 blocker must be list: {row['pricingId']}")
+        if row["priorityClass"] == "P0" and row["businessCriticality"] != "production_default_candidate":
+            fail(f"phase2.5 P0 must be production default candidate: {row['pricingId']}")
+        if row["defaultSafe"]:
+            if row["businessCriticality"] != "production_default_candidate":
+                fail(f"phase2.5 defaultSafe outside production default candidate: {row['pricingId']}")
+            if row["afterEvidenceCompleteness"] != "complete":
+                fail(f"phase2.5 defaultSafe requires complete evidence: {row['pricingId']}")
+            if row["afterVerificationStatus"] != "verified":
+                fail(f"phase2.5 defaultSafe requires verified after state: {row['pricingId']}")
+            if price["processingMode"] != "standard":
+                fail(f"phase2.5 defaultSafe requires standard processing: {row['pricingId']}")
+            if not any(charge["modality"] == "text" for charge in price["charges"]):
+                fail(f"phase2.5 defaultSafe requires text modality: {row['pricingId']}")
+            if row["blocker"]:
+                fail(f"phase2.5 defaultSafe row must not have blockers: {row['pricingId']}")
+    if phase25_default_safe["totalPriceRecords"] != len(prices):
+        fail("phase2.5 default-safe total count mismatch")
+    if phase25_default_safe["productionDefaultCandidateCount"] != sum(
+        1 for row in phase25_evidence if row["businessCriticality"] == "production_default_candidate"
+    ):
+        fail("phase2.5 production default candidate count mismatch")
+    if phase25_default_safe["defaultSafeCount"] != sum(1 for row in phase25_evidence if row["defaultSafe"]):
+        fail("phase2.5 defaultSafe count mismatch")
+    if phase25_default_safe["defaultUnsafeCount"] != sum(1 for row in phase25_evidence if not row["defaultSafe"]):
+        fail("phase2.5 defaultUnsafe count mismatch")
+    if phase25_default_safe["P0PartialBefore"] != sum(
+        1 for row in phase25_evidence if row["priorityClass"] == "P0" and row["beforeEvidenceCompleteness"] == "partial"
+    ):
+        fail("phase2.5 P0 before count mismatch")
+    if phase25_default_safe["P0PartialAfter"] != sum(
+        1 for row in phase25_evidence if row["priorityClass"] == "P0" and row["afterEvidenceCompleteness"] == "partial"
+    ):
+        fail("phase2.5 P0 after count mismatch")
+    for row in phase25_blockers:
+        if row["recommendedIntegrationAction"] not in INTEGRATION_ACTIONS:
+            fail(f"invalid phase2.5 integration action: {row['websiteModelId']}")
+        if row["selectedPriceRecordId"] is not None and row["selectedPriceRecordId"] not in price_by_id:
+            fail(f"phase2.5 website blocker selectedPriceRecordId missing: {row['websiteModelId']}")
+        if row["evidenceCompleteness"] not in {"complete", "partial", "insufficient"}:
+            fail(f"invalid phase2.5 website blocker evidence: {row['websiteModelId']}")
+    for field in (
+        "identityReadiness",
+        "defaultPricingReadiness",
+        "secondaryPricingReadiness",
+        "provenanceReadiness",
+        "websiteCompatibilityReadiness",
+        "supabaseProjectionReadiness",
+        "regressionReadiness",
+    ):
+        if phase25_readiness[field] not in READINESS_STATES and phase25_readiness[field] != "pending_runtime_validation":
+            fail(f"invalid phase2.5 readiness state: {field}")
+    if phase25_readiness["defaultPricingReadiness"] != "blocked":
+        fail("phase2.5 default pricing readiness must remain blocked")
+    if phase25_readiness["safeToEnterWebsiteIntegrationPlanning"] is not False:
+        fail("phase2.5 Website Integration Planning must remain blocked")
 
     for row in projection:
         for field in ("id", "provider", "model", "inputPrice", "cachedInputPrice", "outputPrice", "status"):
