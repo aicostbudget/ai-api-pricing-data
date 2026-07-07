@@ -119,6 +119,12 @@ def validate_preview() -> dict[str, Any]:
     phase35_scope = read_json(PREVIEW / "phase3-5-implementation-scope.json")
     phase35_risks = read_json(PREVIEW / "phase3-5-risk-register.json")
     phase35_readiness = read_json(PREVIEW / "phase3-5-readiness.json")
+    phase4a_projection = read_json(PREVIEW / "generated" / "model-pricing.v2.json")
+    phase4a_report = read_json(PREVIEW / "phase4a-website-projection-report.json")
+    phase45_safe_reconciliation = read_json(PREVIEW / "phase4a-5-safe-price-record-reconciliation.json")
+    phase45_row_reconciliation = read_json(PREVIEW / "phase4a-5-projection-row-reconciliation.json")
+    phase45_unsafe_audit = read_json(PREVIEW / "phase4a-5-unsafe-difference-audit.json")
+    phase45_context_audit = read_json(PREVIEW / "phase4a-5-context-window-audit.json")
     projection = read_json(PREVIEW / "generated" / "model-pricing.website-preview.json")
     seed = PREVIEW / "generated" / "seed-pricing.preview.sql"
     if not seed.exists() or not seed.read_text(encoding="utf-8").strip():
@@ -794,6 +800,100 @@ def validate_preview() -> dict[str, Any]:
         fail("phase3.5 readiness must allow Phase 4 entry")
     if not all(phase35_readiness["conditionsSatisfied"].values()):
         fail("phase3.5 readiness has unsatisfied conditions")
+    if phase4a_projection["schemaVersion"] != "website-pricing-projection-v2.phase4a":
+        fail("phase4a projection schema version mismatch")
+    if phase4a_projection["noRuntimeNetworkDependency"] is not True:
+        fail("phase4a projection must not require runtime network dependency")
+    phase4a_required = {
+        "id",
+        "provider",
+        "model",
+        "inputPrice",
+        "cachedInputPrice",
+        "outputPrice",
+        "status",
+        "defaultSafe",
+        "verificationStatus",
+        "verifiedAt",
+        "officialSourceUrl",
+        "contextWindow",
+    }
+    if set(phase4a_projection["requiredFields"]) != phase4a_required:
+        fail("phase4a projection required fields mismatch")
+    phase4a_rows = phase4a_projection["models"]
+    if phase4a_report["projectionModelCount"] != len(phase4a_rows):
+        fail("phase4a report projection count mismatch")
+    if phase4a_report["defaultSafeModelCount"] != sum(1 for row in phase4a_rows if row["defaultSafe"]):
+        fail("phase4a defaultSafe count mismatch")
+    if phase4a_report["unsafeIdentityCount"] != sum(1 for row in phase4a_rows if not row["defaultSafe"]):
+        fail("phase4a unsafe identity count mismatch")
+    for row in phase4a_rows:
+        if any(field not in row for field in phase4a_required):
+            fail(f"phase4a projection row missing required field: {row.get('id')}")
+        if row["contextWindow"] is not None:
+            fail(f"phase4a contextWindow must be null unless officially confirmed: {row['id']}")
+        if row["verificationStatus"] == "review_required" and row["verifiedAt"] is not None:
+            fail(f"phase4a review_required row must not have verifiedAt: {row['id']}")
+        if row["defaultSafe"] is False and any(row[field] is not None for field in ("inputPrice", "cachedInputPrice", "outputPrice")):
+            fail(f"phase4a unsafe row exposes calculation price: {row['id']}")
+    phase4a_by_internal_id = {row["canonicalInternalId"]: row for row in phase4a_rows}
+    for internal_id in ("openai/gpt-4.1", "openai/gpt-4.1-mini", "openai/gpt-4.1-nano"):
+        row = phase4a_by_internal_id[internal_id]
+        if row["verificationStatus"] != "review_required" or row["defaultSafe"] is not False:
+            fail(f"phase4a GPT-4.1 family safety mismatch: {internal_id}")
+    for internal_id in ("cohere/command-a-plus", "openai/gpt-5", "openai/o3"):
+        row = phase4a_by_internal_id[internal_id]
+        if row["defaultSafe"] is not False or "excluded_default_candidate" not in row["blockedFromDefaultReasons"]:
+            fail(f"phase4a excluded default candidate mismatch: {internal_id}")
+    grok3 = phase4a_by_internal_id["xai/grok-3"]
+    if grok3["status"] != "retired" or grok3["billingModelInternalId"] != "xai/grok-4.3":
+        fail("phase4a grok-3 projection must stay retired with redirected billing")
+    if grok3["historicalPrice"]["currentCalculationEligible"] is not False:
+        fail("phase4a grok-3 historical price must not be current-calculation eligible")
+    safe_stats = phase45_safe_reconciliation["stats"]
+    if safe_stats["safePriceRecordsInput"] != 28:
+        fail("phase4a.5 safe reconciliation must cover 28 safe PriceRecords")
+    if safe_stats["mappedToProjection"] != 28:
+        fail("phase4a.5 safe reconciliation must map all 28 safe PriceRecords")
+    if safe_stats["unexplained"] != 0:
+        fail("phase4a.5 safe reconciliation must have zero unexplained rows")
+    if len(phase45_safe_reconciliation["rows"]) != 28:
+        fail("phase4a.5 safe reconciliation row count mismatch")
+    for row in phase45_safe_reconciliation["rows"]:
+        if row["pricingId"] not in price_by_id:
+            fail(f"phase4a.5 safe reconciliation unknown pricingId {row['pricingId']}")
+        if not row["selectedAsCurrentDefault"] or row["omittedFromProjection"]:
+            fail(f"phase4a.5 safe PriceRecord not mapped: {row['pricingId']}")
+    row_counts = phase45_row_reconciliation["counts"]
+    if row_counts["canonical_model"] != 35 or row_counts["alias"] != 2 or row_counts["redirecting_identity"] != 1:
+        fail("phase4a.5 projection row reconciliation counts mismatch")
+    if sum(row_counts.values()) != len(phase4a_rows):
+        fail("phase4a.5 projection row reconciliation total mismatch")
+    if len(phase45_row_reconciliation["rows"]) != len(phase4a_rows):
+        fail("phase4a.5 projection row reconciliation must cover every row")
+    if phase45_unsafe_audit["beforePhase4A5UnsafeDifferenceCount"] != 16:
+        fail("phase4a.5 unsafe audit must preserve the original 16 unsafe differences")
+    if phase45_unsafe_audit["currentUnsafeDifferenceCount"] != phase4a_report["parity"]["counts"].get("unsafe_difference", 0):
+        fail("phase4a.5 unsafe audit current count mismatch")
+    if phase45_unsafe_audit["blockerUnsafeDifferences"]:
+        fail("phase4a.5 unsafe audit contains blocker differences")
+    for row in phase45_unsafe_audit["unsafeDifferenceRows"]:
+        if row["severity"] not in {"informational", "warning", "high", "blocker"}:
+            fail(f"phase4a.5 invalid unsafe severity {row['websiteModelId']}")
+        if row["recommendedPhase4BAction"] not in {
+            "safe_shadow_only",
+            "adapter_warning",
+            "exclude_from_v2",
+            "keep_legacy_temporarily",
+            "block_phase4b",
+        }:
+            fail(f"phase4a.5 invalid Phase 4B action {row['websiteModelId']}")
+    if phase45_context_audit["contextWindowRows"] != len(phase4a_rows):
+        fail("phase4a.5 context audit row count mismatch")
+    if phase45_context_audit["verifiedCanonicalContextWindowCount"] != 0:
+        fail("phase4a.5 context audit expected no verified canonical context windows")
+    if phase45_context_audit["projectedNullCount"] != len(phase4a_rows):
+        fail("phase4a.5 context audit must justify all null contextWindow rows")
 
     for row in projection:
         for field in ("id", "provider", "model", "inputPrice", "cachedInputPrice", "outputPrice", "status"):
