@@ -20,11 +20,11 @@ SAFE_PRICE_RECONCILIATION = PREVIEW / "phase4a-5-safe-price-record-reconciliatio
 PROJECTION_ROW_RECONCILIATION = PREVIEW / "phase4a-5-projection-row-reconciliation.json"
 UNSAFE_DIFFERENCE_AUDIT = PREVIEW / "phase4a-5-unsafe-difference-audit.json"
 CONTEXT_WINDOW_AUDIT = PREVIEW / "phase4a-5-context-window-audit.json"
-WEBSITE_DATASET = Path(r"D:\ai-cost-control-tool\aicostguard-english\data\model-pricing.json")
 
 GENERATED_AT = "2026-07-07T00:00:00Z"
 DEFAULT_EFFECTIVE_AT = "2026-07-07T00:00:00Z"
 PROJECTION_SCHEMA_VERSION = "website-pricing-projection-v2.phase4a"
+WEBSITE_ROW_REQUIRED_FIELDS = ("id", "inputPrice", "cachedInputPrice", "outputPrice")
 DEFAULT_SELECTION_RULE = [
     "current_effective_utc",
     "verified",
@@ -38,6 +38,19 @@ REVIEW_REQUIRED_INTERNAL_IDS = {"openai/gpt-4.1", "openai/gpt-4.1-mini", "openai
 
 def read_json(path: Path) -> Any:
     return json.loads(path.read_text(encoding="utf-8"))
+
+
+def read_website_rows(path: Path) -> list[dict[str, Any]]:
+    rows = read_json(path)
+    if not isinstance(rows, list):
+        raise ValueError(f"Website dataset must be a JSON array: {path}")
+    for index, row in enumerate(rows):
+        if not isinstance(row, dict):
+            raise ValueError(f"Website dataset row {index} must be an object: {path}")
+        missing = [field for field in WEBSITE_ROW_REQUIRED_FIELDS if field not in row]
+        if missing:
+            raise ValueError(f"Website dataset row {index} missing required fields {missing}: {path}")
+    return rows
 
 
 def atomic_write_json(path: Path, value: Any) -> None:
@@ -384,14 +397,19 @@ def build_strict_verification_rows(
     return rows
 
 
-def build_phase45_audits(artifact: dict[str, Any], report: dict[str, Any]) -> dict[str, Any]:
+def build_phase45_audits(
+    artifact: dict[str, Any],
+    report: dict[str, Any],
+    *,
+    website_dataset: Path,
+) -> dict[str, Any]:
     identities = read_json(PREVIEW / "model-identity-registry.json")
     models = read_json(PREVIEW / "models.json")
     prices = read_json(PREVIEW / "prices.json")
     sources = read_json(PREVIEW / "sources.json")
     dispositions = read_json(PREVIEW / "candidate-disposition-map.json")
     phase3_mapping = read_json(PREVIEW / "phase3-integration-mapping.json")
-    website_rows = read_json(WEBSITE_DATASET)
+    website_rows = read_website_rows(website_dataset)
     safe_rows = load_safe_price_rows()
     safe_price_by_id = {row["pricingId"]: row for row in safe_rows}
     price_by_id = {row["pricingId"]: row for row in prices}
@@ -680,7 +698,11 @@ def build_phase45_audits(artifact: dict[str, Any], report: dict[str, Any]) -> di
     }
 
 
-def build_projection(effective_at_value: str = DEFAULT_EFFECTIVE_AT) -> tuple[dict[str, Any], dict[str, Any]]:
+def build_projection(
+    effective_at_value: str = DEFAULT_EFFECTIVE_AT,
+    *,
+    website_dataset: Path,
+) -> tuple[dict[str, Any], dict[str, Any]]:
     schema_version = read_json(PREVIEW / "schema-version.json")
     identities = read_json(PREVIEW / "model-identity-registry.json")
     models = read_json(PREVIEW / "models.json")
@@ -688,7 +710,7 @@ def build_projection(effective_at_value: str = DEFAULT_EFFECTIVE_AT) -> tuple[di
     sources = read_json(PREVIEW / "sources.json")
     contract = read_json(PREVIEW / "phase3-website-projection-contract.json")
     phase35 = read_json(PREVIEW / "phase3-5-readiness.json")
-    website_rows = read_json(WEBSITE_DATASET)
+    website_rows = read_website_rows(website_dataset)
     safe_price_by_id = {row["pricingId"]: row for row in load_safe_price_rows()}
     effective_at = parse_effective_at(effective_at_value)
     model_by_id = {model["internalId"]: model for model in models}
@@ -771,11 +793,12 @@ def validate_projection(artifact: dict[str, Any], report: dict[str, Any]) -> Non
 def main() -> None:
     parser = argparse.ArgumentParser(description="Generate the Phase 4A Website pricing projection.")
     parser.add_argument("--effective-at", default=DEFAULT_EFFECTIVE_AT)
+    parser.add_argument("--website-dataset", type=Path, required=True)
     parser.add_argument("--artifact", type=Path, default=ARTIFACT)
     parser.add_argument("--report", type=Path, default=REPORT)
     args = parser.parse_args()
-    artifact, report = build_projection(args.effective_at)
-    audits = build_phase45_audits(artifact, report)
+    artifact, report = build_projection(args.effective_at, website_dataset=args.website_dataset)
+    audits = build_phase45_audits(artifact, report, website_dataset=args.website_dataset)
     atomic_write_json(args.artifact, artifact)
     atomic_write_json(args.report, report)
     atomic_write_json(SAFE_PRICE_RECONCILIATION, audits["safe_reconciliation"])

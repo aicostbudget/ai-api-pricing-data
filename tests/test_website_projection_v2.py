@@ -1,4 +1,5 @@
 import json
+from pathlib import Path
 import unittest
 from unittest.mock import patch
 
@@ -12,12 +13,15 @@ from scripts.generate_website_projection_v2 import (
     build_projection,
 )
 
+# Mirrors the 35-row legacy Website parity input captured in the committed Phase 4A report.
+WEBSITE_FIXTURE = Path(__file__).resolve().parent / "fixtures" / "website-model-pricing.json"
+
 
 class WebsiteProjectionV2Tests(unittest.TestCase):
     @classmethod
     def setUpClass(cls):
-        cls.artifact, cls.report = build_projection()
-        cls.audits = build_phase45_audits(cls.artifact, cls.report)
+        cls.artifact, cls.report = build_projection(website_dataset=WEBSITE_FIXTURE)
+        cls.audits = build_phase45_audits(cls.artifact, cls.report, website_dataset=WEBSITE_FIXTURE)
         cls.rows = cls.artifact["models"]
         cls.by_id = {row["id"]: row for row in cls.rows}
         cls.by_internal = {row["canonicalInternalId"]: row for row in cls.rows}
@@ -63,8 +67,8 @@ class WebsiteProjectionV2Tests(unittest.TestCase):
                 self.assertEqual(prices, (None, None, None))
 
     def test_claude_sonnet_5_effective_date_boundaries_are_utc(self):
-        intro_artifact, _ = build_projection("2026-08-31T23:59:59Z")
-        standard_artifact, _ = build_projection("2026-09-01T00:00:00Z")
+        intro_artifact, _ = build_projection("2026-08-31T23:59:59Z", website_dataset=WEBSITE_FIXTURE)
+        standard_artifact, _ = build_projection("2026-09-01T00:00:00Z", website_dataset=WEBSITE_FIXTURE)
         intro = next(row for row in intro_artifact["models"] if row["canonicalInternalId"] == "anthropic/claude-sonnet-5")
         standard = next(row for row in standard_artifact["models"] if row["canonicalInternalId"] == "anthropic/claude-sonnet-5")
         self.assertEqual(intro["selectedPriceRecordId"], "price:anthropic/claude-sonnet-5:standard:intro:2026-07-05")
@@ -144,8 +148,14 @@ class WebsiteProjectionV2Tests(unittest.TestCase):
             self.assertNotIn("cache_write_5m", components)
 
     def test_artifact_paths_and_no_runtime_network_dependency(self):
-        self.assertEqual(str(ARTIFACT).endswith(r"data\pricing-v2-preview\generated\model-pricing.v2.json"), True)
-        self.assertEqual(str(REPORT).endswith(r"data\pricing-v2-preview\phase4a-website-projection-report.json"), True)
+        self.assertEqual(
+            ARTIFACT.relative_to(PREVIEW.parent.parent).as_posix(),
+            "data/pricing-v2-preview/generated/model-pricing.v2.json",
+        )
+        self.assertEqual(
+            REPORT.relative_to(PREVIEW.parent.parent).as_posix(),
+            "data/pricing-v2-preview/phase4a-website-projection-report.json",
+        )
         self.assertTrue(self.artifact["noRuntimeNetworkDependency"])
 
     def test_atomic_write_replaces_complete_json(self):
