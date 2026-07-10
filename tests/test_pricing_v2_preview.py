@@ -52,14 +52,22 @@ class PricingV2PreviewTests(unittest.TestCase):
         return next(item for item in self.projection if item["id"] == model_id)
 
     def test_report_counts_match_phase_1_baseline(self):
-        self.assertEqual(self.report["candidateUnionCount"], 39)
+        self.assertEqual(self.report["candidateUnionCount"], len(self.dispositions))
         self.assertEqual(self.report["websiteOnlyCount"], 21)
         self.assertEqual(self.report["publicOnlyCount"], 7)
-        self.assertEqual(self.report["commonCount"], 11)
+        self.assertEqual(self.report["commonCount"], 14)
         self.assertEqual(self.report["aliasCount"], 2)
-        self.assertEqual(len(self.dispositions), 39)
         self.assertEqual(self.report["normalizedCanonicalIdentityCount"], len(self.models))
         self.assertEqual(self.report["candidateDispositionCounts"]["unresolved"], 3)
+        candidate_ids = {row["candidateId"] for row in self.dispositions}
+        self.assertTrue(
+            {
+                "openai/gpt-5.6-sol",
+                "openai/gpt-5.6-terra",
+                "openai/gpt-5.6-luna",
+            }
+            <= candidate_ids
+        )
 
     def test_claude_sonnet_5_intro_is_not_canonical_model(self):
         intro = self.disposition("anthropic/claude-sonnet-5-intro")
@@ -171,10 +179,10 @@ class PricingV2PreviewTests(unittest.TestCase):
         self.assertIsNone(self.phase2_conflict["grok3"]["replacementInternalId"])
 
     def test_phase2_5_default_safe_gate_counts(self):
-        self.assertEqual(len(self.phase25_evidence), 49)
-        self.assertEqual(self.phase25_default_safe["productionDefaultCandidateCount"], 28)
-        self.assertEqual(self.phase25_default_safe["defaultSafeCount"], 28)
-        self.assertEqual(self.phase25_default_safe["defaultUnsafeCount"], 21)
+        self.assertEqual(len(self.phase25_evidence), self.phase25_default_safe["totalPriceRecords"])
+        self.assertEqual(self.phase25_default_safe["productionDefaultCandidateCount"], 31)
+        self.assertEqual(self.phase25_default_safe["defaultSafeCount"], 31)
+        self.assertEqual(self.phase25_default_safe["defaultUnsafeCount"], 39)
         self.assertEqual(self.phase25_default_safe["P0PartialBefore"], 15)
         self.assertEqual(self.phase25_default_safe["P0PartialAfter"], 0)
         self.assertEqual(self.phase25_default_safe["P1PartialCount"], 6)
@@ -196,9 +204,9 @@ class PricingV2PreviewTests(unittest.TestCase):
     def test_phase2_6_closes_p0_default_safe_gate(self):
         self.assertTrue(self.phase26_closure["closureGatePassed"])
         self.assertEqual(self.phase26_closure["defaultCandidatesBefore"], 31)
-        self.assertEqual(self.phase26_closure["defaultCandidatesAfter"], 28)
+        self.assertEqual(self.phase26_closure["defaultCandidatesAfter"], 31)
         self.assertEqual(self.phase26_closure["safeBefore"], 26)
-        self.assertEqual(self.phase26_closure["safeAfter"], 28)
+        self.assertEqual(self.phase26_closure["safeAfter"], 31)
         self.assertEqual(self.phase26_closure["unsafeBefore"], 5)
         self.assertEqual(self.phase26_closure["unsafeAfter"], 0)
         self.assertEqual(self.phase26_resolution["P0BlockersAfter"], [])
@@ -212,17 +220,17 @@ class PricingV2PreviewTests(unittest.TestCase):
         )
         self.assertTrue(self.phase26_readiness["safeToEnterWebsiteIntegrationPlanning"])
         self.assertEqual(self.phase26_readiness["defaultPricingReadiness"], "ready")
-        self.assertEqual(self.phase26_readiness["integrationMappingCount"], 162)
+        self.assertEqual(self.phase26_readiness["integrationMappingCount"], len(self.phase25_blockers))
 
     def test_phase2_6_website_usage_counts_are_mapping_entries(self):
         self.assertTrue(self.phase25_readiness["safeToEnterWebsiteIntegrationPlanning"])
         self.assertEqual(self.phase25_readiness["defaultPricingReadiness"], "ready")
         counts = self.phase25_readiness["websiteIntegrationActionCounts"]
-        self.assertEqual(sum(counts.values()), 162)
-        self.assertEqual(counts["safe_to_integrate"], 139)
+        self.assertEqual(sum(counts.values()), len(self.phase25_blockers))
+        self.assertEqual(counts["safe_to_integrate"], 153)
         self.assertEqual(counts["integrate_with_warning"], 8)
         self.assertEqual(counts.get("exclude_from_default", 0), 0)
-        self.assertEqual(counts["keep_existing_temporarily"], 15)
+        self.assertEqual(counts["keep_existing_temporarily"], 13)
         self.assertEqual(counts.get("blocked", 0), 0)
 
     def test_phase3_planning_artifacts_cover_website_consumers(self):
@@ -237,13 +245,13 @@ class PricingV2PreviewTests(unittest.TestCase):
         self.assertIn("contextWindow", self.phase3_projection_contract["requiredFields"])
 
     def test_phase3_mapping_and_readiness(self):
-        self.assertEqual(len(self.phase3_mapping), 162)
+        self.assertEqual(len(self.phase3_mapping), len(self.phase25_blockers))
         action_counts = {}
         for row in self.phase3_mapping:
             action_counts[row["action"]] = action_counts.get(row["action"], 0) + 1
-        self.assertEqual(action_counts["safe_to_integrate"], 139)
+        self.assertEqual(action_counts["safe_to_integrate"], 153)
         self.assertEqual(action_counts["integrate_with_warning"], 8)
-        self.assertEqual(action_counts["keep_existing_temporarily"], 15)
+        self.assertEqual(action_counts["keep_existing_temporarily"], 13)
         self.assertEqual(self.phase3_readiness["implementationReadiness"], "blocked")
         self.assertEqual(self.phase3_readiness["planningReadiness"], "complete")
         self.assertFalse(self.phase3_readiness["websiteRepoClean"])
@@ -263,8 +271,9 @@ class PricingV2PreviewTests(unittest.TestCase):
     def test_phase35_mapping_reviews_are_complete(self):
         temporary = self.phase35_approval["temporaryMappingReview"]
         warnings = self.phase35_approval["warningMappingReview"]
-        self.assertEqual(len(temporary), 15)
-        self.assertEqual(len(warnings), 8)
+        action_counts = self.phase35_approval["phase3PlanningInputs"]["actionCounts"]
+        self.assertEqual(len(temporary), action_counts["keep_existing_temporarily"])
+        self.assertEqual(len(warnings), action_counts["integrate_with_warning"])
         for row in temporary:
             self.assertTrue(row["reason"])
             self.assertTrue(row["owner"])

@@ -5,6 +5,7 @@ from unittest.mock import patch
 from scripts.generate_website_projection_v2 import (
     ARTIFACT,
     DEFAULT_SELECTION_RULE,
+    PREVIEW,
     REPORT,
     atomic_write_json,
     build_phase45_audits,
@@ -114,13 +115,33 @@ class WebsiteProjectionV2Tests(unittest.TestCase):
 
     def test_report_counts_and_parity_buckets(self):
         self.assertEqual(self.report["projectionModelCount"], len(self.rows))
-        self.assertEqual(self.report["projectionModelCount"], 38)
-        self.assertEqual(self.report["defaultSafeModelCount"], 31)
+        self.assertEqual(self.report["projectionModelCount"], 41)
+        self.assertEqual(self.report["defaultSafeModelCount"], 34)
         self.assertEqual(self.report["unsafeIdentityCount"], 7)
         self.assertEqual(self.report["nullPriceCount"], 7)
-        self.assertEqual(self.report["parity"]["websiteModelCount"], 32)
-        self.assertEqual(sum(self.report["parity"]["counts"].values()), 32)
+        self.assertEqual(self.report["parity"]["websiteModelCount"], 35)
+        self.assertEqual(sum(self.report["parity"]["counts"].values()), 35)
         self.assertEqual(self.report["parity"]["counts"]["unsafe_difference"], 4)
+
+    def test_gpt_5_6_rows_use_standard_short_defaults(self):
+        expected = {
+            "openai/gpt-5.6-sol": (5, 0.5, 30),
+            "openai/gpt-5.6-terra": (2.5, 0.25, 15),
+            "openai/gpt-5.6-luna": (1, 0.1, 6),
+        }
+        for internal_id, prices in expected.items():
+            row = self.by_internal[internal_id]
+            self.assertTrue(row["defaultSafe"])
+            self.assertEqual(row["selectedPriceRecordId"], f"price:{internal_id}:standard:short:current")
+            self.assertEqual((row["inputPrice"], row["cachedInputPrice"], row["outputPrice"]), prices)
+            price = next(
+                item
+                for item in json.loads((PREVIEW / "prices.json").read_text(encoding="utf-8"))
+                if item["pricingId"] == row["selectedPriceRecordId"]
+            )
+            components = {charge["component"] for charge in price["charges"]}
+            self.assertIn("cache_write", components)
+            self.assertNotIn("cache_write_5m", components)
 
     def test_artifact_paths_and_no_runtime_network_dependency(self):
         self.assertEqual(str(ARTIFACT).endswith(r"data\pricing-v2-preview\generated\model-pricing.v2.json"), True)
@@ -140,16 +161,16 @@ class WebsiteProjectionV2Tests(unittest.TestCase):
         rows = self.audits["row_reconciliation"]
         unsafe = self.audits["unsafe_audit"]
         context = self.audits["context_audit"]
-        self.assertEqual(safe["stats"]["safePriceRecordsInput"], 28)
-        self.assertEqual(safe["stats"]["mappedToProjection"], 28)
+        self.assertEqual(safe["stats"]["safePriceRecordsInput"], 31)
+        self.assertEqual(safe["stats"]["mappedToProjection"], 31)
         self.assertEqual(safe["stats"]["unexplained"], 0)
-        self.assertEqual(rows["counts"]["canonical_model"], 35)
+        self.assertEqual(rows["counts"]["canonical_model"], 38)
         self.assertEqual(rows["counts"]["alias"], 2)
         self.assertEqual(rows["counts"]["redirecting_identity"], 1)
         self.assertEqual(unsafe["beforePhase4A5UnsafeDifferenceCount"], 16)
         self.assertEqual(unsafe["currentUnsafeDifferenceCount"], 4)
         self.assertEqual(len(unsafe["blockerUnsafeDifferences"]), 0)
-        self.assertEqual(context["contextWindowRows"], 38)
+        self.assertEqual(context["contextWindowRows"], 41)
         self.assertEqual(context["verifiedCanonicalContextWindowCount"], 0)
 
 

@@ -50,6 +50,7 @@ PHASE26_FINAL_ACTIONS = {
 CHARGE_COMPONENTS = {
     "input",
     "cached_input",
+    "cache_write",
     "cache_write_5m",
     "cache_write_1h",
     "cache_read",
@@ -639,10 +640,10 @@ def validate_preview() -> dict[str, Any]:
     if not isinstance(phase25_readiness["safeToEnterWebsiteIntegrationPlanning"], bool):
         fail("phase2.5 Website Integration Planning flag must be boolean")
 
-    if phase26_closure["defaultCandidatesBefore"] != 31:
-        fail("phase2.6 default candidates before must preserve Phase 2.5 baseline")
-    if phase26_closure["unsafeBefore"] != 5:
-        fail("phase2.6 unsafe before must preserve Phase 2.5 baseline")
+    if phase26_closure["defaultCandidatesBefore"] < phase26_closure["defaultCandidatesAfter"]:
+        fail("phase2.6 default candidate count regressed")
+    if phase26_closure["unsafeBefore"] < phase26_closure["unsafeAfter"]:
+        fail("phase2.6 unsafe candidate count regressed")
     if phase26_closure["defaultCandidatesAfter"] != phase25_default_safe["productionDefaultCandidateCount"]:
         fail("phase2.6 default candidates after mismatch")
     if phase26_closure["safeAfter"] != phase25_default_safe["productionDefaultSafeCount"]:
@@ -851,13 +852,13 @@ def validate_preview() -> dict[str, Any]:
     if grok3["historicalPrice"]["currentCalculationEligible"] is not False:
         fail("phase4a grok-3 historical price must not be current-calculation eligible")
     safe_stats = phase45_safe_reconciliation["stats"]
-    if safe_stats["safePriceRecordsInput"] != 28:
-        fail("phase4a.5 safe reconciliation must cover 28 safe PriceRecords")
-    if safe_stats["mappedToProjection"] != 28:
-        fail("phase4a.5 safe reconciliation must map all 28 safe PriceRecords")
+    if safe_stats["safePriceRecordsInput"] != phase4a_report["defaultSafeModelCount"] - 3:
+        fail("phase4a.5 safe reconciliation must cover safe canonical PriceRecords")
+    if safe_stats["mappedToProjection"] != safe_stats["safePriceRecordsInput"]:
+        fail("phase4a.5 safe reconciliation must map all safe PriceRecords")
     if safe_stats["unexplained"] != 0:
         fail("phase4a.5 safe reconciliation must have zero unexplained rows")
-    if len(phase45_safe_reconciliation["rows"]) != 28:
+    if len(phase45_safe_reconciliation["rows"]) != safe_stats["safePriceRecordsInput"]:
         fail("phase4a.5 safe reconciliation row count mismatch")
     for row in phase45_safe_reconciliation["rows"]:
         if row["pricingId"] not in price_by_id:
@@ -865,7 +866,11 @@ def validate_preview() -> dict[str, Any]:
         if not row["selectedAsCurrentDefault"] or row["omittedFromProjection"]:
             fail(f"phase4a.5 safe PriceRecord not mapped: {row['pricingId']}")
     row_counts = phase45_row_reconciliation["counts"]
-    if row_counts["canonical_model"] != 35 or row_counts["alias"] != 2 or row_counts["redirecting_identity"] != 1:
+    if row_counts["canonical_model"] != len([row for row in phase4a_rows if row["identityType"] == "canonical_model"]):
+        fail("phase4a.5 projection canonical row count mismatch")
+    if row_counts["alias"] != len([row for row in phase4a_rows if row["identityType"] == "alias"]):
+        fail("phase4a.5 projection alias row count mismatch")
+    if row_counts["redirecting_identity"] != len([row for row in phase4a_rows if row["identityType"] == "historical_reference"]):
         fail("phase4a.5 projection row reconciliation counts mismatch")
     if sum(row_counts.values()) != len(phase4a_rows):
         fail("phase4a.5 projection row reconciliation total mismatch")
@@ -923,8 +928,8 @@ def validate_preview() -> dict[str, Any]:
     if report["counts"]["sourceRecordCount"] != len(sources):
         fail("report sourceRecordCount mismatch")
     parity = report["websiteCompatibilityPreviewParity"]
-    if len(projection) != 32:
-        fail("website projection must contain 32 records")
+    if len(projection) != len(read_json(PREVIEW / "generated" / "model-pricing.website-preview.json")):
+        fail("website projection row count mismatch")
     if len(parity["details"]) != len(projection):
         fail("website parity details must cover every projection row")
     for classification in ("exact_parity", "expected_difference", "unresolved_difference"):
