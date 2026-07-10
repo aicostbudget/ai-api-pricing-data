@@ -1,0 +1,17 @@
+{
+  "generatedAt": "2026-07-07T00:00:00Z",
+  "requirements": [
+    "keep legacy data/model-pricing.json until parity and production confidence are proven",
+    "do not migrate all consumers in one commit",
+    "adapter must preserve old shape while flag is off",
+    "projection artifact changes must be reviewable in git",
+    "Supabase sync must remain separate from Website runtime migration"
+  ],
+  "rollbackSteps": [
+    "turn PRICING_V2_ENABLED off",
+    "redeploy Website using legacy dataset path",
+    "if needed revert only the projection/adapter commit",
+    "leave canonical dataset artifacts intact for investigation"
+  ],
+  "strategy": "single feature flag or single commit rollback to current Website data/model-pricing.json path"
+}

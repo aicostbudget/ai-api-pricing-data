@@ -1,0 +1,458 @@
+{
+  "approvals": [
+    {
+      "evidence": {
+        "enforcedPolicies": [
+          "review_required",
+          "retired",
+          "redirect_billing",
+          "effective_date",
+          "alias",
+          "defaultSafe"
+        ],
+        "nullSemantics": "null prices and missing defaultPriceRecordId are unavailable/review states, not zero prices",
+        "requiredFields": [
+          "cachedInputPrice",
+          "contextWindow",
+          "defaultSafe",
+          "id",
+          "inputPrice",
+          "model",
+          "officialSourceUrl",
+          "outputPrice",
+          "provider",
+          "status",
+          "verificationStatus",
+          "verifiedAt"
+        ]
+      },
+      "name": "Projection Contract Approval",
+      "status": "approved"
+    },
+    {
+      "enforcementLayer": "multi_layer",
+      "excludedFromDefaults": [
+        "defaultSafe=false",
+        "review_required",
+        "unresolved",
+        "partial unsafe",
+        "historical-only",
+        "retired non-billing",
+        "future non-effective"
+      ],
+      "layers": [
+        "projection generator",
+        "Website adapter",
+        "consumer assertions/tests"
+      ],
+      "name": "DefaultSafe Enforcement Approval",
+      "status": "approved"
+    },
+    {
+      "approvedMode": "repo_local_generated_projection",
+      "name": "Integration Mode Approval",
+      "rejectedModes": [
+        "runtime_fetch_public_api"
+      ],
+      "status": "approved"
+    },
+    {
+      "buckets": [
+        "exact_parity",
+        "expected_difference",
+        "unsafe_difference",
+        "null_difference",
+        "missing_identity",
+        "effective_date_difference"
+      ],
+      "constraints": [
+        "no user-visible result changes",
+        "no duplicate network calls",
+        "aggregate logs only",
+        "exit after reviewed clean shadow report"
+      ],
+      "name": "Shadow Mode Approval",
+      "status": "approved"
+    },
+    {
+      "default": "off",
+      "flagName": "PRICING_V2_ENABLED",
+      "name": "Feature Flag Approval",
+      "scope": "pricing data source and adapter only",
+      "status": "approved"
+    },
+    {
+      "mechanism": "single feature flag or single commit rollback to current Website data/model-pricing.json path",
+      "name": "Rollback Approval",
+      "requirements": [
+        "keep legacy data/model-pricing.json until parity and production confidence are proven",
+        "do not migrate all consumers in one commit",
+        "adapter must preserve old shape while flag is off",
+        "projection artifact changes must be reviewable in git",
+        "Supabase sync must remain separate from Website runtime migration"
+      ],
+      "status": "approved"
+    },
+    {
+      "consumerCount": 13,
+      "name": "Consumer Coverage Approval",
+      "status": "approved"
+    },
+    {
+      "actionCounts": {
+        "integrate_with_warning": 8,
+        "keep_existing_temporarily": 13,
+        "safe_to_integrate": 153
+      },
+      "mappingEntryCount": 174,
+      "name": "Integration Mapping Approval",
+      "status": "approved"
+    },
+    {
+      "name": "Temporary Mapping Approval",
+      "status": "approved",
+      "temporaryMappingCount": 13
+    },
+    {
+      "name": "Warning Mapping Approval",
+      "status": "approved",
+      "warningMappingCount": 8
+    },
+    {
+      "decision": "single canonical identity with effective-date PriceRecords; no independent intro model identity",
+      "name": "Claude Sonnet 5 Approval",
+      "status": "approved",
+      "timezone": "UTC"
+    },
+    {
+      "decision": "retired redirected identity retained; redirectTarget and billingModel are explicit; replacementModel remains evidence-gated",
+      "name": "Grok 3 Approval",
+      "status": "approved"
+    },
+    {
+      "decision": "review_required, defaultSafe=false, display-only or temporary legacy paths only",
+      "name": "GPT-4.1 Family Approval",
+      "status": "approved"
+    },
+    {
+      "excludedCandidates": [
+        "cohere/command-a-plus",
+        "openai/gpt-5",
+        "openai/o3"
+      ],
+      "name": "Excluded Default Candidates Approval",
+      "status": "approved"
+    },
+    {
+      "decision": "separate later-stage projection; no irreversible dependency in Phase 4 initial implementation",
+      "name": "Supabase Approval",
+      "status": "approved"
+    },
+    {
+      "name": "Migration Sequence Approval",
+      "sequence": [
+        {
+          "goal": "clean existing Website data/model-pricing.json change before implementation",
+          "name": "Website P0 Hotfix separate commit",
+          "stage": 0
+        },
+        {
+          "goal": "commit repo-local Website-compatible projection without changing consumers",
+          "name": "Add generated projection artifact",
+          "stage": 1
+        },
+        {
+          "goal": "support old and projected shapes with default off",
+          "name": "Add adapter behind feature flag",
+          "stage": 2
+        },
+        {
+          "goal": "compare current Website pricing to canonical projection without changing user results",
+          "name": "Shadow parity",
+          "stage": 3
+        },
+        {
+          "goal": "migrate PricingTable or homepage highlights first",
+          "name": "Low-risk consumer pilot",
+          "stage": 4
+        },
+        {
+          "goal": "enforce defaultSafe for API Cost Calculator and homepage estimator",
+          "name": "Calculator migration",
+          "stage": 5
+        },
+        {
+          "goal": "migrate route presets and cache blending with safe defaults only",
+          "name": "Budget Planner migration",
+          "stage": 6
+        },
+        {
+          "goal": "migrate display pages while preserving editorial metadata",
+          "name": "SEO / Comparison migration",
+          "stage": 7
+        },
+        {
+          "goal": "generate seed/sync artifact from Canonical V2",
+          "name": "Supabase projection",
+          "stage": 8
+        },
+        {
+          "goal": "remove manual dual maintenance only after shadow parity and rollback are proven",
+          "name": "Legacy dataset retirement",
+          "stage": 9
+        }
+      ],
+      "status": "approved"
+    },
+    {
+      "name": "Testing Plan Approval",
+      "requiredTests": [
+        "projection contract tests",
+        "V1/V2 parity tests",
+        "defaultSafe enforcement",
+        "null price tests",
+        "review_required tests",
+        "retired model tests",
+        "redirect billing tests",
+        "effective date boundary tests",
+        "alias routing tests",
+        "Calculator snapshot tests",
+        "Budget Planner parity tests",
+        "SEO page data tests",
+        "Supabase seed projection tests"
+      ],
+      "status": "approved"
+    }
+  ],
+  "datasetRepo": "D:\\ai-api-pricing-data",
+  "gateName": "Phase 3.5 Website Integration Planning Approval Gate",
+  "generatedAt": "2026-07-07T00:00:00Z",
+  "implementationBlockers": [],
+  "implementationReadiness": "ready",
+  "phase3PlanningInputs": {
+    "actionCounts": {
+      "integrate_with_warning": 8,
+      "keep_existing_temporarily": 13,
+      "safe_to_integrate": 153
+    },
+    "consumerCount": 13,
+    "integrationMappingCount": 174,
+    "productionDefaultCandidateCount": 31,
+    "productionDefaultSafeCount": 31,
+    "productionDefaultUnsafeCount": 0
+  },
+  "safeToCommitPhase35": true,
+  "safeToEnterPhase4Implementation": true,
+  "temporaryMappingReview": [
+    {
+      "canonicalInternalId": "openai/gpt-4.1",
+      "exitCondition": "Replace temporary legacy display with explicit review_required display mode after official pricing provenance is completed or the model is deliberately removed from calculation selectors.",
+      "migrationDestination": "display_only_review_required_adapter_path",
+      "owner": "Website integration owner",
+      "reason": "GPT-4.1 family remains review_required with no default-safe selected PriceRecord.",
+      "risk": "medium: accidental calculator default exposure if defaultSafe is not enforced in both projection and Website adapter.",
+      "websiteConsumer": "calculator_dropdown_model",
+      "websiteModelId": "gpt-4.1"
+    },
+    {
+      "canonicalInternalId": "openai/gpt-4.1",
+      "exitCondition": "Replace temporary legacy display with explicit review_required display mode after official pricing provenance is completed or the model is deliberately removed from calculation selectors.",
+      "migrationDestination": "display_only_review_required_adapter_path",
+      "owner": "Website integration owner",
+      "reason": "GPT-4.1 family remains review_required with no default-safe selected PriceRecord.",
+      "risk": "medium: accidental calculator default exposure if defaultSafe is not enforced in both projection and Website adapter.",
+      "websiteConsumer": "homepage_estimator_dropdown_model",
+      "websiteModelId": "gpt-4.1"
+    },
+    {
+      "canonicalInternalId": "openai/gpt-4.1",
+      "exitCondition": "Replace temporary legacy display with explicit review_required display mode after official pricing provenance is completed or the model is deliberately removed from calculation selectors.",
+      "migrationDestination": "display_only_review_required_adapter_path",
+      "owner": "Website integration owner",
+      "reason": "GPT-4.1 family remains review_required with no default-safe selected PriceRecord.",
+      "risk": "medium: accidental calculator default exposure if defaultSafe is not enforced in both projection and Website adapter.",
+      "websiteConsumer": "pricing_comparison_model",
+      "websiteModelId": "gpt-4.1"
+    },
+    {
+      "canonicalInternalId": "openai/gpt-4.1",
+      "exitCondition": "Replace temporary legacy display with explicit review_required display mode after official pricing provenance is completed or the model is deliberately removed from calculation selectors.",
+      "migrationDestination": "display_only_review_required_adapter_path",
+      "owner": "Website integration owner",
+      "reason": "GPT-4.1 family remains review_required with no default-safe selected PriceRecord.",
+      "risk": "medium: accidental calculator default exposure if defaultSafe is not enforced in both projection and Website adapter.",
+      "websiteConsumer": "prompt_cost_optimizer_dropdown_model",
+      "websiteModelId": "gpt-4.1"
+    },
+    {
+      "canonicalInternalId": "openai/gpt-4.1",
+      "exitCondition": "Replace temporary legacy display with explicit review_required display mode after official pricing provenance is completed or the model is deliberately removed from calculation selectors.",
+      "migrationDestination": "display_only_review_required_adapter_path",
+      "owner": "Website integration owner",
+      "reason": "GPT-4.1 family remains review_required with no default-safe selected PriceRecord.",
+      "risk": "medium: accidental calculator default exposure if defaultSafe is not enforced in both projection and Website adapter.",
+      "websiteConsumer": "token_calculator_dropdown_model",
+      "websiteModelId": "gpt-4.1"
+    },
+    {
+      "canonicalInternalId": "openai/gpt-4.1-mini",
+      "exitCondition": "Replace temporary legacy display with explicit review_required display mode after official pricing provenance is completed or the model is deliberately removed from calculation selectors.",
+      "migrationDestination": "display_only_review_required_adapter_path",
+      "owner": "Website integration owner",
+      "reason": "GPT-4.1 family remains review_required with no default-safe selected PriceRecord.",
+      "risk": "medium: accidental calculator default exposure if defaultSafe is not enforced in both projection and Website adapter.",
+      "websiteConsumer": "calculator_dropdown_model",
+      "websiteModelId": "gpt-4.1-mini"
+    },
+    {
+      "canonicalInternalId": "openai/gpt-4.1-mini",
+      "exitCondition": "Replace temporary legacy display with explicit review_required display mode after official pricing provenance is completed or the model is deliberately removed from calculation selectors.",
+      "migrationDestination": "display_only_review_required_adapter_path",
+      "owner": "Website integration owner",
+      "reason": "GPT-4.1 family remains review_required with no default-safe selected PriceRecord.",
+      "risk": "medium: accidental calculator default exposure if defaultSafe is not enforced in both projection and Website adapter.",
+      "websiteConsumer": "pricing_comparison_model",
+      "websiteModelId": "gpt-4.1-mini"
+    },
+    {
+      "canonicalInternalId": "openai/gpt-4.1-mini",
+      "exitCondition": "Replace temporary legacy display with explicit review_required display mode after official pricing provenance is completed or the model is deliberately removed from calculation selectors.",
+      "migrationDestination": "display_only_review_required_adapter_path",
+      "owner": "Website integration owner",
+      "reason": "GPT-4.1 family remains review_required with no default-safe selected PriceRecord.",
+      "risk": "medium: accidental calculator default exposure if defaultSafe is not enforced in both projection and Website adapter.",
+      "websiteConsumer": "prompt_cost_optimizer_dropdown_model",
+      "websiteModelId": "gpt-4.1-mini"
+    },
+    {
+      "canonicalInternalId": "openai/gpt-4.1-mini",
+      "exitCondition": "Replace temporary legacy display with explicit review_required display mode after official pricing provenance is completed or the model is deliberately removed from calculation selectors.",
+      "migrationDestination": "display_only_review_required_adapter_path",
+      "owner": "Website integration owner",
+      "reason": "GPT-4.1 family remains review_required with no default-safe selected PriceRecord.",
+      "risk": "medium: accidental calculator default exposure if defaultSafe is not enforced in both projection and Website adapter.",
+      "websiteConsumer": "token_calculator_dropdown_model",
+      "websiteModelId": "gpt-4.1-mini"
+    },
+    {
+      "canonicalInternalId": "openai/gpt-4.1-nano",
+      "exitCondition": "Replace temporary legacy display with explicit review_required display mode after official pricing provenance is completed or the model is deliberately removed from calculation selectors.",
+      "migrationDestination": "display_only_review_required_adapter_path",
+      "owner": "Website integration owner",
+      "reason": "GPT-4.1 family remains review_required with no default-safe selected PriceRecord.",
+      "risk": "medium: accidental calculator default exposure if defaultSafe is not enforced in both projection and Website adapter.",
+      "websiteConsumer": "calculator_dropdown_model",
+      "websiteModelId": "gpt-4.1-nano"
+    },
+    {
+      "canonicalInternalId": "openai/gpt-4.1-nano",
+      "exitCondition": "Replace temporary legacy display with explicit review_required display mode after official pricing provenance is completed or the model is deliberately removed from calculation selectors.",
+      "migrationDestination": "display_only_review_required_adapter_path",
+      "owner": "Website integration owner",
+      "reason": "GPT-4.1 family remains review_required with no default-safe selected PriceRecord.",
+      "risk": "medium: accidental calculator default exposure if defaultSafe is not enforced in both projection and Website adapter.",
+      "websiteConsumer": "pricing_comparison_model",
+      "websiteModelId": "gpt-4.1-nano"
+    },
+    {
+      "canonicalInternalId": "openai/gpt-4.1-nano",
+      "exitCondition": "Replace temporary legacy display with explicit review_required display mode after official pricing provenance is completed or the model is deliberately removed from calculation selectors.",
+      "migrationDestination": "display_only_review_required_adapter_path",
+      "owner": "Website integration owner",
+      "reason": "GPT-4.1 family remains review_required with no default-safe selected PriceRecord.",
+      "risk": "medium: accidental calculator default exposure if defaultSafe is not enforced in both projection and Website adapter.",
+      "websiteConsumer": "prompt_cost_optimizer_dropdown_model",
+      "websiteModelId": "gpt-4.1-nano"
+    },
+    {
+      "canonicalInternalId": "openai/gpt-4.1-nano",
+      "exitCondition": "Replace temporary legacy display with explicit review_required display mode after official pricing provenance is completed or the model is deliberately removed from calculation selectors.",
+      "migrationDestination": "display_only_review_required_adapter_path",
+      "owner": "Website integration owner",
+      "reason": "GPT-4.1 family remains review_required with no default-safe selected PriceRecord.",
+      "risk": "medium: accidental calculator default exposure if defaultSafe is not enforced in both projection and Website adapter.",
+      "websiteConsumer": "token_calculator_dropdown_model",
+      "websiteModelId": "gpt-4.1-nano"
+    }
+  ],
+  "warningMappingReview": [
+    {
+      "allowedIntegration": "display with warning metadata; calculation allowed only when defaultSafe=true and billing label is explicit",
+      "blocksDefaultCalculation": true,
+      "canonicalInternalId": "anthropic/claude-sonnet-4",
+      "selectedPriceRecord": "price:anthropic/claude-sonnet-4:standard:short:website-preview",
+      "warningClass": "retired_display_only",
+      "websiteConsumer": "calculator_dropdown_model",
+      "websiteModelId": "claude-sonnet-4"
+    },
+    {
+      "allowedIntegration": "display with warning metadata; calculation allowed only when defaultSafe=true and billing label is explicit",
+      "blocksDefaultCalculation": true,
+      "canonicalInternalId": "anthropic/claude-sonnet-4",
+      "selectedPriceRecord": "price:anthropic/claude-sonnet-4:standard:short:website-preview",
+      "warningClass": "retired_display_only",
+      "websiteConsumer": "pricing_comparison_model",
+      "websiteModelId": "claude-sonnet-4"
+    },
+    {
+      "allowedIntegration": "display with warning metadata; calculation allowed only when defaultSafe=true and billing label is explicit",
+      "blocksDefaultCalculation": true,
+      "canonicalInternalId": "anthropic/claude-sonnet-4",
+      "selectedPriceRecord": "price:anthropic/claude-sonnet-4:standard:short:website-preview",
+      "warningClass": "retired_display_only",
+      "websiteConsumer": "prompt_cost_optimizer_dropdown_model",
+      "websiteModelId": "claude-sonnet-4"
+    },
+    {
+      "allowedIntegration": "display with warning metadata; calculation allowed only when defaultSafe=true and billing label is explicit",
+      "blocksDefaultCalculation": true,
+      "canonicalInternalId": "anthropic/claude-sonnet-4",
+      "selectedPriceRecord": "price:anthropic/claude-sonnet-4:standard:short:website-preview",
+      "warningClass": "retired_display_only",
+      "websiteConsumer": "token_calculator_dropdown_model",
+      "websiteModelId": "claude-sonnet-4"
+    },
+    {
+      "allowedIntegration": "display with warning metadata; calculation allowed only when defaultSafe=true and billing label is explicit",
+      "blocksDefaultCalculation": false,
+      "canonicalInternalId": "xai/grok-3",
+      "selectedPriceRecord": "price:xai/grok-4.3:standard:short:current",
+      "warningClass": "redirected_billing",
+      "websiteConsumer": "calculator_dropdown_model",
+      "websiteModelId": "grok-3"
+    },
+    {
+      "allowedIntegration": "display with warning metadata; calculation allowed only when defaultSafe=true and billing label is explicit",
+      "blocksDefaultCalculation": false,
+      "canonicalInternalId": "xai/grok-3",
+      "selectedPriceRecord": "price:xai/grok-4.3:standard:short:current",
+      "warningClass": "redirected_billing",
+      "websiteConsumer": "pricing_comparison_model",
+      "websiteModelId": "grok-3"
+    },
+    {
+      "allowedIntegration": "display with warning metadata; calculation allowed only when defaultSafe=true and billing label is explicit",
+      "blocksDefaultCalculation": false,
+      "canonicalInternalId": "xai/grok-3",
+      "selectedPriceRecord": "price:xai/grok-4.3:standard:short:current",
+      "warningClass": "redirected_billing",
+      "websiteConsumer": "prompt_cost_optimizer_dropdown_model",
+      "websiteModelId": "grok-3"
+    },
+    {
+      "allowedIntegration": "display with warning metadata; calculation allowed only when defaultSafe=true and billing label is explicit",
+      "blocksDefaultCalculation": false,
+      "canonicalInternalId": "xai/grok-3",
+      "selectedPriceRecord": "price:xai/grok-4.3:standard:short:current",
+      "warningClass": "redirected_billing",
+      "websiteConsumer": "token_calculator_dropdown_model",
+      "websiteModelId": "grok-3"
+    }
+  ],
+  "websiteHotfix": {
+    "branch": "main",
+    "requiredCommit": "155d0c0",
+    "statusAtGate": "clean_and_up_to_date_with_origin_main"
+  },
+  "websiteRepoReadOnly": "D:\\ai-cost-control-tool\\aicostguard-english"
+}

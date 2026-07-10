@@ -1,0 +1,208 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://aicostbudget.com/schemas/ai-api-pricing/pricing-v2-preview.schema.json",
+  "title": "AICostBudget Pricing V2 Preview",
+  "type": "object",
+  "required": ["models", "prices", "sources", "modelIdentityRegistry", "candidateDispositionMap", "convergenceReport"],
+  "properties": {
+    "models": {
+      "type": "array",
+      "items": {"$ref": "#/$defs/modelRecord"}
+    },
+    "prices": {
+      "type": "array",
+      "items": {"$ref": "#/$defs/priceRecord"}
+    },
+    "sources": {
+      "type": "array",
+      "items": {"$ref": "#/$defs/sourceRecord"}
+    },
+    "modelIdentityRegistry": {
+      "type": "array",
+      "items": {"$ref": "#/$defs/identityRecord"}
+    },
+    "candidateDispositionMap": {
+      "type": "array",
+      "items": {"$ref": "#/$defs/candidateDisposition"}
+    },
+    "convergenceReport": {
+      "type": "object"
+    }
+  },
+  "$defs": {
+    "verificationStatus": {
+      "type": "string",
+      "enum": ["verified", "partially_verified", "unconfirmed_price", "stale", "review_required"]
+    },
+    "officialId": {
+      "type": "object",
+      "required": ["id", "type", "source"],
+      "properties": {
+        "id": {"type": "string", "minLength": 1},
+        "type": {"type": "string", "enum": ["canonical", "alias", "snapshot", "pinned", "legacy", "historical_reference"]},
+        "source": {"type": "string", "minLength": 1}
+      }
+    },
+    "identityRecord": {
+      "type": "object",
+      "required": [
+        "providerId",
+        "internalId",
+        "displayName",
+        "canonicalOfficialId",
+        "officialIds",
+        "websiteIds",
+        "publicDatasetIds",
+        "identityType",
+        "lifecycleStatus",
+        "releaseStage",
+        "availability",
+        "routingBehavior",
+        "routingDetails",
+        "aliasTargetInternalId",
+        "redirectTargetInternalId",
+        "billingModelInternalId",
+        "replacementInternalId",
+        "deprecationDate",
+        "retirementDate",
+        "verificationStatus",
+        "sourceRefs"
+      ],
+      "properties": {
+        "providerId": {"type": "string"},
+        "internalId": {"type": "string"},
+        "displayName": {"type": "string"},
+        "canonicalOfficialId": {"type": "string"},
+        "officialIds": {"type": "array", "items": {"$ref": "#/$defs/officialId"}},
+        "websiteIds": {"type": "array", "items": {"type": "string"}},
+        "publicDatasetIds": {"type": "array", "items": {"type": "string"}},
+        "identityType": {"type": "string", "enum": ["canonical_model", "alias", "snapshot", "pinned_id", "historical_reference"]},
+        "lifecycleStatus": {"type": "string", "enum": ["active", "deprecated", "retired", "unknown"]},
+        "releaseStage": {"type": "string", "enum": ["stable", "preview", "legacy", "specialized", "unknown"]},
+        "availability": {"type": "string"},
+        "routingBehavior": {"type": "string"},
+        "routingDetails": {"type": "object"},
+        "aliasTargetInternalId": {"type": ["string", "null"]},
+        "redirectTargetInternalId": {"type": ["string", "null"]},
+        "billingModelInternalId": {"type": ["string", "null"]},
+        "replacementInternalId": {"type": ["string", "null"]},
+        "deprecationDate": {"type": ["string", "null"], "format": "date"},
+        "retirementDate": {"type": ["string", "null"]},
+        "verificationStatus": {"$ref": "#/$defs/verificationStatus"},
+        "sourceRefs": {"type": "array", "items": {"type": "string"}}
+      }
+    },
+    "candidateDisposition": {
+      "type": "object",
+      "required": ["candidateId", "sourceSide", "provider", "finalInternalId", "disposition", "mergeTarget", "aliasTarget", "reason", "verificationStatus"],
+      "properties": {
+        "candidateId": {"type": "string"},
+        "sourceSide": {"type": "string", "enum": ["public_only", "website_only", "common"]},
+        "provider": {"type": "string"},
+        "finalInternalId": {"type": "string"},
+        "disposition": {"type": "string", "enum": ["canonical_identity", "alias", "pinned_id", "snapshot", "historical_reference", "merged_duplicate", "unresolved"]},
+        "mergeTarget": {"type": ["string", "null"]},
+        "aliasTarget": {"type": ["string", "null"]},
+        "reason": {"type": "string"},
+        "verificationStatus": {"$ref": "#/$defs/verificationStatus"}
+      }
+    },
+    "modelRecord": {
+      "type": "object",
+      "required": [
+        "providerId",
+        "internalId",
+        "displayName",
+        "canonicalOfficialId",
+        "officialIds",
+        "lifecycleStatus",
+        "releaseStage",
+        "availability",
+        "routingBehavior",
+        "defaultPriceRecordId",
+        "verificationStatus",
+        "sourceRefs"
+      ],
+      "properties": {
+        "providerId": {"type": "string"},
+        "internalId": {"type": "string"},
+        "displayName": {"type": "string"},
+        "canonicalOfficialId": {"type": "string"},
+        "officialIds": {"type": "array", "items": {"$ref": "#/$defs/officialId"}},
+        "lifecycleStatus": {"type": "string", "enum": ["active", "deprecated", "retired", "unknown"]},
+        "releaseStage": {"type": "string", "enum": ["stable", "preview", "legacy", "specialized", "unknown"]},
+        "availability": {"type": "string"},
+        "routingBehavior": {"type": "string"},
+        "defaultPriceRecordId": {"type": ["string", "null"]},
+        "verificationStatus": {"$ref": "#/$defs/verificationStatus"},
+        "sourceRefs": {"type": "array", "items": {"type": "string"}}
+      }
+    },
+    "priceRecord": {
+      "type": "object",
+      "required": [
+        "pricingId",
+        "modelInternalId",
+        "processingMode",
+        "contextClass",
+        "regionPolicy",
+        "promptTokenThreshold",
+        "effectiveFrom",
+        "effectiveUntil",
+        "currency",
+        "charges",
+        "sourceRefs",
+        "billingNote",
+        "verificationStatus",
+        "calculationDefault"
+      ],
+      "properties": {
+        "pricingId": {"type": "string"},
+        "modelInternalId": {"type": "string"},
+        "processingMode": {"type": "string", "enum": ["standard", "batch", "flex", "priority", "fast"]},
+        "contextClass": {"type": "string", "enum": ["short", "long"]},
+        "regionPolicy": {"type": "string"},
+        "promptTokenThreshold": {"type": ["integer", "null"], "minimum": 0},
+        "effectiveFrom": {"type": ["string", "null"], "format": "date"},
+        "effectiveUntil": {"type": ["string", "null"], "format": "date"},
+        "currency": {"type": "string", "const": "USD"},
+        "charges": {"type": "array", "items": {"$ref": "#/$defs/chargeRecord"}},
+        "sourceRefs": {"type": "array", "items": {"type": "string"}},
+        "billingNote": {"type": "string"},
+        "verificationStatus": {"$ref": "#/$defs/verificationStatus"},
+        "calculationDefault": {"type": "boolean"}
+      }
+    },
+    "chargeRecord": {
+      "type": "object",
+      "required": ["chargeId", "component", "modality", "unit", "amount"],
+      "properties": {
+        "chargeId": {"type": "string"},
+        "component": {
+          "type": "string",
+          "enum": ["input", "cached_input", "cache_write", "cache_write_5m", "cache_write_1h", "cache_read", "output", "storage", "request", "tool_call", "grounding"]
+        },
+        "modality": {"type": "string", "enum": ["text", "image", "audio", "video"]},
+        "unit": {"type": "string", "enum": ["per_1m_tokens", "per_1k_calls", "per_hour", "per_image", "per_second"]},
+        "amount": {"type": "string", "pattern": "^(0|[1-9]\\\\d*)(\\\\.\\\\d+)?$"}
+      }
+    },
+    "sourceRecord": {
+      "type": "object",
+      "required": ["sourceId", "providerId", "url", "sourceType", "title", "checkedAt", "verifiedAt", "officialProviderDomain", "supports", "verificationStatus"],
+      "properties": {
+        "sourceId": {"type": "string"},
+        "providerId": {"type": "string"},
+        "url": {"type": "string", "format": "uri"},
+        "sourceType": {"type": "string"},
+        "title": {"type": "string"},
+        "accessedAt": {"type": ["string", "null"]},
+        "checkedAt": {"type": ["string", "null"]},
+        "verifiedAt": {"type": ["string", "null"]},
+        "officialProviderDomain": {"type": "string"},
+        "supports": {"type": "array", "items": {"type": "string"}},
+        "verificationStatus": {"$ref": "#/$defs/verificationStatus"}
+      }
+    }
+  }
+}

@@ -1,0 +1,285 @@
+{
+  "consumerCount": 13,
+  "consumers": [
+    {
+      "cachedPriceHandling": "modelPriceSummary displays cached price when numeric; calculateCost ignores cached input",
+      "consumerId": "pricing_data_module",
+      "currentDataSource": "data/model-pricing.json",
+      "currentDefaultModelLogic": "exports raw array order and helper labels; no default filtering",
+      "currentFallbackLogic": "callers generally fallback to models[0]",
+      "currentFieldsUsed": [
+        "id",
+        "provider",
+        "model",
+        "status",
+        "availability",
+        "inputPrice",
+        "cachedInputPrice",
+        "outputPrice",
+        "contextWindow",
+        "pricingBasis",
+        "priceNote",
+        "bestFor",
+        "lastUpdated",
+        "officialPriceUrl"
+      ],
+      "filePath": "src/lib/pricing.ts",
+      "integrationRisk": "high",
+      "nullHandling": "cachedInputPrice optional; inputPrice/outputPrice typed required",
+      "statusHandling": "display-only status union; no defaultSafe semantics",
+      "usageType": "central_pricing_utility"
+    },
+    {
+      "cachedPriceHandling": "cached price displayed in summary only; cost uses input/output",
+      "consumerId": "api_cost_calculator",
+      "currentDataSource": "@/lib/pricing.models",
+      "currentDefaultModelLogic": "hardcoded gpt-5.4-mini; dropdown maps all models",
+      "currentFallbackLogic": "selected model fallback to models[0]",
+      "currentFieldsUsed": [
+        "id",
+        "provider",
+        "model",
+        "status",
+        "inputPrice",
+        "outputPrice",
+        "pricingBasis",
+        "priceNote",
+        "lastUpdated",
+        "officialPriceUrl"
+      ],
+      "filePath": "src/components/cost-calculator.tsx",
+      "integrationRisk": "high",
+      "nullHandling": "does not support null input/output prices",
+      "statusHandling": "status is shown but not enforced",
+      "usageType": "interactive_default_calculation"
+    },
+    {
+      "cachedPriceHandling": "not used",
+      "consumerId": "homepage_estimator",
+      "currentDataSource": "@/lib/pricing.models",
+      "currentDefaultModelLogic": "hardcoded gpt-5.4-mini; dropdown uses models.slice(0, 12)",
+      "currentFallbackLogic": "fallback to first model if hardcoded ID missing",
+      "currentFieldsUsed": [
+        "id",
+        "provider",
+        "model",
+        "inputPrice",
+        "outputPrice"
+      ],
+      "filePath": "src/components/home-api-cost-estimator.tsx",
+      "integrationRisk": "high",
+      "nullHandling": "does not support null input/output prices",
+      "statusHandling": "not surfaced in calculator body",
+      "usageType": "homepage_default_calculation"
+    },
+    {
+      "cachedPriceHandling": "cache hit rate blends inputPrice and cachedInputPrice",
+      "consumerId": "budget_planner_core",
+      "currentDataSource": "./pricing.models",
+      "currentDefaultModelLogic": "preset and scenario route IDs are hardcoded",
+      "currentFallbackLogic": "invalid routes fallback to support preset or models[0]",
+      "currentFieldsUsed": [
+        "id",
+        "inputPrice",
+        "cachedInputPrice",
+        "outputPrice"
+      ],
+      "filePath": "src/lib/budget-planner.ts",
+      "integrationRisk": "high",
+      "nullHandling": "cachedInputPrice falls back to inputPrice; input/output required",
+      "statusHandling": "none",
+      "usageType": "model_routing_cost_engine"
+    },
+    {
+      "cachedPriceHandling": "inherits cache hit cost blending",
+      "consumerId": "advanced_budget_planner",
+      "currentDataSource": "@/lib/pricing.models plus src/lib/budget-planner.ts",
+      "currentDefaultModelLogic": "initial state from budget-planner support preset; route selects show all models",
+      "currentFallbackLogic": "budget-planner sanitization",
+      "currentFieldsUsed": [
+        "id",
+        "provider",
+        "model",
+        "inputPrice",
+        "cachedInputPrice",
+        "outputPrice"
+      ],
+      "filePath": "src/components/advanced-budget-planner.tsx",
+      "integrationRisk": "high",
+      "nullHandling": "inherits budget-planner behavior",
+      "statusHandling": "not enforced in route selects",
+      "usageType": "interactive_routing_ui"
+    },
+    {
+      "cachedPriceHandling": "display only",
+      "consumerId": "pricing_table",
+      "currentDataSource": "@/lib/pricing.models",
+      "currentDefaultModelLogic": "all models rendered",
+      "currentFallbackLogic": "none",
+      "currentFieldsUsed": [
+        "provider",
+        "model",
+        "status",
+        "availability",
+        "inputPrice",
+        "cachedInputPrice",
+        "outputPrice",
+        "contextWindow",
+        "officialPriceUrl",
+        "bestFor",
+        "pricingBasis",
+        "priceNote",
+        "lastUpdated"
+      ],
+      "filePath": "src/components/pricing-table.tsx",
+      "integrationRisk": "medium",
+      "nullHandling": "cached price optional; input/output assumed present",
+      "statusHandling": "CSS class and display only",
+      "usageType": "comparison_table_display"
+    },
+    {
+      "cachedPriceHandling": "inherits PricingTable",
+      "consumerId": "model_pricing_comparison_page",
+      "currentDataSource": "PricingTable component",
+      "currentDefaultModelLogic": "none",
+      "currentFallbackLogic": "none",
+      "currentFieldsUsed": [
+        "derived through PricingTable"
+      ],
+      "filePath": "src/app/[locale]/model-pricing-comparison/page.tsx",
+      "integrationRisk": "medium",
+      "nullHandling": "inherits PricingTable",
+      "statusHandling": "inherits PricingTable",
+      "usageType": "seo_page_wrapper"
+    },
+    {
+      "cachedPriceHandling": "not shown",
+      "consumerId": "homepage_price_highlights",
+      "currentDataSource": "@/lib/pricing.models",
+      "currentDefaultModelLogic": "models.slice(0, 4)",
+      "currentFallbackLogic": "none",
+      "currentFieldsUsed": [
+        "provider",
+        "model",
+        "inputPrice",
+        "outputPrice"
+      ],
+      "filePath": "src/app/[locale]/page.tsx",
+      "integrationRisk": "medium",
+      "nullHandling": "input/output assumed present",
+      "statusHandling": "not shown",
+      "usageType": "homepage_pricing_display"
+    },
+    {
+      "cachedPriceHandling": "display only; input cost uses inputPrice",
+      "consumerId": "token_calculator",
+      "currentDataSource": "@/lib/pricing.models",
+      "currentDefaultModelLogic": "hardcoded gpt-5.4-mini; dropdown maps all models",
+      "currentFallbackLogic": "fallback to models[0]",
+      "currentFieldsUsed": [
+        "id",
+        "provider",
+        "model",
+        "status",
+        "inputPrice",
+        "cachedInputPrice",
+        "pricingBasis",
+        "priceNote",
+        "lastUpdated",
+        "officialPriceUrl"
+      ],
+      "filePath": "src/components/token-calculator.tsx",
+      "integrationRisk": "medium",
+      "nullHandling": "inputPrice assumed present",
+      "statusHandling": "display only",
+      "usageType": "input_only_cost_estimator"
+    },
+    {
+      "cachedPriceHandling": "display only",
+      "consumerId": "prompt_cost_optimizer",
+      "currentDataSource": "@/lib/pricing.models",
+      "currentDefaultModelLogic": "hardcoded gpt-5.4-mini; dropdown maps all models",
+      "currentFallbackLogic": "fallback to models[0]",
+      "currentFieldsUsed": [
+        "id",
+        "provider",
+        "model",
+        "status",
+        "inputPrice",
+        "cachedInputPrice",
+        "outputPrice",
+        "pricingBasis",
+        "lastUpdated",
+        "officialPriceUrl"
+      ],
+      "filePath": "src/components/prompt-cost-optimizer.tsx",
+      "integrationRisk": "medium",
+      "nullHandling": "input/output assumed present",
+      "statusHandling": "display only",
+      "usageType": "prompt_input_cost_estimator"
+    },
+    {
+      "cachedPriceHandling": "not used",
+      "consumerId": "batch_token_calculator",
+      "currentDataSource": "@/lib/pricing.models",
+      "currentDefaultModelLogic": "hardcoded gpt-5.4-mini only",
+      "currentFallbackLogic": "fallback to models[0]",
+      "currentFieldsUsed": [
+        "id",
+        "inputPrice"
+      ],
+      "filePath": "src/components/batch-calculator.tsx",
+      "integrationRisk": "medium",
+      "nullHandling": "inputPrice assumed present",
+      "statusHandling": "none",
+      "usageType": "batch_input_cost_estimator"
+    },
+    {
+      "cachedPriceHandling": "stored nullable",
+      "consumerId": "supabase_model_prices_seed",
+      "currentDataSource": "manually maintained SQL values",
+      "currentDefaultModelLogic": "none",
+      "currentFallbackLogic": "SQL on conflict update",
+      "currentFieldsUsed": [
+        "id",
+        "provider",
+        "model",
+        "model_status",
+        "availability",
+        "input_price",
+        "cached_input_price",
+        "output_price",
+        "context_window",
+        "pricing_basis",
+        "pricing_note",
+        "best_for",
+        "price_last_updated",
+        "official_price_url"
+      ],
+      "filePath": "supabase/seed.sql",
+      "integrationRisk": "high",
+      "nullHandling": "cached_input_price nullable; input/output non-null",
+      "statusHandling": "stored as model_status text",
+      "usageType": "database_seed_projection"
+    },
+    {
+      "cachedPriceHandling": "editorial mentions only",
+      "consumerId": "sitemap_and_seo_shell",
+      "currentDataSource": "static routes and editorial copy, no direct model-pricing JSON import",
+      "currentDefaultModelLogic": "none",
+      "currentFallbackLogic": "none",
+      "currentFieldsUsed": [
+        "links to comparison/calculator pages",
+        "editorial pricing disclaimers"
+      ],
+      "filePath": "src/app/sitemap.ts; src/lib/seo-content.ts; src/lib/blog-posts.ts",
+      "integrationRisk": "low",
+      "nullHandling": "not applicable",
+      "statusHandling": "not applicable",
+      "usageType": "indirect_seo_reference"
+    }
+  ],
+  "generatedAt": "2026-07-07T00:00:00Z",
+  "readOnlyStatus": "observed_dirty_do_not_modify",
+  "websiteRepo": "D:\\ai-cost-control-tool\\aicostguard-english"
+}

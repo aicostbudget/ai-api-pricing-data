@@ -26,10 +26,12 @@ jobs:
         run: python scripts/build.py
       - name: Validate static dataset
         run: python scripts/validate.py
+      - name: Prepare Pages artifact
+        run: python scripts/prepare_pages_artifact.py pages-dist
       - uses: actions/configure-pages@v5
       - uses: actions/upload-pages-artifact@v3
         with:
-          path: "."
+          path: "pages-dist"
   deploy:
     environment:
       name: github-pages
@@ -39,4 +41,3 @@ jobs:
     steps:
       - id: deployment
         uses: actions/deploy-pages@v4
-

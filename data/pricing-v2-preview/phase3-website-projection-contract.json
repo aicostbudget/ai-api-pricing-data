@@ -1,0 +1,68 @@
+{
+  "contractName": "website-pricing-projection-v1",
+  "defaultSafePolicy": {
+    "alias": "resolve alias target while preserving alias mode notes",
+    "future_effective": "select by effective dates, never by array order",
+    "null_price": "do not calculate; show unavailable/review message",
+    "redirect_billing": "show original slug as retired/redirected and calculate against billingModelInternalId only with explicit label",
+    "retired": "display as historical only",
+    "review_required": "display only with warning; no default or recommendation placement",
+    "unsafe": "exclude from default calculations and show warning only where explicitly allowed"
+  },
+  "doNotRequireWebsiteToUnderstandFullV2Schema": true,
+  "generatedAt": "2026-07-07T00:00:00Z",
+  "integrationModes": [
+    {
+      "mode": "runtime_fetch_public_api",
+      "reason": "adds request-time external dependency, latency, stale/failure ambiguity, and rollback complexity",
+      "recommendation": "do_not_use"
+    },
+    {
+      "mode": "build_time_fetch",
+      "reason": "better latency than runtime fetch but build reproducibility depends on external availability",
+      "recommendation": "acceptable_with_pin"
+    },
+    {
+      "mode": "repo_local_generated_projection",
+      "reason": "deterministic, reviewable, rollback-friendly, and no production runtime dependency on GitHub Pages",
+      "recommendation": "recommended"
+    },
+    {
+      "mode": "ci_synchronized_artifact",
+      "reason": "good automation after projection contract and rollback policy are approved",
+      "recommendation": "later_stage"
+    }
+  ],
+  "optionalFields": [
+    "effectiveFrom",
+    "effectiveUntil",
+    "canonicalInternalId",
+    "selectedPriceRecordId",
+    "routingBehavior",
+    "redirectedBilling",
+    "warning"
+  ],
+  "recommendedMode": "repo_local_generated_projection",
+  "requiredFields": [
+    "id",
+    "provider",
+    "model",
+    "inputPrice",
+    "cachedInputPrice",
+    "outputPrice",
+    "status",
+    "defaultSafe",
+    "verificationStatus",
+    "verifiedAt",
+    "officialSourceUrl",
+    "contextWindow"
+  ],
+  "specialPolicies": {
+    "claude-sonnet-5": "Use effective-date selection: intro through 2026-08-31, standard from 2026-09-01.",
+    "cohere/command-a-plus": "excluded from default until official token pricing is complete.",
+    "gpt-4.1_family": "review_required and defaultSafe=false; may remain SEO/historical display with warning.",
+    "openai/gpt-5": "excluded from default until current API pricing is officially confirmed.",
+    "openai/o3": "excluded from default until current API pricing is officially confirmed.",
+    "xai/grok-3": "Do not display as active; if current cost is offered, label redirected billing to xai/grok-4.3."
+  }
+}

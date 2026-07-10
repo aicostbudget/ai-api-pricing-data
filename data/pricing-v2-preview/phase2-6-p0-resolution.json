@@ -1,0 +1,205 @@
+{
+  "P0BlockersAfter": [],
+  "P0BlockersBefore": [
+    "cohere/command-a-plus",
+    "google-gemini/gemini-3.1-pro-preview",
+    "google-gemini/gemini-3.5-flash",
+    "openai/gpt-5",
+    "openai/o3"
+  ],
+  "exclusionsFromDefault": [
+    "cohere/command-a-plus",
+    "openai/gpt-5",
+    "openai/o3"
+  ],
+  "generatedAt": "2026-07-07T00:00:00Z",
+  "integrationMappingCount": 174,
+  "perModelDecisions": [
+    {
+      "blockerReason": "official pricing page confirms token-based billing but does not expose a complete current Command A+ pay-as-you-go token price.",
+      "currentAvailability": "Live",
+      "currentEffectivePricingFound": false,
+      "defaultSafeDecision": false,
+      "evidenceCompleteness": "partial",
+      "finalAction": "exclude_from_default",
+      "lifecycleStatus": "active",
+      "modelInternalId": "cohere/command-a-plus",
+      "modelSourceRefs": [
+        "source:cohere:docs-cohere-com-docs-models"
+      ],
+      "officialModelExistence": "verified",
+      "officialModelId": "command-a-plus-05-2026",
+      "phase25DefaultSafe": false,
+      "priceRecordIds": [
+        "price:cohere/command-a-plus:standard:short:current"
+      ],
+      "pricingSourceRefs": [
+        "source:cohere:cohere-com-pricing",
+        "source:cohere:docs-cohere-com-docs-how-does-cohere-pricing-work"
+      ],
+      "verifiedAt": "2026-07-07T00:00:00Z"
+    },
+    {
+      "blockerReason": null,
+      "currentAvailability": "Preview",
+      "currentEffectivePricingFound": true,
+      "defaultSafeDecision": true,
+      "evidenceCompleteness": "complete",
+      "finalAction": "verified_default_safe",
+      "lifecycleStatus": "active",
+      "modelInternalId": "google-gemini/gemini-3.1-pro-preview",
+      "modelSourceRefs": [
+        "source:google-gemini:ai-google-dev-gemini-api-docs-pricing"
+      ],
+      "officialModelExistence": "verified",
+      "officialModelId": "gemini-3.1-pro-preview",
+      "phase25DefaultSafe": false,
+      "priceRecordIds": [
+        "price:google-gemini/gemini-3.1-pro-preview:standard:short:website-preview",
+        "price:google-gemini/gemini-3.1-pro-preview:standard:long:website-preview"
+      ],
+      "pricingSourceRefs": [
+        "source:google-gemini:ai-google-dev-gemini-api-docs-pricing"
+      ],
+      "structuredPricing": {
+        "standard_long": "prompts > 200k tokens",
+        "standard_short": "prompts <= 200k tokens"
+      },
+      "verifiedAt": "2026-07-05T00:00:00Z"
+    },
+    {
+      "blockerReason": null,
+      "currentAvailability": "Standard",
+      "currentEffectivePricingFound": true,
+      "defaultSafeDecision": true,
+      "evidenceCompleteness": "complete",
+      "finalAction": "verified_default_safe",
+      "lifecycleStatus": "active",
+      "modelInternalId": "google-gemini/gemini-3.5-flash",
+      "modelSourceRefs": [
+        "source:google-gemini:ai-google-dev-gemini-api-docs-pricing"
+      ],
+      "officialModelExistence": "verified",
+      "officialModelId": "gemini-3.5-flash",
+      "phase25DefaultSafe": true,
+      "priceRecordIds": [
+        "price:google-gemini/gemini-3.5-flash:standard:short:website-preview"
+      ],
+      "pricingSourceRefs": [
+        "source:google-gemini:ai-google-dev-gemini-api-docs-pricing"
+      ],
+      "verifiedAt": "2026-07-05T00:00:00Z"
+    },
+    {
+      "blockerReason": "current OpenAI API pricing page does not list gpt-5 current API pricing as a callable default model.",
+      "currentAvailability": "not_confirmed_for_default_api_pricing",
+      "currentEffectivePricingFound": false,
+      "defaultSafeDecision": false,
+      "evidenceCompleteness": "partial",
+      "finalAction": "exclude_from_default",
+      "lifecycleStatus": "active",
+      "modelInternalId": "openai/gpt-5",
+      "modelSourceRefs": [
+        "source:openai:developers-openai-com-api-docs-models"
+      ],
+      "officialModelExistence": "not_confirmed_current_api_pricing_identity",
+      "officialModelId": "gpt-5",
+      "phase25DefaultSafe": false,
+      "priceRecordIds": [
+        "price:openai/gpt-5:standard:short:current",
+        "price:openai/gpt-5:batch:short:current"
+      ],
+      "pricingSourceRefs": [
+        "source:openai:developers-openai-com-api-docs-pricing"
+      ],
+      "verifiedAt": "2026-07-07T00:00:00Z"
+    },
+    {
+      "blockerReason": "current OpenAI API pricing page lists o3-deep-research, not a current o3 default API price with cached-input semantics.",
+      "currentAvailability": "not_confirmed_for_default_api_pricing",
+      "currentEffectivePricingFound": false,
+      "defaultSafeDecision": false,
+      "evidenceCompleteness": "partial",
+      "finalAction": "exclude_from_default",
+      "lifecycleStatus": "active",
+      "modelInternalId": "openai/o3",
+      "modelSourceRefs": [
+        "source:openai:developers-openai-com-api-docs-models"
+      ],
+      "officialModelExistence": "not_confirmed_current_default_api_pricing_identity",
+      "officialModelId": "o3",
+      "phase25DefaultSafe": false,
+      "priceRecordIds": [
+        "price:openai/o3:standard:short:current",
+        "price:openai/o3:batch:short:current"
+      ],
+      "pricingSourceRefs": [
+        "source:openai:developers-openai-com-api-docs-pricing"
+      ],
+      "verifiedAt": "2026-07-07T00:00:00Z"
+    }
+  ],
+  "productionDefaultCandidateCount": 31,
+  "productionDefaultSafeCount": 31,
+  "productionDefaultUnsafeCount": 0,
+  "remainingBlockers": [],
+  "reviewRequiredRemaining": [
+    "price:openai/gpt-4.1:standard:short:current",
+    "price:openai/gpt-4.1:batch:short:current",
+    "price:openai/gpt-4.1-mini:standard:short:website-preview",
+    "price:openai/gpt-4.1-nano:standard:short:website-preview"
+  ],
+  "verificationUpgrades": [
+    "google-gemini/gemini-3.1-pro-preview",
+    "google-gemini/gemini-3.5-flash"
+  ],
+  "websiteUsageImpact": [
+    {
+      "integrationImpact": "excluded from default candidates; no direct Website usage mapping currently found",
+      "modelInternalId": "cohere/command-a-plus",
+      "usageMappingCount": 0,
+      "usageTypes": {},
+      "websiteModelId": "command-a-plus"
+    },
+    {
+      "integrationImpact": "verified default-safe; safe_to_integrate for mapped usages",
+      "modelInternalId": "google-gemini/gemini-3.1-pro-preview",
+      "usageMappingCount": 4,
+      "usageTypes": {
+        "calculator_dropdown_model": 1,
+        "pricing_comparison_model": 1,
+        "prompt_cost_optimizer_dropdown_model": 1,
+        "token_calculator_dropdown_model": 1
+      },
+      "websiteModelId": "gemini-3.1-pro-preview"
+    },
+    {
+      "integrationImpact": "verified default-safe; safe_to_integrate for mapped usages",
+      "modelInternalId": "google-gemini/gemini-3.5-flash",
+      "usageMappingCount": 6,
+      "usageTypes": {
+        "budget_planner_routing_model:scenario.balanced.35": 1,
+        "budget_planner_routing_model:summary.routeA": 1,
+        "calculator_dropdown_model": 1,
+        "pricing_comparison_model": 1,
+        "prompt_cost_optimizer_dropdown_model": 1,
+        "token_calculator_dropdown_model": 1
+      },
+      "websiteModelId": "gemini-3.5-flash"
+    },
+    {
+      "integrationImpact": "excluded from default candidates; no direct Website usage mapping currently found",
+      "modelInternalId": "openai/gpt-5",
+      "usageMappingCount": 0,
+      "usageTypes": {},
+      "websiteModelId": "gpt-5"
+    },
+    {
+      "integrationImpact": "excluded from default candidates; no direct Website usage mapping currently found",
+      "modelInternalId": "openai/o3",
+      "usageMappingCount": 0,
+      "usageTypes": {},
+      "websiteModelId": "o3"
+    }
+  ]
+}
