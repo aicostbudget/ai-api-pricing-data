@@ -1,80 +1,111 @@
 # AICostBudget AI API Pricing Dataset
 
-Open, machine-readable pricing data for LLM and AI APIs.
+Open, versioned, machine-readable pricing data for major LLM and AI APIs, linked to official provider sources.
+
+[![Validate](https://github.com/aicostbudget/ai-api-pricing-data/actions/workflows/validate.yml/badge.svg)](https://github.com/aicostbudget/ai-api-pricing-data/actions/workflows/validate.yml)
+[![Code license: MIT](https://img.shields.io/badge/code-MIT-blue.svg)](LICENSE-CODE)
+[![Data license: CC BY 4.0](https://img.shields.io/badge/data-CC%20BY%204.0-green.svg)](LICENSE-DATA)
+
+[Explore Live Pricing Data](https://aicostbudget.com/en/ai-api-pricing-data?utm_source=github&utm_medium=referral&utm_campaign=pricing_dataset) |
+[Calculate AI API Cost](https://aicostbudget.com/en/ai-api-cost-calculator?utm_source=github&utm_medium=referral&utm_campaign=pricing_dataset) |
+[Download JSON](https://aicostbudget.github.io/ai-api-pricing-data/api/v1/prices.json) |
+[Download CSV](https://aicostbudget.github.io/ai-api-pricing-data/api/v1/prices.csv)
 
 This repository publishes a versioned dataset and read-only static API for AI API pricing. It is designed for developers, SaaS builders, FinOps teams, researchers, technical writers, and AI systems that need source-linked pricing records instead of ad hoc scraped snippets.
 
 This project is maintained as an independent public dataset by AICostBudget. See [aicostbudget.com](https://aicostbudget.com).
 
+## Why this dataset?
+
+- Source-linked pricing records
+- Unknown or unverified values remain `null`, never `0`
+- Versioned JSON and CSV outputs
+- Per-model history files
+- Dated full snapshots
+- Read-only static API
+- Suitable for calculators, dashboards, cost analysis, and AI FinOps tooling
+
+The weekly freshness workflow checks source URLs and stale `last_verified_at` values. It does not guess, infer, or overwrite prices automatically.
+
+## Live Tools
+
+### AI API Pricing Dataset
+
+[Browse current provider and model pricing, methodology, downloads, and verification information.](https://aicostbudget.com/en/ai-api-pricing-data?utm_source=github&utm_medium=referral&utm_campaign=pricing_dataset&utm_content=live_dataset)
+
+### AI API Cost Calculator
+
+[Estimate input, output, and cached-token costs using the public pricing selector.](https://aicostbudget.com/en/ai-api-cost-calculator?utm_source=github&utm_medium=referral&utm_campaign=pricing_dataset&utm_content=cost_calculator)
+
 ## Quick Start
 
-Download the latest JSON:
+### Latest JSON
 
 ```bash
 curl -L https://aicostbudget.github.io/ai-api-pricing-data/api/v1/prices.json
 ```
 
-Download the latest CSV:
+### Latest CSV
 
 ```bash
 curl -L https://aicostbudget.github.io/ai-api-pricing-data/api/v1/prices.csv
 ```
 
-## JSON example
-
-```json
-{
-  "provider_id": "openai",
-  "model_id": "gpt-5",
-  "pricing": {
-    "currency": "USD",
-    "unit": "1M tokens",
-    "input": 1.25,
-    "output": 10.0,
-    "cached_input": 0.125,
-    "cache_write": null,
-    "batch_input": 0.625,
-    "batch_output": 5.0
-  },
-  "official_source_url": "https://platform.openai.com/docs/pricing"
-}
-```
-
-Unknown or unverified prices are represented as `null`, never `0`.
-
-## CSV example
-
-```csv
-provider_id,model_id,display_name,currency,unit,input,output,official_source_url
-openai,gpt-5,GPT-5,USD,1M tokens,1.25,10.0,https://platform.openai.com/docs/pricing
-```
-
-The real CSV includes all normalized fields.
-
-## curl example
+### Single model record
 
 ```bash
-curl -L https://aicostbudget.github.io/ai-api-pricing-data/api/v1/models/openai/gpt-5.json
+curl -L https://aicostbudget.github.io/ai-api-pricing-data/api/v1/models/openai/gpt-4.1.json
 ```
 
-## Python example
+### Python
 
 ```python
-import urllib.request
 import json
+import urllib.request
 
-url = "https://aicostbudget.github.io/ai-api-pricing-data/api/v1/prices.json"
-data = json.load(urllib.request.urlopen(url))
-print(data["provider_count"], data["model_count"])
+url = "https://aicostbudget.github.io/ai-api-pricing-data/api/v1/models/openai/gpt-4.1.json"
+with urllib.request.urlopen(url) as response:
+    model = json.load(response)
+
+print(model["provider_id"], model["model_id"], model["pricing"]["input"])
 ```
 
-## JavaScript example
+### JavaScript
 
 ```js
-const url = "https://aicostbudget.github.io/ai-api-pricing-data/api/v1/prices.json";
-const data = await fetch(url).then((response) => response.json());
-console.log(data.provider_count, data.model_count);
+const url = "https://aicostbudget.github.io/ai-api-pricing-data/api/v1/models/openai/gpt-4.1.json";
+
+async function main() {
+  const response = await fetch(url);
+  const model = await response.json();
+
+  console.log(model.provider_id, model.model_id, model.pricing.input);
+}
+
+main();
 ```
+
+## Common Use Cases
+
+- Power an AI API cost calculator
+- Compare model input and output pricing
+- Build internal FinOps dashboards
+- Track historical pricing changes
+- Audit source-linked pricing records
+- Export normalized pricing data to JSON or CSV
+- Support technical research and cost reporting
+
+## Explore Pricing by Provider
+
+| Provider | Pricing page |
+| --- | --- |
+| OpenAI | [OpenAI API pricing](https://aicostbudget.com/en/providers/openai-api-pricing?utm_source=github&utm_medium=referral&utm_campaign=pricing_dataset&utm_content=openai) |
+| Anthropic | [Anthropic API pricing](https://aicostbudget.com/en/providers/anthropic-api-pricing?utm_source=github&utm_medium=referral&utm_campaign=pricing_dataset&utm_content=anthropic) |
+| Google Gemini | [Google Gemini API pricing](https://aicostbudget.com/en/providers/google-gemini-api-pricing?utm_source=github&utm_medium=referral&utm_campaign=pricing_dataset&utm_content=google_gemini) |
+| xAI | [xAI API pricing](https://aicostbudget.com/en/providers/xai-api-pricing?utm_source=github&utm_medium=referral&utm_campaign=pricing_dataset&utm_content=xai) |
+| DeepSeek | [DeepSeek API pricing](https://aicostbudget.com/en/providers/deepseek-api-pricing?utm_source=github&utm_medium=referral&utm_campaign=pricing_dataset&utm_content=deepseek) |
+| Mistral AI | [Mistral AI API pricing](https://aicostbudget.com/en/providers/mistral-ai-api-pricing?utm_source=github&utm_medium=referral&utm_campaign=pricing_dataset&utm_content=mistral_ai) |
+| Cohere | [Cohere API pricing](https://aicostbudget.com/en/providers/cohere-api-pricing?utm_source=github&utm_medium=referral&utm_campaign=pricing_dataset&utm_content=cohere) |
 
 ## Supported Providers
 
@@ -96,9 +127,9 @@ Every model record includes:
 - `effective_from`
 - `notes`
 
-The weekly freshness workflow checks source URLs and stale `last_verified_at` values. It does not guess, infer, or overwrite prices automatically.
+Freshness checks are designed to surface stale source checks. Final billing decisions should still be verified against the provider's official pricing page, contract, and invoice.
 
-## API
+## API Reference
 
 The static API is published through GitHub Pages:
 
@@ -107,6 +138,10 @@ The static API is published through GitHub Pages:
 - `/api/v1/meta.json`
 - `/api/v1/providers/<provider>.json`
 - `/api/v1/models/<provider>/<model>.json`
+
+Unknown or unverified prices are represented as `null`, never `0`.
+
+The CSV output includes normalized pricing fields for provider, model, pricing unit, source URL, verification dates, and notes.
 
 ## Historical Pricing
 
@@ -146,4 +181,3 @@ Code is licensed under MIT in [LICENSE-CODE](LICENSE-CODE). Data is licensed und
 ## Disclaimer
 
 This dataset is informational and may lag provider pricing changes. Always verify final billing decisions with the provider's official pricing page, contract, and invoice. Provider names and trademarks belong to their respective owners. This project is not affiliated with, endorsed by, or sponsored by any listed provider.
-
