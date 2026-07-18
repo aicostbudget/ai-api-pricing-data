@@ -1,17 +1,20 @@
-# AICostBudget AI API Pricing Dataset
+# AI API Pricing Dataset
 
-Open, versioned, machine-readable pricing data for major LLM and AI APIs, linked to official provider sources.
+This dataset provides AI API model pricing data for cost estimation, LLM budget planning, and model price comparison.
+
+Maintained, curated, machine-readable pricing data for major LLM and AI APIs. Prices change frequently, so production budget decisions should always be checked against the relevant provider pricing pages.
 
 [![Validate](https://github.com/aicostbudget/ai-api-pricing-data/actions/workflows/validate.yml/badge.svg)](https://github.com/aicostbudget/ai-api-pricing-data/actions/workflows/validate.yml)
 [![Code license: MIT](https://img.shields.io/badge/code-MIT-blue.svg)](LICENSE-CODE)
 [![Data license: CC BY 4.0](https://img.shields.io/badge/data-CC%20BY%204.0-green.svg)](LICENSE-DATA)
 
-[Explore Live Pricing Data](https://aicostbudget.com/en/ai-api-pricing-data?utm_source=github&utm_medium=referral&utm_campaign=pricing_dataset) |
-[Calculate AI API Cost](https://aicostbudget.com/en/ai-api-cost-calculator?utm_source=github&utm_medium=referral&utm_campaign=pricing_dataset) |
+[AI API Cost Calculator](https://aicostbudget.com/en/ai-api-cost-calculator?utm_source=huggingface&utm_medium=dataset&utm_campaign=ai_api_pricing) |
+[Model Pricing Comparison](https://aicostbudget.com/en/model-pricing-comparison?utm_source=huggingface&utm_medium=dataset&utm_campaign=ai_api_pricing) |
+[AI Budget Planner](https://aicostbudget.com/en/ai-budget-planner?utm_source=huggingface&utm_medium=dataset&utm_campaign=ai_api_pricing) |
 [Download JSON](https://aicostbudget.github.io/ai-api-pricing-data/api/v1/prices.json) |
 [Download CSV](https://aicostbudget.github.io/ai-api-pricing-data/api/v1/prices.csv)
 
-This repository publishes a versioned dataset and read-only static API for AI API pricing. It is designed for developers, SaaS builders, FinOps teams, researchers, technical writers, and AI systems that need source-linked pricing records instead of ad hoc scraped snippets.
+This repository publishes a versioned dataset and read-only static API for AI API pricing. It is designed for developers, SaaS builders, FinOps teams, researchers, technical writers, and AI systems that need maintained pricing records instead of ad hoc scraped snippets.
 
 This project is maintained as an independent public dataset by AICostBudget. See [aicostbudget.com](https://aicostbudget.com).
 
@@ -27,15 +30,19 @@ This project is maintained as an independent public dataset by AICostBudget. See
 
 The weekly freshness workflow checks source URLs and stale `last_verified_at` values. It does not guess, infer, or overwrite prices automatically.
 
-## Live Tools
-
-### AI API Pricing Dataset
-
-[Browse current provider and model pricing, methodology, downloads, and verification information.](https://aicostbudget.com/en/ai-api-pricing-data?utm_source=github&utm_medium=referral&utm_campaign=pricing_dataset&utm_content=live_dataset)
+## Website Tools
 
 ### AI API Cost Calculator
 
-[Estimate input, output, and cached-token costs using the public pricing selector.](https://aicostbudget.com/en/ai-api-cost-calculator?utm_source=github&utm_medium=referral&utm_campaign=pricing_dataset&utm_content=cost_calculator)
+[Estimate token usage and monthly AI API costs.](https://aicostbudget.com/en/ai-api-cost-calculator?utm_source=huggingface&utm_medium=dataset&utm_campaign=ai_api_pricing)
+
+### Model Pricing Comparison
+
+[Compare model pricing across providers.](https://aicostbudget.com/en/model-pricing-comparison?utm_source=huggingface&utm_medium=dataset&utm_campaign=ai_api_pricing)
+
+### AI Budget Planner
+
+[Plan AI feature budgets for products and SaaS applications.](https://aicostbudget.com/en/ai-budget-planner?utm_source=huggingface&utm_medium=dataset&utm_campaign=ai_api_pricing)
 
 ## Quick Start
 
@@ -85,15 +92,13 @@ async function main() {
 main();
 ```
 
-## Common Use Cases
+## Use Cases
 
-- Power an AI API cost calculator
-- Compare model input and output pricing
-- Build internal FinOps dashboards
-- Track historical pricing changes
-- Audit source-linked pricing records
-- Export normalized pricing data to JSON or CSV
-- Support technical research and cost reporting
+- Compare AI model prices
+- Estimate monthly AI API cost
+- Build LLM cost dashboards
+- Plan SaaS AI feature budgets
+- Track model pricing changes
 
 ## Explore Pricing by Provider
 
@@ -107,15 +112,40 @@ main();
 | Mistral AI | [Mistral AI API pricing](https://aicostbudget.com/en/providers/mistral-ai-api-pricing?utm_source=github&utm_medium=referral&utm_campaign=pricing_dataset&utm_content=mistral_ai) |
 | Cohere | [Cohere API pricing](https://aicostbudget.com/en/providers/cohere-api-pricing?utm_source=github&utm_medium=referral&utm_campaign=pricing_dataset&utm_content=cohere) |
 
-## Supported Providers
+## Coverage
 
 - OpenAI
-- Anthropic
+- Anthropic Claude
 - Google Gemini
-- xAI
 - DeepSeek
+- xAI Grok
 - Mistral AI
 - Cohere
+
+## Fields
+
+The CSV output uses the following fields:
+
+| Field | Meaning |
+| --- | --- |
+| `provider_id` | Stable provider identifier. |
+| `model_id` | Stable model identifier within the provider. |
+| `display_name` | Human-readable model name. |
+| `model_family` | Model family or grouping when available. |
+| `status` | Model availability or lifecycle status. |
+| `currency` | Pricing currency. |
+| `unit` | Pricing unit, such as per-token or per-million-token billing units. |
+| `input` | Input token price for the listed unit. |
+| `output` | Output token price for the listed unit. |
+| `cached_input` | Cached input token price when available. |
+| `cache_write` | Cache write price when available. |
+| `batch_input` | Batch input token price when available. |
+| `batch_output` | Batch output token price when available. |
+| `official_source_url` | Provider page or document URL used for source checking. |
+| `accessed_at` | Date when the source was accessed. |
+| `last_verified_at` | Date when the record was last verified. |
+| `effective_from` | Date when the listed pricing became effective, if known. |
+| `notes` | Additional context or caveats for the record. |
 
 ## Data Freshness
 
@@ -180,4 +210,6 @@ Code is licensed under MIT in [LICENSE-CODE](LICENSE-CODE). Data is licensed und
 
 ## Disclaimer
 
-This dataset is informational and may lag provider pricing changes. Always verify final billing decisions with the provider's official pricing page, contract, and invoice. Provider names and trademarks belong to their respective owners. This project is not affiliated with, endorsed by, or sponsored by any listed provider.
+AI API prices change frequently. Always verify official provider pricing pages before making production budget decisions.
+
+This dataset is informational and may lag provider pricing changes. Provider names and trademarks belong to their respective owners. This project is not affiliated with, endorsed by, or sponsored by any listed provider.
