@@ -14,7 +14,7 @@
 [Compare Model Pricing](https://aicostbudget.com/en/model-pricing-comparison?utm_source=github&utm_medium=referral&utm_campaign=ai_api_pricing&utm_content=header_model_comparison) |
 [Plan an AI Budget](https://aicostbudget.com/en/ai-budget-planner?utm_source=github&utm_medium=referral&utm_campaign=ai_api_pricing&utm_content=header_budget_planner)
 
-[Download JSON](https://aicostbudget.github.io/ai-api-pricing-data/api/v1/prices.json) |
+[View JSON API](https://aicostbudget.github.io/ai-api-pricing-data/api/v1/prices.json) |
 [Download CSV](https://aicostbudget.github.io/ai-api-pricing-data/api/v1/prices.csv)
 
 Use this dataset when you need maintained pricing records instead of ad hoc scraped snippets. Every record includes an official source and verification metadata, and unknown or insufficiently verified prices remain `null`, never `0`.
