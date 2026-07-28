@@ -1,34 +1,32 @@
 # AI API Pricing Dataset
 
-This dataset provides AI API model pricing data for cost estimation, LLM budget planning, and model price comparison.
+**Source-linked, machine-readable AI API pricing for cost calculators, model comparison, budget planning, and AI FinOps.**
 
-Maintained, curated, machine-readable pricing data for major LLM and AI APIs. Prices change frequently, so production budget decisions should always be checked against the relevant provider pricing pages.
+`7 providers` | `21 normalized model records` | `10 official sources` | `JSON + CSV` | `per-model history`
 
 [![Validate](https://github.com/aicostbudget/ai-api-pricing-data/actions/workflows/validate.yml/badge.svg)](https://github.com/aicostbudget/ai-api-pricing-data/actions/workflows/validate.yml)
 [![Code license: MIT](https://img.shields.io/badge/code-MIT-blue.svg)](LICENSE-CODE)
 [![Data license: CC BY 4.0](https://img.shields.io/badge/data-CC%20BY%204.0-green.svg)](LICENSE-DATA)
 
-[AI API Cost Calculator](https://aicostbudget.com/en/ai-api-cost-calculator?utm_source=github&utm_medium=referral&utm_campaign=ai_api_pricing&utm_content=header_cost_calculator) |
-[Model Pricing Comparison](https://aicostbudget.com/en/model-pricing-comparison?utm_source=github&utm_medium=referral&utm_campaign=ai_api_pricing&utm_content=header_model_comparison) |
-[AI Budget Planner](https://aicostbudget.com/en/ai-budget-planner?utm_source=github&utm_medium=referral&utm_campaign=ai_api_pricing&utm_content=header_budget_planner) |
+[Try the AI API Cost Calculator](https://aicostbudget.com/en/ai-api-cost-calculator?utm_source=github&utm_medium=referral&utm_campaign=ai_api_pricing&utm_content=header_cost_calculator)
+
+[Browse the Pricing Dataset](https://aicostbudget.com/en/ai-api-pricing-data?utm_source=github&utm_medium=referral&utm_campaign=ai_api_pricing&utm_content=header_dataset_page) |
+[Compare Model Pricing](https://aicostbudget.com/en/model-pricing-comparison?utm_source=github&utm_medium=referral&utm_campaign=ai_api_pricing&utm_content=header_model_comparison) |
+[Plan an AI Budget](https://aicostbudget.com/en/ai-budget-planner?utm_source=github&utm_medium=referral&utm_campaign=ai_api_pricing&utm_content=header_budget_planner)
+
 [Download JSON](https://aicostbudget.github.io/ai-api-pricing-data/api/v1/prices.json) |
 [Download CSV](https://aicostbudget.github.io/ai-api-pricing-data/api/v1/prices.csv)
 
-This repository publishes a versioned dataset and read-only static API for AI API pricing. It is designed for developers, SaaS builders, FinOps teams, researchers, technical writers, and AI systems that need maintained pricing records instead of ad hoc scraped snippets.
+Use this dataset when you need maintained pricing records instead of ad hoc scraped snippets. Every record includes an official source and verification metadata, and unknown or insufficiently verified prices remain `null`, never `0`.
 
-This project is maintained as an independent public dataset by AICostBudget. See [aicostbudget.com](https://aicostbudget.com).
+- Official-source-linked pricing records
+- Standard, cached, and batch pricing where available
+- Per-model history and dated snapshots
+- Read-only static API for calculators, dashboards, and AI FinOps tools
 
-## Why this dataset?
+This project is maintained as an independent public dataset by [AICostBudget](https://aicostbudget.com/en/ai-api-pricing-data?utm_source=github&utm_medium=referral&utm_campaign=ai_api_pricing&utm_content=maintainer_dataset_page).
 
-- Source-linked pricing records
-- Unknown or unverified values remain `null`, never `0`
-- Versioned JSON and CSV outputs
-- Per-model history files
-- Dated full snapshots
-- Read-only static API
-- Suitable for calculators, dashboards, cost analysis, and AI FinOps tooling
-
-The weekly freshness workflow checks source URLs and stale `last_verified_at` values. It does not guess, infer, or overwrite prices automatically.
+Prices change frequently, so production budget decisions should always be checked against the relevant provider pricing pages. The weekly freshness workflow checks source URLs and stale `last_verified_at` values; it does not guess, infer, or overwrite prices automatically.
 
 ## Website Tools
 
