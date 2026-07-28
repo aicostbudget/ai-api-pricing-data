@@ -8,9 +8,9 @@ Maintained, curated, machine-readable pricing data for major LLM and AI APIs. Pr
 [![Code license: MIT](https://img.shields.io/badge/code-MIT-blue.svg)](LICENSE-CODE)
 [![Data license: CC BY 4.0](https://img.shields.io/badge/data-CC%20BY%204.0-green.svg)](LICENSE-DATA)
 
-[AI API Cost Calculator](https://aicostbudget.com/en/ai-api-cost-calculator?utm_source=huggingface&utm_medium=dataset&utm_campaign=ai_api_pricing) |
-[Model Pricing Comparison](https://aicostbudget.com/en/model-pricing-comparison?utm_source=huggingface&utm_medium=dataset&utm_campaign=ai_api_pricing) |
-[AI Budget Planner](https://aicostbudget.com/en/ai-budget-planner?utm_source=huggingface&utm_medium=dataset&utm_campaign=ai_api_pricing) |
+[AI API Cost Calculator](https://aicostbudget.com/en/ai-api-cost-calculator?utm_source=github&utm_medium=referral&utm_campaign=ai_api_pricing&utm_content=header_cost_calculator) |
+[Model Pricing Comparison](https://aicostbudget.com/en/model-pricing-comparison?utm_source=github&utm_medium=referral&utm_campaign=ai_api_pricing&utm_content=header_model_comparison) |
+[AI Budget Planner](https://aicostbudget.com/en/ai-budget-planner?utm_source=github&utm_medium=referral&utm_campaign=ai_api_pricing&utm_content=header_budget_planner) |
 [Download JSON](https://aicostbudget.github.io/ai-api-pricing-data/api/v1/prices.json) |
 [Download CSV](https://aicostbudget.github.io/ai-api-pricing-data/api/v1/prices.csv)
 
@@ -34,15 +34,15 @@ The weekly freshness workflow checks source URLs and stale `last_verified_at` va
 
 ### AI API Cost Calculator
 
-[Estimate token usage and monthly AI API costs.](https://aicostbudget.com/en/ai-api-cost-calculator?utm_source=huggingface&utm_medium=dataset&utm_campaign=ai_api_pricing)
+[Estimate token usage and monthly AI API costs.](https://aicostbudget.com/en/ai-api-cost-calculator?utm_source=github&utm_medium=referral&utm_campaign=ai_api_pricing&utm_content=website_tools_cost_calculator)
 
 ### Model Pricing Comparison
 
-[Compare model pricing across providers.](https://aicostbudget.com/en/model-pricing-comparison?utm_source=huggingface&utm_medium=dataset&utm_campaign=ai_api_pricing)
+[Compare model pricing across providers.](https://aicostbudget.com/en/model-pricing-comparison?utm_source=github&utm_medium=referral&utm_campaign=ai_api_pricing&utm_content=website_tools_model_comparison)
 
 ### AI Budget Planner
 
-[Plan AI feature budgets for products and SaaS applications.](https://aicostbudget.com/en/ai-budget-planner?utm_source=huggingface&utm_medium=dataset&utm_campaign=ai_api_pricing)
+[Plan AI feature budgets for products and SaaS applications.](https://aicostbudget.com/en/ai-budget-planner?utm_source=github&utm_medium=referral&utm_campaign=ai_api_pricing&utm_content=website_tools_budget_planner)
 
 ## Quick Start
 
