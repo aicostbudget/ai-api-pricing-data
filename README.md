@@ -1,46 +1,48 @@
 # AI API Pricing Dataset
 
-**Source-linked, machine-readable AI API pricing for cost calculators, model comparison, budget planning, and AI FinOps.**
+This dataset provides AI API model pricing data for cost estimation, LLM budget planning, and model price comparison.
 
-`7 providers` | `21 normalized model records` | `10 official sources` | `JSON + CSV` | `per-model history`
+Maintained, curated, machine-readable pricing data for major LLM and AI APIs. Prices change frequently, so production budget decisions should always be checked against the relevant provider pricing pages.
 
 [![Validate](https://github.com/aicostbudget/ai-api-pricing-data/actions/workflows/validate.yml/badge.svg)](https://github.com/aicostbudget/ai-api-pricing-data/actions/workflows/validate.yml)
 [![Code license: MIT](https://img.shields.io/badge/code-MIT-blue.svg)](LICENSE-CODE)
 [![Data license: CC BY 4.0](https://img.shields.io/badge/data-CC%20BY%204.0-green.svg)](LICENSE-DATA)
 
-[Try the AI API Cost Calculator](https://aicostbudget.com/en/ai-api-cost-calculator?utm_source=github&utm_medium=referral&utm_campaign=ai_api_pricing&utm_content=header_cost_calculator)
-
-[Browse the Pricing Dataset](https://aicostbudget.com/en/ai-api-pricing-data?utm_source=github&utm_medium=referral&utm_campaign=ai_api_pricing&utm_content=header_dataset_page) |
-[Compare Model Pricing](https://aicostbudget.com/en/model-pricing-comparison?utm_source=github&utm_medium=referral&utm_campaign=ai_api_pricing&utm_content=header_model_comparison) |
-[Plan an AI Budget](https://aicostbudget.com/en/ai-budget-planner?utm_source=github&utm_medium=referral&utm_campaign=ai_api_pricing&utm_content=header_budget_planner)
-
-[View JSON API](https://aicostbudget.github.io/ai-api-pricing-data/api/v1/prices.json) |
+[AI API Cost Calculator](https://aicostbudget.com/en/ai-api-cost-calculator?utm_source=huggingface&utm_medium=dataset&utm_campaign=ai_api_pricing) |
+[Model Pricing Comparison](https://aicostbudget.com/en/model-pricing-comparison?utm_source=huggingface&utm_medium=dataset&utm_campaign=ai_api_pricing) |
+[AI Budget Planner](https://aicostbudget.com/en/ai-budget-planner?utm_source=huggingface&utm_medium=dataset&utm_campaign=ai_api_pricing) |
+[Download JSON](https://aicostbudget.github.io/ai-api-pricing-data/api/v1/prices.json) |
 [Download CSV](https://aicostbudget.github.io/ai-api-pricing-data/api/v1/prices.csv)
 
-Use this dataset when you need maintained pricing records instead of ad hoc scraped snippets. Every record includes an official source and verification metadata, and unknown or insufficiently verified prices remain `null`, never `0`.
+This repository publishes a versioned dataset and read-only static API for AI API pricing. It is designed for developers, SaaS builders, FinOps teams, researchers, technical writers, and AI systems that need maintained pricing records instead of ad hoc scraped snippets.
 
-- Official-source-linked pricing records
-- Standard, cached, and batch pricing where available
-- Per-model history and dated snapshots
-- Read-only static API for calculators, dashboards, and AI FinOps tools
+This project is maintained as an independent public dataset by AICostBudget. See [aicostbudget.com](https://aicostbudget.com).
 
-This project is maintained as an independent public dataset by [AICostBudget](https://aicostbudget.com/en/ai-api-pricing-data?utm_source=github&utm_medium=referral&utm_campaign=ai_api_pricing&utm_content=maintainer_dataset_page).
+## Why this dataset?
 
-Prices change frequently, so production budget decisions should always be checked against the relevant provider pricing pages. The weekly freshness workflow checks source URLs and stale `last_verified_at` values; it does not guess, infer, or overwrite prices automatically.
+- Source-linked pricing records
+- Unknown or unverified values remain `null`, never `0`
+- Versioned JSON and CSV outputs
+- Per-model history files
+- Dated full snapshots
+- Read-only static API
+- Suitable for calculators, dashboards, cost analysis, and AI FinOps tooling
+
+The weekly freshness workflow checks source URLs and stale `last_verified_at` values. It does not guess, infer, or overwrite prices automatically.
 
 ## Website Tools
 
 ### AI API Cost Calculator
 
-[Estimate token usage and monthly AI API costs.](https://aicostbudget.com/en/ai-api-cost-calculator?utm_source=github&utm_medium=referral&utm_campaign=ai_api_pricing&utm_content=website_tools_cost_calculator)
+[Estimate token usage and monthly AI API costs.](https://aicostbudget.com/en/ai-api-cost-calculator?utm_source=huggingface&utm_medium=dataset&utm_campaign=ai_api_pricing)
 
 ### Model Pricing Comparison
 
-[Compare model pricing across providers.](https://aicostbudget.com/en/model-pricing-comparison?utm_source=github&utm_medium=referral&utm_campaign=ai_api_pricing&utm_content=website_tools_model_comparison)
+[Compare model pricing across providers.](https://aicostbudget.com/en/model-pricing-comparison?utm_source=huggingface&utm_medium=dataset&utm_campaign=ai_api_pricing)
 
 ### AI Budget Planner
 
-[Plan AI feature budgets for products and SaaS applications.](https://aicostbudget.com/en/ai-budget-planner?utm_source=github&utm_medium=referral&utm_campaign=ai_api_pricing&utm_content=website_tools_budget_planner)
+[Plan AI feature budgets for products and SaaS applications.](https://aicostbudget.com/en/ai-budget-planner?utm_source=huggingface&utm_medium=dataset&utm_campaign=ai_api_pricing)
 
 ## Quick Start
 
@@ -185,6 +187,48 @@ Dated full snapshots are stored under:
 data/snapshots/<YYYY-MM-DD>/prices.json
 data/snapshots/<YYYY-MM-DD>/prices.csv
 ```
+
+### Price Change Events
+
+Canonical price change events are stored in:
+
+```text
+data/price-change-events/events.jsonl
+```
+
+A price change event is different from a normal history verification row. History rows record source verification state for a model and may change when `last_verified_at`, `official_source_url`, or notes change. Price change events record only verified pricing semantics: input price, cached input price, output price, unit, and currency changes between two trusted snapshots.
+
+Baseline snapshots are not price changes. New snapshots, reordered files, source URL edits, status changes, or repeated verification dates must not create price change events when the prices are unchanged.
+
+Date fields use separate meanings:
+
+- `effective_from`: provider-announced effective date only. It stays `null` when the provider did not publish one.
+- `detected_at`: the first snapshot date where the repository observed the change by comparing trusted snapshots.
+- `verified_at`: the date the new price was checked against an official provider source.
+- `date_basis`: one of `provider_announced`, `official_changelog`, `first_observed`, or `unknown`.
+
+Preview events without writing:
+
+```bash
+python scripts\generate_price_change_events.py --before data\snapshots\2026-07-09\prices.json --after data\snapshots\2026-07-27\prices.json --dry-run
+```
+
+Generate the canonical JSONL projection:
+
+```bash
+python scripts\generate_price_change_events.py --before data\snapshots\2026-07-09\prices.json --after data\snapshots\2026-07-27\prices.json
+```
+
+The generator matches models by `provider_id + model_id`, compares only pricing semantics, writes stable sorted output, and merges by `dedupe_key`. The first version emits `price_update`, `cached_price_added`, and `cached_price_removed`; it does not emit `pricing_added` or `pricing_removed` because a model first appearing in a snapshot may be coverage expansion rather than an official pricing launch. The dedupe key is based on provider, model, old prices, new prices, unit, currency, and change type. It excludes `verified_at`, `announcement_url`, and notes so later metadata backfills update the same event instead of creating a duplicate.
+
+Manual backfills should edit the existing event with the same `dedupe_key`. Add `effective_from` only when an official provider announcement, official changelog, or pricing page explicitly gives the effective date. Add `announcement_url` only for an official URL; do not invent one.
+
+Current canonical event count is 2:
+
+- Mistral AI `mistral-large`: `price_update`
+- xAI `grok-4.3`: `cached_price_added`
+
+The current data is not ready for a public Pricing History page. Suggested readiness gates are at least 5 real price changes, at least 3 providers covered, official source for every event, `detected_at` and `verified_at` for every event, explicit marking of unknown effective dates, and no inferred old prices.
 
 ## Methodology
 
