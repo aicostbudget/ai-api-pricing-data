@@ -7,6 +7,10 @@ from datetime import datetime, timezone
 from pathlib import Path
 from urllib.request import Request, urlopen
 
+try:
+    from generate_price_change_events import EVENTS_PATH, load_events
+except ModuleNotFoundError:
+    from scripts.generate_price_change_events import EVENTS_PATH, load_events
 from lib import API, DATA, PRICE_FIELDS, ROOT, build_dataset, csv_rows, load_models, load_providers
 
 
@@ -82,10 +86,25 @@ def validate_outputs() -> None:
 
 
 def validate_schema_files() -> None:
-    for name in ("model.schema.json", "provider.schema.json", "dataset.schema.json"):
+    for name in ("model.schema.json", "provider.schema.json", "dataset.schema.json", "price-change-event.schema.json"):
         schema = json.loads((ROOT / "schema" / name).read_text(encoding="utf-8"))
         if schema.get("$schema") != "https://json-schema.org/draft/2020-12/schema":
             fail(f"schema {name} missing draft marker")
+
+
+def validate_price_change_events() -> None:
+    if not EVENTS_PATH.exists():
+        fail(f"missing price change events file {EVENTS_PATH.relative_to(ROOT)}")
+    events = load_events(EVENTS_PATH)
+    if len(events) != 2:
+        fail(f"expected 2 verified price change events, found {len(events)}")
+    expected = {
+        ("mistral-ai", "mistral-large", "price_update"),
+        ("xai", "grok-4.3", "cached_price_added"),
+    }
+    actual = {(event["provider_id"], event["model_id"], event["change_type"]) for event in events}
+    if actual != expected:
+        fail(f"unexpected price change event set: {sorted(actual)}")
 
 
 def freshness_report(days: int, check_urls: bool) -> int:
@@ -126,6 +145,7 @@ def main() -> None:
     args = parser.parse_args()
     validate_schema_files()
     validate_models()
+    validate_price_change_events()
     if args.freshness_report:
         raise SystemExit(freshness_report(args.max_age_days, args.check_urls))
     validate_outputs()

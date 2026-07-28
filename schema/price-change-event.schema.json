@@ -1,0 +1,76 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://aicostbudget.com/schemas/ai-api-pricing/price-change-event.schema.json",
+  "title": "AI API Pricing Price Change Event",
+  "type": "object",
+  "required": [
+    "schema_version",
+    "event_id",
+    "provider_id",
+    "model_id",
+    "change_type",
+    "old_prices",
+    "new_prices",
+    "unit",
+    "currency",
+    "effective_from",
+    "detected_at",
+    "verified_at",
+    "date_basis",
+    "official_source_url",
+    "announcement_url",
+    "source_snapshot_before",
+    "source_snapshot_after",
+    "dedupe_key",
+    "notes"
+  ],
+  "additionalProperties": false,
+  "properties": {
+    "schema_version": {"type": "string", "const": "1.0"},
+    "event_id": {"type": "string", "minLength": 1},
+    "provider_id": {"type": "string", "pattern": "^[a-z0-9][a-z0-9-]*$"},
+    "model_id": {"type": "string", "minLength": 1},
+    "change_type": {
+      "type": "string",
+      "enum": [
+        "price_update",
+        "cached_price_added",
+        "cached_price_removed"
+      ]
+    },
+    "old_prices": {"$ref": "#/$defs/priceTriple"},
+    "new_prices": {"$ref": "#/$defs/priceTriple"},
+    "unit": {"type": "string", "enum": ["1M tokens"]},
+    "currency": {"type": "string", "const": "USD"},
+    "effective_from": {"type": ["string", "null"], "format": "date"},
+    "detected_at": {"type": "string", "format": "date"},
+    "verified_at": {"type": "string", "format": "date"},
+    "date_basis": {
+      "type": "string",
+      "enum": [
+        "provider_announced",
+        "official_changelog",
+        "first_observed",
+        "unknown"
+      ]
+    },
+    "official_source_url": {"type": "string", "format": "uri", "pattern": "^https://"},
+    "announcement_url": {"type": ["string", "null"], "format": "uri"},
+    "source_snapshot_before": {"type": "string", "minLength": 1},
+    "source_snapshot_after": {"type": "string", "minLength": 1},
+    "dedupe_key": {"type": "string", "minLength": 1},
+    "notes": {"type": "string"}
+  },
+  "$defs": {
+    "priceTriple": {
+      "type": "object",
+      "required": ["input", "cached_input", "output"],
+      "additionalProperties": false,
+      "properties": {
+        "input": {"type": ["number", "null"], "minimum": 0},
+        "cached_input": {"type": ["number", "null"], "minimum": 0},
+        "output": {"type": ["number", "null"], "minimum": 0}
+      }
+    }
+  }
+}
