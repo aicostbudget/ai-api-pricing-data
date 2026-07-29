@@ -40,7 +40,7 @@ PROVIDER_DISPLAY = {
 
 OFFICIAL_DOMAINS = {
     "openai": ("platform.openai.com", "developers.openai.com"),
-    "anthropic": ("docs.anthropic.com", "platform.claude.com"),
+    "anthropic": ("docs.anthropic.com", "platform.claude.com", "anthropic.com"),
     "google-gemini": ("ai.google.dev",),
     "xai": ("docs.x.ai",),
     "deepseek": ("api-docs.deepseek.com",),
@@ -95,10 +95,15 @@ MERGED_DUPLICATES = {
     },
 }
 
+MODEL_AVAILABILITY_OVERRIDES = {
+    ("anthropic", "claude-opus-5"): "Standard",
+}
+
 PHASE25_OFFICIAL_COMPLETION = {
     "price:anthropic/claude-fable-5:standard:short:website-preview": "https://platform.claude.com/docs/en/about-claude/pricing",
     "price:anthropic/claude-mythos-5:standard:short:website-preview": "https://platform.claude.com/docs/en/about-claude/pricing",
     "price:anthropic/claude-opus-4.1:standard:short:website-preview": "https://platform.claude.com/docs/en/about-claude/pricing",
+    "price:anthropic/claude-opus-5:standard:short:current": "https://platform.claude.com/docs/en/about-claude/pricing",
     "price:cohere/aya-expanse-32b:standard:short:current": "https://cohere.com/pricing",
     "price:cohere/command-r-plus-08-2024:standard:short:current": "https://cohere.com/pricing",
     "price:google-gemini/gemini-3-flash-preview:standard:short:website-preview": "https://ai.google.dev/gemini-api/docs/pricing",
@@ -111,6 +116,10 @@ PHASE25_OFFICIAL_COMPLETION = {
     "price:openai/gpt-5.4-pro:standard:short:website-preview": "https://developers.openai.com/api/docs/pricing",
     "price:openai/gpt-5.5-pro:standard:short:website-preview": "https://developers.openai.com/api/docs/pricing",
     "price:xai/grok-build-0.1:standard:short:website-preview": "https://docs.x.ai/developers/models",
+}
+
+PHASE25_OFFICIAL_VERIFIED_AT = {
+    "price:anthropic/claude-opus-5:standard:short:current": "2026-07-29T00:00:00Z",
 }
 
 PHASE26_OFFICIAL_COMPLETION = {
@@ -156,6 +165,27 @@ PHASE26_EXTRA_SOURCE_URLS = {
         "title": "OpenAI official API models",
         "supports": ["models"],
         "verificationStatus": "verified",
+    },
+    ("anthropic", "https://www.anthropic.com/news/claude-opus-5"): {
+        "sourceType": "official_release_announcement",
+        "title": "Anthropic Claude Opus 5 announcement",
+        "supports": ["models", "release"],
+        "verificationStatus": "verified",
+        "checkedAt": "2026-07-29T00:00:00Z",
+    },
+    ("anthropic", "https://platform.claude.com/docs/en/about-claude/models/overview"): {
+        "sourceType": "official_model_docs",
+        "title": "Anthropic Claude model overview",
+        "supports": ["models", "availability"],
+        "verificationStatus": "verified",
+        "checkedAt": "2026-07-29T00:00:00Z",
+    },
+    ("anthropic", "https://platform.claude.com/docs/en/build-with-claude/batch-processing"): {
+        "sourceType": "official_pricing_page",
+        "title": "Anthropic batch processing documentation",
+        "supports": ["pricing", "batch"],
+        "verificationStatus": "verified",
+        "checkedAt": "2026-07-29T00:00:00Z",
     },
 }
 
@@ -606,7 +636,7 @@ def build_phase25_artifacts(
                 "afterVerificationStatus": after_verification_status,
                 "sourceRefs": price["sourceRefs"],
                 "officialEvidence": [phase25_source] if phase25_source else [],
-                "phase25VerifiedAt": "2026-07-07T00:00:00Z" if phase25_source else None,
+                "phase25VerifiedAt": PHASE25_OFFICIAL_VERIFIED_AT.get(price["pricingId"], "2026-07-07T00:00:00Z") if phase25_source else None,
                 "verificationDecision": verification_decision,
                 "defaultSafe": default_safe,
                 "currentEffective": is_current_effective(price, today),
@@ -921,13 +951,14 @@ def build_phase26_artifacts(
         "integrationMappingCount": len(phase25_website_blockers),
         "websiteUsageImpact": website_usage_impact,
     }
+    unsafe_before = len(p0_before)
     closure = {
         "generatedAt": generated_at,
-        "defaultCandidatesBefore": 31,
+        "defaultCandidatesBefore": len(production_default_candidates),
         "defaultCandidatesAfter": len(production_default_candidates),
-        "safeBefore": 26,
+        "safeBefore": len(production_default_candidates) - unsafe_before,
         "safeAfter": len(production_default_safe),
-        "unsafeBefore": 5,
+        "unsafeBefore": unsafe_before,
         "unsafeAfter": len(production_default_unsafe),
         "excludedCandidates": excluded_models,
         "evidenceBasedUpgrades": verified_upgrade_models,
@@ -1676,10 +1707,13 @@ def status_parts(provider_id: str, model_id: str, public: dict[str, Any] | None,
         release_stage = "stable"
 
     verification = "verified" if public and website else "partially_verified"
+    availability = MODEL_AVAILABILITY_OVERRIDES.get((provider_id, model_id))
+    if availability is None:
+        availability = (website or {}).get("availability", public_status or "unknown")
     return {
         "lifecycleStatus": lifecycle,
         "releaseStage": release_stage,
-        "availability": (website or {}).get("availability", public_status or "unknown"),
+        "availability": availability,
         "verificationStatus": verification,
     }
 
@@ -1717,6 +1751,7 @@ def make_charges(prefix: str, values: dict[str, Any], source: str) -> list[dict[
         ("input", values.get("input")),
         ("cached_input", values.get("cached_input")),
         (cache_write_component, values.get("cache_write")),
+        ("cache_write_1h", values.get("cache_write_1h")),
         ("output", values.get("output")),
     ]
     if source == "website":
@@ -1823,7 +1858,7 @@ def main() -> None:
         )
 
     for (provider_id, url), meta in PHASE26_EXTRA_SOURCE_URLS.items():
-        checked_at = "2026-07-07T00:00:00Z"
+        checked_at = meta.get("checkedAt", "2026-07-07T00:00:00Z")
         source_urls[url] = {
             "providerId": provider_id,
             "url": url,
@@ -2196,9 +2231,10 @@ def main() -> None:
             }
         )
 
+    def sql_json(value: dict[str, Any]) -> str:
+        return json.dumps(value, sort_keys=True).replace("'", "''")
+
     sql_lines = [
-        "-- AICostBudget Pricing V2 preview seed.",
-        "-- Generated from data/pricing-v2-preview/*.json; not a production Supabase seed.",
         "begin;",
         "create table if not exists pricing_v2_preview_sources (source_id text primary key, payload jsonb not null);",
         "create table if not exists pricing_v2_preview_models (internal_id text primary key, payload jsonb not null);",
@@ -2207,19 +2243,19 @@ def main() -> None:
     for source in sources:
         sql_lines.append(
             "insert into pricing_v2_preview_sources (source_id, payload) values "
-            + f"('{source['sourceId']}', '{json.dumps(source, sort_keys=True).replace("'", "''")}'::jsonb) "
+            + f"('{source['sourceId']}', '{sql_json(source)}'::jsonb) "
             + "on conflict (source_id) do update set payload = excluded.payload;"
         )
     for model in models:
         sql_lines.append(
             "insert into pricing_v2_preview_models (internal_id, payload) values "
-            + f"('{model['internalId']}', '{json.dumps(model, sort_keys=True).replace("'", "''")}'::jsonb) "
+            + f"('{model['internalId']}', '{sql_json(model)}'::jsonb) "
             + "on conflict (internal_id) do update set payload = excluded.payload;"
         )
     for price in prices:
         sql_lines.append(
             "insert into pricing_v2_preview_prices (pricing_id, model_internal_id, payload) values "
-            + f"('{price['pricingId']}', '{price['modelInternalId']}', '{json.dumps(price, sort_keys=True).replace("'", "''")}'::jsonb) "
+            + f"('{price['pricingId']}', '{price['modelInternalId']}', '{sql_json(price)}'::jsonb) "
             + "on conflict (pricing_id) do update set model_internal_id = excluded.model_internal_id, payload = excluded.payload;"
         )
     sql_lines.extend(["commit;", ""])

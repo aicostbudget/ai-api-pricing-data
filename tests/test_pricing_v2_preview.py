@@ -51,10 +51,44 @@ class PricingV2PreviewTests(unittest.TestCase):
     def projection_row(self, model_id):
         return next(item for item in self.projection if item["id"] == model_id)
 
+    def price(self, pricing_id):
+        return next(item for item in self.prices if item["pricingId"] == pricing_id)
+
+    def test_claude_opus_5_v2_identity_model_and_prices_are_present(self):
+        identity = self.identity("anthropic/claude-opus-5")
+        model = self.model("anthropic/claude-opus-5")
+        self.assertEqual(identity["displayName"], "Claude Opus 5")
+        self.assertEqual(identity["lifecycleStatus"], "active")
+        self.assertEqual(identity["releaseStage"], "stable")
+        self.assertEqual(identity["availability"], "Standard")
+        self.assertIn("claude-opus-5", identity["publicDatasetIds"])
+        self.assertEqual(model["defaultPriceRecordId"], "price:anthropic/claude-opus-5:standard:short:current")
+
+        standard = self.price("price:anthropic/claude-opus-5:standard:short:current")
+        batch = self.price("price:anthropic/claude-opus-5:batch:short:current")
+        charges = {charge["component"]: charge["amount"] for charge in standard["charges"]}
+        self.assertEqual(standard["effectiveFrom"], "2026-07-24")
+        self.assertEqual(charges["input"], "5")
+        self.assertEqual(charges["cached_input"], "0.5")
+        self.assertEqual(charges["cache_write_5m"], "6.25")
+        self.assertEqual(charges["cache_write_1h"], "10")
+        self.assertEqual(charges["output"], "25")
+        batch_charges = {charge["component"]: charge["amount"] for charge in batch["charges"]}
+        self.assertEqual(batch["processingMode"], "batch")
+        self.assertEqual(batch_charges, {"input": "2.5", "output": "12.5"})
+
+    def test_claude_opus_4_8_is_retained_after_opus_5(self):
+        identity = self.identity("anthropic/claude-opus-4.8")
+        model = self.model("anthropic/claude-opus-4.8")
+        self.assertEqual(identity["displayName"], "Claude Opus 4.8")
+        self.assertEqual(identity["lifecycleStatus"], "active")
+        self.assertEqual(identity["releaseStage"], "stable")
+        self.assertEqual(model["defaultPriceRecordId"], "price:anthropic/claude-opus-4.8:standard:short:current")
+
     def test_report_counts_match_phase_1_baseline(self):
         self.assertEqual(self.report["candidateUnionCount"], len(self.dispositions))
         self.assertEqual(self.report["websiteOnlyCount"], 21)
-        self.assertEqual(self.report["publicOnlyCount"], 7)
+        self.assertEqual(self.report["publicOnlyCount"], 8)
         self.assertEqual(self.report["commonCount"], 14)
         self.assertEqual(self.report["aliasCount"], 2)
         self.assertEqual(self.report["normalizedCanonicalIdentityCount"], len(self.models))
@@ -180,12 +214,12 @@ class PricingV2PreviewTests(unittest.TestCase):
 
     def test_phase2_5_default_safe_gate_counts(self):
         self.assertEqual(len(self.phase25_evidence), self.phase25_default_safe["totalPriceRecords"])
-        self.assertEqual(self.phase25_default_safe["productionDefaultCandidateCount"], 31)
-        self.assertEqual(self.phase25_default_safe["defaultSafeCount"], 31)
-        self.assertEqual(self.phase25_default_safe["defaultUnsafeCount"], 39)
-        self.assertEqual(self.phase25_default_safe["P0PartialBefore"], 15)
+        self.assertEqual(self.phase25_default_safe["productionDefaultCandidateCount"], 32)
+        self.assertEqual(self.phase25_default_safe["defaultSafeCount"], 32)
+        self.assertEqual(self.phase25_default_safe["defaultUnsafeCount"], 41)
+        self.assertEqual(self.phase25_default_safe["P0PartialBefore"], 16)
         self.assertEqual(self.phase25_default_safe["P0PartialAfter"], 0)
-        self.assertEqual(self.phase25_default_safe["P1PartialCount"], 6)
+        self.assertEqual(self.phase25_default_safe["P1PartialCount"], 7)
         self.assertEqual(self.phase25_default_safe["P2PartialCount"], 0)
         self.assertEqual(self.phase25_default_safe["P3PartialCount"], 5)
 
@@ -196,17 +230,17 @@ class PricingV2PreviewTests(unittest.TestCase):
             self.assertTrue(matching_rows)
             self.assertTrue(all(not row["defaultSafe"] for row in matching_rows))
             self.assertTrue(all(row["priorityClass"] == "P3" for row in matching_rows))
-        self.assertTrue(evidence_by_model["xai/grok-4.3"]["defaultSafe"])
+        self.assertTrue(next(row for row in self.phase25_evidence if row["pricingId"] == "price:xai/grok-4.3:standard:short:current")["defaultSafe"])
         grok_3_rows = [row for row in self.phase25_blockers if row["websiteModelId"] == "grok-3"]
         self.assertTrue(grok_3_rows)
         self.assertTrue(all(row["recommendedIntegrationAction"] == "integrate_with_warning" for row in grok_3_rows))
 
     def test_phase2_6_closes_p0_default_safe_gate(self):
         self.assertTrue(self.phase26_closure["closureGatePassed"])
-        self.assertEqual(self.phase26_closure["defaultCandidatesBefore"], 31)
-        self.assertEqual(self.phase26_closure["defaultCandidatesAfter"], 31)
-        self.assertEqual(self.phase26_closure["safeBefore"], 26)
-        self.assertEqual(self.phase26_closure["safeAfter"], 31)
+        self.assertEqual(self.phase26_closure["defaultCandidatesBefore"], 32)
+        self.assertEqual(self.phase26_closure["defaultCandidatesAfter"], 32)
+        self.assertEqual(self.phase26_closure["safeBefore"], 27)
+        self.assertEqual(self.phase26_closure["safeAfter"], 32)
         self.assertEqual(self.phase26_closure["unsafeBefore"], 5)
         self.assertEqual(self.phase26_closure["unsafeAfter"], 0)
         self.assertEqual(self.phase26_resolution["P0BlockersAfter"], [])

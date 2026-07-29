@@ -2,28 +2,28 @@
   "aliasCount": 2,
   "candidateDispositionCounts": {
     "alias": 2,
-    "canonical_identity": 35,
+    "canonical_identity": 36,
     "historical_reference": 1,
     "merged_duplicate": 1,
     "unresolved": 3
   },
-  "candidateUnionCount": 42,
+  "candidateUnionCount": 43,
   "commonCount": 14,
   "counts": {
-    "chargeRecordCount": 212,
-    "modelRecordCount": 38,
-    "priceRecordCount": 70,
-    "sourceRecordCount": 14
+    "chargeRecordCount": 223,
+    "modelRecordCount": 39,
+    "priceRecordCount": 73,
+    "sourceRecordCount": 19
   },
   "duplicateIdentityCount": 4,
-  "generatedAt": "2026-07-10T00:00:00Z",
+  "generatedAt": "2026-07-29T00:00:00Z",
   "lifecycleConflicts": [
     {
       "internalId": "xai/grok-3",
       "resolution": "retired identity retained; redirects to xai/grok-4.3 current billing"
     }
   ],
-  "normalizedCanonicalIdentityCount": 38,
+  "normalizedCanonicalIdentityCount": 39,
   "pricingConflicts": [
     {
       "internalId": "openai/gpt-4.1",
@@ -38,7 +38,7 @@
       "reason": "no safe default calculation price"
     }
   ],
-  "publicOnlyCount": 7,
+  "publicOnlyCount": 8,
   "sourceConflicts": [],
   "specialCases": {
     "claude-sonnet-5_intro_pricing": "claude-sonnet-5-intro is not modeled as an identity; it is a merged_duplicate candidate and an introductory PriceRecord on anthropic/claude-sonnet-5.",
@@ -588,7 +588,7 @@
         }
       },
       {
-        "classification": "exact_parity",
+        "classification": "expected_difference",
         "internalId": "xai/grok-4.3",
         "modelId": "grok-4.3",
         "oldWebsiteValue": {
@@ -596,9 +596,9 @@
           "inputPrice": 1.25,
           "outputPrice": 2.5
         },
-        "reason": "Website values match the selected V2 default calculation price.",
+        "reason": "canonical V2 projection has richer condition/source metadata",
         "v2PreviewValue": {
-          "cachedInputPrice": null,
+          "cachedInputPrice": 0.2,
           "inputPrice": 1.25,
           "outputPrice": 2.5
         }
@@ -620,7 +620,7 @@
         }
       },
       {
-        "classification": "expected_difference",
+        "classification": "exact_parity",
         "internalId": "xai/grok-3",
         "modelId": "grok-3",
         "oldWebsiteValue": {
@@ -628,9 +628,9 @@
           "inputPrice": 1.25,
           "outputPrice": 2.5
         },
-        "reason": "canonical V2 projection has richer condition/source metadata",
+        "reason": "Website values match the selected V2 default calculation price.",
         "v2PreviewValue": {
-          "cachedInputPrice": null,
+          "cachedInputPrice": 0.2,
           "inputPrice": 1.25,
           "outputPrice": 2.5
         }
@@ -664,7 +664,7 @@
       "openai/gpt-5.6-luna",
       "openai/gpt-5.6-sol",
       "openai/gpt-5.6-terra",
-      "xai/grok-4.3",
+      "xai/grok-3",
       "xai/grok-build-0.1"
     ],
     "expected_difference": [
@@ -677,7 +677,7 @@
         "reason": "canonical V2 projection has richer condition/source metadata"
       },
       {
-        "internalId": "xai/grok-3",
+        "internalId": "xai/grok-4.3",
         "reason": "canonical V2 projection has richer condition/source metadata"
       }
     ],

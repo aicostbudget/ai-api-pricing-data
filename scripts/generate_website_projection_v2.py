@@ -21,8 +21,8 @@ PROJECTION_ROW_RECONCILIATION = PREVIEW / "phase4a-5-projection-row-reconciliati
 UNSAFE_DIFFERENCE_AUDIT = PREVIEW / "phase4a-5-unsafe-difference-audit.json"
 CONTEXT_WINDOW_AUDIT = PREVIEW / "phase4a-5-context-window-audit.json"
 
-GENERATED_AT = "2026-07-07T00:00:00Z"
-DEFAULT_EFFECTIVE_AT = "2026-07-07T00:00:00Z"
+GENERATED_AT = "2026-07-29T00:00:00Z"
+DEFAULT_EFFECTIVE_AT = "2026-07-29T00:00:00Z"
 PROJECTION_SCHEMA_VERSION = "website-pricing-projection-v2.phase4a"
 WEBSITE_ROW_REQUIRED_FIELDS = ("id", "inputPrice", "cachedInputPrice", "outputPrice")
 DEFAULT_SELECTION_RULE = [
@@ -47,6 +47,8 @@ def read_website_rows(path: Path) -> list[dict[str, Any]]:
     for index, row in enumerate(rows):
         if not isinstance(row, dict):
             raise ValueError(f"Website dataset row {index} must be an object: {path}")
+        if "cachedInputPrice" not in row:
+            row["cachedInputPrice"] = None
         missing = [field for field in WEBSITE_ROW_REQUIRED_FIELDS if field not in row]
         if missing:
             raise ValueError(f"Website dataset row {index} missing required fields {missing}: {path}")

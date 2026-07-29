@@ -26,6 +26,33 @@ class WebsiteProjectionV2Tests(unittest.TestCase):
         cls.by_id = {row["id"]: row for row in cls.rows}
         cls.by_internal = {row["canonicalInternalId"]: row for row in cls.rows}
 
+    def test_projection_defaults_to_2026_07_29_effective_time(self):
+        self.assertEqual(self.artifact["generatedAt"], "2026-07-29T00:00:00Z")
+        self.assertEqual(self.artifact["effectiveAt"], "2026-07-29T00:00:00Z")
+        self.assertGreaterEqual(self.artifact["effectiveAt"], "2026-07-24T00:00:00Z")
+
+    def test_claude_opus_5_projection_is_default_safe_and_current_opus(self):
+        opus5 = self.by_internal["anthropic/claude-opus-5"]
+        opus48 = self.by_internal["anthropic/claude-opus-4.8"]
+        self.assertTrue(opus5["defaultSafe"])
+        self.assertEqual(opus5["selectedPriceRecordId"], "price:anthropic/claude-opus-5:standard:short:current")
+        self.assertEqual(opus5["selectedPriceEffectiveFrom"], "2026-07-24")
+        self.assertGreaterEqual(self.artifact["effectiveAt"], "2026-07-24T00:00:00Z")
+        self.assertEqual((opus5["inputPrice"], opus5["cachedInputPrice"], opus5["outputPrice"]), (5, 0.5, 25))
+        self.assertTrue(opus48["defaultSafe"])
+
+        current_opus_rows = [
+            row
+            for row in self.rows
+            if row["provider"] == "anthropic"
+            and row["model"].startswith("Claude Opus")
+            and row["lifecycleStatus"] == "active"
+            and row["releaseStage"] == "stable"
+            and row["defaultSafe"]
+        ]
+        selected = max(current_opus_rows, key=lambda row: tuple(int(part) for part in row["id"].removeprefix("claude-opus-").split(".")))
+        self.assertEqual(selected["canonicalInternalId"], "anthropic/claude-opus-5")
+
     def test_required_contract_fields_are_present(self):
         required = set(self.artifact["requiredFields"])
         self.assertEqual(
@@ -119,12 +146,12 @@ class WebsiteProjectionV2Tests(unittest.TestCase):
 
     def test_report_counts_and_parity_buckets(self):
         self.assertEqual(self.report["projectionModelCount"], len(self.rows))
-        self.assertEqual(self.report["projectionModelCount"], 41)
-        self.assertEqual(self.report["defaultSafeModelCount"], 34)
+        self.assertEqual(self.report["projectionModelCount"], 42)
+        self.assertEqual(self.report["defaultSafeModelCount"], 35)
         self.assertEqual(self.report["unsafeIdentityCount"], 7)
         self.assertEqual(self.report["nullPriceCount"], 7)
-        self.assertEqual(self.report["parity"]["websiteModelCount"], 35)
-        self.assertEqual(sum(self.report["parity"]["counts"].values()), 35)
+        self.assertEqual(self.report["parity"]["websiteModelCount"], 36)
+        self.assertEqual(sum(self.report["parity"]["counts"].values()), 36)
         self.assertEqual(self.report["parity"]["counts"]["unsafe_difference"], 4)
 
     def test_gpt_5_6_rows_use_standard_short_defaults(self):
@@ -171,16 +198,16 @@ class WebsiteProjectionV2Tests(unittest.TestCase):
         rows = self.audits["row_reconciliation"]
         unsafe = self.audits["unsafe_audit"]
         context = self.audits["context_audit"]
-        self.assertEqual(safe["stats"]["safePriceRecordsInput"], 31)
-        self.assertEqual(safe["stats"]["mappedToProjection"], 31)
+        self.assertEqual(safe["stats"]["safePriceRecordsInput"], 32)
+        self.assertEqual(safe["stats"]["mappedToProjection"], 32)
         self.assertEqual(safe["stats"]["unexplained"], 0)
-        self.assertEqual(rows["counts"]["canonical_model"], 38)
+        self.assertEqual(rows["counts"]["canonical_model"], 39)
         self.assertEqual(rows["counts"]["alias"], 2)
         self.assertEqual(rows["counts"]["redirecting_identity"], 1)
-        self.assertEqual(unsafe["beforePhase4A5UnsafeDifferenceCount"], 16)
+        self.assertEqual(unsafe["beforePhase4A5UnsafeDifferenceCount"], 17)
         self.assertEqual(unsafe["currentUnsafeDifferenceCount"], 4)
         self.assertEqual(len(unsafe["blockerUnsafeDifferences"]), 0)
-        self.assertEqual(context["contextWindowRows"], 41)
+        self.assertEqual(context["contextWindowRows"], 42)
         self.assertEqual(context["verifiedCanonicalContextWindowCount"], 0)
 
 

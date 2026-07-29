@@ -1,4 +1,4 @@
-﻿import csv
+import csv
 import json
 import re
 import shutil
@@ -38,6 +38,23 @@ class DatasetTests(unittest.TestCase):
             for value in model["pricing"].values():
                 if isinstance(value, (int, float)):
                     self.assertGreaterEqual(value, 0)
+
+    def test_claude_opus_5_public_v1_record_is_present(self):
+        by_key = {(model["provider_id"], model["model_id"]): model for model in load_models()}
+        opus5 = by_key[("anthropic", "claude-opus-5")]
+        opus48 = by_key[("anthropic", "claude-opus-4.8")]
+        self.assertEqual(opus5["display_name"], "Claude Opus 5")
+        self.assertEqual(opus5["status"], "active")
+        self.assertEqual(opus5["effective_from"], "2026-07-24")
+        self.assertEqual(opus5["pricing"]["input"], 5.0)
+        self.assertEqual(opus5["pricing"]["output"], 25.0)
+        self.assertEqual(opus5["pricing"]["cached_input"], 0.5)
+        self.assertEqual(opus5["pricing"]["cache_write"], 6.25)
+        self.assertEqual(opus5["pricing"]["cache_write_1h"], 10.0)
+        self.assertEqual(opus5["pricing"]["batch_input"], 2.5)
+        self.assertEqual(opus5["pricing"]["batch_output"], 12.5)
+        self.assertEqual(opus48["display_name"], "Claude Opus 4.8")
+        self.assertEqual(opus48["status"], "active")
 
     def test_json_csv_consistency(self):
         dataset = json.loads((DATA / "prices.json").read_text(encoding="utf-8"))

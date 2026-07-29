@@ -198,6 +198,65 @@
     "verificationDecision": "unchanged"
   },
   {
+    "afterEvidenceCompleteness": "complete",
+    "afterVerificationStatus": "verified",
+    "beforeEvidenceCompleteness": "partial",
+    "beforeVerificationStatus": "partially_verified",
+    "blocker": [],
+    "businessCriticality": "production_default_candidate",
+    "currentEffective": true,
+    "currentPrices": {
+      "cached_input": "0.5",
+      "input": "5",
+      "output": "25"
+    },
+    "defaultSafe": true,
+    "modelInternalId": "anthropic/claude-opus-5",
+    "officialEvidence": [
+      "https://platform.claude.com/docs/en/about-claude/pricing"
+    ],
+    "phase25VerifiedAt": "2026-07-29T00:00:00Z",
+    "pricingId": "price:anthropic/claude-opus-5:standard:short:current",
+    "priorityClass": "P0",
+    "provider": "anthropic",
+    "reason": "Default-safe gate passed.",
+    "sourceRefs": [
+      "source:anthropic:platform-claude-com-docs-en-about-claude-pricing"
+    ],
+    "verificationDecision": "official_verified_in_phase2_5"
+  },
+  {
+    "afterEvidenceCompleteness": "partial",
+    "afterVerificationStatus": "partially_verified",
+    "beforeEvidenceCompleteness": "partial",
+    "beforeVerificationStatus": "partially_verified",
+    "blocker": [
+      "evidence_not_complete",
+      "not_production_default_candidate",
+      "not_standard_processing_mode",
+      "verification_not_verified"
+    ],
+    "businessCriticality": "non_default_tier",
+    "currentEffective": true,
+    "currentPrices": {
+      "cached_input": null,
+      "input": "2.5",
+      "output": "12.5"
+    },
+    "defaultSafe": false,
+    "modelInternalId": "anthropic/claude-opus-5",
+    "officialEvidence": [],
+    "phase25VerifiedAt": null,
+    "pricingId": "price:anthropic/claude-opus-5:batch:short:current",
+    "priorityClass": "P1",
+    "provider": "anthropic",
+    "reason": "Default-safe gate blocked by: evidence_not_complete, not_production_default_candidate, not_standard_processing_mode, verification_not_verified",
+    "sourceRefs": [
+      "source:anthropic:platform-claude-com-docs-en-about-claude-pricing"
+    ],
+    "verificationDecision": "retain_partial"
+  },
+  {
     "afterEvidenceCompleteness": "partial",
     "afterVerificationStatus": "partially_verified",
     "beforeEvidenceCompleteness": "partial",
@@ -308,8 +367,8 @@
     "provider": "anthropic",
     "reason": "Default-safe gate passed.",
     "sourceRefs": [
-      "source:anthropic:docs-anthropic-com-en-docs-about-claude-pricing-claude-sonnet-5-introductory-pri",
-      "source:anthropic:platform-claude-com-docs-en-about-claude-pricing"
+      "source:anthropic:platform-claude-com-docs-en-about-claude-pricing",
+      "source:anthropic:www-anthropic-com-news-claude-sonnet-5"
     ],
     "verificationDecision": "unchanged"
   },
@@ -338,8 +397,8 @@
     "provider": "anthropic",
     "reason": "Default-safe gate blocked by: not_current_effective, not_production_default_candidate",
     "sourceRefs": [
-      "source:anthropic:docs-anthropic-com-en-docs-about-claude-pricing-claude-sonnet-5-introductory-pri",
-      "source:anthropic:platform-claude-com-docs-en-about-claude-pricing"
+      "source:anthropic:platform-claude-com-docs-en-about-claude-pricing",
+      "source:anthropic:www-anthropic-com-news-claude-sonnet-5"
     ],
     "verificationDecision": "unchanged"
   },
@@ -368,8 +427,8 @@
     "provider": "anthropic",
     "reason": "Default-safe gate blocked by: not_production_default_candidate, not_standard_processing_mode",
     "sourceRefs": [
-      "source:anthropic:docs-anthropic-com-en-docs-about-claude-pricing-claude-sonnet-5-introductory-pri",
-      "source:anthropic:platform-claude-com-docs-en-about-claude-pricing"
+      "source:anthropic:platform-claude-com-docs-en-about-claude-pricing",
+      "source:anthropic:www-anthropic-com-news-claude-sonnet-5"
     ],
     "verificationDecision": "unchanged"
   },
@@ -429,7 +488,7 @@
     "provider": "cohere",
     "reason": "Default-safe gate blocked by: evidence_not_complete, missing_charge_components, missing_text_modality, not_production_default_candidate, verification_not_verified",
     "sourceRefs": [
-      "source:cohere:cohere-com-pricing"
+      "source:cohere:docs-cohere-com-docs-command-a-plus"
     ],
     "verificationDecision": "retain_partial"
   },
@@ -772,9 +831,9 @@
     "businessCriticality": "production_default_candidate",
     "currentEffective": true,
     "currentPrices": {
-      "cached_input": null,
-      "input": "2",
-      "output": "6"
+      "cached_input": "0.05",
+      "input": "0.5",
+      "output": "1.5"
     },
     "defaultSafe": true,
     "modelInternalId": "mistral-ai/mistral-large",
@@ -787,7 +846,7 @@
     "provider": "mistral-ai",
     "reason": "Default-safe gate passed.",
     "sourceRefs": [
-      "source:mistral-ai:mistral-ai-pricing"
+      "source:mistral-ai:mistral-ai-pricing-api"
     ],
     "verificationDecision": "official_verified_in_phase2_5"
   },
@@ -806,8 +865,8 @@
     "currentEffective": true,
     "currentPrices": {
       "cached_input": null,
-      "input": "1",
-      "output": "3"
+      "input": "0.25",
+      "output": "0.75"
     },
     "defaultSafe": false,
     "modelInternalId": "mistral-ai/mistral-large",
@@ -818,7 +877,7 @@
     "provider": "mistral-ai",
     "reason": "Default-safe gate blocked by: evidence_not_complete, not_production_default_candidate, not_standard_processing_mode, verification_not_verified",
     "sourceRefs": [
-      "source:mistral-ai:mistral-ai-pricing"
+      "source:mistral-ai:mistral-ai-pricing-api"
     ],
     "verificationDecision": "retain_partial"
   },
@@ -1967,7 +2026,7 @@
     "businessCriticality": "production_default_candidate",
     "currentEffective": true,
     "currentPrices": {
-      "cached_input": null,
+      "cached_input": "0.2",
       "input": "1.25",
       "output": "2.5"
     },
@@ -1980,7 +2039,38 @@
     "provider": "xai",
     "reason": "Default-safe gate passed.",
     "sourceRefs": [
-      "source:xai:docs-x-ai-developers-models"
+      "source:xai:docs-x-ai-developers-models",
+      "source:xai:docs-x-ai-developers-pricing"
+    ],
+    "verificationDecision": "unchanged"
+  },
+  {
+    "afterEvidenceCompleteness": "complete",
+    "afterVerificationStatus": "verified",
+    "beforeEvidenceCompleteness": "complete",
+    "beforeVerificationStatus": "verified",
+    "blocker": [
+      "not_production_default_candidate",
+      "not_standard_processing_mode"
+    ],
+    "businessCriticality": "non_default_tier",
+    "currentEffective": true,
+    "currentPrices": {
+      "cached_input": null,
+      "input": "1",
+      "output": "2"
+    },
+    "defaultSafe": false,
+    "modelInternalId": "xai/grok-4.3",
+    "officialEvidence": [],
+    "phase25VerifiedAt": null,
+    "pricingId": "price:xai/grok-4.3:batch:short:current",
+    "priorityClass": "not_partial",
+    "provider": "xai",
+    "reason": "Default-safe gate blocked by: not_production_default_candidate, not_standard_processing_mode",
+    "sourceRefs": [
+      "source:xai:docs-x-ai-developers-models",
+      "source:xai:docs-x-ai-developers-pricing"
     ],
     "verificationDecision": "unchanged"
   },

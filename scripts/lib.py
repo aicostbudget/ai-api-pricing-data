@@ -11,7 +11,7 @@ ROOT = Path(__file__).resolve().parents[1]
 CANONICAL = ROOT / "data" / "canonical"
 DATA = ROOT / "data"
 API = ROOT / "api" / "v1"
-PRICE_FIELDS = ("input", "output", "cached_input", "cache_write", "batch_input", "batch_output")
+PRICE_FIELDS = ("input", "output", "cached_input", "cache_write", "cache_write_1h", "batch_input", "batch_output")
 HISTORY_COMPARE_FIELDS = (
     "provider_id",
     "model_id",
@@ -91,6 +91,7 @@ def csv_rows(models: list[dict[str, Any]]) -> list[dict[str, Any]]:
                 "output": pricing["output"],
                 "cached_input": pricing["cached_input"],
                 "cache_write": pricing["cache_write"],
+                "cache_write_1h": pricing.get("cache_write_1h"),
                 "batch_input": pricing["batch_input"],
                 "batch_output": pricing["batch_output"],
                 "official_source_url": model["official_source_url"],
