@@ -334,6 +334,105 @@
     "verificationStatus": "verified"
   },
   {
+    "billingNote": "Released 2026-07-24. Anthropic table columns are input, 5-minute cache write, 1-hour cache write, cache read, and output. cache_write stores the 5-minute write rate; cache_write_1h stores the 1-hour write rate. Batch pricing is 50% of standard input and output per Anthropic Batch Processing.",
+    "calculationDefault": true,
+    "charges": [
+      {
+        "amount": "5",
+        "chargeId": "price:anthropic/claude-opus-5:standard:short:current:input:text:per_1m_tokens",
+        "component": "input",
+        "modality": "text",
+        "unit": "per_1m_tokens"
+      },
+      {
+        "amount": "0.5",
+        "chargeId": "price:anthropic/claude-opus-5:standard:short:current:cached_input:text:per_1m_tokens",
+        "component": "cached_input",
+        "modality": "text",
+        "unit": "per_1m_tokens"
+      },
+      {
+        "amount": "6.25",
+        "chargeId": "price:anthropic/claude-opus-5:standard:short:current:cache_write_5m:text:per_1m_tokens",
+        "component": "cache_write_5m",
+        "modality": "text",
+        "unit": "per_1m_tokens"
+      },
+      {
+        "amount": "10",
+        "chargeId": "price:anthropic/claude-opus-5:standard:short:current:cache_write_1h:text:per_1m_tokens",
+        "component": "cache_write_1h",
+        "modality": "text",
+        "unit": "per_1m_tokens"
+      },
+      {
+        "amount": "25",
+        "chargeId": "price:anthropic/claude-opus-5:standard:short:current:output:text:per_1m_tokens",
+        "component": "output",
+        "modality": "text",
+        "unit": "per_1m_tokens"
+      }
+    ],
+    "contextClass": "short",
+    "currency": "USD",
+    "effectiveFrom": "2026-07-24",
+    "effectiveUntil": null,
+    "modelInternalId": "anthropic/claude-opus-5",
+    "pricingId": "price:anthropic/claude-opus-5:standard:short:current",
+    "processingMode": "standard",
+    "promptTokenThreshold": null,
+    "regionPolicy": "global",
+    "sourceDatasetIds": {
+      "publicDatasetIds": [
+        "claude-opus-5"
+      ],
+      "websiteIds": []
+    },
+    "sourceRefs": [
+      "source:anthropic:platform-claude-com-docs-en-about-claude-pricing"
+    ],
+    "verificationStatus": "partially_verified"
+  },
+  {
+    "billingNote": "Batch projection derived from explicit Public V1 batch fields for anthropic/claude-opus-5.",
+    "calculationDefault": false,
+    "charges": [
+      {
+        "amount": "2.5",
+        "chargeId": "price:anthropic/claude-opus-5:batch:short:current:input:text:per_1m_tokens",
+        "component": "input",
+        "modality": "text",
+        "unit": "per_1m_tokens"
+      },
+      {
+        "amount": "12.5",
+        "chargeId": "price:anthropic/claude-opus-5:batch:short:current:output:text:per_1m_tokens",
+        "component": "output",
+        "modality": "text",
+        "unit": "per_1m_tokens"
+      }
+    ],
+    "contextClass": "short",
+    "currency": "USD",
+    "effectiveFrom": "2026-07-24",
+    "effectiveUntil": null,
+    "modelInternalId": "anthropic/claude-opus-5",
+    "pricingId": "price:anthropic/claude-opus-5:batch:short:current",
+    "processingMode": "batch",
+    "promptTokenThreshold": null,
+    "regionPolicy": "global",
+    "sourceDatasetIds": {
+      "publicDatasetIds": [
+        "claude-opus-5"
+      ],
+      "websiteIds": []
+    },
+    "sourceRefs": [
+      "source:anthropic:platform-claude-com-docs-en-about-claude-pricing"
+    ],
+    "verificationStatus": "partially_verified"
+  },
+  {
     "billingNote": "Anthropic marks Sonnet 4 as retired except on Bedrock and Vertex AI.",
     "calculationDefault": true,
     "charges": [
@@ -478,7 +577,7 @@
     "verificationStatus": "verified"
   },
   {
-    "billingNote": "Introductory pricing is listed by Anthropic as effective through 2026-08-31; standard pricing starts 2026-09-01.",
+    "billingNote": "Introductory pricing applies through 2026-08-31 and standard pricing starts 2026-09-01. V1 must not switch early to the standard $3/M input and $15/M output rates.",
     "calculationDefault": true,
     "charges": [
       {
@@ -512,7 +611,7 @@
     ],
     "contextClass": "short",
     "currency": "USD",
-    "effectiveFrom": "2026-07-05",
+    "effectiveFrom": "2026-06-30",
     "effectiveUntil": "2026-08-31",
     "modelInternalId": "anthropic/claude-sonnet-5",
     "pricingId": "price:anthropic/claude-sonnet-5:standard:intro:2026-07-05",
@@ -528,8 +627,8 @@
       ]
     },
     "sourceRefs": [
-      "source:anthropic:docs-anthropic-com-en-docs-about-claude-pricing-claude-sonnet-5-introductory-pri",
-      "source:anthropic:platform-claude-com-docs-en-about-claude-pricing"
+      "source:anthropic:platform-claude-com-docs-en-about-claude-pricing",
+      "source:anthropic:www-anthropic-com-news-claude-sonnet-5"
     ],
     "verificationStatus": "verified"
   },
@@ -584,8 +683,8 @@
       ]
     },
     "sourceRefs": [
-      "source:anthropic:docs-anthropic-com-en-docs-about-claude-pricing-claude-sonnet-5-introductory-pri",
-      "source:anthropic:platform-claude-com-docs-en-about-claude-pricing"
+      "source:anthropic:platform-claude-com-docs-en-about-claude-pricing",
+      "source:anthropic:www-anthropic-com-news-claude-sonnet-5"
     ],
     "verificationStatus": "verified"
   },
@@ -610,7 +709,7 @@
     ],
     "contextClass": "short",
     "currency": "USD",
-    "effectiveFrom": "2026-07-05",
+    "effectiveFrom": "2026-06-30",
     "effectiveUntil": "2026-08-31",
     "modelInternalId": "anthropic/claude-sonnet-5",
     "pricingId": "price:anthropic/claude-sonnet-5:batch:short:current",
@@ -626,8 +725,8 @@
       ]
     },
     "sourceRefs": [
-      "source:anthropic:docs-anthropic-com-en-docs-about-claude-pricing-claude-sonnet-5-introductory-pri",
-      "source:anthropic:platform-claude-com-docs-en-about-claude-pricing"
+      "source:anthropic:platform-claude-com-docs-en-about-claude-pricing",
+      "source:anthropic:www-anthropic-com-news-claude-sonnet-5"
     ],
     "verificationStatus": "verified"
   },
@@ -671,7 +770,7 @@
     "verificationStatus": "partially_verified"
   },
   {
-    "billingNote": "Cohere official pricing page lists Command A+ but the extracted public page did not expose a confirmed token price. Values are null rather than guessed.",
+    "billingNote": "Cohere's official Command A+ page states that access is free until applicable rate limits are reached and that production use is available through Model Vault. Another official Cohere page shows per-token pricing for the same model ID, so V1 keeps token pricing null until the official documentation is reconciled.",
     "calculationDefault": false,
     "charges": [],
     "contextClass": "short",
@@ -690,7 +789,7 @@
       "websiteIds": []
     },
     "sourceRefs": [
-      "source:cohere:cohere-com-pricing"
+      "source:cohere:docs-cohere-com-docs-command-a-plus"
     ],
     "verificationStatus": "partially_verified"
   },
@@ -1238,18 +1337,25 @@
     "verificationStatus": "verified"
   },
   {
-    "billingNote": "Mistral official pricing FAQ states Mistral Large costs $2/M input and $6/M output and batch processing gets a 50% discount.",
+    "billingNote": "mistral-large-latest currently maps to Mistral Large 3. Standard price is $0.50/M input and $1.50/M output. Cached input receives a 90% discount. Batch processing receives a 50% discount.",
     "calculationDefault": true,
     "charges": [
       {
-        "amount": "2",
+        "amount": "0.5",
         "chargeId": "price:mistral-ai/mistral-large:standard:short:current:input:text:per_1m_tokens",
         "component": "input",
         "modality": "text",
         "unit": "per_1m_tokens"
       },
       {
-        "amount": "6",
+        "amount": "0.05",
+        "chargeId": "price:mistral-ai/mistral-large:standard:short:current:cached_input:text:per_1m_tokens",
+        "component": "cached_input",
+        "modality": "text",
+        "unit": "per_1m_tokens"
+      },
+      {
+        "amount": "1.5",
         "chargeId": "price:mistral-ai/mistral-large:standard:short:current:output:text:per_1m_tokens",
         "component": "output",
         "modality": "text",
@@ -1272,7 +1378,7 @@
       "websiteIds": []
     },
     "sourceRefs": [
-      "source:mistral-ai:mistral-ai-pricing"
+      "source:mistral-ai:mistral-ai-pricing-api"
     ],
     "verificationStatus": "partially_verified"
   },
@@ -1281,14 +1387,14 @@
     "calculationDefault": false,
     "charges": [
       {
-        "amount": "1",
+        "amount": "0.25",
         "chargeId": "price:mistral-ai/mistral-large:batch:short:current:input:text:per_1m_tokens",
         "component": "input",
         "modality": "text",
         "unit": "per_1m_tokens"
       },
       {
-        "amount": "3",
+        "amount": "0.75",
         "chargeId": "price:mistral-ai/mistral-large:batch:short:current:output:text:per_1m_tokens",
         "component": "output",
         "modality": "text",
@@ -1311,7 +1417,7 @@
       "websiteIds": []
     },
     "sourceRefs": [
-      "source:mistral-ai:mistral-ai-pricing"
+      "source:mistral-ai:mistral-ai-pricing-api"
     ],
     "verificationStatus": "partially_verified"
   },
@@ -3254,13 +3360,20 @@
     "verificationStatus": "partially_verified"
   },
   {
-    "billingNote": "xAI official model page lists Grok 4.3 input and output rates per 1M tokens. Cached and batch rates were not shown in the extracted official model card.",
+    "billingNote": "V1 stores short-context pricing. The long-context threshold is 200K tokens. Grok 4.3 batch pricing receives a 20% discount. Long-context prices are not stored in the current short-context fields.",
     "calculationDefault": true,
     "charges": [
       {
         "amount": "1.25",
         "chargeId": "price:xai/grok-4.3:standard:short:current:input:text:per_1m_tokens",
         "component": "input",
+        "modality": "text",
+        "unit": "per_1m_tokens"
+      },
+      {
+        "amount": "0.2",
+        "chargeId": "price:xai/grok-4.3:standard:short:current:cached_input:text:per_1m_tokens",
+        "component": "cached_input",
         "modality": "text",
         "unit": "per_1m_tokens"
       },
@@ -3290,7 +3403,50 @@
       ]
     },
     "sourceRefs": [
-      "source:xai:docs-x-ai-developers-models"
+      "source:xai:docs-x-ai-developers-models",
+      "source:xai:docs-x-ai-developers-pricing"
+    ],
+    "verificationStatus": "verified"
+  },
+  {
+    "billingNote": "Batch projection derived from explicit Public V1 batch fields for xai/grok-4.3.",
+    "calculationDefault": false,
+    "charges": [
+      {
+        "amount": "1",
+        "chargeId": "price:xai/grok-4.3:batch:short:current:input:text:per_1m_tokens",
+        "component": "input",
+        "modality": "text",
+        "unit": "per_1m_tokens"
+      },
+      {
+        "amount": "2",
+        "chargeId": "price:xai/grok-4.3:batch:short:current:output:text:per_1m_tokens",
+        "component": "output",
+        "modality": "text",
+        "unit": "per_1m_tokens"
+      }
+    ],
+    "contextClass": "short",
+    "currency": "USD",
+    "effectiveFrom": null,
+    "effectiveUntil": null,
+    "modelInternalId": "xai/grok-4.3",
+    "pricingId": "price:xai/grok-4.3:batch:short:current",
+    "processingMode": "batch",
+    "promptTokenThreshold": null,
+    "regionPolicy": "global",
+    "sourceDatasetIds": {
+      "publicDatasetIds": [
+        "grok-4.3"
+      ],
+      "websiteIds": [
+        "grok-4.3"
+      ]
+    },
+    "sourceRefs": [
+      "source:xai:docs-x-ai-developers-models",
+      "source:xai:docs-x-ai-developers-pricing"
     ],
     "verificationStatus": "verified"
   },

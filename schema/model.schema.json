@@ -12,7 +12,7 @@
     "status": {"type": "string", "enum": ["active", "preview", "deprecated", "retired", "unknown"]},
     "pricing": {
       "type": "object",
-      "required": ["currency", "unit", "input", "output", "cached_input", "cache_write", "batch_input", "batch_output"],
+      "required": ["currency", "unit", "input", "output", "cached_input", "cache_write", "cache_write_1h", "batch_input", "batch_output"],
       "properties": {
         "currency": {"type": "string", "const": "USD"},
         "unit": {"type": "string", "const": "1M tokens"},
@@ -20,6 +20,7 @@
         "output": {"type": ["number", "null"], "minimum": 0},
         "cached_input": {"type": ["number", "null"], "minimum": 0},
         "cache_write": {"type": ["number", "null"], "minimum": 0},
+        "cache_write_1h": {"type": ["number", "null"], "minimum": 0},
         "batch_input": {"type": ["number", "null"], "minimum": 0},
         "batch_output": {"type": ["number", "null"], "minimum": 0}
       }
