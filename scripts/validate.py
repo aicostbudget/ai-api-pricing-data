@@ -27,7 +27,8 @@ def parse_ts(value: str) -> datetime:
         fail(f"invalid timestamp: {value}")
 
 
-def validate_models() -> None:
+def validate_models(now: datetime | None = None) -> None:
+    now = now or datetime.now(timezone.utc)
     providers = load_providers()
     models = load_models()
     provider_ids = [provider["provider_id"] for provider in providers]
@@ -48,8 +49,12 @@ def validate_models() -> None:
             fail(f"model uses unknown provider {model['provider_id']}")
         if not str(model.get("official_source_url", "")).startswith("https://"):
             fail(f"missing official source URL for {item[0]}/{item[1]}")
-        parse_ts(model["accessed_at"])
-        parse_ts(model["last_verified_at"])
+        accessed_at = parse_ts(model["accessed_at"])
+        last_verified_at = parse_ts(model["last_verified_at"])
+        if accessed_at > now:
+            fail(f"future accessed_at for {item[0]}/{item[1]}: {model['accessed_at']}")
+        if last_verified_at > now:
+            fail(f"future last_verified_at for {item[0]}/{item[1]}: {model['last_verified_at']}")
         pricing = model["pricing"]
         if pricing["currency"] != "USD":
             fail(f"unsupported currency for {item[0]}/{item[1]}")
@@ -63,6 +68,13 @@ def validate_models() -> None:
 
 def validate_outputs() -> None:
     actual = json.loads((DATA / "prices.json").read_text(encoding="utf-8"))
+    generated_at = parse_ts(actual["generated_at"])
+    latest_verified_at = max(parse_ts(model["last_verified_at"]) for model in load_models())
+    if generated_at < latest_verified_at:
+        fail(
+            f"data/prices.json generated_at {actual['generated_at']} precedes "
+            f"latest last_verified_at {latest_verified_at.isoformat().replace('+00:00', 'Z')}"
+        )
     expected = build_dataset(actual["generated_at"])
     if actual != expected:
         fail("data/prices.json is not reproducible from canonical data; run scripts/build.py")

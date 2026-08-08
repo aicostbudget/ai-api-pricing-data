@@ -104,6 +104,7 @@ PHASE25_OFFICIAL_COMPLETION = {
     "price:anthropic/claude-mythos-5:standard:short:website-preview": "https://platform.claude.com/docs/en/about-claude/pricing",
     "price:anthropic/claude-opus-4.1:standard:short:website-preview": "https://platform.claude.com/docs/en/about-claude/pricing",
     "price:anthropic/claude-opus-5:standard:short:current": "https://platform.claude.com/docs/en/about-claude/pricing",
+    "price:anthropic/claude-opus-5:batch:short:current": "https://platform.claude.com/docs/en/about-claude/pricing",
     "price:cohere/aya-expanse-32b:standard:short:current": "https://cohere.com/pricing",
     "price:cohere/command-r-plus-08-2024:standard:short:current": "https://cohere.com/pricing",
     "price:google-gemini/gemini-3-flash-preview:standard:short:website-preview": "https://ai.google.dev/gemini-api/docs/pricing",
@@ -119,7 +120,10 @@ PHASE25_OFFICIAL_COMPLETION = {
 }
 
 PHASE25_OFFICIAL_VERIFIED_AT = {
-    "price:anthropic/claude-opus-5:standard:short:current": "2026-07-29T00:00:00Z",
+    "price:anthropic/claude-opus-5:standard:short:current": "2026-08-08T18:00:00Z",
+    "price:anthropic/claude-opus-5:batch:short:current": "2026-08-08T18:00:00Z",
+    "price:cohere/aya-expanse-32b:standard:short:current": "2026-08-08T18:00:00Z",
+    "price:cohere/command-r-plus-08-2024:standard:short:current": "2026-08-08T18:00:00Z",
 }
 
 PHASE26_OFFICIAL_COMPLETION = {
@@ -189,35 +193,43 @@ PHASE26_EXTRA_SOURCE_URLS = {
     },
 }
 
-OPENAI_GPT56_TIER_MATRIX = {
-    "gpt-5.6-sol": {
-        ("standard", "short"): {"input": "5", "cached_input": "0.5", "cache_write": "6.25", "output": "30"},
-        ("standard", "long"): {"input": "10", "cached_input": "1", "cache_write": "12.5", "output": "45"},
-        ("batch", "short"): {"input": "2.5", "cached_input": "0.25", "cache_write": "3.125", "output": "15"},
-        ("batch", "long"): {"input": "5", "cached_input": "0.5", "cache_write": "6.25", "output": "22.5"},
-        ("flex", "short"): {"input": "2.5", "cached_input": "0.25", "cache_write": "3.125", "output": "15"},
-        ("flex", "long"): {"input": "5", "cached_input": "0.5", "cache_write": "6.25", "output": "22.5"},
-        ("priority", "short"): {"input": "10", "cached_input": "1", "cache_write": "12.5", "output": "60"},
-    },
-    "gpt-5.6-terra": {
-        ("standard", "short"): {"input": "2.5", "cached_input": "0.25", "cache_write": "3.125", "output": "15"},
-        ("standard", "long"): {"input": "5", "cached_input": "0.5", "cache_write": "6.25", "output": "22.5"},
-        ("batch", "short"): {"input": "1.25", "cached_input": "0.125", "cache_write": "1.5625", "output": "7.5"},
-        ("batch", "long"): {"input": "2.5", "cached_input": "0.25", "cache_write": "3.125", "output": "11.25"},
-        ("flex", "short"): {"input": "1.25", "cached_input": "0.125", "cache_write": "1.5625", "output": "7.5"},
-        ("flex", "long"): {"input": "2.5", "cached_input": "0.25", "cache_write": "3.125", "output": "11.25"},
-        ("priority", "short"): {"input": "5", "cached_input": "0.5", "cache_write": "6.25", "output": "30"},
-    },
-    "gpt-5.6-luna": {
-        ("standard", "short"): {"input": "1", "cached_input": "0.1", "cache_write": "1.25", "output": "6"},
-        ("standard", "long"): {"input": "2", "cached_input": "0.2", "cache_write": "2.5", "output": "9"},
-        ("batch", "short"): {"input": "0.5", "cached_input": "0.05", "cache_write": "0.625", "output": "3"},
-        ("batch", "long"): {"input": "1", "cached_input": "0.1", "cache_write": "1.25", "output": "4.5"},
-        ("flex", "short"): {"input": "0.5", "cached_input": "0.05", "cache_write": "0.625", "output": "3"},
-        ("flex", "long"): {"input": "1", "cached_input": "0.1", "cache_write": "1.25", "output": "4.5"},
-        ("priority", "short"): {"input": "2", "cached_input": "0.2", "cache_write": "2.5", "output": "12"},
-    },
-}
+def decimal_text(value: Decimal) -> str:
+    return format(value.normalize(), "f")
+
+
+def scale_prices(pricing: dict[str, Any], factors: dict[str, Decimal]) -> dict[str, str]:
+    return {
+        component: decimal_text(Decimal(str(pricing[component])) * factor)
+        for component, factor in factors.items()
+    }
+
+
+def openai_gpt56_tiers(pricing: dict[str, Any]) -> dict[tuple[str, str], dict[str, str]]:
+    standard_short = scale_prices(
+        pricing,
+        {"input": Decimal(1), "cached_input": Decimal(1), "cache_write": Decimal(1), "output": Decimal(1)},
+    )
+    standard_long = scale_prices(
+        pricing,
+        {"input": Decimal(2), "cached_input": Decimal(2), "cache_write": Decimal(2), "output": Decimal("1.5")},
+    )
+    batch_short = {
+        "input": decimal_text(Decimal(str(pricing["batch_input"]))),
+        "cached_input": decimal_text(Decimal(str(pricing["cached_input"])) * Decimal("0.5")),
+        "cache_write": decimal_text(Decimal(str(pricing["cache_write"])) * Decimal("0.5")),
+        "output": decimal_text(Decimal(str(pricing["batch_output"]))),
+    }
+    batch_long = {component: decimal_text(Decimal(value) * Decimal("0.5")) for component, value in standard_long.items()}
+    priority_short = {component: decimal_text(Decimal(value) * Decimal(2)) for component, value in standard_short.items()}
+    return {
+        ("standard", "short"): standard_short,
+        ("standard", "long"): standard_long,
+        ("batch", "short"): batch_short,
+        ("batch", "long"): batch_long,
+        ("flex", "short"): batch_short,
+        ("flex", "long"): batch_long,
+        ("priority", "short"): priority_short,
+    }
 
 
 def read_json(path: Path) -> Any:
@@ -2009,8 +2021,8 @@ def main() -> None:
                     "websiteIds": [website["id"]] if website else [],
                 },
             }
-            if provider_id == "openai" and model_id in OPENAI_GPT56_TIER_MATRIX:
-                for (processing_mode, context_class), amounts in OPENAI_GPT56_TIER_MATRIX[model_id].items():
+            if provider_id == "openai" and public.get("model_family") == "GPT-5.6":
+                for (processing_mode, context_class), amounts in openai_gpt56_tiers(pricing).items():
                     tier_id = f"price:{model_internal_id}:{processing_mode}:{context_class}:current"
                     add_price(
                         model_internal_id,

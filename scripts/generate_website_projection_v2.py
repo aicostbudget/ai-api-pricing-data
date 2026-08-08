@@ -21,8 +21,8 @@ PROJECTION_ROW_RECONCILIATION = PREVIEW / "phase4a-5-projection-row-reconciliati
 UNSAFE_DIFFERENCE_AUDIT = PREVIEW / "phase4a-5-unsafe-difference-audit.json"
 CONTEXT_WINDOW_AUDIT = PREVIEW / "phase4a-5-context-window-audit.json"
 
-GENERATED_AT = "2026-07-29T00:00:00Z"
-DEFAULT_EFFECTIVE_AT = "2026-07-29T00:00:00Z"
+GENERATED_AT = "2026-08-08T18:57:38Z"
+DEFAULT_EFFECTIVE_AT = "2026-08-08T18:57:38Z"
 PROJECTION_SCHEMA_VERSION = "website-pricing-projection-v2.phase4a"
 WEBSITE_ROW_REQUIRED_FIELDS = ("id", "inputPrice", "cachedInputPrice", "outputPrice")
 DEFAULT_SELECTION_RULE = [
@@ -120,14 +120,15 @@ def select_price(
     prices_by_model: dict[str, list[dict[str, Any]]],
     model_internal_id: str,
     effective_at: datetime,
-    safe_price_by_id: dict[str, dict[str, Any]],
+    verified_price_by_id: dict[str, dict[str, Any]],
+    processing_mode: str = "standard",
 ) -> dict[str, Any] | None:
     candidates = [
         price
         for price in prices_by_model.get(model_internal_id, [])
-        if price["processingMode"] == "standard"
+        if price["processingMode"] == processing_mode
         and price["contextClass"] == "short"
-        and (price["verificationStatus"] == "verified" or price["pricingId"] in safe_price_by_id)
+        and (price["verificationStatus"] == "verified" or price["pricingId"] in verified_price_by_id)
         and current_effective(price, effective_at)
         and has_text_input_output(price)
     ]
@@ -142,7 +143,11 @@ def select_price(
     return candidates[0] if candidates else None
 
 
-def display_status(identity: dict[str, Any], model: dict[str, Any] | None) -> str:
+def display_status(
+    identity: dict[str, Any],
+    model: dict[str, Any] | None,
+    website_row: dict[str, Any] | None,
+) -> str:
     lifecycle = identity["lifecycleStatus"]
     release = identity["releaseStage"]
     if lifecycle == "retired":
@@ -155,6 +160,8 @@ def display_status(identity: dict[str, Any], model: dict[str, Any] | None) -> st
         return "specialized"
     if model and model.get("availability") == "Limited availability":
         return "limited"
+    if website_row and website_row.get("status") == "active":
+        return "active"
     return "latest"
 
 
@@ -194,17 +201,26 @@ def projection_row(
     model_by_id: dict[str, dict[str, Any]],
     prices_by_model: dict[str, list[dict[str, Any]]],
     sources_by_id: dict[str, dict[str, Any]],
-    safe_price_by_id: dict[str, dict[str, Any]],
+    verified_price_by_id: dict[str, dict[str, Any]],
     effective_at: datetime,
     website_rows: list[dict[str, Any]],
 ) -> dict[str, Any]:
     model = model_by_id.get(identity["internalId"])
+    website_id = website_id_for(identity)
+    website_row = next((row for row in website_rows if row.get("id") == website_id), None)
     target_internal_id = (
         identity.get("billingModelInternalId")
         or identity.get("aliasTargetInternalId")
         or identity["internalId"]
     )
-    selected_price = select_price(prices_by_model, target_internal_id, effective_at, safe_price_by_id)
+    selected_price = select_price(prices_by_model, target_internal_id, effective_at, verified_price_by_id)
+    selected_batch_price = select_price(
+        prices_by_model,
+        target_internal_id,
+        effective_at,
+        verified_price_by_id,
+        processing_mode="batch",
+    )
     blocked_reasons: list[str] = []
     if identity["internalId"] in EXCLUDED_DEFAULT_INTERNAL_IDS:
         blocked_reasons.append("excluded_default_candidate")
@@ -221,7 +237,7 @@ def projection_row(
     urls = source_urls(refs, sources_by_id)
     verified_at = None
     if default_safe and selected_price:
-        verified_at = safe_price_by_id.get(selected_price["pricingId"], {}).get("phase25VerifiedAt")
+        verified_at = verified_price_by_id.get(selected_price["pricingId"], {}).get("phase25VerifiedAt")
         if verified_at is None:
             verified_at = latest_timestamp(
                 [source_timestamp(sources_by_id[ref], "verifiedAt") for ref in refs if ref in sources_by_id]
@@ -234,7 +250,9 @@ def projection_row(
         "inputPrice": charge_amount(selected_price, "input") if default_safe else None,
         "cachedInputPrice": charge_amount(selected_price, "cached_input") if default_safe else None,
         "outputPrice": charge_amount(selected_price, "output") if default_safe else None,
-        "status": display_status(identity, model),
+        "batchInputPrice": charge_amount(selected_batch_price, "input") if default_safe else None,
+        "batchOutputPrice": charge_amount(selected_batch_price, "output") if default_safe else None,
+        "status": display_status(identity, model, website_row),
         "defaultSafe": default_safe,
         "verificationStatus": "verified" if default_safe else identity["verificationStatus"],
         "verifiedAt": verified_at,
@@ -254,6 +272,7 @@ def projection_row(
         "billingModelInternalId": identity.get("billingModelInternalId"),
         "replacementInternalId": identity.get("replacementInternalId"),
         "selectedPriceRecordId": selected_price["pricingId"] if selected_price and default_safe else None,
+        "selectedBatchPriceRecordId": selected_batch_price["pricingId"] if selected_batch_price and default_safe else None,
         "selectedBillingPriceRecordId": selected_price["pricingId"] if selected_price else None,
         "selectedPriceEffectiveFrom": selected_price["effectiveFrom"] if selected_price else None,
         "selectedPriceEffectiveUntil": selected_price["effectiveUntil"] if selected_price else None,
@@ -341,6 +360,16 @@ def load_safe_price_rows() -> list[dict[str, Any]]:
         row
         for row in report["productionDefaultCandidates"]
         if row["defaultSafe"] is True
+    ]
+
+
+def load_verified_price_rows() -> list[dict[str, Any]]:
+    report = read_json(PREVIEW / "phase2-5-evidence-completion.json")
+    return [
+        row
+        for row in report
+        if row["afterVerificationStatus"] == "verified"
+        and row["afterEvidenceCompleteness"] == "complete"
     ]
 
 
@@ -713,7 +742,7 @@ def build_projection(
     contract = read_json(PREVIEW / "phase3-website-projection-contract.json")
     phase35 = read_json(PREVIEW / "phase3-5-readiness.json")
     website_rows = read_website_rows(website_dataset)
-    safe_price_by_id = {row["pricingId"]: row for row in load_safe_price_rows()}
+    verified_price_by_id = {row["pricingId"]: row for row in load_verified_price_rows()}
     effective_at = parse_effective_at(effective_at_value)
     model_by_id = {model["internalId"]: model for model in models}
     prices_by_model: dict[str, list[dict[str, Any]]] = {}
@@ -721,7 +750,7 @@ def build_projection(
         prices_by_model.setdefault(price["modelInternalId"], []).append(price)
     sources_by_id = {source["sourceId"]: source for source in sources}
     rows = [
-        projection_row(identity, model_by_id, prices_by_model, sources_by_id, safe_price_by_id, effective_at, website_rows)
+        projection_row(identity, model_by_id, prices_by_model, sources_by_id, verified_price_by_id, effective_at, website_rows)
         for identity in identities
     ]
     rows.sort(key=lambda row: (row["provider"], row["id"], row["canonicalInternalId"]))
