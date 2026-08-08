@@ -1,4 +1,5 @@
 import json
+from datetime import datetime
 from pathlib import Path
 import unittest
 from unittest.mock import patch
@@ -26,9 +27,11 @@ class WebsiteProjectionV2Tests(unittest.TestCase):
         cls.by_id = {row["id"]: row for row in cls.rows}
         cls.by_internal = {row["canonicalInternalId"]: row for row in cls.rows}
 
-    def test_projection_defaults_to_2026_07_29_effective_time(self):
-        self.assertEqual(self.artifact["generatedAt"], "2026-07-29T00:00:00Z")
-        self.assertEqual(self.artifact["effectiveAt"], "2026-07-29T00:00:00Z")
+    def test_projection_default_times_are_ordered_utc_instants(self):
+        self.assertEqual(self.artifact["generatedAt"], self.artifact["effectiveAt"])
+        generated_at = datetime.fromisoformat(self.artifact["generatedAt"].replace("Z", "+00:00"))
+        verified_at = datetime.fromisoformat("2026-08-08T18:00:00+00:00")
+        self.assertGreaterEqual(generated_at, verified_at)
         self.assertGreaterEqual(self.artifact["effectiveAt"], "2026-07-24T00:00:00Z")
 
     def test_claude_opus_5_projection_is_default_safe_and_current_opus(self):
@@ -39,6 +42,7 @@ class WebsiteProjectionV2Tests(unittest.TestCase):
         self.assertEqual(opus5["selectedPriceEffectiveFrom"], "2026-07-24")
         self.assertGreaterEqual(self.artifact["effectiveAt"], "2026-07-24T00:00:00Z")
         self.assertEqual((opus5["inputPrice"], opus5["cachedInputPrice"], opus5["outputPrice"]), (5, 0.5, 25))
+        self.assertEqual((opus5["batchInputPrice"], opus5["batchOutputPrice"]), (2.5, 12.5))
         self.assertTrue(opus48["defaultSafe"])
 
         current_opus_rows = [
@@ -146,8 +150,8 @@ class WebsiteProjectionV2Tests(unittest.TestCase):
 
     def test_report_counts_and_parity_buckets(self):
         self.assertEqual(self.report["projectionModelCount"], len(self.rows))
-        self.assertEqual(self.report["projectionModelCount"], 42)
-        self.assertEqual(self.report["defaultSafeModelCount"], 35)
+        self.assertEqual(self.report["projectionModelCount"], 45)
+        self.assertEqual(self.report["defaultSafeModelCount"], 38)
         self.assertEqual(self.report["unsafeIdentityCount"], 7)
         self.assertEqual(self.report["nullPriceCount"], 7)
         self.assertEqual(self.report["parity"]["websiteModelCount"], 36)
@@ -157,8 +161,8 @@ class WebsiteProjectionV2Tests(unittest.TestCase):
     def test_gpt_5_6_rows_use_standard_short_defaults(self):
         expected = {
             "openai/gpt-5.6-sol": (5, 0.5, 30),
-            "openai/gpt-5.6-terra": (2.5, 0.25, 15),
-            "openai/gpt-5.6-luna": (1, 0.1, 6),
+            "openai/gpt-5.6-terra": (2, 0.2, 12),
+            "openai/gpt-5.6-luna": (0.2, 0.02, 1.2),
         }
         for internal_id, prices in expected.items():
             row = self.by_internal[internal_id]
@@ -173,6 +177,34 @@ class WebsiteProjectionV2Tests(unittest.TestCase):
             components = {charge["component"] for charge in price["charges"]}
             self.assertIn("cache_write", components)
             self.assertNotIn("cache_write_5m", components)
+
+    def test_new_models_statuses_and_batch_prices_are_projected(self):
+        expected = {
+            "google-gemini/gemini-3.6-flash": (1.5, 0.15, 7.5, 0.75, 3.75),
+            "google-gemini/gemini-3.5-flash-lite": (0.3, 0.03, 2.5, 0.15, 1.25),
+            "xai/grok-4.5": (2, 0.3, 6, None, None),
+        }
+        for internal_id, prices in expected.items():
+            row = self.by_internal[internal_id]
+            self.assertEqual(row["status"], "latest")
+            self.assertEqual(row["verificationStatus"], "verified")
+            self.assertTrue(row["defaultSafe"])
+            self.assertEqual(
+                (
+                    row["inputPrice"],
+                    row["cachedInputPrice"],
+                    row["outputPrice"],
+                    row["batchInputPrice"],
+                    row["batchOutputPrice"],
+                ),
+                prices,
+            )
+        for internal_id in (
+            "google-gemini/gemini-3.5-flash",
+            "google-gemini/gemini-3.1-flash-lite",
+            "xai/grok-4.3",
+        ):
+            self.assertEqual(self.by_internal[internal_id]["status"], "active")
 
     def test_artifact_paths_and_no_runtime_network_dependency(self):
         self.assertEqual(
@@ -198,16 +230,16 @@ class WebsiteProjectionV2Tests(unittest.TestCase):
         rows = self.audits["row_reconciliation"]
         unsafe = self.audits["unsafe_audit"]
         context = self.audits["context_audit"]
-        self.assertEqual(safe["stats"]["safePriceRecordsInput"], 32)
-        self.assertEqual(safe["stats"]["mappedToProjection"], 32)
+        self.assertEqual(safe["stats"]["safePriceRecordsInput"], 35)
+        self.assertEqual(safe["stats"]["mappedToProjection"], 35)
         self.assertEqual(safe["stats"]["unexplained"], 0)
-        self.assertEqual(rows["counts"]["canonical_model"], 39)
+        self.assertEqual(rows["counts"]["canonical_model"], 42)
         self.assertEqual(rows["counts"]["alias"], 2)
         self.assertEqual(rows["counts"]["redirecting_identity"], 1)
         self.assertEqual(unsafe["beforePhase4A5UnsafeDifferenceCount"], 17)
         self.assertEqual(unsafe["currentUnsafeDifferenceCount"], 4)
         self.assertEqual(len(unsafe["blockerUnsafeDifferences"]), 0)
-        self.assertEqual(context["contextWindowRows"], 42)
+        self.assertEqual(context["contextWindowRows"], 45)
         self.assertEqual(context["verifiedCanonicalContextWindowCount"], 0)
 
 

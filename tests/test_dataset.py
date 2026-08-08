@@ -6,7 +6,7 @@ import subprocess
 import sys
 import tempfile
 import unittest
-from datetime import datetime
+from datetime import datetime, timezone
 from pathlib import Path
 
 from scripts.lib import (
@@ -31,6 +31,40 @@ class DatasetTests(unittest.TestCase):
         self.assertEqual(len({item["provider_id"] for item in providers}), len(providers))
         self.assertEqual(len({(item["provider_id"], item["model_id"]) for item in models}), len(models))
         self.assertEqual(len(providers), 7)
+        self.assertEqual(len(models), 25)
+
+    def test_verified_additions_and_price_corrections(self):
+        by_key = {(model["provider_id"], model["model_id"]): model for model in load_models()}
+        expected = {
+            ("google-gemini", "gemini-3.6-flash"): (1.5, 0.15, 7.5, 0.75, 3.75, None),
+            ("google-gemini", "gemini-3.5-flash-lite"): (0.3, 0.03, 2.5, 0.15, 1.25, None),
+            ("xai", "grok-4.5"): (2.0, 0.3, 6.0, None, None, None),
+        }
+        for key, values in expected.items():
+            row = by_key[key]
+            self.assertEqual(
+                (
+                    row["pricing"]["input"],
+                    row["pricing"]["cached_input"],
+                    row["pricing"]["output"],
+                    row["pricing"]["batch_input"],
+                    row["pricing"]["batch_output"],
+                    row["effective_from"],
+                ),
+                values,
+            )
+            self.assertEqual(row["last_verified_at"], "2026-08-08T18:00:00Z")
+
+        self.assertEqual(
+            tuple(by_key[("openai", "gpt-5.6-terra")]["pricing"][field] for field in ("input", "cached_input", "output")),
+            (2.0, 0.2, 12.0),
+        )
+        self.assertEqual(
+            tuple(by_key[("openai", "gpt-5.6-luna")]["pricing"][field] for field in ("input", "cached_input", "output")),
+            (0.2, 0.02, 1.2),
+        )
+        self.assertIsNone(by_key[("openai", "gpt-5.6-terra")]["effective_from"])
+        self.assertIsNone(by_key[("openai", "gpt-5.6-luna")]["effective_from"])
 
     def test_no_negative_prices_and_sources(self):
         for model in load_models():
@@ -73,6 +107,18 @@ class DatasetTests(unittest.TestCase):
         self.assertRegex(generated_at, re.compile(r"^\d{4}-\d{2}-\d{2}T\d{2}:\d{2}:\d{2}Z$"))
         parsed = datetime.fromisoformat(generated_at.replace("Z", "+00:00"))
         self.assertIsNotNone(parsed.tzinfo)
+        latest_verified_at = max(
+            datetime.fromisoformat(model["last_verified_at"].replace("Z", "+00:00"))
+            for model in load_models()
+        )
+        self.assertGreaterEqual(parsed, latest_verified_at)
+
+    def test_verification_timestamps_are_not_in_the_future(self):
+        now = datetime.now(timezone.utc)
+        for model in load_models():
+            for field in ("accessed_at", "last_verified_at"):
+                parsed = datetime.fromisoformat(model[field].replace("Z", "+00:00"))
+                self.assertLessEqual(parsed, now, f"{model['provider_id']}/{model['model_id']} {field}")
 
     def test_api_outputs_parse(self):
         json.loads((ROOT / "api" / "v1" / "prices.json").read_text(encoding="utf-8"))
