@@ -21,7 +21,7 @@ jobs:
         with:
           python-version: "3.11"
       - name: Build generated data
-        run: python scripts/build.py
+        run: python scripts/build.py --output-root "$RUNNER_TEMP/pricing-build"
       - name: Validate dataset
         run: python scripts/validate.py
       - name: Check Hugging Face export parity with Website
