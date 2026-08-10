@@ -9,6 +9,13 @@ jobs:
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v4
+      - name: Checkout Website public pricing source
+        uses: actions/checkout@v4
+        with:
+          repository: linqiang-max/aicostbudget
+          ref: main
+          path: website-source
+          persist-credentials: false
       - uses: actions/setup-python@v5
         with:
           python-version: "3.11"
@@ -16,6 +23,8 @@ jobs:
         run: python scripts/build.py
       - name: Validate dataset
         run: python scripts/validate.py
+      - name: Check Hugging Face export parity with Website
+        run: python scripts/export_huggingface.py --website-repo website-source --website-ref HEAD --check
       - name: Run tests
         run: python -m unittest discover -s tests
 

@@ -11,6 +11,10 @@ try:
     from generate_price_change_events import EVENTS_PATH, load_events
 except ModuleNotFoundError:
     from scripts.generate_price_change_events import EVENTS_PATH, load_events
+try:
+    from export_huggingface import validate_huggingface_artifacts
+except ModuleNotFoundError:
+    from scripts.export_huggingface import validate_huggingface_artifacts
 from lib import API, DATA, PRICE_FIELDS, ROOT, build_dataset, csv_rows, load_models, load_providers
 
 
@@ -95,6 +99,10 @@ def validate_outputs() -> None:
             fail(f"missing API output {required}")
     json.loads((API / "prices.json").read_text(encoding="utf-8"))
     json.loads((API / "meta.json").read_text(encoding="utf-8"))
+    try:
+        validate_huggingface_artifacts()
+    except (KeyError, TypeError, ValueError, json.JSONDecodeError) as exc:
+        fail(str(exc))
 
 
 def validate_schema_files() -> None:
