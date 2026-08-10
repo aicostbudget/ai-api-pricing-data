@@ -112,8 +112,7 @@ def expected_public_keys(projection: dict[str, Any]) -> set[tuple[str, str]]:
     return {
         (row["provider"], row["id"])
         for row in projection["models"]
-        if row["identityType"] != "alias"
-        and "excluded_default_candidate" not in row.get("blockedFromDefaultReasons", [])
+        if row["publicExposure"] == "public"
     }
 
 
@@ -125,7 +124,7 @@ def build_public_records(
     records: list[dict[str, Any]] = []
 
     for row in projection["models"]:
-        if row["identityType"] == "alias":
+        if row["publicExposure"] != "public":
             continue
         if "excluded_default_candidate" in row.get("blockedFromDefaultReasons", []):
             continue
