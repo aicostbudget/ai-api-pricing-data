@@ -24,6 +24,24 @@ from scripts.lib import (
 )
 
 
+def copy_build_fixture(output_root: Path) -> Path:
+    output_data = output_root / "data"
+    output_data.mkdir(parents=True)
+    for filename in ("prices.json", "prices.csv"):
+        shutil.copy2(DATA / filename, output_data / filename)
+    for dirname in ("history", "snapshots"):
+        shutil.copytree(DATA / dirname, output_data / dirname)
+    return output_data
+
+
+def run_isolated_build(output_root: Path) -> None:
+    subprocess.run(
+        [sys.executable, "scripts/build.py", "--output-root", str(output_root)],
+        cwd=ROOT,
+        check=True,
+    )
+
+
 class DatasetTests(unittest.TestCase):
     def test_counts_and_duplicates(self):
         providers = load_providers()
@@ -126,28 +144,35 @@ class DatasetTests(unittest.TestCase):
         self.assertTrue((ROOT / "api" / "v1" / "prices.csv").exists())
 
     def test_build_reproducible(self):
-        before = json.loads((DATA / "prices.json").read_text(encoding="utf-8"))
-        subprocess.run([sys.executable, "scripts/build.py"], cwd=ROOT, check=True)
-        after = json.loads((DATA / "prices.json").read_text(encoding="utf-8"))
-        before["generated_at"] = after["generated_at"]
-        self.assertEqual(before, after)
+        with tempfile.TemporaryDirectory() as tmp:
+            output_root = Path(tmp)
+            output_data = copy_build_fixture(output_root)
+            before = json.loads((output_data / "prices.json").read_text(encoding="utf-8"))
+            run_isolated_build(output_root)
+            after = json.loads((output_data / "prices.json").read_text(encoding="utf-8"))
+            before["generated_at"] = after["generated_at"]
+            self.assertEqual(before, after)
 
     def test_build_twice_preserves_history_without_duplicate_entries(self):
-        def line_counts() -> dict[str, int]:
-            return {
-                str(path.relative_to(DATA)): len(path.read_text(encoding="utf-8").splitlines())
-                for path in sorted((DATA / "history").glob("*/*.jsonl"))
-            }
+        with tempfile.TemporaryDirectory() as tmp:
+            output_root = Path(tmp)
+            output_data = copy_build_fixture(output_root)
 
-        before = line_counts()
-        subprocess.run([sys.executable, "scripts/build.py"], cwd=ROOT, check=True)
-        after_first = line_counts()
-        subprocess.run([sys.executable, "scripts/build.py"], cwd=ROOT, check=True)
-        after_second = line_counts()
-        self.assertTrue(before)
-        self.assertEqual(after_first, after_second)
-        for key, count in before.items():
-            self.assertGreaterEqual(after_first[key], count)
+            def line_counts() -> dict[str, int]:
+                return {
+                    str(path.relative_to(output_data)): len(path.read_text(encoding="utf-8").splitlines())
+                    for path in sorted((output_data / "history").glob("*/*.jsonl"))
+                }
+
+            before = line_counts()
+            run_isolated_build(output_root)
+            after_first = line_counts()
+            run_isolated_build(output_root)
+            after_second = line_counts()
+            self.assertTrue(before)
+            self.assertEqual(after_first, after_second)
+            for key, count in before.items():
+                self.assertGreaterEqual(after_first[key], count)
 
     def test_history_records_are_valid_jsonl_with_required_fields(self):
         required = {
@@ -189,18 +214,18 @@ class DatasetTests(unittest.TestCase):
             self.assertEqual(len(path.read_text(encoding="utf-8").splitlines()), 2)
 
     def test_build_preserves_old_snapshots_and_uses_utc_date(self):
-        old_snapshot = DATA / "snapshots" / "1999-12-31"
-        marker = old_snapshot / "marker.txt"
-        old_snapshot.mkdir(parents=True, exist_ok=True)
-        marker.write_text("keep\n", encoding="utf-8")
-        try:
-            subprocess.run([sys.executable, "scripts/build.py"], cwd=ROOT, check=True)
+        with tempfile.TemporaryDirectory() as tmp:
+            output_root = Path(tmp)
+            output_data = copy_build_fixture(output_root)
+            old_snapshot = output_data / "snapshots" / "1999-12-31"
+            marker = old_snapshot / "marker.txt"
+            old_snapshot.mkdir(parents=True, exist_ok=True)
+            marker.write_text("keep\n", encoding="utf-8")
+            run_isolated_build(output_root)
             self.assertTrue(marker.exists())
-            today_snapshot = DATA / "snapshots" / utc_today()
+            today_snapshot = output_data / "snapshots" / utc_today()
             self.assertTrue((today_snapshot / "prices.json").exists())
             self.assertTrue((today_snapshot / "prices.csv").exists())
-        finally:
-            shutil.rmtree(old_snapshot, ignore_errors=True)
 
 
 if __name__ == "__main__":
