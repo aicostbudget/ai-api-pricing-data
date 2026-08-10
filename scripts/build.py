@@ -1,19 +1,29 @@
 from __future__ import annotations
 
+import argparse
+import shutil
 from collections import defaultdict
+from pathlib import Path
 
-from lib import API, DATA, append_history_if_changed, build_dataset, clean_generated, history_entry, load_models, load_providers, utc_now, utc_today, write_csv, write_json
+from lib import ROOT, append_history_if_changed, build_dataset, history_entry, load_models, load_providers, utc_now, utc_today, write_csv, write_json
 
 
-def main() -> None:
-    clean_generated()
+def build_outputs(output_root: Path) -> None:
+    data = output_root / "data"
+    api = output_root / "api" / "v1"
+    for path in [data / "prices.json", data / "prices.csv", data / "providers", data / "models", api]:
+        if path.is_dir():
+            shutil.rmtree(path)
+        elif path.exists():
+            path.unlink()
+
     providers = load_providers()
     models = load_models()
     generated_at = utc_now()
     dataset = build_dataset(generated_at)
 
-    write_json(DATA / "prices.json", dataset)
-    write_csv(DATA / "prices.csv", models)
+    write_json(data / "prices.json", dataset)
+    write_csv(data / "prices.csv", models)
 
     provider_models = defaultdict(list)
     for model in models:
@@ -25,23 +35,23 @@ def main() -> None:
             **provider,
             "models": sorted(provider_models[provider_id], key=lambda item: item["model_id"]),
         }
-        write_json(DATA / "providers" / f"{provider_id}.json", payload)
+        write_json(data / "providers" / f"{provider_id}.json", payload)
 
     for model in models:
         provider_id = model["provider_id"]
         model_id = model["model_id"]
-        write_json(DATA / "models" / provider_id / f"{model_id}.json", model)
-        history_path = DATA / "history" / provider_id / f"{model_id}.jsonl"
+        write_json(data / "models" / provider_id / f"{model_id}.json", model)
+        history_path = data / "history" / provider_id / f"{model_id}.jsonl"
         append_history_if_changed(history_path, history_entry(model, generated_at))
 
-    snapshot_dir = DATA / "snapshots" / utc_today()
+    snapshot_dir = data / "snapshots" / utc_today()
     write_json(snapshot_dir / "prices.json", dataset)
     write_csv(snapshot_dir / "prices.csv", models)
 
-    write_json(API / "prices.json", dataset)
-    write_csv(API / "prices.csv", models)
+    write_json(api / "prices.json", dataset)
+    write_csv(api / "prices.csv", models)
     write_json(
-        API / "meta.json",
+        api / "meta.json",
         {
             "dataset_name": dataset["dataset_name"],
             "dataset_version": dataset["dataset_version"],
@@ -54,10 +64,22 @@ def main() -> None:
         },
     )
     for provider in providers:
-        source = DATA / "providers" / f"{provider['provider_id']}.json"
-        write_json(API / "providers" / source.name, __import__("json").loads(source.read_text(encoding="utf-8")))
+        source = data / "providers" / f"{provider['provider_id']}.json"
+        write_json(api / "providers" / source.name, __import__("json").loads(source.read_text(encoding="utf-8")))
     for model in models:
-        write_json(API / "models" / model["provider_id"] / f"{model['model_id']}.json", model)
+        write_json(api / "models" / model["provider_id"] / f"{model['model_id']}.json", model)
+
+
+def main() -> None:
+    parser = argparse.ArgumentParser(description="Build public dataset artifacts.")
+    parser.add_argument(
+        "--output-root",
+        type=Path,
+        default=ROOT,
+        help="Root directory for generated data/ and api/v1/ outputs (defaults to the repository root).",
+    )
+    args = parser.parse_args()
+    build_outputs(args.output_root.resolve())
 
 
 if __name__ == "__main__":

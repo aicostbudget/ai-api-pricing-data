@@ -32,8 +32,16 @@ DEFAULT_SELECTION_RULE = [
     "text",
     "default_context_class",
 ]
-EXCLUDED_DEFAULT_INTERNAL_IDS = {"cohere/command-a-plus", "openai/gpt-5", "openai/o3"}
-REVIEW_REQUIRED_INTERNAL_IDS = {"openai/gpt-4.1", "openai/gpt-4.1-mini", "openai/gpt-4.1-nano"}
+GOVERNANCE_CLASSES = {
+    "VERIFIED_CANONICAL",
+    "VERIFIED_PROJECTION",
+    "PROJECTED_IDENTITY",
+    "COMPATIBILITY_FALLBACK",
+    "HISTORICAL_REFERENCE",
+    "EXCLUDED",
+    "REVIEW_REQUIRED",
+}
+PUBLIC_EXPOSURES = {"public", "excluded", "alias_only"}
 
 
 def read_json(path: Path) -> Any:
@@ -53,6 +61,21 @@ def read_website_rows(path: Path) -> list[dict[str, Any]]:
         if missing:
             raise ValueError(f"Website dataset row {index} missing required fields {missing}: {path}")
     return rows
+
+def load_governance_inputs() -> tuple[dict[str, str], dict[str, list[str]]]:
+    dispositions = read_json(PREVIEW / "candidate-disposition-map.json")
+    phase26 = read_json(PREVIEW / "phase2-6-p0-resolution.json")
+    excluded_reasons = {
+        decision["modelInternalId"]: decision["blockerReason"]
+        for decision in phase26["perModelDecisions"]
+        if decision["finalAction"] == "exclude_from_default"
+    }
+    merged_sources: dict[str, list[str]] = {}
+    for disposition in dispositions:
+        if disposition["disposition"] != "merged_duplicate":
+            continue
+        merged_sources.setdefault(disposition["mergeTarget"], []).append(disposition["candidateId"])
+    return excluded_reasons, {key: sorted(value) for key, value in merged_sources.items()}
 
 
 def atomic_write_json(path: Path, value: Any) -> None:
@@ -196,6 +219,80 @@ def legacy_grok_history(website_rows: list[dict[str, Any]]) -> dict[str, Any] | 
     }
 
 
+def governance_metadata(
+    identity: dict[str, Any],
+    row: dict[str, Any],
+    website_row: dict[str, Any] | None,
+    excluded_reasons: dict[str, str],
+    merged_sources: dict[str, list[str]],
+) -> dict[str, Any]:
+    internal_id = identity["internalId"]
+    source_candidates = [internal_id, *merged_sources.get(internal_id, [])]
+    details = None
+
+    if internal_id in excluded_reasons:
+        governance_class = "EXCLUDED"
+        reason = "official_price_incomplete_excluded_from_public_projection"
+        details = excluded_reasons[internal_id]
+        pricing_source = "none"
+        public_exposure = "excluded"
+    elif identity["identityType"] == "alias":
+        governance_class = "PROJECTED_IDENTITY"
+        reason = "compatibility_alias_not_public_distribution"
+        details = identity.get("routingDetails", {}).get("semantics")
+        pricing_source = "target_projection"
+        public_exposure = "alias_only"
+    elif identity["identityType"] == "historical_reference" or identity["lifecycleStatus"] == "retired":
+        governance_class = "HISTORICAL_REFERENCE"
+        if identity.get("billingModelInternalId"):
+            reason = "retired_identity_redirects_to_current_billing"
+            pricing_source = "redirected_verified_billing"
+        else:
+            reason = "retired_identity_retained_with_legacy_historical_price"
+            pricing_source = "legacy_historical_fallback"
+        details = identity.get("routingDetails", {}).get("semantics")
+        public_exposure = "public" if row["defaultSafe"] or website_row is not None else "excluded"
+    elif "review_required" in row["blockedFromDefaultReasons"]:
+        governance_class = "REVIEW_REQUIRED"
+        reason = "verified_price_unresolved_legacy_compatibility_retained"
+        pricing_source = "compatibility_fallback" if website_row is not None else "none"
+        public_exposure = "public" if website_row is not None else "excluded"
+    elif merged_sources.get(internal_id):
+        governance_class = "PROJECTED_IDENTITY"
+        reason = "canonical_price_record_merged_into_public_identity"
+        pricing_source = "canonical_merged_price_record"
+        public_exposure = "public"
+    elif row["defaultSafe"] and identity.get("publicDatasetIds"):
+        governance_class = "VERIFIED_CANONICAL"
+        reason = "canonical_verified_direct_public_projection"
+        pricing_source = "canonical_verified_price"
+        public_exposure = "public"
+    elif row["defaultSafe"]:
+        governance_class = "VERIFIED_PROJECTION"
+        reason = "official_evidence_verified_projection_pending_canonical_review"
+        pricing_source = "verified_website_seed_price"
+        public_exposure = "public"
+    elif website_row is not None:
+        governance_class = "COMPATIBILITY_FALLBACK"
+        reason = "explicit_legacy_compatibility_fallback"
+        pricing_source = "compatibility_fallback"
+        public_exposure = "public"
+    else:
+        governance_class = "REVIEW_REQUIRED"
+        reason = "unresolved_without_public_price"
+        pricing_source = "none"
+        public_exposure = "excluded"
+
+    return {
+        "governanceClass": governance_class,
+        "governanceReason": reason,
+        "governanceDetails": details,
+        "governanceSourceCandidateIds": sorted(set(source_candidates)),
+        "pricingSourceType": pricing_source,
+        "publicExposure": public_exposure,
+    }
+
+
 def projection_row(
     identity: dict[str, Any],
     model_by_id: dict[str, dict[str, Any]],
@@ -204,6 +301,8 @@ def projection_row(
     verified_price_by_id: dict[str, dict[str, Any]],
     effective_at: datetime,
     website_rows: list[dict[str, Any]],
+    excluded_reasons: dict[str, str],
+    merged_sources: dict[str, list[str]],
 ) -> dict[str, Any]:
     model = model_by_id.get(identity["internalId"])
     website_id = website_id_for(identity)
@@ -222,9 +321,9 @@ def projection_row(
         processing_mode="batch",
     )
     blocked_reasons: list[str] = []
-    if identity["internalId"] in EXCLUDED_DEFAULT_INTERNAL_IDS:
+    if identity["internalId"] in excluded_reasons:
         blocked_reasons.append("excluded_default_candidate")
-    if identity["internalId"] in REVIEW_REQUIRED_INTERNAL_IDS or identity["verificationStatus"] == "review_required":
+    if identity["verificationStatus"] == "review_required":
         blocked_reasons.append("review_required")
     if identity["identityType"] == "historical_reference" and not identity.get("billingModelInternalId"):
         blocked_reasons.append("historical_only")
@@ -295,6 +394,7 @@ def projection_row(
             "routingBehavior": identity["routingBehavior"],
             "routingDetails": identity["routingDetails"],
         }
+    row.update(governance_metadata(identity, row, website_row, excluded_reasons, merged_sources))
     return row
 
 
@@ -419,9 +519,20 @@ def build_strict_verification_rows(
     effective_at: datetime,
     website_rows: list[dict[str, Any]],
 ) -> list[dict[str, Any]]:
+    excluded_reasons, merged_sources = load_governance_inputs()
     model_by_id = {model["internalId"]: model for model in models}
     rows = [
-        projection_row(identity, model_by_id, prices_by_model, sources_by_id, {}, effective_at, website_rows)
+        projection_row(
+            identity,
+            model_by_id,
+            prices_by_model,
+            sources_by_id,
+            {},
+            effective_at,
+            website_rows,
+            excluded_reasons,
+            merged_sources,
+        )
         for identity in identities
     ]
     rows.sort(key=lambda row: (row["provider"], row["id"], row["canonicalInternalId"]))
@@ -534,7 +645,9 @@ def build_phase45_audits(
         "normalizedCanonicalIdentities": len(models),
         "projectionRows": len(projection_rows),
         "counts": row_counts,
-        "formula": "35 canonical_model + 2 alias + 1 redirecting_identity = 38 projection rows",
+        "formula": " + ".join(
+            f"{count} {key}" for key, count in row_counts.items() if count
+        ) + f" = {len(projection_rows)} projection rows",
         "rows": row_reconciliation_rows,
     }
 
@@ -676,7 +789,7 @@ def build_phase45_audits(
                 "completeEvidence": bool(safe is None or safe["afterEvidenceCompleteness"] == "complete"),
                 "standardDefaultSemantics": price["processingMode"] == "standard" and price["contextClass"] == "short",
                 "textCompatible": has_text_input_output(price),
-                "noUnresolvedConflict": row["canonicalInternalId"] not in REVIEW_REQUIRED_INTERNAL_IDS,
+                "noUnresolvedConflict": "review_required" not in row["blockedFromDefaultReasons"],
                 "noFutureOnlyPrice": current_effective(price, parse_effective_at(artifact["effectiveAt"])),
                 "noHistoricalOnlyPrice": not (row["identityType"] == "historical_reference" and not row.get("billingModelInternalId")),
             }
@@ -743,6 +856,7 @@ def build_projection(
     phase35 = read_json(PREVIEW / "phase3-5-readiness.json")
     website_rows = read_website_rows(website_dataset)
     verified_price_by_id = {row["pricingId"]: row for row in load_verified_price_rows()}
+    excluded_reasons, merged_sources = load_governance_inputs()
     effective_at = parse_effective_at(effective_at_value)
     model_by_id = {model["internalId"]: model for model in models}
     prices_by_model: dict[str, list[dict[str, Any]]] = {}
@@ -750,7 +864,17 @@ def build_projection(
         prices_by_model.setdefault(price["modelInternalId"], []).append(price)
     sources_by_id = {source["sourceId"]: source for source in sources}
     rows = [
-        projection_row(identity, model_by_id, prices_by_model, sources_by_id, verified_price_by_id, effective_at, website_rows)
+        projection_row(
+            identity,
+            model_by_id,
+            prices_by_model,
+            sources_by_id,
+            verified_price_by_id,
+            effective_at,
+            website_rows,
+            excluded_reasons,
+            merged_sources,
+        )
         for identity in identities
     ]
     rows.sort(key=lambda row: (row["provider"], row["id"], row["canonicalInternalId"]))
@@ -773,6 +897,15 @@ def build_projection(
             "partialJson": "not_written",
             "publicV1Mutation": "forbidden",
         },
+        "governancePolicy": {
+            "version": "pricing-governance-v1",
+            "classes": sorted(GOVERNANCE_CLASSES),
+            "publicExposures": sorted(PUBLIC_EXPOSURES),
+            "sourceArtifacts": [
+                "candidate-disposition-map.json",
+                "phase2-6-p0-resolution.json",
+            ],
+        },
         "models": rows,
     }
     report = {
@@ -786,6 +919,10 @@ def build_projection(
         "phase35Readiness": phase35["implementationReadiness"],
         "runtimeNetworkDependency": "none",
         "parity": parity_report(rows, website_rows),
+        "governanceClassCounts": {
+            governance_class: sum(1 for row in rows if row["governanceClass"] == governance_class)
+            for governance_class in sorted(GOVERNANCE_CLASSES)
+        },
     }
     validate_projection(artifact, report)
     return artifact, report
@@ -803,11 +940,15 @@ def validate_projection(artifact: dict[str, Any], report: dict[str, Any]) -> Non
             raise ValueError(f"review/unconfirmed row must not have verifiedAt: {row['id']}")
         if row["defaultSafe"] is False and any(row[field] is not None for field in ("inputPrice", "cachedInputPrice", "outputPrice")):
             raise ValueError(f"unsafe row exposes calculation price: {row['id']}")
+        if row["governanceClass"] not in GOVERNANCE_CLASSES:
+            raise ValueError(f"invalid governance class: {row['id']}")
+        if row["publicExposure"] not in PUBLIC_EXPOSURES:
+            raise ValueError(f"invalid public exposure: {row['id']}")
+        if row["publicExposure"] == "excluded" and row["defaultSafe"]:
+            raise ValueError(f"excluded row cannot be default-safe: {row['id']}")
+        if row["publicExposure"] == "alias_only" and row["identityType"] != "alias":
+            raise ValueError(f"alias-only exposure requires alias identity: {row['id']}")
     by_internal_id = {row["canonicalInternalId"]: row for row in artifact["models"]}
-    for internal_id in REVIEW_REQUIRED_INTERNAL_IDS | EXCLUDED_DEFAULT_INTERNAL_IDS:
-        row = by_internal_id[internal_id]
-        if row["defaultSafe"] or row["inputPrice"] is not None or row["outputPrice"] is not None:
-            raise ValueError(f"unsafe default candidate exposed: {internal_id}")
     grok = by_internal_id["xai/grok-3"]
     if grok["status"] == "latest" or grok["lifecycleStatus"] != "retired":
         raise ValueError("grok-3 must project as retired")

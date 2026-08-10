@@ -20,6 +20,27 @@
   },
   "generatedAt": "2026-08-08T18:57:38Z",
   "generatedAtPolicy": "deterministic static timestamp for reviewable repo-local artifacts",
+  "governancePolicy": {
+    "classes": [
+      "COMPATIBILITY_FALLBACK",
+      "EXCLUDED",
+      "HISTORICAL_REFERENCE",
+      "PROJECTED_IDENTITY",
+      "REVIEW_REQUIRED",
+      "VERIFIED_CANONICAL",
+      "VERIFIED_PROJECTION"
+    ],
+    "publicExposures": [
+      "alias_only",
+      "excluded",
+      "public"
+    ],
+    "sourceArtifacts": [
+      "candidate-disposition-map.json",
+      "phase2-6-p0-resolution.json"
+    ],
+    "version": "pricing-governance-v1"
+  },
   "models": [
     {
       "aliasTargetInternalId": null,
@@ -41,6 +62,12 @@
         "default_context_class"
       ],
       "defaultSafe": true,
+      "governanceClass": "VERIFIED_PROJECTION",
+      "governanceDetails": null,
+      "governanceReason": "official_evidence_verified_projection_pending_canonical_review",
+      "governanceSourceCandidateIds": [
+        "anthropic/claude-fable-5"
+      ],
       "id": "claude-fable-5",
       "identityType": "canonical_model",
       "inputPrice": 10,
@@ -48,7 +75,9 @@
       "model": "Claude Fable 5",
       "officialSourceUrl": "https://platform.claude.com/docs/en/about-claude/pricing",
       "outputPrice": 50,
+      "pricingSourceType": "verified_website_seed_price",
       "provider": "anthropic",
+      "publicExposure": "public",
       "redirectTargetInternalId": null,
       "releaseStage": "stable",
       "replacementInternalId": null,
@@ -89,6 +118,12 @@
         "default_context_class"
       ],
       "defaultSafe": true,
+      "governanceClass": "VERIFIED_CANONICAL",
+      "governanceDetails": null,
+      "governanceReason": "canonical_verified_direct_public_projection",
+      "governanceSourceCandidateIds": [
+        "anthropic/claude-haiku-4.5"
+      ],
       "id": "claude-haiku-4.5",
       "identityType": "canonical_model",
       "inputPrice": 1,
@@ -96,7 +131,9 @@
       "model": "Claude Haiku 4.5",
       "officialSourceUrl": "https://docs.anthropic.com/en/docs/about-claude/pricing",
       "outputPrice": 5,
+      "pricingSourceType": "canonical_verified_price",
       "provider": "anthropic",
+      "publicExposure": "public",
       "redirectTargetInternalId": null,
       "releaseStage": "stable",
       "replacementInternalId": null,
@@ -139,6 +176,12 @@
         "default_context_class"
       ],
       "defaultSafe": true,
+      "governanceClass": "VERIFIED_PROJECTION",
+      "governanceDetails": null,
+      "governanceReason": "official_evidence_verified_projection_pending_canonical_review",
+      "governanceSourceCandidateIds": [
+        "anthropic/claude-mythos-5"
+      ],
       "id": "claude-mythos-5",
       "identityType": "canonical_model",
       "inputPrice": 10,
@@ -146,7 +189,9 @@
       "model": "Claude Mythos 5",
       "officialSourceUrl": "https://platform.claude.com/docs/en/about-claude/pricing",
       "outputPrice": 50,
+      "pricingSourceType": "verified_website_seed_price",
       "provider": "anthropic",
+      "publicExposure": "public",
       "redirectTargetInternalId": null,
       "releaseStage": "stable",
       "replacementInternalId": null,
@@ -187,6 +232,12 @@
         "default_context_class"
       ],
       "defaultSafe": true,
+      "governanceClass": "VERIFIED_PROJECTION",
+      "governanceDetails": null,
+      "governanceReason": "official_evidence_verified_projection_pending_canonical_review",
+      "governanceSourceCandidateIds": [
+        "anthropic/claude-opus-4.1"
+      ],
       "id": "claude-opus-4.1",
       "identityType": "canonical_model",
       "inputPrice": 15,
@@ -194,7 +245,9 @@
       "model": "Claude Opus 4.1",
       "officialSourceUrl": "https://platform.claude.com/docs/en/about-claude/pricing",
       "outputPrice": 75,
+      "pricingSourceType": "verified_website_seed_price",
       "provider": "anthropic",
+      "publicExposure": "public",
       "redirectTargetInternalId": null,
       "releaseStage": "legacy",
       "replacementInternalId": null,
@@ -235,6 +288,12 @@
         "default_context_class"
       ],
       "defaultSafe": true,
+      "governanceClass": "VERIFIED_CANONICAL",
+      "governanceDetails": null,
+      "governanceReason": "canonical_verified_direct_public_projection",
+      "governanceSourceCandidateIds": [
+        "anthropic/claude-opus-4.8"
+      ],
       "id": "claude-opus-4.8",
       "identityType": "canonical_model",
       "inputPrice": 5,
@@ -242,7 +301,9 @@
       "model": "Claude Opus 4.8",
       "officialSourceUrl": "https://docs.anthropic.com/en/docs/about-claude/pricing",
       "outputPrice": 25,
+      "pricingSourceType": "canonical_verified_price",
       "provider": "anthropic",
+      "publicExposure": "public",
       "redirectTargetInternalId": null,
       "releaseStage": "stable",
       "replacementInternalId": null,
@@ -285,6 +346,12 @@
         "default_context_class"
       ],
       "defaultSafe": true,
+      "governanceClass": "VERIFIED_CANONICAL",
+      "governanceDetails": null,
+      "governanceReason": "canonical_verified_direct_public_projection",
+      "governanceSourceCandidateIds": [
+        "anthropic/claude-opus-5"
+      ],
       "id": "claude-opus-5",
       "identityType": "canonical_model",
       "inputPrice": 5,
@@ -292,7 +359,9 @@
       "model": "Claude Opus 5",
       "officialSourceUrl": "https://platform.claude.com/docs/en/about-claude/pricing",
       "outputPrice": 25,
+      "pricingSourceType": "canonical_verified_price",
       "provider": "anthropic",
+      "publicExposure": "public",
       "redirectTargetInternalId": null,
       "releaseStage": "stable",
       "replacementInternalId": null,
@@ -336,6 +405,12 @@
         "default_context_class"
       ],
       "defaultSafe": false,
+      "governanceClass": "HISTORICAL_REFERENCE",
+      "governanceDetails": null,
+      "governanceReason": "retired_identity_retained_with_legacy_historical_price",
+      "governanceSourceCandidateIds": [
+        "anthropic/claude-sonnet-4"
+      ],
       "id": "claude-sonnet-4",
       "identityType": "canonical_model",
       "inputPrice": null,
@@ -343,7 +418,9 @@
       "model": "Claude Sonnet 4",
       "officialSourceUrl": "https://platform.claude.com/docs/en/about-claude/pricing",
       "outputPrice": null,
+      "pricingSourceType": "legacy_historical_fallback",
       "provider": "anthropic",
+      "publicExposure": "public",
       "redirectTargetInternalId": null,
       "releaseStage": "legacy",
       "replacementInternalId": null,
@@ -384,6 +461,12 @@
         "default_context_class"
       ],
       "defaultSafe": true,
+      "governanceClass": "VERIFIED_CANONICAL",
+      "governanceDetails": null,
+      "governanceReason": "canonical_verified_direct_public_projection",
+      "governanceSourceCandidateIds": [
+        "anthropic/claude-sonnet-4.6"
+      ],
       "id": "claude-sonnet-4.6",
       "identityType": "canonical_model",
       "inputPrice": 3,
@@ -391,7 +474,9 @@
       "model": "Claude Sonnet 4.6",
       "officialSourceUrl": "https://docs.anthropic.com/en/docs/about-claude/pricing",
       "outputPrice": 15,
+      "pricingSourceType": "canonical_verified_price",
       "provider": "anthropic",
+      "publicExposure": "public",
       "redirectTargetInternalId": null,
       "releaseStage": "stable",
       "replacementInternalId": null,
@@ -434,6 +519,13 @@
         "default_context_class"
       ],
       "defaultSafe": true,
+      "governanceClass": "PROJECTED_IDENTITY",
+      "governanceDetails": null,
+      "governanceReason": "canonical_price_record_merged_into_public_identity",
+      "governanceSourceCandidateIds": [
+        "anthropic/claude-sonnet-5",
+        "anthropic/claude-sonnet-5-intro"
+      ],
       "id": "claude-sonnet-5",
       "identityType": "canonical_model",
       "inputPrice": 2,
@@ -441,7 +533,9 @@
       "model": "Claude Sonnet 5",
       "officialSourceUrl": "https://platform.claude.com/docs/en/about-claude/pricing",
       "outputPrice": 10,
+      "pricingSourceType": "canonical_merged_price_record",
       "provider": "anthropic",
+      "publicExposure": "public",
       "redirectTargetInternalId": null,
       "releaseStage": "stable",
       "replacementInternalId": null,
@@ -484,6 +578,12 @@
         "default_context_class"
       ],
       "defaultSafe": true,
+      "governanceClass": "VERIFIED_CANONICAL",
+      "governanceDetails": null,
+      "governanceReason": "canonical_verified_direct_public_projection",
+      "governanceSourceCandidateIds": [
+        "cohere/aya-expanse-32b"
+      ],
       "id": "aya-expanse-32b",
       "identityType": "canonical_model",
       "inputPrice": 0.5,
@@ -491,7 +591,9 @@
       "model": "Aya Expanse 32B",
       "officialSourceUrl": "https://cohere.com/pricing",
       "outputPrice": 1.5,
+      "pricingSourceType": "canonical_verified_price",
       "provider": "cohere",
+      "publicExposure": "public",
       "redirectTargetInternalId": null,
       "releaseStage": "stable",
       "replacementInternalId": null,
@@ -535,6 +637,12 @@
         "default_context_class"
       ],
       "defaultSafe": false,
+      "governanceClass": "EXCLUDED",
+      "governanceDetails": "official pricing page confirms token-based billing but does not expose a complete current Command A+ pay-as-you-go token price.",
+      "governanceReason": "official_price_incomplete_excluded_from_public_projection",
+      "governanceSourceCandidateIds": [
+        "cohere/command-a-plus"
+      ],
       "id": "command-a-plus",
       "identityType": "canonical_model",
       "inputPrice": null,
@@ -542,7 +650,9 @@
       "model": "Command A+",
       "officialSourceUrl": "https://docs.cohere.com/docs/command-a-plus",
       "outputPrice": null,
+      "pricingSourceType": "none",
       "provider": "cohere",
+      "publicExposure": "excluded",
       "redirectTargetInternalId": null,
       "releaseStage": "stable",
       "replacementInternalId": null,
@@ -583,6 +693,12 @@
         "default_context_class"
       ],
       "defaultSafe": true,
+      "governanceClass": "VERIFIED_CANONICAL",
+      "governanceDetails": null,
+      "governanceReason": "canonical_verified_direct_public_projection",
+      "governanceSourceCandidateIds": [
+        "cohere/command-r-plus-08-2024"
+      ],
       "id": "command-r-plus-08-2024",
       "identityType": "canonical_model",
       "inputPrice": 2.5,
@@ -590,7 +706,9 @@
       "model": "Command R+ 08-2024",
       "officialSourceUrl": "https://cohere.com/pricing",
       "outputPrice": 10,
+      "pricingSourceType": "canonical_verified_price",
       "provider": "cohere",
+      "publicExposure": "public",
       "redirectTargetInternalId": null,
       "releaseStage": "stable",
       "replacementInternalId": null,
@@ -640,6 +758,12 @@
         "default_context_class"
       ],
       "defaultSafe": true,
+      "governanceClass": "PROJECTED_IDENTITY",
+      "governanceDetails": "Compatibility alias for non-thinking mode.",
+      "governanceReason": "compatibility_alias_not_public_distribution",
+      "governanceSourceCandidateIds": [
+        "deepseek/deepseek-chat"
+      ],
       "id": "deepseek-chat",
       "identityType": "alias",
       "inputPrice": 0.14,
@@ -647,7 +771,9 @@
       "model": "DeepSeek Chat",
       "officialSourceUrl": "https://api-docs.deepseek.com/quick_start/pricing",
       "outputPrice": 0.28,
+      "pricingSourceType": "target_projection",
       "provider": "deepseek",
+      "publicExposure": "alias_only",
       "redirectTargetInternalId": null,
       "releaseStage": "legacy",
       "replacementInternalId": null,
@@ -701,6 +827,12 @@
         "default_context_class"
       ],
       "defaultSafe": true,
+      "governanceClass": "PROJECTED_IDENTITY",
+      "governanceDetails": "Compatibility alias for thinking mode.",
+      "governanceReason": "compatibility_alias_not_public_distribution",
+      "governanceSourceCandidateIds": [
+        "deepseek/deepseek-reasoner"
+      ],
       "id": "deepseek-reasoner",
       "identityType": "alias",
       "inputPrice": 0.14,
@@ -708,7 +840,9 @@
       "model": "DeepSeek Reasoner",
       "officialSourceUrl": "https://api-docs.deepseek.com/quick_start/pricing",
       "outputPrice": 0.28,
+      "pricingSourceType": "target_projection",
       "provider": "deepseek",
+      "publicExposure": "alias_only",
       "redirectTargetInternalId": null,
       "releaseStage": "legacy",
       "replacementInternalId": null,
@@ -753,6 +887,12 @@
         "default_context_class"
       ],
       "defaultSafe": true,
+      "governanceClass": "VERIFIED_CANONICAL",
+      "governanceDetails": null,
+      "governanceReason": "canonical_verified_direct_public_projection",
+      "governanceSourceCandidateIds": [
+        "deepseek/deepseek-v4-flash"
+      ],
       "id": "deepseek-v4-flash",
       "identityType": "canonical_model",
       "inputPrice": 0.14,
@@ -760,7 +900,9 @@
       "model": "DeepSeek V4 Flash",
       "officialSourceUrl": "https://api-docs.deepseek.com/quick_start/pricing",
       "outputPrice": 0.28,
+      "pricingSourceType": "canonical_verified_price",
       "provider": "deepseek",
+      "publicExposure": "public",
       "redirectTargetInternalId": null,
       "releaseStage": "stable",
       "replacementInternalId": null,
@@ -801,6 +943,12 @@
         "default_context_class"
       ],
       "defaultSafe": true,
+      "governanceClass": "VERIFIED_CANONICAL",
+      "governanceDetails": null,
+      "governanceReason": "canonical_verified_direct_public_projection",
+      "governanceSourceCandidateIds": [
+        "deepseek/deepseek-v4-pro"
+      ],
       "id": "deepseek-v4-pro",
       "identityType": "canonical_model",
       "inputPrice": 0.435,
@@ -808,7 +956,9 @@
       "model": "DeepSeek V4 Pro",
       "officialSourceUrl": "https://api-docs.deepseek.com/quick_start/pricing",
       "outputPrice": 0.87,
+      "pricingSourceType": "canonical_verified_price",
       "provider": "deepseek",
+      "publicExposure": "public",
       "redirectTargetInternalId": null,
       "releaseStage": "stable",
       "replacementInternalId": null,
@@ -849,6 +999,12 @@
         "default_context_class"
       ],
       "defaultSafe": true,
+      "governanceClass": "VERIFIED_CANONICAL",
+      "governanceDetails": null,
+      "governanceReason": "canonical_verified_direct_public_projection",
+      "governanceSourceCandidateIds": [
+        "google-gemini/gemini-2.5-flash"
+      ],
       "id": "gemini-2.5-flash",
       "identityType": "canonical_model",
       "inputPrice": 0.3,
@@ -856,7 +1012,9 @@
       "model": "Gemini 2.5 Flash",
       "officialSourceUrl": "https://ai.google.dev/gemini-api/docs/pricing",
       "outputPrice": 2.5,
+      "pricingSourceType": "canonical_verified_price",
       "provider": "google-gemini",
+      "publicExposure": "public",
       "redirectTargetInternalId": null,
       "releaseStage": "legacy",
       "replacementInternalId": null,
@@ -897,6 +1055,12 @@
         "default_context_class"
       ],
       "defaultSafe": true,
+      "governanceClass": "VERIFIED_CANONICAL",
+      "governanceDetails": null,
+      "governanceReason": "canonical_verified_direct_public_projection",
+      "governanceSourceCandidateIds": [
+        "google-gemini/gemini-2.5-pro"
+      ],
       "id": "gemini-2.5-pro",
       "identityType": "canonical_model",
       "inputPrice": 1.25,
@@ -904,7 +1068,9 @@
       "model": "Gemini 2.5 Pro",
       "officialSourceUrl": "https://ai.google.dev/gemini-api/docs/pricing",
       "outputPrice": 10,
+      "pricingSourceType": "canonical_verified_price",
       "provider": "google-gemini",
+      "publicExposure": "public",
       "redirectTargetInternalId": null,
       "releaseStage": "legacy",
       "replacementInternalId": null,
@@ -945,6 +1111,12 @@
         "default_context_class"
       ],
       "defaultSafe": true,
+      "governanceClass": "VERIFIED_PROJECTION",
+      "governanceDetails": null,
+      "governanceReason": "official_evidence_verified_projection_pending_canonical_review",
+      "governanceSourceCandidateIds": [
+        "google-gemini/gemini-3-flash-preview"
+      ],
       "id": "gemini-3-flash-preview",
       "identityType": "canonical_model",
       "inputPrice": 0.5,
@@ -952,7 +1124,9 @@
       "model": "Gemini 3 Flash Preview",
       "officialSourceUrl": "https://ai.google.dev/gemini-api/docs/pricing",
       "outputPrice": 3,
+      "pricingSourceType": "verified_website_seed_price",
       "provider": "google-gemini",
+      "publicExposure": "public",
       "redirectTargetInternalId": null,
       "releaseStage": "preview",
       "replacementInternalId": null,
@@ -993,6 +1167,12 @@
         "default_context_class"
       ],
       "defaultSafe": true,
+      "governanceClass": "VERIFIED_PROJECTION",
+      "governanceDetails": null,
+      "governanceReason": "official_evidence_verified_projection_pending_canonical_review",
+      "governanceSourceCandidateIds": [
+        "google-gemini/gemini-3.1-flash-lite"
+      ],
       "id": "gemini-3.1-flash-lite",
       "identityType": "canonical_model",
       "inputPrice": 0.25,
@@ -1000,7 +1180,9 @@
       "model": "Gemini 3.1 Flash-Lite",
       "officialSourceUrl": "https://ai.google.dev/gemini-api/docs/pricing",
       "outputPrice": 1.5,
+      "pricingSourceType": "verified_website_seed_price",
       "provider": "google-gemini",
+      "publicExposure": "public",
       "redirectTargetInternalId": null,
       "releaseStage": "stable",
       "replacementInternalId": null,
@@ -1041,6 +1223,12 @@
         "default_context_class"
       ],
       "defaultSafe": true,
+      "governanceClass": "VERIFIED_PROJECTION",
+      "governanceDetails": null,
+      "governanceReason": "official_evidence_verified_projection_pending_canonical_review",
+      "governanceSourceCandidateIds": [
+        "google-gemini/gemini-3.1-pro-preview"
+      ],
       "id": "gemini-3.1-pro-preview",
       "identityType": "canonical_model",
       "inputPrice": 2,
@@ -1048,7 +1236,9 @@
       "model": "Gemini 3.1 Pro Preview",
       "officialSourceUrl": "https://ai.google.dev/gemini-api/docs/pricing",
       "outputPrice": 12,
+      "pricingSourceType": "verified_website_seed_price",
       "provider": "google-gemini",
+      "publicExposure": "public",
       "redirectTargetInternalId": null,
       "releaseStage": "preview",
       "replacementInternalId": null,
@@ -1089,6 +1279,12 @@
         "default_context_class"
       ],
       "defaultSafe": true,
+      "governanceClass": "VERIFIED_PROJECTION",
+      "governanceDetails": null,
+      "governanceReason": "official_evidence_verified_projection_pending_canonical_review",
+      "governanceSourceCandidateIds": [
+        "google-gemini/gemini-3.5-flash"
+      ],
       "id": "gemini-3.5-flash",
       "identityType": "canonical_model",
       "inputPrice": 1.5,
@@ -1096,7 +1292,9 @@
       "model": "Gemini 3.5 Flash",
       "officialSourceUrl": "https://ai.google.dev/gemini-api/docs/pricing",
       "outputPrice": 9,
+      "pricingSourceType": "verified_website_seed_price",
       "provider": "google-gemini",
+      "publicExposure": "public",
       "redirectTargetInternalId": null,
       "releaseStage": "stable",
       "replacementInternalId": null,
@@ -1137,6 +1335,12 @@
         "default_context_class"
       ],
       "defaultSafe": true,
+      "governanceClass": "VERIFIED_CANONICAL",
+      "governanceDetails": null,
+      "governanceReason": "canonical_verified_direct_public_projection",
+      "governanceSourceCandidateIds": [
+        "google-gemini/gemini-3.5-flash-lite"
+      ],
       "id": "gemini-3.5-flash-lite",
       "identityType": "canonical_model",
       "inputPrice": 0.3,
@@ -1144,7 +1348,9 @@
       "model": "Gemini 3.5 Flash-Lite",
       "officialSourceUrl": "https://ai.google.dev/gemini-api/docs/pricing",
       "outputPrice": 2.5,
+      "pricingSourceType": "canonical_verified_price",
       "provider": "google-gemini",
+      "publicExposure": "public",
       "redirectTargetInternalId": null,
       "releaseStage": "stable",
       "replacementInternalId": null,
@@ -1185,6 +1391,12 @@
         "default_context_class"
       ],
       "defaultSafe": true,
+      "governanceClass": "VERIFIED_CANONICAL",
+      "governanceDetails": null,
+      "governanceReason": "canonical_verified_direct_public_projection",
+      "governanceSourceCandidateIds": [
+        "google-gemini/gemini-3.6-flash"
+      ],
       "id": "gemini-3.6-flash",
       "identityType": "canonical_model",
       "inputPrice": 1.5,
@@ -1192,7 +1404,9 @@
       "model": "Gemini 3.6 Flash",
       "officialSourceUrl": "https://ai.google.dev/gemini-api/docs/pricing",
       "outputPrice": 7.5,
+      "pricingSourceType": "canonical_verified_price",
       "provider": "google-gemini",
+      "publicExposure": "public",
       "redirectTargetInternalId": null,
       "releaseStage": "stable",
       "replacementInternalId": null,
@@ -1233,6 +1447,12 @@
         "default_context_class"
       ],
       "defaultSafe": true,
+      "governanceClass": "VERIFIED_CANONICAL",
+      "governanceDetails": null,
+      "governanceReason": "canonical_verified_direct_public_projection",
+      "governanceSourceCandidateIds": [
+        "mistral-ai/mistral-large"
+      ],
       "id": "mistral-large",
       "identityType": "canonical_model",
       "inputPrice": 0.5,
@@ -1240,7 +1460,9 @@
       "model": "Mistral Large 3",
       "officialSourceUrl": "https://mistral.ai/pricing/api/",
       "outputPrice": 1.5,
+      "pricingSourceType": "canonical_verified_price",
       "provider": "mistral-ai",
+      "publicExposure": "public",
       "redirectTargetInternalId": null,
       "releaseStage": "stable",
       "replacementInternalId": null,
@@ -1281,6 +1503,12 @@
         "default_context_class"
       ],
       "defaultSafe": true,
+      "governanceClass": "VERIFIED_PROJECTION",
+      "governanceDetails": null,
+      "governanceReason": "official_evidence_verified_projection_pending_canonical_review",
+      "governanceSourceCandidateIds": [
+        "openai/chatgpt-chat-latest"
+      ],
       "id": "chatgpt-chat-latest",
       "identityType": "canonical_model",
       "inputPrice": 5,
@@ -1288,7 +1516,9 @@
       "model": "chat-latest",
       "officialSourceUrl": "https://developers.openai.com/api/docs/pricing",
       "outputPrice": 30,
+      "pricingSourceType": "verified_website_seed_price",
       "provider": "openai",
+      "publicExposure": "public",
       "redirectTargetInternalId": null,
       "releaseStage": "specialized",
       "replacementInternalId": null,
@@ -1332,6 +1562,12 @@
         "default_context_class"
       ],
       "defaultSafe": false,
+      "governanceClass": "REVIEW_REQUIRED",
+      "governanceDetails": null,
+      "governanceReason": "verified_price_unresolved_legacy_compatibility_retained",
+      "governanceSourceCandidateIds": [
+        "openai/gpt-4.1"
+      ],
       "id": "gpt-4.1",
       "identityType": "canonical_model",
       "inputPrice": null,
@@ -1339,7 +1575,9 @@
       "model": "GPT-4.1",
       "officialSourceUrl": "https://developers.openai.com/api/docs/pricing",
       "outputPrice": null,
+      "pricingSourceType": "compatibility_fallback",
       "provider": "openai",
+      "publicExposure": "public",
       "redirectTargetInternalId": null,
       "releaseStage": "legacy",
       "replacementInternalId": null,
@@ -1385,6 +1623,12 @@
         "default_context_class"
       ],
       "defaultSafe": false,
+      "governanceClass": "REVIEW_REQUIRED",
+      "governanceDetails": null,
+      "governanceReason": "verified_price_unresolved_legacy_compatibility_retained",
+      "governanceSourceCandidateIds": [
+        "openai/gpt-4.1-mini"
+      ],
       "id": "gpt-4.1-mini",
       "identityType": "canonical_model",
       "inputPrice": null,
@@ -1392,7 +1636,9 @@
       "model": "GPT-4.1 mini",
       "officialSourceUrl": "https://developers.openai.com/api/docs/pricing",
       "outputPrice": null,
+      "pricingSourceType": "compatibility_fallback",
       "provider": "openai",
+      "publicExposure": "public",
       "redirectTargetInternalId": null,
       "releaseStage": "legacy",
       "replacementInternalId": null,
@@ -1436,6 +1682,12 @@
         "default_context_class"
       ],
       "defaultSafe": false,
+      "governanceClass": "REVIEW_REQUIRED",
+      "governanceDetails": null,
+      "governanceReason": "verified_price_unresolved_legacy_compatibility_retained",
+      "governanceSourceCandidateIds": [
+        "openai/gpt-4.1-nano"
+      ],
       "id": "gpt-4.1-nano",
       "identityType": "canonical_model",
       "inputPrice": null,
@@ -1443,7 +1695,9 @@
       "model": "GPT-4.1 nano",
       "officialSourceUrl": "https://developers.openai.com/api/docs/pricing",
       "outputPrice": null,
+      "pricingSourceType": "compatibility_fallback",
       "provider": "openai",
+      "publicExposure": "public",
       "redirectTargetInternalId": null,
       "releaseStage": "legacy",
       "replacementInternalId": "openai/gpt-5.4-nano",
@@ -1487,6 +1741,12 @@
         "default_context_class"
       ],
       "defaultSafe": false,
+      "governanceClass": "EXCLUDED",
+      "governanceDetails": "current OpenAI API pricing page does not list gpt-5 current API pricing as a callable default model.",
+      "governanceReason": "official_price_incomplete_excluded_from_public_projection",
+      "governanceSourceCandidateIds": [
+        "openai/gpt-5"
+      ],
       "id": "gpt-5",
       "identityType": "canonical_model",
       "inputPrice": null,
@@ -1494,7 +1754,9 @@
       "model": "GPT-5",
       "officialSourceUrl": "https://platform.openai.com/docs/pricing",
       "outputPrice": null,
+      "pricingSourceType": "none",
       "provider": "openai",
+      "publicExposure": "excluded",
       "redirectTargetInternalId": null,
       "releaseStage": "stable",
       "replacementInternalId": null,
@@ -1535,6 +1797,12 @@
         "default_context_class"
       ],
       "defaultSafe": true,
+      "governanceClass": "VERIFIED_PROJECTION",
+      "governanceDetails": null,
+      "governanceReason": "official_evidence_verified_projection_pending_canonical_review",
+      "governanceSourceCandidateIds": [
+        "openai/gpt-5.3-codex"
+      ],
       "id": "gpt-5.3-codex",
       "identityType": "canonical_model",
       "inputPrice": 1.75,
@@ -1542,7 +1810,9 @@
       "model": "GPT-5.3 Codex",
       "officialSourceUrl": "https://developers.openai.com/api/docs/pricing",
       "outputPrice": 14,
+      "pricingSourceType": "verified_website_seed_price",
       "provider": "openai",
+      "publicExposure": "public",
       "redirectTargetInternalId": null,
       "releaseStage": "specialized",
       "replacementInternalId": null,
@@ -1583,6 +1853,12 @@
         "default_context_class"
       ],
       "defaultSafe": true,
+      "governanceClass": "VERIFIED_PROJECTION",
+      "governanceDetails": null,
+      "governanceReason": "official_evidence_verified_projection_pending_canonical_review",
+      "governanceSourceCandidateIds": [
+        "openai/gpt-5.4"
+      ],
       "id": "gpt-5.4",
       "identityType": "canonical_model",
       "inputPrice": 2.5,
@@ -1590,7 +1866,9 @@
       "model": "GPT-5.4",
       "officialSourceUrl": "https://developers.openai.com/api/docs/pricing",
       "outputPrice": 15,
+      "pricingSourceType": "verified_website_seed_price",
       "provider": "openai",
+      "publicExposure": "public",
       "redirectTargetInternalId": null,
       "releaseStage": "stable",
       "replacementInternalId": null,
@@ -1631,6 +1909,12 @@
         "default_context_class"
       ],
       "defaultSafe": true,
+      "governanceClass": "VERIFIED_CANONICAL",
+      "governanceDetails": null,
+      "governanceReason": "canonical_verified_direct_public_projection",
+      "governanceSourceCandidateIds": [
+        "openai/gpt-5.4-mini"
+      ],
       "id": "gpt-5.4-mini",
       "identityType": "canonical_model",
       "inputPrice": 0.75,
@@ -1638,7 +1922,9 @@
       "model": "GPT-5.4 mini",
       "officialSourceUrl": "https://developers.openai.com/api/docs/pricing",
       "outputPrice": 4.5,
+      "pricingSourceType": "canonical_verified_price",
       "provider": "openai",
+      "publicExposure": "public",
       "redirectTargetInternalId": null,
       "releaseStage": "stable",
       "replacementInternalId": null,
@@ -1681,6 +1967,12 @@
         "default_context_class"
       ],
       "defaultSafe": true,
+      "governanceClass": "VERIFIED_PROJECTION",
+      "governanceDetails": null,
+      "governanceReason": "official_evidence_verified_projection_pending_canonical_review",
+      "governanceSourceCandidateIds": [
+        "openai/gpt-5.4-nano"
+      ],
       "id": "gpt-5.4-nano",
       "identityType": "canonical_model",
       "inputPrice": 0.2,
@@ -1688,7 +1980,9 @@
       "model": "GPT-5.4 nano",
       "officialSourceUrl": "https://developers.openai.com/api/docs/pricing",
       "outputPrice": 1.25,
+      "pricingSourceType": "verified_website_seed_price",
       "provider": "openai",
+      "publicExposure": "public",
       "redirectTargetInternalId": null,
       "releaseStage": "stable",
       "replacementInternalId": null,
@@ -1729,6 +2023,12 @@
         "default_context_class"
       ],
       "defaultSafe": true,
+      "governanceClass": "VERIFIED_PROJECTION",
+      "governanceDetails": null,
+      "governanceReason": "official_evidence_verified_projection_pending_canonical_review",
+      "governanceSourceCandidateIds": [
+        "openai/gpt-5.4-pro"
+      ],
       "id": "gpt-5.4-pro",
       "identityType": "canonical_model",
       "inputPrice": 30,
@@ -1736,7 +2036,9 @@
       "model": "GPT-5.4 Pro",
       "officialSourceUrl": "https://developers.openai.com/api/docs/pricing",
       "outputPrice": 180,
+      "pricingSourceType": "verified_website_seed_price",
       "provider": "openai",
+      "publicExposure": "public",
       "redirectTargetInternalId": null,
       "releaseStage": "stable",
       "replacementInternalId": null,
@@ -1777,6 +2079,12 @@
         "default_context_class"
       ],
       "defaultSafe": true,
+      "governanceClass": "VERIFIED_CANONICAL",
+      "governanceDetails": null,
+      "governanceReason": "canonical_verified_direct_public_projection",
+      "governanceSourceCandidateIds": [
+        "openai/gpt-5.5"
+      ],
       "id": "gpt-5.5",
       "identityType": "canonical_model",
       "inputPrice": 5,
@@ -1784,7 +2092,9 @@
       "model": "GPT-5.5",
       "officialSourceUrl": "https://developers.openai.com/api/docs/pricing",
       "outputPrice": 30,
+      "pricingSourceType": "canonical_verified_price",
       "provider": "openai",
+      "publicExposure": "public",
       "redirectTargetInternalId": null,
       "releaseStage": "stable",
       "replacementInternalId": null,
@@ -1827,6 +2137,12 @@
         "default_context_class"
       ],
       "defaultSafe": true,
+      "governanceClass": "VERIFIED_PROJECTION",
+      "governanceDetails": null,
+      "governanceReason": "official_evidence_verified_projection_pending_canonical_review",
+      "governanceSourceCandidateIds": [
+        "openai/gpt-5.5-pro"
+      ],
       "id": "gpt-5.5-pro",
       "identityType": "canonical_model",
       "inputPrice": 30,
@@ -1834,7 +2150,9 @@
       "model": "GPT-5.5 Pro",
       "officialSourceUrl": "https://developers.openai.com/api/docs/pricing",
       "outputPrice": 180,
+      "pricingSourceType": "verified_website_seed_price",
       "provider": "openai",
+      "publicExposure": "public",
       "redirectTargetInternalId": null,
       "releaseStage": "stable",
       "replacementInternalId": null,
@@ -1875,6 +2193,12 @@
         "default_context_class"
       ],
       "defaultSafe": true,
+      "governanceClass": "VERIFIED_CANONICAL",
+      "governanceDetails": null,
+      "governanceReason": "canonical_verified_direct_public_projection",
+      "governanceSourceCandidateIds": [
+        "openai/gpt-5.6-luna"
+      ],
       "id": "gpt-5.6-luna",
       "identityType": "canonical_model",
       "inputPrice": 0.2,
@@ -1882,7 +2206,9 @@
       "model": "GPT-5.6 Luna",
       "officialSourceUrl": "https://developers.openai.com/api/docs/pricing",
       "outputPrice": 1.2,
+      "pricingSourceType": "canonical_verified_price",
       "provider": "openai",
+      "publicExposure": "public",
       "redirectTargetInternalId": null,
       "releaseStage": "stable",
       "replacementInternalId": null,
@@ -1923,6 +2249,12 @@
         "default_context_class"
       ],
       "defaultSafe": true,
+      "governanceClass": "VERIFIED_CANONICAL",
+      "governanceDetails": null,
+      "governanceReason": "canonical_verified_direct_public_projection",
+      "governanceSourceCandidateIds": [
+        "openai/gpt-5.6-sol"
+      ],
       "id": "gpt-5.6-sol",
       "identityType": "canonical_model",
       "inputPrice": 5,
@@ -1930,7 +2262,9 @@
       "model": "GPT-5.6 Sol",
       "officialSourceUrl": "https://developers.openai.com/api/docs/pricing",
       "outputPrice": 30,
+      "pricingSourceType": "canonical_verified_price",
       "provider": "openai",
+      "publicExposure": "public",
       "redirectTargetInternalId": null,
       "releaseStage": "stable",
       "replacementInternalId": null,
@@ -1971,6 +2305,12 @@
         "default_context_class"
       ],
       "defaultSafe": true,
+      "governanceClass": "VERIFIED_CANONICAL",
+      "governanceDetails": null,
+      "governanceReason": "canonical_verified_direct_public_projection",
+      "governanceSourceCandidateIds": [
+        "openai/gpt-5.6-terra"
+      ],
       "id": "gpt-5.6-terra",
       "identityType": "canonical_model",
       "inputPrice": 2,
@@ -1978,7 +2318,9 @@
       "model": "GPT-5.6 Terra",
       "officialSourceUrl": "https://developers.openai.com/api/docs/pricing",
       "outputPrice": 12,
+      "pricingSourceType": "canonical_verified_price",
       "provider": "openai",
+      "publicExposure": "public",
       "redirectTargetInternalId": null,
       "releaseStage": "stable",
       "replacementInternalId": null,
@@ -2022,6 +2364,12 @@
         "default_context_class"
       ],
       "defaultSafe": false,
+      "governanceClass": "EXCLUDED",
+      "governanceDetails": "current OpenAI API pricing page lists o3-deep-research, not a current o3 default API price with cached-input semantics.",
+      "governanceReason": "official_price_incomplete_excluded_from_public_projection",
+      "governanceSourceCandidateIds": [
+        "openai/o3"
+      ],
       "id": "o3",
       "identityType": "canonical_model",
       "inputPrice": null,
@@ -2029,7 +2377,9 @@
       "model": "o3",
       "officialSourceUrl": "https://platform.openai.com/docs/pricing",
       "outputPrice": null,
+      "pricingSourceType": "none",
       "provider": "openai",
+      "publicExposure": "excluded",
       "redirectTargetInternalId": null,
       "releaseStage": "stable",
       "replacementInternalId": null,
@@ -2070,6 +2420,12 @@
         "default_context_class"
       ],
       "defaultSafe": true,
+      "governanceClass": "HISTORICAL_REFERENCE",
+      "governanceDetails": "Retired slug is retained for history and redirects to Grok 4.3 for current billing.",
+      "governanceReason": "retired_identity_redirects_to_current_billing",
+      "governanceSourceCandidateIds": [
+        "xai/grok-3"
+      ],
       "historicalPrice": {
         "cachedInputPrice": null,
         "contextWindow": "131K",
@@ -2086,7 +2442,9 @@
       "model": "Grok 3",
       "officialSourceUrl": "https://docs.x.ai/developers/migration/may-15-retirement",
       "outputPrice": 2.5,
+      "pricingSourceType": "redirected_verified_billing",
       "provider": "xai",
+      "publicExposure": "public",
       "redirectTargetInternalId": "xai/grok-4.3",
       "redirectedBilling": {
         "billingModelInternalId": "xai/grok-4.3",
@@ -2142,6 +2500,12 @@
         "default_context_class"
       ],
       "defaultSafe": true,
+      "governanceClass": "VERIFIED_CANONICAL",
+      "governanceDetails": null,
+      "governanceReason": "canonical_verified_direct_public_projection",
+      "governanceSourceCandidateIds": [
+        "xai/grok-4.3"
+      ],
       "id": "grok-4.3",
       "identityType": "canonical_model",
       "inputPrice": 1.25,
@@ -2149,7 +2513,9 @@
       "model": "Grok 4.3",
       "officialSourceUrl": "https://docs.x.ai/developers/models",
       "outputPrice": 2.5,
+      "pricingSourceType": "canonical_verified_price",
       "provider": "xai",
+      "publicExposure": "public",
       "redirectTargetInternalId": null,
       "releaseStage": "stable",
       "replacementInternalId": null,
@@ -2192,6 +2558,12 @@
         "default_context_class"
       ],
       "defaultSafe": true,
+      "governanceClass": "VERIFIED_CANONICAL",
+      "governanceDetails": null,
+      "governanceReason": "canonical_verified_direct_public_projection",
+      "governanceSourceCandidateIds": [
+        "xai/grok-4.5"
+      ],
       "id": "grok-4.5",
       "identityType": "canonical_model",
       "inputPrice": 2,
@@ -2199,7 +2571,9 @@
       "model": "Grok 4.5",
       "officialSourceUrl": "https://docs.x.ai/developers/pricing",
       "outputPrice": 6,
+      "pricingSourceType": "canonical_verified_price",
       "provider": "xai",
+      "publicExposure": "public",
       "redirectTargetInternalId": null,
       "releaseStage": "stable",
       "replacementInternalId": null,
@@ -2240,6 +2614,12 @@
         "default_context_class"
       ],
       "defaultSafe": true,
+      "governanceClass": "VERIFIED_PROJECTION",
+      "governanceDetails": null,
+      "governanceReason": "official_evidence_verified_projection_pending_canonical_review",
+      "governanceSourceCandidateIds": [
+        "xai/grok-build-0.1"
+      ],
       "id": "grok-build-0.1",
       "identityType": "canonical_model",
       "inputPrice": 1,
@@ -2247,7 +2627,9 @@
       "model": "Grok Build 0.1",
       "officialSourceUrl": "https://docs.x.ai/developers/models",
       "outputPrice": 2,
+      "pricingSourceType": "verified_website_seed_price",
       "provider": "xai",
+      "publicExposure": "public",
       "redirectTargetInternalId": null,
       "releaseStage": "stable",
       "replacementInternalId": null,
