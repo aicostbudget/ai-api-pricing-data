@@ -2,15 +2,38 @@
   "dataset_name": "AICostBudget AI API Pricing Dataset",
   "dataset_version": "1.0.0",
   "description": "Open, machine-readable pricing data for LLM and AI APIs.",
-  "generated_at": "2026-08-08T19:06:25Z",
+  "generated_at": "2026-08-11T06:53:09Z",
   "homepage": "https://aicostbudget.com",
   "last_verified_at": "2026-08-08T18:00:00Z",
   "licenses": {
     "code": "MIT",
     "data": "CC BY 4.0"
   },
-  "model_count": 25,
+  "model_count": 32,
   "models": [
+    {
+      "accessed_at": "2026-07-07T00:00:00Z",
+      "display_name": "Claude Fable 5",
+      "effective_from": "2026-07-03",
+      "last_verified_at": "2026-07-07T00:00:00Z",
+      "model_family": "Claude Fable",
+      "model_id": "claude-fable-5",
+      "notes": "Anthropic lists base input, 5-minute cache write, 1-hour cache write, cache hit, and output rates. cache_write stores the 5-minute write rate; cache_write_1h stores the 1-hour write rate. Batch input and output are 50% of Standard; prompt-cache multipliers stack with the Batch discount.",
+      "official_source_url": "https://platform.claude.com/docs/en/about-claude/pricing",
+      "pricing": {
+        "batch_input": 5.0,
+        "batch_output": 25.0,
+        "cache_write": 12.5,
+        "cache_write_1h": 20.0,
+        "cached_input": 1.0,
+        "currency": "USD",
+        "input": 10.0,
+        "output": 50.0,
+        "unit": "1M tokens"
+      },
+      "provider_id": "anthropic",
+      "status": "active"
+    },
     {
       "accessed_at": "2026-08-08T18:00:00Z",
       "display_name": "Claude Haiku 4.5",
@@ -288,6 +311,52 @@
       "status": "active"
     },
     {
+      "accessed_at": "2026-07-07T00:00:00Z",
+      "display_name": "Gemini 3.1 Flash-Lite",
+      "effective_from": "2026-07-03",
+      "last_verified_at": "2026-07-07T00:00:00Z",
+      "model_family": "Gemini 3.1",
+      "model_id": "gemini-3.1-flash-lite",
+      "notes": "V1 stores Standard text/image/video input, context-cache, and output prices plus Batch input/output prices. Batch context caching is $0.0125 per 1M tokens. Separate audio rates are not represented: Standard audio input/cache are $0.50/$0.05 and Batch audio input/cache are $0.25/$0.025 per 1M tokens.",
+      "official_source_url": "https://ai.google.dev/gemini-api/docs/pricing",
+      "pricing": {
+        "batch_input": 0.125,
+        "batch_output": 0.75,
+        "cache_write": null,
+        "cache_write_1h": null,
+        "cached_input": 0.025,
+        "currency": "USD",
+        "input": 0.25,
+        "output": 1.5,
+        "unit": "1M tokens"
+      },
+      "provider_id": "google-gemini",
+      "status": "active"
+    },
+    {
+      "accessed_at": "2026-07-07T00:00:00Z",
+      "display_name": "Gemini 3.5 Flash",
+      "effective_from": "2026-07-03",
+      "last_verified_at": "2026-07-07T00:00:00Z",
+      "model_family": "Gemini 3.5",
+      "model_id": "gemini-3.5-flash",
+      "notes": "V1 stores Standard input, context-cache, and output prices plus Batch input/output prices. Batch context caching is $0.075 per 1M tokens. Google also lists Flex and Priority tiers; those tiers are not represented in V1 pricing fields.",
+      "official_source_url": "https://ai.google.dev/gemini-api/docs/pricing",
+      "pricing": {
+        "batch_input": 0.75,
+        "batch_output": 4.5,
+        "cache_write": null,
+        "cache_write_1h": null,
+        "cached_input": 0.15,
+        "currency": "USD",
+        "input": 1.5,
+        "output": 9.0,
+        "unit": "1M tokens"
+      },
+      "provider_id": "google-gemini",
+      "status": "active"
+    },
+    {
       "accessed_at": "2026-08-08T18:00:00Z",
       "display_name": "Gemini 3.5 Flash-Lite",
       "effective_from": null,
@@ -403,6 +472,29 @@
       "status": "active"
     },
     {
+      "accessed_at": "2026-07-07T00:00:00Z",
+      "display_name": "GPT-5.4",
+      "effective_from": "2026-07-03",
+      "last_verified_at": "2026-07-07T00:00:00Z",
+      "model_family": "GPT-5.4",
+      "model_id": "gpt-5.4",
+      "notes": "V1 stores Standard short-context prices and Batch short-context input/output prices. Batch cached input is $0.125 per 1M tokens. Above 272K input tokens, Standard pricing is $5 input, $0.50 cached input, and $22.50 output per 1M tokens; Batch pricing is $2.50 input, $0.25 cached input, and $11.25 output per 1M tokens.",
+      "official_source_url": "https://developers.openai.com/api/docs/pricing",
+      "pricing": {
+        "batch_input": 1.25,
+        "batch_output": 7.5,
+        "cache_write": null,
+        "cache_write_1h": null,
+        "cached_input": 0.25,
+        "currency": "USD",
+        "input": 2.5,
+        "output": 15.0,
+        "unit": "1M tokens"
+      },
+      "provider_id": "openai",
+      "status": "active"
+    },
+    {
       "accessed_at": "2026-08-08T18:00:00Z",
       "display_name": "GPT-5.4 mini",
       "effective_from": null,
@@ -426,6 +518,52 @@
       "status": "active"
     },
     {
+      "accessed_at": "2026-07-07T00:00:00Z",
+      "display_name": "GPT-5.4 nano",
+      "effective_from": "2026-07-03",
+      "last_verified_at": "2026-07-07T00:00:00Z",
+      "model_family": "GPT-5.4",
+      "model_id": "gpt-5.4-nano",
+      "notes": "V1 stores Standard prices and Batch input/output prices. Batch cached input is $0.01 per 1M tokens. The official model page lists a 400K context window and no separate long-context pricing tier.",
+      "official_source_url": "https://developers.openai.com/api/docs/pricing",
+      "pricing": {
+        "batch_input": 0.1,
+        "batch_output": 0.625,
+        "cache_write": null,
+        "cache_write_1h": null,
+        "cached_input": 0.02,
+        "currency": "USD",
+        "input": 0.2,
+        "output": 1.25,
+        "unit": "1M tokens"
+      },
+      "provider_id": "openai",
+      "status": "active"
+    },
+    {
+      "accessed_at": "2026-07-07T00:00:00Z",
+      "display_name": "GPT-5.4 Pro",
+      "effective_from": "2026-07-03",
+      "last_verified_at": "2026-07-07T00:00:00Z",
+      "model_family": "GPT-5.4",
+      "model_id": "gpt-5.4-pro",
+      "notes": "V1 stores Standard short-context input and output prices plus Batch short-context input and output prices. GPT-5.4 Pro does not offer a cached-input discount, so cached_input is null rather than zero. Above 272K input tokens, Standard pricing is $60 input and $270 output per 1M tokens; Batch pricing is $30 input and $135 output per 1M tokens.",
+      "official_source_url": "https://developers.openai.com/api/docs/pricing",
+      "pricing": {
+        "batch_input": 15.0,
+        "batch_output": 90.0,
+        "cache_write": null,
+        "cache_write_1h": null,
+        "cached_input": null,
+        "currency": "USD",
+        "input": 30.0,
+        "output": 180.0,
+        "unit": "1M tokens"
+      },
+      "provider_id": "openai",
+      "status": "active"
+    },
+    {
       "accessed_at": "2026-08-08T18:00:00Z",
       "display_name": "GPT-5.5",
       "effective_from": null,
@@ -443,6 +581,29 @@
         "currency": "USD",
         "input": 5.0,
         "output": 30.0,
+        "unit": "1M tokens"
+      },
+      "provider_id": "openai",
+      "status": "active"
+    },
+    {
+      "accessed_at": "2026-07-07T00:00:00Z",
+      "display_name": "GPT-5.5 Pro",
+      "effective_from": "2026-07-03",
+      "last_verified_at": "2026-07-07T00:00:00Z",
+      "model_family": "GPT-5.5",
+      "model_id": "gpt-5.5-pro",
+      "notes": "V1 stores Standard short-context input and output prices plus Batch short-context input and output prices. GPT-5.5 Pro does not offer a cached-input discount, so cached_input is null rather than zero. Long-context Standard pricing is $60 input and $270 output per 1M tokens; Batch pricing is $30 input and $135 output per 1M tokens.",
+      "official_source_url": "https://developers.openai.com/api/docs/pricing",
+      "pricing": {
+        "batch_input": 15.0,
+        "batch_output": 90.0,
+        "cache_write": null,
+        "cache_write_1h": null,
+        "cached_input": null,
+        "currency": "USD",
+        "input": 30.0,
+        "output": 180.0,
         "unit": "1M tokens"
       },
       "provider_id": "openai",

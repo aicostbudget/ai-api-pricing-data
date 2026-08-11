@@ -1,8 +1,10 @@
 import csv
 import json
 import re
+import tempfile
 import unittest
 from datetime import datetime, timezone
+from pathlib import Path
 
 from scripts.export_huggingface import (
     HF_DIR,
@@ -11,6 +13,7 @@ from scripts.export_huggingface import (
     REQUIRED_UTM,
     expected_public_keys,
     parse_date,
+    preserve_existing_generated_at_for_timestamp_only_change,
     validate_huggingface_artifacts,
 )
 
@@ -55,7 +58,7 @@ class HuggingFaceExportTests(unittest.TestCase):
 
     def test_timestamps_preserve_verification_semantics(self):
         pricing_meta = json.loads(META_PATH.read_text(encoding="utf-8"))
-        self.assertEqual(self.metadata["generated_at"], pricing_meta["generated_at"])
+        self.assertLessEqual(parse_date(self.metadata["generated_at"]), parse_date(pricing_meta["generated_at"]))
         self.assertEqual(self.metadata["last_updated"], pricing_meta["last_verified_at"])
         generated_at = datetime.fromisoformat(self.metadata["generated_at"].replace("Z", "+00:00"))
         verified = [
@@ -66,6 +69,21 @@ class HuggingFaceExportTests(unittest.TestCase):
         self.assertGreaterEqual(generated_at, max(verified))
         self.assertLessEqual(generated_at, datetime.now(timezone.utc))
         self.assertTrue(all(value <= datetime.now(timezone.utc) for value in verified))
+
+    def test_timestamp_only_regeneration_preserves_existing_generated_at(self):
+        with tempfile.TemporaryDirectory() as temp_dir:
+            output_dir = Path(temp_dir)
+            current = json.loads(json.dumps(self.payload))
+            (output_dir / "prices.json").write_text(json.dumps(current), encoding="utf-8")
+            candidate = json.loads(json.dumps(current))
+            candidate["metadata"]["generated_at"] = "2026-08-11T00:00:00Z"
+            preserve_existing_generated_at_for_timestamp_only_change(candidate, output_dir)
+            self.assertEqual(candidate["metadata"]["generated_at"], current["metadata"]["generated_at"])
+
+            candidate["records"][0]["notes"] += " changed"
+            candidate["metadata"]["generated_at"] = "2026-08-11T00:00:00Z"
+            preserve_existing_generated_at_for_timestamp_only_change(candidate, output_dir)
+            self.assertEqual(candidate["metadata"]["generated_at"], "2026-08-11T00:00:00Z")
 
     def test_prices_are_finite_non_negative_or_null(self):
         for row in self.records:

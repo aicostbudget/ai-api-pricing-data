@@ -49,7 +49,7 @@ class DatasetTests(unittest.TestCase):
         self.assertEqual(len({item["provider_id"] for item in providers}), len(providers))
         self.assertEqual(len({(item["provider_id"], item["model_id"]) for item in models}), len(models))
         self.assertEqual(len(providers), 7)
-        self.assertEqual(len(models), 25)
+        self.assertEqual(len(models), 32)
 
     def test_verified_additions_and_price_corrections(self):
         by_key = {(model["provider_id"], model["model_id"]): model for model in load_models()}
@@ -83,6 +83,45 @@ class DatasetTests(unittest.TestCase):
         )
         self.assertIsNone(by_key[("openai", "gpt-5.6-terra")]["effective_from"])
         self.assertIsNone(by_key[("openai", "gpt-5.6-luna")]["effective_from"])
+
+    def test_p3_promoted_records_preserve_verified_pricing_semantics(self):
+        by_key = {
+            f"{model['provider_id']}/{model['model_id']}": model
+            for model in load_models()
+        }
+        expected = {
+            "anthropic/claude-fable-5": (10.0, 1.0, 50.0, 12.5, 20.0, 5.0, 25.0),
+            "google-gemini/gemini-3.1-flash-lite": (0.25, 0.025, 1.5, None, None, 0.125, 0.75),
+            "google-gemini/gemini-3.5-flash": (1.5, 0.15, 9.0, None, None, 0.75, 4.5),
+            "openai/gpt-5.4": (2.5, 0.25, 15.0, None, None, 1.25, 7.5),
+            "openai/gpt-5.4-nano": (0.2, 0.02, 1.25, None, None, 0.1, 0.625),
+            "openai/gpt-5.4-pro": (30.0, None, 180.0, None, None, 15.0, 90.0),
+            "openai/gpt-5.5-pro": (30.0, None, 180.0, None, None, 15.0, 90.0),
+        }
+        for internal_id, values in expected.items():
+            row = by_key[internal_id]
+            self.assertEqual(
+                tuple(
+                    row["pricing"][field]
+                    for field in (
+                        "input",
+                        "cached_input",
+                        "output",
+                        "cache_write",
+                        "cache_write_1h",
+                        "batch_input",
+                        "batch_output",
+                    )
+                ),
+                values,
+                internal_id,
+            )
+            self.assertEqual(row["status"], "active", internal_id)
+            self.assertEqual(row["accessed_at"], "2026-07-07T00:00:00Z", internal_id)
+            self.assertEqual(row["last_verified_at"], "2026-07-07T00:00:00Z", internal_id)
+            self.assertEqual(row["effective_from"], "2026-07-03", internal_id)
+            self.assertTrue(row["official_source_url"].startswith("https://"), internal_id)
+            self.assertTrue(row["notes"], internal_id)
 
     def test_no_negative_prices_and_sources(self):
         for model in load_models():
