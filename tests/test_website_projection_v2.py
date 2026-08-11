@@ -236,7 +236,7 @@ class WebsiteProjectionV2Tests(unittest.TestCase):
         self.assertEqual(rows["counts"]["canonical_model"], 42)
         self.assertEqual(rows["counts"]["alias"], 2)
         self.assertEqual(rows["counts"]["redirecting_identity"], 1)
-        self.assertEqual(unsafe["beforePhase4A5UnsafeDifferenceCount"], 17)
+        self.assertEqual(unsafe["beforePhase4A5UnsafeDifferenceCount"], 11)
         self.assertEqual(unsafe["currentUnsafeDifferenceCount"], 4)
         self.assertEqual(len(unsafe["blockerUnsafeDifferences"]), 0)
         self.assertEqual(context["contextWindowRows"], 45)

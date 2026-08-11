@@ -70,8 +70,8 @@ class PricingGovernanceTests(unittest.TestCase):
             counts,
             Counter(
                 {
-                    "VERIFIED_CANONICAL": 20,
-                    "VERIFIED_PROJECTION": 14,
+                    "VERIFIED_CANONICAL": 27,
+                    "VERIFIED_PROJECTION": 7,
                     "PROJECTED_IDENTITY": 3,
                     "HISTORICAL_REFERENCE": 2,
                     "EXCLUDED": 3,
@@ -167,13 +167,48 @@ class PricingGovernanceTests(unittest.TestCase):
 
     def test_verified_projection_requires_official_evidence(self):
         rows = [row for row in self.projection.values() if row["governanceClass"] == "VERIFIED_PROJECTION"]
-        self.assertEqual(len(rows), 14, "VERIFIED_PROJECTION_COUNT_MISMATCH")
+        self.assertEqual(len(rows), 7, "VERIFIED_PROJECTION_COUNT_MISMATCH")
         for row in rows:
             internal_id = row["canonicalInternalId"]
             self.assertEqual(row["verificationStatus"], "verified", f"PROMOTION_WITHOUT_VERIFICATION: {internal_id}")
             self.assertTrue(row["selectedPriceRecordId"], f"PROMOTION_WITHOUT_PRICE_RECORD: {internal_id}")
             self.assertTrue(row["verifiedAt"], f"PROMOTION_WITHOUT_TIMESTAMP: {internal_id}")
             self.assertTrue(all(url.startswith("https://") for url in row["sourceUrls"]), f"PROMOTION_WITHOUT_OFFICIAL_SOURCE: {internal_id}")
+
+    def test_p3_promotes_only_the_approved_seven(self):
+        promoted = {
+            "anthropic/claude-fable-5",
+            "google-gemini/gemini-3.1-flash-lite",
+            "google-gemini/gemini-3.5-flash",
+            "openai/gpt-5.4",
+            "openai/gpt-5.4-nano",
+            "openai/gpt-5.4-pro",
+            "openai/gpt-5.5-pro",
+        }
+        protected_projection = {
+            "anthropic/claude-mythos-5",
+            "anthropic/claude-opus-4.1",
+            "google-gemini/gemini-3-flash-preview",
+            "google-gemini/gemini-3.1-pro-preview",
+            "openai/chatgpt-chat-latest",
+            "openai/gpt-5.3-codex",
+            "xai/grok-build-0.1",
+        }
+        self.assertTrue(promoted.issubset(self.canonical))
+        self.assertEqual(
+            {internal_id for internal_id in promoted if self.projection[internal_id]["governanceClass"] == "VERIFIED_CANONICAL"},
+            promoted,
+        )
+        self.assertEqual(
+            {
+                internal_id
+                for internal_id, row in self.projection.items()
+                if row["governanceClass"] == "VERIFIED_PROJECTION"
+            },
+            protected_projection,
+        )
+        self.assertTrue(all(self.projection[internal_id]["publicExposure"] == "public" for internal_id in promoted))
+        self.assertTrue(protected_projection.isdisjoint(self.canonical))
 
     def test_public_numeric_and_timestamp_semantics(self):
         now = datetime.now(timezone.utc)

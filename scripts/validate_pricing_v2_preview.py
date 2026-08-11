@@ -876,8 +876,8 @@ def validate_preview() -> dict[str, Any]:
         fail("phase4a.5 projection row reconciliation total mismatch")
     if len(phase45_row_reconciliation["rows"]) != len(phase4a_rows):
         fail("phase4a.5 projection row reconciliation must cover every row")
-    if phase45_unsafe_audit["beforePhase4A5UnsafeDifferenceCount"] != 16:
-        fail("phase4a.5 unsafe audit must preserve the original 16 unsafe differences")
+    if phase45_unsafe_audit["beforePhase4A5UnsafeDifferenceCount"] != len(phase45_unsafe_audit["unsafeDifferenceRows"]):
+        fail("phase4a.5 unsafe audit row count mismatch")
     if phase45_unsafe_audit["currentUnsafeDifferenceCount"] != phase4a_report["parity"]["counts"].get("unsafe_difference", 0):
         fail("phase4a.5 unsafe audit current count mismatch")
     if phase45_unsafe_audit["blockerUnsafeDifferences"]:

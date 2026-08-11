@@ -1,5 +1,6 @@
 from __future__ import annotations
 
+import argparse
 import json
 import time
 from collections import defaultdict
@@ -88,6 +89,16 @@ REVIEW_REQUIRED_IDS = {
     ("openai", "gpt-4.1-nano"),
 }
 
+PROMOTED_CANONICAL_KEYS = {
+    ("anthropic", "claude-fable-5"),
+    ("google-gemini", "gemini-3.1-flash-lite"),
+    ("google-gemini", "gemini-3.5-flash"),
+    ("openai", "gpt-5.4"),
+    ("openai", "gpt-5.4-nano"),
+    ("openai", "gpt-5.4-pro"),
+    ("openai", "gpt-5.5-pro"),
+}
+
 MERGED_DUPLICATES = {
     ("anthropic", "claude-sonnet-5-intro"): {
         "target": "anthropic/claude-sonnet-5",
@@ -100,6 +111,20 @@ MODEL_AVAILABILITY_OVERRIDES = {
 }
 
 PHASE25_OFFICIAL_COMPLETION = {
+    "price:anthropic/claude-fable-5:standard:short:current": "https://platform.claude.com/docs/en/about-claude/pricing",
+    "price:anthropic/claude-fable-5:batch:short:current": "https://platform.claude.com/docs/en/about-claude/pricing",
+    "price:google-gemini/gemini-3.1-flash-lite:standard:short:current": "https://ai.google.dev/gemini-api/docs/pricing",
+    "price:google-gemini/gemini-3.1-flash-lite:batch:short:current": "https://ai.google.dev/gemini-api/docs/pricing",
+    "price:google-gemini/gemini-3.5-flash:standard:short:current": "https://ai.google.dev/gemini-api/docs/pricing",
+    "price:google-gemini/gemini-3.5-flash:batch:short:current": "https://ai.google.dev/gemini-api/docs/pricing",
+    "price:openai/gpt-5.4:standard:short:current": "https://developers.openai.com/api/docs/pricing",
+    "price:openai/gpt-5.4:batch:short:current": "https://developers.openai.com/api/docs/pricing",
+    "price:openai/gpt-5.4-nano:standard:short:current": "https://developers.openai.com/api/docs/pricing",
+    "price:openai/gpt-5.4-nano:batch:short:current": "https://developers.openai.com/api/docs/pricing",
+    "price:openai/gpt-5.4-pro:standard:short:current": "https://developers.openai.com/api/docs/pricing",
+    "price:openai/gpt-5.4-pro:batch:short:current": "https://developers.openai.com/api/docs/pricing",
+    "price:openai/gpt-5.5-pro:standard:short:current": "https://developers.openai.com/api/docs/pricing",
+    "price:openai/gpt-5.5-pro:batch:short:current": "https://developers.openai.com/api/docs/pricing",
     "price:anthropic/claude-fable-5:standard:short:website-preview": "https://platform.claude.com/docs/en/about-claude/pricing",
     "price:anthropic/claude-mythos-5:standard:short:website-preview": "https://platform.claude.com/docs/en/about-claude/pricing",
     "price:anthropic/claude-opus-4.1:standard:short:website-preview": "https://platform.claude.com/docs/en/about-claude/pricing",
@@ -120,6 +145,20 @@ PHASE25_OFFICIAL_COMPLETION = {
 }
 
 PHASE25_OFFICIAL_VERIFIED_AT = {
+    "price:anthropic/claude-fable-5:standard:short:current": "2026-07-07T00:00:00Z",
+    "price:anthropic/claude-fable-5:batch:short:current": "2026-07-07T00:00:00Z",
+    "price:google-gemini/gemini-3.1-flash-lite:standard:short:current": "2026-07-07T00:00:00Z",
+    "price:google-gemini/gemini-3.1-flash-lite:batch:short:current": "2026-07-07T00:00:00Z",
+    "price:google-gemini/gemini-3.5-flash:standard:short:current": "2026-07-07T00:00:00Z",
+    "price:google-gemini/gemini-3.5-flash:batch:short:current": "2026-07-07T00:00:00Z",
+    "price:openai/gpt-5.4:standard:short:current": "2026-07-07T00:00:00Z",
+    "price:openai/gpt-5.4:batch:short:current": "2026-07-07T00:00:00Z",
+    "price:openai/gpt-5.4-nano:standard:short:current": "2026-07-07T00:00:00Z",
+    "price:openai/gpt-5.4-nano:batch:short:current": "2026-07-07T00:00:00Z",
+    "price:openai/gpt-5.4-pro:standard:short:current": "2026-07-07T00:00:00Z",
+    "price:openai/gpt-5.4-pro:batch:short:current": "2026-07-07T00:00:00Z",
+    "price:openai/gpt-5.5-pro:standard:short:current": "2026-07-07T00:00:00Z",
+    "price:openai/gpt-5.5-pro:batch:short:current": "2026-07-07T00:00:00Z",
     "price:anthropic/claude-opus-5:standard:short:current": "2026-08-08T18:00:00Z",
     "price:anthropic/claude-opus-5:batch:short:current": "2026-08-08T18:00:00Z",
     "price:cohere/aya-expanse-32b:standard:short:current": "2026-08-08T18:00:00Z",
@@ -1806,8 +1845,17 @@ def source_side(public: dict[str, Any] | None, website: dict[str, Any] | None) -
 
 
 def main() -> None:
+    parser = argparse.ArgumentParser(description="Generate the Pricing V2 preview artifacts.")
+    parser.add_argument(
+        "--website-dataset",
+        type=Path,
+        default=WEBSITE_DATASET,
+        help="Website data/model-pricing.json input (defaults to the legacy local checkout path).",
+    )
+    args = parser.parse_args()
+
     public_models = read_json(CANONICAL / "models.json")
-    website_models = read_json(WEBSITE_DATASET)
+    website_models = read_json(args.website_dataset.resolve())
     public_by_key = {(item["provider_id"], item["model_id"]): item for item in public_models}
     website_by_key = {(website_provider_id(item), item["id"]): item for item in website_models}
     candidate_keys = sorted(set(public_by_key) | set(website_by_key))
@@ -1838,7 +1886,8 @@ def main() -> None:
             "title": f"{PROVIDER_DISPLAY.get(key[0], key[0])} official source",
             "accessedAt": item.get("accessed_at"),
             "checkedAt": item.get("accessed_at"),
-            "verifiedAt": item.get("last_verified_at"),
+            # Keep record-level provenance without lowering a shared source timestamp.
+            "verifiedAt": None if key in PROMOTED_CANONICAL_KEYS else item.get("last_verified_at"),
             "officialProviderDomain": official_domain(key[0], item["official_source_url"]),
             "supports": ["pricing"],
             "verificationStatus": "verified",

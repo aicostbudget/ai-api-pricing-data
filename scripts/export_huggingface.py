@@ -308,6 +308,26 @@ def validate_huggingface_artifacts(output_dir: Path = HF_DIR) -> None:
             raise ValueError(f"Hugging Face Dataset Card missing {marker}")
 
 
+def preserve_existing_generated_at_for_timestamp_only_change(
+    payload: dict[str, Any],
+    output_dir: Path,
+) -> None:
+    current_path = output_dir / "prices.json"
+    if not current_path.exists():
+        return
+    current = read_json(current_path)
+    current_metadata = dict(current.get("metadata", {}))
+    expected_metadata = dict(payload["metadata"])
+    current_generated_at = current_metadata.pop("generated_at", None)
+    expected_metadata.pop("generated_at", None)
+    if (
+        current_generated_at
+        and current.get("records") == payload["records"]
+        and current_metadata == expected_metadata
+    ):
+        payload["metadata"]["generated_at"] = current_generated_at
+
+
 def main() -> None:
     parser = argparse.ArgumentParser(description="Build or check the Hugging Face public Website dataset export.")
     parser.add_argument("--website-repo", type=Path, required=True)
@@ -322,6 +342,7 @@ def main() -> None:
     metadata = read_json(META_PATH)
     legacy_models = load_website_models(args.website_repo.resolve(), args.website_ref)
     payload = build_export(projection, metadata, legacy_models)
+    preserve_existing_generated_at_for_timestamp_only_change(payload, args.output)
     expected = artifact_contents(payload)
 
     if args.write:
