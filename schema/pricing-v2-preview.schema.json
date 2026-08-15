@@ -160,17 +160,58 @@
         "pricingId": {"type": "string"},
         "modelInternalId": {"type": "string"},
         "processingMode": {"type": "string", "enum": ["standard", "batch", "flex", "priority", "fast"]},
+        "pricingStatus": {"type": "string", "enum": ["current", "future", "historical"]},
         "contextClass": {"type": "string", "enum": ["short", "long"]},
         "regionPolicy": {"type": "string"},
         "promptTokenThreshold": {"type": ["integer", "null"], "minimum": 0},
+        "tierSelection": {"$ref": "#/$defs/tierSelection"},
         "effectiveFrom": {"type": ["string", "null"], "format": "date"},
         "effectiveUntil": {"type": ["string", "null"], "format": "date"},
         "currency": {"type": "string", "const": "USD"},
-        "charges": {"type": "array", "items": {"$ref": "#/$defs/chargeRecord"}},
-        "sourceRefs": {"type": "array", "items": {"type": "string"}},
+        "charges": {"type": "array", "minItems": 1, "items": {"$ref": "#/$defs/chargeRecord"}},
+        "sourceRefs": {"type": "array", "minItems": 1, "uniqueItems": true, "items": {"type": "string"}},
         "billingNote": {"type": "string"},
         "verificationStatus": {"$ref": "#/$defs/verificationStatus"},
         "calculationDefault": {"type": "boolean"}
+      },
+      "allOf": [
+        {
+          "if": {"required": ["tierSelection"]},
+          "then": {
+            "properties": {
+              "promptTokenThreshold": {"type": "integer", "minimum": 0}
+            }
+          }
+        },
+        {
+          "if": {
+            "required": ["contextClass", "pricingStatus"],
+            "properties": {"contextClass": {"const": "long"}}
+          },
+          "then": {
+            "properties": {
+              "promptTokenThreshold": {"type": "integer", "minimum": 0}
+            }
+          }
+        }
+      ]
+    },
+    "tierSelection": {
+      "type": "object",
+      "required": [
+        "comparison",
+        "tokenBasis",
+        "cachedPromptTokensIncluded",
+        "wholeRequestPricing"
+      ],
+      "properties": {
+        "comparison": {
+          "type": "string",
+          "enum": ["less_than", "less_than_or_equal", "greater_than", "greater_than_or_equal"]
+        },
+        "tokenBasis": {"type": "string", "enum": ["total_prompt_tokens"]},
+        "cachedPromptTokensIncluded": {"type": "boolean"},
+        "wholeRequestPricing": {"type": "boolean"}
       }
     },
     "chargeRecord": {

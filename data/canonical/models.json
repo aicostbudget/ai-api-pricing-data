@@ -568,11 +568,51 @@
       "batch_input": 1.0,
       "batch_output": 2.0
     },
+    "pricing_tiers": [
+      {
+        "id": "short",
+        "processing_mode": "standard",
+        "pricing_status": "current",
+        "calculation_default": true,
+        "prompt_token_threshold": 200000,
+        "threshold_comparison": "less_than",
+        "threshold_token_basis": "total_prompt_tokens",
+        "cached_prompt_tokens_included": true,
+        "whole_request_pricing": true,
+        "currency": "USD",
+        "unit": "1M tokens",
+        "input": 1.25,
+        "cached_input": 0.2,
+        "output": 2.5
+      },
+      {
+        "id": "long",
+        "processing_mode": "standard",
+        "pricing_status": "current",
+        "calculation_default": false,
+        "prompt_token_threshold": 200000,
+        "threshold_comparison": "greater_than_or_equal",
+        "threshold_token_basis": "total_prompt_tokens",
+        "cached_prompt_tokens_included": true,
+        "whole_request_pricing": true,
+        "currency": "USD",
+        "unit": "1M tokens",
+        "input": 2.5,
+        "cached_input": 0.4,
+        "output": 5.0
+      }
+    ],
     "official_source_url": "https://docs.x.ai/developers/pricing",
-    "accessed_at": "2026-08-08T18:00:00Z",
-    "last_verified_at": "2026-08-08T18:00:00Z",
+    "official_source_urls": [
+      "https://docs.x.ai/developers/pricing",
+      "https://docs.x.ai/developers/advanced-api-usage/prompt-caching/usage-and-pricing",
+      "https://docs.x.ai/developers/rest-api-reference/inference/models",
+      "https://docs.x.ai/developers/models/grok-4.3"
+    ],
+    "accessed_at": "2026-08-15T12:25:26Z",
+    "last_verified_at": "2026-08-15T12:25:26Z",
     "effective_from": null,
-    "notes": "V1 stores short-context pricing. The long-context threshold is 200K tokens. Grok 4.3 batch pricing receives a 20% discount. Long-context prices are not stored in the current short-context fields."
+    "notes": "V1 pricing remains the short-context compatibility projection. Canonical Pricing V2 tiers model standard short-context prompt tokens < 200K and long-context prompt tokens >= 200K. Total prompt tokens include cached prompt tokens, and the selected tier applies to the whole request. Grok 4.3 Batch API pricing receives a 20% discount and is outside these standard tiers."
   },
   {
     "provider_id": "xai",

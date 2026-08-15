@@ -1,7 +1,11 @@
+import copy
 import json
 import unittest
 from datetime import datetime, time, timedelta
+from unittest.mock import patch
 
+from scripts.lib import CANONICAL
+from scripts import validate_pricing_v2_preview as pricing_validator
 from scripts.validate_pricing_v2_preview import PREVIEW, validate_preview
 
 
@@ -13,6 +17,8 @@ class PricingV2PreviewTests(unittest.TestCase):
         cls.dispositions = json.loads((PREVIEW / "candidate-disposition-map.json").read_text(encoding="utf-8"))
         cls.models = json.loads((PREVIEW / "models.json").read_text(encoding="utf-8"))
         cls.prices = json.loads((PREVIEW / "prices.json").read_text(encoding="utf-8"))
+        cls.sources = json.loads((PREVIEW / "sources.json").read_text(encoding="utf-8"))
+        cls.canonical_models = json.loads((CANONICAL / "models.json").read_text(encoding="utf-8"))
         cls.report = json.loads((PREVIEW / "convergence-report.json").read_text(encoding="utf-8"))
         cls.phase2_conflict = json.loads(
             (PREVIEW / "phase2-conflict-resolution-report.json").read_text(encoding="utf-8")
@@ -53,6 +59,188 @@ class PricingV2PreviewTests(unittest.TestCase):
 
     def price(self, pricing_id):
         return next(item for item in self.prices if item["pricingId"] == pricing_id)
+
+    def test_grok_4_3_canonical_short_and_long_tiers_are_complete(self):
+        model = next(
+            item
+            for item in self.canonical_models
+            if item["provider_id"] == "xai" and item["model_id"] == "grok-4.3"
+        )
+        tiers = {tier["id"]: tier for tier in model["pricing_tiers"]}
+        self.assertEqual(set(tiers), {"short", "long"})
+        self.assertEqual(
+            {
+                key: tiers["short"][key]
+                for key in ("input", "cached_input", "output")
+            },
+            {"input": 1.25, "cached_input": 0.2, "output": 2.5},
+        )
+        self.assertEqual(
+            {
+                key: tiers["long"][key]
+                for key in ("input", "cached_input", "output")
+            },
+            {"input": 2.5, "cached_input": 0.4, "output": 5.0},
+        )
+        self.assertEqual(tiers["short"]["prompt_token_threshold"], 200000)
+        self.assertEqual(tiers["short"]["threshold_comparison"], "less_than")
+        self.assertTrue(tiers["short"]["calculation_default"])
+        self.assertEqual(tiers["long"]["prompt_token_threshold"], 200000)
+        self.assertEqual(tiers["long"]["threshold_comparison"], "greater_than_or_equal")
+        self.assertFalse(tiers["long"]["calculation_default"])
+        for tier in tiers.values():
+            self.assertEqual(tier["pricing_status"], "current")
+            self.assertEqual(tier["processing_mode"], "standard")
+            self.assertEqual(tier["threshold_token_basis"], "total_prompt_tokens")
+            self.assertTrue(tier["cached_prompt_tokens_included"])
+            self.assertTrue(tier["whole_request_pricing"])
+            self.assertEqual(tier["currency"], "USD")
+            self.assertEqual(tier["unit"], "1M tokens")
+        self.assertEqual(model["accessed_at"], "2026-08-15T12:25:26Z")
+        self.assertEqual(model["last_verified_at"], "2026-08-15T12:25:26Z")
+        self.assertEqual(
+            set(model["official_source_urls"]),
+            {
+                "https://docs.x.ai/developers/pricing",
+                "https://docs.x.ai/developers/advanced-api-usage/prompt-caching/usage-and-pricing",
+                "https://docs.x.ai/developers/rest-api-reference/inference/models",
+                "https://docs.x.ai/developers/models/grok-4.3",
+            },
+        )
+
+    def test_grok_4_3_generated_v2_tiers_and_boundaries(self):
+        records = [
+            price
+            for price in self.prices
+            if price["modelInternalId"] == "xai/grok-4.3"
+            and price["processingMode"] == "standard"
+            and price.get("pricingStatus") == "current"
+        ]
+        self.assertEqual(
+            {record["pricingId"] for record in records},
+            {
+                "price:xai/grok-4.3:standard:short:current",
+                "price:xai/grok-4.3:standard:long:current",
+            },
+        )
+        by_context = {record["contextClass"]: record for record in records}
+        source_by_id = {source["sourceId"]: source for source in self.sources}
+        expected_source_urls = {
+            "https://docs.x.ai/developers/pricing",
+            "https://docs.x.ai/developers/advanced-api-usage/prompt-caching/usage-and-pricing",
+            "https://docs.x.ai/developers/rest-api-reference/inference/models",
+            "https://docs.x.ai/developers/models/grok-4.3",
+        }
+        self.assertEqual(by_context["short"]["promptTokenThreshold"], 200000)
+        self.assertEqual(by_context["short"]["tierSelection"]["comparison"], "less_than")
+        self.assertEqual(by_context["long"]["promptTokenThreshold"], 200000)
+        self.assertEqual(
+            by_context["long"]["tierSelection"]["comparison"],
+            "greater_than_or_equal",
+        )
+        for record in by_context.values():
+            self.assertEqual(record["tierSelection"]["tokenBasis"], "total_prompt_tokens")
+            self.assertTrue(record["tierSelection"]["cachedPromptTokensIncluded"])
+            self.assertTrue(record["tierSelection"]["wholeRequestPricing"])
+            self.assertEqual(
+                {charge["component"] for charge in record["charges"]},
+                {"input", "cached_input", "output"},
+            )
+            self.assertEqual(
+                {source_by_id[ref]["url"] for ref in record["sourceRefs"]},
+                expected_source_urls,
+            )
+            self.assertEqual(
+                record["sourceDatasetIds"],
+                {"publicDatasetIds": ["grok-4.3"], "websiteIds": []},
+            )
+            for ref in record["sourceRefs"]:
+                self.assertEqual(source_by_id[ref]["checkedAt"], "2026-08-15T12:25:26Z")
+                self.assertEqual(source_by_id[ref]["verifiedAt"], "2026-08-15T12:25:26Z")
+
+        def selected(prompt_tokens):
+            return sorted(
+                context
+                for context, record in by_context.items()
+                if (
+                    record["tierSelection"]["comparison"] == "less_than"
+                    and prompt_tokens < record["promptTokenThreshold"]
+                )
+                or (
+                    record["tierSelection"]["comparison"] == "greater_than_or_equal"
+                    and prompt_tokens >= record["promptTokenThreshold"]
+                )
+            )
+
+        self.assertEqual(selected(199999), ["short"])
+        self.assertEqual(selected(200000), ["long"])
+        self.assertEqual(selected(200001), ["long"])
+        self.assertEqual(
+            self.model("xai/grok-4.3")["defaultPriceRecordId"],
+            "price:xai/grok-4.3:standard:short:current",
+        )
+
+    def test_grok_4_3_validator_rejects_invalid_tier_mutations(self):
+        original_read_json = pricing_validator.read_json
+
+        def long_record(prices):
+            return next(
+                price
+                for price in prices
+                if price["pricingId"] == "price:xai/grok-4.3:standard:long:current"
+            )
+
+        def missing_threshold(prices):
+            long_record(prices)["promptTokenThreshold"] = None
+
+        def exclusive_long_boundary(prices):
+            long_record(prices)["tierSelection"]["comparison"] = "greater_than"
+
+        def missing_output(prices):
+            record = long_record(prices)
+            record["charges"] = [
+                charge for charge in record["charges"] if charge["component"] != "output"
+            ]
+
+        def duplicate_current_tier(prices):
+            duplicate = copy.deepcopy(long_record(prices))
+            duplicate["pricingId"] = "price:xai/grok-4.3:standard:long:duplicate"
+            prices.append(duplicate)
+
+        def missing_source(prices):
+            long_record(prices)["sourceRefs"] = []
+
+        cases = [
+            (missing_threshold, "long-context price missing promptTokenThreshold"),
+            (exclusive_long_boundary, "threshold inclusivity mismatch"),
+            (missing_output, "charges mismatch"),
+            (duplicate_current_tier, "duplicate current pricing tier"),
+            (missing_source, "missing sourceRefs"),
+        ]
+
+        for mutate, message in cases:
+            with self.subTest(message=message):
+                def fake_read_json(path):
+                    value = original_read_json(path)
+                    if path.name == "prices.json":
+                        value = copy.deepcopy(value)
+                        mutate(value)
+                    return value
+
+                with patch.object(pricing_validator, "read_json", side_effect=fake_read_json):
+                    with self.assertRaisesRegex(SystemExit, message):
+                        pricing_validator.validate_preview()
+
+        def fake_early_generated_at(path):
+            value = original_read_json(path)
+            if path.name == "convergence-report.json":
+                value = copy.deepcopy(value)
+                value["generatedAt"] = "2026-08-15T00:00:00Z"
+            return value
+
+        with patch.object(pricing_validator, "read_json", side_effect=fake_early_generated_at):
+            with self.assertRaisesRegex(SystemExit, "generatedAt precedes"):
+                pricing_validator.validate_preview()
 
     def test_claude_opus_5_v2_identity_model_and_prices_are_present(self):
         identity = self.identity("anthropic/claude-opus-5")
@@ -227,7 +415,7 @@ class PricingV2PreviewTests(unittest.TestCase):
         self.assertEqual(len(self.phase25_evidence), self.phase25_default_safe["totalPriceRecords"])
         self.assertEqual(self.phase25_default_safe["productionDefaultCandidateCount"], 35)
         self.assertEqual(self.phase25_default_safe["defaultSafeCount"], 35)
-        self.assertEqual(self.phase25_default_safe["defaultUnsafeCount"], 50)
+        self.assertEqual(self.phase25_default_safe["defaultUnsafeCount"], 51)
         self.assertEqual(self.phase25_default_safe["P0PartialBefore"], 10)
         self.assertEqual(self.phase25_default_safe["P0PartialAfter"], 0)
         self.assertEqual(self.phase25_default_safe["P1PartialCount"], 7)

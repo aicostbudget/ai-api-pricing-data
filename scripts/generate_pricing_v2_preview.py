@@ -281,15 +281,16 @@ def write_json(path: Path, value: Any) -> None:
 
 
 def write_text_with_retry(path: Path, value: str) -> None:
+    encoded = value.encode("utf-8")
     if path.exists():
         try:
-            if path.read_text(encoding="utf-8") == value:
+            if path.read_bytes() == encoded:
                 return
         except PermissionError:
             pass
     for attempt in range(10):
         try:
-            path.write_text(value, encoding="utf-8")
+            path.write_bytes(encoded)
             return
         except PermissionError:
             if attempt == 9:
@@ -566,7 +567,7 @@ def build_phase25_artifacts(
     website_models: list[dict[str, Any]],
     website_projection: list[dict[str, Any]],
 ) -> tuple[list[dict[str, Any]], dict[str, Any], list[dict[str, Any]], dict[str, Any]]:
-    today = date.today()
+    today = date.fromisoformat(report["generatedAt"][:10])
     price_by_id = {price["pricingId"]: price for price in prices}
     model_by_id = {model["internalId"]: model for model in models}
     identity_by_id = {identity["internalId"]: identity for identity in identities}
@@ -710,7 +711,7 @@ def build_phase25_artifacts(
         item for item in evidence_completion if item["businessCriticality"] == "production_default_candidate"
     ]
     default_safe_report = {
-        "generatedAt": f"{today.isoformat()}T00:00:00Z",
+        "generatedAt": report["generatedAt"],
         "totalPriceRecords": len(prices),
         "productionDefaultCandidateCount": len(production_default_candidates),
         "defaultSafeCount": sum(1 for item in evidence_completion if item["defaultSafe"]),
@@ -798,7 +799,7 @@ def build_phase25_artifacts(
     }
     p0_blockers = [item for item in production_default_candidates if not item["defaultSafe"]]
     phase25_readiness = {
-        "generatedAt": f"{today.isoformat()}T00:00:00Z",
+        "generatedAt": report["generatedAt"],
         "identityReadiness": "conditional",
         "defaultPricingReadiness": "blocked" if p0_blockers else "ready",
         "secondaryPricingReadiness": "conditional" if p1_partial else "ready",
@@ -1788,12 +1789,19 @@ def official_ids(provider_id: str, model_id: str, public: dict[str, Any] | None,
     return deduped
 
 
+def public_source_urls(record: dict[str, Any] | None) -> list[str]:
+    if not record:
+        return []
+    urls = record.get("official_source_urls") or [record["official_source_url"]]
+    return sorted(set(urls))
+
+
 def source_refs_for(provider_id: str, public: dict[str, Any] | None, website: dict[str, Any] | None, source_by_url: dict[str, str]) -> list[str]:
-    refs = []
-    for url in ((public or {}).get("official_source_url"), (website or {}).get("officialPriceUrl")):
-        if url:
-            refs.append(source_by_url[url])
-    return sorted(set(refs))
+    urls = public_source_urls(public)
+    website_url = (website or {}).get("officialPriceUrl")
+    if website_url:
+        urls.append(website_url)
+    return sorted({source_by_url[url] for url in urls})
 
 
 def make_charges(prefix: str, values: dict[str, Any], source: str) -> list[dict[str, Any]]:
@@ -1861,6 +1869,7 @@ def main() -> None:
     candidate_keys = sorted(set(public_by_key) | set(website_by_key))
 
     source_urls: dict[str, dict[str, Any]] = {}
+    canonical_tier_source_times: dict[str, dict[str, str | None]] = {}
 
     def upsert_source(url: str, meta: dict[str, Any]) -> None:
         existing = source_urls.get(url)
@@ -1879,19 +1888,25 @@ def main() -> None:
             existing["verificationStatus"] = meta.get("verificationStatus", existing.get("verificationStatus"))
 
     for key, item in public_by_key.items():
-        upsert_source(item["official_source_url"], {
-            "providerId": key[0],
-            "url": item["official_source_url"],
-            "sourceType": source_type(item["official_source_url"]),
-            "title": f"{PROVIDER_DISPLAY.get(key[0], key[0])} official source",
-            "accessedAt": item.get("accessed_at"),
-            "checkedAt": item.get("accessed_at"),
-            # Keep record-level provenance without lowering a shared source timestamp.
-            "verifiedAt": None if key in PROMOTED_CANONICAL_KEYS else item.get("last_verified_at"),
-            "officialProviderDomain": official_domain(key[0], item["official_source_url"]),
-            "supports": ["pricing"],
-            "verificationStatus": "verified",
-        })
+        for url in public_source_urls(item):
+            if item.get("pricing_tiers"):
+                canonical_tier_source_times[url] = {
+                    "accessedAt": item.get("accessed_at"),
+                    "verifiedAt": item.get("last_verified_at"),
+                }
+            upsert_source(url, {
+                "providerId": key[0],
+                "url": url,
+                "sourceType": source_type(url),
+                "title": f"{PROVIDER_DISPLAY.get(key[0], key[0])} official source",
+                "accessedAt": item.get("accessed_at"),
+                "checkedAt": item.get("accessed_at"),
+                # Keep record-level provenance without lowering a shared source timestamp.
+                "verifiedAt": None if key in PROMOTED_CANONICAL_KEYS else item.get("last_verified_at"),
+                "officialProviderDomain": official_domain(key[0], url),
+                "supports": ["pricing"],
+                "verificationStatus": "verified",
+            })
     for key, item in website_by_key.items():
         url = item.get("officialPriceUrl")
         if not url:
@@ -1918,6 +1933,18 @@ def main() -> None:
             },
         )
 
+    # Canonical tier provenance is authoritative when a URL is shared with older records.
+    for url, times in canonical_tier_source_times.items():
+        source = source_urls[url]
+        for field, value in (
+            ("accessedAt", times["accessedAt"]),
+            ("checkedAt", times["accessedAt"]),
+            ("verifiedAt", times["verifiedAt"]),
+        ):
+            if value:
+                source[field] = max(value, source.get(field) or value)
+        source["verificationStatus"] = "verified"
+
     for (provider_id, url), meta in PHASE26_EXTRA_SOURCE_URLS.items():
         checked_at = meta.get("checkedAt", "2026-07-07T00:00:00Z")
         source_urls[url] = {
@@ -1938,6 +1965,8 @@ def main() -> None:
         {"sourceId": source_by_url[url], **meta}
         for url, meta in sorted(source_urls.items(), key=lambda item: source_by_url[item[0]])
     ]
+    verified_timestamps = [source["verifiedAt"] for source in sources if source.get("verifiedAt")]
+    generated_at = max(verified_timestamps) if verified_timestamps else f"{date.today().isoformat()}T00:00:00Z"
 
     identities = []
     canonical_keys = []
@@ -2046,6 +2075,74 @@ def main() -> None:
 
         if public:
             pricing = public["pricing"]
+            pricing_tiers = public.get("pricing_tiers", [])
+            if pricing_tiers:
+                default_tier_record = None
+                for tier in pricing_tiers:
+                    tier_id = (
+                        f"price:{model_internal_id}:{tier['processing_mode']}:"
+                        f"{tier['id']}:{tier['pricing_status']}"
+                    )
+                    tier_record = {
+                        "pricingId": tier_id,
+                        "modelInternalId": model_internal_id,
+                        "processingMode": tier["processing_mode"],
+                        "pricingStatus": tier["pricing_status"],
+                        "contextClass": tier["id"],
+                        "regionPolicy": "global",
+                        "promptTokenThreshold": tier["prompt_token_threshold"],
+                        "tierSelection": {
+                            "comparison": tier["threshold_comparison"],
+                            "tokenBasis": tier["threshold_token_basis"],
+                            "cachedPromptTokensIncluded": tier["cached_prompt_tokens_included"],
+                            "wholeRequestPricing": tier["whole_request_pricing"],
+                        },
+                        "effectiveFrom": public.get("effective_from"),
+                        "effectiveUntil": None,
+                        "currency": tier["currency"],
+                        "charges": make_charges(tier_id, tier, "public"),
+                        # Canonical tier records must not inherit legacy website pricing provenance.
+                        "sourceRefs": source_refs_for(provider_id, public, None, source_by_url),
+                        "billingNote": public.get("notes", ""),
+                        "verificationStatus": verification,
+                        "calculationDefault": tier["calculation_default"],
+                        "sourceDatasetIds": {
+                            "publicDatasetIds": [public["model_id"]],
+                            "websiteIds": [],
+                        },
+                    }
+                    add_price(model_internal_id, tier_record)
+                    if tier_record["calculationDefault"]:
+                        if default_tier_record is not None:
+                            raise ValueError(f"multiple calculation-default tiers for {model_internal_id}")
+                        default_tier_record = tier_record
+                if default_tier_record is None:
+                    raise ValueError(f"missing calculation-default tier for {model_internal_id}")
+                if pricing.get("batch_input") is not None or pricing.get("batch_output") is not None:
+                    batch_id = f"price:{model_internal_id}:batch:short:current"
+                    batch_record = {
+                        **default_tier_record,
+                        "pricingId": batch_id,
+                        "processingMode": "batch",
+                        "pricingStatus": "current",
+                        "contextClass": "short",
+                        "promptTokenThreshold": None,
+                        "charges": make_charges(
+                            batch_id,
+                            {
+                                "input": pricing.get("batch_input"),
+                                "output": pricing.get("batch_output"),
+                                "cached_input": None,
+                                "cache_write": None,
+                            },
+                            "public",
+                        ),
+                        "billingNote": f"Batch projection derived from explicit Public V1 batch fields for {model_internal_id}.",
+                        "calculationDefault": False,
+                    }
+                    batch_record.pop("tierSelection", None)
+                    add_price(model_internal_id, batch_record)
+                continue
             pricing_id = f"price:{model_internal_id}:standard:short:current"
             if provider_id == "anthropic" and model_id == "claude-sonnet-5":
                 pricing_id = f"price:{model_internal_id}:standard:intro:2026-07-05"
@@ -2332,7 +2429,7 @@ def main() -> None:
         disposition_counts[disposition["disposition"]] += 1
 
     report = {
-        "generatedAt": f"{date.today().isoformat()}T00:00:00Z",
+        "generatedAt": generated_at,
         "candidateUnionCount": len(candidate_keys),
         "normalizedCanonicalIdentityCount": len(canonical_keys),
         "aliasCount": identity_type_counts["alias"],

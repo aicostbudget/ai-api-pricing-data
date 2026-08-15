@@ -69,6 +69,67 @@ def validate_models(now: datetime | None = None) -> None:
             if value is not None and value < 0:
                 fail(f"negative price for {item[0]}/{item[1]} {field}")
 
+        source_urls = model.get("official_source_urls", [model["official_source_url"]])
+        if model["official_source_url"] not in source_urls:
+            fail(f"primary official source missing from official_source_urls for {item[0]}/{item[1]}")
+        if len(source_urls) != len(set(source_urls)) or any(
+            not str(url).startswith("https://") for url in source_urls
+        ):
+            fail(f"invalid official_source_urls for {item[0]}/{item[1]}")
+
+        tiers = model.get("pricing_tiers", [])
+        if tiers:
+            tier_keys = [
+                (tier["processing_mode"], tier["id"], tier["pricing_status"])
+                for tier in tiers
+            ]
+            if len(tier_keys) != len(set(tier_keys)):
+                fail(f"duplicate pricing tier for {item[0]}/{item[1]}")
+            defaults = [tier for tier in tiers if tier["calculation_default"]]
+            if len(defaults) != 1:
+                fail(f"tiered model must have exactly one calculation default for {item[0]}/{item[1]}")
+            for tier in tiers:
+                threshold = tier["prompt_token_threshold"]
+                if isinstance(threshold, bool) or not isinstance(threshold, int) or threshold < 0:
+                    fail(f"invalid prompt token threshold for {item[0]}/{item[1]} tier {tier['id']}")
+                if tier["threshold_token_basis"] != "total_prompt_tokens":
+                    fail(f"invalid threshold token basis for {item[0]}/{item[1]} tier {tier['id']}")
+                if tier["cached_prompt_tokens_included"] is not True:
+                    fail(f"cached prompt token semantics missing for {item[0]}/{item[1]} tier {tier['id']}")
+                if tier["whole_request_pricing"] is not True:
+                    fail(f"whole-request pricing semantics missing for {item[0]}/{item[1]} tier {tier['id']}")
+                if tier["currency"] != pricing["currency"] or tier["unit"] != pricing["unit"]:
+                    fail(f"tier currency/unit mismatch for {item[0]}/{item[1]} tier {tier['id']}")
+                for field in ("input", "cached_input", "output"):
+                    value = tier[field]
+                    if isinstance(value, bool) or not isinstance(value, (int, float)) or value < 0:
+                        fail(f"invalid tier price for {item[0]}/{item[1]} tier {tier['id']} {field}")
+
+        if item == ("xai", "grok-4.3"):
+            tiers_by_id = {tier["id"]: tier for tier in tiers}
+            if set(tiers_by_id) != {"short", "long"}:
+                fail("xai/grok-4.3 must have exactly short and long canonical pricing tiers")
+            short = tiers_by_id["short"]
+            long = tiers_by_id["long"]
+            if short["prompt_token_threshold"] != 200000 or short["threshold_comparison"] != "less_than":
+                fail("xai/grok-4.3 short tier must apply below 200000 prompt tokens")
+            if long["prompt_token_threshold"] != 200000 or long["threshold_comparison"] != "greater_than_or_equal":
+                fail("xai/grok-4.3 long tier must apply at or above 200000 prompt tokens")
+            if not short["calculation_default"] or long["calculation_default"]:
+                fail("xai/grok-4.3 short tier must be the only calculation default")
+            expected_prices = {
+                "short": {"input": 1.25, "cached_input": 0.2, "output": 2.5},
+                "long": {"input": 2.5, "cached_input": 0.4, "output": 5.0},
+            }
+            for tier_id, expected in expected_prices.items():
+                actual = {field: tiers_by_id[tier_id][field] for field in expected}
+                if actual != expected:
+                    fail(f"xai/grok-4.3 {tier_id} tier price mismatch")
+            short_projection = {field: short[field] for field in ("input", "cached_input", "output")}
+            v1_projection = {field: pricing[field] for field in ("input", "cached_input", "output")}
+            if short_projection != v1_projection:
+                fail("xai/grok-4.3 V1 pricing must match its canonical short tier")
+
 
 def validate_outputs() -> None:
     actual = json.loads((DATA / "prices.json").read_text(encoding="utf-8"))
@@ -106,7 +167,7 @@ def validate_outputs() -> None:
 
 
 def validate_schema_files() -> None:
-    for name in ("model.schema.json", "provider.schema.json", "dataset.schema.json", "price-change-event.schema.json"):
+    for name in ("model.schema.json", "provider.schema.json", "dataset.schema.json", "price-change-event.schema.json", "pricing-v2-preview.schema.json"):
         schema = json.loads((ROOT / "schema" / name).read_text(encoding="utf-8"))
         if schema.get("$schema") != "https://json-schema.org/draft/2020-12/schema":
             fail(f"schema {name} missing draft marker")

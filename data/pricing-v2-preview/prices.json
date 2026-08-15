@@ -3853,7 +3853,7 @@
     "verificationStatus": "partially_verified"
   },
   {
-    "billingNote": "V1 stores short-context pricing. The long-context threshold is 200K tokens. Grok 4.3 batch pricing receives a 20% discount. Long-context prices are not stored in the current short-context fields.",
+    "billingNote": "V1 pricing remains the short-context compatibility projection. Canonical Pricing V2 tiers model standard short-context prompt tokens < 200K and long-context prompt tokens >= 200K. Total prompt tokens include cached prompt tokens, and the selected tier applies to the whole request. Grok 4.3 Batch API pricing receives a 20% discount and is outside these standard tiers.",
     "calculationDefault": true,
     "charges": [
       {
@@ -3884,21 +3884,84 @@
     "effectiveUntil": null,
     "modelInternalId": "xai/grok-4.3",
     "pricingId": "price:xai/grok-4.3:standard:short:current",
+    "pricingStatus": "current",
     "processingMode": "standard",
-    "promptTokenThreshold": null,
+    "promptTokenThreshold": 200000,
     "regionPolicy": "global",
     "sourceDatasetIds": {
       "publicDatasetIds": [
         "grok-4.3"
       ],
-      "websiteIds": [
-        "grok-4.3"
-      ]
+      "websiteIds": []
     },
     "sourceRefs": [
-      "source:xai:docs-x-ai-developers-models",
-      "source:xai:docs-x-ai-developers-pricing"
+      "source:xai:docs-x-ai-developers-advanced-api-usage-prompt-caching-usage-and-pricing",
+      "source:xai:docs-x-ai-developers-models-grok-4-3",
+      "source:xai:docs-x-ai-developers-pricing",
+      "source:xai:docs-x-ai-developers-rest-api-reference-inference-models"
     ],
+    "tierSelection": {
+      "cachedPromptTokensIncluded": true,
+      "comparison": "less_than",
+      "tokenBasis": "total_prompt_tokens",
+      "wholeRequestPricing": true
+    },
+    "verificationStatus": "verified"
+  },
+  {
+    "billingNote": "V1 pricing remains the short-context compatibility projection. Canonical Pricing V2 tiers model standard short-context prompt tokens < 200K and long-context prompt tokens >= 200K. Total prompt tokens include cached prompt tokens, and the selected tier applies to the whole request. Grok 4.3 Batch API pricing receives a 20% discount and is outside these standard tiers.",
+    "calculationDefault": false,
+    "charges": [
+      {
+        "amount": "2.5",
+        "chargeId": "price:xai/grok-4.3:standard:long:current:input:text:per_1m_tokens",
+        "component": "input",
+        "modality": "text",
+        "unit": "per_1m_tokens"
+      },
+      {
+        "amount": "0.4",
+        "chargeId": "price:xai/grok-4.3:standard:long:current:cached_input:text:per_1m_tokens",
+        "component": "cached_input",
+        "modality": "text",
+        "unit": "per_1m_tokens"
+      },
+      {
+        "amount": "5",
+        "chargeId": "price:xai/grok-4.3:standard:long:current:output:text:per_1m_tokens",
+        "component": "output",
+        "modality": "text",
+        "unit": "per_1m_tokens"
+      }
+    ],
+    "contextClass": "long",
+    "currency": "USD",
+    "effectiveFrom": null,
+    "effectiveUntil": null,
+    "modelInternalId": "xai/grok-4.3",
+    "pricingId": "price:xai/grok-4.3:standard:long:current",
+    "pricingStatus": "current",
+    "processingMode": "standard",
+    "promptTokenThreshold": 200000,
+    "regionPolicy": "global",
+    "sourceDatasetIds": {
+      "publicDatasetIds": [
+        "grok-4.3"
+      ],
+      "websiteIds": []
+    },
+    "sourceRefs": [
+      "source:xai:docs-x-ai-developers-advanced-api-usage-prompt-caching-usage-and-pricing",
+      "source:xai:docs-x-ai-developers-models-grok-4-3",
+      "source:xai:docs-x-ai-developers-pricing",
+      "source:xai:docs-x-ai-developers-rest-api-reference-inference-models"
+    ],
+    "tierSelection": {
+      "cachedPromptTokensIncluded": true,
+      "comparison": "greater_than_or_equal",
+      "tokenBasis": "total_prompt_tokens",
+      "wholeRequestPricing": true
+    },
     "verificationStatus": "verified"
   },
   {
@@ -3926,6 +3989,7 @@
     "effectiveUntil": null,
     "modelInternalId": "xai/grok-4.3",
     "pricingId": "price:xai/grok-4.3:batch:short:current",
+    "pricingStatus": "current",
     "processingMode": "batch",
     "promptTokenThreshold": null,
     "regionPolicy": "global",
@@ -3933,13 +3997,13 @@
       "publicDatasetIds": [
         "grok-4.3"
       ],
-      "websiteIds": [
-        "grok-4.3"
-      ]
+      "websiteIds": []
     },
     "sourceRefs": [
-      "source:xai:docs-x-ai-developers-models",
-      "source:xai:docs-x-ai-developers-pricing"
+      "source:xai:docs-x-ai-developers-advanced-api-usage-prompt-caching-usage-and-pricing",
+      "source:xai:docs-x-ai-developers-models-grok-4-3",
+      "source:xai:docs-x-ai-developers-pricing",
+      "source:xai:docs-x-ai-developers-rest-api-reference-inference-models"
     ],
     "verificationStatus": "verified"
   },

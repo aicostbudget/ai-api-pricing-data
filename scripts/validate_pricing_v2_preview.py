@@ -2,7 +2,7 @@ from __future__ import annotations
 
 import json
 import re
-from datetime import date, datetime, time, timedelta
+from datetime import date, datetime, time, timedelta, timezone
 from pathlib import Path
 from typing import Any
 from urllib.parse import urlparse
@@ -80,6 +80,17 @@ def parse_date(value: str | None, field: str) -> date | None:
         return None
     try:
         return date.fromisoformat(value)
+    except ValueError:
+        fail(f"invalid {field}: {value}")
+
+
+def parse_timestamp(value: str | None, field: str) -> datetime | None:
+    if value is None:
+        return None
+    if not value.endswith("Z"):
+        fail(f"{field} must end with Z: {value}")
+    try:
+        return datetime.fromisoformat(value.replace("Z", "+00:00"))
     except ValueError:
         fail(f"invalid {field}: {value}")
 
@@ -350,6 +361,7 @@ def validate_preview() -> dict[str, Any]:
 
     identity_set = set(identity_ids)
     model_set = set(model_ids)
+    model_by_id = {item["internalId"]: item for item in models}
     price_by_id = {item["pricingId"]: item for item in prices}
     source_by_id = {item["sourceId"]: item for item in sources}
     source_set = set(source_by_id)
@@ -433,6 +445,39 @@ def validate_preview() -> dict[str, Any]:
             fail(f"invalid processingMode {price['pricingId']}")
         if price["contextClass"] not in CONTEXT_CLASSES:
             fail(f"invalid contextClass {price['pricingId']}")
+        threshold = price["promptTokenThreshold"]
+        if threshold is not None and (
+            isinstance(threshold, bool) or not isinstance(threshold, int) or threshold < 0
+        ):
+            fail(f"invalid promptTokenThreshold {price['pricingId']}")
+        if price["contextClass"] == "long" and price.get("pricingStatus") is not None and threshold is None:
+            fail(f"long-context price missing promptTokenThreshold {price['pricingId']}")
+        tier_selection = price.get("tierSelection")
+        if tier_selection is not None:
+            if threshold is None:
+                fail(f"tierSelection requires promptTokenThreshold {price['pricingId']}")
+            if set(tier_selection) != {
+                "comparison",
+                "tokenBasis",
+                "cachedPromptTokensIncluded",
+                "wholeRequestPricing",
+            }:
+                fail(f"incomplete tierSelection semantics {price['pricingId']}")
+            if tier_selection["comparison"] not in {
+                "less_than",
+                "less_than_or_equal",
+                "greater_than",
+                "greater_than_or_equal",
+            }:
+                fail(f"invalid tier comparison {price['pricingId']}")
+            if tier_selection["tokenBasis"] != "total_prompt_tokens":
+                fail(f"invalid tier token basis {price['pricingId']}")
+            if not isinstance(tier_selection["cachedPromptTokensIncluded"], bool):
+                fail(f"invalid cached prompt token inclusion {price['pricingId']}")
+            if not isinstance(tier_selection["wholeRequestPricing"], bool):
+                fail(f"invalid whole-request pricing flag {price['pricingId']}")
+        if price.get("pricingStatus") not in {None, "current", "future", "historical"}:
+            fail(f"invalid pricingStatus {price['pricingId']}")
         if price["currency"] != "USD":
             fail(f"invalid currency {price['pricingId']}")
         if price["verificationStatus"] not in VERIFICATION_STATUSES:
@@ -456,6 +501,9 @@ def validate_preview() -> dict[str, Any]:
                 domain = source["officialProviderDomain"]
                 if not domain or domain not in urlparse(source["url"]).netloc:
                     fail(f"verified price {price['pricingId']} uses source without official provider domain")
+        charge_components = [charge.get("component") for charge in price["charges"]]
+        if len(charge_components) != len(set(charge_components)):
+            fail(f"duplicate charge component in {price['pricingId']}")
         for charge in price["charges"]:
             if charge.get("component") not in CHARGE_COMPONENTS:
                 fail(f"invalid charge component in {price['pricingId']}")
@@ -466,6 +514,19 @@ def validate_preview() -> dict[str, Any]:
             amount = charge.get("amount")
             if not isinstance(amount, str) or not DECIMAL_STRING.match(amount):
                 fail(f"invalid decimal string in {price['pricingId']}: {amount}")
+
+    current_tier_keys = [
+        (
+            price["modelInternalId"],
+            price["processingMode"],
+            price["contextClass"],
+            price.get("pricingStatus"),
+        )
+        for price in prices
+        if price.get("pricingStatus") == "current"
+    ]
+    if len(current_tier_keys) != len(set(current_tier_keys)):
+        fail("duplicate current pricing tier for the same model, processing mode, and context")
 
     sonnet_standard = [
         price
@@ -523,6 +584,102 @@ def validate_preview() -> dict[str, Any]:
         if not {"input", "cached_input", "output"}.issubset(components):
             fail(f"Gemini 3.1 Pro Preview structured price missing components: {price['pricingId']}")
 
+    grok43 = [
+        price
+        for price in prices
+        if price["modelInternalId"] == "xai/grok-4.3"
+        and price["processingMode"] == "standard"
+        and price.get("pricingStatus") == "current"
+    ]
+    expected_grok43_ids = {
+        "price:xai/grok-4.3:standard:short:current",
+        "price:xai/grok-4.3:standard:long:current",
+    }
+    if {price["pricingId"] for price in grok43} != expected_grok43_ids:
+        fail("xai/grok-4.3 must have exactly short and long current standard PriceRecords")
+    grok43_by_context = {price["contextClass"]: price for price in grok43}
+    if set(grok43_by_context) != {"short", "long"}:
+        fail("xai/grok-4.3 current standard contexts must be short and long")
+    if model_by_id["xai/grok-4.3"]["defaultPriceRecordId"] != "price:xai/grok-4.3:standard:short:current":
+        fail("xai/grok-4.3 defaultPriceRecordId must select the short tier")
+    expected_grok43 = {
+        "short": {
+            "threshold": 200000,
+            "comparison": "less_than",
+            "default": True,
+            "charges": {"input": "1.25", "cached_input": "0.2", "output": "2.5"},
+        },
+        "long": {
+            "threshold": 200000,
+            "comparison": "greater_than_or_equal",
+            "default": False,
+            "charges": {"input": "2.5", "cached_input": "0.4", "output": "5"},
+        },
+    }
+    required_grok43_urls = {
+        "https://docs.x.ai/developers/pricing",
+        "https://docs.x.ai/developers/advanced-api-usage/prompt-caching/usage-and-pricing",
+        "https://docs.x.ai/developers/rest-api-reference/inference/models",
+        "https://docs.x.ai/developers/models/grok-4.3",
+    }
+    for context_class, expected in expected_grok43.items():
+        price = grok43_by_context[context_class]
+        if price["promptTokenThreshold"] != expected["threshold"]:
+            fail(f"xai/grok-4.3 {context_class} threshold mismatch")
+        selection = price.get("tierSelection")
+        if not selection or selection["comparison"] != expected["comparison"]:
+            fail(f"xai/grok-4.3 {context_class} threshold inclusivity mismatch")
+        if selection["tokenBasis"] != "total_prompt_tokens":
+            fail(f"xai/grok-4.3 {context_class} token basis mismatch")
+        if selection["cachedPromptTokensIncluded"] is not True:
+            fail(f"xai/grok-4.3 {context_class} must count cached prompt tokens")
+        if selection["wholeRequestPricing"] is not True:
+            fail(f"xai/grok-4.3 {context_class} must use whole-request pricing")
+        if price["calculationDefault"] is not expected["default"]:
+            fail(f"xai/grok-4.3 {context_class} default-tier mismatch")
+        charges = {charge["component"]: charge["amount"] for charge in price["charges"]}
+        if charges != expected["charges"]:
+            fail(f"xai/grok-4.3 {context_class} charges mismatch")
+        if any(charge["unit"] != "per_1m_tokens" for charge in price["charges"]):
+            fail(f"xai/grok-4.3 {context_class} charge unit mismatch")
+        source_urls = {source_by_id[ref]["url"] for ref in price["sourceRefs"]}
+        if source_urls != required_grok43_urls:
+            fail(f"xai/grok-4.3 {context_class} provenance must be canonical-only")
+        if price.get("sourceDatasetIds") != {
+            "publicDatasetIds": ["grok-4.3"],
+            "websiteIds": [],
+        }:
+            fail(f"xai/grok-4.3 {context_class} source dataset provenance mismatch")
+        for ref in price["sourceRefs"]:
+            source = source_by_id[ref]
+            if source["url"] in required_grok43_urls:
+                if parse_timestamp(source.get("checkedAt"), f"{ref} checkedAt") is None:
+                    fail(f"xai/grok-4.3 source missing checkedAt: {ref}")
+                if parse_timestamp(source.get("verifiedAt"), f"{ref} verifiedAt") is None:
+                    fail(f"xai/grok-4.3 source missing verifiedAt: {ref}")
+                if source["checkedAt"] != "2026-08-15T12:25:26Z" or source["verifiedAt"] != "2026-08-15T12:25:26Z":
+                    fail(f"xai/grok-4.3 source timestamp mismatch: {ref}")
+
+    def selected_grok43_context(prompt_tokens: int) -> list[str]:
+        selected = []
+        for context_class, price in grok43_by_context.items():
+            comparison = price["tierSelection"]["comparison"]
+            threshold = price["promptTokenThreshold"]
+            if comparison == "less_than" and prompt_tokens < threshold:
+                selected.append(context_class)
+            elif comparison == "greater_than_or_equal" and prompt_tokens >= threshold:
+                selected.append(context_class)
+        return sorted(selected)
+
+    if selected_grok43_context(199999) != ["short"]:
+        fail("xai/grok-4.3 boundary 199999 must select short")
+    if selected_grok43_context(200000) != ["long"]:
+        fail("xai/grok-4.3 boundary 200000 must select long")
+    if selected_grok43_context(200001) != ["long"]:
+        fail("xai/grok-4.3 boundary 200001 must select long")
+
+    now = datetime.now(timezone.utc)
+    verified_timestamps = []
     for source in sources:
         if not str(source["url"]).startswith("https://"):
             fail(f"source URL must be https: {source['sourceId']}")
@@ -532,8 +689,36 @@ def validate_preview() -> dict[str, Any]:
             fail(f"source officialProviderDomain does not match URL: {source['sourceId']}")
         if source["verificationStatus"] == "verified" and (not source["checkedAt"] or not source["verifiedAt"]):
             fail(f"verified source missing checkedAt/verifiedAt: {source['sourceId']}")
+        checked_value = source.get("checkedAt")
+        verified_value = source.get("verifiedAt")
+        checked_at = (
+            parse_timestamp(checked_value, f"{source['sourceId']} checkedAt")
+            if checked_value and checked_value.endswith("Z")
+            else datetime.combine(parse_date(checked_value, "checkedAt"), time.min, tzinfo=timezone.utc)
+            if checked_value
+            else None
+        )
+        verified_at = (
+            parse_timestamp(verified_value, f"{source['sourceId']} verifiedAt")
+            if verified_value and verified_value.endswith("Z")
+            else datetime.combine(parse_date(verified_value, "verifiedAt"), time.min, tzinfo=timezone.utc)
+            if verified_value
+            else None
+        )
+        if checked_at and checked_at > now:
+            fail(f"future checkedAt: {source['sourceId']}")
+        if verified_at and verified_at > now:
+            fail(f"future verifiedAt: {source['sourceId']}")
+        if verified_at:
+            verified_timestamps.append(verified_at)
         if not source["supports"]:
             fail(f"source missing supports: {source['sourceId']}")
+
+    generated_at = parse_timestamp(report.get("generatedAt"), "convergence report generatedAt")
+    if generated_at is None:
+        fail("convergence report missing generatedAt")
+    if verified_timestamps and generated_at < max(verified_timestamps):
+        fail("convergence report generatedAt precedes the latest verifiedAt")
 
     matrix_price_ids = [row["pricingId"] for row in phase2_matrix]
     if len(matrix_price_ids) != len(set(matrix_price_ids)):

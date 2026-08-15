@@ -25,11 +25,60 @@
         "batch_output": {"type": ["number", "null"], "minimum": 0}
       }
     },
+    "pricing_tiers": {
+      "type": "array",
+      "minItems": 2,
+      "uniqueItems": true,
+      "items": {"$ref": "#/$defs/pricingTier"}
+    },
     "official_source_url": {"type": "string", "format": "uri"},
+    "official_source_urls": {
+      "type": "array",
+      "minItems": 1,
+      "uniqueItems": true,
+      "items": {"type": "string", "format": "uri"}
+    },
     "accessed_at": {"type": "string", "format": "date-time"},
     "last_verified_at": {"type": "string", "format": "date-time"},
     "effective_from": {"type": ["string", "null"], "format": "date"},
     "notes": {"type": "string"}
+  },
+  "$defs": {
+    "pricingTier": {
+      "type": "object",
+      "required": [
+        "id",
+        "processing_mode",
+        "pricing_status",
+        "calculation_default",
+        "prompt_token_threshold",
+        "threshold_comparison",
+        "threshold_token_basis",
+        "cached_prompt_tokens_included",
+        "whole_request_pricing",
+        "currency",
+        "unit",
+        "input",
+        "cached_input",
+        "output"
+      ],
+      "properties": {
+        "id": {"type": "string", "enum": ["short", "long"]},
+        "processing_mode": {"type": "string", "enum": ["standard", "batch", "flex", "priority", "fast"]},
+        "pricing_status": {"type": "string", "enum": ["current", "future", "historical"]},
+        "calculation_default": {"type": "boolean"},
+        "prompt_token_threshold": {"type": "integer", "minimum": 0},
+        "threshold_comparison": {"type": "string", "enum": ["less_than", "less_than_or_equal", "greater_than", "greater_than_or_equal"]},
+        "threshold_token_basis": {"type": "string", "enum": ["total_prompt_tokens"]},
+        "cached_prompt_tokens_included": {"type": "boolean"},
+        "whole_request_pricing": {"type": "boolean"},
+        "currency": {"type": "string", "const": "USD"},
+        "unit": {"type": "string", "const": "1M tokens"},
+        "input": {"type": "number", "minimum": 0},
+        "cached_input": {"type": "number", "minimum": 0},
+        "output": {"type": "number", "minimum": 0}
+      }
+    }
   }
 }
 
