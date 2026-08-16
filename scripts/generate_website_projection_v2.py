@@ -292,7 +292,79 @@ def governance_metadata(
         "publicExposure": public_exposure,
     }
 
+def project_canonical_tier(record: dict[str, Any]) -> dict[str, Any]:
+    input_price = charge_amount(record, "input")
+    cached_input_price = charge_amount(record, "cached_input")
+    output_price = charge_amount(record, "output")
 
+    if input_price is None or output_price is None:
+        raise ValueError(
+            f"canonical tier record {record.get('pricingId', '(unknown)')} "
+            "requires input and output charges"
+        )
+
+    context_class = record["contextClass"]
+
+    context_class = record["contextClass"]
+
+    context_class = record["contextClass"]
+
+    context_class = record["contextClass"]
+
+    tier = {
+        "id": record["pricingId"],
+        "pricingId": record["pricingId"],
+        "label": context_class[:1].upper() + context_class[1:] + " context",
+        "contextClass": context_class,
+        "calculationDefault": record.get("calculationDefault") is True,
+        "promptTokenThreshold": record["promptTokenThreshold"],
+        "comparison": record["tierSelection"]["comparison"],
+        "tokenBasis": record["tierSelection"]["tokenBasis"],
+        "cachedPromptTokensIncluded": record["tierSelection"]["cachedPromptTokensIncluded"],
+        "wholeRequestPricing": record["tierSelection"]["wholeRequestPricing"],
+        "processingMode": record["processingMode"],
+        "currency": record["currency"],
+        "unit": "per_1m_tokens",
+        "inputPrice": input_price,
+    }
+
+    if cached_input_price is not None:
+        tier["cachedInputPrice"] = cached_input_price
+
+    tier["outputPrice"] = output_price
+    tier["sourceRefs"] = sorted(record["sourceRefs"])
+    tier["verificationStatus"] = record["verificationStatus"]
+
+    return tier
+
+
+def build_canonical_pricing_tiers(
+    model_prices: list[dict[str, Any]],
+) -> list[dict[str, Any]] | None:
+    tier_records = [
+        record
+        for record in model_prices
+        if record.get("tierSelection")
+        and record.get("processingMode") == "standard"
+        and record.get("pricingStatus") == "current"
+        and record.get("verificationStatus") == "verified"
+    ]
+
+    if not tier_records:
+        return None
+
+    tiers = [project_canonical_tier(record) for record in tier_records]
+
+    default_tiers = [tier for tier in tiers if tier["calculationDefault"]]
+    if len(default_tiers) != 1:
+        model_internal_id = tier_records[0].get("modelInternalId", "(unknown)")
+        raise ValueError(
+            f"{model_internal_id} canonical tiers require exactly one "
+            "calculationDefault tier"
+        )
+
+    tiers.sort(key=lambda tier: tier["pricingId"])
+    return tiers
 def projection_row(
     identity: dict[str, Any],
     model_by_id: dict[str, dict[str, Any]],
@@ -395,6 +467,13 @@ def projection_row(
             "routingDetails": identity["routingDetails"],
         }
     row.update(governance_metadata(identity, row, website_row, excluded_reasons, merged_sources))
+
+    pricing_tiers = build_canonical_pricing_tiers(
+        prices_by_model.get(identity["internalId"], [])
+    )
+    if pricing_tiers:
+        row["pricingTiers"] = pricing_tiers
+
     return row
 
 
