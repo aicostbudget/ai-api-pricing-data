@@ -34,15 +34,15 @@ The weekly freshness workflow checks source URLs and stale `last_verified_at` va
 
 ### AI API Cost Calculator
 
-[Estimate token usage and monthly AI API costs.](https://aicostbudget.com/en/ai-api-cost-calculator?utm_source=huggingface&utm_medium=dataset&utm_campaign=ai_api_pricing)
+[Calculate your API cost with this dataset](https://aicostbudget.com/en/ai-api-cost-calculator?utm_source=github&utm_medium=referral&utm_campaign=ai_api_pricing_dataset&utm_content=calculate_api_cost)
 
 ### Model Pricing Comparison
 
-[Compare model pricing across providers.](https://aicostbudget.com/en/model-pricing-comparison?utm_source=huggingface&utm_medium=dataset&utm_campaign=ai_api_pricing)
+[Compare these models interactively](https://aicostbudget.com/en/model-pricing-comparison?utm_source=github&utm_medium=referral&utm_campaign=ai_api_pricing_dataset&utm_content=compare_models)
 
-### AI Budget Planner
+### Model Price Monitor
 
-[Plan AI feature budgets for products and SaaS applications.](https://aicostbudget.com/en/ai-budget-planner?utm_source=huggingface&utm_medium=dataset&utm_campaign=ai_api_pricing)
+[Track AI model price changes](https://aicostbudget.com/en/model-price-monitor?utm_source=github&utm_medium=referral&utm_campaign=ai_api_pricing_dataset&utm_content=track_price_changes)
 
 ## Quick Start
 
