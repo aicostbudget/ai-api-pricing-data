@@ -17,6 +17,13 @@ Published as JSON, CSV, and a Hugging Face dataset, with machine-readable record
 
 Downloads: [JSON](https://aicostbudget.github.io/ai-api-pricing-data/api/v1/prices.json) | [CSV](https://aicostbudget.github.io/ai-api-pricing-data/api/v1/prices.csv) | [Hugging Face](https://huggingface.co/datasets/aicostbudget-ai/ai-api-pricing)
 
+## Dataset Trust & Freshness
+
+- **Updated:** The latest dataset build timestamp (`generated_at`) and aggregate record verification timestamp (`last_verified_at`) are published in [machine-readable metadata](api/v1/meta.json) and the [static API](https://aicostbudget.github.io/ai-api-pricing-data/api/v1/meta.json).
+- **Verified:** Each pricing record includes its own `accessed_at` and `last_verified_at` timestamps.
+- **Sources:** Pricing records link to official provider pricing pages or documentation through `official_source_url`; see the [methodology](#methodology).
+- **Validation:** Pushes and pull requests run [dataset and schema checks, Hugging Face export parity, and tests](.github/workflows/validate.yml); a [weekly freshness check](.github/workflows/freshness-check.yml) surfaces stale verification timestamps and source URL failures.
+
 This repository publishes a versioned dataset and read-only static API for AI API pricing. It is designed for developers, SaaS builders, FinOps teams, researchers, technical writers, and AI systems that need maintained pricing records instead of ad hoc scraped snippets.
 
 This project is maintained as an independent public dataset by AICostBudget.
@@ -135,18 +142,6 @@ The CSV output uses the following fields:
 | `last_verified_at` | Date when the record was last verified. |
 | `effective_from` | Date when the listed pricing became effective, if known. |
 | `notes` | Additional context or caveats for the record. |
-
-## Data Freshness
-
-Every model record includes:
-
-- `official_source_url`
-- `accessed_at`
-- `last_verified_at`
-- `effective_from`
-- `notes`
-
-Freshness checks are designed to surface stale source checks. Final billing decisions should still be verified against the provider's official pricing page, contract, and invoice.
 
 ## API Reference
 
