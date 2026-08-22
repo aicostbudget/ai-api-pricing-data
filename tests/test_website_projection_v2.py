@@ -97,19 +97,15 @@ class WebsiteProjectionV2Tests(unittest.TestCase):
             else:
                 self.assertEqual(prices, (None, None, None))
 
-    def test_claude_sonnet_5_effective_date_boundaries_are_utc(self):
-        intro_artifact, _ = build_projection("2026-08-31T23:59:59Z", website_dataset=WEBSITE_FIXTURE)
-        standard_artifact, _ = build_projection("2026-09-01T00:00:00Z", website_dataset=WEBSITE_FIXTURE)
-        intro = next(row for row in intro_artifact["models"] if row["canonicalInternalId"] == "anthropic/claude-sonnet-5")
-        standard = next(row for row in standard_artifact["models"] if row["canonicalInternalId"] == "anthropic/claude-sonnet-5")
-        self.assertEqual(intro["selectedPriceRecordId"], "price:anthropic/claude-sonnet-5:standard:intro:2026-07-05")
-        self.assertEqual(intro["inputPrice"], 2)
-        self.assertEqual(intro["outputPrice"], 10)
-        self.assertEqual(standard["selectedPriceRecordId"], "price:anthropic/claude-sonnet-5:standard:short:2026-09-01")
-        self.assertEqual(standard["inputPrice"], 3)
-        self.assertEqual(standard["outputPrice"], 15)
-        self.assertEqual(intro_artifact["effectiveTimezone"], "UTC")
-        self.assertEqual(standard_artifact["effectiveTimezone"], "UTC")
+    def test_claude_sonnet_5_permanent_standard_price_has_no_boundary_switch(self):
+        august_artifact, _ = build_projection("2026-08-31T23:59:59Z", website_dataset=WEBSITE_FIXTURE)
+        september_artifact, _ = build_projection("2026-09-01T00:00:00Z", website_dataset=WEBSITE_FIXTURE)
+        for artifact in (august_artifact, september_artifact):
+            sonnet = next(row for row in artifact["models"] if row["canonicalInternalId"] == "anthropic/claude-sonnet-5")
+            self.assertEqual(sonnet["selectedPriceRecordId"], "price:anthropic/claude-sonnet-5:standard:short:current")
+            self.assertEqual((sonnet["inputPrice"], sonnet["outputPrice"]), (2, 10))
+            self.assertIsNone(sonnet["selectedPriceEffectiveUntil"])
+            self.assertEqual(artifact["effectiveTimezone"], "UTC")
 
     def test_grok_3_redirected_billing_and_historical_isolation(self):
         grok = self.by_internal["xai/grok-3"]
@@ -160,7 +156,7 @@ class WebsiteProjectionV2Tests(unittest.TestCase):
 
     def test_gpt_5_6_rows_use_standard_short_defaults(self):
         expected = {
-            "openai/gpt-5.6-sol": (5, 0.5, 30),
+            "openai/gpt-5.6-sol": (4, 0.4, 20),
             "openai/gpt-5.6-terra": (2, 0.2, 12),
             "openai/gpt-5.6-luna": (0.2, 0.02, 1.2),
         }

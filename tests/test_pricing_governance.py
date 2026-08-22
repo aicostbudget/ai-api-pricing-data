@@ -62,17 +62,17 @@ class PricingGovernanceTests(unittest.TestCase):
     def test_all_candidates_and_projection_rows_have_governance(self):
         self.assertEqual(
             set(self.dispositions),
-            set(self.identities) | {"anthropic/claude-sonnet-5-intro"},
-            "ORPHAN_CANDIDATE: disposition coverage differs from normalized identities plus the explicit merge source",
+            set(self.identities),
+            "ORPHAN_CANDIDATE: disposition coverage differs from normalized identities",
         )
         counts = Counter(row["governanceClass"] for row in self.projection.values())
         self.assertEqual(
             counts,
             Counter(
                 {
-                    "VERIFIED_CANONICAL": 27,
+                    "VERIFIED_CANONICAL": 28,
                     "VERIFIED_PROJECTION": 7,
-                    "PROJECTED_IDENTITY": 3,
+                    "PROJECTED_IDENTITY": 2,
                     "HISTORICAL_REFERENCE": 2,
                     "EXCLUDED": 3,
                     "REVIEW_REQUIRED": 3,

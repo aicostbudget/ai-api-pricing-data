@@ -38,6 +38,8 @@ CSV_HEADERS = (
     "effective_from",
     "effective_until",
     "notes",
+    "pricing_tier_count",
+    "pricing_tiers_json",
 )
 NUMERIC_FIELDS = (
     "input_price_per_1m_tokens",
@@ -99,7 +101,42 @@ def fallback_warning(row: dict[str, Any]) -> str:
     )
 
 
+def public_pricing_tiers(row: dict[str, Any], last_verified_at: str | None) -> list[dict[str, Any]]:
+    return [
+        {
+            "id": tier["id"],
+            "pricing_id": tier["pricingId"],
+            "label": tier["label"],
+            "context_class": tier["contextClass"],
+            "calculation_default": tier["calculationDefault"],
+            "prompt_token_threshold": tier["promptTokenThreshold"],
+            "comparison": tier["comparison"],
+            "token_basis": tier["tokenBasis"],
+            "cached_prompt_tokens_included": tier["cachedPromptTokensIncluded"],
+            "whole_request_pricing": tier["wholeRequestPricing"],
+            "processing_mode": tier["processingMode"],
+            "input_price_per_1m_tokens": tier["inputPrice"],
+            "cached_input_price_per_1m_tokens": (
+                tier.get("cachedInputPrice") if is_number(tier.get("cachedInputPrice")) else None
+            ),
+            "output_price_per_1m_tokens": tier["outputPrice"],
+            "currency": tier["currency"],
+            "pricing_unit": "1M tokens",
+            "official_source_url": row["officialSourceUrl"],
+            "source_refs": list(tier["sourceRefs"]),
+            "last_verified_at": last_verified_at,
+            "verification_status": tier["verificationStatus"],
+        }
+        for tier in row.get("pricingTiers", [])
+    ]
+
+
 def load_website_models(website_repo: Path, website_ref: str) -> list[dict[str, Any]]:
+    if website_ref == "WORKTREE":
+        rows = read_json(website_repo / "data" / "model-pricing.json")
+        if not isinstance(rows, list):
+            raise ValueError("Website data/model-pricing.json must be a JSON array")
+        return rows
     result = subprocess.run(
         ["git", "-C", str(website_repo), "show", f"{website_ref}:data/model-pricing.json"],
         check=True,
@@ -137,6 +174,10 @@ def build_public_records(
         has_current_price = is_number(row.get("inputPrice")) and is_number(row.get("outputPrice"))
         if has_current_price:
             warning = projection_warning(row)
+            last_verified_at = date_only(
+                row.get("verifiedAt") or row.get("checkedAt") or projection["generatedAt"]
+            )
+            tiers = public_pricing_tiers(row, last_verified_at)
             records.append(
                 {
                     "provider_id": row["provider"],
@@ -153,12 +194,12 @@ def build_public_records(
                     "status": row["status"],
                     "availability": row["availability"],
                     "official_source_url": row["officialSourceUrl"],
-                    "last_verified_at": date_only(
-                        row.get("verifiedAt") or row.get("checkedAt") or projection["generatedAt"]
-                    ),
+                    "last_verified_at": last_verified_at,
                     "effective_from": row.get("selectedPriceEffectiveFrom"),
                     "effective_until": row.get("selectedPriceEffectiveUntil"),
                     "notes": warning if warning is not None else (legacy.get("priceNote", "") if legacy else ""),
+                    "pricing_tier_count": len(tiers),
+                    "pricing_tiers": tiers,
                 }
             )
             continue
@@ -183,6 +224,8 @@ def build_public_records(
                 "effective_from": row.get("selectedPriceEffectiveFrom"),
                 "effective_until": row.get("selectedPriceEffectiveUntil"),
                 "notes": fallback_warning(row),
+                "pricing_tier_count": 0,
+                "pricing_tiers": [],
             }
         )
 
@@ -260,6 +303,14 @@ def validate_payload(
                 raise ValueError(f"invalid numeric price for {row['provider_id']}/{row['model_id']} {field}")
         if row["currency"] != "USD" or row["pricing_unit"] != "1M tokens":
             raise ValueError(f"invalid unit or currency for {row['provider_id']}/{row['model_id']}")
+        tiers = row.get("pricing_tiers", [])
+        if row.get("pricing_tier_count") != len(tiers):
+            raise ValueError(f"pricing tier count mismatch for {row['provider_id']}/{row['model_id']}")
+        for tier in tiers:
+            for field in NUMERIC_FIELDS:
+                value = tier[field]
+                if value is not None and (not is_number(value) or value < 0):
+                    raise ValueError(f"invalid tier price for {row['provider_id']}/{row['model_id']} {field}")
         verified = row.get("last_verified_at")
         if verified and parse_date(verified) > now:
             raise ValueError(f"future last_verified_at for {row['provider_id']}/{row['model_id']}")
@@ -276,7 +327,13 @@ def csv_text(records: list[dict[str, Any]]) -> str:
     output = io.StringIO(newline="")
     writer = csv.DictWriter(output, fieldnames=CSV_HEADERS, lineterminator="\n")
     writer.writeheader()
-    writer.writerows(records)
+    writer.writerows(
+        {
+            **{key: value for key, value in record.items() if key != "pricing_tiers"},
+            "pricing_tiers_json": json.dumps(record["pricing_tiers"], separators=(",", ":"), ensure_ascii=False),
+        }
+        for record in records
+    )
     return output.getvalue()
 
 

@@ -416,9 +416,9 @@ def validate_preview() -> dict[str, Any]:
             fail(f"alias missing aliasTarget for {disposition['candidateId']}")
         if disposition["finalInternalId"] not in identity_set:
             fail(f"candidate disposition finalInternalId missing identity: {disposition['candidateId']}")
-    intro_disposition = next(item for item in dispositions if item["candidateId"] == "anthropic/claude-sonnet-5-intro")
-    if intro_disposition["disposition"] != "merged_duplicate" or intro_disposition["mergeTarget"] != "anthropic/claude-sonnet-5":
-        fail("claude-sonnet-5-intro must be a merged_duplicate disposition targeting anthropic/claude-sonnet-5")
+    sonnet_disposition = next(item for item in dispositions if item["candidateId"] == "anthropic/claude-sonnet-5")
+    if sonnet_disposition["disposition"] != "canonical_identity" or sonnet_disposition["mergeTarget"] is not None:
+        fail("claude-sonnet-5 must be a direct canonical identity")
 
     for model in models:
         if model["internalId"] not in identity_set:
@@ -534,40 +534,19 @@ def validate_preview() -> dict[str, Any]:
         if price["modelInternalId"] == "anthropic/claude-sonnet-5"
         and price["processingMode"] == "standard"
     ]
-    sonnet_intro = [
-        price
-        for price in sonnet_standard
-        if price["pricingId"] == "price:anthropic/claude-sonnet-5:standard:intro:2026-07-05"
-    ]
-    sonnet_future = [
-        price
-        for price in sonnet_standard
-        if price["pricingId"] == "price:anthropic/claude-sonnet-5:standard:short:2026-09-01"
-    ]
-    if len(sonnet_intro) != 1 or len(sonnet_future) != 1:
-        fail("Claude Sonnet 5 must have exactly one intro and one future standard PriceRecord")
-    if sonnet_intro[0]["effectiveUntil"] != "2026-08-31":
-        fail("Claude Sonnet 5 intro effectiveUntil must be 2026-08-31")
-    if sonnet_future[0]["effectiveFrom"] != "2026-09-01":
-        fail("Claude Sonnet 5 future standard effectiveFrom must be 2026-09-01")
-
-    def is_effective_at(price: dict[str, Any], moment: datetime) -> bool:
-        start = parse_date(price["effectiveFrom"], "effectiveFrom")
-        end = parse_date(price["effectiveUntil"], "effectiveUntil")
-        if start and moment < datetime.combine(start, time.min):
-            return False
-        if end and moment >= datetime.combine(end + timedelta(days=1), time.min):
-            return False
-        return True
-
-    if [price["pricingId"] for price in sonnet_standard if is_effective_at(price, datetime.fromisoformat("2026-08-31T23:59:59"))] != [
-        "price:anthropic/claude-sonnet-5:standard:intro:2026-07-05"
-    ]:
-        fail("Claude Sonnet 5 boundary must select only intro at 2026-08-31T23:59:59")
-    if [price["pricingId"] for price in sonnet_standard if is_effective_at(price, datetime.fromisoformat("2026-09-01T00:00:00"))] != [
-        "price:anthropic/claude-sonnet-5:standard:short:2026-09-01"
-    ]:
-        fail("Claude Sonnet 5 boundary must select only standard at 2026-09-01T00:00:00")
+    if len(sonnet_standard) != 1:
+        fail("Claude Sonnet 5 must have exactly one permanent standard PriceRecord")
+    sonnet_price = sonnet_standard[0]
+    if sonnet_price["pricingId"] != "price:anthropic/claude-sonnet-5:standard:short:current":
+        fail("Claude Sonnet 5 must use the current standard PriceRecord ID")
+    if sonnet_price["effectiveUntil"] is not None:
+        fail("Claude Sonnet 5 permanent standard PriceRecord must not expire")
+    sonnet_charges = {charge["component"]: charge["amount"] for charge in sonnet_price["charges"]}
+    if sonnet_charges.get("input") != "2" or sonnet_charges.get("output") != "10":
+        fail("Claude Sonnet 5 permanent standard prices must remain $2 input and $10 output")
+    sonnet_note = sonnet_price.get("billingNote", "")
+    if "2026-08-31" in sonnet_note or ("2026-09-01" in sonnet_note and "canceled" not in sonnet_note):
+        fail("Claude Sonnet 5 current note must not promise the canceled price increase")
 
     gemini31_pro = [
         price

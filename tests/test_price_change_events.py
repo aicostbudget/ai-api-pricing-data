@@ -46,8 +46,23 @@ def snapshot(path: Path, models):
     path.write_text(json.dumps({"models": models}), encoding="utf-8")
 
 
-def canonical_event(index=0):
-    return copy.deepcopy(load_events(EVENTS_PATH)[index])
+def canonical_event(provider_id="mistral-ai", model_id="mistral-large", change_type="price_update", detected_at="2026-07-27"):
+    matches = [
+        event
+        for event in load_events(EVENTS_PATH)
+        if (
+            event["provider_id"],
+            event["model_id"],
+            event["change_type"],
+            event["detected_at"],
+        )
+        == (provider_id, model_id, change_type, detected_at)
+    ]
+    if len(matches) != 1:
+        raise AssertionError(
+            f"expected one canonical event for {(provider_id, model_id, change_type, detected_at)}, found {len(matches)}"
+        )
+    return copy.deepcopy(matches[0])
 
 
 def refresh_identity(event):
@@ -132,11 +147,11 @@ class PriceChangeEventTests(unittest.TestCase):
                     validate_event(event)
 
     def test_change_type_must_match_actual_price_delta(self):
-        cached_added = canonical_event(1)
+        cached_added = canonical_event("xai", "grok-4.3", "cached_price_added")
         cached_added["change_type"] = "price_update"
         with self.assertRaises(ValueError):
             validate_event(cached_added)
-        price_update = canonical_event(0)
+        price_update = canonical_event()
         price_update["change_type"] = "cached_price_added"
         with self.assertRaises(ValueError):
             validate_event(price_update)
@@ -246,18 +261,49 @@ class PriceChangeEventTests(unittest.TestCase):
             snapshot(after_path, [before])
             self.assertEqual(generate_events(before_path, after_path), [])
 
-    def test_real_backfilled_events_are_exactly_mistral_and_xai(self):
+    def test_required_real_events_are_present_with_canonical_semantics(self):
         events = load_events(EVENTS_PATH)
-        self.assertEqual(len(events), 2)
-        by_model = {(event["provider_id"], event["model_id"]): event for event in events}
-        mistral = by_model[("mistral-ai", "mistral-large")]
+        by_identity = {
+            (event["provider_id"], event["model_id"], event["change_type"], event["detected_at"]): event
+            for event in events
+        }
+        mistral = by_identity[("mistral-ai", "mistral-large", "price_update", "2026-07-27")]
         self.assertEqual(mistral["change_type"], "price_update")
         self.assertEqual(mistral["old_prices"], {"input": 2, "cached_input": None, "output": 6})
         self.assertEqual(mistral["new_prices"], {"input": 0.5, "cached_input": 0.05, "output": 1.5})
-        xai = by_model[("xai", "grok-4.3")]
+        xai = by_identity[("xai", "grok-4.3", "cached_price_added", "2026-07-27")]
         self.assertEqual(xai["change_type"], "cached_price_added")
         self.assertEqual(xai["old_prices"], {"input": 1.25, "cached_input": None, "output": 2.5})
         self.assertEqual(xai["new_prices"], {"input": 1.25, "cached_input": 0.2, "output": 2.5})
+        gpt = by_identity[("openai", "gpt-5.6-sol", "price_update", "2026-08-22")]
+        self.assertEqual(gpt["old_prices"], {"input": 5, "cached_input": 0.5, "output": 30})
+        self.assertEqual(gpt["new_prices"], {"input": 4, "cached_input": 0.4, "output": 20})
+
+    def test_current_event_set_has_no_duplicate_gpt_reverse_or_false_sonnet_event(self):
+        events = load_events(EVENTS_PATH)
+        gpt = [
+            event
+            for event in events
+            if event["provider_id"] == "openai"
+            and event["model_id"] == "gpt-5.6-sol"
+            and event["change_type"] == "price_update"
+        ]
+        self.assertEqual(len(gpt), 1)
+        self.assertFalse(
+            any(
+                event["old_prices"] == {"input": 4, "cached_input": 0.4, "output": 20}
+                and event["new_prices"] == {"input": 5, "cached_input": 0.5, "output": 30}
+                for event in gpt
+            )
+        )
+        self.assertFalse(
+            any(
+                event["provider_id"] == "anthropic"
+                and event["model_id"] == "claude-sonnet-5"
+                and event["change_type"] == "price_update"
+                for event in events
+            )
+        )
 
     def test_real_snapshot_diff_has_two_events_and_other_models_do_not_change(self):
         events = generate_events(REAL_BEFORE, REAL_AFTER)

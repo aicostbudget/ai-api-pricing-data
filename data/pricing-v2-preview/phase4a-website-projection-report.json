@@ -1,21 +1,21 @@
 {
   "artifactPath": "data/pricing-v2-preview/generated/model-pricing.v2.json",
   "defaultSafeModelCount": 38,
-  "generatedAt": "2026-08-08T18:57:38Z",
+  "generatedAt": "2026-08-22T14:45:21Z",
   "governanceClassCounts": {
     "COMPATIBILITY_FALLBACK": 0,
     "EXCLUDED": 3,
     "HISTORICAL_REFERENCE": 2,
-    "PROJECTED_IDENTITY": 3,
+    "PROJECTED_IDENTITY": 2,
     "REVIEW_REQUIRED": 3,
-    "VERIFIED_CANONICAL": 27,
+    "VERIFIED_CANONICAL": 28,
     "VERIFIED_PROJECTION": 7
   },
   "nullPriceCount": 7,
   "parity": {
     "counts": {
-      "exact_parity": 27,
-      "expected_difference": 4,
+      "exact_parity": 32,
+      "expected_difference": 2,
       "unsafe_difference": 4
     },
     "details": [
@@ -305,6 +305,36 @@
         }
       },
       {
+        "classification": "exact_parity",
+        "modelId": "gemini-3.5-flash-lite",
+        "projection": {
+          "cachedInputPrice": 0.03,
+          "inputPrice": 0.3,
+          "outputPrice": 2.5
+        },
+        "reason": "Legacy Website values match current projection values.",
+        "website": {
+          "cachedInputPrice": 0.03,
+          "inputPrice": 0.3,
+          "outputPrice": 2.5
+        }
+      },
+      {
+        "classification": "exact_parity",
+        "modelId": "gemini-3.6-flash",
+        "projection": {
+          "cachedInputPrice": 0.15,
+          "inputPrice": 1.5,
+          "outputPrice": 7.5
+        },
+        "reason": "Legacy Website values match current projection values.",
+        "website": {
+          "cachedInputPrice": 0.15,
+          "inputPrice": 1.5,
+          "outputPrice": 7.5
+        }
+      },
+      {
         "classification": "unsafe_difference",
         "modelId": "gpt-4.1",
         "projection": {
@@ -455,48 +485,48 @@
         }
       },
       {
-        "classification": "expected_difference",
+        "classification": "exact_parity",
         "modelId": "gpt-5.6-luna",
         "projection": {
           "cachedInputPrice": 0.02,
           "inputPrice": 0.2,
           "outputPrice": 1.2
         },
-        "reason": "Projection uses canonical verified pricing.",
+        "reason": "Legacy Website values match current projection values.",
         "website": {
-          "cachedInputPrice": 0.1,
-          "inputPrice": 1,
-          "outputPrice": 6
+          "cachedInputPrice": 0.02,
+          "inputPrice": 0.2,
+          "outputPrice": 1.2
         }
       },
       {
         "classification": "exact_parity",
         "modelId": "gpt-5.6-sol",
         "projection": {
-          "cachedInputPrice": 0.5,
-          "inputPrice": 5,
-          "outputPrice": 30
+          "cachedInputPrice": 0.4,
+          "inputPrice": 4,
+          "outputPrice": 20
         },
         "reason": "Legacy Website values match current projection values.",
         "website": {
-          "cachedInputPrice": 0.5,
-          "inputPrice": 5,
-          "outputPrice": 30
+          "cachedInputPrice": 0.4,
+          "inputPrice": 4,
+          "outputPrice": 20
         }
       },
       {
-        "classification": "expected_difference",
+        "classification": "exact_parity",
         "modelId": "gpt-5.6-terra",
         "projection": {
           "cachedInputPrice": 0.2,
           "inputPrice": 2,
           "outputPrice": 12
         },
-        "reason": "Projection uses canonical verified pricing.",
+        "reason": "Legacy Website values match current projection values.",
         "website": {
-          "cachedInputPrice": 0.25,
-          "inputPrice": 2.5,
-          "outputPrice": 15
+          "cachedInputPrice": 0.2,
+          "inputPrice": 2,
+          "outputPrice": 12
         }
       },
       {
@@ -531,6 +561,21 @@
       },
       {
         "classification": "exact_parity",
+        "modelId": "grok-4.5",
+        "projection": {
+          "cachedInputPrice": 0.3,
+          "inputPrice": 2,
+          "outputPrice": 6
+        },
+        "reason": "Legacy Website values match current projection values.",
+        "website": {
+          "cachedInputPrice": 0.3,
+          "inputPrice": 2,
+          "outputPrice": 6
+        }
+      },
+      {
+        "classification": "exact_parity",
         "modelId": "grok-build-0.1",
         "projection": {
           "cachedInputPrice": null,
@@ -546,7 +591,7 @@
       }
     ],
     "projectionModelCount": 45,
-    "websiteModelCount": 35
+    "websiteModelCount": 38
   },
   "phase": "Phase 4A Production-Ready Website Projection",
   "phase35Readiness": "ready",

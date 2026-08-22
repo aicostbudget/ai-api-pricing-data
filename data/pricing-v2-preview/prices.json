@@ -634,33 +634,40 @@
     "verificationStatus": "verified"
   },
   {
-    "billingNote": "Introductory pricing applies through 2026-08-31 and standard pricing starts 2026-09-01. V1 must not switch early to the standard $3/M input and $15/M output rates.",
+    "billingNote": "Standard pricing is $2 input, $0.20 cache hit, $2.50 5-minute cache write, $4 1-hour cache write, and $10 output per 1M tokens. Anthropic made the introductory rate permanent on 2026-08-10 and canceled the previously scheduled 2026-09-01 increase.",
     "calculationDefault": true,
     "charges": [
       {
         "amount": "2",
-        "chargeId": "price:anthropic/claude-sonnet-5:standard:intro:2026-07-05:input:text:per_1m_tokens",
+        "chargeId": "price:anthropic/claude-sonnet-5:standard:short:current:input:text:per_1m_tokens",
         "component": "input",
         "modality": "text",
         "unit": "per_1m_tokens"
       },
       {
         "amount": "0.2",
-        "chargeId": "price:anthropic/claude-sonnet-5:standard:intro:2026-07-05:cached_input:text:per_1m_tokens",
+        "chargeId": "price:anthropic/claude-sonnet-5:standard:short:current:cached_input:text:per_1m_tokens",
         "component": "cached_input",
         "modality": "text",
         "unit": "per_1m_tokens"
       },
       {
         "amount": "2.5",
-        "chargeId": "price:anthropic/claude-sonnet-5:standard:intro:2026-07-05:cache_write_5m:text:per_1m_tokens",
+        "chargeId": "price:anthropic/claude-sonnet-5:standard:short:current:cache_write_5m:text:per_1m_tokens",
         "component": "cache_write_5m",
         "modality": "text",
         "unit": "per_1m_tokens"
       },
       {
+        "amount": "4",
+        "chargeId": "price:anthropic/claude-sonnet-5:standard:short:current:cache_write_1h:text:per_1m_tokens",
+        "component": "cache_write_1h",
+        "modality": "text",
+        "unit": "per_1m_tokens"
+      },
+      {
         "amount": "10",
-        "chargeId": "price:anthropic/claude-sonnet-5:standard:intro:2026-07-05:output:text:per_1m_tokens",
+        "chargeId": "price:anthropic/claude-sonnet-5:standard:short:current:output:text:per_1m_tokens",
         "component": "output",
         "modality": "text",
         "unit": "per_1m_tokens"
@@ -669,65 +676,9 @@
     "contextClass": "short",
     "currency": "USD",
     "effectiveFrom": "2026-06-30",
-    "effectiveUntil": "2026-08-31",
-    "modelInternalId": "anthropic/claude-sonnet-5",
-    "pricingId": "price:anthropic/claude-sonnet-5:standard:intro:2026-07-05",
-    "processingMode": "standard",
-    "promptTokenThreshold": null,
-    "regionPolicy": "global",
-    "sourceDatasetIds": {
-      "publicDatasetIds": [
-        "claude-sonnet-5-intro"
-      ],
-      "websiteIds": [
-        "claude-sonnet-5"
-      ]
-    },
-    "sourceRefs": [
-      "source:anthropic:platform-claude-com-docs-en-about-claude-pricing",
-      "source:anthropic:www-anthropic-com-news-claude-sonnet-5"
-    ],
-    "verificationStatus": "verified"
-  },
-  {
-    "billingNote": "Future standard pricing for Claude Sonnet 5 starts 2026-09-01 per Anthropic official pricing.",
-    "calculationDefault": false,
-    "charges": [
-      {
-        "amount": "3",
-        "chargeId": "price:anthropic/claude-sonnet-5:standard:short:2026-09-01:input:text:per_1m_tokens",
-        "component": "input",
-        "modality": "text",
-        "unit": "per_1m_tokens"
-      },
-      {
-        "amount": "0.3",
-        "chargeId": "price:anthropic/claude-sonnet-5:standard:short:2026-09-01:cached_input:text:per_1m_tokens",
-        "component": "cached_input",
-        "modality": "text",
-        "unit": "per_1m_tokens"
-      },
-      {
-        "amount": "3.75",
-        "chargeId": "price:anthropic/claude-sonnet-5:standard:short:2026-09-01:cache_write_5m:text:per_1m_tokens",
-        "component": "cache_write_5m",
-        "modality": "text",
-        "unit": "per_1m_tokens"
-      },
-      {
-        "amount": "15",
-        "chargeId": "price:anthropic/claude-sonnet-5:standard:short:2026-09-01:output:text:per_1m_tokens",
-        "component": "output",
-        "modality": "text",
-        "unit": "per_1m_tokens"
-      }
-    ],
-    "contextClass": "short",
-    "currency": "USD",
-    "effectiveFrom": "2026-09-01",
     "effectiveUntil": null,
     "modelInternalId": "anthropic/claude-sonnet-5",
-    "pricingId": "price:anthropic/claude-sonnet-5:standard:short:2026-09-01",
+    "pricingId": "price:anthropic/claude-sonnet-5:standard:short:current",
     "processingMode": "standard",
     "promptTokenThreshold": null,
     "regionPolicy": "global",
@@ -741,7 +692,7 @@
     },
     "sourceRefs": [
       "source:anthropic:platform-claude-com-docs-en-about-claude-pricing",
-      "source:anthropic:www-anthropic-com-news-claude-sonnet-5"
+      "source:anthropic:platform-claude-com-docs-en-release-notes-overview"
     ],
     "verificationStatus": "verified"
   },
@@ -767,7 +718,7 @@
     "contextClass": "short",
     "currency": "USD",
     "effectiveFrom": "2026-06-30",
-    "effectiveUntil": "2026-08-31",
+    "effectiveUntil": null,
     "modelInternalId": "anthropic/claude-sonnet-5",
     "pricingId": "price:anthropic/claude-sonnet-5:batch:short:current",
     "processingMode": "batch",
@@ -775,7 +726,7 @@
     "regionPolicy": "global",
     "sourceDatasetIds": {
       "publicDatasetIds": [
-        "claude-sonnet-5-intro"
+        "claude-sonnet-5"
       ],
       "websiteIds": [
         "claude-sonnet-5"
@@ -783,7 +734,7 @@
     },
     "sourceRefs": [
       "source:anthropic:platform-claude-com-docs-en-about-claude-pricing",
-      "source:anthropic:www-anthropic-com-news-claude-sonnet-5"
+      "source:anthropic:platform-claude-com-docs-en-release-notes-overview"
     ],
     "verificationStatus": "verified"
   },
@@ -2948,28 +2899,28 @@
     "charges": [
       {
         "amount": "0.4",
-        "chargeId": "price:openai/gpt-5.6-luna:priority:short:current:input:text:per_1m_tokens",
+        "chargeId": "price:openai/gpt-5.6-luna:fast:short:current:input:text:per_1m_tokens",
         "component": "input",
         "modality": "text",
         "unit": "per_1m_tokens"
       },
       {
         "amount": "0.04",
-        "chargeId": "price:openai/gpt-5.6-luna:priority:short:current:cached_input:text:per_1m_tokens",
+        "chargeId": "price:openai/gpt-5.6-luna:fast:short:current:cached_input:text:per_1m_tokens",
         "component": "cached_input",
         "modality": "text",
         "unit": "per_1m_tokens"
       },
       {
         "amount": "0.5",
-        "chargeId": "price:openai/gpt-5.6-luna:priority:short:current:cache_write:text:per_1m_tokens",
+        "chargeId": "price:openai/gpt-5.6-luna:fast:short:current:cache_write:text:per_1m_tokens",
         "component": "cache_write",
         "modality": "text",
         "unit": "per_1m_tokens"
       },
       {
         "amount": "2.4",
-        "chargeId": "price:openai/gpt-5.6-luna:priority:short:current:output:text:per_1m_tokens",
+        "chargeId": "price:openai/gpt-5.6-luna:fast:short:current:output:text:per_1m_tokens",
         "component": "output",
         "modality": "text",
         "unit": "per_1m_tokens"
@@ -2980,8 +2931,63 @@
     "effectiveFrom": null,
     "effectiveUntil": null,
     "modelInternalId": "openai/gpt-5.6-luna",
-    "pricingId": "price:openai/gpt-5.6-luna:priority:short:current",
-    "processingMode": "priority",
+    "pricingId": "price:openai/gpt-5.6-luna:fast:short:current",
+    "processingMode": "fast",
+    "promptTokenThreshold": null,
+    "regionPolicy": "global",
+    "sourceDatasetIds": {
+      "publicDatasetIds": [
+        "gpt-5.6-luna"
+      ],
+      "websiteIds": [
+        "gpt-5.6-luna"
+      ]
+    },
+    "sourceRefs": [
+      "source:openai:developers-openai-com-api-docs-pricing"
+    ],
+    "verificationStatus": "verified"
+  },
+  {
+    "billingNote": "OpenAI official pricing page lists this GPT-5.6 tier and context class per 1M tokens.",
+    "calculationDefault": false,
+    "charges": [
+      {
+        "amount": "0.8",
+        "chargeId": "price:openai/gpt-5.6-luna:fast:long:current:input:text:per_1m_tokens",
+        "component": "input",
+        "modality": "text",
+        "unit": "per_1m_tokens"
+      },
+      {
+        "amount": "0.08",
+        "chargeId": "price:openai/gpt-5.6-luna:fast:long:current:cached_input:text:per_1m_tokens",
+        "component": "cached_input",
+        "modality": "text",
+        "unit": "per_1m_tokens"
+      },
+      {
+        "amount": "1",
+        "chargeId": "price:openai/gpt-5.6-luna:fast:long:current:cache_write:text:per_1m_tokens",
+        "component": "cache_write",
+        "modality": "text",
+        "unit": "per_1m_tokens"
+      },
+      {
+        "amount": "3.6",
+        "chargeId": "price:openai/gpt-5.6-luna:fast:long:current:output:text:per_1m_tokens",
+        "component": "output",
+        "modality": "text",
+        "unit": "per_1m_tokens"
+      }
+    ],
+    "contextClass": "long",
+    "currency": "USD",
+    "effectiveFrom": null,
+    "effectiveUntil": null,
+    "modelInternalId": "openai/gpt-5.6-luna",
+    "pricingId": "price:openai/gpt-5.6-luna:fast:long:current",
+    "processingMode": "fast",
     "promptTokenThreshold": null,
     "regionPolicy": "global",
     "sourceDatasetIds": {
@@ -3002,28 +3008,28 @@
     "calculationDefault": true,
     "charges": [
       {
-        "amount": "5",
+        "amount": "4",
         "chargeId": "price:openai/gpt-5.6-sol:standard:short:current:input:text:per_1m_tokens",
         "component": "input",
         "modality": "text",
         "unit": "per_1m_tokens"
       },
       {
-        "amount": "0.5",
+        "amount": "0.4",
         "chargeId": "price:openai/gpt-5.6-sol:standard:short:current:cached_input:text:per_1m_tokens",
         "component": "cached_input",
         "modality": "text",
         "unit": "per_1m_tokens"
       },
       {
-        "amount": "6.25",
+        "amount": "5",
         "chargeId": "price:openai/gpt-5.6-sol:standard:short:current:cache_write:text:per_1m_tokens",
         "component": "cache_write",
         "modality": "text",
         "unit": "per_1m_tokens"
       },
       {
-        "amount": "30",
+        "amount": "20",
         "chargeId": "price:openai/gpt-5.6-sol:standard:short:current:output:text:per_1m_tokens",
         "component": "output",
         "modality": "text",
@@ -3048,6 +3054,7 @@
       ]
     },
     "sourceRefs": [
+      "source:openai:developers-openai-com-api-docs-models-gpt-5-6-sol",
       "source:openai:developers-openai-com-api-docs-pricing"
     ],
     "verificationStatus": "verified"
@@ -3057,28 +3064,28 @@
     "calculationDefault": false,
     "charges": [
       {
-        "amount": "10",
+        "amount": "8",
         "chargeId": "price:openai/gpt-5.6-sol:standard:long:current:input:text:per_1m_tokens",
         "component": "input",
         "modality": "text",
         "unit": "per_1m_tokens"
       },
       {
-        "amount": "1",
+        "amount": "0.8",
         "chargeId": "price:openai/gpt-5.6-sol:standard:long:current:cached_input:text:per_1m_tokens",
         "component": "cached_input",
         "modality": "text",
         "unit": "per_1m_tokens"
       },
       {
-        "amount": "12.5",
+        "amount": "10",
         "chargeId": "price:openai/gpt-5.6-sol:standard:long:current:cache_write:text:per_1m_tokens",
         "component": "cache_write",
         "modality": "text",
         "unit": "per_1m_tokens"
       },
       {
-        "amount": "45",
+        "amount": "30",
         "chargeId": "price:openai/gpt-5.6-sol:standard:long:current:output:text:per_1m_tokens",
         "component": "output",
         "modality": "text",
@@ -3103,6 +3110,7 @@
       ]
     },
     "sourceRefs": [
+      "source:openai:developers-openai-com-api-docs-models-gpt-5-6-sol",
       "source:openai:developers-openai-com-api-docs-pricing"
     ],
     "verificationStatus": "verified"
@@ -3112,28 +3120,28 @@
     "calculationDefault": false,
     "charges": [
       {
-        "amount": "2.5",
+        "amount": "2",
         "chargeId": "price:openai/gpt-5.6-sol:batch:short:current:input:text:per_1m_tokens",
         "component": "input",
         "modality": "text",
         "unit": "per_1m_tokens"
       },
       {
-        "amount": "0.25",
+        "amount": "0.2",
         "chargeId": "price:openai/gpt-5.6-sol:batch:short:current:cached_input:text:per_1m_tokens",
         "component": "cached_input",
         "modality": "text",
         "unit": "per_1m_tokens"
       },
       {
-        "amount": "3.125",
+        "amount": "2.5",
         "chargeId": "price:openai/gpt-5.6-sol:batch:short:current:cache_write:text:per_1m_tokens",
         "component": "cache_write",
         "modality": "text",
         "unit": "per_1m_tokens"
       },
       {
-        "amount": "15",
+        "amount": "10",
         "chargeId": "price:openai/gpt-5.6-sol:batch:short:current:output:text:per_1m_tokens",
         "component": "output",
         "modality": "text",
@@ -3158,6 +3166,7 @@
       ]
     },
     "sourceRefs": [
+      "source:openai:developers-openai-com-api-docs-models-gpt-5-6-sol",
       "source:openai:developers-openai-com-api-docs-pricing"
     ],
     "verificationStatus": "verified"
@@ -3167,28 +3176,28 @@
     "calculationDefault": false,
     "charges": [
       {
-        "amount": "5",
+        "amount": "4",
         "chargeId": "price:openai/gpt-5.6-sol:batch:long:current:input:text:per_1m_tokens",
         "component": "input",
         "modality": "text",
         "unit": "per_1m_tokens"
       },
       {
-        "amount": "0.5",
+        "amount": "0.4",
         "chargeId": "price:openai/gpt-5.6-sol:batch:long:current:cached_input:text:per_1m_tokens",
         "component": "cached_input",
         "modality": "text",
         "unit": "per_1m_tokens"
       },
       {
-        "amount": "6.25",
+        "amount": "5",
         "chargeId": "price:openai/gpt-5.6-sol:batch:long:current:cache_write:text:per_1m_tokens",
         "component": "cache_write",
         "modality": "text",
         "unit": "per_1m_tokens"
       },
       {
-        "amount": "22.5",
+        "amount": "15",
         "chargeId": "price:openai/gpt-5.6-sol:batch:long:current:output:text:per_1m_tokens",
         "component": "output",
         "modality": "text",
@@ -3213,6 +3222,7 @@
       ]
     },
     "sourceRefs": [
+      "source:openai:developers-openai-com-api-docs-models-gpt-5-6-sol",
       "source:openai:developers-openai-com-api-docs-pricing"
     ],
     "verificationStatus": "verified"
@@ -3222,28 +3232,28 @@
     "calculationDefault": false,
     "charges": [
       {
-        "amount": "2.5",
+        "amount": "2",
         "chargeId": "price:openai/gpt-5.6-sol:flex:short:current:input:text:per_1m_tokens",
         "component": "input",
         "modality": "text",
         "unit": "per_1m_tokens"
       },
       {
-        "amount": "0.25",
+        "amount": "0.2",
         "chargeId": "price:openai/gpt-5.6-sol:flex:short:current:cached_input:text:per_1m_tokens",
         "component": "cached_input",
         "modality": "text",
         "unit": "per_1m_tokens"
       },
       {
-        "amount": "3.125",
+        "amount": "2.5",
         "chargeId": "price:openai/gpt-5.6-sol:flex:short:current:cache_write:text:per_1m_tokens",
         "component": "cache_write",
         "modality": "text",
         "unit": "per_1m_tokens"
       },
       {
-        "amount": "15",
+        "amount": "10",
         "chargeId": "price:openai/gpt-5.6-sol:flex:short:current:output:text:per_1m_tokens",
         "component": "output",
         "modality": "text",
@@ -3268,6 +3278,7 @@
       ]
     },
     "sourceRefs": [
+      "source:openai:developers-openai-com-api-docs-models-gpt-5-6-sol",
       "source:openai:developers-openai-com-api-docs-pricing"
     ],
     "verificationStatus": "verified"
@@ -3277,28 +3288,28 @@
     "calculationDefault": false,
     "charges": [
       {
-        "amount": "5",
+        "amount": "4",
         "chargeId": "price:openai/gpt-5.6-sol:flex:long:current:input:text:per_1m_tokens",
         "component": "input",
         "modality": "text",
         "unit": "per_1m_tokens"
       },
       {
-        "amount": "0.5",
+        "amount": "0.4",
         "chargeId": "price:openai/gpt-5.6-sol:flex:long:current:cached_input:text:per_1m_tokens",
         "component": "cached_input",
         "modality": "text",
         "unit": "per_1m_tokens"
       },
       {
-        "amount": "6.25",
+        "amount": "5",
         "chargeId": "price:openai/gpt-5.6-sol:flex:long:current:cache_write:text:per_1m_tokens",
         "component": "cache_write",
         "modality": "text",
         "unit": "per_1m_tokens"
       },
       {
-        "amount": "22.5",
+        "amount": "15",
         "chargeId": "price:openai/gpt-5.6-sol:flex:long:current:output:text:per_1m_tokens",
         "component": "output",
         "modality": "text",
@@ -3323,6 +3334,7 @@
       ]
     },
     "sourceRefs": [
+      "source:openai:developers-openai-com-api-docs-models-gpt-5-6-sol",
       "source:openai:developers-openai-com-api-docs-pricing"
     ],
     "verificationStatus": "verified"
@@ -3332,29 +3344,29 @@
     "calculationDefault": false,
     "charges": [
       {
-        "amount": "10",
-        "chargeId": "price:openai/gpt-5.6-sol:priority:short:current:input:text:per_1m_tokens",
+        "amount": "8",
+        "chargeId": "price:openai/gpt-5.6-sol:fast:short:current:input:text:per_1m_tokens",
         "component": "input",
         "modality": "text",
         "unit": "per_1m_tokens"
       },
       {
-        "amount": "1",
-        "chargeId": "price:openai/gpt-5.6-sol:priority:short:current:cached_input:text:per_1m_tokens",
+        "amount": "0.8",
+        "chargeId": "price:openai/gpt-5.6-sol:fast:short:current:cached_input:text:per_1m_tokens",
         "component": "cached_input",
         "modality": "text",
         "unit": "per_1m_tokens"
       },
       {
-        "amount": "12.5",
-        "chargeId": "price:openai/gpt-5.6-sol:priority:short:current:cache_write:text:per_1m_tokens",
+        "amount": "10",
+        "chargeId": "price:openai/gpt-5.6-sol:fast:short:current:cache_write:text:per_1m_tokens",
         "component": "cache_write",
         "modality": "text",
         "unit": "per_1m_tokens"
       },
       {
-        "amount": "60",
-        "chargeId": "price:openai/gpt-5.6-sol:priority:short:current:output:text:per_1m_tokens",
+        "amount": "40",
+        "chargeId": "price:openai/gpt-5.6-sol:fast:short:current:output:text:per_1m_tokens",
         "component": "output",
         "modality": "text",
         "unit": "per_1m_tokens"
@@ -3365,8 +3377,8 @@
     "effectiveFrom": null,
     "effectiveUntil": null,
     "modelInternalId": "openai/gpt-5.6-sol",
-    "pricingId": "price:openai/gpt-5.6-sol:priority:short:current",
-    "processingMode": "priority",
+    "pricingId": "price:openai/gpt-5.6-sol:fast:short:current",
+    "processingMode": "fast",
     "promptTokenThreshold": null,
     "regionPolicy": "global",
     "sourceDatasetIds": {
@@ -3378,6 +3390,63 @@
       ]
     },
     "sourceRefs": [
+      "source:openai:developers-openai-com-api-docs-models-gpt-5-6-sol",
+      "source:openai:developers-openai-com-api-docs-pricing"
+    ],
+    "verificationStatus": "verified"
+  },
+  {
+    "billingNote": "OpenAI official pricing page lists this GPT-5.6 tier and context class per 1M tokens.",
+    "calculationDefault": false,
+    "charges": [
+      {
+        "amount": "16",
+        "chargeId": "price:openai/gpt-5.6-sol:fast:long:current:input:text:per_1m_tokens",
+        "component": "input",
+        "modality": "text",
+        "unit": "per_1m_tokens"
+      },
+      {
+        "amount": "1.6",
+        "chargeId": "price:openai/gpt-5.6-sol:fast:long:current:cached_input:text:per_1m_tokens",
+        "component": "cached_input",
+        "modality": "text",
+        "unit": "per_1m_tokens"
+      },
+      {
+        "amount": "20",
+        "chargeId": "price:openai/gpt-5.6-sol:fast:long:current:cache_write:text:per_1m_tokens",
+        "component": "cache_write",
+        "modality": "text",
+        "unit": "per_1m_tokens"
+      },
+      {
+        "amount": "60",
+        "chargeId": "price:openai/gpt-5.6-sol:fast:long:current:output:text:per_1m_tokens",
+        "component": "output",
+        "modality": "text",
+        "unit": "per_1m_tokens"
+      }
+    ],
+    "contextClass": "long",
+    "currency": "USD",
+    "effectiveFrom": null,
+    "effectiveUntil": null,
+    "modelInternalId": "openai/gpt-5.6-sol",
+    "pricingId": "price:openai/gpt-5.6-sol:fast:long:current",
+    "processingMode": "fast",
+    "promptTokenThreshold": null,
+    "regionPolicy": "global",
+    "sourceDatasetIds": {
+      "publicDatasetIds": [
+        "gpt-5.6-sol"
+      ],
+      "websiteIds": [
+        "gpt-5.6-sol"
+      ]
+    },
+    "sourceRefs": [
+      "source:openai:developers-openai-com-api-docs-models-gpt-5-6-sol",
       "source:openai:developers-openai-com-api-docs-pricing"
     ],
     "verificationStatus": "verified"
@@ -3718,28 +3787,28 @@
     "charges": [
       {
         "amount": "4",
-        "chargeId": "price:openai/gpt-5.6-terra:priority:short:current:input:text:per_1m_tokens",
+        "chargeId": "price:openai/gpt-5.6-terra:fast:short:current:input:text:per_1m_tokens",
         "component": "input",
         "modality": "text",
         "unit": "per_1m_tokens"
       },
       {
         "amount": "0.4",
-        "chargeId": "price:openai/gpt-5.6-terra:priority:short:current:cached_input:text:per_1m_tokens",
+        "chargeId": "price:openai/gpt-5.6-terra:fast:short:current:cached_input:text:per_1m_tokens",
         "component": "cached_input",
         "modality": "text",
         "unit": "per_1m_tokens"
       },
       {
         "amount": "5",
-        "chargeId": "price:openai/gpt-5.6-terra:priority:short:current:cache_write:text:per_1m_tokens",
+        "chargeId": "price:openai/gpt-5.6-terra:fast:short:current:cache_write:text:per_1m_tokens",
         "component": "cache_write",
         "modality": "text",
         "unit": "per_1m_tokens"
       },
       {
         "amount": "24",
-        "chargeId": "price:openai/gpt-5.6-terra:priority:short:current:output:text:per_1m_tokens",
+        "chargeId": "price:openai/gpt-5.6-terra:fast:short:current:output:text:per_1m_tokens",
         "component": "output",
         "modality": "text",
         "unit": "per_1m_tokens"
@@ -3750,8 +3819,63 @@
     "effectiveFrom": null,
     "effectiveUntil": null,
     "modelInternalId": "openai/gpt-5.6-terra",
-    "pricingId": "price:openai/gpt-5.6-terra:priority:short:current",
-    "processingMode": "priority",
+    "pricingId": "price:openai/gpt-5.6-terra:fast:short:current",
+    "processingMode": "fast",
+    "promptTokenThreshold": null,
+    "regionPolicy": "global",
+    "sourceDatasetIds": {
+      "publicDatasetIds": [
+        "gpt-5.6-terra"
+      ],
+      "websiteIds": [
+        "gpt-5.6-terra"
+      ]
+    },
+    "sourceRefs": [
+      "source:openai:developers-openai-com-api-docs-pricing"
+    ],
+    "verificationStatus": "verified"
+  },
+  {
+    "billingNote": "OpenAI official pricing page lists this GPT-5.6 tier and context class per 1M tokens.",
+    "calculationDefault": false,
+    "charges": [
+      {
+        "amount": "8",
+        "chargeId": "price:openai/gpt-5.6-terra:fast:long:current:input:text:per_1m_tokens",
+        "component": "input",
+        "modality": "text",
+        "unit": "per_1m_tokens"
+      },
+      {
+        "amount": "0.8",
+        "chargeId": "price:openai/gpt-5.6-terra:fast:long:current:cached_input:text:per_1m_tokens",
+        "component": "cached_input",
+        "modality": "text",
+        "unit": "per_1m_tokens"
+      },
+      {
+        "amount": "10",
+        "chargeId": "price:openai/gpt-5.6-terra:fast:long:current:cache_write:text:per_1m_tokens",
+        "component": "cache_write",
+        "modality": "text",
+        "unit": "per_1m_tokens"
+      },
+      {
+        "amount": "36",
+        "chargeId": "price:openai/gpt-5.6-terra:fast:long:current:output:text:per_1m_tokens",
+        "component": "output",
+        "modality": "text",
+        "unit": "per_1m_tokens"
+      }
+    ],
+    "contextClass": "long",
+    "currency": "USD",
+    "effectiveFrom": null,
+    "effectiveUntil": null,
+    "modelInternalId": "openai/gpt-5.6-terra",
+    "pricingId": "price:openai/gpt-5.6-terra:fast:long:current",
+    "processingMode": "fast",
     "promptTokenThreshold": null,
     "regionPolicy": "global",
     "sourceDatasetIds": {

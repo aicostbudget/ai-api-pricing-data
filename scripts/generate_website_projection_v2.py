@@ -21,8 +21,8 @@ PROJECTION_ROW_RECONCILIATION = PREVIEW / "phase4a-5-projection-row-reconciliati
 UNSAFE_DIFFERENCE_AUDIT = PREVIEW / "phase4a-5-unsafe-difference-audit.json"
 CONTEXT_WINDOW_AUDIT = PREVIEW / "phase4a-5-context-window-audit.json"
 
-GENERATED_AT = "2026-08-08T18:57:38Z"
-DEFAULT_EFFECTIVE_AT = "2026-08-08T18:57:38Z"
+GENERATED_AT = "2026-08-22T14:45:21Z"
+DEFAULT_EFFECTIVE_AT = "2026-08-22T14:45:21Z"
 PROJECTION_SCHEMA_VERSION = "website-pricing-projection-v2.phase4a"
 WEBSITE_ROW_REQUIRED_FIELDS = ("id", "inputPrice", "cachedInputPrice", "outputPrice")
 DEFAULT_SELECTION_RULE = [

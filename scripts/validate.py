@@ -177,15 +177,38 @@ def validate_price_change_events() -> None:
     if not EVENTS_PATH.exists():
         fail(f"missing price change events file {EVENTS_PATH.relative_to(ROOT)}")
     events = load_events(EVENTS_PATH)
-    if len(events) != 2:
-        fail(f"expected 2 verified price change events, found {len(events)}")
-    expected = {
-        ("mistral-ai", "mistral-large", "price_update"),
-        ("xai", "grok-4.3", "cached_price_added"),
+    required = {
+        ("mistral-ai", "mistral-large", "price_update", "2026-07-27"): {
+            "old_prices": {"input": 2, "cached_input": None, "output": 6},
+            "new_prices": {"input": 0.5, "cached_input": 0.05, "output": 1.5},
+        },
+        ("openai", "gpt-5.6-sol", "price_update", "2026-08-22"): {
+            "old_prices": {"input": 5, "cached_input": 0.5, "output": 30},
+            "new_prices": {"input": 4, "cached_input": 0.4, "output": 20},
+        },
+        ("xai", "grok-4.3", "cached_price_added", "2026-07-27"): {
+            "old_prices": {"input": 1.25, "cached_input": None, "output": 2.5},
+            "new_prices": {"input": 1.25, "cached_input": 0.2, "output": 2.5},
+        },
     }
-    actual = {(event["provider_id"], event["model_id"], event["change_type"]) for event in events}
-    if actual != expected:
-        fail(f"unexpected price change event set: {sorted(actual)}")
+    by_identity: dict[tuple[str, str, str, str], dict] = {}
+    for event in events:
+        identity = (
+            event["provider_id"],
+            event["model_id"],
+            event["change_type"],
+            event["detected_at"],
+        )
+        if identity in by_identity:
+            fail(f"duplicate price change event identity: {identity}")
+        by_identity[identity] = event
+    for identity, expected_prices in required.items():
+        event = by_identity.get(identity)
+        if event is None:
+            fail(f"missing required price change event: {identity}")
+        for field in ("old_prices", "new_prices"):
+            if event[field] != expected_prices[field]:
+                fail(f"required price change event {identity} has unexpected {field}: {event[field]}")
 
 
 def freshness_report(days: int, check_urls: bool) -> int:

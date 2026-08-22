@@ -78,6 +78,9 @@ The canonical provider and pricing facts live in the [AICostBudget pricing data 
 | `effective_from` | Provider-stated effective date when available. |
 | `effective_until` | End date when a selected price record has one. |
 | `notes` | Source context, projection warning, or legacy fallback warning. |
+| `pricing_tier_count` | Number of structured context-dependent pricing tiers. |
+| `pricing_tiers` | JSON-only structured tier records, including thresholds and source references. |
+| `pricing_tiers_json` | CSV-only lossless JSON serialization of `pricing_tiers`; `[]` when no tiers apply. |
 
 ## Load with pandas
 

@@ -99,12 +99,7 @@ PROMOTED_CANONICAL_KEYS = {
     ("openai", "gpt-5.5-pro"),
 }
 
-MERGED_DUPLICATES = {
-    ("anthropic", "claude-sonnet-5-intro"): {
-        "target": "anthropic/claude-sonnet-5",
-        "reason": "Introductory pricing period is modeled as a PriceRecord on anthropic/claude-sonnet-5; no independent callable official model identity is confirmed in current sources.",
-    },
-}
+MERGED_DUPLICATES = {}
 
 MODEL_AVAILABILITY_OVERRIDES = {
     ("anthropic", "claude-opus-5"): "Standard",
@@ -259,7 +254,8 @@ def openai_gpt56_tiers(pricing: dict[str, Any]) -> dict[tuple[str, str], dict[st
         "output": decimal_text(Decimal(str(pricing["batch_output"]))),
     }
     batch_long = {component: decimal_text(Decimal(value) * Decimal("0.5")) for component, value in standard_long.items()}
-    priority_short = {component: decimal_text(Decimal(value) * Decimal(2)) for component, value in standard_short.items()}
+    fast_short = {component: decimal_text(Decimal(value) * Decimal(2)) for component, value in standard_short.items()}
+    fast_long = {component: decimal_text(Decimal(value) * Decimal(2)) for component, value in standard_long.items()}
     return {
         ("standard", "short"): standard_short,
         ("standard", "long"): standard_long,
@@ -267,7 +263,8 @@ def openai_gpt56_tiers(pricing: dict[str, Any]) -> dict[tuple[str, str], dict[st
         ("batch", "long"): batch_long,
         ("flex", "short"): batch_short,
         ("flex", "long"): batch_long,
-        ("priority", "short"): priority_short,
+        ("fast", "short"): fast_short,
+        ("fast", "long"): fast_long,
     }
 
 
@@ -409,10 +406,13 @@ def build_phase2_conflict_report(
         },
         "claudeSonnet5": {
             "finalStatus": "verified",
-            "identityHandling": "single canonical identity anthropic/claude-sonnet-5; introductory and standard prices are separate PriceRecords.",
-            "introductoryEffectiveUntil": "2026-08-31",
-            "standardEffectiveFrom": "2026-09-01",
-            "officialEvidence": ["https://platform.claude.com/docs/en/about-claude/pricing"],
+            "identityHandling": "single canonical identity anthropic/claude-sonnet-5 with one permanent standard PriceRecord.",
+            "introductoryEffectiveUntil": None,
+            "standardEffectiveFrom": "2026-06-30",
+            "officialEvidence": [
+                "https://platform.claude.com/docs/en/about-claude/pricing",
+                "https://platform.claude.com/docs/en/release-notes/overview",
+            ],
         },
         "expectedDifferences": report["websiteCompatibilityPreviewParity"]["expected_difference"],
         "unresolvedDifferences": [
@@ -1275,7 +1275,7 @@ def build_phase3_artifacts(
             "alias": "resolve alias target while preserving alias mode notes",
         },
         "specialPolicies": {
-            "claude-sonnet-5": "Use effective-date selection: intro through 2026-08-31, standard from 2026-09-01.",
+            "claude-sonnet-5": "Use permanent standard pricing from 2026-06-30; the previously scheduled 2026-09-01 increase was canceled.",
             "xai/grok-3": "Do not display as active; if current cost is offered, label redirected billing to xai/grok-4.3.",
             "gpt-4.1_family": "review_required and defaultSafe=false; may remain SEO/historical display with warning.",
             "cohere/command-a-plus": "excluded from default until official token pricing is complete.",
@@ -1532,7 +1532,7 @@ def build_phase35_artifacts(
         {
             "name": "Claude Sonnet 5 Approval",
             "status": "approved",
-            "decision": "single canonical identity with effective-date PriceRecords; no independent intro model identity",
+            "decision": "single canonical identity with one permanent standard PriceRecord; the canceled future increase is not current pricing",
             "timezone": "UTC",
         },
         {
@@ -2068,8 +2068,6 @@ def main() -> None:
     for provider_id, model_id in canonical_keys:
         public = public_by_key.get((provider_id, model_id))
         website = website_by_key.get((provider_id, model_id))
-        if provider_id == "anthropic" and model_id == "claude-sonnet-5":
-            public = public_by_key.get(("anthropic", "claude-sonnet-5-intro"))
         verification = status_parts(provider_id, model_id, public, website)["verificationStatus"]
         model_internal_id = internal_id(provider_id, model_id)
 
@@ -2144,8 +2142,6 @@ def main() -> None:
                     add_price(model_internal_id, batch_record)
                 continue
             pricing_id = f"price:{model_internal_id}:standard:short:current"
-            if provider_id == "anthropic" and model_id == "claude-sonnet-5":
-                pricing_id = f"price:{model_internal_id}:standard:intro:2026-07-05"
             excluded_from_default = model_internal_id in PHASE26_EXCLUDED_DEFAULT_MODELS
             record = {
                 "pricingId": pricing_id,
@@ -2155,7 +2151,7 @@ def main() -> None:
                 "regionPolicy": "global",
                 "promptTokenThreshold": None,
                 "effectiveFrom": public.get("effective_from"),
-                "effectiveUntil": "2026-08-31" if provider_id == "anthropic" and model_id == "claude-sonnet-5" else None,
+                "effectiveUntil": None,
                 "currency": "USD",
                 "charges": make_charges(pricing_id, pricing, "public"),
                 "sourceRefs": source_refs_for(provider_id, public, website, source_by_url),
@@ -2190,33 +2186,6 @@ def main() -> None:
                     )
                 continue
             add_price(model_internal_id, record)
-            if provider_id == "anthropic" and model_id == "claude-sonnet-5":
-                future_id = f"price:{model_internal_id}:standard:short:2026-09-01"
-                add_price(
-                    model_internal_id,
-                    {
-                        **record,
-                        "pricingId": future_id,
-                        "effectiveFrom": "2026-09-01",
-                        "effectiveUntil": None,
-                        "charges": make_charges(
-                            future_id,
-                            {
-                                "input": "3",
-                                "cached_input": "0.3",
-                                "cache_write": "3.75",
-                                "output": "15",
-                            },
-                            "public",
-                        ),
-                        "billingNote": "Future standard pricing for Claude Sonnet 5 starts 2026-09-01 per Anthropic official pricing.",
-                        "calculationDefault": False,
-                        "sourceDatasetIds": {
-                            "publicDatasetIds": ["claude-sonnet-5"],
-                            "websiteIds": [website["id"]] if website else [],
-                        },
-                    },
-                )
             if pricing.get("batch_input") is not None or pricing.get("batch_output") is not None:
                 batch_id = f"price:{model_internal_id}:batch:short:current"
                 add_price(
@@ -2287,8 +2256,6 @@ def main() -> None:
     for provider_id, model_id in sorted(canonical_keys):
         public = public_by_key.get((provider_id, model_id))
         website = website_by_key.get((provider_id, model_id))
-        if provider_id == "anthropic" and model_id == "claude-sonnet-5":
-            public = public_by_key.get(("anthropic", "claude-sonnet-5-intro"))
         parts = status_parts(provider_id, model_id, public, website)
         model_internal_id = internal_id(provider_id, model_id)
         default_price = next(
@@ -2458,7 +2425,7 @@ def main() -> None:
         "specialCases": {
             "grok-3": "Retained as historical_reference for the retired slug, marked retired, redirectTargetInternalId and billingModelInternalId point to xai/grok-4.3, replacementInternalId remains null because redirect is not treated as replacement evidence.",
             "gpt-4.1_family": "gpt-4.1, gpt-4.1-mini, and gpt-4.1-nano are review_required; prices are retained where present but not selected as safe defaults.",
-            "claude-sonnet-5_intro_pricing": "claude-sonnet-5-intro is not modeled as an identity; it is a merged_duplicate candidate and an introductory PriceRecord on anthropic/claude-sonnet-5.",
+            "claude-sonnet-5_pricing_policy": "Claude Sonnet 5 uses one permanent standard PriceRecord; the canceled 2026-09-01 increase is retained only in historical evidence.",
             "deepseek_aliases": "deepseek-chat and deepseek-reasoner are alias identities targeting deepseek-v4-flash with mode-specific routing notes.",
             "gemini-2.5_cached_pricing": "Public V1 cached_input values are preserved; Website projection differences are classified instead of silently overwriting Website data.",
         },

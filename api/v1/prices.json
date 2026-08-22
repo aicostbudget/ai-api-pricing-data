@@ -2,9 +2,9 @@
   "dataset_name": "AICostBudget AI API Pricing Dataset",
   "dataset_version": "1.0.0",
   "description": "Open, machine-readable pricing data for LLM and AI APIs.",
-  "generated_at": "2026-08-15T13:05:31Z",
+  "generated_at": "2026-08-22T14:54:30Z",
   "homepage": "https://aicostbudget.com",
-  "last_verified_at": "2026-08-15T12:25:26Z",
+  "last_verified_at": "2026-08-22T14:45:21Z",
   "licenses": {
     "code": "MIT",
     "data": "CC BY 4.0"
@@ -127,19 +127,23 @@
       "status": "active"
     },
     {
-      "accessed_at": "2026-08-08T18:00:00Z",
-      "display_name": "Claude Sonnet 5 introductory pricing",
+      "accessed_at": "2026-08-22T14:45:21Z",
+      "display_name": "Claude Sonnet 5",
       "effective_from": "2026-06-30",
-      "last_verified_at": "2026-08-08T18:00:00Z",
+      "last_verified_at": "2026-08-22T14:45:21Z",
       "model_family": "Claude Sonnet",
-      "model_id": "claude-sonnet-5-intro",
-      "notes": "Introductory pricing applies through 2026-08-31 and standard pricing starts 2026-09-01. V1 must not switch early to the standard $3/M input and $15/M output rates.",
-      "official_source_url": "https://www.anthropic.com/news/claude-sonnet-5",
+      "model_id": "claude-sonnet-5",
+      "notes": "Standard pricing is $2 input, $0.20 cache hit, $2.50 5-minute cache write, $4 1-hour cache write, and $10 output per 1M tokens. Anthropic made the introductory rate permanent on 2026-08-10 and canceled the previously scheduled 2026-09-01 increase.",
+      "official_source_url": "https://platform.claude.com/docs/en/about-claude/pricing",
+      "official_source_urls": [
+        "https://platform.claude.com/docs/en/about-claude/pricing",
+        "https://platform.claude.com/docs/en/release-notes/overview"
+      ],
       "pricing": {
         "batch_input": 1.0,
         "batch_output": 5.0,
         "cache_write": 2.5,
-        "cache_write_1h": null,
+        "cache_write_1h": 4.0,
         "cached_input": 0.2,
         "currency": "USD",
         "input": 2.0,
@@ -633,23 +637,27 @@
       "status": "active"
     },
     {
-      "accessed_at": "2026-08-08T18:00:00Z",
+      "accessed_at": "2026-08-22T14:45:21Z",
       "display_name": "GPT-5.6 Sol",
       "effective_from": null,
-      "last_verified_at": "2026-08-08T18:00:00Z",
+      "last_verified_at": "2026-08-22T14:45:21Z",
       "model_family": "GPT-5.6",
       "model_id": "gpt-5.6-sol",
-      "notes": "OpenAI official pricing page lists Standard, Batch, Flex, and Priority rates per 1M tokens. Public V1 fields store Standard short-context prices and Batch short-context prices.",
-      "official_source_url": "https://developers.openai.com/api/docs/pricing",
+      "notes": "OpenAI lists promotional Standard pricing of $4 input, $0.40 cached input, $5 cache write, and $20 output per 1M tokens, available at least through 2026-11-21. Public V1 fields store Standard short-context prices and Batch short-context input/output prices. Prompts above 272K input tokens are billed at 2x input and 1.5x output for the full request; Pricing V2 also represents the published Batch, Flex, and Fast mode rates.",
+      "official_source_url": "https://developers.openai.com/api/docs/models/gpt-5.6-sol",
+      "official_source_urls": [
+        "https://developers.openai.com/api/docs/models/gpt-5.6-sol",
+        "https://developers.openai.com/api/docs/pricing"
+      ],
       "pricing": {
-        "batch_input": 2.5,
-        "batch_output": 15.0,
-        "cache_write": 6.25,
+        "batch_input": 2.0,
+        "batch_output": 10.0,
+        "cache_write": 5.0,
         "cache_write_1h": null,
-        "cached_input": 0.5,
+        "cached_input": 0.4,
         "currency": "USD",
-        "input": 5.0,
-        "output": 30.0,
+        "input": 4.0,
+        "output": 20.0,
         "unit": "1M tokens"
       },
       "provider_id": "openai",
@@ -793,14 +801,14 @@
     "https://ai.google.dev/gemini-api/docs/pricing",
     "https://api-docs.deepseek.com/quick_start/pricing",
     "https://cohere.com/pricing",
+    "https://developers.openai.com/api/docs/models/gpt-5.6-sol",
     "https://developers.openai.com/api/docs/pricing",
     "https://docs.anthropic.com/en/docs/about-claude/pricing",
     "https://docs.cohere.com/docs/command-a-plus",
     "https://docs.x.ai/developers/pricing",
     "https://mistral.ai/pricing/api/",
     "https://platform.claude.com/docs/en/about-claude/pricing",
-    "https://platform.openai.com/docs/pricing",
-    "https://www.anthropic.com/news/claude-sonnet-5"
+    "https://platform.openai.com/docs/pricing"
   ],
   "provider_count": 7,
   "providers": [

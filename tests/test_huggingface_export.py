@@ -57,6 +57,19 @@ class HuggingFaceExportTests(unittest.TestCase):
                 self.assertNotIn("excluded_default_candidate", projected["blockedFromDefaultReasons"], key)
         self.assertEqual(fallback_count, 4)
 
+    def test_grok_4_3_tiers_match_public_website_projection(self):
+        projected = next(row for row in self.projection["models"] if row["id"] == "grok-4.3")
+        record = next(row for row in self.records if row["model_id"] == "grok-4.3")
+        self.assertEqual(record["pricing_tier_count"], len(projected["pricingTiers"]))
+        self.assertEqual(
+            {tier["pricing_id"] for tier in record["pricing_tiers"]},
+            {tier["pricingId"] for tier in projected["pricingTiers"]},
+        )
+        with (HF_DIR / "prices.csv").open(encoding="utf-8", newline="") as handle:
+            csv_record = next(row for row in csv.DictReader(handle) if row["model_id"] == "grok-4.3")
+        self.assertEqual(int(csv_record["pricing_tier_count"]), record["pricing_tier_count"])
+        self.assertEqual(json.loads(csv_record["pricing_tiers_json"]), record["pricing_tiers"])
+
     def test_timestamps_preserve_verification_semantics(self):
         pricing_meta = json.loads(META_PATH.read_text(encoding="utf-8"))
         self.assertLessEqual(parse_date(self.metadata["generated_at"]), parse_date(pricing_meta["generated_at"]))

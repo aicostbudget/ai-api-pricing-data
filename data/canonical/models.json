@@ -8,19 +8,23 @@
     "pricing": {
       "currency": "USD",
       "unit": "1M tokens",
-      "input": 5.0,
-      "output": 30.0,
-      "cached_input": 0.5,
-      "cache_write": 6.25,
+      "input": 4.0,
+      "output": 20.0,
+      "cached_input": 0.4,
+      "cache_write": 5.0,
       "cache_write_1h": null,
-      "batch_input": 2.5,
-      "batch_output": 15.0
+      "batch_input": 2.0,
+      "batch_output": 10.0
     },
-    "official_source_url": "https://developers.openai.com/api/docs/pricing",
-    "accessed_at": "2026-08-08T18:00:00Z",
-    "last_verified_at": "2026-08-08T18:00:00Z",
+    "official_source_url": "https://developers.openai.com/api/docs/models/gpt-5.6-sol",
+    "official_source_urls": [
+      "https://developers.openai.com/api/docs/models/gpt-5.6-sol",
+      "https://developers.openai.com/api/docs/pricing"
+    ],
+    "accessed_at": "2026-08-22T14:45:21Z",
+    "last_verified_at": "2026-08-22T14:45:21Z",
     "effective_from": null,
-    "notes": "OpenAI official pricing page lists Standard, Batch, Flex, and Priority rates per 1M tokens. Public V1 fields store Standard short-context prices and Batch short-context prices."
+    "notes": "OpenAI lists promotional Standard pricing of $4 input, $0.40 cached input, $5 cache write, and $20 output per 1M tokens, available at least through 2026-11-21. Public V1 fields store Standard short-context prices and Batch short-context input/output prices. Prompts above 272K input tokens are billed at 2x input and 1.5x output for the full request; Pricing V2 also represents the published Batch, Flex, and Fast mode rates."
   },
   {
     "provider_id": "openai",
@@ -346,8 +350,8 @@
   },
   {
     "provider_id": "anthropic",
-    "model_id": "claude-sonnet-5-intro",
-    "display_name": "Claude Sonnet 5 introductory pricing",
+    "model_id": "claude-sonnet-5",
+    "display_name": "Claude Sonnet 5",
     "model_family": "Claude Sonnet",
     "status": "active",
     "pricing": {
@@ -357,15 +361,19 @@
       "output": 10.0,
       "cached_input": 0.2,
       "cache_write": 2.5,
-      "cache_write_1h": null,
+      "cache_write_1h": 4.0,
       "batch_input": 1.0,
       "batch_output": 5.0
     },
-    "official_source_url": "https://www.anthropic.com/news/claude-sonnet-5",
-    "accessed_at": "2026-08-08T18:00:00Z",
-    "last_verified_at": "2026-08-08T18:00:00Z",
+    "official_source_url": "https://platform.claude.com/docs/en/about-claude/pricing",
+    "official_source_urls": [
+      "https://platform.claude.com/docs/en/about-claude/pricing",
+      "https://platform.claude.com/docs/en/release-notes/overview"
+    ],
+    "accessed_at": "2026-08-22T14:45:21Z",
+    "last_verified_at": "2026-08-22T14:45:21Z",
     "effective_from": "2026-06-30",
-    "notes": "Introductory pricing applies through 2026-08-31 and standard pricing starts 2026-09-01. V1 must not switch early to the standard $3/M input and $15/M output rates."
+    "notes": "Standard pricing is $2 input, $0.20 cache hit, $2.50 5-minute cache write, $4 1-hour cache write, and $10 output per 1M tokens. Anthropic made the introductory rate permanent on 2026-08-10 and canceled the previously scheduled 2026-09-01 increase."
   },
   {
     "provider_id": "anthropic",

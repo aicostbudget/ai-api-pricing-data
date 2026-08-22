@@ -17,6 +17,10 @@ Published as JSON, CSV, and a Hugging Face dataset, with machine-readable record
 
 Downloads: [JSON](https://aicostbudget.github.io/ai-api-pricing-data/api/v1/prices.json) | [CSV](https://aicostbudget.github.io/ai-api-pricing-data/api/v1/prices.csv) | [Hugging Face](https://huggingface.co/datasets/aicostbudget-ai/ai-api-pricing)
 
+### Distribution projections
+
+The GitHub Pages `/api/v1` JSON and CSV publish the canonical V1 records in this repository (currently 32 models). The AICostBudget Website JSON/CSV and Hugging Face files publish the same 40-row Pricing V2 public Website projection, which adds governed Website-facing rows and structured tier metadata. Hugging Face must match the Website projection exactly by key set and exported fields; it is not expected to match the intentionally narrower GitHub Pages V1 key set.
+
 ## Dataset Trust & Freshness
 
 - **Updated:** The latest dataset build timestamp (`generated_at`) and aggregate record verification timestamp (`last_verified_at`) are published in [machine-readable metadata](api/v1/meta.json) and the [static API](https://aicostbudget.github.io/ai-api-pricing-data/api/v1/meta.json).

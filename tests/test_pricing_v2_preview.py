@@ -275,9 +275,9 @@ class PricingV2PreviewTests(unittest.TestCase):
 
     def test_report_counts_match_phase_1_baseline(self):
         self.assertEqual(self.report["candidateUnionCount"], len(self.dispositions))
-        self.assertEqual(self.report["websiteOnlyCount"], 14)
-        self.assertEqual(self.report["publicOnlyCount"], 8)
-        self.assertEqual(self.report["commonCount"], 24)
+        self.assertEqual(self.report["websiteOnlyCount"], 13)
+        self.assertEqual(self.report["publicOnlyCount"], 7)
+        self.assertEqual(self.report["commonCount"], 25)
         self.assertEqual(self.report["aliasCount"], 2)
         self.assertEqual(self.report["normalizedCanonicalIdentityCount"], len(self.models))
         self.assertEqual(self.report["candidateDispositionCounts"]["unresolved"], 3)
@@ -302,51 +302,18 @@ class PricingV2PreviewTests(unittest.TestCase):
             self.assertEqual(identity["lifecycleStatus"], "active")
             self.assertIsNotNone(self.model(internal_id)["defaultPriceRecordId"])
 
-    def test_claude_sonnet_5_intro_is_not_canonical_model(self):
-        intro = self.disposition("anthropic/claude-sonnet-5-intro")
-        self.assertEqual(intro["disposition"], "merged_duplicate")
-        self.assertEqual(intro["mergeTarget"], "anthropic/claude-sonnet-5")
-        self.assertNotIn("anthropic/claude-sonnet-5-intro", {item["internalId"] for item in self.identities})
-        self.assertNotIn("anthropic/claude-sonnet-5-intro", {item["internalId"] for item in self.models})
+    def test_claude_sonnet_5_is_permanent_standard_canonical_model(self):
+        disposition = self.disposition("anthropic/claude-sonnet-5")
+        self.assertNotEqual(disposition["disposition"], "merged_duplicate")
         sonnet = self.model("anthropic/claude-sonnet-5")
-        self.assertIsNotNone(sonnet["defaultPriceRecordId"])
+        self.assertEqual(sonnet["defaultPriceRecordId"], "price:anthropic/claude-sonnet-5:standard:short:current")
         default_price = next(item for item in self.prices if item["pricingId"] == sonnet["defaultPriceRecordId"])
-        self.assertEqual(default_price["effectiveUntil"], "2026-08-31")
-        future = next(
-            item
-            for item in self.prices
-            if item["pricingId"] == "price:anthropic/claude-sonnet-5:standard:short:2026-09-01"
-        )
-        self.assertEqual(future["effectiveFrom"], "2026-09-01")
-
-    def test_claude_sonnet_5_effective_date_boundary(self):
-        records = [
-            item
-            for item in self.prices
-            if item["modelInternalId"] == "anthropic/claude-sonnet-5"
-            and item["processingMode"] == "standard"
-        ]
-
-        def active_at(moment):
-            selected = []
-            for record in records:
-                start = record["effectiveFrom"]
-                end = record["effectiveUntil"]
-                if start and moment < datetime.combine(datetime.fromisoformat(start).date(), time.min):
-                    continue
-                if end and moment >= datetime.combine(datetime.fromisoformat(end).date() + timedelta(days=1), time.min):
-                    continue
-                selected.append(record["pricingId"])
-            return selected
-
-        self.assertEqual(
-            active_at(datetime.fromisoformat("2026-08-31T23:59:59")),
-            ["price:anthropic/claude-sonnet-5:standard:intro:2026-07-05"],
-        )
-        self.assertEqual(
-            active_at(datetime.fromisoformat("2026-09-01T00:00:00")),
-            ["price:anthropic/claude-sonnet-5:standard:short:2026-09-01"],
-        )
+        self.assertIsNone(default_price["effectiveUntil"])
+        charges = {charge["component"]: charge["amount"] for charge in default_price["charges"]}
+        self.assertEqual(charges["input"], "2")
+        self.assertEqual(charges["output"], "10")
+        self.assertNotIn("2026-08-31", default_price["billingNote"])
+        self.assertFalse(any("2026-09-01" in item["pricingId"] for item in self.prices))
 
     def test_deepseek_aliases_target_v4_flash(self):
         for internal_id in ("deepseek/deepseek-chat", "deepseek/deepseek-reasoner"):
@@ -415,7 +382,7 @@ class PricingV2PreviewTests(unittest.TestCase):
         self.assertEqual(len(self.phase25_evidence), self.phase25_default_safe["totalPriceRecords"])
         self.assertEqual(self.phase25_default_safe["productionDefaultCandidateCount"], 35)
         self.assertEqual(self.phase25_default_safe["defaultSafeCount"], 35)
-        self.assertEqual(self.phase25_default_safe["defaultUnsafeCount"], 51)
+        self.assertEqual(self.phase25_default_safe["defaultUnsafeCount"], 53)
         self.assertEqual(self.phase25_default_safe["P0PartialBefore"], 10)
         self.assertEqual(self.phase25_default_safe["P0PartialAfter"], 0)
         self.assertEqual(self.phase25_default_safe["P1PartialCount"], 7)

@@ -84,6 +84,23 @@ class DatasetTests(unittest.TestCase):
         self.assertIsNone(by_key[("openai", "gpt-5.6-terra")]["effective_from"])
         self.assertIsNone(by_key[("openai", "gpt-5.6-luna")]["effective_from"])
 
+    def test_gpt_5_6_sol_and_claude_sonnet_5_current_truth(self):
+        by_key = {(model["provider_id"], model["model_id"]): model for model in load_models()}
+        sol = by_key[("openai", "gpt-5.6-sol")]
+        self.assertEqual(
+            tuple(sol["pricing"][field] for field in ("input", "cached_input", "cache_write", "output")),
+            (4.0, 0.4, 5.0, 20.0),
+        )
+        self.assertEqual(sol["official_source_url"], "https://developers.openai.com/api/docs/models/gpt-5.6-sol")
+
+        sonnet = by_key[("anthropic", "claude-sonnet-5")]
+        self.assertEqual(
+            tuple(sonnet["pricing"][field] for field in ("input", "cached_input", "cache_write", "cache_write_1h", "output")),
+            (2.0, 0.2, 2.5, 4.0, 10.0),
+        )
+        self.assertNotIn("2026-08-31", sonnet["notes"])
+        self.assertIn("canceled", sonnet["notes"])
+
     def test_p3_promoted_records_preserve_verified_pricing_semantics(self):
         by_key = {
             f"{model['provider_id']}/{model['model_id']}": model

@@ -4,19 +4,18 @@
     "alias": 2,
     "canonical_identity": 39,
     "historical_reference": 1,
-    "merged_duplicate": 1,
     "unresolved": 3
   },
-  "candidateUnionCount": 46,
-  "commonCount": 24,
+  "candidateUnionCount": 45,
+  "commonCount": 25,
   "counts": {
-    "chargeRecordCount": 255,
+    "chargeRecordCount": 264,
     "modelRecordCount": 42,
-    "priceRecordCount": 86,
-    "sourceRecordCount": 22
+    "priceRecordCount": 88,
+    "sourceRecordCount": 23
   },
-  "duplicateIdentityCount": 4,
-  "generatedAt": "2026-08-15T12:25:26Z",
+  "duplicateIdentityCount": 3,
+  "generatedAt": "2026-08-22T14:45:21Z",
   "lifecycleConflicts": [
     {
       "internalId": "xai/grok-3",
@@ -38,10 +37,10 @@
       "reason": "no safe default calculation price"
     }
   ],
-  "publicOnlyCount": 8,
+  "publicOnlyCount": 7,
   "sourceConflicts": [],
   "specialCases": {
-    "claude-sonnet-5_intro_pricing": "claude-sonnet-5-intro is not modeled as an identity; it is a merged_duplicate candidate and an introductory PriceRecord on anthropic/claude-sonnet-5.",
+    "claude-sonnet-5_pricing_policy": "Claude Sonnet 5 uses one permanent standard PriceRecord; the canceled 2026-09-01 increase is retained only in historical evidence.",
     "deepseek_aliases": "deepseek-chat and deepseek-reasoner are alias identities targeting deepseek-v4-flash with mode-specific routing notes.",
     "gemini-2.5_cached_pricing": "Public V1 cached_input values are preserved; Website projection differences are classified instead of silently overwriting Website data.",
     "gpt-4.1_family": "gpt-4.1, gpt-4.1-mini, and gpt-4.1-nano are review_required; prices are retained where present but not selected as safe defaults.",
@@ -80,15 +79,15 @@
         "internalId": "openai/gpt-5.6-sol",
         "modelId": "gpt-5.6-sol",
         "oldWebsiteValue": {
-          "cachedInputPrice": 0.5,
-          "inputPrice": 5,
-          "outputPrice": 30
+          "cachedInputPrice": 0.4,
+          "inputPrice": 4,
+          "outputPrice": 20
         },
         "reason": "Website values match the selected V2 default calculation price.",
         "v2PreviewValue": {
-          "cachedInputPrice": 0.5,
-          "inputPrice": 5,
-          "outputPrice": 30
+          "cachedInputPrice": 0.4,
+          "inputPrice": 4,
+          "outputPrice": 20
         }
       },
       {
@@ -636,15 +635,15 @@
         }
       },
       {
-        "classification": "expected_difference",
+        "classification": "exact_parity",
         "internalId": "xai/grok-4.3",
         "modelId": "grok-4.3",
         "oldWebsiteValue": {
-          "cachedInputPrice": null,
+          "cachedInputPrice": 0.2,
           "inputPrice": 1.25,
           "outputPrice": 2.5
         },
-        "reason": "canonical V2 projection has richer condition/source metadata",
+        "reason": "Website values match the selected V2 default calculation price.",
         "v2PreviewValue": {
           "cachedInputPrice": 0.2,
           "inputPrice": 1.25,
@@ -715,6 +714,7 @@
       "openai/gpt-5.6-sol",
       "openai/gpt-5.6-terra",
       "xai/grok-3",
+      "xai/grok-4.3",
       "xai/grok-4.5",
       "xai/grok-build-0.1"
     ],
@@ -725,10 +725,6 @@
       },
       {
         "internalId": "google-gemini/gemini-2.5-flash",
-        "reason": "canonical V2 projection has richer condition/source metadata"
-      },
-      {
-        "internalId": "xai/grok-4.3",
         "reason": "canonical V2 projection has richer condition/source metadata"
       }
     ],
@@ -747,5 +743,5 @@
       }
     ]
   },
-  "websiteOnlyCount": 14
+  "websiteOnlyCount": 13
 }
