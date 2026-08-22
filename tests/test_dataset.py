@@ -182,6 +182,17 @@ class DatasetTests(unittest.TestCase):
         json.loads((ROOT / "api" / "v1" / "meta.json").read_text(encoding="utf-8"))
         self.assertTrue((ROOT / "api" / "v1" / "prices.csv").exists())
 
+    def test_api_metadata_product_links_are_canonical(self):
+        meta = json.loads((ROOT / "api" / "v1" / "meta.json").read_text(encoding="utf-8"))
+        expected = {
+            "website": "https://aicostbudget.com/en/datasets/ai-api-pricing",
+            "calculator": "https://aicostbudget.com/en/ai-api-cost-calculator",
+            "comparison": "https://aicostbudget.com/en/model-pricing-comparison",
+            "price_monitor": "https://aicostbudget.com/en/model-price-monitor",
+        }
+        self.assertEqual({key: meta[key] for key in expected}, expected)
+        self.assertTrue(all("utm_" not in url for url in expected.values()))
+
     def test_build_reproducible(self):
         with tempfile.TemporaryDirectory() as tmp:
             output_root = Path(tmp)

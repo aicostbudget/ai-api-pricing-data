@@ -1,22 +1,25 @@
 # AI API Pricing Dataset
 
-This dataset provides AI API model pricing data for cost estimation, LLM budget planning, and model price comparison.
+An AI API and LLM pricing dataset for OpenAI, Anthropic Claude, Google Gemini, xAI, DeepSeek, Mistral AI, and Cohere, built for cost estimation, budget planning, and model price comparison.
 
-Maintained, curated, machine-readable pricing data for major LLM and AI APIs. Prices change frequently, so production budget decisions should always be checked against the relevant provider pricing pages.
+Published as JSON, CSV, and a Hugging Face dataset, with machine-readable records linked to official provider pricing sources and regularly validated. Prices change frequently, so production budget decisions should always be checked against the relevant provider pricing pages.
 
 [![Validate](https://github.com/aicostbudget/ai-api-pricing-data/actions/workflows/validate.yml/badge.svg)](https://github.com/aicostbudget/ai-api-pricing-data/actions/workflows/validate.yml)
 [![Code license: MIT](https://img.shields.io/badge/code-MIT-blue.svg)](LICENSE-CODE)
 [![Data license: CC BY 4.0](https://img.shields.io/badge/data-CC%20BY%204.0-green.svg)](LICENSE-DATA)
 
-[AI API Cost Calculator](https://aicostbudget.com/en/ai-api-cost-calculator?utm_source=huggingface&utm_medium=dataset&utm_campaign=ai_api_pricing) |
-[Model Pricing Comparison](https://aicostbudget.com/en/model-pricing-comparison?utm_source=huggingface&utm_medium=dataset&utm_campaign=ai_api_pricing) |
-[AI Budget Planner](https://aicostbudget.com/en/ai-budget-planner?utm_source=huggingface&utm_medium=dataset&utm_campaign=ai_api_pricing) |
-[Download JSON](https://aicostbudget.github.io/ai-api-pricing-data/api/v1/prices.json) |
-[Download CSV](https://aicostbudget.github.io/ai-api-pricing-data/api/v1/prices.csv)
+## Interactive Tools
+
+- [Calculate your API cost](https://aicostbudget.com/en/ai-api-cost-calculator?utm_source=github&utm_medium=referral&utm_campaign=pricing_dataset&utm_content=readme_top_calculator)
+- [Compare AI model prices](https://aicostbudget.com/en/model-pricing-comparison?utm_source=github&utm_medium=referral&utm_campaign=pricing_dataset&utm_content=readme_top_comparison)
+- [Track AI model price changes](https://aicostbudget.com/en/model-price-monitor?utm_source=github&utm_medium=referral&utm_campaign=pricing_dataset&utm_content=readme_top_monitor)
+- [Browse the full pricing dataset](https://aicostbudget.com/en/datasets/ai-api-pricing?utm_source=github&utm_medium=referral&utm_campaign=pricing_dataset&utm_content=readme_dataset)
+
+Downloads: [JSON](https://aicostbudget.github.io/ai-api-pricing-data/api/v1/prices.json) | [CSV](https://aicostbudget.github.io/ai-api-pricing-data/api/v1/prices.csv) | [Hugging Face](https://huggingface.co/datasets/aicostbudget-ai/ai-api-pricing)
 
 This repository publishes a versioned dataset and read-only static API for AI API pricing. It is designed for developers, SaaS builders, FinOps teams, researchers, technical writers, and AI systems that need maintained pricing records instead of ad hoc scraped snippets.
 
-This project is maintained as an independent public dataset by AICostBudget. See [aicostbudget.com](https://aicostbudget.com).
+This project is maintained as an independent public dataset by AICostBudget.
 
 ## Why this dataset?
 
@@ -29,20 +32,6 @@ This project is maintained as an independent public dataset by AICostBudget. See
 - Suitable for calculators, dashboards, cost analysis, and AI FinOps tooling
 
 The weekly freshness workflow checks source URLs and stale `last_verified_at` values. It does not guess, infer, or overwrite prices automatically.
-
-## Website Tools
-
-### AI API Cost Calculator
-
-[Calculate your API cost with this dataset](https://aicostbudget.com/en/ai-api-cost-calculator?utm_source=github&utm_medium=referral&utm_campaign=ai_api_pricing_dataset&utm_content=calculate_api_cost)
-
-### Model Pricing Comparison
-
-[Compare these models interactively](https://aicostbudget.com/en/model-pricing-comparison?utm_source=github&utm_medium=referral&utm_campaign=ai_api_pricing_dataset&utm_content=compare_models)
-
-### Model Price Monitor
-
-[Track AI model price changes](https://aicostbudget.com/en/model-price-monitor?utm_source=github&utm_medium=referral&utm_campaign=ai_api_pricing_dataset&utm_content=track_price_changes)
 
 ## Quick Start
 
@@ -238,7 +227,7 @@ See [METHODOLOGY.md](METHODOLOGY.md).
 
 ## Citation
 
-Use the citation metadata in [CITATION.cff](CITATION.cff), or cite:
+If you use this dataset for a benchmark, research, analysis, tooling, an article, or dataset aggregation, cite this repository using [CITATION.cff](CITATION.cff), or cite:
 
 > AICostBudget. AICostBudget AI API Pricing Dataset. https://github.com/aicostbudget/ai-api-pricing-data
 

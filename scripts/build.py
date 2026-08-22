@@ -61,6 +61,10 @@ def build_outputs(output_root: Path) -> None:
             "official_source_count": dataset["official_source_count"],
             "last_verified_at": dataset["last_verified_at"],
             "homepage": dataset["homepage"],
+            "website": "https://aicostbudget.com/en/datasets/ai-api-pricing",
+            "calculator": "https://aicostbudget.com/en/ai-api-cost-calculator",
+            "comparison": "https://aicostbudget.com/en/model-pricing-comparison",
+            "price_monitor": "https://aicostbudget.com/en/model-price-monitor",
         },
     )
     for provider in providers:
