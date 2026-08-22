@@ -30,12 +30,12 @@ Prices change frequently. Verify production billing decisions against the provid
 
 ## Explore and download
 
-- [AICostBudget AI API Pricing Dataset](https://aicostbudget.com/en/datasets/ai-api-pricing?utm_source=huggingface&utm_medium=dataset&utm_campaign=ai_api_pricing_dataset)
+- [AICostBudget AI API Pricing Dataset](https://aicostbudget.com/en/datasets/ai-api-pricing?utm_source=huggingface&utm_medium=referral&utm_campaign=pricing_dataset&utm_content=dataset_card_dataset)
 - [Download the public JSON dataset](https://aicostbudget.com/api/datasets/ai-api-pricing.json)
 - [Download the public CSV dataset](https://aicostbudget.com/api/datasets/ai-api-pricing.csv)
-- [AI API Cost Calculator](https://aicostbudget.com/en/ai-api-cost-calculator?utm_source=huggingface&utm_medium=dataset&utm_campaign=ai_api_pricing_dataset)
-- [Model Pricing Comparison](https://aicostbudget.com/en/model-pricing-comparison?utm_source=huggingface&utm_medium=dataset&utm_campaign=ai_api_pricing_dataset)
-- [AI Budget Planner](https://aicostbudget.com/en/ai-budget-planner?utm_source=huggingface&utm_medium=dataset&utm_campaign=ai_api_pricing_dataset)
+- [AI API Cost Calculator](https://aicostbudget.com/en/ai-api-cost-calculator?utm_source=huggingface&utm_medium=referral&utm_campaign=pricing_dataset&utm_content=dataset_card_calculator)
+- [Model Pricing Comparison](https://aicostbudget.com/en/model-pricing-comparison?utm_source=huggingface&utm_medium=referral&utm_campaign=pricing_dataset&utm_content=dataset_card_comparison)
+- [AI Budget Planner](https://aicostbudget.com/en/ai-budget-planner?utm_source=huggingface&utm_medium=referral&utm_campaign=pricing_dataset&utm_content=dataset_card_budget_planner)
 
 ## Published files
 

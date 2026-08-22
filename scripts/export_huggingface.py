@@ -55,6 +55,10 @@ PROVIDER_DISPLAY = {
 }
 REQUIRED_UTM = (
     "utm_source=huggingface",
+    "utm_medium=referral",
+    "utm_campaign=pricing_dataset",
+)
+FORBIDDEN_UTM = (
     "utm_medium=dataset",
     "utm_campaign=ai_api_pricing_dataset",
 )
@@ -306,6 +310,9 @@ def validate_huggingface_artifacts(output_dir: Path = HF_DIR) -> None:
     for marker in REQUIRED_UTM:
         if marker not in card:
             raise ValueError(f"Hugging Face Dataset Card missing {marker}")
+    for marker in FORBIDDEN_UTM:
+        if marker in card:
+            raise ValueError(f"Hugging Face Dataset Card contains legacy {marker}")
 
 
 def preserve_existing_generated_at_for_timestamp_only_change(

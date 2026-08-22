@@ -7,6 +7,7 @@ from datetime import datetime, timezone
 from pathlib import Path
 
 from scripts.export_huggingface import (
+    FORBIDDEN_UTM,
     HF_DIR,
     META_PATH,
     PROJECTION_PATH,
@@ -105,15 +106,17 @@ class HuggingFaceExportTests(unittest.TestCase):
             "https://aicostbudget.com/api/datasets/ai-api-pricing.csv",
         }
         acquisition_urls = {
-            "https://aicostbudget.com/en/datasets/ai-api-pricing?utm_source=huggingface&utm_medium=dataset&utm_campaign=ai_api_pricing_dataset",
-            "https://aicostbudget.com/en/ai-api-cost-calculator?utm_source=huggingface&utm_medium=dataset&utm_campaign=ai_api_pricing_dataset",
-            "https://aicostbudget.com/en/model-pricing-comparison?utm_source=huggingface&utm_medium=dataset&utm_campaign=ai_api_pricing_dataset",
-            "https://aicostbudget.com/en/ai-budget-planner?utm_source=huggingface&utm_medium=dataset&utm_campaign=ai_api_pricing_dataset",
+            "https://aicostbudget.com/en/datasets/ai-api-pricing?utm_source=huggingface&utm_medium=referral&utm_campaign=pricing_dataset&utm_content=dataset_card_dataset",
+            "https://aicostbudget.com/en/ai-api-cost-calculator?utm_source=huggingface&utm_medium=referral&utm_campaign=pricing_dataset&utm_content=dataset_card_calculator",
+            "https://aicostbudget.com/en/model-pricing-comparison?utm_source=huggingface&utm_medium=referral&utm_campaign=pricing_dataset&utm_content=dataset_card_comparison",
+            "https://aicostbudget.com/en/ai-budget-planner?utm_source=huggingface&utm_medium=referral&utm_campaign=pricing_dataset&utm_content=dataset_card_budget_planner",
         }
         self.assertEqual(urls, clean_api_urls | acquisition_urls)
         for url in acquisition_urls:
             for marker in REQUIRED_UTM:
                 self.assertIn(marker, url)
+        for marker in FORBIDDEN_UTM:
+            self.assertNotIn(marker, card)
         for url in clean_api_urls:
             self.assertNotRegex(url, r"[?&]utm_")
         self.assertIn("not a separately curated subset", card)
