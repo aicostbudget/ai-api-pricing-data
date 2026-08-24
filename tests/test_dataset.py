@@ -134,8 +134,8 @@ class DatasetTests(unittest.TestCase):
                 internal_id,
             )
             self.assertEqual(row["status"], "active", internal_id)
-            self.assertEqual(row["accessed_at"], "2026-07-07T00:00:00Z", internal_id)
-            self.assertEqual(row["last_verified_at"], "2026-07-07T00:00:00Z", internal_id)
+            self.assertEqual(row["accessed_at"], "2026-08-24T08:42:53Z", internal_id)
+            self.assertEqual(row["last_verified_at"], "2026-08-24T08:42:53Z", internal_id)
             self.assertEqual(row["effective_from"], "2026-07-03", internal_id)
             self.assertTrue(row["official_source_url"].startswith("https://"), internal_id)
             self.assertTrue(row["notes"], internal_id)
