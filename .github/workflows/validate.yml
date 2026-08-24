@@ -8,16 +8,16 @@ jobs:
   validate:
     runs-on: ubuntu-latest
     steps:
-      - uses: actions/checkout@v4
+      - uses: actions/checkout@v5
       - name: Checkout Website public pricing source
-        uses: actions/checkout@v4
+        uses: actions/checkout@v5
         with:
           repository: linqiang-max/aicostbudget
           ref: main
           path: website-source
           token: ${{ secrets.WEBSITE_REPO_TOKEN }}
           persist-credentials: false
-      - uses: actions/setup-python@v5
+      - uses: actions/setup-python@v6
         with:
           python-version: "3.11"
       - name: Build generated data

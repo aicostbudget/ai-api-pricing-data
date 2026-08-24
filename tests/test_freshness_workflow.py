@@ -7,8 +7,20 @@ from pathlib import Path
 ROOT = Path(__file__).resolve().parents[1]
 HELPER = ROOT / ".github" / "scripts" / "freshness-issue-lifecycle.js"
 WORKFLOW = ROOT / ".github" / "workflows" / "freshness-check.yml"
+VALIDATE_WORKFLOW = ROOT / ".github" / "workflows" / "validate.yml"
+DEPLOY_PAGES_WORKFLOW = ROOT / ".github" / "workflows" / "deploy-pages.yml"
 TITLE = "Freshness check needs review"
 MARKER = "<!-- aicostbudget:freshness-check-managed -->"
+
+OLD_ACTIONS = (
+    "actions/checkout@v4",
+    "actions/setup-python@v5",
+    "actions/upload-artifact@v4",
+    "actions/github-script@v7",
+    "actions/configure-pages@v5",
+    "actions/upload-pages-artifact@v3",
+    "actions/deploy-pages@v4",
+)
 
 NODE_SCENARIO = r"""
 const helper = require(process.argv[1]);
@@ -130,10 +142,10 @@ class FreshnessWorkflowTests(unittest.TestCase):
         helper = HELPER.read_text(encoding="utf-8")
         self.assertIn("contents: read", workflow)
         self.assertIn("issues: write", workflow)
-        self.assertIn("actions/checkout@v4", workflow)
-        self.assertIn("actions/setup-python@v5", workflow)
-        self.assertIn("actions/upload-artifact@v4", workflow)
-        self.assertIn("actions/github-script@v7", workflow)
+        self.assertIn("actions/checkout@v5", workflow)
+        self.assertIn("actions/setup-python@v6", workflow)
+        self.assertIn("actions/upload-artifact@v6", workflow)
+        self.assertIn("actions/github-script@v8", workflow)
         self.assertIn("continue-on-error: true", workflow)
         self.assertIn(
             "python scripts/validate.py --freshness-report --max-age-days 30 --check-urls",
@@ -145,6 +157,30 @@ class FreshnessWorkflowTests(unittest.TestCase):
         self.assertIn("github.paginate", helper)
         self.assertIn(MARKER, helper)
 
+    def test_all_workflows_use_node24_action_contract(self):
+        workflows = {
+            "freshness": WORKFLOW.read_text(encoding="utf-8"),
+            "validate": VALIDATE_WORKFLOW.read_text(encoding="utf-8"),
+            "deploy-pages": DEPLOY_PAGES_WORKFLOW.read_text(encoding="utf-8"),
+        }
+        production_workflows = "\n".join(workflows.values())
+
+        for old_action in OLD_ACTIONS:
+            self.assertNotIn(old_action, production_workflows)
+
+        self.assertIn("actions/checkout@v5", workflows["freshness"])
+        self.assertIn("actions/setup-python@v6", workflows["freshness"])
+        self.assertIn("actions/upload-artifact@v6", workflows["freshness"])
+        self.assertIn("actions/github-script@v8", workflows["freshness"])
+
+        self.assertIn("actions/checkout@v5", workflows["validate"])
+        self.assertIn("actions/setup-python@v6", workflows["validate"])
+
+        self.assertIn("actions/checkout@v5", workflows["deploy-pages"])
+        self.assertIn("actions/setup-python@v6", workflows["deploy-pages"])
+        self.assertIn("actions/configure-pages@v6", workflows["deploy-pages"])
+        self.assertIn("actions/upload-pages-artifact@v5", workflows["deploy-pages"])
+        self.assertIn("actions/deploy-pages@v5", workflows["deploy-pages"])
 
 if __name__ == "__main__":
     unittest.main()

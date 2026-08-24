@@ -17,8 +17,8 @@ jobs:
   freshness:
     runs-on: ubuntu-latest
     steps:
-      - uses: actions/checkout@v4
-      - uses: actions/setup-python@v5
+      - uses: actions/checkout@v5
+      - uses: actions/setup-python@v6
         with:
           python-version: "3.11"
       - name: Build generated data
@@ -27,13 +27,13 @@ jobs:
         id: freshness
         continue-on-error: true
         run: python scripts/validate.py --freshness-report --max-age-days 30 --check-urls
-      - uses: actions/upload-artifact@v4
+      - uses: actions/upload-artifact@v6
         with:
           name: freshness-report
           path: freshness-report.md
       - name: Manage freshness issue lifecycle
         if: always() && (steps.freshness.outcome == 'success' || steps.freshness.outcome == 'failure')
-        uses: actions/github-script@v7
+        uses: actions/github-script@v8
         env:
           FRESHNESS_OUTCOME: ${{ steps.freshness.outcome }}
         with:
