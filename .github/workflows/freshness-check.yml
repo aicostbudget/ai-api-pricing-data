@@ -9,6 +9,10 @@ permissions:
   contents: read
   issues: write
 
+concurrency:
+  group: freshness-check-issue-lifecycle
+  cancel-in-progress: false
+
 jobs:
   freshness:
     runs-on: ubuntu-latest
@@ -27,17 +31,25 @@ jobs:
         with:
           name: freshness-report
           path: freshness-report.md
-      - name: Open freshness issue
-        if: steps.freshness.outcome == 'failure'
+      - name: Manage freshness issue lifecycle
+        if: always() && (steps.freshness.outcome == 'success' || steps.freshness.outcome == 'failure')
         uses: actions/github-script@v7
+        env:
+          FRESHNESS_OUTCOME: ${{ steps.freshness.outcome }}
         with:
           script: |
             const fs = require("fs");
-            const body = fs.readFileSync("freshness-report.md", "utf8");
-            await github.rest.issues.create({
-              owner: context.repo.owner,
-              repo: context.repo.repo,
-              title: "Freshness check needs review",
-              body
+            const path = require("path");
+            const { manageFreshnessIssue } = require(
+              path.join(process.env.GITHUB_WORKSPACE, ".github/scripts/freshness-issue-lifecycle.js")
+            );
+            const reportPath = path.join(process.env.GITHUB_WORKSPACE, "freshness-report.md");
+            const reportBody = fs.existsSync(reportPath)
+              ? fs.readFileSync(reportPath, "utf8")
+              : "# Freshness Report\n\nThe workflow did not produce freshness-report.md.";
+            await manageFreshnessIssue({
+              github,
+              context,
+              reportBody,
+              freshnessFailed: process.env.FRESHNESS_OUTCOME === "failure"
             });
-
