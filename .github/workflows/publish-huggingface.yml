@@ -1,0 +1,77 @@
+name: Hugging Face Safe Publish
+
+on:
+  workflow_dispatch:
+    inputs:
+      dry_run:
+        description: Validate publish without committing or pushing
+        required: false
+        type: boolean
+        default: false
+
+permissions:
+  contents: read
+
+concurrency:
+  group: hugging-face-production-publish
+  cancel-in-progress: false
+
+env:
+  HF_REPO_ID: aicostbudget-ai/ai-api-pricing
+
+jobs:
+  publish-hugging-face:
+    runs-on: ubuntu-latest
+    timeout-minutes: 15
+    steps:
+      - name: Require Hugging Face write token
+        env:
+          HF_TOKEN: ${{ secrets.HF_TOKEN }}
+        run: |
+          if [ -z "$HF_TOKEN" ]; then
+            echo "AUTH_FAILURE: HF_TOKEN is not configured" >&2
+            exit 1
+          fi
+      - uses: actions/checkout@v5
+        with:
+          ref: main
+          persist-credentials: false
+      - uses: actions/setup-python@v6
+        with:
+          python-version: "3.11"
+      - name: Resolve GitHub main source SHA
+        id: source
+        run: echo "sha=$(git rev-parse HEAD)" >> "$GITHUB_OUTPUT"
+      - name: Validate approved Hugging Face artifacts
+        run: |
+          python -m unittest tests.test_huggingface_export || {
+            echo "VALIDATION_FAILURE"
+            exit 1
+          }
+      - name: Publish allowlisted artifacts safely
+        env:
+          HF_TOKEN: ${{ secrets.HF_TOKEN }}
+          DRY_RUN: ${{ inputs.dry_run }}
+          GITHUB_SOURCE_SHA: ${{ steps.source.outputs.sha }}
+        run: |
+          if [ "$DRY_RUN" = "true" ]; then
+            python scripts/publish_huggingface.py --dry-run
+          else
+            python scripts/publish_huggingface.py
+          fi
+      - name: Verify Hugging Face production parity
+        if: ${{ ! inputs.dry_run }}
+        run: |
+          python scripts/check_hf_production_parity.py || {
+            echo "PRODUCTION_PARITY_FAILURE"
+            exit 1
+          }
+      - name: Report publish result
+        env:
+          DRY_RUN: ${{ inputs.dry_run }}
+        run: |
+          if [ "$DRY_RUN" = "true" ]; then
+            echo "DRY_RUN_OK"
+          else
+            echo "PUBLISH_SUCCESS"
+          fi
