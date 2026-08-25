@@ -74,7 +74,9 @@ The canonical provider and pricing facts live in the [AICostBudget pricing data 
 | `status` | Public lifecycle/status label from the Website projection or marked fallback. |
 | `availability` | Public availability label. |
 | `official_source_url` | Provider source used by the verified pricing pipeline. |
+| `verification_status` | Canonical record status such as `verified`, `review_required`, or `partially_verified`. |
 | `last_verified_at` | Record verification date; it is not refreshed merely because an artifact is rebuilt. |
+| `checked_at` | Date the source was checked, kept separate from verification. |
 | `effective_from` | Provider-stated effective date when available. |
 | `effective_until` | End date when a selected price record has one. |
 | `notes` | Source context, projection warning, or legacy fallback warning. |
@@ -125,7 +127,9 @@ https://huggingface.co/datasets/aicostbudget-ai/ai-api-pricing/resolve/main/meta
 ## Freshness semantics
 
 - `generated_at` is the artifact generation timestamp copied from the checked-in pricing metadata.
-- `last_verified_at` belongs to each record and means the price was checked against its source.
+- `last_verified_at` belongs to each record and means the price was verified against its source.
+- `checked_at` records a source check that may not have reached verified status.
+- `review_required` and `partially_verified` records keep `last_verified_at` empty; neither `checked_at` nor `generated_at` is substituted.
 - Rebuilding this distribution does not rewrite record verification dates.
 - Validation requires `generated_at >= max(last_verified_at)` and rejects future timestamps.
 
