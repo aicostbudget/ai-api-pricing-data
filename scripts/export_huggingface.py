@@ -34,7 +34,9 @@ CSV_HEADERS = (
     "status",
     "availability",
     "official_source_url",
+    "verification_status",
     "last_verified_at",
+    "checked_at",
     "effective_from",
     "effective_until",
     "notes",
@@ -101,7 +103,11 @@ def fallback_warning(row: dict[str, Any]) -> str:
     )
 
 
-def public_pricing_tiers(row: dict[str, Any], last_verified_at: str | None) -> list[dict[str, Any]]:
+def public_pricing_tiers(
+    row: dict[str, Any],
+    last_verified_at: str | None,
+    checked_at: str | None,
+) -> list[dict[str, Any]]:
     return [
         {
             "id": tier["id"],
@@ -125,6 +131,7 @@ def public_pricing_tiers(row: dict[str, Any], last_verified_at: str | None) -> l
             "official_source_url": row["officialSourceUrl"],
             "source_refs": list(tier["sourceRefs"]),
             "last_verified_at": last_verified_at,
+            "checked_at": checked_at,
             "verification_status": tier["verificationStatus"],
         }
         for tier in row.get("pricingTiers", [])
@@ -174,10 +181,9 @@ def build_public_records(
         has_current_price = is_number(row.get("inputPrice")) and is_number(row.get("outputPrice"))
         if has_current_price:
             warning = projection_warning(row)
-            last_verified_at = date_only(
-                row.get("verifiedAt") or row.get("checkedAt") or projection["generatedAt"]
-            )
-            tiers = public_pricing_tiers(row, last_verified_at)
+            last_verified_at = date_only(row.get("verifiedAt"))
+            checked_at = date_only(row.get("checkedAt"))
+            tiers = public_pricing_tiers(row, last_verified_at, checked_at)
             records.append(
                 {
                     "provider_id": row["provider"],
@@ -194,7 +200,9 @@ def build_public_records(
                     "status": row["status"],
                     "availability": row["availability"],
                     "official_source_url": row["officialSourceUrl"],
+                    "verification_status": row["verificationStatus"],
                     "last_verified_at": last_verified_at,
+                    "checked_at": checked_at,
                     "effective_from": row.get("selectedPriceEffectiveFrom"),
                     "effective_until": row.get("selectedPriceEffectiveUntil"),
                     "notes": warning if warning is not None else (legacy.get("priceNote", "") if legacy else ""),
@@ -219,8 +227,10 @@ def build_public_records(
                 "pricing_unit": "1M tokens",
                 "status": legacy["status"],
                 "availability": legacy["availability"],
-                "official_source_url": legacy["officialPriceUrl"],
-                "last_verified_at": legacy["lastUpdated"],
+                "official_source_url": row["officialSourceUrl"],
+                "verification_status": row["verificationStatus"],
+                "last_verified_at": date_only(row.get("verifiedAt")),
+                "checked_at": date_only(row.get("checkedAt")),
                 "effective_from": row.get("selectedPriceEffectiveFrom"),
                 "effective_until": row.get("selectedPriceEffectiveUntil"),
                 "notes": fallback_warning(row),
@@ -296,7 +306,22 @@ def validate_payload(
     if metadata["provider_count"] != len({row["provider_id"] for row in records}):
         raise ValueError("Hugging Face metadata provider_count mismatch")
 
+    projection_by_key = {(row["provider"], row["id"]): row for row in projection["models"]}
     for row in records:
+        key = (row["provider_id"], row["model_id"])
+        canonical = projection_by_key[key]
+        expected_verified = date_only(canonical.get("verifiedAt"))
+        expected_checked = date_only(canonical.get("checkedAt"))
+        if row["official_source_url"] != canonical["officialSourceUrl"]:
+            raise ValueError(f"official source mismatch for {key[0]}/{key[1]}")
+        if row["verification_status"] != canonical["verificationStatus"]:
+            raise ValueError(f"verification status mismatch for {key[0]}/{key[1]}")
+        if row["last_verified_at"] != expected_verified:
+            raise ValueError(f"verifiedAt mismatch for {key[0]}/{key[1]}")
+        if row["checked_at"] != expected_checked:
+            raise ValueError(f"checkedAt mismatch for {key[0]}/{key[1]}")
+        if canonical.get("verifiedAt") is None and row["last_verified_at"] is not None:
+            raise ValueError(f"checkedAt/generatedAt substituted for verifiedAt: {key[0]}/{key[1]}")
         for field in NUMERIC_FIELDS:
             value = row[field]
             if value is not None and (not is_number(value) or value < 0):
@@ -311,6 +336,12 @@ def validate_payload(
                 value = tier[field]
                 if value is not None and (not is_number(value) or value < 0):
                     raise ValueError(f"invalid tier price for {row['provider_id']}/{row['model_id']} {field}")
+            if tier["official_source_url"] != canonical["officialSourceUrl"]:
+                raise ValueError(f"tier official source mismatch for {key[0]}/{key[1]}")
+            if tier["last_verified_at"] != expected_verified:
+                raise ValueError(f"tier verifiedAt mismatch for {key[0]}/{key[1]}")
+            if tier["checked_at"] != expected_checked:
+                raise ValueError(f"tier checkedAt mismatch for {key[0]}/{key[1]}")
         verified = row.get("last_verified_at")
         if verified and parse_date(verified) > now:
             raise ValueError(f"future last_verified_at for {row['provider_id']}/{row['model_id']}")

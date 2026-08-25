@@ -12,6 +12,7 @@ from scripts.export_huggingface import (
     META_PATH,
     PROJECTION_PATH,
     REQUIRED_UTM,
+    date_only,
     expected_public_keys,
     parse_date,
     preserve_existing_generated_at_for_timestamp_only_change,
@@ -57,6 +58,29 @@ class HuggingFaceExportTests(unittest.TestCase):
                 self.assertNotIn("excluded_default_candidate", projected["blockedFromDefaultReasons"], key)
         self.assertEqual(fallback_count, 4)
 
+    def test_all_record_provenance_matches_projection_semantics(self):
+        projection_by_key = {
+            (row["provider"], row["id"]): row
+            for row in self.projection["models"]
+        }
+        non_verified = []
+        for record in self.records:
+            key = (record["provider_id"], record["model_id"])
+            projected = projection_by_key[key]
+            self.assertEqual(record["official_source_url"], projected["officialSourceUrl"], key)
+            self.assertEqual(record["verification_status"], projected["verificationStatus"], key)
+            self.assertEqual(record["last_verified_at"], date_only(projected.get("verifiedAt")), key)
+            self.assertEqual(record["checked_at"], date_only(projected.get("checkedAt")), key)
+            if projected.get("verifiedAt") is None:
+                non_verified.append(record)
+                self.assertIsNone(record["last_verified_at"], key)
+                self.assertIsNotNone(record["checked_at"], key)
+        self.assertEqual(len(non_verified), 4)
+        self.assertEqual(
+            {record["verification_status"] for record in non_verified},
+            {"review_required", "partially_verified"},
+        )
+
     def test_grok_4_3_tiers_match_public_website_projection(self):
         projected = next(row for row in self.projection["models"] if row["id"] == "grok-4.3")
         record = next(row for row in self.records if row["model_id"] == "grok-4.3")
@@ -68,6 +92,8 @@ class HuggingFaceExportTests(unittest.TestCase):
         with (HF_DIR / "prices.csv").open(encoding="utf-8", newline="") as handle:
             csv_record = next(row for row in csv.DictReader(handle) if row["model_id"] == "grok-4.3")
         self.assertEqual(int(csv_record["pricing_tier_count"]), record["pricing_tier_count"])
+        self.assertEqual(csv_record["verification_status"], record["verification_status"])
+        self.assertEqual(csv_record["checked_at"], record["checked_at"])
         self.assertEqual(json.loads(csv_record["pricing_tiers_json"]), record["pricing_tiers"])
 
     def test_timestamps_preserve_verification_semantics(self):

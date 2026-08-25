@@ -137,7 +137,10 @@ class PricingGovernanceTests(unittest.TestCase):
             public = self.hf[f"{row['provider']}/{row['id']}"]
             self.assertEqual(public["input_price_per_1m_tokens"], legacy["inputPrice"])
             self.assertTrue(public["official_source_url"], f"FALLBACK_WITHOUT_SOURCE: {internal_id}")
-            self.assertTrue(public["last_verified_at"], f"FALLBACK_WITHOUT_TIMESTAMP: {internal_id}")
+            self.assertEqual(public["verification_status"], row["verificationStatus"])
+            self.assertIsNone(public["last_verified_at"], f"FALLBACK_MUST_NOT_FABRICATE_VERIFICATION: {internal_id}")
+            self.assertEqual(public["checked_at"], row["checkedAt"][:10])
+            self.assertTrue(public["checked_at"], f"FALLBACK_WITHOUT_CHECK_TIMESTAMP: {internal_id}")
             self.assertEqual(public["cached_input_price_per_1m_tokens"], legacy.get("cachedInputPrice"))
             self.assertEqual(public["output_price_per_1m_tokens"], legacy["outputPrice"])
         self.assertIsNone(
