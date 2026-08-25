@@ -2,9 +2,9 @@
   "dataset_name": "AICostBudget AI API Pricing Dataset",
   "dataset_version": "1.0.0",
   "description": "Open, machine-readable pricing data for LLM and AI APIs.",
-  "generated_at": "2026-08-24T09:01:13Z",
+  "generated_at": "2026-08-25T15:07:25Z",
   "homepage": "https://aicostbudget.com",
-  "last_verified_at": "2026-08-24T08:42:53Z",
+  "last_verified_at": "2026-08-25T15:02:22Z",
   "licenses": {
     "code": "MIT",
     "data": "CC BY 4.0"
@@ -614,14 +614,21 @@
       "status": "active"
     },
     {
-      "accessed_at": "2026-08-08T18:00:00Z",
+      "accessed_at": "2026-08-25T15:02:22Z",
       "display_name": "GPT-5.6 Luna",
       "effective_from": null,
-      "last_verified_at": "2026-08-08T18:00:00Z",
+      "last_verified_at": "2026-08-25T15:02:22Z",
       "model_family": "GPT-5.6",
       "model_id": "gpt-5.6-luna",
-      "notes": "OpenAI official pricing page lists Standard, Batch, Flex, and Priority rates per 1M tokens. Public V1 fields store Standard short-context prices and Batch short-context prices.",
+      "notes": "OpenAI official pricing and model documentation list Standard, Batch, Flex, and Fast rates per 1M tokens; Priority is an alias for Fast. Public V1 fields store Standard short-context prices and Batch short-context input/output prices. Prompts with 272K or fewer input tokens use short-context pricing; prompts with more than 272K input tokens use long-context pricing, with the selected tier applied to the full request. Pricing V2 represents the published short/long context prices for every processing mode.",
       "official_source_url": "https://developers.openai.com/api/docs/pricing",
+      "official_source_urls": [
+        "https://developers.openai.com/api/docs/pricing",
+        "https://developers.openai.com/api/docs/models/gpt-5.6-luna",
+        "https://developers.openai.com/api/docs/guides/batch",
+        "https://developers.openai.com/api/docs/guides/flex-processing",
+        "https://developers.openai.com/api/docs/guides/fast-mode"
+      ],
       "pricing": {
         "batch_input": 0.1,
         "batch_output": 0.6,
@@ -664,14 +671,21 @@
       "status": "active"
     },
     {
-      "accessed_at": "2026-08-08T18:00:00Z",
+      "accessed_at": "2026-08-25T15:02:22Z",
       "display_name": "GPT-5.6 Terra",
       "effective_from": null,
-      "last_verified_at": "2026-08-08T18:00:00Z",
+      "last_verified_at": "2026-08-25T15:02:22Z",
       "model_family": "GPT-5.6",
       "model_id": "gpt-5.6-terra",
-      "notes": "OpenAI official pricing page lists Standard, Batch, Flex, and Priority rates per 1M tokens. Public V1 fields store Standard short-context prices and Batch short-context prices.",
+      "notes": "OpenAI official pricing and model documentation list Standard, Batch, Flex, and Fast rates per 1M tokens; Priority is an alias for Fast. Public V1 fields store Standard short-context prices and Batch short-context input/output prices. Prompts with 272K or fewer input tokens use short-context pricing; prompts with more than 272K input tokens use long-context pricing, with the selected tier applied to the full request. Pricing V2 represents the published short/long context prices for every processing mode.",
       "official_source_url": "https://developers.openai.com/api/docs/pricing",
+      "official_source_urls": [
+        "https://developers.openai.com/api/docs/pricing",
+        "https://developers.openai.com/api/docs/models/gpt-5.6-terra",
+        "https://developers.openai.com/api/docs/guides/batch",
+        "https://developers.openai.com/api/docs/guides/flex-processing",
+        "https://developers.openai.com/api/docs/guides/fast-mode"
+      ],
       "pricing": {
         "batch_input": 1.0,
         "batch_output": 6.0,

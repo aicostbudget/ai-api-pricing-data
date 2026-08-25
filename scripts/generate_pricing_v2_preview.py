@@ -268,6 +268,22 @@ def openai_gpt56_tiers(pricing: dict[str, Any]) -> dict[tuple[str, str], dict[st
     }
 
 
+OPENAI_GPT56_CONTEXT_PRICING_MODEL_IDS = {"gpt-5.6-terra", "gpt-5.6-luna"}
+
+
+def openai_gpt56_tier_selection(context_class: str) -> dict[str, Any]:
+    return {
+        "pricingStatus": "current",
+        "promptTokenThreshold": 272000,
+        "tierSelection": {
+            "comparison": "less_than_or_equal" if context_class == "short" else "greater_than",
+            "tokenBasis": "total_prompt_tokens",
+            "cachedPromptTokensIncluded": True,
+            "wholeRequestPricing": True,
+        },
+    }
+
+
 def read_json(path: Path) -> Any:
     return json.loads(path.read_text(encoding="utf-8"))
 
@@ -2166,6 +2182,11 @@ def main() -> None:
             if provider_id == "openai" and public.get("model_family") == "GPT-5.6":
                 for (processing_mode, context_class), amounts in openai_gpt56_tiers(pricing).items():
                     tier_id = f"price:{model_internal_id}:{processing_mode}:{context_class}:current"
+                    tier_selection = (
+                        openai_gpt56_tier_selection(context_class)
+                        if model_id in OPENAI_GPT56_CONTEXT_PRICING_MODEL_IDS
+                        else {}
+                    )
                     add_price(
                         model_internal_id,
                         {
@@ -2173,6 +2194,7 @@ def main() -> None:
                             "pricingId": tier_id,
                             "processingMode": processing_mode,
                             "contextClass": context_class,
+                            **tier_selection,
                             "charges": make_charges(
                                 tier_id,
                                 {**amounts, "cache_write_component": "cache_write"},

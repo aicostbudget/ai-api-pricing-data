@@ -180,6 +180,70 @@ class PricingV2PreviewTests(unittest.TestCase):
             "price:xai/grok-4.3:standard:short:current",
         )
 
+    def test_openai_gpt56_terra_and_luna_tiers_and_boundaries(self):
+        source_by_id = {source["sourceId"]: source for source in self.sources}
+        expected_base = {
+            "openai/gpt-5.6-terra": {"input": 2, "cached_input": 0.2, "cache_write": 2.5, "output": 12},
+            "openai/gpt-5.6-luna": {"input": 0.2, "cached_input": 0.02, "cache_write": 0.25, "output": 1.2},
+        }
+        expected_model_sources = {
+            "openai/gpt-5.6-terra": "https://developers.openai.com/api/docs/models/gpt-5.6-terra",
+            "openai/gpt-5.6-luna": "https://developers.openai.com/api/docs/models/gpt-5.6-luna",
+        }
+
+        for model_internal_id, base_prices in expected_base.items():
+            records = [price for price in self.prices if price["modelInternalId"] == model_internal_id]
+            self.assertEqual(len(records), 8)
+            self.assertEqual(
+                {(record["processingMode"], record["contextClass"]) for record in records},
+                {(mode, context) for mode in ("standard", "batch", "flex", "fast") for context in ("short", "long")},
+            )
+
+            for record in records:
+                context_class = record["contextClass"]
+                self.assertEqual(record["pricingStatus"], "current")
+                self.assertEqual(record["promptTokenThreshold"], 272000)
+                self.assertEqual(
+                    record["tierSelection"]["comparison"],
+                    "less_than_or_equal" if context_class == "short" else "greater_than",
+                )
+                self.assertEqual(record["tierSelection"]["tokenBasis"], "total_prompt_tokens")
+                self.assertTrue(record["tierSelection"]["cachedPromptTokensIncluded"])
+                self.assertTrue(record["tierSelection"]["wholeRequestPricing"])
+                source_urls = {source_by_id[ref]["url"] for ref in record["sourceRefs"]}
+                self.assertIn("https://developers.openai.com/api/docs/pricing", source_urls)
+                self.assertIn(expected_model_sources[model_internal_id], source_urls)
+                for ref in record["sourceRefs"]:
+                    if source_by_id[ref]["url"] == expected_model_sources[model_internal_id]:
+                        self.assertEqual(source_by_id[ref]["checkedAt"], "2026-08-25T15:02:22Z")
+                        self.assertEqual(source_by_id[ref]["verifiedAt"], "2026-08-25T15:02:22Z")
+
+            def selected(prompt_tokens):
+                return sorted(
+                    record["contextClass"]
+                    for record in records
+                    if record["processingMode"] == "standard"
+                    and (
+                        record["tierSelection"]["comparison"] == "less_than_or_equal"
+                        and prompt_tokens <= record["promptTokenThreshold"]
+                        or record["tierSelection"]["comparison"] == "greater_than"
+                        and prompt_tokens > record["promptTokenThreshold"]
+                    )
+                )
+
+            self.assertEqual(selected(271999), ["short"])
+            self.assertEqual(selected(272000), ["short"])
+            self.assertEqual(selected(272001), ["long"])
+
+            standard_short = next(
+                record for record in records
+                if record["processingMode"] == "standard" and record["contextClass"] == "short"
+            )
+            self.assertEqual(
+                {charge["component"]: float(charge["amount"]) for charge in standard_short["charges"]},
+                base_prices,
+            )
+
     def test_grok_4_3_validator_rejects_invalid_tier_mutations(self):
         original_read_json = pricing_validator.read_json
 
