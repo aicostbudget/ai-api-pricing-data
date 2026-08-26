@@ -64,7 +64,7 @@ REQUIRED_UTM = (
 )
 FORBIDDEN_UTM = (
     "utm_medium=dataset",
-    "utm_campaign=ai_api_pricing_dataset",
+    "utm_campaign=ai_api_pricing",
 )
 
 
