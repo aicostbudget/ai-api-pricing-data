@@ -28,14 +28,19 @@ This Hugging Face dataset is the machine-readable distribution of the public AI 
 
 Prices change frequently. Verify production billing decisions against the provider pricing page, contract, billing dashboard, and invoice.
 
+## Use the pricing data
+
+Use the current pricing dataset to estimate a real AI API workload, compare models, or monitor price changes.
+
+- [Calculate your API cost with this dataset](https://aicostbudget.com/en/ai-api-cost-calculator?utm_source=huggingface&utm_medium=referral&utm_campaign=pricing_dataset&utm_content=dataset_card_calculator)
+- [Compare these models interactively](https://aicostbudget.com/en/model-pricing-comparison?utm_source=huggingface&utm_medium=referral&utm_campaign=pricing_dataset&utm_content=dataset_card_comparison)
+- [Track AI model price changes](https://aicostbudget.com/en/model-price-monitor?utm_source=huggingface&utm_medium=referral&utm_campaign=pricing_dataset&utm_content=dataset_card_price_monitor)
+
 ## Explore and download
 
 - [AICostBudget AI API Pricing Dataset](https://aicostbudget.com/en/datasets/ai-api-pricing?utm_source=huggingface&utm_medium=referral&utm_campaign=pricing_dataset&utm_content=dataset_card_dataset)
 - [Download the public JSON dataset](https://aicostbudget.com/api/datasets/ai-api-pricing.json)
 - [Download the public CSV dataset](https://aicostbudget.com/api/datasets/ai-api-pricing.csv)
-- [AI API Cost Calculator](https://aicostbudget.com/en/ai-api-cost-calculator?utm_source=huggingface&utm_medium=referral&utm_campaign=pricing_dataset&utm_content=dataset_card_calculator)
-- [Model Pricing Comparison](https://aicostbudget.com/en/model-pricing-comparison?utm_source=huggingface&utm_medium=referral&utm_campaign=pricing_dataset&utm_content=dataset_card_comparison)
-- [Track AI model price changes](https://aicostbudget.com/en/model-price-monitor?utm_source=huggingface&utm_medium=referral&utm_campaign=pricing_dataset&utm_content=dataset_card_price_monitor)
 
 ## Published files
 
@@ -151,6 +156,16 @@ AICostBudget. AICostBudget AI API Pricing Dataset.
 https://github.com/aicostbudget/ai-api-pricing-data
 ```
 
+## Website Tools
+
+Continue from the dataset to estimate, compare, or monitor AI API pricing:
+
+- [Calculate your API cost with this dataset](https://aicostbudget.com/en/ai-api-cost-calculator?utm_source=huggingface&utm_medium=referral&utm_campaign=pricing_dataset&utm_content=dataset_card_calculator)
+- [Compare these models interactively](https://aicostbudget.com/en/model-pricing-comparison?utm_source=huggingface&utm_medium=referral&utm_campaign=pricing_dataset&utm_content=dataset_card_comparison)
+- [Track AI model price changes](https://aicostbudget.com/en/model-price-monitor?utm_source=huggingface&utm_medium=referral&utm_campaign=pricing_dataset&utm_content=dataset_card_price_monitor)
+
 ## Disclaimer
 
 This dataset is informational and may lag provider changes. AICostBudget is independent and is not affiliated with or endorsed by the listed providers. Provider names and trademarks belong to their respective owners.
+
+If this dataset saves you time, consider liking it on Hugging Face so you can find future pricing updates more easily.
