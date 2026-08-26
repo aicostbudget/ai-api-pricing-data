@@ -10,9 +10,9 @@ Published as JSON, CSV, and a Hugging Face dataset, with machine-readable record
 
 ## Interactive Tools
 
-- [Calculate your API cost](https://aicostbudget.com/en/ai-api-cost-calculator?utm_source=github&utm_medium=referral&utm_campaign=pricing_dataset&utm_content=readme_top_calculator)
-- [Compare AI model prices](https://aicostbudget.com/en/model-pricing-comparison?utm_source=github&utm_medium=referral&utm_campaign=pricing_dataset&utm_content=readme_top_comparison)
-- [Track AI model price changes](https://aicostbudget.com/en/model-price-monitor?utm_source=github&utm_medium=referral&utm_campaign=pricing_dataset&utm_content=readme_top_monitor)
+- [Calculate your API cost](https://aicostbudget.com/en/ai-api-cost-calculator?utm_source=github&utm_medium=referral&utm_campaign=pricing_dataset&utm_content=readme_calculator)
+- [Compare AI model prices](https://aicostbudget.com/en/model-pricing-comparison?utm_source=github&utm_medium=referral&utm_campaign=pricing_dataset&utm_content=readme_comparison)
+- [Track AI model price changes](https://aicostbudget.com/en/model-price-monitor?utm_source=github&utm_medium=referral&utm_campaign=pricing_dataset&utm_content=readme_price_monitor)
 - [Browse the full pricing dataset](https://aicostbudget.com/en/datasets/ai-api-pricing?utm_source=github&utm_medium=referral&utm_campaign=pricing_dataset&utm_content=readme_dataset)
 
 Downloads: [JSON](https://aicostbudget.github.io/ai-api-pricing-data/api/v1/prices.json) | [CSV](https://aicostbudget.github.io/ai-api-pricing-data/api/v1/prices.csv) | [Hugging Face](https://huggingface.co/datasets/aicostbudget-ai/ai-api-pricing)
