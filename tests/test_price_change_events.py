@@ -46,6 +46,24 @@ def snapshot(path: Path, models):
     path.write_text(json.dumps({"models": models}), encoding="utf-8")
 
 
+def pricing_component(amount="3.75", processing_mode="standard"):
+    return {
+        "pricing_id": "price:test-provider/model-a:standard:short:current",
+        "charge_id": "price:test-provider/model-a:standard:short:current:cache_write_5m:text:per_1m_tokens",
+        "component": "cache_write_5m",
+        "amount": amount,
+        "condition": {
+            "processing_mode": processing_mode,
+            "context_class": "short",
+            "prompt_token_threshold": None,
+            "tier_selection": None,
+            "region_policy": "global",
+            "effective_from": "2026-07-01",
+            "effective_until": None,
+        },
+    }
+
+
 def canonical_event(provider_id="mistral-ai", model_id="mistral-large", change_type="price_update", detected_at="2026-07-27"):
     matches = [
         event
@@ -108,6 +126,39 @@ class PriceChangeEventTests(unittest.TestCase):
         removed = self.assert_one_change(model(cached_input=0.2), model(cached_input=None), "cached_price_removed")
         self.assertIsNone(added["old_prices"]["cached_input"])
         self.assertIsNone(removed["new_prices"]["cached_input"])
+
+    def test_component_only_cache_write_change_generates_detailed_event(self):
+        before = model()
+        after = model()
+        before["pricing_components"] = [pricing_component("3.75")]
+        after["pricing_components"] = [pricing_component("4.25")]
+        event = self.assert_one_change(before, after, "component_price_update")
+        self.assertEqual(event["old_prices"], event["new_prices"])
+        self.assertEqual(event["component_changes"], [{
+            "pricing_id": "price:test-provider/model-a:standard:short:current",
+            "charge_id": "price:test-provider/model-a:standard:short:current:cache_write_5m:text:per_1m_tokens",
+            "component": "cache_write_5m",
+            "old_amount": "3.75",
+            "new_amount": "4.25",
+            "condition": pricing_component()["condition"],
+        }])
+
+    def test_component_numeric_format_metadata_and_add_remove_do_not_emit(self):
+        before = model()
+        after = model()
+        before["pricing_components"] = [pricing_component("3.750")]
+        after["pricing_components"] = [pricing_component("3.75")]
+        self.assertEqual(self.generated(before, after), [])
+        after["pricing_components"] = []
+        self.assertEqual(self.generated(before, after), [])
+
+    def test_component_condition_change_requires_explicit_semantics(self):
+        before = model()
+        after = model()
+        before["pricing_components"] = [pricing_component("3.75", "standard")]
+        after["pricing_components"] = [pricing_component("4.25", "batch")]
+        with self.assertRaises(ValueError):
+            self.generated(before, after)
 
     def test_no_event_for_identical_prices_verified_date_source_url_or_numeric_format(self):
         before = model(input_price=1, cached_input=None, output_price=2)
@@ -251,7 +302,7 @@ class PriceChangeEventTests(unittest.TestCase):
             validate_unique_events([event, same_dedupe])
 
     def test_schema_enum_matches_actual_generator_scope(self):
-        self.assertEqual(CHANGE_TYPES, {"price_update", "cached_price_added", "cached_price_removed"})
+        self.assertEqual(CHANGE_TYPES, {"price_update", "cached_price_added", "cached_price_removed", "component_price_update"})
         before = model(provider_id="new-provider", model_id="new-model")
         with tempfile.TemporaryDirectory() as tmp:
             root = Path(tmp)

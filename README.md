@@ -19,7 +19,9 @@ Downloads: [JSON](https://aicostbudget.github.io/ai-api-pricing-data/api/v1/pric
 
 ### Distribution projections
 
-The GitHub Pages `/api/v1` JSON and CSV publish the canonical V1 records in this repository (currently 32 models). The AICostBudget Website JSON/CSV and Hugging Face files publish the same 40-row Pricing V2 public Website projection, which adds governed Website-facing rows and structured tier metadata. Hugging Face must match the Website projection exactly by key set and exported fields; it is not expected to match the intentionally narrower GitHub Pages V1 key set.
+The GitHub Pages `/api/v1` JSON and CSV publish the canonical V1 records in this repository (currently 32 models). The AICostBudget Website JSON/CSV and Hugging Face files publish the same 40-row Pricing V2 public Website projection, including structured tier and pricing-component metadata. Public export schema 1.3.0 adds `pricing_components` to JSON and appends `pricing_components_json` to CSV without changing existing fields or column order. Hugging Face must match the Website projection exactly by key set and exported fields; it is not expected to match the intentionally narrower GitHub Pages V1 key set.
+
+The existing scalar input, cached-input, and output values remain the compatibility/default pricing view. `pricing_components` is the full conditional view: each entry combines a charge component, decimal-string amount, condition, provenance, verification status, and effective range. One model can have separate `cache_write_5m` and `cache_write_1h` entries, or cache-write entries for different processing modes and context classes, so cache write cannot be modeled permanently as one universal scalar.
 
 ## Dataset Trust & Freshness
 
@@ -184,7 +186,7 @@ Canonical price change events are stored in:
 data/price-change-events/events.jsonl
 ```
 
-A price change event is different from a normal history verification row. History rows record source verification state for a model and may change when `last_verified_at`, `official_source_url`, or notes change. Price change events record only verified pricing semantics: input price, cached input price, output price, unit, and currency changes between two trusted snapshots.
+A price change event is different from a normal history verification row. History rows record source verification state for a model and may change when `last_verified_at`, `official_source_url`, or notes change. Price change events record verified scalar pricing semantics between two trusted snapshots and can also emit `component_price_update` when matching `pricing_id + charge_id` entries change amount while scalar prices remain unchanged. Component events preserve the component name, old and new decimal-string amounts, and condition. Component additions/removals are not treated as price launches because they may reflect coverage changes.
 
 Baseline snapshots are not price changes. New snapshots, reordered files, source URL edits, status changes, or repeated verification dates must not create price change events when the prices are unchanged.
 

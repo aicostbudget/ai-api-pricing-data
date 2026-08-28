@@ -10,8 +10,12 @@ from scripts.generate_website_projection_v2 import (
     PREVIEW,
     REPORT,
     atomic_write_json,
+    build_pricing_components,
     build_phase45_audits,
     build_projection,
+    parse_effective_at,
+    project_pricing_component,
+    validate_projection,
 )
 
 # Mirrors the 35-row legacy Website parity input captured in the committed Phase 4A report.
@@ -28,11 +32,59 @@ class WebsiteProjectionV2Tests(unittest.TestCase):
         cls.by_internal = {row["canonicalInternalId"]: row for row in cls.rows}
 
     def test_projection_default_times_are_ordered_utc_instants(self):
-        self.assertEqual(self.artifact["generatedAt"], self.artifact["effectiveAt"])
+        self.assertNotEqual(
+            self.artifact["generatedAt"],
+            self.artifact["effectiveAt"],
+            "artifact generation time and pricing effective selection time are distinct semantics",
+        )
         generated_at = datetime.fromisoformat(self.artifact["generatedAt"].replace("Z", "+00:00"))
         verified_at = datetime.fromisoformat("2026-08-08T18:00:00+00:00")
         self.assertGreaterEqual(generated_at, verified_at)
         self.assertGreaterEqual(self.artifact["effectiveAt"], "2026-07-24T00:00:00Z")
+
+    def test_projection_generated_at_covers_every_checked_and_verified_timestamp(self):
+        generated_at = datetime.fromisoformat(self.artifact["generatedAt"].replace("Z", "+00:00"))
+        for row in self.rows:
+            for field in ("checkedAt", "verifiedAt"):
+                if row[field] is not None:
+                    timestamp = parse_effective_at(row[field])
+                    self.assertGreaterEqual(generated_at, timestamp, f"{row['id']} {field}")
+
+    def test_projection_rejects_generated_at_before_checked_or_verified(self):
+        for field in ("checkedAt", "verifiedAt"):
+            artifact = json.loads(json.dumps(self.artifact))
+            row = next(item for item in artifact["models"] if item[field] is not None)
+            other_field = "verifiedAt" if field == "checkedAt" else "checkedAt"
+            other_refs_field = "verifiedSourceRefs" if field == "checkedAt" else "checkedSourceRefs"
+            for item in artifact["models"]:
+                if item is not row:
+                    item[field] = None
+                    item["verifiedSourceRefs" if field == "verifiedAt" else "checkedSourceRefs"] = []
+                item[other_field] = None
+                item[other_refs_field] = []
+            artifact["generatedAt"] = "2000-01-01T00:00:00Z"
+            with self.assertRaisesRegex(ValueError, f"generatedAt precedes {field}"):
+                validate_projection(artifact, self.report)
+
+    def test_checked_and_verified_keep_distinct_source_associations(self):
+        sources = {
+            source["sourceId"]: source
+            for source in json.loads((PREVIEW / "sources.json").read_text(encoding="utf-8"))
+        }
+        for row in self.rows:
+            self.assertTrue(set(row["checkedSourceRefs"]) <= set(row["sourceRefs"]))
+            self.assertTrue(set(row["verifiedSourceRefs"]) <= set(row["sourceRefs"]))
+            for ref in row["checkedSourceRefs"]:
+                self.assertIn(ref, sources)
+            if row["verifiedAt"] is None:
+                self.assertEqual(row["verifiedSourceRefs"], [])
+
+        checked_after_verified = next(
+            row for row in self.rows
+            if row["checkedAt"] and row["verifiedAt"] and row["checkedAt"] > row["verifiedAt"]
+        )
+        self.assertNotEqual(checked_after_verified["checkedAt"], checked_after_verified["verifiedAt"])
+        validate_projection(self.artifact, self.report)
 
     def test_claude_opus_5_projection_is_default_safe_and_current_opus(self):
         opus5 = self.by_internal["anthropic/claude-opus-5"]
@@ -173,6 +225,166 @@ class WebsiteProjectionV2Tests(unittest.TestCase):
             components = {charge["component"] for charge in price["charges"]}
             self.assertIn("cache_write", components)
             self.assertNotIn("cache_write_5m", components)
+
+    def test_pricing_component_projection_preserves_supported_cache_variants(self):
+        record = {
+            "pricingId": "price:test/model:standard:short:current",
+            "processingMode": "standard",
+            "contextClass": "short",
+            "promptTokenThreshold": None,
+            "tierSelection": None,
+            "regionPolicy": "global",
+            "currency": "USD",
+            "effectiveFrom": None,
+            "effectiveUntil": None,
+            "calculationDefault": True,
+            "sourceRefs": ["source:z", "source:a"],
+            "verificationStatus": "verified",
+        }
+        for component in (
+            "cached_input",
+            "cache_read",
+            "cache_write",
+            "cache_write_5m",
+            "cache_write_1h",
+        ):
+            charge = {
+                "chargeId": f"{record['pricingId']}:{component}:text:per_1m_tokens",
+                "component": component,
+                "amount": "1.25",
+                "unit": "per_1m_tokens",
+                "modality": "text",
+            }
+            projected = project_pricing_component(record, charge)
+            self.assertEqual(projected["component"], component)
+            self.assertEqual(projected["amount"], "1.25")
+            self.assertEqual(projected["condition"]["processingMode"], "standard")
+            self.assertEqual(projected["sourceRefs"], ["source:a", "source:z"])
+
+    def test_nine_verified_models_keep_every_structured_cache_write_condition(self):
+        canonical_prices = json.loads((PREVIEW / "prices.json").read_text(encoding="utf-8"))
+        canonical_by_charge_id = {
+            charge["chargeId"]: (record, charge)
+            for record in canonical_prices
+            for charge in record["charges"]
+        }
+        expected_write_counts = {
+            "openai/gpt-5.6-sol": 8,
+            "openai/gpt-5.6-terra": 8,
+            "openai/gpt-5.6-luna": 8,
+            "anthropic/claude-fable-5": 2,
+            "anthropic/claude-haiku-4.5": 1,
+            "anthropic/claude-opus-4.8": 1,
+            "anthropic/claude-opus-5": 2,
+            "anthropic/claude-sonnet-4.6": 1,
+            "anthropic/claude-sonnet-5": 2,
+        }
+        for internal_id, expected_count in expected_write_counts.items():
+            components = self.by_internal[internal_id]["pricingComponents"]
+            writes = [item for item in components if item["component"].startswith("cache_write")]
+            self.assertEqual(len(writes), expected_count, internal_id)
+            self.assertEqual(len({item["chargeId"] for item in writes}), expected_count, internal_id)
+            self.assertTrue(all(item["verificationStatus"] == "verified" for item in writes))
+            self.assertTrue(all(item["sourceRefs"] for item in writes))
+            for item in writes:
+                record, charge = canonical_by_charge_id[item["chargeId"]]
+                self.assertEqual(item["amount"], charge["amount"])
+                self.assertEqual(item["component"], charge["component"])
+                self.assertEqual(item["unit"], charge["unit"])
+                self.assertEqual(item["condition"]["processingMode"], record["processingMode"])
+                self.assertEqual(item["condition"]["contextClass"], record["contextClass"])
+                self.assertEqual(item["condition"]["promptTokenThreshold"], record["promptTokenThreshold"])
+                self.assertEqual(item["condition"]["effectiveFrom"], record["effectiveFrom"])
+                self.assertEqual(item["condition"]["effectiveUntil"], record["effectiveUntil"])
+                self.assertEqual(item["sourceRefs"], sorted(record["sourceRefs"]))
+
+        for internal_id in (
+            "openai/gpt-5.6-sol",
+            "openai/gpt-5.6-terra",
+            "openai/gpt-5.6-luna",
+        ):
+            writes = [
+                item for item in self.by_internal[internal_id]["pricingComponents"]
+                if item["component"] == "cache_write"
+            ]
+            self.assertEqual(
+                {(item["condition"]["processingMode"], item["condition"]["contextClass"]) for item in writes},
+                {(mode, context) for mode in ("standard", "batch", "flex", "fast") for context in ("short", "long")},
+            )
+
+        for internal_id in (
+            "anthropic/claude-fable-5",
+            "anthropic/claude-opus-5",
+            "anthropic/claude-sonnet-5",
+        ):
+            variants = {
+                item["component"]
+                for item in self.by_internal[internal_id]["pricingComponents"]
+                if item["component"].startswith("cache_write")
+            }
+            self.assertEqual(variants, {"cache_write_5m", "cache_write_1h"})
+
+    def test_pricing_components_do_not_parse_notes_or_invent_write_prices(self):
+        record = {
+            "billingNote": "Cache write is $99 per 1M tokens.",
+            "pricingId": "price:test/notes-only:standard:short:current",
+            "pricingStatus": "current",
+            "processingMode": "standard",
+            "contextClass": "short",
+            "promptTokenThreshold": None,
+            "regionPolicy": "global",
+            "currency": "USD",
+            "effectiveFrom": None,
+            "effectiveUntil": None,
+            "calculationDefault": True,
+            "sourceRefs": ["source:test"],
+            "verificationStatus": "verified",
+            "charges": [{
+                "chargeId": "price:test/notes-only:standard:short:current:input:text:per_1m_tokens",
+                "component": "input",
+                "amount": "1",
+                "unit": "per_1m_tokens",
+                "modality": "text",
+            }],
+        }
+        components = build_pricing_components(
+            [record], parse_effective_at("2026-08-22T14:45:21Z"), {}
+        )
+        self.assertEqual([item["component"] for item in components], ["input"])
+        self.assertFalse(any(item["component"].startswith("cache_write") for item in components))
+
+    def test_duplicate_component_in_one_condition_fails_instead_of_flattening(self):
+        record = {
+            "pricingId": "price:test/duplicate:standard:short:current",
+            "pricingStatus": "current",
+            "processingMode": "standard",
+            "contextClass": "short",
+            "promptTokenThreshold": None,
+            "regionPolicy": "global",
+            "currency": "USD",
+            "effectiveFrom": None,
+            "effectiveUntil": None,
+            "calculationDefault": True,
+            "sourceRefs": ["source:test"],
+            "verificationStatus": "verified",
+            "charges": [
+                {
+                    "chargeId": f"charge:{index}",
+                    "component": "cache_write",
+                    "amount": str(index),
+                    "unit": "per_1m_tokens",
+                    "modality": "text",
+                }
+                for index in (1, 2)
+            ],
+        }
+        with self.assertRaisesRegex(ValueError, "duplicate component cache_write"):
+            build_pricing_components([record], parse_effective_at("2026-08-22T14:45:21Z"), {})
+
+    def test_optional_component_absence_and_generator_determinism(self):
+        self.assertNotIn("pricingComponents", self.by_internal["openai/gpt-4.1"])
+        second_artifact, _ = build_projection(website_dataset=WEBSITE_FIXTURE)
+        self.assertEqual(self.artifact, second_artifact)
 
     def test_new_models_statuses_and_batch_prices_are_projected(self):
         expected = {

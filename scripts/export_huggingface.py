@@ -8,6 +8,7 @@ import math
 import os
 import subprocess
 from datetime import datetime, timezone
+from decimal import Decimal, InvalidOperation
 from pathlib import Path
 from typing import Any
 
@@ -42,7 +43,16 @@ CSV_HEADERS = (
     "notes",
     "pricing_tier_count",
     "pricing_tiers_json",
+    "pricing_components_json",
 )
+PUBLIC_SCHEMA_VERSION = "1.3.0"
+PUBLIC_VERIFICATION_STATUSES = {
+    "verified",
+    "partially_verified",
+    "review_required",
+    "unresolved",
+    "legacy_unverified",
+}
 NUMERIC_FIELDS = (
     "input_price_per_1m_tokens",
     "cached_input_price_per_1m_tokens",
@@ -138,6 +148,65 @@ def public_pricing_tiers(
     ]
 
 
+def public_pricing_components(row: dict[str, Any]) -> list[dict[str, Any]]:
+    source_url_by_ref = dict(zip(row.get("sourceRefs", []), row.get("sourceUrls", []), strict=True))
+    public_components = []
+    for component in sorted(
+        row.get("pricingComponents", []),
+        key=lambda item: (item["pricingId"], item["chargeId"]),
+    ):
+        amount = component.get("amount")
+        if not isinstance(amount, str):
+            raise ValueError(f"component amount must remain a decimal string for {row['provider']}/{row['id']}")
+        try:
+            if Decimal(amount) < 0:
+                raise ValueError
+        except (InvalidOperation, ValueError) as exc:
+            raise ValueError(f"invalid component amount for {row['provider']}/{row['id']}: {amount}") from exc
+        status = component.get("verificationStatus")
+        if status not in PUBLIC_VERIFICATION_STATUSES:
+            raise ValueError(f"unsupported public component verification status: {status}")
+        source_refs = sorted(component.get("sourceRefs", []))
+        try:
+            source_urls = [source_url_by_ref[source_ref] for source_ref in source_refs]
+        except KeyError as exc:
+            raise ValueError(
+                f"unresolvable component source ref for {row['provider']}/{row['id']}: {exc.args[0]}"
+            ) from exc
+        condition = component["condition"]
+        tier_selection = condition.get("tierSelection")
+        public_components.append(
+            {
+                "pricing_id": component["pricingId"],
+                "charge_id": component["chargeId"],
+                "component": component["component"],
+                "amount": amount,
+                "unit": component["unit"],
+                "currency": component["currency"],
+                "modality": component["modality"],
+                "condition": {
+                    "processing_mode": condition["processingMode"],
+                    "context_class": condition["contextClass"],
+                    "prompt_token_threshold": condition.get("promptTokenThreshold"),
+                    "tier_selection": None if tier_selection is None else {
+                        "comparison": tier_selection["comparison"],
+                        "token_basis": tier_selection["tokenBasis"],
+                        "cached_prompt_tokens_included": tier_selection["cachedPromptTokensIncluded"],
+                        "whole_request_pricing": tier_selection["wholeRequestPricing"],
+                    },
+                    "region_policy": condition["regionPolicy"],
+                    "effective_from": condition.get("effectiveFrom"),
+                    "effective_until": condition.get("effectiveUntil"),
+                },
+                "calculation_default": component["calculationDefault"],
+                "source_refs": source_refs,
+                "source_urls": source_urls,
+                "verification_status": status,
+            }
+        )
+    return public_components
+
+
 def load_website_models(website_repo: Path, website_ref: str) -> list[dict[str, Any]]:
     if website_ref == "WORKTREE":
         rows = read_json(website_repo / "data" / "model-pricing.json")
@@ -154,6 +223,23 @@ def load_website_models(website_repo: Path, website_ref: str) -> list[dict[str, 
     if not isinstance(rows, list):
         raise ValueError("Website data/model-pricing.json must be a JSON array")
     return rows
+
+
+def load_website_projection(website_repo: Path, website_ref: str) -> dict[str, Any]:
+    relative_path = "data/pricing-v2-projection/model-pricing.v2.json"
+    if website_ref == "WORKTREE":
+        projection = read_json(website_repo / relative_path)
+    else:
+        result = subprocess.run(
+            ["git", "-C", str(website_repo), "show", f"{website_ref}:{relative_path}"],
+            check=True,
+            capture_output=True,
+            encoding="utf-8",
+        )
+        projection = json.loads(result.stdout)
+    if not isinstance(projection, dict) or not isinstance(projection.get("models"), list):
+        raise ValueError("Website pricing projection must contain a models array")
+    return projection
 
 
 def expected_public_keys(projection: dict[str, Any]) -> set[tuple[str, str]]:
@@ -184,6 +270,7 @@ def build_public_records(
             last_verified_at = date_only(row.get("verifiedAt"))
             checked_at = date_only(row.get("checkedAt"))
             tiers = public_pricing_tiers(row, last_verified_at, checked_at)
+            components = public_pricing_components(row)
             records.append(
                 {
                     "provider_id": row["provider"],
@@ -208,6 +295,7 @@ def build_public_records(
                     "notes": warning if warning is not None else (legacy.get("priceNote", "") if legacy else ""),
                     "pricing_tier_count": len(tiers),
                     "pricing_tiers": tiers,
+                    "pricing_components": components,
                 }
             )
             continue
@@ -236,6 +324,7 @@ def build_public_records(
                 "notes": fallback_warning(row),
                 "pricing_tier_count": 0,
                 "pricing_tiers": [],
+                "pricing_components": public_pricing_components(row),
             }
         )
 
@@ -260,8 +349,10 @@ def build_export(
         "metadata": {
             "name": metadata["dataset_name"],
             "version": metadata["dataset_version"],
+            "schema_version": PUBLIC_SCHEMA_VERSION,
             "page_url": DATASET_PAGE_URL,
             "last_updated": metadata["last_verified_at"],
+            "last_verified_at": metadata["last_verified_at"],
             "generated_at": metadata["generated_at"],
             "provider_count": provider_count,
             "record_count": len(records),
@@ -273,6 +364,10 @@ def build_export(
                 "Not listed, not published, not applicable, or not currently available in the dataset; "
                 "null is not zero."
             ),
+            "features": {
+                "pricing_components": "Full conditional pricing components; [] when none apply.",
+                "pricing_components_json": "Compact CSV JSON serialization of pricing_components.",
+            },
         },
         "records": records,
     }
@@ -342,6 +437,10 @@ def validate_payload(
                 raise ValueError(f"tier verifiedAt mismatch for {key[0]}/{key[1]}")
             if tier["checked_at"] != expected_checked:
                 raise ValueError(f"tier checkedAt mismatch for {key[0]}/{key[1]}")
+        components = row.get("pricing_components", [])
+        expected_components = public_pricing_components(canonical)
+        if components != expected_components:
+            raise ValueError(f"pricing component mismatch for {key[0]}/{key[1]}")
         verified = row.get("last_verified_at")
         if verified and parse_date(verified) > now:
             raise ValueError(f"future last_verified_at for {row['provider_id']}/{row['model_id']}")
@@ -352,6 +451,9 @@ def validate_payload(
     verified_values = [parse_date(row["last_verified_at"]) for row in records if row.get("last_verified_at")]
     if verified_values and generated_at < max(verified_values):
         raise ValueError("Hugging Face generated_at precedes max(last_verified_at)")
+    checked_values = [parse_date(row["checked_at"]) for row in records if row.get("checked_at")]
+    if checked_values and generated_at < max(checked_values):
+        raise ValueError("Hugging Face generated_at precedes max(checked_at)")
 
 
 def csv_text(records: list[dict[str, Any]]) -> str:
@@ -360,8 +462,9 @@ def csv_text(records: list[dict[str, Any]]) -> str:
     writer.writeheader()
     writer.writerows(
         {
-            **{key: value for key, value in record.items() if key != "pricing_tiers"},
+            **{key: value for key, value in record.items() if key not in {"pricing_tiers", "pricing_components"}},
             "pricing_tiers_json": json.dumps(record["pricing_tiers"], separators=(",", ":"), ensure_ascii=False),
+            "pricing_components_json": json.dumps(record["pricing_components"], separators=(",", ":"), ensure_ascii=False),
         }
         for record in records
     )
@@ -433,7 +536,18 @@ def main() -> None:
     mode.add_argument("--check", action="store_true")
     args = parser.parse_args()
 
-    projection = read_json(PROJECTION_PATH)
+    canonical_projection = read_json(PROJECTION_PATH)
+    projection = load_website_projection(args.website_repo.resolve(), args.website_ref)
+    canonical_components = {
+        (row["provider"], row["id"]): public_pricing_components(row)
+        for row in canonical_projection["models"]
+    }
+    website_components = {
+        (row["provider"], row["id"]): public_pricing_components(row)
+        for row in projection["models"]
+    }
+    if website_components != canonical_components:
+        raise ValueError("Website pricing components differ from the canonical Pricing V2 projection")
     metadata = read_json(META_PATH)
     legacy_models = load_website_models(args.website_repo.resolve(), args.website_ref)
     payload = build_export(projection, metadata, legacy_models)
