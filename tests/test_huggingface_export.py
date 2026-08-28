@@ -1,4 +1,5 @@
 import csv
+import hashlib
 import json
 import re
 import tempfile
@@ -15,6 +16,7 @@ from scripts.export_huggingface import (
     date_only,
     expected_public_keys,
     parse_date,
+    public_pricing_components,
     preserve_existing_generated_at_for_timestamp_only_change,
     validate_huggingface_artifacts,
 )
@@ -33,6 +35,12 @@ class HuggingFaceExportTests(unittest.TestCase):
         self.assertEqual((HF_DIR / "train.csv").read_bytes(), (HF_DIR / "prices.csv").read_bytes())
         with (HF_DIR / "train.csv").open(encoding="utf-8", newline="") as handle:
             self.assertEqual(len(list(csv.DictReader(handle))), len(self.records))
+        self.assertEqual(
+            hashlib.sha256((HF_DIR / "train.csv").read_bytes()).hexdigest(),
+            hashlib.sha256((HF_DIR / "prices.csv").read_bytes()).hexdigest(),
+        )
+        self.assertEqual(self.metadata["schema_version"], "1.3.0")
+        self.assertEqual(self.metadata["last_verified_at"], self.metadata["last_updated"])
 
     def test_export_matches_full_public_website_key_set(self):
         actual = {(row["provider_id"], row["model_id"]) for row in self.records}
@@ -96,6 +104,59 @@ class HuggingFaceExportTests(unittest.TestCase):
         self.assertEqual(csv_record["checked_at"], record["checked_at"])
         self.assertEqual(json.loads(csv_record["pricing_tiers_json"]), record["pricing_tiers"])
 
+    def test_all_components_match_projection_and_csv_contract(self):
+        projection_by_key = {(row["provider"], row["id"]): row for row in self.projection["models"]}
+        component_count = 0
+        cache_write_count = 0
+        with (HF_DIR / "prices.csv").open(encoding="utf-8", newline="") as handle:
+            csv_rows = {(row["provider_id"], row["model_id"]): row for row in csv.DictReader(handle)}
+            headers = list(next(iter(csv_rows.values())).keys())
+        legacy_headers = [
+            "provider_id", "provider", "model_id", "model", "input_price_per_1m_tokens",
+            "cached_input_price_per_1m_tokens", "output_price_per_1m_tokens", "currency",
+            "pricing_unit", "status", "availability", "official_source_url", "verification_status",
+            "last_verified_at", "checked_at", "effective_from", "effective_until", "notes",
+            "pricing_tier_count", "pricing_tiers_json",
+        ]
+        self.assertEqual(headers[:-1], legacy_headers)
+        self.assertEqual(headers[-1], "pricing_components_json")
+        for record in self.records:
+            key = (record["provider_id"], record["model_id"])
+            expected = public_pricing_components(projection_by_key[key])
+            self.assertEqual(record["pricing_components"], expected, key)
+            self.assertEqual(json.loads(csv_rows[key]["pricing_components_json"]), expected, key)
+            component_count += len(expected)
+            cache_write_count += sum(item["component"].startswith("cache_write") for item in expected)
+            for component in expected:
+                self.assertIsInstance(component["amount"], str, key)
+                self.assertEqual(len(component["source_refs"]), len(component["source_urls"]), key)
+                self.assertTrue(all(url.startswith("https://") for url in component["source_urls"]), key)
+        self.assertEqual(component_count, 248)
+        self.assertEqual(cache_write_count, 33)
+        self.assertTrue(any(not record["pricing_components"] for record in self.records))
+
+    def test_nine_cache_pricing_targets_have_component_contract(self):
+        target_ids = {
+            "gpt-5.6-sol", "gpt-5.6-terra", "gpt-5.6-luna", "claude-fable-5",
+            "claude-haiku-4.5", "claude-opus-4.8", "claude-opus-5",
+            "claude-sonnet-4.6", "claude-sonnet-5",
+        }
+        by_id = {record["model_id"]: record for record in self.records}
+        self.assertEqual(target_ids - set(by_id), set())
+        for model_id in target_ids:
+            self.assertTrue(any(item["component"].startswith("cache_write") for item in by_id[model_id]["pricing_components"]), model_id)
+
+    def test_removing_additive_component_fields_reproduces_p0_1_records(self):
+        baseline_records = []
+        for record in self.records:
+            baseline = dict(record)
+            baseline.pop("pricing_components")
+            baseline_records.append(baseline)
+        digest = hashlib.sha256(
+            json.dumps(baseline_records, sort_keys=True, separators=(",", ":"), ensure_ascii=False).encode()
+        ).hexdigest()
+        self.assertEqual(digest, "9c94fdf26a026561352c8cf5fd3a54199be171cf3cf679b8cc1028afb5b6852c")
+
     def test_timestamps_preserve_verification_semantics(self):
         pricing_meta = json.loads(META_PATH.read_text(encoding="utf-8"))
         self.assertLessEqual(parse_date(self.metadata["generated_at"]), parse_date(pricing_meta["generated_at"]))
@@ -109,6 +170,8 @@ class HuggingFaceExportTests(unittest.TestCase):
         self.assertGreaterEqual(generated_at, max(verified))
         self.assertLessEqual(generated_at, datetime.now(timezone.utc))
         self.assertTrue(all(value <= datetime.now(timezone.utc) for value in verified))
+        checked = [parse_date(row["checked_at"]) for row in self.records if row["checked_at"]]
+        self.assertGreaterEqual(generated_at, max(checked))
 
     def test_timestamp_only_regeneration_preserves_existing_generated_at(self):
         with tempfile.TemporaryDirectory() as temp_dir:

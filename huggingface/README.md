@@ -72,7 +72,7 @@ The canonical provider and pricing facts live in the [AICostBudget pricing data 
 | `model_id` | Stable public model identifier. |
 | `model` | Human-readable model name. |
 | `input_price_per_1m_tokens` | Standard input-token price per 1M tokens. |
-| `cached_input_price_per_1m_tokens` | Cached-input price per 1M tokens when available. |
+| `cached_input_price_per_1m_tokens` | Compatibility/default cached-input or read-like scalar when available; provider cache semantics can differ. |
 | `output_price_per_1m_tokens` | Standard output-token price per 1M tokens. |
 | `currency` | Pricing currency; current records use USD. |
 | `pricing_unit` | Normalized unit; current records use 1M tokens. |
@@ -88,6 +88,10 @@ The canonical provider and pricing facts live in the [AICostBudget pricing data 
 | `pricing_tier_count` | Number of structured context-dependent pricing tiers. |
 | `pricing_tiers` | JSON-only structured tier records, including thresholds and source references. |
 | `pricing_tiers_json` | CSV-only lossless JSON serialization of `pricing_tiers`; `[]` when no tiers apply. |
+| `pricing_components` | JSON-only full conditional pricing representation: component, decimal-string amount, conditions, effective range, source IDs and URLs, and verification status; `[]` when none apply. |
+| `pricing_components_json` | Final CSV column containing the same `pricing_components` array as compact deterministic JSON; `[]` when none apply. |
+
+The scalar input, cached-input, and output fields remain the compatibility/default pricing view. They are not deprecated. `pricing_components` is the detailed view for provider semantics that cannot be represented by one scalar, including separate `cache_write_5m` and `cache_write_1h` charges or cache-write prices that vary by processing mode and context class. The contract is component-oriented, so it also supports storage, request, tool-call, grounding, and future charge types.
 
 ## Load with pandas
 
@@ -136,7 +140,7 @@ https://huggingface.co/datasets/aicostbudget-ai/ai-api-pricing/resolve/main/meta
 - `checked_at` records a source check that may not have reached verified status.
 - `review_required` and `partially_verified` records keep `last_verified_at` empty; neither `checked_at` nor `generated_at` is substituted.
 - Rebuilding this distribution does not rewrite record verification dates.
-- Validation requires `generated_at >= max(last_verified_at)` and rejects future timestamps.
+- Validation requires `generated_at >= max(last_verified_at)` and `generated_at >= max(checked_at)`, and rejects future timestamps.
 
 For current coverage and timestamps, inspect `meta.json`. The source repository also contains schema checks, price validation, history, snapshots, and freshness workflows.
 

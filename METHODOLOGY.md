@@ -32,6 +32,14 @@ Canonical models with explicit context-dependent prices use `pricing_tiers`. A t
 
 The V2 `PriceRecord` projection preserves these facts in `contextClass`, `promptTokenThreshold`, and `tierSelection`. Current standard IDs follow `price:<provider>/<model>:standard:<context>:current`.
 
+### Pricing V2 components
+
+The Website and Hugging Face public export schema 1.3.0 publishes `pricing_components` as the detailed conditional pricing representation. Each component combines `component`, a decimal-string `amount`, `unit`, `currency`, `modality`, calculation conditions, provenance, verification status, and an effective range. The corresponding final CSV column, `pricing_components_json`, is a compact deterministic serialization of the same array.
+
+Scalar input, cached-input, and output fields remain the compatibility/default pricing view. Components do not replace them. A model can expose both `cache_write_5m` and `cache_write_1h`, or distinct `cache_write` charges by processing mode and context class. The public structure is therefore component-oriented rather than cache-specific and can also represent storage, request, tool-call, and grounding charges.
+
+Components are ordered by `pricing_id` and then `charge_id`. Canonical source IDs remain in `source_refs`, and `source_urls` provides the corresponding resolvable official URLs. An absent component set is represented consistently as `[]` in JSON and as the JSON text `[]` in CSV.
+
 ## Dates
 
 - `accessed_at` records when the source was accessed.
@@ -54,4 +62,3 @@ python scripts/build.py
 ```
 
 Validation checks schema presence, duplicate IDs, timestamp format, official source URLs, negative prices, JSON/CSV consistency, API parseability, and reproducibility.
-

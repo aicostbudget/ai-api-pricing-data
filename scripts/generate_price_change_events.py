@@ -24,6 +24,7 @@ CHANGE_TYPES = {
     "price_update",
     "cached_price_added",
     "cached_price_removed",
+    "component_price_update",
 }
 DATE_BASIS_VALUES = {
     "provider_announced",
@@ -105,6 +106,54 @@ def normalize_prices(pricing: dict[str, Any], label: str) -> dict[str, int | flo
     }
 
 
+def normalized_component_amount(value: Any, field: str) -> str:
+    if not isinstance(value, str) or not value:
+        fail(f"{field} must be a decimal string")
+    try:
+        decimal = Decimal(value)
+    except InvalidOperation as exc:
+        raise ValueError(f"{field} must be a decimal string") from exc
+    if not decimal.is_finite() or decimal < 0:
+        fail(f"{field} must be a finite non-negative decimal string")
+    normalized = format(decimal.normalize(), "f")
+    return "0" if normalized in {"-0", ""} else normalized
+
+
+def component_price_changes(before_model: dict[str, Any], after_model: dict[str, Any], label: str) -> list[dict[str, Any]]:
+    def indexed(model: dict[str, Any], side: str) -> dict[tuple[str, str], dict[str, Any]]:
+        result = {}
+        for component in model.get("pricing_components", []):
+            key = (component.get("pricing_id"), component.get("charge_id"))
+            if not all(key) or key in result:
+                fail(f"{label} {side} pricing_components must have unique pricing_id + charge_id")
+            result[key] = component
+        return result
+
+    before_components = indexed(before_model, "old")
+    after_components = indexed(after_model, "new")
+    changes = []
+    for key in sorted(set(before_components) & set(after_components)):
+        old_component = before_components[key]
+        new_component = after_components[key]
+        if old_component.get("component") != new_component.get("component"):
+            fail(f"{label} component identity changed for {key[1]}")
+        if old_component.get("condition") != new_component.get("condition"):
+            fail(f"{label} component condition changed for {key[1]}; add explicit event semantics")
+        old_amount = normalized_component_amount(old_component.get("amount"), f"{label} old {key[1]}.amount")
+        new_amount = normalized_component_amount(new_component.get("amount"), f"{label} new {key[1]}.amount")
+        if old_amount == new_amount:
+            continue
+        changes.append({
+            "pricing_id": key[0],
+            "charge_id": key[1],
+            "component": new_component["component"],
+            "old_amount": old_amount,
+            "new_amount": new_amount,
+            "condition": deepcopy(new_component["condition"]),
+        })
+    return changes
+
+
 def load_snapshot(path: Path) -> dict[tuple[str, str], dict[str, Any]]:
     data = json.loads(path.read_text(encoding="utf-8"))
     models = {}
@@ -118,7 +167,7 @@ def load_snapshot(path: Path) -> dict[tuple[str, str], dict[str, Any]]:
     return models
 
 
-def expected_change_type(old_prices: dict[str, Any], new_prices: dict[str, Any]) -> str:
+def expected_change_type(old_prices: dict[str, Any], new_prices: dict[str, Any], component_changes: list[dict[str, Any]] | None = None) -> str:
     input_changed = old_prices["input"] != new_prices["input"]
     output_changed = old_prices["output"] != new_prices["output"]
     cached_changed = old_prices["cached_input"] != new_prices["cached_input"]
@@ -128,15 +177,17 @@ def expected_change_type(old_prices: dict[str, Any], new_prices: dict[str, Any])
         return "cached_price_added"
     if cached_changed and old_prices["cached_input"] is not None and new_prices["cached_input"] is None:
         return "cached_price_removed"
+    if component_changes:
+        return "component_price_update"
     fail("old_prices and new_prices must differ")
 
 
-def infer_change_type(old_prices: dict[str, Any], new_prices: dict[str, Any]) -> str:
-    return expected_change_type(old_prices, new_prices)
+def infer_change_type(old_prices: dict[str, Any], new_prices: dict[str, Any], component_changes: list[dict[str, Any]] | None = None) -> str:
+    return expected_change_type(old_prices, new_prices, component_changes)
 
 
 def canonical_dedupe_payload(event: dict[str, Any]) -> dict[str, Any]:
-    return {
+    payload = {
         "provider_id": event["provider_id"],
         "model_id": event["model_id"],
         "change_type": event["change_type"],
@@ -145,6 +196,9 @@ def canonical_dedupe_payload(event: dict[str, Any]) -> dict[str, Any]:
         "unit": event["unit"],
         "currency": event["currency"],
     }
+    if event.get("component_changes"):
+        payload["component_changes"] = event["component_changes"]
+    return payload
 
 
 def build_dedupe_key(event: dict[str, Any]) -> str:
@@ -172,9 +226,10 @@ def generate_events(before: Path, after: Path) -> list[dict[str, Any]]:
         after_pricing = after_model["pricing"]
         old_prices = normalize_prices(before_pricing, f"{key[0]}/{key[1]} old")
         new_prices = normalize_prices(after_pricing, f"{key[0]}/{key[1]} new")
+        component_changes = component_price_changes(before_model, after_model, f"{key[0]}/{key[1]}")
         unit = after_pricing.get("unit")
         currency = after_pricing.get("currency")
-        if old_prices == new_prices:
+        if old_prices == new_prices and not component_changes:
             continue
         if before_pricing.get("unit") != unit:
             fail(f"{key[0]}/{key[1]} unit changed; add explicit event semantics before generating")
@@ -185,7 +240,7 @@ def generate_events(before: Path, after: Path) -> list[dict[str, Any]]:
             "event_id": "",
             "provider_id": key[0],
             "model_id": key[1],
-            "change_type": infer_change_type(old_prices, new_prices),
+            "change_type": infer_change_type(old_prices, new_prices, component_changes),
             "old_prices": old_prices,
             "new_prices": new_prices,
             "unit": unit,
@@ -201,6 +256,8 @@ def generate_events(before: Path, after: Path) -> list[dict[str, Any]]:
             "dedupe_key": "",
             "notes": "Effective date was not published by the provider in the source used for this event.",
         }
+        if component_changes:
+            event["component_changes"] = component_changes
         event["dedupe_key"] = build_dedupe_key(event)
         event["event_id"] = build_event_id(event)
         events.append(event)
@@ -258,6 +315,33 @@ def validate_price_triple(value: Any, field: str) -> dict[str, Any]:
     return {key: normalized_price(value[key], f"{field}.{key}") for key in PRICE_EVENT_FIELDS}
 
 
+def validate_component_changes(value: Any) -> list[dict[str, Any]]:
+    if value is None:
+        return []
+    if not isinstance(value, list) or not value:
+        fail("component_changes must be a non-empty array when present")
+    normalized = []
+    seen = set()
+    required = {"pricing_id", "charge_id", "component", "old_amount", "new_amount", "condition"}
+    for index, change in enumerate(value):
+        if not isinstance(change, dict) or set(change) != required:
+            fail(f"component_changes[{index}] must contain exactly {sorted(required)}")
+        identity = (change["pricing_id"], change["charge_id"])
+        if not all(isinstance(item, str) and item for item in identity) or identity in seen:
+            fail("component_changes must have unique non-empty pricing_id + charge_id")
+        seen.add(identity)
+        if not isinstance(change["component"], str) or not change["component"]:
+            fail(f"component_changes[{index}].component must be non-empty")
+        old_amount = normalized_component_amount(change["old_amount"], f"component_changes[{index}].old_amount")
+        new_amount = normalized_component_amount(change["new_amount"], f"component_changes[{index}].new_amount")
+        if old_amount == new_amount:
+            fail(f"component_changes[{index}] amounts must differ")
+        if not isinstance(change["condition"], dict):
+            fail(f"component_changes[{index}].condition must be an object")
+        normalized.append({**change, "old_amount": old_amount, "new_amount": new_amount})
+    return normalized
+
+
 def valid_https_url(value: Any) -> bool:
     if not isinstance(value, str):
         return False
@@ -293,9 +377,10 @@ def validate_event(event: dict[str, Any], path: Path | None = None, line_number:
             fail(f"unsupported change_type {event.get('change_type')}")
         old_prices = validate_price_triple(event.get("old_prices"), "old_prices")
         new_prices = validate_price_triple(event.get("new_prices"), "new_prices")
-        if old_prices == new_prices:
-            fail("old_prices and new_prices must differ")
-        expected_type = expected_change_type(old_prices, new_prices)
+        component_changes = validate_component_changes(event.get("component_changes"))
+        if old_prices == new_prices and not component_changes:
+            fail("old_prices/new_prices or component_changes must differ")
+        expected_type = expected_change_type(old_prices, new_prices, component_changes)
         if event.get("change_type") != expected_type:
             fail(f"change_type must be {expected_type} for this price delta")
         if event.get("currency") != "USD":
@@ -330,7 +415,7 @@ def validate_event(event: dict[str, Any], path: Path | None = None, line_number:
         after_date = snapshot_date(after_path)
         if parsed_date(before_date, "source_snapshot_before date") >= parsed_date(after_date, "source_snapshot_after date"):
             fail("source_snapshot_before date must be earlier than source_snapshot_after date")
-        expected_key = build_dedupe_key({**event, "old_prices": old_prices, "new_prices": new_prices})
+        expected_key = build_dedupe_key({**event, "old_prices": old_prices, "new_prices": new_prices, "component_changes": component_changes})
         if event["dedupe_key"] != expected_key:
             fail("dedupe_key does not match canonical price-change payload")
         if event["event_id"] != build_event_id({**event, "dedupe_key": expected_key}):

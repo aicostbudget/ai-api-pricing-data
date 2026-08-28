@@ -21,7 +21,7 @@ PROJECTION_ROW_RECONCILIATION = PREVIEW / "phase4a-5-projection-row-reconciliati
 UNSAFE_DIFFERENCE_AUDIT = PREVIEW / "phase4a-5-unsafe-difference-audit.json"
 CONTEXT_WINDOW_AUDIT = PREVIEW / "phase4a-5-context-window-audit.json"
 
-GENERATED_AT = "2026-08-22T14:45:21Z"
+DEFAULT_GENERATED_AT = "2026-08-25T15:07:25Z"
 DEFAULT_EFFECTIVE_AT = "2026-08-22T14:45:21Z"
 PROJECTION_SCHEMA_VERSION = "website-pricing-projection-v2.phase4a"
 WEBSITE_ROW_REQUIRED_FIELDS = ("id", "inputPrice", "cachedInputPrice", "outputPrice")
@@ -42,6 +42,19 @@ GOVERNANCE_CLASSES = {
     "REVIEW_REQUIRED",
 }
 PUBLIC_EXPOSURES = {"public", "excluded", "alias_only"}
+PRICING_COMPONENTS = {
+    "input",
+    "cached_input",
+    "cache_read",
+    "cache_write",
+    "cache_write_5m",
+    "cache_write_1h",
+    "output",
+    "storage",
+    "request",
+    "tool_call",
+    "grounding",
+}
 
 
 def read_json(path: Path) -> Any:
@@ -115,6 +128,21 @@ def source_timestamp(source: dict[str, Any], field: str) -> str | None:
 def latest_timestamp(values: list[str | None]) -> str | None:
     present = sorted(value for value in values if value)
     return present[-1] if present else None
+
+
+def source_refs_at_timestamp(
+    refs: list[str],
+    sources_by_id: dict[str, dict[str, Any]],
+    field: str,
+    timestamp: str | None,
+) -> list[str]:
+    if timestamp is None:
+        return []
+    return sorted(
+        ref
+        for ref in refs
+        if ref in sources_by_id and source_timestamp(sources_by_id[ref], field) == timestamp
+    )
 
 
 def current_effective(price: dict[str, Any], effective_at: datetime) -> bool:
@@ -365,12 +393,92 @@ def build_canonical_pricing_tiers(
 
     tiers.sort(key=lambda tier: tier["pricingId"])
     return tiers
+
+
+def project_pricing_component(record: dict[str, Any], charge: dict[str, Any]) -> dict[str, Any]:
+    component = charge["component"]
+    if component not in PRICING_COMPONENTS:
+        raise ValueError(
+            f"canonical price record {record.get('pricingId', '(unknown)')} "
+            f"has unsupported component {component}"
+        )
+
+    tier_selection = record.get("tierSelection")
+    return {
+        "pricingId": record["pricingId"],
+        "chargeId": charge["chargeId"],
+        "component": component,
+        "amount": charge["amount"],
+        "unit": charge["unit"],
+        "currency": record["currency"],
+        "modality": charge["modality"],
+        "condition": {
+            "processingMode": record["processingMode"],
+            "contextClass": record["contextClass"],
+            "promptTokenThreshold": record["promptTokenThreshold"],
+            "tierSelection": {
+                "comparison": tier_selection["comparison"],
+                "tokenBasis": tier_selection["tokenBasis"],
+                "cachedPromptTokensIncluded": tier_selection["cachedPromptTokensIncluded"],
+                "wholeRequestPricing": tier_selection["wholeRequestPricing"],
+            } if tier_selection else None,
+            "regionPolicy": record["regionPolicy"],
+            "effectiveFrom": record["effectiveFrom"],
+            "effectiveUntil": record["effectiveUntil"],
+        },
+        "calculationDefault": record.get("calculationDefault") is True,
+        "sourceRefs": sorted(record["sourceRefs"]),
+        "verificationStatus": record["verificationStatus"],
+    }
+
+
+def build_pricing_components(
+    model_prices: list[dict[str, Any]],
+    effective_at: datetime,
+    verified_price_by_id: dict[str, dict[str, Any]],
+) -> list[dict[str, Any]] | None:
+    eligible_records = [
+        record
+        for record in model_prices
+        if record.get("pricingStatus") not in {"future", "historical"}
+        and (
+            record.get("verificationStatus") == "verified"
+            or record.get("pricingId") in verified_price_by_id
+        )
+        and current_effective(record, effective_at)
+    ]
+
+    components: list[dict[str, Any]] = []
+    seen_charge_ids: set[str] = set()
+    for record in sorted(eligible_records, key=lambda item: item["pricingId"]):
+        record_components: set[str] = set()
+        for charge in sorted(record["charges"], key=lambda item: item["chargeId"]):
+            charge_id = charge["chargeId"]
+            component = charge["component"]
+            if charge_id in seen_charge_ids:
+                raise ValueError(f"duplicate canonical chargeId in Website projection: {charge_id}")
+            if component in record_components:
+                raise ValueError(
+                    f"canonical price record {record['pricingId']} contains duplicate component {component}"
+                )
+            seen_charge_ids.add(charge_id)
+            record_components.add(component)
+            projected = project_pricing_component(record, charge)
+            if record["verificationStatus"] != "verified":
+                projected["verificationStatus"] = "verified"
+            components.append(projected)
+
+    return components or None
+
+
 def projection_row(
     identity: dict[str, Any],
     model_by_id: dict[str, dict[str, Any]],
     prices_by_model: dict[str, list[dict[str, Any]]],
     sources_by_id: dict[str, dict[str, Any]],
     verified_price_by_id: dict[str, dict[str, Any]],
+    public_verification_by_internal_id: dict[str, dict[str, Any]],
+    existing_projection_by_id: dict[str, dict[str, Any]],
     effective_at: datetime,
     website_rows: list[dict[str, Any]],
     excluded_reasons: dict[str, str],
@@ -379,6 +487,7 @@ def projection_row(
     model = model_by_id.get(identity["internalId"])
     website_id = website_id_for(identity)
     website_row = next((row for row in website_rows if row.get("id") == website_id), None)
+    existing_row = existing_projection_by_id.get(website_id)
     target_internal_id = (
         identity.get("billingModelInternalId")
         or identity.get("aliasTargetInternalId")
@@ -407,13 +516,76 @@ def projection_row(
     refs = price_source_refs(identity, selected_price)
     urls = source_urls(refs, sources_by_id)
     verified_at = None
+    verified_source_refs: list[str] = []
     if default_safe and selected_price:
-        verified_at = verified_price_by_id.get(selected_price["pricingId"], {}).get("phase25VerifiedAt")
+        verified_evidence = verified_price_by_id.get(selected_price["pricingId"], {})
+        verified_at = verified_evidence.get("phase25VerifiedAt")
+        if (
+            verified_at is None
+            and existing_row
+            and existing_row.get("selectedPriceRecordId") == selected_price["pricingId"]
+            and existing_row.get("verifiedAt")
+        ):
+            verified_at = existing_row["verifiedAt"]
+            existing_verified_refs = existing_row.get("verifiedSourceRefs", [])
+            verified_source_refs = sorted(ref for ref in existing_verified_refs if ref in refs)
+            if not verified_source_refs:
+                verified_source_refs = sorted(
+                    ref
+                    for ref in verified_evidence.get("sourceRefs", selected_price.get("sourceRefs", []))
+                    if ref in refs
+                )
         if verified_at is None:
-            verified_at = latest_timestamp(
-                [source_timestamp(sources_by_id[ref], "verifiedAt") for ref in refs if ref in sources_by_id]
+            public_verification = public_verification_by_internal_id.get(target_internal_id)
+            public_source_refs = sorted(
+                ref
+                for ref in refs
+                if ref in sources_by_id
+                and public_verification
+                and sources_by_id[ref].get("url") == public_verification.get("official_source_url")
             )
-    checked_at = latest_timestamp([source_timestamp(sources_by_id[ref], "checkedAt") for ref in refs if ref in sources_by_id])
+            public_prices = public_verification.get("pricing", {}) if public_verification else {}
+            public_price_matches = (
+                public_verification is not None
+                and parse_decimal(str(public_prices.get("input"))) == charge_amount(selected_price, "input")
+                and parse_decimal(str(public_prices.get("output"))) == charge_amount(selected_price, "output")
+                and (
+                    public_prices.get("cached_input") is None
+                    or parse_decimal(str(public_prices.get("cached_input"))) == charge_amount(selected_price, "cached_input")
+                )
+            )
+            if public_price_matches and public_source_refs:
+                verified_at = public_verification.get("last_verified_at")
+                verified_source_refs = public_source_refs
+            else:
+                verified_at = latest_timestamp(
+                    [source_timestamp(sources_by_id[ref], "verifiedAt") for ref in refs if ref in sources_by_id]
+                )
+                verified_source_refs = source_refs_at_timestamp(
+                    refs, sources_by_id, "verifiedAt", verified_at
+                )
+        else:
+            verified_source_refs = sorted(
+                ref for ref in verified_evidence.get("sourceRefs", []) if ref in refs
+            )
+    if (
+        existing_row
+        and existing_row.get("selectedPriceRecordId") == (selected_price or {}).get("pricingId")
+        and existing_row.get("checkedAt")
+    ):
+        checked_at = existing_row["checkedAt"]
+        checked_source_refs = sorted(
+            ref for ref in existing_row.get("checkedSourceRefs", []) if ref in refs
+        )
+        if not checked_source_refs:
+            checked_source_refs = sorted(
+                ref for ref in (selected_price or {}).get("sourceRefs", refs) if ref in refs
+            )
+    else:
+        checked_at = latest_timestamp(
+            [source_timestamp(sources_by_id[ref], "checkedAt") for ref in refs if ref in sources_by_id]
+        )
+        checked_source_refs = source_refs_at_timestamp(refs, sources_by_id, "checkedAt", checked_at)
     row = {
         "id": website_id_for(identity),
         "provider": identity["providerId"],
@@ -428,7 +600,13 @@ def projection_row(
         "verificationStatus": "verified" if default_safe else identity["verificationStatus"],
         "verifiedAt": verified_at,
         "checkedAt": checked_at,
-        "officialSourceUrl": urls[0] if urls else None,
+        "verifiedSourceRefs": verified_source_refs,
+        "checkedSourceRefs": checked_source_refs,
+        "officialSourceUrl": (
+            existing_row["officialSourceUrl"]
+            if existing_row and existing_row.get("officialSourceUrl") in urls
+            else urls[0] if urls else None
+        ),
         "contextWindow": None,
         "contextWindowStatus": "unknown_not_guessed",
         "canonicalInternalId": identity["internalId"],
@@ -473,6 +651,14 @@ def projection_row(
     )
     if pricing_tiers:
         row["pricingTiers"] = pricing_tiers
+
+    pricing_components = build_pricing_components(
+        prices_by_model.get(target_internal_id, []),
+        effective_at,
+        verified_price_by_id,
+    ) if default_safe else None
+    if pricing_components:
+        row["pricingComponents"] = pricing_components
 
     return row
 
@@ -607,6 +793,8 @@ def build_strict_verification_rows(
             prices_by_model,
             sources_by_id,
             {},
+            {},
+            {},
             effective_at,
             website_rows,
             excluded_reasons,
@@ -687,7 +875,7 @@ def build_phase45_audits(
         "unexplained": sum(1 for row in safe_reconciliation_rows if row["omissionReason"] == "unclassified"),
     }
     safe_reconciliation = {
-        "generatedAt": GENERATED_AT,
+        "generatedAt": artifact["generatedAt"],
         "stats": safe_stats,
         "rows": safe_reconciliation_rows,
     }
@@ -720,7 +908,7 @@ def build_phase45_audits(
         for key in ("canonical_model", "alias", "historical_reference", "redirecting_identity", "other")
     }
     row_reconciliation = {
-        "generatedAt": GENERATED_AT,
+        "generatedAt": artifact["generatedAt"],
         "normalizedCanonicalIdentities": len(models),
         "projectionRows": len(projection_rows),
         "counts": row_counts,
@@ -812,7 +1000,7 @@ def build_phase45_audits(
             }
         )
     unsafe_audit = {
-        "generatedAt": GENERATED_AT,
+        "generatedAt": artifact["generatedAt"],
         "beforePhase4A5UnsafeDifferenceCount": len(strict_unsafe_details),
         "currentUnsafeDifferenceCount": len(current_unsafe_details),
         "severitySummary": unsafe_summary,
@@ -844,7 +1032,7 @@ def build_phase45_audits(
             }
         )
     context_audit = {
-        "generatedAt": GENERATED_AT,
+        "generatedAt": artifact["generatedAt"],
         "contextWindowRows": len(context_rows),
         "verifiedCanonicalContextWindowCount": sum(1 for row in context_rows if row["canonicalContextWindow"] is not None),
         "projectedNullCount": sum(1 for row in context_rows if row["projectedContextWindow"] is None),
@@ -925,6 +1113,7 @@ def build_projection(
     effective_at_value: str = DEFAULT_EFFECTIVE_AT,
     *,
     website_dataset: Path,
+    generated_at_value: str = DEFAULT_GENERATED_AT,
 ) -> tuple[dict[str, Any], dict[str, Any]]:
     schema_version = read_json(PREVIEW / "schema-version.json")
     identities = read_json(PREVIEW / "model-identity-registry.json")
@@ -942,6 +1131,17 @@ def build_projection(
     for price in prices:
         prices_by_model.setdefault(price["modelInternalId"], []).append(price)
     sources_by_id = {source["sourceId"]: source for source in sources}
+    public_dataset = read_json(ROOT / "data" / "prices.json")
+    public_verification_by_internal_id = {
+        f"{row['provider_id']}/{row['model_id']}": row
+        for row in public_dataset["models"]
+    }
+    existing_projection_by_id: dict[str, dict[str, Any]] = {}
+    if ARTIFACT.exists():
+        existing_projection = read_json(ARTIFACT)
+        existing_projection_by_id = {
+            row["id"]: row for row in existing_projection.get("models", [])
+        }
     rows = [
         projection_row(
             identity,
@@ -949,6 +1149,8 @@ def build_projection(
             prices_by_model,
             sources_by_id,
             verified_price_by_id,
+            public_verification_by_internal_id,
+            existing_projection_by_id,
             effective_at,
             website_rows,
             excluded_reasons,
@@ -959,8 +1161,8 @@ def build_projection(
     rows.sort(key=lambda row: (row["provider"], row["id"], row["canonicalInternalId"]))
     artifact = {
         "schemaVersion": PROJECTION_SCHEMA_VERSION,
-        "generatedAt": GENERATED_AT,
-        "generatedAtPolicy": "deterministic static timestamp for reviewable repo-local artifacts",
+        "generatedAt": generated_at_value,
+        "generatedAtPolicy": "UTC artifact generation timestamp injected by the generation pipeline",
         "effectiveAt": effective_at.isoformat().replace("+00:00", "Z"),
         "effectiveTimezone": "UTC",
         "sourceDatasetVersion": schema_version["schemaVersion"],
@@ -988,7 +1190,7 @@ def build_projection(
         "models": rows,
     }
     report = {
-        "generatedAt": GENERATED_AT,
+        "generatedAt": generated_at_value,
         "phase": "Phase 4A Production-Ready Website Projection",
         "artifactPath": str(ARTIFACT.relative_to(ROOT)).replace("\\", "/"),
         "projectionModelCount": len(rows),
@@ -1008,6 +1210,7 @@ def build_projection(
 
 
 def validate_projection(artifact: dict[str, Any], report: dict[str, Any]) -> None:
+    generated_at = parse_effective_at(artifact["generatedAt"])
     required = set(artifact["requiredFields"])
     for row in artifact["models"]:
         missing = sorted(field for field in required if field not in row)
@@ -1017,6 +1220,28 @@ def validate_projection(artifact: dict[str, Any], report: dict[str, Any]) -> Non
             raise ValueError(f"contextWindow must not be guessed: {row['id']}")
         if row["verificationStatus"] in {"review_required", "unconfirmed_price"} and row["verifiedAt"] is not None:
             raise ValueError(f"review/unconfirmed row must not have verifiedAt: {row['id']}")
+        for timestamp_field, source_refs_field in (
+            ("verifiedAt", "verifiedSourceRefs"),
+            ("checkedAt", "checkedSourceRefs"),
+        ):
+            timestamp = row[timestamp_field]
+            source_refs = row[source_refs_field]
+            if timestamp is not None and generated_at < parse_effective_at(timestamp):
+                raise ValueError(
+                    f"projection generatedAt precedes {timestamp_field}: {row['id']}"
+                )
+            if timestamp is None and source_refs:
+                raise ValueError(
+                    f"projection row {row['id']} has {source_refs_field} without {timestamp_field}"
+                )
+            if timestamp is not None and not source_refs:
+                raise ValueError(
+                    f"projection row {row['id']} has {timestamp_field} without {source_refs_field}"
+                )
+            if any(ref not in row["sourceRefs"] for ref in source_refs):
+                raise ValueError(
+                    f"projection row {row['id']} has unrelated {source_refs_field}"
+                )
         if row["defaultSafe"] is False and any(row[field] is not None for field in ("inputPrice", "cachedInputPrice", "outputPrice")):
             raise ValueError(f"unsafe row exposes calculation price: {row['id']}")
         if row["governanceClass"] not in GOVERNANCE_CLASSES:
@@ -1027,6 +1252,8 @@ def validate_projection(artifact: dict[str, Any], report: dict[str, Any]) -> Non
             raise ValueError(f"excluded row cannot be default-safe: {row['id']}")
         if row["publicExposure"] == "alias_only" and row["identityType"] != "alias":
             raise ValueError(f"alias-only exposure requires alias identity: {row['id']}")
+        if "pricingComponents" in row:
+            validate_pricing_components(row)
     by_internal_id = {row["canonicalInternalId"]: row for row in artifact["models"]}
     grok = by_internal_id["xai/grok-3"]
     if grok["status"] == "latest" or grok["lifecycleStatus"] != "retired":
@@ -1041,14 +1268,75 @@ def validate_projection(artifact: dict[str, Any], report: dict[str, Any]) -> Non
         raise ValueError("projection report count mismatch")
 
 
+def validate_pricing_components(row: dict[str, Any]) -> None:
+    components = row["pricingComponents"]
+    if not isinstance(components, list) or not components:
+        raise ValueError(f"projection row {row['id']} has invalid pricingComponents")
+
+    expected_order = sorted(
+        components,
+        key=lambda item: (item.get("pricingId", ""), item.get("chargeId", "")),
+    )
+    if components != expected_order:
+        raise ValueError(f"projection row {row['id']} pricingComponents are not deterministic")
+
+    charge_ids: set[str] = set()
+    for component in components:
+        charge_id = component.get("chargeId")
+        if not isinstance(charge_id, str) or not charge_id:
+            raise ValueError(f"projection row {row['id']} component is missing chargeId")
+        if charge_id in charge_ids:
+            raise ValueError(f"projection row {row['id']} has duplicate chargeId {charge_id}")
+        charge_ids.add(charge_id)
+
+        if component.get("component") not in PRICING_COMPONENTS:
+            raise ValueError(f"projection row {row['id']} has invalid component")
+        amount = component.get("amount")
+        try:
+            parsed_amount = Decimal(amount) if isinstance(amount, str) else None
+            if parsed_amount is None or not parsed_amount.is_finite() or parsed_amount < 0:
+                raise ValueError
+        except Exception as error:
+            raise ValueError(
+                f"projection row {row['id']} component {charge_id} has invalid amount"
+            ) from error
+        for field in ("pricingId", "unit", "currency", "modality"):
+            if not isinstance(component.get(field), str) or not component[field]:
+                raise ValueError(
+                    f"projection row {row['id']} component {charge_id} is missing {field}"
+                )
+        condition = component.get("condition")
+        if not isinstance(condition, dict):
+            raise ValueError(
+                f"projection row {row['id']} component {charge_id} is missing condition"
+            )
+        for field in ("processingMode", "contextClass", "regionPolicy"):
+            if not isinstance(condition.get(field), str) or not condition[field]:
+                raise ValueError(
+                    f"projection row {row['id']} component {charge_id} condition is missing {field}"
+                )
+        if not isinstance(component.get("sourceRefs"), list) or not component["sourceRefs"]:
+            raise ValueError(
+                f"projection row {row['id']} component {charge_id} is missing sourceRefs"
+            )
+
+
 def main() -> None:
     parser = argparse.ArgumentParser(description="Generate the Phase 4A Website pricing projection.")
     parser.add_argument("--effective-at", default=DEFAULT_EFFECTIVE_AT)
+    parser.add_argument(
+        "--generated-at",
+        default=datetime.now(timezone.utc).replace(microsecond=0).isoformat().replace("+00:00", "Z"),
+    )
     parser.add_argument("--website-dataset", type=Path, required=True)
     parser.add_argument("--artifact", type=Path, default=ARTIFACT)
     parser.add_argument("--report", type=Path, default=REPORT)
     args = parser.parse_args()
-    artifact, report = build_projection(args.effective_at, website_dataset=args.website_dataset)
+    artifact, report = build_projection(
+        args.effective_at,
+        website_dataset=args.website_dataset,
+        generated_at_value=args.generated_at,
+    )
     audits = build_phase45_audits(artifact, report, website_dataset=args.website_dataset)
     atomic_write_json(args.artifact, artifact)
     atomic_write_json(args.report, report)
