@@ -212,11 +212,20 @@ class WebsiteProjectionV2Tests(unittest.TestCase):
             "openai/gpt-5.6-terra": (2, 0.2, 12),
             "openai/gpt-5.6-luna": (0.2, 0.02, 1.2),
         }
+        public_by_internal_id = {
+            f"{row['provider_id']}/{row['model_id']}": row
+            for row in json.loads((PREVIEW.parent / "prices.json").read_text(encoding="utf-8"))["models"]
+        }
         for internal_id, prices in expected.items():
             row = self.by_internal[internal_id]
             self.assertTrue(row["defaultSafe"])
             self.assertEqual(row["selectedPriceRecordId"], f"price:{internal_id}:standard:short:current")
             self.assertEqual((row["inputPrice"], row["cachedInputPrice"], row["outputPrice"]), prices)
+            self.assertEqual(
+                row["verifiedAt"],
+                public_by_internal_id[internal_id]["last_verified_at"],
+                "website projection freshness must follow the current canonical model verification",
+            )
             price = next(
                 item
                 for item in json.loads((PREVIEW / "prices.json").read_text(encoding="utf-8"))

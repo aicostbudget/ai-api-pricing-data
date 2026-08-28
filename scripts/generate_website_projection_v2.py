@@ -520,21 +520,6 @@ def projection_row(
     if default_safe and selected_price:
         verified_evidence = verified_price_by_id.get(selected_price["pricingId"], {})
         verified_at = verified_evidence.get("phase25VerifiedAt")
-        if (
-            verified_at is None
-            and existing_row
-            and existing_row.get("selectedPriceRecordId") == selected_price["pricingId"]
-            and existing_row.get("verifiedAt")
-        ):
-            verified_at = existing_row["verifiedAt"]
-            existing_verified_refs = existing_row.get("verifiedSourceRefs", [])
-            verified_source_refs = sorted(ref for ref in existing_verified_refs if ref in refs)
-            if not verified_source_refs:
-                verified_source_refs = sorted(
-                    ref
-                    for ref in verified_evidence.get("sourceRefs", selected_price.get("sourceRefs", []))
-                    if ref in refs
-                )
         if verified_at is None:
             public_verification = public_verification_by_internal_id.get(target_internal_id)
             public_source_refs = sorted(
@@ -554,17 +539,34 @@ def projection_row(
                     or parse_decimal(str(public_prices.get("cached_input"))) == charge_amount(selected_price, "cached_input")
                 )
             )
-            if public_price_matches and public_source_refs:
-                verified_at = public_verification.get("last_verified_at")
+            public_verified_at = (
+                public_verification.get("last_verified_at")
+                if public_price_matches and public_source_refs
+                else None
+            )
+            if (
+                existing_row
+                and existing_row.get("selectedPriceRecordId") == selected_price["pricingId"]
+                and existing_row.get("verifiedAt")
+                and (
+                    public_verified_at is None
+                    or parse_effective_at(existing_row["verifiedAt"]) >= parse_effective_at(public_verified_at)
+                )
+            ):
+                verified_at = existing_row["verifiedAt"]
+                existing_verified_refs = existing_row.get("verifiedSourceRefs", [])
+                verified_source_refs = sorted(ref for ref in existing_verified_refs if ref in refs)
+            elif public_verified_at is not None:
+                verified_at = public_verified_at
                 verified_source_refs = public_source_refs
-            else:
-                verified_at = latest_timestamp(
-                    [source_timestamp(sources_by_id[ref], "verifiedAt") for ref in refs if ref in sources_by_id]
-                )
-                verified_source_refs = source_refs_at_timestamp(
-                    refs, sources_by_id, "verifiedAt", verified_at
-                )
-        else:
+        if verified_at is None:
+            verified_at = latest_timestamp(
+                [source_timestamp(sources_by_id[ref], "verifiedAt") for ref in refs if ref in sources_by_id]
+            )
+            verified_source_refs = source_refs_at_timestamp(
+                refs, sources_by_id, "verifiedAt", verified_at
+            )
+        elif not verified_source_refs:
             verified_source_refs = sorted(
                 ref for ref in verified_evidence.get("sourceRefs", []) if ref in refs
             )
