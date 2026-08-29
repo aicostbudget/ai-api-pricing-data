@@ -4,7 +4,7 @@ import argparse
 import json
 import time
 from collections import defaultdict
-from datetime import date
+from datetime import date, datetime
 from decimal import Decimal
 from pathlib import Path
 from typing import Any
@@ -99,10 +99,17 @@ PROMOTED_CANONICAL_KEYS = {
     ("openai", "gpt-5.5-pro"),
 }
 
+VERIFIED_PUBLIC_ONLY_KEYS = {
+    ("google-gemini", "gemini-3.5-transcribe"),
+    ("google-gemini", "gemini-3.5-transcribe-live"),
+}
+
 MERGED_DUPLICATES = {}
 
 MODEL_AVAILABILITY_OVERRIDES = {
     ("anthropic", "claude-opus-5"): "Standard",
+    ("google-gemini", "gemini-3.5-transcribe"): "Standard",
+    ("google-gemini", "gemini-3.5-transcribe-live"): "Standard",
 }
 
 PHASE25_OFFICIAL_COMPLETION = {
@@ -485,6 +492,8 @@ def build_phase2_cutover_readiness(
 def parse_effective_date(value: str | None) -> date | None:
     if value is None:
         return None
+    if "T" in value:
+        return datetime.fromisoformat(value.replace("Z", "+00:00")).date()
     return date.fromisoformat(value)
 
 
@@ -1765,7 +1774,9 @@ def status_parts(provider_id: str, model_id: str, public: dict[str, Any] | None,
     else:
         lifecycle = "active"
 
-    if website_status == "preview" or public_status == "preview":
+    if (public or {}).get("release_stage"):
+        release_stage = public["release_stage"]
+    elif website_status == "preview" or public_status == "preview":
         release_stage = "preview"
     elif website_status in {"legacy", "deprecated", "retired"}:
         release_stage = "legacy"
@@ -1774,7 +1785,11 @@ def status_parts(provider_id: str, model_id: str, public: dict[str, Any] | None,
     else:
         release_stage = "stable"
 
-    verification = "verified" if public and website else "partially_verified"
+    verification = (
+        "verified"
+        if public and (website or (provider_id, model_id) in VERIFIED_PUBLIC_ONLY_KEYS)
+        else "partially_verified"
+    )
     availability = MODEL_AVAILABILITY_OVERRIDES.get((provider_id, model_id))
     if availability is None:
         availability = (website or {}).get("availability", public_status or "unknown")
@@ -1820,30 +1835,36 @@ def source_refs_for(provider_id: str, public: dict[str, Any] | None, website: di
     return sorted({source_by_url[url] for url in urls})
 
 
-def make_charges(prefix: str, values: dict[str, Any], source: str) -> list[dict[str, Any]]:
+def make_charges(
+    prefix: str,
+    values: dict[str, Any],
+    source: str,
+    input_modality: str = "text",
+    output_modality: str = "text",
+) -> list[dict[str, Any]]:
     cache_write_component = values.get("cache_write_component", "cache_write_5m")
     mapping = [
-        ("input", values.get("input")),
-        ("cached_input", values.get("cached_input")),
-        (cache_write_component, values.get("cache_write")),
-        ("cache_write_1h", values.get("cache_write_1h")),
-        ("output", values.get("output")),
+        ("input", values.get("input"), input_modality),
+        ("cached_input", values.get("cached_input"), input_modality),
+        (cache_write_component, values.get("cache_write"), input_modality),
+        ("cache_write_1h", values.get("cache_write_1h"), input_modality),
+        ("output", values.get("output"), output_modality),
     ]
     if source == "website":
         mapping = [
-            ("input", values.get("inputPrice")),
-            ("cached_input", values.get("cachedInputPrice")),
-            ("output", values.get("outputPrice")),
+            ("input", values.get("inputPrice"), input_modality),
+            ("cached_input", values.get("cachedInputPrice"), input_modality),
+            ("output", values.get("outputPrice"), output_modality),
         ]
     charges = []
-    for component, value in mapping:
+    for component, value, modality in mapping:
         amount = decimal_string(value)
         if amount is not None:
             charges.append(
                 {
-                    "chargeId": f"{prefix}:{component}:text:per_1m_tokens",
+                    "chargeId": f"{prefix}:{component}:{modality}:per_1m_tokens",
                     "component": component,
-                    "modality": "text",
+                    "modality": modality,
                     "unit": "per_1m_tokens",
                     "amount": amount,
                 }
@@ -1905,7 +1926,7 @@ def main() -> None:
 
     for key, item in public_by_key.items():
         for url in public_source_urls(item):
-            if item.get("pricing_tiers"):
+            if item.get("pricing_tiers") or item.get("time_pricing"):
                 canonical_tier_source_times[url] = {
                     "accessedAt": item.get("accessed_at"),
                     "verifiedAt": item.get("last_verified_at"),
@@ -2157,6 +2178,58 @@ def main() -> None:
                     batch_record.pop("tierSelection", None)
                     add_price(model_internal_id, batch_record)
                 continue
+            time_pricing = public.get("time_pricing")
+            if time_pricing:
+                schedule_source_ref = source_by_url[time_pricing["schedule_source_url"]]
+                calculation_default_count = 0
+                for period in time_pricing["periods"]:
+                    period_id = period["id"]
+                    pricing_id = f"price:{model_internal_id}:standard:short:current:{period_id}"
+                    calculation_default = all(
+                        period["pricing"][field] == pricing[field]
+                        for field in ("input", "cached_input", "output")
+                    )
+                    calculation_default_count += int(calculation_default)
+                    add_price(
+                        model_internal_id,
+                        {
+                            "pricingId": pricing_id,
+                            "modelInternalId": model_internal_id,
+                            "processingMode": "standard",
+                            "pricingStatus": "current",
+                            "contextClass": "short",
+                            "regionPolicy": "global",
+                            "promptTokenThreshold": None,
+                            "temporalCondition": {
+                                "periodId": period_id,
+                                "timezone": time_pricing["timezone"],
+                                "rateEffectiveFrom": time_pricing["rate_effective_from"],
+                                "scheduleEffectiveFrom": time_pricing["schedule_effective_from"],
+                                "selectionBasis": time_pricing["selection_basis"],
+                                "recurrence": time_pricing["recurrence"],
+                                "activeWeekdays": period["active_weekdays"],
+                                "timeWindows": period["time_windows"],
+                                "allOtherTimes": period["all_other_times"],
+                                "defaultPeriodId": time_pricing["default_period_id"],
+                                "scheduleSourceRefs": [schedule_source_ref],
+                            },
+                            "effectiveFrom": time_pricing["rate_effective_from"],
+                            "effectiveUntil": None,
+                            "currency": period["pricing"]["currency"],
+                            "charges": make_charges(pricing_id, period["pricing"], "public"),
+                            "sourceRefs": source_refs_for(provider_id, public, None, source_by_url),
+                            "billingNote": public.get("notes", ""),
+                            "verificationStatus": verification,
+                            "calculationDefault": calculation_default,
+                            "sourceDatasetIds": {
+                                "publicDatasetIds": [public["model_id"]],
+                                "websiteIds": [website["id"]] if website else [],
+                            },
+                        },
+                    )
+                if calculation_default_count != 1:
+                    raise ValueError(f"{model_internal_id} temporal pricing requires one V1-compatible default")
+                continue
             pricing_id = f"price:{model_internal_id}:standard:short:current"
             excluded_from_default = model_internal_id in PHASE26_EXCLUDED_DEFAULT_MODELS
             record = {
@@ -2169,7 +2242,13 @@ def main() -> None:
                 "effectiveFrom": public.get("effective_from"),
                 "effectiveUntil": None,
                 "currency": "USD",
-                "charges": make_charges(pricing_id, pricing, "public"),
+                "charges": make_charges(
+                    pricing_id,
+                    pricing,
+                    "public",
+                    public.get("input_modality", "text"),
+                    public.get("output_modality", "text"),
+                ),
                 "sourceRefs": source_refs_for(provider_id, public, website, source_by_url),
                 "billingNote": public.get("notes", ""),
                 "verificationStatus": "review_required" if (provider_id, model_id) in REVIEW_REQUIRED_IDS else verification,

@@ -3,50 +3,172 @@
   "docs_url": "https://api-docs.deepseek.com",
   "models": [
     {
-      "accessed_at": "2026-08-08T18:00:00Z",
+      "accessed_at": "2026-08-28T19:00:00Z",
       "display_name": "DeepSeek V4 Flash",
-      "effective_from": null,
-      "last_verified_at": "2026-08-08T18:00:00Z",
+      "effective_from": "2026-08-16",
+      "last_verified_at": "2026-08-28T19:00:00Z",
       "model_family": "DeepSeek V4",
       "model_id": "deepseek-v4-flash",
-      "notes": "DeepSeek labels input cache miss as input price and cache hit as cached_input. The current official pricing page identifies the underlying model version as DeepSeek-V4-Flash-0731; prices are unchanged.",
+      "notes": "V1 compatibility pricing uses the conservative Peak rate. Actual pricing depends on UTC request time; Off-peak is 50% lower. Current official Peak hours are 01:00-04:00 and 06:00-10:00 UTC, Monday through Friday; all other times, including weekends, are Off-peak. The price rates took effect at 2026-08-16T16:00:00Z. The official sources do not establish when the weekday-only schedule began, so schedule_effective_from is unknown.",
       "official_source_url": "https://api-docs.deepseek.com/quick_start/pricing",
+      "official_source_urls": [
+        "https://api-docs.deepseek.com/quick_start/pricing",
+        "https://api-docs.deepseek.com/news/news260813/",
+        "https://api-docs.deepseek.com/updates/"
+      ],
       "pricing": {
         "batch_input": null,
         "batch_output": null,
         "cache_write": null,
         "cache_write_1h": null,
-        "cached_input": 0.0028,
+        "cached_input": 0.014,
         "currency": "USD",
-        "input": 0.14,
-        "output": 0.28,
+        "input": 0.44,
+        "output": 1.32,
         "unit": "1M tokens"
       },
       "provider_id": "deepseek",
-      "status": "active"
+      "status": "active",
+      "time_pricing": {
+        "default_period_id": "off_peak",
+        "periods": [
+          {
+            "active_weekdays": [],
+            "all_other_times": true,
+            "id": "off_peak",
+            "is_default": true,
+            "pricing": {
+              "cached_input": 0.007,
+              "currency": "USD",
+              "input": 0.22,
+              "output": 0.66,
+              "unit": "1M tokens"
+            },
+            "time_windows": []
+          },
+          {
+            "active_weekdays": [
+              "monday",
+              "tuesday",
+              "wednesday",
+              "thursday",
+              "friday"
+            ],
+            "all_other_times": false,
+            "id": "peak",
+            "is_default": false,
+            "pricing": {
+              "cached_input": 0.014,
+              "currency": "USD",
+              "input": 0.44,
+              "output": 1.32,
+              "unit": "1M tokens"
+            },
+            "time_windows": [
+              {
+                "end": "04:00",
+                "start": "01:00"
+              },
+              {
+                "end": "10:00",
+                "start": "06:00"
+              }
+            ]
+          }
+        ],
+        "rate_effective_from": "2026-08-16T16:00:00Z",
+        "recurrence": "weekly",
+        "schedule_accessed_at": "2026-08-28T19:00:00Z",
+        "schedule_effective_from": null,
+        "schedule_source_url": "https://api-docs.deepseek.com/quick_start/pricing",
+        "schedule_verified_at": "2026-08-28T19:00:00Z",
+        "selection_basis": "request_time",
+        "timezone": "UTC"
+      }
     },
     {
-      "accessed_at": "2026-08-08T18:00:00Z",
+      "accessed_at": "2026-08-28T19:00:00Z",
       "display_name": "DeepSeek V4 Pro",
-      "effective_from": null,
-      "last_verified_at": "2026-08-08T18:00:00Z",
+      "effective_from": "2026-08-16",
+      "last_verified_at": "2026-08-28T19:00:00Z",
       "model_family": "DeepSeek V4",
       "model_id": "deepseek-v4-pro",
-      "notes": "DeepSeek labels input cache miss as input price and cache hit as cached_input.",
+      "notes": "V1 compatibility pricing uses the conservative Peak rate. Actual pricing depends on UTC request time; Off-peak is 50% lower. Current official Peak hours are 01:00-04:00 and 06:00-10:00 UTC, Monday through Friday; all other times, including weekends, are Off-peak. The price rates took effect at 2026-08-16T16:00:00Z. The official sources do not establish when the weekday-only schedule began, so schedule_effective_from is unknown.",
       "official_source_url": "https://api-docs.deepseek.com/quick_start/pricing",
+      "official_source_urls": [
+        "https://api-docs.deepseek.com/quick_start/pricing",
+        "https://api-docs.deepseek.com/news/news260813/",
+        "https://api-docs.deepseek.com/updates/"
+      ],
       "pricing": {
         "batch_input": null,
         "batch_output": null,
         "cache_write": null,
         "cache_write_1h": null,
-        "cached_input": 0.003625,
+        "cached_input": 0.044,
         "currency": "USD",
-        "input": 0.435,
-        "output": 0.87,
+        "input": 1.32,
+        "output": 3.96,
         "unit": "1M tokens"
       },
       "provider_id": "deepseek",
-      "status": "active"
+      "status": "active",
+      "time_pricing": {
+        "default_period_id": "off_peak",
+        "periods": [
+          {
+            "active_weekdays": [],
+            "all_other_times": true,
+            "id": "off_peak",
+            "is_default": true,
+            "pricing": {
+              "cached_input": 0.022,
+              "currency": "USD",
+              "input": 0.66,
+              "output": 1.98,
+              "unit": "1M tokens"
+            },
+            "time_windows": []
+          },
+          {
+            "active_weekdays": [
+              "monday",
+              "tuesday",
+              "wednesday",
+              "thursday",
+              "friday"
+            ],
+            "all_other_times": false,
+            "id": "peak",
+            "is_default": false,
+            "pricing": {
+              "cached_input": 0.044,
+              "currency": "USD",
+              "input": 1.32,
+              "output": 3.96,
+              "unit": "1M tokens"
+            },
+            "time_windows": [
+              {
+                "end": "04:00",
+                "start": "01:00"
+              },
+              {
+                "end": "10:00",
+                "start": "06:00"
+              }
+            ]
+          }
+        ],
+        "rate_effective_from": "2026-08-16T16:00:00Z",
+        "recurrence": "weekly",
+        "schedule_accessed_at": "2026-08-28T19:00:00Z",
+        "schedule_effective_from": null,
+        "schedule_source_url": "https://api-docs.deepseek.com/quick_start/pricing",
+        "schedule_verified_at": "2026-08-28T19:00:00Z",
+        "selection_basis": "request_time",
+        "timezone": "UTC"
+      }
     }
   ],
   "notes": "Official DeepSeek API models and pricing documentation.",

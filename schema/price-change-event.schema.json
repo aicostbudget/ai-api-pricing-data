@@ -37,6 +37,7 @@
         "cached_price_added",
         "cached_price_removed"
         ,"component_price_update"
+        ,"temporal_price_schedule_update"
       ]
     },
     "old_prices": {"$ref": "#/$defs/priceTriple"},
@@ -46,9 +47,27 @@
       "minItems": 1,
       "items": {"$ref": "#/$defs/componentChange"}
     },
+    "old_time_pricing": {
+      "anyOf": [
+        {"type": "null"},
+        {"$ref": "model.schema.json#/$defs/timePricing"}
+      ]
+    },
+    "new_time_pricing": {
+      "anyOf": [
+        {"type": "null"},
+        {"$ref": "model.schema.json#/$defs/timePricing"}
+      ]
+    },
     "unit": {"type": "string", "enum": ["1M tokens"]},
     "currency": {"type": "string", "const": "USD"},
-    "effective_from": {"type": ["string", "null"], "format": "date"},
+    "effective_from": {
+      "anyOf": [
+        {"type": "null"},
+        {"type": "string", "format": "date"},
+        {"type": "string", "format": "date-time"}
+      ]
+    },
     "detected_at": {"type": "string", "format": "date"},
     "verified_at": {"type": "string", "format": "date"},
     "date_basis": {

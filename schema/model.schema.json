@@ -10,6 +10,9 @@
     "display_name": {"type": "string"},
     "model_family": {"type": "string"},
     "status": {"type": "string", "enum": ["active", "preview", "deprecated", "retired", "unknown"]},
+    "release_stage": {"type": "string", "enum": ["stable", "preview", "legacy", "specialized", "unknown"]},
+    "input_modality": {"type": "string", "enum": ["text", "image", "audio", "video"]},
+    "output_modality": {"type": "string", "enum": ["text", "image", "audio", "video"]},
     "pricing": {
       "type": "object",
       "required": ["currency", "unit", "input", "output", "cached_input", "cache_write", "cache_write_1h", "batch_input", "batch_output"],
@@ -31,6 +34,7 @@
       "uniqueItems": true,
       "items": {"$ref": "#/$defs/pricingTier"}
     },
+    "time_pricing": {"$ref": "#/$defs/timePricing"},
     "official_source_url": {"type": "string", "format": "uri"},
     "official_source_urls": {
       "type": "array",
@@ -44,6 +48,69 @@
     "notes": {"type": "string"}
   },
   "$defs": {
+    "timePricing": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["timezone", "rate_effective_from", "schedule_effective_from", "selection_basis", "recurrence", "default_period_id", "schedule_source_url", "schedule_accessed_at", "schedule_verified_at", "periods"],
+      "properties": {
+        "timezone": {"type": "string", "minLength": 1},
+        "rate_effective_from": {"type": "string", "format": "date-time"},
+        "schedule_effective_from": {"type": ["string", "null"], "format": "date-time"},
+        "selection_basis": {"type": "string", "const": "request_time"},
+        "recurrence": {"type": "string", "const": "weekly"},
+        "default_period_id": {"type": "string", "minLength": 1},
+        "schedule_source_url": {"type": "string", "format": "uri"},
+        "schedule_accessed_at": {"type": "string", "format": "date-time"},
+        "schedule_verified_at": {"type": "string", "format": "date-time"},
+        "periods": {
+          "type": "array",
+          "minItems": 2,
+          "uniqueItems": true,
+          "contains": {"type": "object", "required": ["is_default"], "properties": {"is_default": {"const": true}}},
+          "minContains": 1,
+          "maxContains": 1,
+          "items": {"$ref": "#/$defs/timePricingPeriod"}
+        }
+      }
+    },
+    "timePricingPeriod": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["id", "is_default", "active_weekdays", "time_windows", "all_other_times", "pricing"],
+      "properties": {
+        "id": {"type": "string", "minLength": 1},
+        "is_default": {"type": "boolean"},
+        "active_weekdays": {
+          "type": "array",
+          "uniqueItems": true,
+          "items": {"type": "string", "enum": ["monday", "tuesday", "wednesday", "thursday", "friday", "saturday", "sunday"]}
+        },
+        "time_windows": {"type": "array", "items": {"$ref": "#/$defs/timeWindow"}},
+        "all_other_times": {"type": "boolean"},
+        "pricing": {"$ref": "#/$defs/timePeriodPricing"}
+      }
+    },
+    "timeWindow": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["start", "end"],
+      "properties": {
+        "start": {"type": "string", "pattern": "^(?:[01][0-9]|2[0-3]):[0-5][0-9]$"},
+        "end": {"type": "string", "pattern": "^(?:[01][0-9]|2[0-3]):[0-5][0-9]$"}
+      }
+    },
+    "timePeriodPricing": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["currency", "unit", "input", "cached_input", "output"],
+      "properties": {
+        "currency": {"type": "string", "const": "USD"},
+        "unit": {"type": "string", "const": "1M tokens"},
+        "input": {"type": "number", "minimum": 0},
+        "cached_input": {"type": "number", "minimum": 0},
+        "output": {"type": "number", "minimum": 0}
+      }
+    },
     "pricingTier": {
       "type": "object",
       "required": [
@@ -81,4 +148,3 @@
     }
   }
 }
-

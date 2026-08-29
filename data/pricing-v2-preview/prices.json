@@ -153,8 +153,7 @@
       ]
     },
     "sourceRefs": [
-      "source:anthropic:docs-anthropic-com-en-docs-about-claude-pricing",
-      "source:anthropic:platform-claude-com-docs-en-about-claude-pricing"
+      "source:anthropic:docs-anthropic-com-en-docs-about-claude-pricing"
     ],
     "verificationStatus": "verified"
   },
@@ -195,8 +194,7 @@
       ]
     },
     "sourceRefs": [
-      "source:anthropic:docs-anthropic-com-en-docs-about-claude-pricing",
-      "source:anthropic:platform-claude-com-docs-en-about-claude-pricing"
+      "source:anthropic:docs-anthropic-com-en-docs-about-claude-pricing"
     ],
     "verificationStatus": "verified"
   },
@@ -244,7 +242,7 @@
     "sourceRefs": [
       "source:anthropic:platform-claude-com-docs-en-about-claude-pricing"
     ],
-    "verificationStatus": "partially_verified"
+    "verificationStatus": "verified"
   },
   {
     "billingNote": "Anthropic marks Claude Opus 4.1 as deprecated. Kept only for old forecast comparison.",
@@ -290,7 +288,7 @@
     "sourceRefs": [
       "source:anthropic:platform-claude-com-docs-en-about-claude-pricing"
     ],
-    "verificationStatus": "partially_verified"
+    "verificationStatus": "verified"
   },
   {
     "billingNote": "Anthropic table columns are input, 5-minute cache write, 1-hour cache write, cache read, and output. cache_write stores the 5-minute write rate.",
@@ -343,8 +341,7 @@
       ]
     },
     "sourceRefs": [
-      "source:anthropic:docs-anthropic-com-en-docs-about-claude-pricing",
-      "source:anthropic:platform-claude-com-docs-en-about-claude-pricing"
+      "source:anthropic:docs-anthropic-com-en-docs-about-claude-pricing"
     ],
     "verificationStatus": "verified"
   },
@@ -385,8 +382,7 @@
       ]
     },
     "sourceRefs": [
-      "source:anthropic:docs-anthropic-com-en-docs-about-claude-pricing",
-      "source:anthropic:platform-claude-com-docs-en-about-claude-pricing"
+      "source:anthropic:docs-anthropic-com-en-docs-about-claude-pricing"
     ],
     "verificationStatus": "verified"
   },
@@ -586,8 +582,7 @@
       ]
     },
     "sourceRefs": [
-      "source:anthropic:docs-anthropic-com-en-docs-about-claude-pricing",
-      "source:anthropic:platform-claude-com-docs-en-about-claude-pricing"
+      "source:anthropic:docs-anthropic-com-en-docs-about-claude-pricing"
     ],
     "verificationStatus": "verified"
   },
@@ -628,8 +623,7 @@
       ]
     },
     "sourceRefs": [
-      "source:anthropic:docs-anthropic-com-en-docs-about-claude-pricing",
-      "source:anthropic:platform-claude-com-docs-en-about-claude-pricing"
+      "source:anthropic:docs-anthropic-com-en-docs-about-claude-pricing"
     ],
     "verificationStatus": "verified"
   },
@@ -841,26 +835,26 @@
     "verificationStatus": "partially_verified"
   },
   {
-    "billingNote": "DeepSeek labels input cache miss as input price and cache hit as cached_input. The current official pricing page identifies the underlying model version as DeepSeek-V4-Flash-0731; prices are unchanged.",
-    "calculationDefault": true,
+    "billingNote": "V1 compatibility pricing uses the conservative Peak rate. Actual pricing depends on UTC request time; Off-peak is 50% lower. Current official Peak hours are 01:00-04:00 and 06:00-10:00 UTC, Monday through Friday; all other times, including weekends, are Off-peak. The price rates took effect at 2026-08-16T16:00:00Z. The official sources do not establish when the weekday-only schedule began, so schedule_effective_from is unknown.",
+    "calculationDefault": false,
     "charges": [
       {
-        "amount": "0.14",
-        "chargeId": "price:deepseek/deepseek-v4-flash:standard:short:current:input:text:per_1m_tokens",
+        "amount": "0.22",
+        "chargeId": "price:deepseek/deepseek-v4-flash:standard:short:current:off_peak:input:text:per_1m_tokens",
         "component": "input",
         "modality": "text",
         "unit": "per_1m_tokens"
       },
       {
-        "amount": "0.0028",
-        "chargeId": "price:deepseek/deepseek-v4-flash:standard:short:current:cached_input:text:per_1m_tokens",
+        "amount": "0.007",
+        "chargeId": "price:deepseek/deepseek-v4-flash:standard:short:current:off_peak:cached_input:text:per_1m_tokens",
         "component": "cached_input",
         "modality": "text",
         "unit": "per_1m_tokens"
       },
       {
-        "amount": "0.28",
-        "chargeId": "price:deepseek/deepseek-v4-flash:standard:short:current:output:text:per_1m_tokens",
+        "amount": "0.66",
+        "chargeId": "price:deepseek/deepseek-v4-flash:standard:short:current:off_peak:output:text:per_1m_tokens",
         "component": "output",
         "modality": "text",
         "unit": "per_1m_tokens"
@@ -868,10 +862,11 @@
     ],
     "contextClass": "short",
     "currency": "USD",
-    "effectiveFrom": null,
+    "effectiveFrom": "2026-08-16T16:00:00Z",
     "effectiveUntil": null,
     "modelInternalId": "deepseek/deepseek-v4-flash",
-    "pricingId": "price:deepseek/deepseek-v4-flash:standard:short:current",
+    "pricingId": "price:deepseek/deepseek-v4-flash:standard:short:current:off_peak",
+    "pricingStatus": "current",
     "processingMode": "standard",
     "promptTokenThreshold": null,
     "regionPolicy": "global",
@@ -884,31 +879,48 @@
       ]
     },
     "sourceRefs": [
-      "source:deepseek:api-docs-deepseek-com-quick_start-pricing"
+      "source:deepseek:api-docs-deepseek-com-news-news260813",
+      "source:deepseek:api-docs-deepseek-com-quick_start-pricing",
+      "source:deepseek:api-docs-deepseek-com-updates"
     ],
+    "temporalCondition": {
+      "activeWeekdays": [],
+      "allOtherTimes": true,
+      "defaultPeriodId": "off_peak",
+      "periodId": "off_peak",
+      "rateEffectiveFrom": "2026-08-16T16:00:00Z",
+      "recurrence": "weekly",
+      "scheduleEffectiveFrom": null,
+      "scheduleSourceRefs": [
+        "source:deepseek:api-docs-deepseek-com-quick_start-pricing"
+      ],
+      "selectionBasis": "request_time",
+      "timeWindows": [],
+      "timezone": "UTC"
+    },
     "verificationStatus": "verified"
   },
   {
-    "billingNote": "DeepSeek labels input cache miss as input price and cache hit as cached_input.",
+    "billingNote": "V1 compatibility pricing uses the conservative Peak rate. Actual pricing depends on UTC request time; Off-peak is 50% lower. Current official Peak hours are 01:00-04:00 and 06:00-10:00 UTC, Monday through Friday; all other times, including weekends, are Off-peak. The price rates took effect at 2026-08-16T16:00:00Z. The official sources do not establish when the weekday-only schedule began, so schedule_effective_from is unknown.",
     "calculationDefault": true,
     "charges": [
       {
-        "amount": "0.435",
-        "chargeId": "price:deepseek/deepseek-v4-pro:standard:short:current:input:text:per_1m_tokens",
+        "amount": "0.44",
+        "chargeId": "price:deepseek/deepseek-v4-flash:standard:short:current:peak:input:text:per_1m_tokens",
         "component": "input",
         "modality": "text",
         "unit": "per_1m_tokens"
       },
       {
-        "amount": "0.003625",
-        "chargeId": "price:deepseek/deepseek-v4-pro:standard:short:current:cached_input:text:per_1m_tokens",
+        "amount": "0.014",
+        "chargeId": "price:deepseek/deepseek-v4-flash:standard:short:current:peak:cached_input:text:per_1m_tokens",
         "component": "cached_input",
         "modality": "text",
         "unit": "per_1m_tokens"
       },
       {
-        "amount": "0.87",
-        "chargeId": "price:deepseek/deepseek-v4-pro:standard:short:current:output:text:per_1m_tokens",
+        "amount": "1.32",
+        "chargeId": "price:deepseek/deepseek-v4-flash:standard:short:current:peak:output:text:per_1m_tokens",
         "component": "output",
         "modality": "text",
         "unit": "per_1m_tokens"
@@ -916,10 +928,92 @@
     ],
     "contextClass": "short",
     "currency": "USD",
-    "effectiveFrom": null,
+    "effectiveFrom": "2026-08-16T16:00:00Z",
+    "effectiveUntil": null,
+    "modelInternalId": "deepseek/deepseek-v4-flash",
+    "pricingId": "price:deepseek/deepseek-v4-flash:standard:short:current:peak",
+    "pricingStatus": "current",
+    "processingMode": "standard",
+    "promptTokenThreshold": null,
+    "regionPolicy": "global",
+    "sourceDatasetIds": {
+      "publicDatasetIds": [
+        "deepseek-v4-flash"
+      ],
+      "websiteIds": [
+        "deepseek-v4-flash"
+      ]
+    },
+    "sourceRefs": [
+      "source:deepseek:api-docs-deepseek-com-news-news260813",
+      "source:deepseek:api-docs-deepseek-com-quick_start-pricing",
+      "source:deepseek:api-docs-deepseek-com-updates"
+    ],
+    "temporalCondition": {
+      "activeWeekdays": [
+        "monday",
+        "tuesday",
+        "wednesday",
+        "thursday",
+        "friday"
+      ],
+      "allOtherTimes": false,
+      "defaultPeriodId": "off_peak",
+      "periodId": "peak",
+      "rateEffectiveFrom": "2026-08-16T16:00:00Z",
+      "recurrence": "weekly",
+      "scheduleEffectiveFrom": null,
+      "scheduleSourceRefs": [
+        "source:deepseek:api-docs-deepseek-com-quick_start-pricing"
+      ],
+      "selectionBasis": "request_time",
+      "timeWindows": [
+        {
+          "end": "04:00",
+          "start": "01:00"
+        },
+        {
+          "end": "10:00",
+          "start": "06:00"
+        }
+      ],
+      "timezone": "UTC"
+    },
+    "verificationStatus": "verified"
+  },
+  {
+    "billingNote": "V1 compatibility pricing uses the conservative Peak rate. Actual pricing depends on UTC request time; Off-peak is 50% lower. Current official Peak hours are 01:00-04:00 and 06:00-10:00 UTC, Monday through Friday; all other times, including weekends, are Off-peak. The price rates took effect at 2026-08-16T16:00:00Z. The official sources do not establish when the weekday-only schedule began, so schedule_effective_from is unknown.",
+    "calculationDefault": false,
+    "charges": [
+      {
+        "amount": "0.66",
+        "chargeId": "price:deepseek/deepseek-v4-pro:standard:short:current:off_peak:input:text:per_1m_tokens",
+        "component": "input",
+        "modality": "text",
+        "unit": "per_1m_tokens"
+      },
+      {
+        "amount": "0.022",
+        "chargeId": "price:deepseek/deepseek-v4-pro:standard:short:current:off_peak:cached_input:text:per_1m_tokens",
+        "component": "cached_input",
+        "modality": "text",
+        "unit": "per_1m_tokens"
+      },
+      {
+        "amount": "1.98",
+        "chargeId": "price:deepseek/deepseek-v4-pro:standard:short:current:off_peak:output:text:per_1m_tokens",
+        "component": "output",
+        "modality": "text",
+        "unit": "per_1m_tokens"
+      }
+    ],
+    "contextClass": "short",
+    "currency": "USD",
+    "effectiveFrom": "2026-08-16T16:00:00Z",
     "effectiveUntil": null,
     "modelInternalId": "deepseek/deepseek-v4-pro",
-    "pricingId": "price:deepseek/deepseek-v4-pro:standard:short:current",
+    "pricingId": "price:deepseek/deepseek-v4-pro:standard:short:current:off_peak",
+    "pricingStatus": "current",
     "processingMode": "standard",
     "promptTokenThreshold": null,
     "regionPolicy": "global",
@@ -932,8 +1026,106 @@
       ]
     },
     "sourceRefs": [
-      "source:deepseek:api-docs-deepseek-com-quick_start-pricing"
+      "source:deepseek:api-docs-deepseek-com-news-news260813",
+      "source:deepseek:api-docs-deepseek-com-quick_start-pricing",
+      "source:deepseek:api-docs-deepseek-com-updates"
     ],
+    "temporalCondition": {
+      "activeWeekdays": [],
+      "allOtherTimes": true,
+      "defaultPeriodId": "off_peak",
+      "periodId": "off_peak",
+      "rateEffectiveFrom": "2026-08-16T16:00:00Z",
+      "recurrence": "weekly",
+      "scheduleEffectiveFrom": null,
+      "scheduleSourceRefs": [
+        "source:deepseek:api-docs-deepseek-com-quick_start-pricing"
+      ],
+      "selectionBasis": "request_time",
+      "timeWindows": [],
+      "timezone": "UTC"
+    },
+    "verificationStatus": "verified"
+  },
+  {
+    "billingNote": "V1 compatibility pricing uses the conservative Peak rate. Actual pricing depends on UTC request time; Off-peak is 50% lower. Current official Peak hours are 01:00-04:00 and 06:00-10:00 UTC, Monday through Friday; all other times, including weekends, are Off-peak. The price rates took effect at 2026-08-16T16:00:00Z. The official sources do not establish when the weekday-only schedule began, so schedule_effective_from is unknown.",
+    "calculationDefault": true,
+    "charges": [
+      {
+        "amount": "1.32",
+        "chargeId": "price:deepseek/deepseek-v4-pro:standard:short:current:peak:input:text:per_1m_tokens",
+        "component": "input",
+        "modality": "text",
+        "unit": "per_1m_tokens"
+      },
+      {
+        "amount": "0.044",
+        "chargeId": "price:deepseek/deepseek-v4-pro:standard:short:current:peak:cached_input:text:per_1m_tokens",
+        "component": "cached_input",
+        "modality": "text",
+        "unit": "per_1m_tokens"
+      },
+      {
+        "amount": "3.96",
+        "chargeId": "price:deepseek/deepseek-v4-pro:standard:short:current:peak:output:text:per_1m_tokens",
+        "component": "output",
+        "modality": "text",
+        "unit": "per_1m_tokens"
+      }
+    ],
+    "contextClass": "short",
+    "currency": "USD",
+    "effectiveFrom": "2026-08-16T16:00:00Z",
+    "effectiveUntil": null,
+    "modelInternalId": "deepseek/deepseek-v4-pro",
+    "pricingId": "price:deepseek/deepseek-v4-pro:standard:short:current:peak",
+    "pricingStatus": "current",
+    "processingMode": "standard",
+    "promptTokenThreshold": null,
+    "regionPolicy": "global",
+    "sourceDatasetIds": {
+      "publicDatasetIds": [
+        "deepseek-v4-pro"
+      ],
+      "websiteIds": [
+        "deepseek-v4-pro"
+      ]
+    },
+    "sourceRefs": [
+      "source:deepseek:api-docs-deepseek-com-news-news260813",
+      "source:deepseek:api-docs-deepseek-com-quick_start-pricing",
+      "source:deepseek:api-docs-deepseek-com-updates"
+    ],
+    "temporalCondition": {
+      "activeWeekdays": [
+        "monday",
+        "tuesday",
+        "wednesday",
+        "thursday",
+        "friday"
+      ],
+      "allOtherTimes": false,
+      "defaultPeriodId": "off_peak",
+      "periodId": "peak",
+      "rateEffectiveFrom": "2026-08-16T16:00:00Z",
+      "recurrence": "weekly",
+      "scheduleEffectiveFrom": null,
+      "scheduleSourceRefs": [
+        "source:deepseek:api-docs-deepseek-com-quick_start-pricing"
+      ],
+      "selectionBasis": "request_time",
+      "timeWindows": [
+        {
+          "end": "04:00",
+          "start": "01:00"
+        },
+        {
+          "end": "10:00",
+          "start": "06:00"
+        }
+      ],
+      "timezone": "UTC"
+    },
     "verificationStatus": "verified"
   },
   {
@@ -1158,7 +1350,7 @@
     "sourceRefs": [
       "source:google-gemini:ai-google-dev-gemini-api-docs-pricing"
     ],
-    "verificationStatus": "partially_verified"
+    "verificationStatus": "verified"
   },
   {
     "billingNote": "V1 stores Standard text/image/video input, context-cache, and output prices plus Batch input/output prices. Batch context caching is $0.0125 per 1M tokens. Separate audio rates are not represented: Standard audio input/cache are $0.50/$0.05 and Batch audio input/cache are $0.25/$0.025 per 1M tokens.",
@@ -1520,6 +1712,90 @@
     "verificationStatus": "verified"
   },
   {
+    "billingNote": "Generally available on 2026-08-26. Standard token pricing is audio input at $2 and text output at $12 per 1M tokens. Google estimates about $0.003/min for audio input, $0.002/min for text output, and about $0.005/min blended. Caching, Batch API, Flex inference, and Priority inference are not supported.",
+    "calculationDefault": true,
+    "charges": [
+      {
+        "amount": "2",
+        "chargeId": "price:google-gemini/gemini-3.5-transcribe:standard:short:current:input:audio:per_1m_tokens",
+        "component": "input",
+        "modality": "audio",
+        "unit": "per_1m_tokens"
+      },
+      {
+        "amount": "12",
+        "chargeId": "price:google-gemini/gemini-3.5-transcribe:standard:short:current:output:text:per_1m_tokens",
+        "component": "output",
+        "modality": "text",
+        "unit": "per_1m_tokens"
+      }
+    ],
+    "contextClass": "short",
+    "currency": "USD",
+    "effectiveFrom": "2026-08-26",
+    "effectiveUntil": null,
+    "modelInternalId": "google-gemini/gemini-3.5-transcribe",
+    "pricingId": "price:google-gemini/gemini-3.5-transcribe:standard:short:current",
+    "processingMode": "standard",
+    "promptTokenThreshold": null,
+    "regionPolicy": "global",
+    "sourceDatasetIds": {
+      "publicDatasetIds": [
+        "gemini-3.5-transcribe"
+      ],
+      "websiteIds": []
+    },
+    "sourceRefs": [
+      "source:google-gemini:ai-google-dev-gemini-api-docs-changelog",
+      "source:google-gemini:ai-google-dev-gemini-api-docs-models-gemini-3-5-transcribe",
+      "source:google-gemini:ai-google-dev-gemini-api-docs-pricing",
+      "source:google-gemini:ai-google-dev-gemini-api-docs-transcribe"
+    ],
+    "verificationStatus": "verified"
+  },
+  {
+    "billingNote": "Generally available on 2026-08-26. Standard token pricing is audio input at $3.50 and text output at $21 per 1M tokens. Google estimates about $0.009/min blended. Caching, Batch API, Flex inference, and Priority inference are not supported.",
+    "calculationDefault": true,
+    "charges": [
+      {
+        "amount": "3.5",
+        "chargeId": "price:google-gemini/gemini-3.5-transcribe-live:standard:short:current:input:audio:per_1m_tokens",
+        "component": "input",
+        "modality": "audio",
+        "unit": "per_1m_tokens"
+      },
+      {
+        "amount": "21",
+        "chargeId": "price:google-gemini/gemini-3.5-transcribe-live:standard:short:current:output:text:per_1m_tokens",
+        "component": "output",
+        "modality": "text",
+        "unit": "per_1m_tokens"
+      }
+    ],
+    "contextClass": "short",
+    "currency": "USD",
+    "effectiveFrom": "2026-08-26",
+    "effectiveUntil": null,
+    "modelInternalId": "google-gemini/gemini-3.5-transcribe-live",
+    "pricingId": "price:google-gemini/gemini-3.5-transcribe-live:standard:short:current",
+    "processingMode": "standard",
+    "promptTokenThreshold": null,
+    "regionPolicy": "global",
+    "sourceDatasetIds": {
+      "publicDatasetIds": [
+        "gemini-3.5-transcribe-live"
+      ],
+      "websiteIds": []
+    },
+    "sourceRefs": [
+      "source:google-gemini:ai-google-dev-gemini-api-docs-changelog",
+      "source:google-gemini:ai-google-dev-gemini-api-docs-models-gemini-3-5-transcribe",
+      "source:google-gemini:ai-google-dev-gemini-api-docs-pricing",
+      "source:google-gemini:ai-google-dev-gemini-api-docs-transcribe"
+    ],
+    "verificationStatus": "verified"
+  },
+  {
     "billingNote": "Google released Gemini 3.6 Flash generally available on 2026-07-21. V1 stores standard text/image/video rates and explicit Batch rates from the official pricing table. Separate audio rates are not represented. effective_from remains null because the official sources do not publish a distinct pricing effective date.",
     "calculationDefault": true,
     "charges": [
@@ -1737,7 +2013,7 @@
     "sourceRefs": [
       "source:openai:developers-openai-com-api-docs-pricing"
     ],
-    "verificationStatus": "partially_verified"
+    "verificationStatus": "verified"
   },
   {
     "billingNote": "OpenAI official pricing page lists standard and batch rates per 1M tokens.",
@@ -2037,7 +2313,7 @@
     "sourceRefs": [
       "source:openai:developers-openai-com-api-docs-pricing"
     ],
-    "verificationStatus": "partially_verified"
+    "verificationStatus": "verified"
   },
   {
     "billingNote": "V1 stores Standard short-context prices and Batch short-context input/output prices. Batch cached input is $0.125 per 1M tokens. Above 272K input tokens, Standard pricing is $5 input, $0.50 cached input, and $22.50 output per 1M tokens; Batch pricing is $2.50 input, $0.25 cached input, and $11.25 output per 1M tokens.",
@@ -4392,6 +4668,6 @@
     "sourceRefs": [
       "source:xai:docs-x-ai-developers-models"
     ],
-    "verificationStatus": "partially_verified"
+    "verificationStatus": "verified"
   }
 ]

@@ -529,6 +529,70 @@
   },
   {
     "provider_id": "google-gemini",
+    "model_id": "gemini-3.5-transcribe",
+    "display_name": "Gemini 3.5 Transcribe",
+    "model_family": "Gemini 3.5 Transcribe",
+    "status": "active",
+    "release_stage": "stable",
+    "input_modality": "audio",
+    "output_modality": "text",
+    "pricing": {
+      "currency": "USD",
+      "unit": "1M tokens",
+      "input": 2.0,
+      "output": 12.0,
+      "cached_input": null,
+      "cache_write": null,
+      "cache_write_1h": null,
+      "batch_input": null,
+      "batch_output": null
+    },
+    "official_source_url": "https://ai.google.dev/gemini-api/docs/pricing",
+    "official_source_urls": [
+      "https://ai.google.dev/gemini-api/docs/pricing",
+      "https://ai.google.dev/gemini-api/docs/models/gemini-3.5-transcribe",
+      "https://ai.google.dev/gemini-api/docs/transcribe",
+      "https://ai.google.dev/gemini-api/docs/changelog"
+    ],
+    "accessed_at": "2026-08-28T19:00:00Z",
+    "last_verified_at": "2026-08-28T19:00:00Z",
+    "effective_from": "2026-08-26",
+    "notes": "Generally available on 2026-08-26. Standard token pricing is audio input at $2 and text output at $12 per 1M tokens. Google estimates about $0.003/min for audio input, $0.002/min for text output, and about $0.005/min blended. Caching, Batch API, Flex inference, and Priority inference are not supported."
+  },
+  {
+    "provider_id": "google-gemini",
+    "model_id": "gemini-3.5-transcribe-live",
+    "display_name": "Gemini 3.5 Transcribe Live",
+    "model_family": "Gemini 3.5 Transcribe",
+    "status": "active",
+    "release_stage": "stable",
+    "input_modality": "audio",
+    "output_modality": "text",
+    "pricing": {
+      "currency": "USD",
+      "unit": "1M tokens",
+      "input": 3.5,
+      "output": 21.0,
+      "cached_input": null,
+      "cache_write": null,
+      "cache_write_1h": null,
+      "batch_input": null,
+      "batch_output": null
+    },
+    "official_source_url": "https://ai.google.dev/gemini-api/docs/pricing",
+    "official_source_urls": [
+      "https://ai.google.dev/gemini-api/docs/pricing",
+      "https://ai.google.dev/gemini-api/docs/models/gemini-3.5-transcribe",
+      "https://ai.google.dev/gemini-api/docs/transcribe",
+      "https://ai.google.dev/gemini-api/docs/changelog"
+    ],
+    "accessed_at": "2026-08-28T19:00:00Z",
+    "last_verified_at": "2026-08-28T19:00:00Z",
+    "effective_from": "2026-08-26",
+    "notes": "Generally available on 2026-08-26. Standard token pricing is audio input at $3.50 and text output at $21 per 1M tokens. Google estimates about $0.009/min blended. Caching, Batch API, Flex inference, and Priority inference are not supported."
+  },
+  {
+    "provider_id": "google-gemini",
     "model_id": "gemini-3.5-flash-lite",
     "display_name": "Gemini 3.5 Flash-Lite",
     "model_family": "Gemini 3.5",
@@ -668,19 +732,56 @@
     "pricing": {
       "currency": "USD",
       "unit": "1M tokens",
-      "input": 0.14,
-      "output": 0.28,
-      "cached_input": 0.0028,
+      "input": 0.44,
+      "output": 1.32,
+      "cached_input": 0.014,
       "cache_write": null,
       "cache_write_1h": null,
       "batch_input": null,
       "batch_output": null
     },
     "official_source_url": "https://api-docs.deepseek.com/quick_start/pricing",
-    "accessed_at": "2026-08-08T18:00:00Z",
-    "last_verified_at": "2026-08-08T18:00:00Z",
-    "effective_from": null,
-    "notes": "DeepSeek labels input cache miss as input price and cache hit as cached_input. The current official pricing page identifies the underlying model version as DeepSeek-V4-Flash-0731; prices are unchanged."
+    "official_source_urls": [
+      "https://api-docs.deepseek.com/quick_start/pricing",
+      "https://api-docs.deepseek.com/news/news260813/",
+      "https://api-docs.deepseek.com/updates/"
+    ],
+    "accessed_at": "2026-08-28T19:00:00Z",
+    "last_verified_at": "2026-08-28T19:00:00Z",
+    "effective_from": "2026-08-16",
+    "time_pricing": {
+      "timezone": "UTC",
+      "rate_effective_from": "2026-08-16T16:00:00Z",
+      "schedule_effective_from": null,
+      "selection_basis": "request_time",
+      "recurrence": "weekly",
+      "default_period_id": "off_peak",
+      "schedule_source_url": "https://api-docs.deepseek.com/quick_start/pricing",
+      "schedule_accessed_at": "2026-08-28T19:00:00Z",
+      "schedule_verified_at": "2026-08-28T19:00:00Z",
+      "periods": [
+        {
+          "id": "off_peak",
+          "is_default": true,
+          "active_weekdays": [],
+          "time_windows": [],
+          "all_other_times": true,
+          "pricing": {"currency": "USD", "unit": "1M tokens", "input": 0.22, "cached_input": 0.007, "output": 0.66}
+        },
+        {
+          "id": "peak",
+          "is_default": false,
+          "active_weekdays": ["monday", "tuesday", "wednesday", "thursday", "friday"],
+          "time_windows": [
+            {"start": "01:00", "end": "04:00"},
+            {"start": "06:00", "end": "10:00"}
+          ],
+          "all_other_times": false,
+          "pricing": {"currency": "USD", "unit": "1M tokens", "input": 0.44, "cached_input": 0.014, "output": 1.32}
+        }
+      ]
+    },
+    "notes": "V1 compatibility pricing uses the conservative Peak rate. Actual pricing depends on UTC request time; Off-peak is 50% lower. Current official Peak hours are 01:00-04:00 and 06:00-10:00 UTC, Monday through Friday; all other times, including weekends, are Off-peak. The price rates took effect at 2026-08-16T16:00:00Z. The official sources do not establish when the weekday-only schedule began, so schedule_effective_from is unknown."
   },
   {
     "provider_id": "deepseek",
@@ -691,19 +792,56 @@
     "pricing": {
       "currency": "USD",
       "unit": "1M tokens",
-      "input": 0.435,
-      "output": 0.87,
-      "cached_input": 0.003625,
+      "input": 1.32,
+      "output": 3.96,
+      "cached_input": 0.044,
       "cache_write": null,
       "cache_write_1h": null,
       "batch_input": null,
       "batch_output": null
     },
     "official_source_url": "https://api-docs.deepseek.com/quick_start/pricing",
-    "accessed_at": "2026-08-08T18:00:00Z",
-    "last_verified_at": "2026-08-08T18:00:00Z",
-    "effective_from": null,
-    "notes": "DeepSeek labels input cache miss as input price and cache hit as cached_input."
+    "official_source_urls": [
+      "https://api-docs.deepseek.com/quick_start/pricing",
+      "https://api-docs.deepseek.com/news/news260813/",
+      "https://api-docs.deepseek.com/updates/"
+    ],
+    "accessed_at": "2026-08-28T19:00:00Z",
+    "last_verified_at": "2026-08-28T19:00:00Z",
+    "effective_from": "2026-08-16",
+    "time_pricing": {
+      "timezone": "UTC",
+      "rate_effective_from": "2026-08-16T16:00:00Z",
+      "schedule_effective_from": null,
+      "selection_basis": "request_time",
+      "recurrence": "weekly",
+      "default_period_id": "off_peak",
+      "schedule_source_url": "https://api-docs.deepseek.com/quick_start/pricing",
+      "schedule_accessed_at": "2026-08-28T19:00:00Z",
+      "schedule_verified_at": "2026-08-28T19:00:00Z",
+      "periods": [
+        {
+          "id": "off_peak",
+          "is_default": true,
+          "active_weekdays": [],
+          "time_windows": [],
+          "all_other_times": true,
+          "pricing": {"currency": "USD", "unit": "1M tokens", "input": 0.66, "cached_input": 0.022, "output": 1.98}
+        },
+        {
+          "id": "peak",
+          "is_default": false,
+          "active_weekdays": ["monday", "tuesday", "wednesday", "thursday", "friday"],
+          "time_windows": [
+            {"start": "01:00", "end": "04:00"},
+            {"start": "06:00", "end": "10:00"}
+          ],
+          "all_other_times": false,
+          "pricing": {"currency": "USD", "unit": "1M tokens", "input": 1.32, "cached_input": 0.044, "output": 3.96}
+        }
+      ]
+    },
+    "notes": "V1 compatibility pricing uses the conservative Peak rate. Actual pricing depends on UTC request time; Off-peak is 50% lower. Current official Peak hours are 01:00-04:00 and 06:00-10:00 UTC, Monday through Friday; all other times, including weekends, are Off-peak. The price rates took effect at 2026-08-16T16:00:00Z. The official sources do not establish when the weekday-only schedule began, so schedule_effective_from is unknown."
   },
   {
     "provider_id": "mistral-ai",

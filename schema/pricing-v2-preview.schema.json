@@ -165,8 +165,21 @@
         "regionPolicy": {"type": "string"},
         "promptTokenThreshold": {"type": ["integer", "null"], "minimum": 0},
         "tierSelection": {"$ref": "#/$defs/tierSelection"},
-        "effectiveFrom": {"type": ["string", "null"], "format": "date"},
-        "effectiveUntil": {"type": ["string", "null"], "format": "date"},
+        "temporalCondition": {"$ref": "#/$defs/temporalCondition"},
+        "effectiveFrom": {
+          "anyOf": [
+            {"type": "null"},
+            {"type": "string", "format": "date"},
+            {"type": "string", "format": "date-time"}
+          ]
+        },
+        "effectiveUntil": {
+          "anyOf": [
+            {"type": "null"},
+            {"type": "string", "format": "date"},
+            {"type": "string", "format": "date-time"}
+          ]
+        },
         "currency": {"type": "string", "const": "USD"},
         "charges": {"type": "array", "minItems": 1, "items": {"$ref": "#/$defs/chargeRecord"}},
         "sourceRefs": {"type": "array", "minItems": 1, "uniqueItems": true, "items": {"type": "string"}},
@@ -212,6 +225,33 @@
         "tokenBasis": {"type": "string", "enum": ["total_prompt_tokens"]},
         "cachedPromptTokensIncluded": {"type": "boolean"},
         "wholeRequestPricing": {"type": "boolean"}
+      }
+    },
+    "temporalCondition": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["periodId", "timezone", "rateEffectiveFrom", "scheduleEffectiveFrom", "selectionBasis", "recurrence", "activeWeekdays", "timeWindows", "allOtherTimes", "defaultPeriodId", "scheduleSourceRefs"],
+      "properties": {
+        "periodId": {"type": "string", "minLength": 1},
+        "timezone": {"type": "string", "minLength": 1},
+        "rateEffectiveFrom": {"type": "string", "format": "date-time"},
+        "scheduleEffectiveFrom": {"type": ["string", "null"], "format": "date-time"},
+        "selectionBasis": {"type": "string", "const": "request_time"},
+        "recurrence": {"type": "string", "const": "weekly"},
+        "activeWeekdays": {"type": "array", "uniqueItems": true, "items": {"type": "string", "enum": ["monday", "tuesday", "wednesday", "thursday", "friday", "saturday", "sunday"]}},
+        "timeWindows": {"type": "array", "items": {"$ref": "#/$defs/timeWindow"}},
+        "allOtherTimes": {"type": "boolean"},
+        "defaultPeriodId": {"type": "string", "minLength": 1},
+        "scheduleSourceRefs": {"type": "array", "minItems": 1, "uniqueItems": true, "items": {"type": "string"}}
+      }
+    },
+    "timeWindow": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["start", "end"],
+      "properties": {
+        "start": {"type": "string", "pattern": "^(?:[01][0-9]|2[0-3]):[0-5][0-9]$"},
+        "end": {"type": "string", "pattern": "^(?:[01][0-9]|2[0-3]):[0-5][0-9]$"}
       }
     },
     "chargeRecord": {

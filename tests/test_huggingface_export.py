@@ -39,14 +39,14 @@ class HuggingFaceExportTests(unittest.TestCase):
             hashlib.sha256((HF_DIR / "train.csv").read_bytes()).hexdigest(),
             hashlib.sha256((HF_DIR / "prices.csv").read_bytes()).hexdigest(),
         )
-        self.assertEqual(self.metadata["schema_version"], "1.3.0")
+        self.assertEqual(self.metadata["schema_version"], "1.4.0")
         self.assertEqual(self.metadata["last_verified_at"], self.metadata["last_updated"])
 
     def test_export_matches_full_public_website_key_set(self):
         actual = {(row["provider_id"], row["model_id"]) for row in self.records}
         self.assertEqual(actual, expected_public_keys(self.projection))
         self.assertEqual(len(actual), len(self.records))
-        self.assertEqual(len(self.records), 40, "audited 40-row public Website distribution must not regress to the 22-row HF snapshot")
+        self.assertEqual(len(self.records), 42, "audited 42-row public Website distribution must include both Gemini Transcribe models")
         self.assertEqual(self.metadata["record_count"], len(self.records))
         self.assertEqual(self.metadata["provider_count"], 7)
 
@@ -118,8 +118,8 @@ class HuggingFaceExportTests(unittest.TestCase):
             "last_verified_at", "checked_at", "effective_from", "effective_until", "notes",
             "pricing_tier_count", "pricing_tiers_json",
         ]
-        self.assertEqual(headers[:-1], legacy_headers)
-        self.assertEqual(headers[-1], "pricing_components_json")
+        self.assertEqual(headers[:-2], legacy_headers)
+        self.assertEqual(headers[-2:], ["time_pricing_json", "pricing_components_json"])
         for record in self.records:
             key = (record["provider_id"], record["model_id"])
             expected = public_pricing_components(projection_by_key[key])
@@ -131,7 +131,7 @@ class HuggingFaceExportTests(unittest.TestCase):
                 self.assertIsInstance(component["amount"], str, key)
                 self.assertEqual(len(component["source_refs"]), len(component["source_urls"]), key)
                 self.assertTrue(all(url.startswith("https://") for url in component["source_urls"]), key)
-        self.assertEqual(component_count, 248)
+        self.assertEqual(component_count, 258)
         self.assertEqual(cache_write_count, 33)
         self.assertTrue(any(not record["pricing_components"] for record in self.records))
 
@@ -155,7 +155,7 @@ class HuggingFaceExportTests(unittest.TestCase):
         digest = hashlib.sha256(
             json.dumps(baseline_records, sort_keys=True, separators=(",", ":"), ensure_ascii=False).encode()
         ).hexdigest()
-        self.assertEqual(digest, "bde2ba4d9c2eb2da93ad824f3209cdc4332ce2af2fa12d853beeb54222b85f2f")
+        self.assertEqual(digest, "ec5b70d76e0c6943e7b7529f7fe095731f67441c3ede11d2284e669ebd6c032b")
 
     def test_timestamps_preserve_verification_semantics(self):
         pricing_meta = json.loads(META_PATH.read_text(encoding="utf-8"))

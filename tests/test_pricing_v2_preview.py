@@ -340,7 +340,7 @@ class PricingV2PreviewTests(unittest.TestCase):
     def test_report_counts_match_phase_1_baseline(self):
         self.assertEqual(self.report["candidateUnionCount"], len(self.dispositions))
         self.assertEqual(self.report["websiteOnlyCount"], 13)
-        self.assertEqual(self.report["publicOnlyCount"], 7)
+        self.assertEqual(self.report["publicOnlyCount"], 9)
         self.assertEqual(self.report["commonCount"], 25)
         self.assertEqual(self.report["aliasCount"], 2)
         self.assertEqual(self.report["normalizedCanonicalIdentityCount"], len(self.models))
@@ -385,9 +385,9 @@ class PricingV2PreviewTests(unittest.TestCase):
             self.assertEqual(alias["identityType"], "alias")
             self.assertEqual(alias["aliasTargetInternalId"], "deepseek/deepseek-v4-flash")
             row = self.projection_row(internal_id.split("/", 1)[1])
-            self.assertEqual(row["inputPrice"], 0.14)
-            self.assertEqual(row["cachedInputPrice"], 0.0028)
-            self.assertEqual(row["outputPrice"], 0.28)
+            self.assertEqual(row["inputPrice"], 0.44)
+            self.assertEqual(row["cachedInputPrice"], 0.014)
+            self.assertEqual(row["outputPrice"], 1.32)
 
     def test_grok_3_retired_redirect_is_preserved(self):
         grok = self.identity("xai/grok-3")
@@ -444,10 +444,10 @@ class PricingV2PreviewTests(unittest.TestCase):
 
     def test_phase2_5_default_safe_gate_counts(self):
         self.assertEqual(len(self.phase25_evidence), self.phase25_default_safe["totalPriceRecords"])
-        self.assertEqual(self.phase25_default_safe["productionDefaultCandidateCount"], 35)
-        self.assertEqual(self.phase25_default_safe["defaultSafeCount"], 35)
-        self.assertEqual(self.phase25_default_safe["defaultUnsafeCount"], 53)
-        self.assertEqual(self.phase25_default_safe["P0PartialBefore"], 10)
+        self.assertEqual(self.phase25_default_safe["productionDefaultCandidateCount"], 37)
+        self.assertEqual(self.phase25_default_safe["defaultSafeCount"], 37)
+        self.assertEqual(self.phase25_default_safe["defaultUnsafeCount"], 55)
+        self.assertEqual(self.phase25_default_safe["P0PartialBefore"], 4)
         self.assertEqual(self.phase25_default_safe["P0PartialAfter"], 0)
         self.assertEqual(self.phase25_default_safe["P1PartialCount"], 7)
         self.assertEqual(self.phase25_default_safe["P2PartialCount"], 0)
@@ -467,10 +467,10 @@ class PricingV2PreviewTests(unittest.TestCase):
 
     def test_phase2_6_closes_p0_default_safe_gate(self):
         self.assertTrue(self.phase26_closure["closureGatePassed"])
-        self.assertEqual(self.phase26_closure["defaultCandidatesBefore"], 35)
-        self.assertEqual(self.phase26_closure["defaultCandidatesAfter"], 35)
-        self.assertEqual(self.phase26_closure["safeBefore"], 30)
-        self.assertEqual(self.phase26_closure["safeAfter"], 35)
+        self.assertEqual(self.phase26_closure["defaultCandidatesBefore"], 37)
+        self.assertEqual(self.phase26_closure["defaultCandidatesAfter"], 37)
+        self.assertEqual(self.phase26_closure["safeBefore"], 32)
+        self.assertEqual(self.phase26_closure["safeAfter"], 37)
         self.assertEqual(self.phase26_closure["unsafeBefore"], 5)
         self.assertEqual(self.phase26_closure["unsafeAfter"], 0)
         self.assertEqual(self.phase26_resolution["P0BlockersAfter"], [])

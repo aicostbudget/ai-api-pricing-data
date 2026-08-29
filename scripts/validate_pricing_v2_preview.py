@@ -79,6 +79,8 @@ def parse_date(value: str | None, field: str) -> date | None:
     if value is None:
         return None
     try:
+        if "T" in value:
+            return datetime.fromisoformat(value.replace("Z", "+00:00")).date()
         return date.fromisoformat(value)
     except ValueError:
         fail(f"invalid {field}: {value}")
@@ -476,6 +478,42 @@ def validate_preview() -> dict[str, Any]:
                 fail(f"invalid cached prompt token inclusion {price['pricingId']}")
             if not isinstance(tier_selection["wholeRequestPricing"], bool):
                 fail(f"invalid whole-request pricing flag {price['pricingId']}")
+        temporal_condition = price.get("temporalCondition")
+        if temporal_condition is not None:
+            required_temporal = {
+                "periodId",
+                "timezone",
+                "rateEffectiveFrom",
+                "scheduleEffectiveFrom",
+                "selectionBasis",
+                "recurrence",
+                "activeWeekdays",
+                "timeWindows",
+                "allOtherTimes",
+                "defaultPeriodId",
+                "scheduleSourceRefs",
+            }
+            if set(temporal_condition) != required_temporal:
+                fail(f"incomplete temporal condition {price['pricingId']}")
+            if temporal_condition["timezone"] != "UTC":
+                fail(f"unsupported temporal timezone {price['pricingId']}")
+            if temporal_condition["selectionBasis"] != "request_time":
+                fail(f"invalid temporal selection basis {price['pricingId']}")
+            if temporal_condition["recurrence"] != "weekly":
+                fail(f"invalid temporal recurrence {price['pricingId']}")
+            parse_timestamp(temporal_condition["rateEffectiveFrom"], "rateEffectiveFrom")
+            if temporal_condition["scheduleEffectiveFrom"] is not None:
+                parse_timestamp(temporal_condition["scheduleEffectiveFrom"], "scheduleEffectiveFrom")
+            for ref in temporal_condition["scheduleSourceRefs"]:
+                if ref not in price["sourceRefs"]:
+                    fail(f"temporal schedule source missing from price sourceRefs {price['pricingId']}")
+            for window in temporal_condition["timeWindows"]:
+                if not re.fullmatch(r"(?:[01][0-9]|2[0-3]):[0-5][0-9]", window.get("start", "")):
+                    fail(f"invalid temporal start time {price['pricingId']}")
+                if not re.fullmatch(r"(?:[01][0-9]|2[0-3]):[0-5][0-9]", window.get("end", "")):
+                    fail(f"invalid temporal end time {price['pricingId']}")
+                if window["start"] >= window["end"]:
+                    fail(f"invalid temporal time window {price['pricingId']}")
         if price.get("pricingStatus") not in {None, "current", "future", "historical"}:
             fail(f"invalid pricingStatus {price['pricingId']}")
         if price["currency"] != "USD":
@@ -521,6 +559,7 @@ def validate_preview() -> dict[str, Any]:
             price["processingMode"],
             price["contextClass"],
             price.get("pricingStatus"),
+            (price.get("temporalCondition") or {}).get("periodId"),
         )
         for price in prices
         if price.get("pricingStatus") == "current"

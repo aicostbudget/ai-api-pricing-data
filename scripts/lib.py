@@ -16,6 +16,7 @@ HISTORY_COMPARE_FIELDS = (
     "provider_id",
     "model_id",
     "pricing",
+    "time_pricing",
     "official_source_url",
     "effective_from",
     "last_verified_at",
@@ -46,6 +47,28 @@ def utc_now() -> str:
 
 def utc_today() -> str:
     return datetime.now(timezone.utc).date().isoformat()
+
+
+def select_time_pricing_period(
+    time_pricing: dict[str, Any], request_time: datetime
+) -> dict[str, Any]:
+    if request_time.tzinfo is None:
+        raise ValueError("request_time must be timezone-aware")
+    if time_pricing["timezone"] != "UTC":
+        raise ValueError(f"unsupported time pricing timezone: {time_pricing['timezone']}")
+
+    request_utc = request_time.astimezone(timezone.utc)
+    weekday = request_utc.strftime("%A").lower()
+    hhmm = request_utc.strftime("%H:%M")
+    periods = time_pricing["periods"]
+    for period in periods:
+        if period["all_other_times"] or weekday not in period["active_weekdays"]:
+            continue
+        if any(window["start"] <= hhmm < window["end"] for window in period["time_windows"]):
+            return period
+
+    default_period_id = time_pricing["default_period_id"]
+    return next(period for period in periods if period["id"] == default_period_id)
 
 
 def build_dataset(generated_at: str | None = None) -> dict[str, Any]:
@@ -129,7 +152,7 @@ def clean_generated() -> None:
 
 
 def history_entry(model: dict[str, Any], recorded_at: str) -> dict[str, Any]:
-    return {
+    entry = {
         "recorded_at": recorded_at,
         "provider_id": model["provider_id"],
         "model_id": model["model_id"],
@@ -139,6 +162,9 @@ def history_entry(model: dict[str, Any], recorded_at: str) -> dict[str, Any]:
         "last_verified_at": model["last_verified_at"],
         "notes": model.get("notes", ""),
     }
+    if "time_pricing" in model:
+        entry["time_pricing"] = model["time_pricing"]
+    return entry
 
 
 def comparable_history(entry: dict[str, Any]) -> dict[str, Any]:

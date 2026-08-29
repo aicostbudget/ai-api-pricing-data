@@ -49,7 +49,7 @@ class DatasetTests(unittest.TestCase):
         self.assertEqual(len({item["provider_id"] for item in providers}), len(providers))
         self.assertEqual(len({(item["provider_id"], item["model_id"]) for item in models}), len(models))
         self.assertEqual(len(providers), 7)
-        self.assertEqual(len(models), 32)
+        self.assertEqual(len(models), 34)
 
     def test_verified_additions_and_price_corrections(self):
         by_key = {(model["provider_id"], model["model_id"]): model for model in load_models()}

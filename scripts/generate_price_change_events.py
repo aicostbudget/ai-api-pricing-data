@@ -25,6 +25,7 @@ CHANGE_TYPES = {
     "cached_price_added",
     "cached_price_removed",
     "component_price_update",
+    "temporal_price_schedule_update",
 }
 DATE_BASIS_VALUES = {
     "provider_announced",
@@ -167,7 +168,14 @@ def load_snapshot(path: Path) -> dict[tuple[str, str], dict[str, Any]]:
     return models
 
 
-def expected_change_type(old_prices: dict[str, Any], new_prices: dict[str, Any], component_changes: list[dict[str, Any]] | None = None) -> str:
+def expected_change_type(
+    old_prices: dict[str, Any],
+    new_prices: dict[str, Any],
+    component_changes: list[dict[str, Any]] | None = None,
+    temporal_changed: bool = False,
+) -> str:
+    if temporal_changed:
+        return "temporal_price_schedule_update"
     input_changed = old_prices["input"] != new_prices["input"]
     output_changed = old_prices["output"] != new_prices["output"]
     cached_changed = old_prices["cached_input"] != new_prices["cached_input"]
@@ -182,8 +190,13 @@ def expected_change_type(old_prices: dict[str, Any], new_prices: dict[str, Any],
     fail("old_prices and new_prices must differ")
 
 
-def infer_change_type(old_prices: dict[str, Any], new_prices: dict[str, Any], component_changes: list[dict[str, Any]] | None = None) -> str:
-    return expected_change_type(old_prices, new_prices, component_changes)
+def infer_change_type(
+    old_prices: dict[str, Any],
+    new_prices: dict[str, Any],
+    component_changes: list[dict[str, Any]] | None = None,
+    temporal_changed: bool = False,
+) -> str:
+    return expected_change_type(old_prices, new_prices, component_changes, temporal_changed)
 
 
 def canonical_dedupe_payload(event: dict[str, Any]) -> dict[str, Any]:
@@ -198,6 +211,9 @@ def canonical_dedupe_payload(event: dict[str, Any]) -> dict[str, Any]:
     }
     if event.get("component_changes"):
         payload["component_changes"] = event["component_changes"]
+    if "old_time_pricing" in event or "new_time_pricing" in event:
+        payload["old_time_pricing"] = event.get("old_time_pricing")
+        payload["new_time_pricing"] = event.get("new_time_pricing")
     return payload
 
 
@@ -227,9 +243,12 @@ def generate_events(before: Path, after: Path) -> list[dict[str, Any]]:
         old_prices = normalize_prices(before_pricing, f"{key[0]}/{key[1]} old")
         new_prices = normalize_prices(after_pricing, f"{key[0]}/{key[1]} new")
         component_changes = component_price_changes(before_model, after_model, f"{key[0]}/{key[1]}")
+        old_time_pricing = before_model.get("time_pricing")
+        new_time_pricing = after_model.get("time_pricing")
+        temporal_changed = old_time_pricing != new_time_pricing
         unit = after_pricing.get("unit")
         currency = after_pricing.get("currency")
-        if old_prices == new_prices and not component_changes:
+        if old_prices == new_prices and not component_changes and not temporal_changed:
             continue
         if before_pricing.get("unit") != unit:
             fail(f"{key[0]}/{key[1]} unit changed; add explicit event semantics before generating")
@@ -240,7 +259,7 @@ def generate_events(before: Path, after: Path) -> list[dict[str, Any]]:
             "event_id": "",
             "provider_id": key[0],
             "model_id": key[1],
-            "change_type": infer_change_type(old_prices, new_prices, component_changes),
+            "change_type": infer_change_type(old_prices, new_prices, component_changes, temporal_changed),
             "old_prices": old_prices,
             "new_prices": new_prices,
             "unit": unit,
@@ -258,6 +277,17 @@ def generate_events(before: Path, after: Path) -> list[dict[str, Any]]:
         }
         if component_changes:
             event["component_changes"] = component_changes
+        if temporal_changed:
+            event["old_time_pricing"] = deepcopy(old_time_pricing)
+            event["new_time_pricing"] = deepcopy(new_time_pricing)
+            event["effective_from"] = (new_time_pricing or {}).get("rate_effective_from")
+            event["date_basis"] = "official_changelog"
+            event["announcement_url"] = "https://api-docs.deepseek.com/news/news260813/"
+            event["notes"] = (
+                "The provider announced the new Peak and Off-peak price rates effective at "
+                f"{event['effective_from']}. The weekday-only schedule is verified from the current "
+                "official pricing page, but its original effective date is not specified."
+            )
         event["dedupe_key"] = build_dedupe_key(event)
         event["event_id"] = build_event_id(event)
         events.append(event)
@@ -378,16 +408,29 @@ def validate_event(event: dict[str, Any], path: Path | None = None, line_number:
         old_prices = validate_price_triple(event.get("old_prices"), "old_prices")
         new_prices = validate_price_triple(event.get("new_prices"), "new_prices")
         component_changes = validate_component_changes(event.get("component_changes"))
-        if old_prices == new_prices and not component_changes:
-            fail("old_prices/new_prices or component_changes must differ")
-        expected_type = expected_change_type(old_prices, new_prices, component_changes)
+        old_time_pricing = event.get("old_time_pricing")
+        new_time_pricing = event.get("new_time_pricing")
+        if old_time_pricing is not None and not isinstance(old_time_pricing, dict):
+            fail("old_time_pricing must be an object or null")
+        if new_time_pricing is not None and not isinstance(new_time_pricing, dict):
+            fail("new_time_pricing must be an object or null")
+        temporal_changed = ("old_time_pricing" in event or "new_time_pricing" in event) and old_time_pricing != new_time_pricing
+        if old_prices == new_prices and not component_changes and not temporal_changed:
+            fail("old_prices/new_prices, component_changes, or temporal pricing must differ")
+        expected_type = expected_change_type(old_prices, new_prices, component_changes, temporal_changed)
         if event.get("change_type") != expected_type:
             fail(f"change_type must be {expected_type} for this price delta")
         if event.get("currency") != "USD":
             fail("currency must be USD")
         if event.get("unit") != "1M tokens":
             fail("unit must be 1M tokens")
-        for field in ("effective_from", "detected_at", "verified_at"):
+        effective_from = event.get("effective_from")
+        if effective_from:
+            if "T" in effective_from:
+                datetime.fromisoformat(effective_from.replace("Z", "+00:00"))
+            else:
+                parse_date(effective_from, "effective_from")
+        for field in ("detected_at", "verified_at"):
             parse_date(event.get(field), field)
         if not event.get("detected_at"):
             fail("detected_at is required")

@@ -302,7 +302,16 @@ class PriceChangeEventTests(unittest.TestCase):
             validate_unique_events([event, same_dedupe])
 
     def test_schema_enum_matches_actual_generator_scope(self):
-        self.assertEqual(CHANGE_TYPES, {"price_update", "cached_price_added", "cached_price_removed", "component_price_update"})
+        self.assertEqual(
+            CHANGE_TYPES,
+            {
+                "price_update",
+                "cached_price_added",
+                "cached_price_removed",
+                "component_price_update",
+                "temporal_price_schedule_update",
+            },
+        )
         before = model(provider_id="new-provider", model_id="new-model")
         with tempfile.TemporaryDirectory() as tmp:
             root = Path(tmp)

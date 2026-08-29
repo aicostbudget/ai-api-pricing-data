@@ -2,27 +2,27 @@
   "aliasCount": 2,
   "candidateDispositionCounts": {
     "alias": 2,
-    "canonical_identity": 39,
+    "canonical_identity": 41,
     "historical_reference": 1,
     "unresolved": 3
   },
-  "candidateUnionCount": 45,
+  "candidateUnionCount": 47,
   "commonCount": 25,
   "counts": {
-    "chargeRecordCount": 264,
-    "modelRecordCount": 42,
-    "priceRecordCount": 88,
-    "sourceRecordCount": 27
+    "chargeRecordCount": 274,
+    "modelRecordCount": 44,
+    "priceRecordCount": 92,
+    "sourceRecordCount": 32
   },
   "duplicateIdentityCount": 3,
-  "generatedAt": "2026-08-25T15:02:22Z",
+  "generatedAt": "2026-08-28T19:00:00Z",
   "lifecycleConflicts": [
     {
       "internalId": "xai/grok-3",
       "resolution": "retired identity retained; redirects to xai/grok-4.3 current billing"
     }
   ],
-  "normalizedCanonicalIdentityCount": 42,
+  "normalizedCanonicalIdentityCount": 44,
   "pricingConflicts": [
     {
       "internalId": "openai/gpt-4.1",
@@ -37,7 +37,7 @@
       "reason": "no safe default calculation price"
     }
   ],
-  "publicOnlyCount": 7,
+  "publicOnlyCount": 9,
   "sourceConflicts": [],
   "specialCases": {
     "claude-sonnet-5_pricing_policy": "Claude Sonnet 5 uses one permanent standard PriceRecord; the canceled 2026-09-01 increase is retained only in historical evidence.",
@@ -555,7 +555,7 @@
         }
       },
       {
-        "classification": "exact_parity",
+        "classification": "expected_difference",
         "internalId": "deepseek/deepseek-v4-flash",
         "modelId": "deepseek-v4-flash",
         "oldWebsiteValue": {
@@ -563,15 +563,15 @@
           "inputPrice": 0.14,
           "outputPrice": 0.28
         },
-        "reason": "Website values match the selected V2 default calculation price.",
+        "reason": "canonical V2 projection has richer condition/source metadata",
         "v2PreviewValue": {
-          "cachedInputPrice": 0.0028,
-          "inputPrice": 0.14,
-          "outputPrice": 0.28
+          "cachedInputPrice": 0.014,
+          "inputPrice": 0.44,
+          "outputPrice": 1.32
         }
       },
       {
-        "classification": "exact_parity",
+        "classification": "expected_difference",
         "internalId": "deepseek/deepseek-v4-pro",
         "modelId": "deepseek-v4-pro",
         "oldWebsiteValue": {
@@ -579,15 +579,15 @@
           "inputPrice": 0.435,
           "outputPrice": 0.87
         },
-        "reason": "Website values match the selected V2 default calculation price.",
+        "reason": "canonical V2 projection has richer condition/source metadata",
         "v2PreviewValue": {
-          "cachedInputPrice": 0.003625,
-          "inputPrice": 0.435,
-          "outputPrice": 0.87
+          "cachedInputPrice": 0.044,
+          "inputPrice": 1.32,
+          "outputPrice": 3.96
         }
       },
       {
-        "classification": "exact_parity",
+        "classification": "expected_difference",
         "internalId": "deepseek/deepseek-chat",
         "modelId": "deepseek-chat",
         "oldWebsiteValue": {
@@ -595,15 +595,15 @@
           "inputPrice": 0.14,
           "outputPrice": 0.28
         },
-        "reason": "Website values match the selected V2 default calculation price.",
+        "reason": "canonical V2 projection has richer condition/source metadata",
         "v2PreviewValue": {
-          "cachedInputPrice": 0.0028,
-          "inputPrice": 0.14,
-          "outputPrice": 0.28
+          "cachedInputPrice": 0.014,
+          "inputPrice": 0.44,
+          "outputPrice": 1.32
         }
       },
       {
-        "classification": "exact_parity",
+        "classification": "expected_difference",
         "internalId": "deepseek/deepseek-reasoner",
         "modelId": "deepseek-reasoner",
         "oldWebsiteValue": {
@@ -611,11 +611,11 @@
           "inputPrice": 0.14,
           "outputPrice": 0.28
         },
-        "reason": "Website values match the selected V2 default calculation price.",
+        "reason": "canonical V2 projection has richer condition/source metadata",
         "v2PreviewValue": {
-          "cachedInputPrice": 0.0028,
-          "inputPrice": 0.14,
-          "outputPrice": 0.28
+          "cachedInputPrice": 0.014,
+          "inputPrice": 0.44,
+          "outputPrice": 1.32
         }
       },
       {
@@ -692,10 +692,6 @@
       "anthropic/claude-sonnet-4",
       "anthropic/claude-sonnet-4.6",
       "anthropic/claude-sonnet-5",
-      "deepseek/deepseek-chat",
-      "deepseek/deepseek-reasoner",
-      "deepseek/deepseek-v4-flash",
-      "deepseek/deepseek-v4-pro",
       "google-gemini/gemini-3-flash-preview",
       "google-gemini/gemini-3.1-flash-lite",
       "google-gemini/gemini-3.1-pro-preview",
@@ -725,6 +721,22 @@
       },
       {
         "internalId": "google-gemini/gemini-2.5-flash",
+        "reason": "canonical V2 projection has richer condition/source metadata"
+      },
+      {
+        "internalId": "deepseek/deepseek-v4-flash",
+        "reason": "canonical V2 projection has richer condition/source metadata"
+      },
+      {
+        "internalId": "deepseek/deepseek-v4-pro",
+        "reason": "canonical V2 projection has richer condition/source metadata"
+      },
+      {
+        "internalId": "deepseek/deepseek-chat",
+        "reason": "canonical V2 projection has richer condition/source metadata"
+      },
+      {
+        "internalId": "deepseek/deepseek-reasoner",
         "reason": "canonical V2 projection has richer condition/source metadata"
       }
     ],

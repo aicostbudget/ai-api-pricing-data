@@ -105,6 +105,59 @@ def validate_models(now: datetime | None = None) -> None:
                     if isinstance(value, bool) or not isinstance(value, (int, float)) or value < 0:
                         fail(f"invalid tier price for {item[0]}/{item[1]} tier {tier['id']} {field}")
 
+        time_pricing = model.get("time_pricing")
+        if time_pricing:
+            if tiers:
+                fail(f"time pricing must not be represented as pricing_tiers for {item[0]}/{item[1]}")
+            if time_pricing["timezone"] != "UTC":
+                fail(f"unsupported time pricing timezone for {item[0]}/{item[1]}")
+            parse_ts(time_pricing["rate_effective_from"])
+            if time_pricing["schedule_effective_from"] is not None:
+                parse_ts(time_pricing["schedule_effective_from"])
+            parse_ts(time_pricing["schedule_accessed_at"])
+            parse_ts(time_pricing["schedule_verified_at"])
+            if time_pricing["schedule_source_url"] not in source_urls:
+                fail(f"time pricing schedule source missing from official_source_urls for {item[0]}/{item[1]}")
+            periods = time_pricing["periods"]
+            period_ids = [period["id"] for period in periods]
+            if len(period_ids) != len(set(period_ids)):
+                fail(f"duplicate time pricing period id for {item[0]}/{item[1]}")
+            defaults = [period for period in periods if period["is_default"]]
+            if len(defaults) != 1 or defaults[0]["id"] != time_pricing["default_period_id"]:
+                fail(f"time pricing requires exactly one matching default period for {item[0]}/{item[1]}")
+            if not defaults[0]["all_other_times"]:
+                fail(f"time pricing default period must cover all other times for {item[0]}/{item[1]}")
+            for period in periods:
+                period_pricing = period["pricing"]
+                if period_pricing["currency"] != pricing["currency"] or period_pricing["unit"] != pricing["unit"]:
+                    fail(f"time pricing currency/unit mismatch for {item[0]}/{item[1]} period {period['id']}")
+                for field in ("input", "cached_input", "output"):
+                    value = period_pricing[field]
+                    if isinstance(value, bool) or not isinstance(value, (int, float)) or value < 0:
+                        fail(f"invalid time price for {item[0]}/{item[1]} period {period['id']} {field}")
+                for window in period["time_windows"]:
+                    if window["start"] >= window["end"]:
+                        fail(f"invalid time window for {item[0]}/{item[1]} period {period['id']}")
+
+            if item in {("deepseek", "deepseek-v4-flash"), ("deepseek", "deepseek-v4-pro")}:
+                periods_by_id = {period["id"]: period for period in periods}
+                if set(periods_by_id) != {"peak", "off_peak"}:
+                    fail(f"{item[0]}/{item[1]} must have peak and off_peak periods")
+                peak = periods_by_id["peak"]
+                off_peak = periods_by_id["off_peak"]
+                weekdays = ["monday", "tuesday", "wednesday", "thursday", "friday"]
+                if peak["active_weekdays"] != weekdays or len(peak["time_windows"]) < 2:
+                    fail(f"{item[0]}/{item[1]} peak schedule mismatch")
+                if off_peak["active_weekdays"] or off_peak["time_windows"] or not off_peak["all_other_times"]:
+                    fail(f"{item[0]}/{item[1]} off_peak fallback mismatch")
+                for field in ("input", "cached_input", "output"):
+                    if peak["pricing"][field] != 2 * off_peak["pricing"][field]:
+                        fail(f"{item[0]}/{item[1]} peak must equal 2x off_peak for {field}")
+                v1_prices = {field: pricing[field] for field in ("input", "cached_input", "output")}
+                peak_prices = {field: peak["pricing"][field] for field in v1_prices}
+                if v1_prices != peak_prices:
+                    fail(f"{item[0]}/{item[1]} V1 pricing must match Peak")
+
         if item == ("xai", "grok-4.3"):
             tiers_by_id = {tier["id"]: tier for tier in tiers}
             if set(tiers_by_id) != {"short", "long"}:

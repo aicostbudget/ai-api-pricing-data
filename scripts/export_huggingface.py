@@ -43,9 +43,10 @@ CSV_HEADERS = (
     "notes",
     "pricing_tier_count",
     "pricing_tiers_json",
+    "time_pricing_json",
     "pricing_components_json",
 )
-PUBLIC_SCHEMA_VERSION = "1.3.0"
+PUBLIC_SCHEMA_VERSION = "1.4.0"
 PUBLIC_VERIFICATION_STATUSES = {
     "verified",
     "partially_verified",
@@ -295,6 +296,7 @@ def build_public_records(
                     "notes": warning if warning is not None else (legacy.get("priceNote", "") if legacy else ""),
                     "pricing_tier_count": len(tiers),
                     "pricing_tiers": tiers,
+                    "time_pricing": row.get("timePricing"),
                     "pricing_components": components,
                 }
             )
@@ -324,6 +326,7 @@ def build_public_records(
                 "notes": fallback_warning(row),
                 "pricing_tier_count": 0,
                 "pricing_tiers": [],
+                "time_pricing": row.get("timePricing"),
                 "pricing_components": public_pricing_components(row),
             }
         )
@@ -367,6 +370,8 @@ def build_export(
             "features": {
                 "pricing_components": "Full conditional pricing components; [] when none apply.",
                 "pricing_components_json": "Compact CSV JSON serialization of pricing_components.",
+                "time_pricing": "Structured request-time pricing schedule; null when no temporal pricing applies.",
+                "time_pricing_json": "Compact CSV JSON serialization of time_pricing.",
             },
         },
         "records": records,
@@ -441,6 +446,8 @@ def validate_payload(
         expected_components = public_pricing_components(canonical)
         if components != expected_components:
             raise ValueError(f"pricing component mismatch for {key[0]}/{key[1]}")
+        if row.get("time_pricing") != canonical.get("timePricing"):
+            raise ValueError(f"time pricing mismatch for {key[0]}/{key[1]}")
         verified = row.get("last_verified_at")
         if verified and parse_date(verified) > now:
             raise ValueError(f"future last_verified_at for {row['provider_id']}/{row['model_id']}")
@@ -462,8 +469,9 @@ def csv_text(records: list[dict[str, Any]]) -> str:
     writer.writeheader()
     writer.writerows(
         {
-            **{key: value for key, value in record.items() if key not in {"pricing_tiers", "pricing_components"}},
+            **{key: value for key, value in record.items() if key not in {"pricing_tiers", "time_pricing", "pricing_components"}},
             "pricing_tiers_json": json.dumps(record["pricing_tiers"], separators=(",", ":"), ensure_ascii=False),
+            "time_pricing_json": json.dumps(record["time_pricing"], separators=(",", ":"), ensure_ascii=False),
             "pricing_components_json": json.dumps(record["pricing_components"], separators=(",", ":"), ensure_ascii=False),
         }
         for record in records

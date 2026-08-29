@@ -21,8 +21,8 @@ PROJECTION_ROW_RECONCILIATION = PREVIEW / "phase4a-5-projection-row-reconciliati
 UNSAFE_DIFFERENCE_AUDIT = PREVIEW / "phase4a-5-unsafe-difference-audit.json"
 CONTEXT_WINDOW_AUDIT = PREVIEW / "phase4a-5-context-window-audit.json"
 
-DEFAULT_GENERATED_AT = "2026-08-25T15:07:25Z"
-DEFAULT_EFFECTIVE_AT = "2026-08-22T14:45:21Z"
+DEFAULT_GENERATED_AT = "2026-08-28T19:00:00Z"
+DEFAULT_EFFECTIVE_AT = "2026-08-28T18:59:59Z"
 PROJECTION_SCHEMA_VERSION = "website-pricing-projection-v2.phase4a"
 WEBSITE_ROW_REQUIRED_FIELDS = ("id", "inputPrice", "cachedInputPrice", "outputPrice")
 DEFAULT_SELECTION_RULE = [
@@ -158,7 +158,7 @@ def charge_amount(price: dict[str, Any] | None, component: str) -> int | float |
     if price is None:
         return None
     for charge in price["charges"]:
-        if charge["component"] == component and charge["modality"] == "text" and charge["unit"] == "per_1m_tokens":
+        if charge["component"] == component and charge["unit"] == "per_1m_tokens":
             return parse_decimal(charge["amount"])
     return None
 
@@ -404,6 +404,23 @@ def project_pricing_component(record: dict[str, Any], charge: dict[str, Any]) ->
         )
 
     tier_selection = record.get("tierSelection")
+    condition = {
+        "processingMode": record["processingMode"],
+        "contextClass": record["contextClass"],
+        "promptTokenThreshold": record["promptTokenThreshold"],
+        "tierSelection": {
+            "comparison": tier_selection["comparison"],
+            "tokenBasis": tier_selection["tokenBasis"],
+            "cachedPromptTokensIncluded": tier_selection["cachedPromptTokensIncluded"],
+            "wholeRequestPricing": tier_selection["wholeRequestPricing"],
+        } if tier_selection else None,
+        "regionPolicy": record["regionPolicy"],
+        "effectiveFrom": record["effectiveFrom"],
+        "effectiveUntil": record["effectiveUntil"],
+    }
+    if record.get("temporalCondition") is not None:
+        condition["temporalCondition"] = record["temporalCondition"]
+
     return {
         "pricingId": record["pricingId"],
         "chargeId": charge["chargeId"],
@@ -412,23 +429,57 @@ def project_pricing_component(record: dict[str, Any], charge: dict[str, Any]) ->
         "unit": charge["unit"],
         "currency": record["currency"],
         "modality": charge["modality"],
-        "condition": {
-            "processingMode": record["processingMode"],
-            "contextClass": record["contextClass"],
-            "promptTokenThreshold": record["promptTokenThreshold"],
-            "tierSelection": {
-                "comparison": tier_selection["comparison"],
-                "tokenBasis": tier_selection["tokenBasis"],
-                "cachedPromptTokensIncluded": tier_selection["cachedPromptTokensIncluded"],
-                "wholeRequestPricing": tier_selection["wholeRequestPricing"],
-            } if tier_selection else None,
-            "regionPolicy": record["regionPolicy"],
-            "effectiveFrom": record["effectiveFrom"],
-            "effectiveUntil": record["effectiveUntil"],
-        },
+        "condition": condition,
         "calculationDefault": record.get("calculationDefault") is True,
         "sourceRefs": sorted(record["sourceRefs"]),
         "verificationStatus": record["verificationStatus"],
+    }
+
+
+def build_time_pricing(model_prices: list[dict[str, Any]]) -> dict[str, Any] | None:
+    temporal_records = [
+        record
+        for record in model_prices
+        if record.get("temporalCondition")
+        and record.get("processingMode") == "standard"
+        and record.get("contextClass") == "short"
+        and record.get("pricingStatus") == "current"
+        and record.get("verificationStatus") == "verified"
+    ]
+    if not temporal_records:
+        return None
+
+    periods = []
+    for record in sorted(temporal_records, key=lambda item: item["temporalCondition"]["periodId"]):
+        condition = record["temporalCondition"]
+        periods.append(
+            {
+                "id": condition["periodId"],
+                "pricingId": record["pricingId"],
+                "calculationDefault": record.get("calculationDefault") is True,
+                "activeWeekdays": condition["activeWeekdays"],
+                "timeWindows": condition["timeWindows"],
+                "allOtherTimes": condition["allOtherTimes"],
+                "inputPrice": charge_amount(record, "input"),
+                "cachedInputPrice": charge_amount(record, "cached_input"),
+                "outputPrice": charge_amount(record, "output"),
+                "currency": record["currency"],
+                "unit": "per_1m_tokens",
+                "sourceRefs": sorted(record["sourceRefs"]),
+                "verificationStatus": record["verificationStatus"],
+            }
+        )
+
+    first = temporal_records[0]["temporalCondition"]
+    return {
+        "timezone": first["timezone"],
+        "rateEffectiveFrom": first["rateEffectiveFrom"],
+        "scheduleEffectiveFrom": first["scheduleEffectiveFrom"],
+        "selectionBasis": first["selectionBasis"],
+        "recurrence": first["recurrence"],
+        "defaultPeriodId": first["defaultPeriodId"],
+        "scheduleSourceRefs": first["scheduleSourceRefs"],
+        "periods": periods,
     }
 
 
@@ -653,6 +704,10 @@ def projection_row(
     )
     if pricing_tiers:
         row["pricingTiers"] = pricing_tiers
+
+    time_pricing = build_time_pricing(prices_by_model.get(identity["internalId"], []))
+    if time_pricing:
+        row["timePricing"] = time_pricing
 
     pricing_components = build_pricing_components(
         prices_by_model.get(target_internal_id, []),

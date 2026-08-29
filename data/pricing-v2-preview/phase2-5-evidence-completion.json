@@ -80,8 +80,7 @@
     "provider": "anthropic",
     "reason": "Default-safe gate passed.",
     "sourceRefs": [
-      "source:anthropic:docs-anthropic-com-en-docs-about-claude-pricing",
-      "source:anthropic:platform-claude-com-docs-en-about-claude-pricing"
+      "source:anthropic:docs-anthropic-com-en-docs-about-claude-pricing"
     ],
     "verificationDecision": "unchanged"
   },
@@ -110,16 +109,15 @@
     "provider": "anthropic",
     "reason": "Default-safe gate blocked by: not_production_default_candidate, not_standard_processing_mode",
     "sourceRefs": [
-      "source:anthropic:docs-anthropic-com-en-docs-about-claude-pricing",
-      "source:anthropic:platform-claude-com-docs-en-about-claude-pricing"
+      "source:anthropic:docs-anthropic-com-en-docs-about-claude-pricing"
     ],
     "verificationDecision": "unchanged"
   },
   {
     "afterEvidenceCompleteness": "complete",
     "afterVerificationStatus": "verified",
-    "beforeEvidenceCompleteness": "partial",
-    "beforeVerificationStatus": "partially_verified",
+    "beforeEvidenceCompleteness": "complete",
+    "beforeVerificationStatus": "verified",
     "blocker": [],
     "businessCriticality": "production_default_candidate",
     "currentEffective": true,
@@ -135,7 +133,7 @@
     ],
     "phase25VerifiedAt": "2026-07-07T00:00:00Z",
     "pricingId": "price:anthropic/claude-mythos-5:standard:short:website-preview",
-    "priorityClass": "P0",
+    "priorityClass": "not_partial",
     "provider": "anthropic",
     "reason": "Default-safe gate passed.",
     "sourceRefs": [
@@ -146,8 +144,8 @@
   {
     "afterEvidenceCompleteness": "complete",
     "afterVerificationStatus": "verified",
-    "beforeEvidenceCompleteness": "partial",
-    "beforeVerificationStatus": "partially_verified",
+    "beforeEvidenceCompleteness": "complete",
+    "beforeVerificationStatus": "verified",
     "blocker": [],
     "businessCriticality": "production_default_candidate",
     "currentEffective": true,
@@ -163,7 +161,7 @@
     ],
     "phase25VerifiedAt": "2026-07-07T00:00:00Z",
     "pricingId": "price:anthropic/claude-opus-4.1:standard:short:website-preview",
-    "priorityClass": "P0",
+    "priorityClass": "not_partial",
     "provider": "anthropic",
     "reason": "Default-safe gate passed.",
     "sourceRefs": [
@@ -193,8 +191,7 @@
     "provider": "anthropic",
     "reason": "Default-safe gate passed.",
     "sourceRefs": [
-      "source:anthropic:docs-anthropic-com-en-docs-about-claude-pricing",
-      "source:anthropic:platform-claude-com-docs-en-about-claude-pricing"
+      "source:anthropic:docs-anthropic-com-en-docs-about-claude-pricing"
     ],
     "verificationDecision": "unchanged"
   },
@@ -223,8 +220,7 @@
     "provider": "anthropic",
     "reason": "Default-safe gate blocked by: not_production_default_candidate, not_standard_processing_mode",
     "sourceRefs": [
-      "source:anthropic:docs-anthropic-com-en-docs-about-claude-pricing",
-      "source:anthropic:platform-claude-com-docs-en-about-claude-pricing"
+      "source:anthropic:docs-anthropic-com-en-docs-about-claude-pricing"
     ],
     "verificationDecision": "unchanged"
   },
@@ -341,8 +337,7 @@
     "provider": "anthropic",
     "reason": "Default-safe gate passed.",
     "sourceRefs": [
-      "source:anthropic:docs-anthropic-com-en-docs-about-claude-pricing",
-      "source:anthropic:platform-claude-com-docs-en-about-claude-pricing"
+      "source:anthropic:docs-anthropic-com-en-docs-about-claude-pricing"
     ],
     "verificationDecision": "unchanged"
   },
@@ -371,8 +366,7 @@
     "provider": "anthropic",
     "reason": "Default-safe gate blocked by: not_production_default_candidate, not_standard_processing_mode",
     "sourceRefs": [
-      "source:anthropic:docs-anthropic-com-en-docs-about-claude-pricing",
-      "source:anthropic:platform-claude-com-docs-en-about-claude-pricing"
+      "source:anthropic:docs-anthropic-com-en-docs-about-claude-pricing"
     ],
     "verificationDecision": "unchanged"
   },
@@ -526,24 +520,28 @@
     "afterVerificationStatus": "verified",
     "beforeEvidenceCompleteness": "complete",
     "beforeVerificationStatus": "verified",
-    "blocker": [],
-    "businessCriticality": "production_default_candidate",
+    "blocker": [
+      "not_production_default_candidate"
+    ],
+    "businessCriticality": "production_secondary",
     "currentEffective": true,
     "currentPrices": {
-      "cached_input": "0.0028",
-      "input": "0.14",
-      "output": "0.28"
+      "cached_input": "0.007",
+      "input": "0.22",
+      "output": "0.66"
     },
-    "defaultSafe": true,
+    "defaultSafe": false,
     "modelInternalId": "deepseek/deepseek-v4-flash",
     "officialEvidence": [],
     "phase25VerifiedAt": null,
-    "pricingId": "price:deepseek/deepseek-v4-flash:standard:short:current",
+    "pricingId": "price:deepseek/deepseek-v4-flash:standard:short:current:off_peak",
     "priorityClass": "not_partial",
     "provider": "deepseek",
-    "reason": "Default-safe gate passed.",
+    "reason": "Default-safe gate blocked by: not_production_default_candidate",
     "sourceRefs": [
-      "source:deepseek:api-docs-deepseek-com-quick_start-pricing"
+      "source:deepseek:api-docs-deepseek-com-news-news260813",
+      "source:deepseek:api-docs-deepseek-com-quick_start-pricing",
+      "source:deepseek:api-docs-deepseek-com-updates"
     ],
     "verificationDecision": "unchanged"
   },
@@ -556,20 +554,80 @@
     "businessCriticality": "production_default_candidate",
     "currentEffective": true,
     "currentPrices": {
-      "cached_input": "0.003625",
-      "input": "0.435",
-      "output": "0.87"
+      "cached_input": "0.014",
+      "input": "0.44",
+      "output": "1.32"
+    },
+    "defaultSafe": true,
+    "modelInternalId": "deepseek/deepseek-v4-flash",
+    "officialEvidence": [],
+    "phase25VerifiedAt": null,
+    "pricingId": "price:deepseek/deepseek-v4-flash:standard:short:current:peak",
+    "priorityClass": "not_partial",
+    "provider": "deepseek",
+    "reason": "Default-safe gate passed.",
+    "sourceRefs": [
+      "source:deepseek:api-docs-deepseek-com-news-news260813",
+      "source:deepseek:api-docs-deepseek-com-quick_start-pricing",
+      "source:deepseek:api-docs-deepseek-com-updates"
+    ],
+    "verificationDecision": "unchanged"
+  },
+  {
+    "afterEvidenceCompleteness": "complete",
+    "afterVerificationStatus": "verified",
+    "beforeEvidenceCompleteness": "complete",
+    "beforeVerificationStatus": "verified",
+    "blocker": [
+      "not_production_default_candidate"
+    ],
+    "businessCriticality": "production_secondary",
+    "currentEffective": true,
+    "currentPrices": {
+      "cached_input": "0.022",
+      "input": "0.66",
+      "output": "1.98"
+    },
+    "defaultSafe": false,
+    "modelInternalId": "deepseek/deepseek-v4-pro",
+    "officialEvidence": [],
+    "phase25VerifiedAt": null,
+    "pricingId": "price:deepseek/deepseek-v4-pro:standard:short:current:off_peak",
+    "priorityClass": "not_partial",
+    "provider": "deepseek",
+    "reason": "Default-safe gate blocked by: not_production_default_candidate",
+    "sourceRefs": [
+      "source:deepseek:api-docs-deepseek-com-news-news260813",
+      "source:deepseek:api-docs-deepseek-com-quick_start-pricing",
+      "source:deepseek:api-docs-deepseek-com-updates"
+    ],
+    "verificationDecision": "unchanged"
+  },
+  {
+    "afterEvidenceCompleteness": "complete",
+    "afterVerificationStatus": "verified",
+    "beforeEvidenceCompleteness": "complete",
+    "beforeVerificationStatus": "verified",
+    "blocker": [],
+    "businessCriticality": "production_default_candidate",
+    "currentEffective": true,
+    "currentPrices": {
+      "cached_input": "0.044",
+      "input": "1.32",
+      "output": "3.96"
     },
     "defaultSafe": true,
     "modelInternalId": "deepseek/deepseek-v4-pro",
     "officialEvidence": [],
     "phase25VerifiedAt": null,
-    "pricingId": "price:deepseek/deepseek-v4-pro:standard:short:current",
+    "pricingId": "price:deepseek/deepseek-v4-pro:standard:short:current:peak",
     "priorityClass": "not_partial",
     "provider": "deepseek",
     "reason": "Default-safe gate passed.",
     "sourceRefs": [
-      "source:deepseek:api-docs-deepseek-com-quick_start-pricing"
+      "source:deepseek:api-docs-deepseek-com-news-news260813",
+      "source:deepseek:api-docs-deepseek-com-quick_start-pricing",
+      "source:deepseek:api-docs-deepseek-com-updates"
     ],
     "verificationDecision": "unchanged"
   },
@@ -686,8 +744,8 @@
   {
     "afterEvidenceCompleteness": "complete",
     "afterVerificationStatus": "verified",
-    "beforeEvidenceCompleteness": "partial",
-    "beforeVerificationStatus": "partially_verified",
+    "beforeEvidenceCompleteness": "complete",
+    "beforeVerificationStatus": "verified",
     "blocker": [],
     "businessCriticality": "production_default_candidate",
     "currentEffective": true,
@@ -703,7 +761,7 @@
     ],
     "phase25VerifiedAt": "2026-07-07T00:00:00Z",
     "pricingId": "price:google-gemini/gemini-3-flash-preview:standard:short:website-preview",
-    "priorityClass": "P0",
+    "priorityClass": "not_partial",
     "provider": "google-gemini",
     "reason": "Default-safe gate passed.",
     "sourceRefs": [
@@ -949,6 +1007,64 @@
     "businessCriticality": "production_default_candidate",
     "currentEffective": true,
     "currentPrices": {
+      "cached_input": null,
+      "input": "2",
+      "output": "12"
+    },
+    "defaultSafe": true,
+    "modelInternalId": "google-gemini/gemini-3.5-transcribe",
+    "officialEvidence": [],
+    "phase25VerifiedAt": null,
+    "pricingId": "price:google-gemini/gemini-3.5-transcribe:standard:short:current",
+    "priorityClass": "not_partial",
+    "provider": "google-gemini",
+    "reason": "Default-safe gate passed.",
+    "sourceRefs": [
+      "source:google-gemini:ai-google-dev-gemini-api-docs-changelog",
+      "source:google-gemini:ai-google-dev-gemini-api-docs-models-gemini-3-5-transcribe",
+      "source:google-gemini:ai-google-dev-gemini-api-docs-pricing",
+      "source:google-gemini:ai-google-dev-gemini-api-docs-transcribe"
+    ],
+    "verificationDecision": "unchanged"
+  },
+  {
+    "afterEvidenceCompleteness": "complete",
+    "afterVerificationStatus": "verified",
+    "beforeEvidenceCompleteness": "complete",
+    "beforeVerificationStatus": "verified",
+    "blocker": [],
+    "businessCriticality": "production_default_candidate",
+    "currentEffective": true,
+    "currentPrices": {
+      "cached_input": null,
+      "input": "3.5",
+      "output": "21"
+    },
+    "defaultSafe": true,
+    "modelInternalId": "google-gemini/gemini-3.5-transcribe-live",
+    "officialEvidence": [],
+    "phase25VerifiedAt": null,
+    "pricingId": "price:google-gemini/gemini-3.5-transcribe-live:standard:short:current",
+    "priorityClass": "not_partial",
+    "provider": "google-gemini",
+    "reason": "Default-safe gate passed.",
+    "sourceRefs": [
+      "source:google-gemini:ai-google-dev-gemini-api-docs-changelog",
+      "source:google-gemini:ai-google-dev-gemini-api-docs-models-gemini-3-5-transcribe",
+      "source:google-gemini:ai-google-dev-gemini-api-docs-pricing",
+      "source:google-gemini:ai-google-dev-gemini-api-docs-transcribe"
+    ],
+    "verificationDecision": "unchanged"
+  },
+  {
+    "afterEvidenceCompleteness": "complete",
+    "afterVerificationStatus": "verified",
+    "beforeEvidenceCompleteness": "complete",
+    "beforeVerificationStatus": "verified",
+    "blocker": [],
+    "businessCriticality": "production_default_candidate",
+    "currentEffective": true,
+    "currentPrices": {
       "cached_input": "0.15",
       "input": "1.5",
       "output": "7.5"
@@ -1057,8 +1173,8 @@
   {
     "afterEvidenceCompleteness": "complete",
     "afterVerificationStatus": "verified",
-    "beforeEvidenceCompleteness": "partial",
-    "beforeVerificationStatus": "partially_verified",
+    "beforeEvidenceCompleteness": "complete",
+    "beforeVerificationStatus": "verified",
     "blocker": [],
     "businessCriticality": "production_default_candidate",
     "currentEffective": true,
@@ -1074,7 +1190,7 @@
     ],
     "phase25VerifiedAt": "2026-07-07T00:00:00Z",
     "pricingId": "price:openai/chatgpt-chat-latest:standard:short:website-preview",
-    "priorityClass": "P0",
+    "priorityClass": "not_partial",
     "provider": "openai",
     "reason": "Default-safe gate passed.",
     "sourceRefs": [
@@ -1281,8 +1397,8 @@
   {
     "afterEvidenceCompleteness": "complete",
     "afterVerificationStatus": "verified",
-    "beforeEvidenceCompleteness": "partial",
-    "beforeVerificationStatus": "partially_verified",
+    "beforeEvidenceCompleteness": "complete",
+    "beforeVerificationStatus": "verified",
     "blocker": [],
     "businessCriticality": "production_default_candidate",
     "currentEffective": true,
@@ -1298,7 +1414,7 @@
     ],
     "phase25VerifiedAt": "2026-07-07T00:00:00Z",
     "pricingId": "price:openai/gpt-5.3-codex:standard:short:website-preview",
-    "priorityClass": "P0",
+    "priorityClass": "not_partial",
     "provider": "openai",
     "reason": "Default-safe gate passed.",
     "sourceRefs": [
@@ -2594,8 +2710,8 @@
   {
     "afterEvidenceCompleteness": "complete",
     "afterVerificationStatus": "verified",
-    "beforeEvidenceCompleteness": "partial",
-    "beforeVerificationStatus": "partially_verified",
+    "beforeEvidenceCompleteness": "complete",
+    "beforeVerificationStatus": "verified",
     "blocker": [],
     "businessCriticality": "production_default_candidate",
     "currentEffective": true,
@@ -2611,7 +2727,7 @@
     ],
     "phase25VerifiedAt": "2026-07-07T00:00:00Z",
     "pricingId": "price:xai/grok-build-0.1:standard:short:website-preview",
-    "priorityClass": "P0",
+    "priorityClass": "not_partial",
     "provider": "xai",
     "reason": "Default-safe gate passed.",
     "sourceRefs": [
