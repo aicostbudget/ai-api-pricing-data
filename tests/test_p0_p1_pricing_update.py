@@ -1,6 +1,6 @@
 import json
 import unittest
-from datetime import datetime, timezone
+from datetime import datetime, timedelta, timezone
 from pathlib import Path
 
 from scripts.lib import select_time_pricing_period
@@ -140,6 +140,61 @@ class P0P1PricingUpdateTests(unittest.TestCase):
             self.assertEqual(charges["output"]["modality"], "text")
             self.assertEqual(v2_model_by_id[internal_id]["releaseStage"], "stable")
             self.assertEqual(v2_model_by_id[internal_id]["lifecycleStatus"], "active")
+
+    def test_gemini_flash_promotional_and_future_price_lifecycle(self):
+        for model_id in ("gemini-3.6-flash", "gemini-3.7-flash"):
+            canonical = self.canonical_by_id[model_id]
+            self.assertEqual(
+                {field: canonical["pricing"][field] for field in ("input", "cached_input", "output", "batch_input", "batch_cached_input", "batch_output")},
+                {"input": 0.75, "cached_input": 0.075, "output": 3.75, "batch_input": 0.375, "batch_cached_input": 0.0375, "batch_output": 1.875},
+            )
+            periods = {period["id"]: period for period in canonical["pricing_periods"]}
+            self.assertEqual(periods["introductory_2026"]["effective_until"], "2026-12-31")
+            self.assertTrue(periods["introductory_2026"]["calculation_default"])
+            self.assertEqual(periods["standard_2027"]["effective_from"], "2027-01-01")
+            current_until = datetime.fromisoformat(periods["introductory_2026"]["effective_until"]).date()
+            future_from = datetime.fromisoformat(periods["standard_2027"]["effective_from"]).date()
+            self.assertEqual(current_until + timedelta(days=1), future_from)
+            self.assertEqual(
+                {field: periods["standard_2027"]["pricing"][field] for field in ("input", "cached_input", "output", "batch_input", "batch_cached_input", "batch_output")},
+                {"input": 1.5, "cached_input": 0.15, "output": 7.5, "batch_input": 0.75, "batch_cached_input": 0.075, "batch_output": 3.75},
+            )
+            internal_id = f"google-gemini/{model_id}"
+            prices = [row for row in self.v2_prices if row["modelInternalId"] == internal_id]
+            self.assertEqual(len(prices), 4)
+            self.assertEqual({row["pricingStatus"] for row in prices}, {"current", "future"})
+            for boundary, expected_status in (("2026-12-31", "current"), ("2027-01-01", "future")):
+                for processing_mode in ("standard", "batch"):
+                    selected = [
+                        row for row in prices
+                        if row["processingMode"] == processing_mode
+                        and (row["effectiveFrom"] is None or row["effectiveFrom"] <= boundary)
+                        and (row["effectiveUntil"] is None or boundary <= row["effectiveUntil"])
+                    ]
+                    self.assertEqual(len(selected), 1)
+                    self.assertEqual(selected[0]["pricingStatus"], expected_status)
+            batch_by_status = {
+                row["pricingStatus"]: {charge["component"]: charge["amount"] for charge in row["charges"]}
+                for row in prices if row["processingMode"] == "batch"
+            }
+            self.assertEqual(batch_by_status["current"]["cached_input"], "0.0375")
+            self.assertEqual(batch_by_status["future"]["cached_input"], "0.075")
+            projection = next(row for row in self.v2_projection if row["id"] == model_id)
+            self.assertEqual(projection["selectedPriceEffectiveUntil"], "2026-12-31")
+            future_components = [
+                component for component in projection["pricingComponents"]
+                if component["condition"]["effectiveFrom"] == "2027-01-01"
+            ]
+            self.assertEqual(len(future_components), 6)
+
+    def test_non_token_models_are_not_misrepresented(self):
+        self.assertNotIn("parse-v5.0", self.canonical_by_id)
+        self.assertNotIn("gemini-omni-1.1-flash", self.canonical_by_id)
+        self.assertNotIn("gemini-omni-flash-preview", self.canonical_by_id)
+        schema = read_json("schema/pricing-v2-preview.schema.json")
+        units = schema["$defs"]["chargeRecord"]["properties"]["unit"]["enum"]
+        for unit in ("per_1m_tokens", "per_1000_pages", "per_minute", "per_second", "per_image", "per_request"):
+            self.assertIn(unit, units)
 
     def test_deepseek_price_change_events_are_temporal(self):
         events = [json.loads(line) for line in (ROOT / "data/price-change-events/events.jsonl").read_text(encoding="utf-8").splitlines()]

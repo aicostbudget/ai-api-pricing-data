@@ -182,26 +182,144 @@
       "status": "active"
     },
     {
-      "accessed_at": "2026-08-08T18:00:00Z",
+      "accessed_at": "2026-08-29T05:28:25Z",
       "display_name": "Gemini 3.6 Flash",
-      "effective_from": null,
-      "last_verified_at": "2026-08-08T18:00:00Z",
+      "effective_from": "2026-08-13",
+      "last_verified_at": "2026-08-29T05:28:25Z",
       "model_family": "Gemini 3.6",
       "model_id": "gemini-3.6-flash",
-      "notes": "Google released Gemini 3.6 Flash generally available on 2026-07-21. V1 stores standard text/image/video rates and explicit Batch rates from the official pricing table. Separate audio rates are not represented. effective_from remains null because the official sources do not publish a distinct pricing effective date.",
+      "notes": "Google applies Gemini 3.7 Flash introductory pricing to Gemini 3.6 Flash through 2026-12-31. V1 compatibility fields store the current Standard and Batch token rates. Structured pricing_periods preserves the 2027-01-01 Standard and Batch rates. Separate audio input and cache-storage charges are not represented in V1 scalars.",
       "official_source_url": "https://ai.google.dev/gemini-api/docs/pricing",
+      "official_source_urls": [
+        "https://ai.google.dev/gemini-api/docs/pricing",
+        "https://ai.google.dev/gemini-api/docs/latest-model",
+        "https://ai.google.dev/gemini-api/docs/changelog"
+      ],
       "pricing": {
-        "batch_input": 0.75,
-        "batch_output": 3.75,
+        "batch_cached_input": 0.0375,
+        "batch_input": 0.375,
+        "batch_output": 1.875,
         "cache_write": null,
         "cache_write_1h": null,
-        "cached_input": 0.15,
+        "cached_input": 0.075,
         "currency": "USD",
-        "input": 1.5,
-        "output": 7.5,
+        "input": 0.75,
+        "output": 3.75,
         "unit": "1M tokens"
       },
+      "pricing_periods": [
+        {
+          "calculation_default": true,
+          "effective_from": "2026-08-13",
+          "effective_until": "2026-12-31",
+          "id": "introductory_2026",
+          "pricing": {
+            "batch_cached_input": 0.0375,
+            "batch_input": 0.375,
+            "batch_output": 1.875,
+            "cache_write": null,
+            "cache_write_1h": null,
+            "cached_input": 0.075,
+            "currency": "USD",
+            "input": 0.75,
+            "output": 3.75,
+            "unit": "1M tokens"
+          },
+          "pricing_status": "current"
+        },
+        {
+          "calculation_default": false,
+          "effective_from": "2027-01-01",
+          "effective_until": null,
+          "id": "standard_2027",
+          "pricing": {
+            "batch_cached_input": 0.075,
+            "batch_input": 0.75,
+            "batch_output": 3.75,
+            "cache_write": null,
+            "cache_write_1h": null,
+            "cached_input": 0.15,
+            "currency": "USD",
+            "input": 1.5,
+            "output": 7.5,
+            "unit": "1M tokens"
+          },
+          "pricing_status": "future"
+        }
+      ],
       "provider_id": "google-gemini",
+      "release_stage": "stable",
+      "status": "active"
+    },
+    {
+      "accessed_at": "2026-08-29T05:28:25Z",
+      "display_name": "Gemini 3.7 Flash",
+      "effective_from": "2026-08-13",
+      "last_verified_at": "2026-08-29T05:28:25Z",
+      "model_family": "Gemini 3.7",
+      "model_id": "gemini-3.7-flash",
+      "notes": "Generally available on 2026-08-13. V1 compatibility fields store introductory Standard and Batch token rates through 2026-12-31. Structured pricing_periods preserves the 2027-01-01 Standard and Batch rates. Separate audio input and cache-storage charges are not represented in V1 scalars.",
+      "official_source_url": "https://ai.google.dev/gemini-api/docs/pricing",
+      "official_source_urls": [
+        "https://ai.google.dev/gemini-api/docs/pricing",
+        "https://ai.google.dev/gemini-api/docs/latest-model",
+        "https://ai.google.dev/gemini-api/docs/models/gemini-3.7-flash",
+        "https://ai.google.dev/gemini-api/docs/changelog"
+      ],
+      "pricing": {
+        "batch_cached_input": 0.0375,
+        "batch_input": 0.375,
+        "batch_output": 1.875,
+        "cache_write": null,
+        "cache_write_1h": null,
+        "cached_input": 0.075,
+        "currency": "USD",
+        "input": 0.75,
+        "output": 3.75,
+        "unit": "1M tokens"
+      },
+      "pricing_periods": [
+        {
+          "calculation_default": true,
+          "effective_from": "2026-08-13",
+          "effective_until": "2026-12-31",
+          "id": "introductory_2026",
+          "pricing": {
+            "batch_cached_input": 0.0375,
+            "batch_input": 0.375,
+            "batch_output": 1.875,
+            "cache_write": null,
+            "cache_write_1h": null,
+            "cached_input": 0.075,
+            "currency": "USD",
+            "input": 0.75,
+            "output": 3.75,
+            "unit": "1M tokens"
+          },
+          "pricing_status": "current"
+        },
+        {
+          "calculation_default": false,
+          "effective_from": "2027-01-01",
+          "effective_until": null,
+          "id": "standard_2027",
+          "pricing": {
+            "batch_cached_input": 0.075,
+            "batch_input": 0.75,
+            "batch_output": 3.75,
+            "cache_write": null,
+            "cache_write_1h": null,
+            "cached_input": 0.15,
+            "currency": "USD",
+            "input": 1.5,
+            "output": 7.5,
+            "unit": "1M tokens"
+          },
+          "pricing_status": "future"
+        }
+      ],
+      "provider_id": "google-gemini",
+      "release_stage": "stable",
       "status": "active"
     }
   ],

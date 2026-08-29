@@ -21,8 +21,8 @@ PROJECTION_ROW_RECONCILIATION = PREVIEW / "phase4a-5-projection-row-reconciliati
 UNSAFE_DIFFERENCE_AUDIT = PREVIEW / "phase4a-5-unsafe-difference-audit.json"
 CONTEXT_WINDOW_AUDIT = PREVIEW / "phase4a-5-context-window-audit.json"
 
-DEFAULT_GENERATED_AT = "2026-08-28T19:00:00Z"
-DEFAULT_EFFECTIVE_AT = "2026-08-28T18:59:59Z"
+DEFAULT_GENERATED_AT = "2026-08-29T05:28:25Z"
+DEFAULT_EFFECTIVE_AT = "2026-08-29T05:28:24Z"
 PROJECTION_SCHEMA_VERSION = "website-pricing-projection-v2.phase4a"
 WEBSITE_ROW_REQUIRED_FIELDS = ("id", "inputPrice", "cachedInputPrice", "outputPrice")
 DEFAULT_SELECTION_RULE = [
@@ -491,12 +491,12 @@ def build_pricing_components(
     eligible_records = [
         record
         for record in model_prices
-        if record.get("pricingStatus") not in {"future", "historical"}
+        if record.get("pricingStatus") != "historical"
         and (
             record.get("verificationStatus") == "verified"
             or record.get("pricingId") in verified_price_by_id
         )
-        and current_effective(record, effective_at)
+        and (record.get("pricingStatus") == "future" or current_effective(record, effective_at))
     ]
 
     components: list[dict[str, Any]] = []

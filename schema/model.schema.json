@@ -25,6 +25,7 @@
         "cache_write": {"type": ["number", "null"], "minimum": 0},
         "cache_write_1h": {"type": ["number", "null"], "minimum": 0},
         "batch_input": {"type": ["number", "null"], "minimum": 0},
+        "batch_cached_input": {"type": ["number", "null"], "minimum": 0},
         "batch_output": {"type": ["number", "null"], "minimum": 0}
       }
     },
@@ -33,6 +34,12 @@
       "minItems": 2,
       "uniqueItems": true,
       "items": {"$ref": "#/$defs/pricingTier"}
+    },
+    "pricing_periods": {
+      "type": "array",
+      "minItems": 2,
+      "uniqueItems": true,
+      "items": {"$ref": "#/$defs/pricingPeriod"}
     },
     "time_pricing": {"$ref": "#/$defs/timePricing"},
     "official_source_url": {"type": "string", "format": "uri"},
@@ -48,6 +55,36 @@
     "notes": {"type": "string"}
   },
   "$defs": {
+    "pricingPeriod": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["id", "pricing_status", "calculation_default", "effective_from", "effective_until", "pricing"],
+      "properties": {
+        "id": {"type": "string", "minLength": 1},
+        "pricing_status": {"type": "string", "enum": ["current", "future", "historical"]},
+        "calculation_default": {"type": "boolean"},
+        "effective_from": {"type": ["string", "null"], "format": "date"},
+        "effective_until": {"type": ["string", "null"], "format": "date"},
+        "pricing": {"$ref": "#/$defs/tokenPricing"}
+      }
+    },
+    "tokenPricing": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["currency", "unit", "input", "output", "cached_input", "cache_write", "cache_write_1h", "batch_input", "batch_output"],
+      "properties": {
+        "currency": {"type": "string", "const": "USD"},
+        "unit": {"type": "string", "const": "1M tokens"},
+        "input": {"type": ["number", "null"], "minimum": 0},
+        "output": {"type": ["number", "null"], "minimum": 0},
+        "cached_input": {"type": ["number", "null"], "minimum": 0},
+        "cache_write": {"type": ["number", "null"], "minimum": 0},
+        "cache_write_1h": {"type": ["number", "null"], "minimum": 0},
+        "batch_input": {"type": ["number", "null"], "minimum": 0},
+        "batch_cached_input": {"type": ["number", "null"], "minimum": 0},
+        "batch_output": {"type": ["number", "null"], "minimum": 0}
+      }
+    },
     "timePricing": {
       "type": "object",
       "additionalProperties": false,

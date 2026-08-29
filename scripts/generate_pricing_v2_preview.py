@@ -2110,6 +2110,71 @@ def main() -> None:
 
         if public:
             pricing = public["pricing"]
+            pricing_periods = public.get("pricing_periods", [])
+            if pricing_periods:
+                defaults = [period for period in pricing_periods if period["calculation_default"]]
+                if len(defaults) != 1 or defaults[0]["pricing"] != pricing:
+                    raise ValueError(f"{model_internal_id} pricing_periods require one V1-compatible default")
+                for period in pricing_periods:
+                    period_pricing = period["pricing"]
+                    period_status = period["pricing_status"]
+                    period_id = period["id"]
+                    standard_id = f"price:{model_internal_id}:standard:short:{period_status}:{period_id}"
+                    standard_record = {
+                        "pricingId": standard_id,
+                        "modelInternalId": model_internal_id,
+                        "processingMode": "standard",
+                        "pricingStatus": period_status,
+                        "contextClass": "short",
+                        "regionPolicy": "global",
+                        "promptTokenThreshold": None,
+                        "effectiveFrom": period["effective_from"],
+                        "effectiveUntil": period["effective_until"],
+                        "currency": period_pricing["currency"],
+                        "charges": make_charges(
+                            standard_id,
+                            period_pricing,
+                            "public",
+                            public.get("input_modality", "text"),
+                            public.get("output_modality", "text"),
+                        ),
+                        "sourceRefs": source_refs_for(provider_id, public, website, source_by_url),
+                        "billingNote": public.get("notes", ""),
+                        "verificationStatus": verification,
+                        "calculationDefault": period["calculation_default"],
+                        "sourceDatasetIds": {
+                            "publicDatasetIds": [public["model_id"]],
+                            "websiteIds": [website["id"]] if website else [],
+                        },
+                    }
+                    add_price(model_internal_id, standard_record)
+                    if (
+                        period_pricing.get("batch_input") is not None
+                        or period_pricing.get("batch_cached_input") is not None
+                        or period_pricing.get("batch_output") is not None
+                    ):
+                        batch_id = f"price:{model_internal_id}:batch:short:{period_status}:{period_id}"
+                        add_price(
+                            model_internal_id,
+                            {
+                                **standard_record,
+                                "pricingId": batch_id,
+                                "processingMode": "batch",
+                                "charges": make_charges(
+                                    batch_id,
+                                    {
+                                        "input": period_pricing.get("batch_input"),
+                                        "output": period_pricing.get("batch_output"),
+                                        "cached_input": period_pricing.get("batch_cached_input"),
+                                        "cache_write": None,
+                                    },
+                                    "public",
+                                ),
+                                "billingNote": f"Batch projection for {model_internal_id} during {period_id}.",
+                                "calculationDefault": False,
+                            },
+                        )
+                continue
             pricing_tiers = public.get("pricing_tiers", [])
             if pricing_tiers:
                 default_tier_record = None

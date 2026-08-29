@@ -9,7 +9,7 @@
     "review_required": "display only with warning; no default or recommendation placement",
     "unsafe": "exclude from default calculations and show warning only where explicitly allowed"
   },
-  "effectiveAt": "2026-08-28T18:59:59Z",
+  "effectiveAt": "2026-08-29T05:28:24Z",
   "effectiveTimezone": "UTC",
   "failureBehavior": {
     "atomicWrite": true,
@@ -18,7 +18,7 @@
     "partialJson": "not_written",
     "publicV1Mutation": "forbidden"
   },
-  "generatedAt": "2026-08-28T19:59:12Z",
+  "generatedAt": "2026-08-29T09:41:25Z",
   "generatedAtPolicy": "UTC artifact generation timestamp injected by the generation pipeline",
   "governancePolicy": {
     "classes": [
@@ -5007,14 +5007,16 @@
     {
       "aliasTargetInternalId": null,
       "availability": "Standard",
-      "batchInputPrice": 0.75,
-      "batchOutputPrice": 3.75,
+      "batchInputPrice": 0.375,
+      "batchOutputPrice": 1.875,
       "billingModelInternalId": null,
       "blockedFromDefaultReasons": [],
-      "cachedInputPrice": 0.15,
+      "cachedInputPrice": 0.075,
       "canonicalInternalId": "google-gemini/gemini-3.6-flash",
-      "checkedAt": "2026-08-24T08:42:53Z",
+      "checkedAt": "2026-08-29T05:28:25Z",
       "checkedSourceRefs": [
+        "source:google-gemini:ai-google-dev-gemini-api-docs-changelog",
+        "source:google-gemini:ai-google-dev-gemini-api-docs-latest-model",
         "source:google-gemini:ai-google-dev-gemini-api-docs-pricing"
       ],
       "contextWindow": null,
@@ -5035,20 +5037,95 @@
       ],
       "id": "gemini-3.6-flash",
       "identityType": "canonical_model",
-      "inputPrice": 1.5,
+      "inputPrice": 0.75,
       "lifecycleStatus": "active",
       "model": "Gemini 3.6 Flash",
       "officialSourceUrl": "https://ai.google.dev/gemini-api/docs/pricing",
-      "outputPrice": 7.5,
+      "outputPrice": 3.75,
       "pricingComponents": [
         {
-          "amount": "0.75",
+          "amount": "0.0375",
           "calculationDefault": false,
-          "chargeId": "price:google-gemini/gemini-3.6-flash:batch:short:current:input:text:per_1m_tokens",
+          "chargeId": "price:google-gemini/gemini-3.6-flash:batch:short:current:introductory_2026:cached_input:text:per_1m_tokens",
+          "component": "cached_input",
+          "condition": {
+            "contextClass": "short",
+            "effectiveFrom": "2026-08-13",
+            "effectiveUntil": "2026-12-31",
+            "processingMode": "batch",
+            "promptTokenThreshold": null,
+            "regionPolicy": "global",
+            "tierSelection": null
+          },
+          "currency": "USD",
+          "modality": "text",
+          "pricingId": "price:google-gemini/gemini-3.6-flash:batch:short:current:introductory_2026",
+          "sourceRefs": [
+            "source:google-gemini:ai-google-dev-gemini-api-docs-changelog",
+            "source:google-gemini:ai-google-dev-gemini-api-docs-latest-model",
+            "source:google-gemini:ai-google-dev-gemini-api-docs-pricing"
+          ],
+          "unit": "per_1m_tokens",
+          "verificationStatus": "verified"
+        },
+        {
+          "amount": "0.375",
+          "calculationDefault": false,
+          "chargeId": "price:google-gemini/gemini-3.6-flash:batch:short:current:introductory_2026:input:text:per_1m_tokens",
           "component": "input",
           "condition": {
             "contextClass": "short",
-            "effectiveFrom": null,
+            "effectiveFrom": "2026-08-13",
+            "effectiveUntil": "2026-12-31",
+            "processingMode": "batch",
+            "promptTokenThreshold": null,
+            "regionPolicy": "global",
+            "tierSelection": null
+          },
+          "currency": "USD",
+          "modality": "text",
+          "pricingId": "price:google-gemini/gemini-3.6-flash:batch:short:current:introductory_2026",
+          "sourceRefs": [
+            "source:google-gemini:ai-google-dev-gemini-api-docs-changelog",
+            "source:google-gemini:ai-google-dev-gemini-api-docs-latest-model",
+            "source:google-gemini:ai-google-dev-gemini-api-docs-pricing"
+          ],
+          "unit": "per_1m_tokens",
+          "verificationStatus": "verified"
+        },
+        {
+          "amount": "1.875",
+          "calculationDefault": false,
+          "chargeId": "price:google-gemini/gemini-3.6-flash:batch:short:current:introductory_2026:output:text:per_1m_tokens",
+          "component": "output",
+          "condition": {
+            "contextClass": "short",
+            "effectiveFrom": "2026-08-13",
+            "effectiveUntil": "2026-12-31",
+            "processingMode": "batch",
+            "promptTokenThreshold": null,
+            "regionPolicy": "global",
+            "tierSelection": null
+          },
+          "currency": "USD",
+          "modality": "text",
+          "pricingId": "price:google-gemini/gemini-3.6-flash:batch:short:current:introductory_2026",
+          "sourceRefs": [
+            "source:google-gemini:ai-google-dev-gemini-api-docs-changelog",
+            "source:google-gemini:ai-google-dev-gemini-api-docs-latest-model",
+            "source:google-gemini:ai-google-dev-gemini-api-docs-pricing"
+          ],
+          "unit": "per_1m_tokens",
+          "verificationStatus": "verified"
+        },
+        {
+          "amount": "0.075",
+          "calculationDefault": false,
+          "chargeId": "price:google-gemini/gemini-3.6-flash:batch:short:future:standard_2027:cached_input:text:per_1m_tokens",
+          "component": "cached_input",
+          "condition": {
+            "contextClass": "short",
+            "effectiveFrom": "2027-01-01",
             "effectiveUntil": null,
             "processingMode": "batch",
             "promptTokenThreshold": null,
@@ -5057,8 +5134,35 @@
           },
           "currency": "USD",
           "modality": "text",
-          "pricingId": "price:google-gemini/gemini-3.6-flash:batch:short:current",
+          "pricingId": "price:google-gemini/gemini-3.6-flash:batch:short:future:standard_2027",
           "sourceRefs": [
+            "source:google-gemini:ai-google-dev-gemini-api-docs-changelog",
+            "source:google-gemini:ai-google-dev-gemini-api-docs-latest-model",
+            "source:google-gemini:ai-google-dev-gemini-api-docs-pricing"
+          ],
+          "unit": "per_1m_tokens",
+          "verificationStatus": "verified"
+        },
+        {
+          "amount": "0.75",
+          "calculationDefault": false,
+          "chargeId": "price:google-gemini/gemini-3.6-flash:batch:short:future:standard_2027:input:text:per_1m_tokens",
+          "component": "input",
+          "condition": {
+            "contextClass": "short",
+            "effectiveFrom": "2027-01-01",
+            "effectiveUntil": null,
+            "processingMode": "batch",
+            "promptTokenThreshold": null,
+            "regionPolicy": "global",
+            "tierSelection": null
+          },
+          "currency": "USD",
+          "modality": "text",
+          "pricingId": "price:google-gemini/gemini-3.6-flash:batch:short:future:standard_2027",
+          "sourceRefs": [
+            "source:google-gemini:ai-google-dev-gemini-api-docs-changelog",
+            "source:google-gemini:ai-google-dev-gemini-api-docs-latest-model",
             "source:google-gemini:ai-google-dev-gemini-api-docs-pricing"
           ],
           "unit": "per_1m_tokens",
@@ -5067,11 +5171,11 @@
         {
           "amount": "3.75",
           "calculationDefault": false,
-          "chargeId": "price:google-gemini/gemini-3.6-flash:batch:short:current:output:text:per_1m_tokens",
+          "chargeId": "price:google-gemini/gemini-3.6-flash:batch:short:future:standard_2027:output:text:per_1m_tokens",
           "component": "output",
           "condition": {
             "contextClass": "short",
-            "effectiveFrom": null,
+            "effectiveFrom": "2027-01-01",
             "effectiveUntil": null,
             "processingMode": "batch",
             "promptTokenThreshold": null,
@@ -5080,8 +5184,85 @@
           },
           "currency": "USD",
           "modality": "text",
-          "pricingId": "price:google-gemini/gemini-3.6-flash:batch:short:current",
+          "pricingId": "price:google-gemini/gemini-3.6-flash:batch:short:future:standard_2027",
           "sourceRefs": [
+            "source:google-gemini:ai-google-dev-gemini-api-docs-changelog",
+            "source:google-gemini:ai-google-dev-gemini-api-docs-latest-model",
+            "source:google-gemini:ai-google-dev-gemini-api-docs-pricing"
+          ],
+          "unit": "per_1m_tokens",
+          "verificationStatus": "verified"
+        },
+        {
+          "amount": "0.075",
+          "calculationDefault": true,
+          "chargeId": "price:google-gemini/gemini-3.6-flash:standard:short:current:introductory_2026:cached_input:text:per_1m_tokens",
+          "component": "cached_input",
+          "condition": {
+            "contextClass": "short",
+            "effectiveFrom": "2026-08-13",
+            "effectiveUntil": "2026-12-31",
+            "processingMode": "standard",
+            "promptTokenThreshold": null,
+            "regionPolicy": "global",
+            "tierSelection": null
+          },
+          "currency": "USD",
+          "modality": "text",
+          "pricingId": "price:google-gemini/gemini-3.6-flash:standard:short:current:introductory_2026",
+          "sourceRefs": [
+            "source:google-gemini:ai-google-dev-gemini-api-docs-changelog",
+            "source:google-gemini:ai-google-dev-gemini-api-docs-latest-model",
+            "source:google-gemini:ai-google-dev-gemini-api-docs-pricing"
+          ],
+          "unit": "per_1m_tokens",
+          "verificationStatus": "verified"
+        },
+        {
+          "amount": "0.75",
+          "calculationDefault": true,
+          "chargeId": "price:google-gemini/gemini-3.6-flash:standard:short:current:introductory_2026:input:text:per_1m_tokens",
+          "component": "input",
+          "condition": {
+            "contextClass": "short",
+            "effectiveFrom": "2026-08-13",
+            "effectiveUntil": "2026-12-31",
+            "processingMode": "standard",
+            "promptTokenThreshold": null,
+            "regionPolicy": "global",
+            "tierSelection": null
+          },
+          "currency": "USD",
+          "modality": "text",
+          "pricingId": "price:google-gemini/gemini-3.6-flash:standard:short:current:introductory_2026",
+          "sourceRefs": [
+            "source:google-gemini:ai-google-dev-gemini-api-docs-changelog",
+            "source:google-gemini:ai-google-dev-gemini-api-docs-latest-model",
+            "source:google-gemini:ai-google-dev-gemini-api-docs-pricing"
+          ],
+          "unit": "per_1m_tokens",
+          "verificationStatus": "verified"
+        },
+        {
+          "amount": "3.75",
+          "calculationDefault": true,
+          "chargeId": "price:google-gemini/gemini-3.6-flash:standard:short:current:introductory_2026:output:text:per_1m_tokens",
+          "component": "output",
+          "condition": {
+            "contextClass": "short",
+            "effectiveFrom": "2026-08-13",
+            "effectiveUntil": "2026-12-31",
+            "processingMode": "standard",
+            "promptTokenThreshold": null,
+            "regionPolicy": "global",
+            "tierSelection": null
+          },
+          "currency": "USD",
+          "modality": "text",
+          "pricingId": "price:google-gemini/gemini-3.6-flash:standard:short:current:introductory_2026",
+          "sourceRefs": [
+            "source:google-gemini:ai-google-dev-gemini-api-docs-changelog",
+            "source:google-gemini:ai-google-dev-gemini-api-docs-latest-model",
             "source:google-gemini:ai-google-dev-gemini-api-docs-pricing"
           ],
           "unit": "per_1m_tokens",
@@ -5089,12 +5270,12 @@
         },
         {
           "amount": "0.15",
-          "calculationDefault": true,
-          "chargeId": "price:google-gemini/gemini-3.6-flash:standard:short:current:cached_input:text:per_1m_tokens",
+          "calculationDefault": false,
+          "chargeId": "price:google-gemini/gemini-3.6-flash:standard:short:future:standard_2027:cached_input:text:per_1m_tokens",
           "component": "cached_input",
           "condition": {
             "contextClass": "short",
-            "effectiveFrom": null,
+            "effectiveFrom": "2027-01-01",
             "effectiveUntil": null,
             "processingMode": "standard",
             "promptTokenThreshold": null,
@@ -5103,8 +5284,10 @@
           },
           "currency": "USD",
           "modality": "text",
-          "pricingId": "price:google-gemini/gemini-3.6-flash:standard:short:current",
+          "pricingId": "price:google-gemini/gemini-3.6-flash:standard:short:future:standard_2027",
           "sourceRefs": [
+            "source:google-gemini:ai-google-dev-gemini-api-docs-changelog",
+            "source:google-gemini:ai-google-dev-gemini-api-docs-latest-model",
             "source:google-gemini:ai-google-dev-gemini-api-docs-pricing"
           ],
           "unit": "per_1m_tokens",
@@ -5112,12 +5295,12 @@
         },
         {
           "amount": "1.5",
-          "calculationDefault": true,
-          "chargeId": "price:google-gemini/gemini-3.6-flash:standard:short:current:input:text:per_1m_tokens",
+          "calculationDefault": false,
+          "chargeId": "price:google-gemini/gemini-3.6-flash:standard:short:future:standard_2027:input:text:per_1m_tokens",
           "component": "input",
           "condition": {
             "contextClass": "short",
-            "effectiveFrom": null,
+            "effectiveFrom": "2027-01-01",
             "effectiveUntil": null,
             "processingMode": "standard",
             "promptTokenThreshold": null,
@@ -5126,8 +5309,10 @@
           },
           "currency": "USD",
           "modality": "text",
-          "pricingId": "price:google-gemini/gemini-3.6-flash:standard:short:current",
+          "pricingId": "price:google-gemini/gemini-3.6-flash:standard:short:future:standard_2027",
           "sourceRefs": [
+            "source:google-gemini:ai-google-dev-gemini-api-docs-changelog",
+            "source:google-gemini:ai-google-dev-gemini-api-docs-latest-model",
             "source:google-gemini:ai-google-dev-gemini-api-docs-pricing"
           ],
           "unit": "per_1m_tokens",
@@ -5135,12 +5320,12 @@
         },
         {
           "amount": "7.5",
-          "calculationDefault": true,
-          "chargeId": "price:google-gemini/gemini-3.6-flash:standard:short:current:output:text:per_1m_tokens",
+          "calculationDefault": false,
+          "chargeId": "price:google-gemini/gemini-3.6-flash:standard:short:future:standard_2027:output:text:per_1m_tokens",
           "component": "output",
           "condition": {
             "contextClass": "short",
-            "effectiveFrom": null,
+            "effectiveFrom": "2027-01-01",
             "effectiveUntil": null,
             "processingMode": "standard",
             "promptTokenThreshold": null,
@@ -5149,8 +5334,10 @@
           },
           "currency": "USD",
           "modality": "text",
-          "pricingId": "price:google-gemini/gemini-3.6-flash:standard:short:current",
+          "pricingId": "price:google-gemini/gemini-3.6-flash:standard:short:future:standard_2027",
           "sourceRefs": [
+            "source:google-gemini:ai-google-dev-gemini-api-docs-changelog",
+            "source:google-gemini:ai-google-dev-gemini-api-docs-latest-model",
             "source:google-gemini:ai-google-dev-gemini-api-docs-pricing"
           ],
           "unit": "per_1m_tokens",
@@ -5165,20 +5352,409 @@
       "replacementInternalId": null,
       "routingBehavior": "direct",
       "routingDetails": {},
-      "selectedBatchPriceRecordId": "price:google-gemini/gemini-3.6-flash:batch:short:current",
-      "selectedBillingPriceRecordId": "price:google-gemini/gemini-3.6-flash:standard:short:current",
-      "selectedPriceEffectiveFrom": null,
-      "selectedPriceEffectiveUntil": null,
-      "selectedPriceRecordId": "price:google-gemini/gemini-3.6-flash:standard:short:current",
+      "selectedBatchPriceRecordId": "price:google-gemini/gemini-3.6-flash:batch:short:current:introductory_2026",
+      "selectedBillingPriceRecordId": "price:google-gemini/gemini-3.6-flash:standard:short:current:introductory_2026",
+      "selectedPriceEffectiveFrom": "2026-08-13",
+      "selectedPriceEffectiveUntil": "2026-12-31",
+      "selectedPriceRecordId": "price:google-gemini/gemini-3.6-flash:standard:short:current:introductory_2026",
       "sourceRefs": [
+        "source:google-gemini:ai-google-dev-gemini-api-docs-changelog",
+        "source:google-gemini:ai-google-dev-gemini-api-docs-latest-model",
         "source:google-gemini:ai-google-dev-gemini-api-docs-pricing"
       ],
       "sourceUrls": [
+        "https://ai.google.dev/gemini-api/docs/changelog",
+        "https://ai.google.dev/gemini-api/docs/latest-model",
         "https://ai.google.dev/gemini-api/docs/pricing"
       ],
       "status": "latest",
       "verificationStatus": "verified",
-      "verifiedAt": "2026-08-08T18:00:00Z",
+      "verifiedAt": "2026-08-29T05:28:25Z",
+      "verifiedSourceRefs": [
+        "source:google-gemini:ai-google-dev-gemini-api-docs-pricing"
+      ]
+    },
+    {
+      "aliasTargetInternalId": null,
+      "availability": "Standard",
+      "batchInputPrice": 0.375,
+      "batchOutputPrice": 1.875,
+      "billingModelInternalId": null,
+      "blockedFromDefaultReasons": [],
+      "cachedInputPrice": 0.075,
+      "canonicalInternalId": "google-gemini/gemini-3.7-flash",
+      "checkedAt": "2026-08-29T05:28:25Z",
+      "checkedSourceRefs": [
+        "source:google-gemini:ai-google-dev-gemini-api-docs-changelog",
+        "source:google-gemini:ai-google-dev-gemini-api-docs-latest-model",
+        "source:google-gemini:ai-google-dev-gemini-api-docs-models-gemini-3-7-flash",
+        "source:google-gemini:ai-google-dev-gemini-api-docs-pricing"
+      ],
+      "contextWindow": null,
+      "contextWindowStatus": "unknown_not_guessed",
+      "defaultPriceSelectionRule": [
+        "current_effective_utc",
+        "verified",
+        "standard",
+        "text",
+        "default_context_class"
+      ],
+      "defaultSafe": true,
+      "governanceClass": "VERIFIED_CANONICAL",
+      "governanceDetails": null,
+      "governanceReason": "canonical_verified_direct_public_projection",
+      "governanceSourceCandidateIds": [
+        "google-gemini/gemini-3.7-flash"
+      ],
+      "id": "gemini-3.7-flash",
+      "identityType": "canonical_model",
+      "inputPrice": 0.75,
+      "lifecycleStatus": "active",
+      "model": "Gemini 3.7 Flash",
+      "officialSourceUrl": "https://ai.google.dev/gemini-api/docs/changelog",
+      "outputPrice": 3.75,
+      "pricingComponents": [
+        {
+          "amount": "0.0375",
+          "calculationDefault": false,
+          "chargeId": "price:google-gemini/gemini-3.7-flash:batch:short:current:introductory_2026:cached_input:text:per_1m_tokens",
+          "component": "cached_input",
+          "condition": {
+            "contextClass": "short",
+            "effectiveFrom": "2026-08-13",
+            "effectiveUntil": "2026-12-31",
+            "processingMode": "batch",
+            "promptTokenThreshold": null,
+            "regionPolicy": "global",
+            "tierSelection": null
+          },
+          "currency": "USD",
+          "modality": "text",
+          "pricingId": "price:google-gemini/gemini-3.7-flash:batch:short:current:introductory_2026",
+          "sourceRefs": [
+            "source:google-gemini:ai-google-dev-gemini-api-docs-changelog",
+            "source:google-gemini:ai-google-dev-gemini-api-docs-latest-model",
+            "source:google-gemini:ai-google-dev-gemini-api-docs-models-gemini-3-7-flash",
+            "source:google-gemini:ai-google-dev-gemini-api-docs-pricing"
+          ],
+          "unit": "per_1m_tokens",
+          "verificationStatus": "verified"
+        },
+        {
+          "amount": "0.375",
+          "calculationDefault": false,
+          "chargeId": "price:google-gemini/gemini-3.7-flash:batch:short:current:introductory_2026:input:text:per_1m_tokens",
+          "component": "input",
+          "condition": {
+            "contextClass": "short",
+            "effectiveFrom": "2026-08-13",
+            "effectiveUntil": "2026-12-31",
+            "processingMode": "batch",
+            "promptTokenThreshold": null,
+            "regionPolicy": "global",
+            "tierSelection": null
+          },
+          "currency": "USD",
+          "modality": "text",
+          "pricingId": "price:google-gemini/gemini-3.7-flash:batch:short:current:introductory_2026",
+          "sourceRefs": [
+            "source:google-gemini:ai-google-dev-gemini-api-docs-changelog",
+            "source:google-gemini:ai-google-dev-gemini-api-docs-latest-model",
+            "source:google-gemini:ai-google-dev-gemini-api-docs-models-gemini-3-7-flash",
+            "source:google-gemini:ai-google-dev-gemini-api-docs-pricing"
+          ],
+          "unit": "per_1m_tokens",
+          "verificationStatus": "verified"
+        },
+        {
+          "amount": "1.875",
+          "calculationDefault": false,
+          "chargeId": "price:google-gemini/gemini-3.7-flash:batch:short:current:introductory_2026:output:text:per_1m_tokens",
+          "component": "output",
+          "condition": {
+            "contextClass": "short",
+            "effectiveFrom": "2026-08-13",
+            "effectiveUntil": "2026-12-31",
+            "processingMode": "batch",
+            "promptTokenThreshold": null,
+            "regionPolicy": "global",
+            "tierSelection": null
+          },
+          "currency": "USD",
+          "modality": "text",
+          "pricingId": "price:google-gemini/gemini-3.7-flash:batch:short:current:introductory_2026",
+          "sourceRefs": [
+            "source:google-gemini:ai-google-dev-gemini-api-docs-changelog",
+            "source:google-gemini:ai-google-dev-gemini-api-docs-latest-model",
+            "source:google-gemini:ai-google-dev-gemini-api-docs-models-gemini-3-7-flash",
+            "source:google-gemini:ai-google-dev-gemini-api-docs-pricing"
+          ],
+          "unit": "per_1m_tokens",
+          "verificationStatus": "verified"
+        },
+        {
+          "amount": "0.075",
+          "calculationDefault": false,
+          "chargeId": "price:google-gemini/gemini-3.7-flash:batch:short:future:standard_2027:cached_input:text:per_1m_tokens",
+          "component": "cached_input",
+          "condition": {
+            "contextClass": "short",
+            "effectiveFrom": "2027-01-01",
+            "effectiveUntil": null,
+            "processingMode": "batch",
+            "promptTokenThreshold": null,
+            "regionPolicy": "global",
+            "tierSelection": null
+          },
+          "currency": "USD",
+          "modality": "text",
+          "pricingId": "price:google-gemini/gemini-3.7-flash:batch:short:future:standard_2027",
+          "sourceRefs": [
+            "source:google-gemini:ai-google-dev-gemini-api-docs-changelog",
+            "source:google-gemini:ai-google-dev-gemini-api-docs-latest-model",
+            "source:google-gemini:ai-google-dev-gemini-api-docs-models-gemini-3-7-flash",
+            "source:google-gemini:ai-google-dev-gemini-api-docs-pricing"
+          ],
+          "unit": "per_1m_tokens",
+          "verificationStatus": "verified"
+        },
+        {
+          "amount": "0.75",
+          "calculationDefault": false,
+          "chargeId": "price:google-gemini/gemini-3.7-flash:batch:short:future:standard_2027:input:text:per_1m_tokens",
+          "component": "input",
+          "condition": {
+            "contextClass": "short",
+            "effectiveFrom": "2027-01-01",
+            "effectiveUntil": null,
+            "processingMode": "batch",
+            "promptTokenThreshold": null,
+            "regionPolicy": "global",
+            "tierSelection": null
+          },
+          "currency": "USD",
+          "modality": "text",
+          "pricingId": "price:google-gemini/gemini-3.7-flash:batch:short:future:standard_2027",
+          "sourceRefs": [
+            "source:google-gemini:ai-google-dev-gemini-api-docs-changelog",
+            "source:google-gemini:ai-google-dev-gemini-api-docs-latest-model",
+            "source:google-gemini:ai-google-dev-gemini-api-docs-models-gemini-3-7-flash",
+            "source:google-gemini:ai-google-dev-gemini-api-docs-pricing"
+          ],
+          "unit": "per_1m_tokens",
+          "verificationStatus": "verified"
+        },
+        {
+          "amount": "3.75",
+          "calculationDefault": false,
+          "chargeId": "price:google-gemini/gemini-3.7-flash:batch:short:future:standard_2027:output:text:per_1m_tokens",
+          "component": "output",
+          "condition": {
+            "contextClass": "short",
+            "effectiveFrom": "2027-01-01",
+            "effectiveUntil": null,
+            "processingMode": "batch",
+            "promptTokenThreshold": null,
+            "regionPolicy": "global",
+            "tierSelection": null
+          },
+          "currency": "USD",
+          "modality": "text",
+          "pricingId": "price:google-gemini/gemini-3.7-flash:batch:short:future:standard_2027",
+          "sourceRefs": [
+            "source:google-gemini:ai-google-dev-gemini-api-docs-changelog",
+            "source:google-gemini:ai-google-dev-gemini-api-docs-latest-model",
+            "source:google-gemini:ai-google-dev-gemini-api-docs-models-gemini-3-7-flash",
+            "source:google-gemini:ai-google-dev-gemini-api-docs-pricing"
+          ],
+          "unit": "per_1m_tokens",
+          "verificationStatus": "verified"
+        },
+        {
+          "amount": "0.075",
+          "calculationDefault": true,
+          "chargeId": "price:google-gemini/gemini-3.7-flash:standard:short:current:introductory_2026:cached_input:text:per_1m_tokens",
+          "component": "cached_input",
+          "condition": {
+            "contextClass": "short",
+            "effectiveFrom": "2026-08-13",
+            "effectiveUntil": "2026-12-31",
+            "processingMode": "standard",
+            "promptTokenThreshold": null,
+            "regionPolicy": "global",
+            "tierSelection": null
+          },
+          "currency": "USD",
+          "modality": "text",
+          "pricingId": "price:google-gemini/gemini-3.7-flash:standard:short:current:introductory_2026",
+          "sourceRefs": [
+            "source:google-gemini:ai-google-dev-gemini-api-docs-changelog",
+            "source:google-gemini:ai-google-dev-gemini-api-docs-latest-model",
+            "source:google-gemini:ai-google-dev-gemini-api-docs-models-gemini-3-7-flash",
+            "source:google-gemini:ai-google-dev-gemini-api-docs-pricing"
+          ],
+          "unit": "per_1m_tokens",
+          "verificationStatus": "verified"
+        },
+        {
+          "amount": "0.75",
+          "calculationDefault": true,
+          "chargeId": "price:google-gemini/gemini-3.7-flash:standard:short:current:introductory_2026:input:text:per_1m_tokens",
+          "component": "input",
+          "condition": {
+            "contextClass": "short",
+            "effectiveFrom": "2026-08-13",
+            "effectiveUntil": "2026-12-31",
+            "processingMode": "standard",
+            "promptTokenThreshold": null,
+            "regionPolicy": "global",
+            "tierSelection": null
+          },
+          "currency": "USD",
+          "modality": "text",
+          "pricingId": "price:google-gemini/gemini-3.7-flash:standard:short:current:introductory_2026",
+          "sourceRefs": [
+            "source:google-gemini:ai-google-dev-gemini-api-docs-changelog",
+            "source:google-gemini:ai-google-dev-gemini-api-docs-latest-model",
+            "source:google-gemini:ai-google-dev-gemini-api-docs-models-gemini-3-7-flash",
+            "source:google-gemini:ai-google-dev-gemini-api-docs-pricing"
+          ],
+          "unit": "per_1m_tokens",
+          "verificationStatus": "verified"
+        },
+        {
+          "amount": "3.75",
+          "calculationDefault": true,
+          "chargeId": "price:google-gemini/gemini-3.7-flash:standard:short:current:introductory_2026:output:text:per_1m_tokens",
+          "component": "output",
+          "condition": {
+            "contextClass": "short",
+            "effectiveFrom": "2026-08-13",
+            "effectiveUntil": "2026-12-31",
+            "processingMode": "standard",
+            "promptTokenThreshold": null,
+            "regionPolicy": "global",
+            "tierSelection": null
+          },
+          "currency": "USD",
+          "modality": "text",
+          "pricingId": "price:google-gemini/gemini-3.7-flash:standard:short:current:introductory_2026",
+          "sourceRefs": [
+            "source:google-gemini:ai-google-dev-gemini-api-docs-changelog",
+            "source:google-gemini:ai-google-dev-gemini-api-docs-latest-model",
+            "source:google-gemini:ai-google-dev-gemini-api-docs-models-gemini-3-7-flash",
+            "source:google-gemini:ai-google-dev-gemini-api-docs-pricing"
+          ],
+          "unit": "per_1m_tokens",
+          "verificationStatus": "verified"
+        },
+        {
+          "amount": "0.15",
+          "calculationDefault": false,
+          "chargeId": "price:google-gemini/gemini-3.7-flash:standard:short:future:standard_2027:cached_input:text:per_1m_tokens",
+          "component": "cached_input",
+          "condition": {
+            "contextClass": "short",
+            "effectiveFrom": "2027-01-01",
+            "effectiveUntil": null,
+            "processingMode": "standard",
+            "promptTokenThreshold": null,
+            "regionPolicy": "global",
+            "tierSelection": null
+          },
+          "currency": "USD",
+          "modality": "text",
+          "pricingId": "price:google-gemini/gemini-3.7-flash:standard:short:future:standard_2027",
+          "sourceRefs": [
+            "source:google-gemini:ai-google-dev-gemini-api-docs-changelog",
+            "source:google-gemini:ai-google-dev-gemini-api-docs-latest-model",
+            "source:google-gemini:ai-google-dev-gemini-api-docs-models-gemini-3-7-flash",
+            "source:google-gemini:ai-google-dev-gemini-api-docs-pricing"
+          ],
+          "unit": "per_1m_tokens",
+          "verificationStatus": "verified"
+        },
+        {
+          "amount": "1.5",
+          "calculationDefault": false,
+          "chargeId": "price:google-gemini/gemini-3.7-flash:standard:short:future:standard_2027:input:text:per_1m_tokens",
+          "component": "input",
+          "condition": {
+            "contextClass": "short",
+            "effectiveFrom": "2027-01-01",
+            "effectiveUntil": null,
+            "processingMode": "standard",
+            "promptTokenThreshold": null,
+            "regionPolicy": "global",
+            "tierSelection": null
+          },
+          "currency": "USD",
+          "modality": "text",
+          "pricingId": "price:google-gemini/gemini-3.7-flash:standard:short:future:standard_2027",
+          "sourceRefs": [
+            "source:google-gemini:ai-google-dev-gemini-api-docs-changelog",
+            "source:google-gemini:ai-google-dev-gemini-api-docs-latest-model",
+            "source:google-gemini:ai-google-dev-gemini-api-docs-models-gemini-3-7-flash",
+            "source:google-gemini:ai-google-dev-gemini-api-docs-pricing"
+          ],
+          "unit": "per_1m_tokens",
+          "verificationStatus": "verified"
+        },
+        {
+          "amount": "7.5",
+          "calculationDefault": false,
+          "chargeId": "price:google-gemini/gemini-3.7-flash:standard:short:future:standard_2027:output:text:per_1m_tokens",
+          "component": "output",
+          "condition": {
+            "contextClass": "short",
+            "effectiveFrom": "2027-01-01",
+            "effectiveUntil": null,
+            "processingMode": "standard",
+            "promptTokenThreshold": null,
+            "regionPolicy": "global",
+            "tierSelection": null
+          },
+          "currency": "USD",
+          "modality": "text",
+          "pricingId": "price:google-gemini/gemini-3.7-flash:standard:short:future:standard_2027",
+          "sourceRefs": [
+            "source:google-gemini:ai-google-dev-gemini-api-docs-changelog",
+            "source:google-gemini:ai-google-dev-gemini-api-docs-latest-model",
+            "source:google-gemini:ai-google-dev-gemini-api-docs-models-gemini-3-7-flash",
+            "source:google-gemini:ai-google-dev-gemini-api-docs-pricing"
+          ],
+          "unit": "per_1m_tokens",
+          "verificationStatus": "verified"
+        }
+      ],
+      "pricingSourceType": "canonical_verified_price",
+      "provider": "google-gemini",
+      "publicExposure": "public",
+      "redirectTargetInternalId": null,
+      "releaseStage": "stable",
+      "replacementInternalId": null,
+      "routingBehavior": "direct",
+      "routingDetails": {},
+      "selectedBatchPriceRecordId": "price:google-gemini/gemini-3.7-flash:batch:short:current:introductory_2026",
+      "selectedBillingPriceRecordId": "price:google-gemini/gemini-3.7-flash:standard:short:current:introductory_2026",
+      "selectedPriceEffectiveFrom": "2026-08-13",
+      "selectedPriceEffectiveUntil": "2026-12-31",
+      "selectedPriceRecordId": "price:google-gemini/gemini-3.7-flash:standard:short:current:introductory_2026",
+      "sourceRefs": [
+        "source:google-gemini:ai-google-dev-gemini-api-docs-changelog",
+        "source:google-gemini:ai-google-dev-gemini-api-docs-latest-model",
+        "source:google-gemini:ai-google-dev-gemini-api-docs-models-gemini-3-7-flash",
+        "source:google-gemini:ai-google-dev-gemini-api-docs-pricing"
+      ],
+      "sourceUrls": [
+        "https://ai.google.dev/gemini-api/docs/changelog",
+        "https://ai.google.dev/gemini-api/docs/latest-model",
+        "https://ai.google.dev/gemini-api/docs/models/gemini-3.7-flash",
+        "https://ai.google.dev/gemini-api/docs/pricing"
+      ],
+      "status": "latest",
+      "verificationStatus": "verified",
+      "verifiedAt": "2026-08-29T05:28:25Z",
       "verifiedSourceRefs": [
         "source:google-gemini:ai-google-dev-gemini-api-docs-pricing"
       ]
