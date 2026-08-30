@@ -1,22 +1,26 @@
 {
   "name": "AICostBudget AI API Pricing Dataset",
   "version": "1.0.0",
-  "schema_version": "1.4.0",
+  "schema_version": "1.5.0",
   "page_url": "https://aicostbudget.com/en/datasets/ai-api-pricing",
   "last_updated": "2026-08-29T05:28:25Z",
   "last_verified_at": "2026-08-29T05:28:25Z",
-  "generated_at": "2026-08-29T09:41:25Z",
+  "generated_at": "2026-08-29T11:08:08Z",
   "provider_count": 7,
-  "record_count": 43,
-  "official_source_count": 12,
+  "record_count": 44,
+  "official_source_count": 13,
   "currency": "USD",
-  "pricing_unit": "1M tokens",
-  "statistics_scope": "public pricing records returned by the Pricing Table adapter with Pricing V2 enabled",
+  "pricing_unit": "Multiple billing units",
+  "statistics_scope": "public pricing records returned by the public pricing adapter with Pricing V2 enabled",
   "null_value_meaning": "Not listed, not published, not applicable, or not currently available in the dataset; null is not zero.",
   "features": {
     "pricing_components": "Full conditional pricing components; [] when none apply.",
     "pricing_components_json": "Compact CSV JSON serialization of pricing_components.",
     "time_pricing": "Structured request-time pricing schedule; null when no temporal pricing applies.",
-    "time_pricing_json": "Compact CSV JSON serialization of time_pricing."
+    "time_pricing_json": "Compact CSV JSON serialization of time_pricing.",
+    "unit_price": "Primary non-token unit price; null for token-priced rows.",
+    "billing_unit": "Machine-readable non-token billing unit.",
+    "billing_quantity": "Quantity represented by unit_price.",
+    "pricing_dimension": "Billable non-token dimension."
   }
 }

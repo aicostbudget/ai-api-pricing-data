@@ -188,7 +188,17 @@ class P0P1PricingUpdateTests(unittest.TestCase):
             self.assertEqual(len(future_components), 6)
 
     def test_non_token_models_are_not_misrepresented(self):
-        self.assertNotIn("parse-v5.0", self.canonical_by_id)
+        parse = self.canonical_by_id["parse-v5.0"]
+        for field in (
+            "input",
+            "cached_input",
+            "output",
+            "cache_write",
+            "cache_write_1h",
+            "batch_input",
+            "batch_output",
+        ):
+            self.assertIsNone(parse["pricing"][field], field)
         self.assertNotIn("gemini-omni-1.1-flash", self.canonical_by_id)
         self.assertNotIn("gemini-omni-flash-preview", self.canonical_by_id)
         schema = read_json("schema/pricing-v2-preview.schema.json")

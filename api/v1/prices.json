@@ -2,14 +2,14 @@
   "dataset_name": "AICostBudget AI API Pricing Dataset",
   "dataset_version": "1.0.0",
   "description": "Open, machine-readable pricing data for LLM and AI APIs.",
-  "generated_at": "2026-08-29T09:41:25Z",
+  "generated_at": "2026-08-29T11:08:08Z",
   "homepage": "https://aicostbudget.com",
   "last_verified_at": "2026-08-29T05:28:25Z",
   "licenses": {
     "code": "MIT",
     "data": "CC BY 4.0"
   },
-  "model_count": 35,
+  "model_count": 36,
   "models": [
     {
       "accessed_at": "2026-08-24T08:42:53Z",
@@ -220,6 +220,52 @@
         "unit": "1M tokens"
       },
       "provider_id": "cohere",
+      "status": "active"
+    },
+    {
+      "accessed_at": "2026-08-29T00:00:00Z",
+      "display_name": "Cohere Parse v5",
+      "effective_from": "2026-08-27",
+      "last_verified_at": "2026-08-29T00:00:00Z",
+      "model_category": "document_parsing",
+      "model_family": "Parse",
+      "model_id": "parse-v5.0",
+      "notes": "Cohere Parse v5 is generally available through the Cohere Parse API as parse-v5.0 at $1.50 per 1,000 pages. The public official sources do not publish a separate async or Batch API rate, page-count tier, or API free allowance. The free Cohere Space is a product demo, not a free API billing tier.",
+      "official_source_url": "https://cohere.com/blog/parse",
+      "official_source_urls": [
+        "https://cohere.com/blog/parse",
+        "https://docs.cohere.com/changelog/parse",
+        "https://docs.cohere.com/v2/reference/parse",
+        "https://docs.cohere.com/v2/docs/parse"
+      ],
+      "pricing": {
+        "batch_input": null,
+        "batch_output": null,
+        "cache_write": null,
+        "cache_write_1h": null,
+        "cached_input": null,
+        "currency": "USD",
+        "input": null,
+        "output": null,
+        "unit": null
+      },
+      "pricing_components": [
+        {
+          "amount": 1.5,
+          "calculation_default": false,
+          "component": "document_page",
+          "currency": "USD",
+          "effective_from": "2026-08-27",
+          "effective_until": null,
+          "id": "document_parsing_pages",
+          "modality": "document",
+          "pricing_status": "current",
+          "processing_mode": "standard",
+          "unit": "per_1000_pages"
+        }
+      ],
+      "provider_id": "cohere",
+      "release_stage": "stable",
       "status": "active"
     },
     {
@@ -1114,10 +1160,11 @@
       "status": "active"
     }
   ],
-  "official_source_count": 11,
+  "official_source_count": 12,
   "official_sources": [
     "https://ai.google.dev/gemini-api/docs/pricing",
     "https://api-docs.deepseek.com/quick_start/pricing",
+    "https://cohere.com/blog/parse",
     "https://cohere.com/pricing",
     "https://developers.openai.com/api/docs/models/gpt-5.6-sol",
     "https://developers.openai.com/api/docs/pricing",

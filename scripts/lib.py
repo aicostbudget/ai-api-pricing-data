@@ -18,6 +18,7 @@ HISTORY_COMPARE_FIELDS = (
     "pricing",
     "pricing_periods",
     "time_pricing",
+    "pricing_components",
     "official_source_url",
     "effective_from",
     "last_verified_at",
@@ -102,6 +103,8 @@ def csv_rows(models: list[dict[str, Any]]) -> list[dict[str, Any]]:
     rows: list[dict[str, Any]] = []
     for model in sorted(models, key=lambda item: (item["provider_id"], item["model_id"])):
         pricing = model["pricing"]
+        components = model.get("pricing_components", [])
+        primary_component = components[0] if len(components) == 1 else None
         rows.append(
             {
                 "provider_id": model["provider_id"],
@@ -123,6 +126,11 @@ def csv_rows(models: list[dict[str, Any]]) -> list[dict[str, Any]]:
                 "last_verified_at": model["last_verified_at"],
                 "effective_from": model["effective_from"],
                 "notes": " ".join(model.get("notes", "").split()),
+                "unit_price": primary_component["amount"] if primary_component else None,
+                "billing_unit": primary_component["unit"] if primary_component else None,
+                "billing_quantity": 1000 if primary_component and primary_component["unit"] == "per_1000_pages" else None,
+                "pricing_dimension": primary_component["component"] if primary_component else None,
+                "pricing_components_json": json.dumps(components, separators=(",", ":")) if components else None,
             }
         )
     return rows
@@ -167,6 +175,8 @@ def history_entry(model: dict[str, Any], recorded_at: str) -> dict[str, Any]:
         entry["pricing_periods"] = model["pricing_periods"]
     if "time_pricing" in model:
         entry["time_pricing"] = model["time_pricing"]
+    if "pricing_components" in model:
+        entry["pricing_components"] = model["pricing_components"]
     return entry
 
 

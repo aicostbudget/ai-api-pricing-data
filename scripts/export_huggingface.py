@@ -45,8 +45,12 @@ CSV_HEADERS = (
     "pricing_tiers_json",
     "time_pricing_json",
     "pricing_components_json",
+    "unit_price",
+    "billing_unit",
+    "billing_quantity",
+    "pricing_dimension",
 )
-PUBLIC_SCHEMA_VERSION = "1.4.0"
+PUBLIC_SCHEMA_VERSION = "1.5.0"
 PUBLIC_VERIFICATION_STATUSES = {
     "verified",
     "partially_verified",
@@ -207,6 +211,23 @@ def public_pricing_components(row: dict[str, Any]) -> list[dict[str, Any]]:
         )
     return public_components
 
+def non_token_summary(components: list[dict[str, Any]]) -> dict[str, Any]:
+    component = next((item for item in components if item["unit"] != "per_1m_tokens"), None)
+    if component is None:
+        return {
+            "unit_price": None,
+            "billing_unit": None,
+            "billing_quantity": None,
+            "pricing_dimension": None,
+        }
+    return {
+        "unit_price": float(Decimal(component["amount"])),
+        "billing_unit": component["unit"],
+        "billing_quantity": 1000 if component["unit"] == "per_1000_pages" else 1,
+        "pricing_dimension": component["component"],
+    }
+
+
 
 def load_website_models(website_repo: Path, website_ref: str) -> list[dict[str, Any]]:
     if website_ref == "WORKTREE":
@@ -266,12 +287,13 @@ def build_public_records(
 
         legacy = legacy_by_id.get(row["id"])
         has_current_price = is_number(row.get("inputPrice")) and is_number(row.get("outputPrice"))
+        components = public_pricing_components(row)
+        billing = non_token_summary(components)
         if has_current_price:
             warning = projection_warning(row)
             last_verified_at = date_only(row.get("verifiedAt"))
             checked_at = date_only(row.get("checkedAt"))
             tiers = public_pricing_tiers(row, last_verified_at, checked_at)
-            components = public_pricing_components(row)
             records.append(
                 {
                     "provider_id": row["provider"],
@@ -298,6 +320,37 @@ def build_public_records(
                     "pricing_tiers": tiers,
                     "time_pricing": row.get("timePricing"),
                     "pricing_components": components,
+                    **billing,
+                }
+            )
+            continue
+
+        if legacy is None and billing["billing_unit"] is not None:
+            records.append(
+                {
+                    "provider_id": row["provider"],
+                    "provider": PROVIDER_DISPLAY.get(row["provider"], row["provider"]),
+                    "model_id": row["id"],
+                    "model": row["model"],
+                    "input_price_per_1m_tokens": None,
+                    "cached_input_price_per_1m_tokens": None,
+                    "output_price_per_1m_tokens": None,
+                    "currency": "USD",
+                    "pricing_unit": None,
+                    "status": row["status"],
+                    "availability": row["availability"],
+                    "official_source_url": row["officialSourceUrl"],
+                    "verification_status": row["verificationStatus"],
+                    "last_verified_at": date_only(row.get("verifiedAt")),
+                    "checked_at": date_only(row.get("checkedAt")),
+                    "effective_from": components[0]["condition"]["effective_from"],
+                    "effective_until": components[0]["condition"]["effective_until"],
+                    "notes": projection_warning(row),
+                    "pricing_tier_count": 0,
+                    "pricing_tiers": [],
+                    "time_pricing": row.get("timePricing"),
+                    "pricing_components": components,
+                    **billing,
                 }
             )
             continue
@@ -327,7 +380,8 @@ def build_public_records(
                 "pricing_tier_count": 0,
                 "pricing_tiers": [],
                 "time_pricing": row.get("timePricing"),
-                "pricing_components": public_pricing_components(row),
+                "pricing_components": components,
+                **billing,
             }
         )
 
@@ -361,8 +415,8 @@ def build_export(
             "record_count": len(records),
             "official_source_count": source_count,
             "currency": "USD",
-            "pricing_unit": "1M tokens",
-            "statistics_scope": "public pricing records returned by the Pricing Table adapter with Pricing V2 enabled",
+            "pricing_unit": "Multiple billing units",
+            "statistics_scope": "public pricing records returned by the public pricing adapter with Pricing V2 enabled",
             "null_value_meaning": (
                 "Not listed, not published, not applicable, or not currently available in the dataset; "
                 "null is not zero."
@@ -372,6 +426,10 @@ def build_export(
                 "pricing_components_json": "Compact CSV JSON serialization of pricing_components.",
                 "time_pricing": "Structured request-time pricing schedule; null when no temporal pricing applies.",
                 "time_pricing_json": "Compact CSV JSON serialization of time_pricing.",
+                "unit_price": "Primary non-token unit price; null for token-priced rows.",
+                "billing_unit": "Machine-readable non-token billing unit.",
+                "billing_quantity": "Quantity represented by unit_price.",
+                "pricing_dimension": "Billable non-token dimension.",
             },
         },
         "records": records,
@@ -426,8 +484,16 @@ def validate_payload(
             value = row[field]
             if value is not None and (not is_number(value) or value < 0):
                 raise ValueError(f"invalid numeric price for {row['provider_id']}/{row['model_id']} {field}")
-        if row["currency"] != "USD" or row["pricing_unit"] != "1M tokens":
+        if row["currency"] != "USD":
             raise ValueError(f"invalid unit or currency for {row['provider_id']}/{row['model_id']}")
+        if row["billing_unit"] is None:
+            if row["pricing_unit"] != "1M tokens":
+                raise ValueError(f"invalid token unit for {row['provider_id']}/{row['model_id']}")
+        else:
+            if row["pricing_unit"] is not None or not is_number(row["unit_price"]):
+                raise ValueError(f"invalid non-token unit for {row['provider_id']}/{row['model_id']}")
+            if row["billing_quantity"] != 1000 or row["pricing_dimension"] != "document_page":
+                raise ValueError(f"invalid page billing summary for {row['provider_id']}/{row['model_id']}")
         tiers = row.get("pricing_tiers", [])
         if row.get("pricing_tier_count") != len(tiers):
             raise ValueError(f"pricing tier count mismatch for {row['provider_id']}/{row['model_id']}")

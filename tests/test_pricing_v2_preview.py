@@ -340,7 +340,7 @@ class PricingV2PreviewTests(unittest.TestCase):
     def test_report_counts_match_phase_1_baseline(self):
         self.assertEqual(self.report["candidateUnionCount"], len(self.dispositions))
         self.assertEqual(self.report["websiteOnlyCount"], 13)
-        self.assertEqual(self.report["publicOnlyCount"], 9)
+        self.assertEqual(self.report["publicOnlyCount"], 10)
         self.assertEqual(self.report["commonCount"], 26)
         self.assertEqual(self.report["aliasCount"], 2)
         self.assertEqual(self.report["normalizedCanonicalIdentityCount"], len(self.models))
@@ -446,7 +446,7 @@ class PricingV2PreviewTests(unittest.TestCase):
         self.assertEqual(len(self.phase25_evidence), self.phase25_default_safe["totalPriceRecords"])
         self.assertEqual(self.phase25_default_safe["productionDefaultCandidateCount"], 38)
         self.assertEqual(self.phase25_default_safe["defaultSafeCount"], 38)
-        self.assertEqual(self.phase25_default_safe["defaultUnsafeCount"], 60)
+        self.assertEqual(self.phase25_default_safe["defaultUnsafeCount"], 61)
         self.assertEqual(self.phase25_default_safe["P0PartialBefore"], 4)
         self.assertEqual(self.phase25_default_safe["P0PartialAfter"], 0)
         self.assertEqual(self.phase25_default_safe["P1PartialCount"], 7)

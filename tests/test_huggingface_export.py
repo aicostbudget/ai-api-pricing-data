@@ -39,14 +39,14 @@ class HuggingFaceExportTests(unittest.TestCase):
             hashlib.sha256((HF_DIR / "train.csv").read_bytes()).hexdigest(),
             hashlib.sha256((HF_DIR / "prices.csv").read_bytes()).hexdigest(),
         )
-        self.assertEqual(self.metadata["schema_version"], "1.4.0")
+        self.assertEqual(self.metadata["schema_version"], "1.5.0")
         self.assertEqual(self.metadata["last_verified_at"], self.metadata["last_updated"])
 
     def test_export_matches_full_public_website_key_set(self):
         actual = {(row["provider_id"], row["model_id"]) for row in self.records}
         self.assertEqual(actual, expected_public_keys(self.projection))
         self.assertEqual(len(actual), len(self.records))
-        self.assertEqual(len(self.records), 43, "audited public Website distribution must include Gemini 3.7 and both Transcribe models")
+        self.assertEqual(len(self.records), 44, "audited public Website distribution must include Cohere Parse v5")
         self.assertEqual(self.metadata["record_count"], len(self.records))
         self.assertEqual(self.metadata["provider_count"], 7)
 
@@ -60,6 +60,12 @@ class HuggingFaceExportTests(unittest.TestCase):
                 self.assertEqual(record["input_price_per_1m_tokens"], projected["inputPrice"], key)
                 self.assertEqual(record["cached_input_price_per_1m_tokens"], projected["cachedInputPrice"], key)
                 self.assertEqual(record["output_price_per_1m_tokens"], projected["outputPrice"], key)
+            elif record["billing_unit"] is not None:
+                self.assertIsNone(record["input_price_per_1m_tokens"], key)
+                self.assertIsNone(record["cached_input_price_per_1m_tokens"], key)
+                self.assertIsNone(record["output_price_per_1m_tokens"], key)
+                self.assertIsNone(record["pricing_unit"], key)
+                self.assertEqual(record["unit_price"], 1.5, key)
             else:
                 fallback_count += 1
                 self.assertIn("legacy fallback", record["notes"], key)
@@ -118,8 +124,11 @@ class HuggingFaceExportTests(unittest.TestCase):
             "last_verified_at", "checked_at", "effective_from", "effective_until", "notes",
             "pricing_tier_count", "pricing_tiers_json",
         ]
-        self.assertEqual(headers[:-2], legacy_headers)
-        self.assertEqual(headers[-2:], ["time_pricing_json", "pricing_components_json"])
+        self.assertEqual(headers[:-6], legacy_headers)
+        self.assertEqual(
+            headers[-6:],
+            ["time_pricing_json", "pricing_components_json", "unit_price", "billing_unit", "billing_quantity", "pricing_dimension"],
+        )
         for record in self.records:
             key = (record["provider_id"], record["model_id"])
             expected = public_pricing_components(projection_by_key[key])
@@ -131,7 +140,7 @@ class HuggingFaceExportTests(unittest.TestCase):
                 self.assertIsInstance(component["amount"], str, key)
                 self.assertEqual(len(component["source_refs"]), len(component["source_urls"]), key)
                 self.assertTrue(all(url.startswith("https://") for url in component["source_urls"]), key)
-        self.assertEqual(component_count, 277)
+        self.assertEqual(component_count, 278)
         self.assertEqual(cache_write_count, 33)
         self.assertTrue(any(not record["pricing_components"] for record in self.records))
 
@@ -146,11 +155,40 @@ class HuggingFaceExportTests(unittest.TestCase):
         for model_id in target_ids:
             self.assertTrue(any(item["component"].startswith("cache_write") for item in by_id[model_id]["pricing_components"]), model_id)
 
+    def test_parse_v5_uses_page_billing_without_token_prices(self):
+        record = next(
+            row
+            for row in self.records
+            if row["provider_id"] == "cohere" and row["model_id"] == "parse-v5.0"
+        )
+        self.assertIsNone(record["input_price_per_1m_tokens"])
+        self.assertIsNone(record["cached_input_price_per_1m_tokens"])
+        self.assertIsNone(record["output_price_per_1m_tokens"])
+        self.assertIsNone(record["pricing_unit"])
+        self.assertEqual(record["unit_price"], 1.5)
+        self.assertEqual(record["billing_unit"], "per_1000_pages")
+        self.assertEqual(record["billing_quantity"], 1000)
+        self.assertEqual(record["pricing_dimension"], "document_page")
+        self.assertEqual(len(record["pricing_components"]), 1)
+        component = record["pricing_components"][0]
+        self.assertEqual(component["component"], "document_page")
+        self.assertEqual(component["unit"], "per_1000_pages")
+        self.assertEqual(component["amount"], "1.5")
+
     def test_removing_additive_component_fields_reproduces_p0_1_records(self):
         baseline_records = []
         for record in self.records:
+            if (record.get("provider_id"), record.get("model_id")) == ("cohere", "parse-v5.0"):
+                continue
             baseline = dict(record)
-            baseline.pop("pricing_components")
+            for field in (
+                "pricing_components",
+                "unit_price",
+                "billing_unit",
+                "billing_quantity",
+                "pricing_dimension",
+            ):
+                baseline.pop(field, None)
             baseline_records.append(baseline)
         digest = hashlib.sha256(
             json.dumps(baseline_records, sort_keys=True, separators=(",", ":"), ensure_ascii=False).encode()

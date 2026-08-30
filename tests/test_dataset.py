@@ -49,7 +49,28 @@ class DatasetTests(unittest.TestCase):
         self.assertEqual(len({item["provider_id"] for item in providers}), len(providers))
         self.assertEqual(len({(item["provider_id"], item["model_id"]) for item in models}), len(models))
         self.assertEqual(len(providers), 7)
-        self.assertEqual(len(models), 35)
+        self.assertEqual(len(models), 36)
+
+    def test_cohere_parse_uses_page_billing_without_token_prices(self):
+        by_key = {(model["provider_id"], model["model_id"]): model for model in load_models()}
+        parse = by_key[("cohere", "parse-v5.0")]
+        self.assertTrue(all(parse["pricing"][field] is None for field in ("unit", "input", "output", "cached_input", "cache_write", "cache_write_1h", "batch_input", "batch_output")))
+        self.assertEqual(
+            parse["pricing_components"],
+            [{
+                "id": "document_parsing_pages",
+                "component": "document_page",
+                "modality": "document",
+                "unit": "per_1000_pages",
+                "amount": 1.5,
+                "currency": "USD",
+                "processing_mode": "standard",
+                "pricing_status": "current",
+                "calculation_default": False,
+                "effective_from": "2026-08-27",
+                "effective_until": None,
+            }],
+        )
 
     def test_verified_additions_and_price_corrections(self):
         by_key = {(model["provider_id"], model["model_id"]): model for model in load_models()}

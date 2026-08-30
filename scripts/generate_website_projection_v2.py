@@ -54,6 +54,7 @@ PRICING_COMPONENTS = {
     "request",
     "tool_call",
     "grounding",
+    "document_page",
 }
 
 
@@ -194,6 +195,27 @@ def select_price(
     return candidates[0] if candidates else None
 
 
+def select_structured_price(
+    prices_by_model: dict[str, list[dict[str, Any]]],
+    model_internal_id: str,
+    effective_at: datetime,
+    verified_price_by_id: dict[str, dict[str, Any]],
+) -> dict[str, Any] | None:
+    candidates = [
+        price
+        for price in prices_by_model.get(model_internal_id, [])
+        if price["processingMode"] == "standard"
+        and (price["verificationStatus"] == "verified" or price["pricingId"] in verified_price_by_id)
+        and current_effective(price, effective_at)
+        and any(charge["unit"] != "per_1m_tokens" for charge in price["charges"])
+    ]
+    candidates.sort(
+        key=lambda price: (price["effectiveFrom"] or "0000-00-00", price["pricingId"]),
+        reverse=True,
+    )
+    return candidates[0] if candidates else None
+
+
 def display_status(
     identity: dict[str, Any],
     model: dict[str, Any] | None,
@@ -299,6 +321,11 @@ def governance_metadata(
         governance_class = "VERIFIED_PROJECTION"
         reason = "official_evidence_verified_projection_pending_canonical_review"
         pricing_source = "verified_website_seed_price"
+        public_exposure = "public"
+    elif row.get("pricingComponents") and identity["verificationStatus"] == "verified":
+        governance_class = "VERIFIED_CANONICAL"
+        reason = "canonical_verified_non_token_public_projection"
+        pricing_source = "canonical_verified_structured_price"
         public_exposure = "public"
     elif website_row is not None:
         governance_class = "COMPATIBILITY_FALLBACK"
@@ -552,6 +579,15 @@ def projection_row(
         verified_price_by_id,
         processing_mode="batch",
     )
+    selected_billing_price = select_structured_price(
+        prices_by_model,
+        target_internal_id,
+        effective_at,
+        verified_price_by_id,
+    )
+    pricing_components = build_pricing_components(
+        prices_by_model.get(target_internal_id, []), effective_at, verified_price_by_id
+    )
     blocked_reasons: list[str] = []
     if identity["internalId"] in excluded_reasons:
         blocked_reasons.append("excluded_default_candidate")
@@ -564,7 +600,7 @@ def projection_row(
     if selected_price is None:
         blocked_reasons.append("missing_verified_current_price")
     default_safe = not blocked_reasons
-    refs = price_source_refs(identity, selected_price)
+    refs = price_source_refs(identity, selected_price or selected_billing_price)
     urls = source_urls(refs, sources_by_id)
     verified_at = None
     verified_source_refs: list[str] = []
@@ -621,6 +657,13 @@ def projection_row(
             verified_source_refs = sorted(
                 ref for ref in verified_evidence.get("sourceRefs", []) if ref in refs
             )
+    elif selected_billing_price and pricing_components and identity["verificationStatus"] == "verified":
+        verified_at = latest_timestamp(
+            [source_timestamp(sources_by_id[ref], "verifiedAt") for ref in refs if ref in sources_by_id]
+        )
+        verified_source_refs = source_refs_at_timestamp(
+            refs, sources_by_id, "verifiedAt", verified_at
+        )
     if (
         existing_row
         and existing_row.get("selectedPriceRecordId") == (selected_price or {}).get("pricingId")
@@ -675,9 +718,9 @@ def projection_row(
         "replacementInternalId": identity.get("replacementInternalId"),
         "selectedPriceRecordId": selected_price["pricingId"] if selected_price and default_safe else None,
         "selectedBatchPriceRecordId": selected_batch_price["pricingId"] if selected_batch_price and default_safe else None,
-        "selectedBillingPriceRecordId": selected_price["pricingId"] if selected_price else None,
-        "selectedPriceEffectiveFrom": selected_price["effectiveFrom"] if selected_price else None,
-        "selectedPriceEffectiveUntil": selected_price["effectiveUntil"] if selected_price else None,
+        "selectedBillingPriceRecordId": (selected_price or selected_billing_price)["pricingId"] if (selected_price or selected_billing_price) else None,
+        "selectedPriceEffectiveFrom": (selected_price or selected_billing_price)["effectiveFrom"] if (selected_price or selected_billing_price) else None,
+        "selectedPriceEffectiveUntil": (selected_price or selected_billing_price)["effectiveUntil"] if (selected_price or selected_billing_price) else None,
         "defaultPriceSelectionRule": DEFAULT_SELECTION_RULE,
         "blockedFromDefaultReasons": sorted(set(blocked_reasons)),
         "sourceRefs": refs,
@@ -685,6 +728,8 @@ def projection_row(
     }
     if identity["internalId"] == "xai/grok-3":
         row["historicalPrice"] = legacy_grok_history(website_rows)
+    if pricing_components:
+        row["pricingComponents"] = pricing_components
         row["redirectedBilling"] = {
             "redirectTargetInternalId": identity.get("redirectTargetInternalId"),
             "billingModelInternalId": identity.get("billingModelInternalId"),
@@ -709,13 +754,6 @@ def projection_row(
     if time_pricing:
         row["timePricing"] = time_pricing
 
-    pricing_components = build_pricing_components(
-        prices_by_model.get(target_internal_id, []),
-        effective_at,
-        verified_price_by_id,
-    ) if default_safe else None
-    if pricing_components:
-        row["pricingComponents"] = pricing_components
 
     return row
 

@@ -100,6 +100,7 @@ PROMOTED_CANONICAL_KEYS = {
 }
 
 VERIFIED_PUBLIC_ONLY_KEYS = {
+    ("cohere", "parse-v5.0"),
     ("google-gemini", "gemini-3.5-transcribe"),
     ("google-gemini", "gemini-3.5-transcribe-live"),
 }
@@ -2110,6 +2111,49 @@ def main() -> None:
 
         if public:
             pricing = public["pricing"]
+            pricing_components = public.get("pricing_components", [])
+            if pricing_components:
+                for component in pricing_components:
+                    pricing_id = (
+                        f"price:{model_internal_id}:{component['processing_mode']}:short:"
+                        f"{component['pricing_status']}:{component['id']}"
+                    )
+                    add_price(
+                        model_internal_id,
+                        {
+                            "pricingId": pricing_id,
+                            "modelInternalId": model_internal_id,
+                            "processingMode": component["processing_mode"],
+                            "pricingStatus": component["pricing_status"],
+                            "contextClass": "short",
+                            "regionPolicy": "global",
+                            "promptTokenThreshold": None,
+                            "effectiveFrom": component["effective_from"],
+                            "effectiveUntil": component["effective_until"],
+                            "currency": component["currency"],
+                            "charges": [
+                                {
+                                    "chargeId": (
+                                        f"{pricing_id}:{component['component']}:"
+                                        f"{component['modality']}:{component['unit']}"
+                                    ),
+                                    "component": component["component"],
+                                    "modality": component["modality"],
+                                    "unit": component["unit"],
+                                    "amount": decimal_string(component["amount"]),
+                                }
+                            ],
+                            "sourceRefs": source_refs_for(provider_id, public, website, source_by_url),
+                            "billingNote": public.get("notes", ""),
+                            "verificationStatus": verification,
+                            "calculationDefault": component["calculation_default"],
+                            "sourceDatasetIds": {
+                                "publicDatasetIds": [public["model_id"]],
+                                "websiteIds": [website["id"]] if website else [],
+                            },
+                        },
+                    )
+                continue
             pricing_periods = public.get("pricing_periods", [])
             if pricing_periods:
                 defaults = [period for period in pricing_periods if period["calculation_default"]]

@@ -2,23 +2,27 @@
   "metadata": {
     "name": "AICostBudget AI API Pricing Dataset",
     "version": "1.0.0",
-    "schema_version": "1.4.0",
+    "schema_version": "1.5.0",
     "page_url": "https://aicostbudget.com/en/datasets/ai-api-pricing",
     "last_updated": "2026-08-29T05:28:25Z",
     "last_verified_at": "2026-08-29T05:28:25Z",
-    "generated_at": "2026-08-29T09:41:25Z",
+    "generated_at": "2026-08-29T11:08:08Z",
     "provider_count": 7,
-    "record_count": 43,
-    "official_source_count": 12,
+    "record_count": 44,
+    "official_source_count": 13,
     "currency": "USD",
-    "pricing_unit": "1M tokens",
-    "statistics_scope": "public pricing records returned by the Pricing Table adapter with Pricing V2 enabled",
+    "pricing_unit": "Multiple billing units",
+    "statistics_scope": "public pricing records returned by the public pricing adapter with Pricing V2 enabled",
     "null_value_meaning": "Not listed, not published, not applicable, or not currently available in the dataset; null is not zero.",
     "features": {
       "pricing_components": "Full conditional pricing components; [] when none apply.",
       "pricing_components_json": "Compact CSV JSON serialization of pricing_components.",
       "time_pricing": "Structured request-time pricing schedule; null when no temporal pricing applies.",
-      "time_pricing_json": "Compact CSV JSON serialization of time_pricing."
+      "time_pricing_json": "Compact CSV JSON serialization of time_pricing.",
+      "unit_price": "Primary non-token unit price; null for token-priced rows.",
+      "billing_unit": "Machine-readable non-token billing unit.",
+      "billing_quantity": "Quantity represented by unit_price.",
+      "pricing_dimension": "Billable non-token dimension."
     }
   },
   "records": [
@@ -227,7 +231,11 @@
           ],
           "verification_status": "verified"
         }
-      ]
+      ],
+      "unit_price": null,
+      "billing_unit": null,
+      "billing_quantity": null,
+      "pricing_dimension": null
     },
     {
       "provider_id": "anthropic",
@@ -408,7 +416,11 @@
           ],
           "verification_status": "verified"
         }
-      ]
+      ],
+      "unit_price": null,
+      "billing_unit": null,
+      "billing_quantity": null,
+      "pricing_dimension": null
     },
     {
       "provider_id": "anthropic",
@@ -511,7 +523,11 @@
           ],
           "verification_status": "verified"
         }
-      ]
+      ],
+      "unit_price": null,
+      "billing_unit": null,
+      "billing_quantity": null,
+      "pricing_dimension": null
     },
     {
       "provider_id": "anthropic",
@@ -614,7 +630,11 @@
           ],
           "verification_status": "verified"
         }
-      ]
+      ],
+      "unit_price": null,
+      "billing_unit": null,
+      "billing_quantity": null,
+      "pricing_dimension": null
     },
     {
       "provider_id": "anthropic",
@@ -795,7 +815,11 @@
           ],
           "verification_status": "verified"
         }
-      ]
+      ],
+      "unit_price": null,
+      "billing_unit": null,
+      "billing_quantity": null,
+      "pricing_dimension": null
     },
     {
       "provider_id": "anthropic",
@@ -1002,7 +1026,11 @@
           ],
           "verification_status": "verified"
         }
-      ]
+      ],
+      "unit_price": null,
+      "billing_unit": null,
+      "billing_quantity": null,
+      "pricing_dimension": null
     },
     {
       "provider_id": "anthropic",
@@ -1026,7 +1054,11 @@
       "pricing_tier_count": 0,
       "pricing_tiers": [],
       "time_pricing": null,
-      "pricing_components": []
+      "pricing_components": [],
+      "unit_price": null,
+      "billing_unit": null,
+      "billing_quantity": null,
+      "pricing_dimension": null
     },
     {
       "provider_id": "anthropic",
@@ -1207,7 +1239,11 @@
           ],
           "verification_status": "verified"
         }
-      ]
+      ],
+      "unit_price": null,
+      "billing_unit": null,
+      "billing_quantity": null,
+      "pricing_dimension": null
     },
     {
       "provider_id": "anthropic",
@@ -1428,7 +1464,11 @@
           ],
           "verification_status": "verified"
         }
-      ]
+      ],
+      "unit_price": null,
+      "billing_unit": null,
+      "billing_quantity": null,
+      "pricing_dimension": null
     },
     {
       "provider_id": "cohere",
@@ -1505,7 +1545,11 @@
           ],
           "verification_status": "verified"
         }
-      ]
+      ],
+      "unit_price": null,
+      "billing_unit": null,
+      "billing_quantity": null,
+      "pricing_dimension": null
     },
     {
       "provider_id": "cohere",
@@ -1582,7 +1626,72 @@
           ],
           "verification_status": "verified"
         }
-      ]
+      ],
+      "unit_price": null,
+      "billing_unit": null,
+      "billing_quantity": null,
+      "pricing_dimension": null
+    },
+    {
+      "provider_id": "cohere",
+      "provider": "Cohere",
+      "model_id": "parse-v5.0",
+      "model": "Cohere Parse v5",
+      "input_price_per_1m_tokens": null,
+      "cached_input_price_per_1m_tokens": null,
+      "output_price_per_1m_tokens": null,
+      "currency": "USD",
+      "pricing_unit": null,
+      "status": "latest",
+      "availability": "active",
+      "official_source_url": "https://cohere.com/blog/parse",
+      "verification_status": "verified",
+      "last_verified_at": "2026-08-29",
+      "checked_at": "2026-08-29",
+      "effective_from": "2026-08-27",
+      "effective_until": null,
+      "notes": "V2 marks this row as unsafe for default calculations: missing_verified_current_price.",
+      "pricing_tier_count": 0,
+      "pricing_tiers": [],
+      "time_pricing": null,
+      "pricing_components": [
+        {
+          "pricing_id": "price:cohere/parse-v5.0:standard:short:current:document_parsing_pages",
+          "charge_id": "price:cohere/parse-v5.0:standard:short:current:document_parsing_pages:document_page:document:per_1000_pages",
+          "component": "document_page",
+          "amount": "1.5",
+          "unit": "per_1000_pages",
+          "currency": "USD",
+          "modality": "document",
+          "condition": {
+            "processing_mode": "standard",
+            "context_class": "short",
+            "prompt_token_threshold": null,
+            "tier_selection": null,
+            "region_policy": "global",
+            "effective_from": "2026-08-27",
+            "effective_until": null
+          },
+          "calculation_default": false,
+          "source_refs": [
+            "source:cohere:cohere-com-blog-parse",
+            "source:cohere:docs-cohere-com-changelog-parse",
+            "source:cohere:docs-cohere-com-v2-docs-parse",
+            "source:cohere:docs-cohere-com-v2-reference-parse"
+          ],
+          "source_urls": [
+            "https://cohere.com/blog/parse",
+            "https://docs.cohere.com/changelog/parse",
+            "https://docs.cohere.com/v2/docs/parse",
+            "https://docs.cohere.com/v2/reference/parse"
+          ],
+          "verification_status": "verified"
+        }
+      ],
+      "unit_price": 1.5,
+      "billing_unit": "per_1000_pages",
+      "billing_quantity": 1000,
+      "pricing_dimension": "document_page"
     },
     {
       "provider_id": "deepseek",
@@ -1852,7 +1961,11 @@
           ],
           "verification_status": "verified"
         }
-      ]
+      ],
+      "unit_price": null,
+      "billing_unit": null,
+      "billing_quantity": null,
+      "pricing_dimension": null
     },
     {
       "provider_id": "deepseek",
@@ -2122,7 +2235,11 @@
           ],
           "verification_status": "verified"
         }
-      ]
+      ],
+      "unit_price": null,
+      "billing_unit": null,
+      "billing_quantity": null,
+      "pricing_dimension": null
     },
     {
       "provider_id": "google-gemini",
@@ -2277,7 +2394,11 @@
           ],
           "verification_status": "verified"
         }
-      ]
+      ],
+      "unit_price": null,
+      "billing_unit": null,
+      "billing_quantity": null,
+      "pricing_dimension": null
     },
     {
       "provider_id": "google-gemini",
@@ -2432,7 +2553,11 @@
           ],
           "verification_status": "verified"
         }
-      ]
+      ],
+      "unit_price": null,
+      "billing_unit": null,
+      "billing_quantity": null,
+      "pricing_dimension": null
     },
     {
       "provider_id": "google-gemini",
@@ -2535,7 +2660,11 @@
           ],
           "verification_status": "verified"
         }
-      ]
+      ],
+      "unit_price": null,
+      "billing_unit": null,
+      "billing_quantity": null,
+      "pricing_dimension": null
     },
     {
       "provider_id": "google-gemini",
@@ -2690,7 +2819,11 @@
           ],
           "verification_status": "verified"
         }
-      ]
+      ],
+      "unit_price": null,
+      "billing_unit": null,
+      "billing_quantity": null,
+      "pricing_dimension": null
     },
     {
       "provider_id": "google-gemini",
@@ -2871,7 +3004,11 @@
           ],
           "verification_status": "verified"
         }
-      ]
+      ],
+      "unit_price": null,
+      "billing_unit": null,
+      "billing_quantity": null,
+      "pricing_dimension": null
     },
     {
       "provider_id": "google-gemini",
@@ -3026,7 +3163,11 @@
           ],
           "verification_status": "verified"
         }
-      ]
+      ],
+      "unit_price": null,
+      "billing_unit": null,
+      "billing_quantity": null,
+      "pricing_dimension": null
     },
     {
       "provider_id": "google-gemini",
@@ -3181,7 +3322,11 @@
           ],
           "verification_status": "verified"
         }
-      ]
+      ],
+      "unit_price": null,
+      "billing_unit": null,
+      "billing_quantity": null,
+      "pricing_dimension": null
     },
     {
       "provider_id": "google-gemini",
@@ -3270,7 +3415,11 @@
           ],
           "verification_status": "verified"
         }
-      ]
+      ],
+      "unit_price": null,
+      "billing_unit": null,
+      "billing_quantity": null,
+      "pricing_dimension": null
     },
     {
       "provider_id": "google-gemini",
@@ -3359,7 +3508,11 @@
           ],
           "verification_status": "verified"
         }
-      ]
+      ],
+      "unit_price": null,
+      "billing_unit": null,
+      "billing_quantity": null,
+      "pricing_dimension": null
     },
     {
       "provider_id": "google-gemini",
@@ -3744,7 +3897,11 @@
           ],
           "verification_status": "verified"
         }
-      ]
+      ],
+      "unit_price": null,
+      "billing_unit": null,
+      "billing_quantity": null,
+      "pricing_dimension": null
     },
     {
       "provider_id": "google-gemini",
@@ -4153,7 +4310,11 @@
           ],
           "verification_status": "verified"
         }
-      ]
+      ],
+      "unit_price": null,
+      "billing_unit": null,
+      "billing_quantity": null,
+      "pricing_dimension": null
     },
     {
       "provider_id": "mistral-ai",
@@ -4256,7 +4417,11 @@
           ],
           "verification_status": "verified"
         }
-      ]
+      ],
+      "unit_price": null,
+      "billing_unit": null,
+      "billing_quantity": null,
+      "pricing_dimension": null
     },
     {
       "provider_id": "openai",
@@ -4359,7 +4524,11 @@
           ],
           "verification_status": "verified"
         }
-      ]
+      ],
+      "unit_price": null,
+      "billing_unit": null,
+      "billing_quantity": null,
+      "pricing_dimension": null
     },
     {
       "provider_id": "openai",
@@ -4383,7 +4552,11 @@
       "pricing_tier_count": 0,
       "pricing_tiers": [],
       "time_pricing": null,
-      "pricing_components": []
+      "pricing_components": [],
+      "unit_price": null,
+      "billing_unit": null,
+      "billing_quantity": null,
+      "pricing_dimension": null
     },
     {
       "provider_id": "openai",
@@ -4407,7 +4580,11 @@
       "pricing_tier_count": 0,
       "pricing_tiers": [],
       "time_pricing": null,
-      "pricing_components": []
+      "pricing_components": [],
+      "unit_price": null,
+      "billing_unit": null,
+      "billing_quantity": null,
+      "pricing_dimension": null
     },
     {
       "provider_id": "openai",
@@ -4431,7 +4608,11 @@
       "pricing_tier_count": 0,
       "pricing_tiers": [],
       "time_pricing": null,
-      "pricing_components": []
+      "pricing_components": [],
+      "unit_price": null,
+      "billing_unit": null,
+      "billing_quantity": null,
+      "pricing_dimension": null
     },
     {
       "provider_id": "openai",
@@ -4534,7 +4715,11 @@
           ],
           "verification_status": "verified"
         }
-      ]
+      ],
+      "unit_price": null,
+      "billing_unit": null,
+      "billing_quantity": null,
+      "pricing_dimension": null
     },
     {
       "provider_id": "openai",
@@ -4689,7 +4874,11 @@
           ],
           "verification_status": "verified"
         }
-      ]
+      ],
+      "unit_price": null,
+      "billing_unit": null,
+      "billing_quantity": null,
+      "pricing_dimension": null
     },
     {
       "provider_id": "openai",
@@ -4854,7 +5043,11 @@
           ],
           "verification_status": "verified"
         }
-      ]
+      ],
+      "unit_price": null,
+      "billing_unit": null,
+      "billing_quantity": null,
+      "pricing_dimension": null
     },
     {
       "provider_id": "openai",
@@ -5009,7 +5202,11 @@
           ],
           "verification_status": "verified"
         }
-      ]
+      ],
+      "unit_price": null,
+      "billing_unit": null,
+      "billing_quantity": null,
+      "pricing_dimension": null
     },
     {
       "provider_id": "openai",
@@ -5138,7 +5335,11 @@
           ],
           "verification_status": "verified"
         }
-      ]
+      ],
+      "unit_price": null,
+      "billing_unit": null,
+      "billing_quantity": null,
+      "pricing_dimension": null
     },
     {
       "provider_id": "openai",
@@ -5303,7 +5504,11 @@
           ],
           "verification_status": "verified"
         }
-      ]
+      ],
+      "unit_price": null,
+      "billing_unit": null,
+      "billing_quantity": null,
+      "pricing_dimension": null
     },
     {
       "provider_id": "openai",
@@ -5432,7 +5637,11 @@
           ],
           "verification_status": "verified"
         }
-      ]
+      ],
+      "unit_price": null,
+      "billing_unit": null,
+      "billing_quantity": null,
+      "pricing_dimension": null
     },
     {
       "provider_id": "openai",
@@ -6764,7 +6973,11 @@
           ],
           "verification_status": "verified"
         }
-      ]
+      ],
+      "unit_price": null,
+      "billing_unit": null,
+      "billing_quantity": null,
+      "pricing_dimension": null
     },
     {
       "provider_id": "openai",
@@ -7685,7 +7898,11 @@
           ],
           "verification_status": "verified"
         }
-      ]
+      ],
+      "unit_price": null,
+      "billing_unit": null,
+      "billing_quantity": null,
+      "pricing_dimension": null
     },
     {
       "provider_id": "openai",
@@ -9017,7 +9234,11 @@
           ],
           "verification_status": "verified"
         }
-      ]
+      ],
+      "unit_price": null,
+      "billing_unit": null,
+      "billing_quantity": null,
+      "pricing_dimension": null
     },
     {
       "provider_id": "xai",
@@ -9328,7 +9549,11 @@
           ],
           "verification_status": "verified"
         }
-      ]
+      ],
+      "unit_price": null,
+      "billing_unit": null,
+      "billing_quantity": null,
+      "pricing_dimension": null
     },
     {
       "provider_id": "xai",
@@ -9696,7 +9921,11 @@
           ],
           "verification_status": "verified"
         }
-      ]
+      ],
+      "unit_price": null,
+      "billing_unit": null,
+      "billing_quantity": null,
+      "pricing_dimension": null
     },
     {
       "provider_id": "xai",
@@ -9799,7 +10028,11 @@
           ],
           "verification_status": "verified"
         }
-      ]
+      ],
+      "unit_price": null,
+      "billing_unit": null,
+      "billing_quantity": null,
+      "pricing_dimension": null
     },
     {
       "provider_id": "xai",
@@ -9876,7 +10109,11 @@
           ],
           "verification_status": "verified"
         }
-      ]
+      ],
+      "unit_price": null,
+      "billing_unit": null,
+      "billing_quantity": null,
+      "pricing_dimension": null
     }
   ]
 }

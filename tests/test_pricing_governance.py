@@ -70,7 +70,7 @@ class PricingGovernanceTests(unittest.TestCase):
             counts,
             Counter(
                 {
-                    "VERIFIED_CANONICAL": 31,
+                    "VERIFIED_CANONICAL": 32,
                     "VERIFIED_PROJECTION": 7,
                     "PROJECTED_IDENTITY": 2,
                     "HISTORICAL_REFERENCE": 2,
@@ -78,13 +78,13 @@ class PricingGovernanceTests(unittest.TestCase):
                     "REVIEW_REQUIRED": 3,
                 }
             ),
-            "GOVERNANCE_CLASS_COUNT_MISMATCH: current 48-row normalized projection changed classification",
+            "GOVERNANCE_CLASS_COUNT_MISMATCH: current 49-row normalized projection changed classification",
         )
         exposures = Counter(row["publicExposure"] for row in self.projection.values())
         self.assertEqual(
             exposures,
-            Counter({"public": 43, "excluded": 3, "alias_only": 2}),
-            "PUBLIC_EXPOSURE_COUNT_MISMATCH: expected 43 public, 3 excluded, and 2 alias-only rows",
+            Counter({"public": 44, "excluded": 3, "alias_only": 2}),
+            "PUBLIC_EXPOSURE_COUNT_MISMATCH: expected 44 public, 3 excluded, and 2 alias-only rows",
         )
         for internal_id, row in self.projection.items():
             self.assertTrue(row["governanceReason"], f"MISSING_GOVERNANCE_REASON: {internal_id}")
