@@ -172,6 +172,15 @@ class WebsiteProjectionV2Tests(unittest.TestCase):
         self.assertEqual(grok["historicalPrice"]["inputPrice"], 3)
         self.assertEqual(grok["historicalPrice"]["outputPrice"], 15)
 
+    def test_redirected_billing_is_owned_only_by_grok_3(self):
+        owners = [
+            row["canonicalInternalId"]
+            for row in self.rows
+            if "redirectedBilling" in row
+        ]
+        self.assertEqual(owners, ["xai/grok-3"])
+        self.assertNotIn("redirectedBilling", self.by_internal["cohere/parse-v5.0"])
+
     def test_gpt_4_1_family_and_excluded_defaults_are_null(self):
         for internal_id in ("openai/gpt-4.1", "openai/gpt-4.1-mini", "openai/gpt-4.1-nano"):
             row = self.by_internal[internal_id]

@@ -728,14 +728,14 @@ def projection_row(
     }
     if identity["internalId"] == "xai/grok-3":
         row["historicalPrice"] = legacy_grok_history(website_rows)
-    if pricing_components:
-        row["pricingComponents"] = pricing_components
         row["redirectedBilling"] = {
             "redirectTargetInternalId": identity.get("redirectTargetInternalId"),
             "billingModelInternalId": identity.get("billingModelInternalId"),
             "currentBillingPriceRecordId": selected_price["pricingId"] if selected_price else None,
             "historicalPriceCurrentCalculationEligible": False,
         }
+    if pricing_components:
+        row["pricingComponents"] = pricing_components
     if identity["identityType"] == "alias":
         row["alias"] = {
             "targetInternalId": identity.get("aliasTargetInternalId"),
