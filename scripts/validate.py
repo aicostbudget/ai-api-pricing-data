@@ -3,7 +3,8 @@ from __future__ import annotations
 import argparse
 import csv
 import json
-from datetime import datetime, timezone
+import math
+from datetime import date, datetime, timezone
 from pathlib import Path
 from urllib.request import Request, urlopen
 
@@ -15,7 +16,17 @@ try:
     from export_huggingface import validate_huggingface_artifacts
 except ModuleNotFoundError:
     from scripts.export_huggingface import validate_huggingface_artifacts
-from lib import API, DATA, PRICE_FIELDS, ROOT, build_dataset, csv_rows, load_models, load_providers
+try:
+    from lib import API, DATA, PRICE_FIELDS, ROOT, build_dataset, csv_rows, load_models, load_providers
+except ModuleNotFoundError:
+    from scripts.lib import API, DATA, PRICE_FIELDS, ROOT, build_dataset, csv_rows, load_models, load_providers
+
+MODEL_SCHEMA = json.loads((ROOT / "schema" / "model.schema.json").read_text(encoding="utf-8"))
+PRICING_PROPERTIES = MODEL_SCHEMA["properties"]["pricing"]["properties"]
+PRICING_COMPONENT_SCHEMA = MODEL_SCHEMA["$defs"]["pricingComponent"]
+LEGACY_TOKEN_PRICE_FIELDS = tuple(
+    field for field in PRICING_PROPERTIES if field not in {"currency", "unit"}
+)
 
 
 def fail(message: str) -> None:
@@ -29,6 +40,69 @@ def parse_ts(value: str) -> datetime:
         return datetime.fromisoformat(value.replace("Z", "+00:00"))
     except ValueError:
         fail(f"invalid timestamp: {value}")
+
+
+def validate_pricing_contract(model: dict, item: tuple[str, str]) -> None:
+    pricing = model["pricing"]
+    if pricing["currency"] != "USD":
+        fail(f"unsupported currency for {item[0]}/{item[1]}")
+    for field in PRICE_FIELDS:
+        value = pricing[field]
+        if value is not None and value < 0:
+            fail(f"negative price for {item[0]}/{item[1]} {field}")
+
+    if pricing["unit"] == "1M tokens":
+        return
+    if pricing["unit"] is not None:
+        fail(f"unsupported unit for {item[0]}/{item[1]}")
+
+    populated_token_fields = [
+        field for field in LEGACY_TOKEN_PRICE_FIELDS if pricing.get(field) is not None
+    ]
+    if populated_token_fields:
+        fail(
+            f"non-token pricing must leave token fields null for {item[0]}/{item[1]}: "
+            f"{', '.join(populated_token_fields)}"
+        )
+
+    components = model.get("pricing_components")
+    if not isinstance(components, list) or not components:
+        fail(f"non-token pricing requires pricing_components for {item[0]}/{item[1]}")
+
+    required = set(PRICING_COMPONENT_SCHEMA["required"])
+    allowed = set(PRICING_COMPONENT_SCHEMA["properties"])
+    for index, component in enumerate(components):
+        label = f"{item[0]}/{item[1]} pricing component {index}"
+        if not isinstance(component, dict):
+            fail(f"invalid {label}")
+        missing = required - set(component)
+        if missing:
+            fail(f"{label} missing fields: {', '.join(sorted(missing))}")
+        if PRICING_COMPONENT_SCHEMA.get("additionalProperties") is False:
+            extra = set(component) - allowed
+            if extra:
+                fail(f"{label} has unsupported fields: {', '.join(sorted(extra))}")
+        if not isinstance(component["id"], str) or not component["id"]:
+            fail(f"invalid {label} id")
+        for field in ("component", "modality", "unit", "processing_mode", "pricing_status"):
+            if component[field] not in PRICING_COMPONENT_SCHEMA["properties"][field]["enum"]:
+                fail(f"invalid {label} {field}")
+        amount = component["amount"]
+        if isinstance(amount, bool) or not isinstance(amount, (int, float)) or not math.isfinite(amount) or amount <= 0:
+            fail(f"invalid positive amount for {label}")
+        if component["currency"] != PRICING_COMPONENT_SCHEMA["properties"]["currency"]["const"]:
+            fail(f"invalid {label} currency")
+        if not isinstance(component["calculation_default"], bool):
+            fail(f"invalid {label} calculation_default")
+        for field in ("effective_from", "effective_until"):
+            value = component[field]
+            if value is not None:
+                if not isinstance(value, str):
+                    fail(f"invalid {label} {field}")
+                try:
+                    date.fromisoformat(value)
+                except ValueError:
+                    fail(f"invalid {label} {field}")
 
 
 def validate_models(now: datetime | None = None) -> None:
@@ -60,14 +134,7 @@ def validate_models(now: datetime | None = None) -> None:
         if last_verified_at > now:
             fail(f"future last_verified_at for {item[0]}/{item[1]}: {model['last_verified_at']}")
         pricing = model["pricing"]
-        if pricing["currency"] != "USD":
-            fail(f"unsupported currency for {item[0]}/{item[1]}")
-        if pricing["unit"] != "1M tokens":
-            fail(f"unsupported unit for {item[0]}/{item[1]}")
-        for field in PRICE_FIELDS:
-            value = pricing[field]
-            if value is not None and value < 0:
-                fail(f"negative price for {item[0]}/{item[1]} {field}")
+        validate_pricing_contract(model, item)
 
         source_urls = model.get("official_source_urls", [model["official_source_url"]])
         if model["official_source_url"] not in source_urls:
