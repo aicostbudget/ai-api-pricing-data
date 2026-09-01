@@ -172,6 +172,24 @@ class WebsiteProjectionV2Tests(unittest.TestCase):
         self.assertEqual(grok["historicalPrice"]["inputPrice"], 3)
         self.assertEqual(grok["historicalPrice"]["outputPrice"], 15)
 
+    def test_grok_4_6_projection_and_lifecycle_are_exact(self):
+        grok46 = self.by_internal["xai/grok-4.6"]
+        self.assertEqual(grok46["status"], "latest")
+        self.assertEqual(grok46["lifecycleStatus"], "active")
+        self.assertIsNone(grok46["contextWindow"])
+        self.assertEqual(grok46["contextWindowStatus"], "unknown_not_guessed")
+        self.assertEqual(
+            (grok46["inputPrice"], grok46["cachedInputPrice"], grok46["outputPrice"]),
+            (2, 0.5, 6),
+        )
+        self.assertIsNone(grok46["batchInputPrice"])
+        self.assertIsNone(grok46["batchOutputPrice"])
+        self.assertIsNone(grok46["selectedBatchPriceRecordId"])
+        self.assertEqual(len(grok46["pricingTiers"]), 2)
+        self.assertNotIn("redirectedBilling", grok46)
+        self.assertEqual(self.by_internal["xai/grok-4.5"]["lifecycleStatus"], "active")
+        self.assertEqual(self.by_internal["xai/grok-build-0.1"]["status"], "latest")
+
     def test_redirected_billing_is_owned_only_by_grok_3(self):
         owners = [
             row["canonicalInternalId"]
@@ -207,8 +225,8 @@ class WebsiteProjectionV2Tests(unittest.TestCase):
 
     def test_report_counts_and_parity_buckets(self):
         self.assertEqual(self.report["projectionModelCount"], len(self.rows))
-        self.assertEqual(self.report["projectionModelCount"], 49)
-        self.assertEqual(self.report["defaultSafeModelCount"], 41)
+        self.assertEqual(self.report["projectionModelCount"], 50)
+        self.assertEqual(self.report["defaultSafeModelCount"], 42)
         self.assertEqual(self.report["unsafeIdentityCount"], 8)
         self.assertEqual(self.report["nullPriceCount"], 8)
         self.assertEqual(self.report["parity"]["websiteModelCount"], 36)
@@ -457,17 +475,18 @@ class WebsiteProjectionV2Tests(unittest.TestCase):
         rows = self.audits["row_reconciliation"]
         unsafe = self.audits["unsafe_audit"]
         context = self.audits["context_audit"]
-        self.assertEqual(safe["stats"]["safePriceRecordsInput"], 38)
-        self.assertEqual(safe["stats"]["mappedToProjection"], 38)
+        self.assertEqual(safe["stats"]["safePriceRecordsInput"], 39)
+        self.assertEqual(safe["stats"]["mappedToProjection"], 39)
         self.assertEqual(safe["stats"]["unexplained"], 0)
-        self.assertEqual(rows["counts"]["canonical_model"], 46)
+        self.assertEqual(rows["counts"]["canonical_model"], 47)
         self.assertEqual(rows["counts"]["alias"], 2)
         self.assertEqual(rows["counts"]["redirecting_identity"], 1)
         self.assertEqual(unsafe["beforePhase4A5UnsafeDifferenceCount"], 5)
         self.assertEqual(unsafe["currentUnsafeDifferenceCount"], 4)
         self.assertEqual(len(unsafe["blockerUnsafeDifferences"]), 0)
-        self.assertEqual(context["contextWindowRows"], 49)
+        self.assertEqual(context["contextWindowRows"], 50)
         self.assertEqual(context["verifiedCanonicalContextWindowCount"], 0)
+        self.assertEqual(context["projectedNullCount"], 50)
 
 
 if __name__ == "__main__":

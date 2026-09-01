@@ -4991,6 +4991,118 @@
     "verificationStatus": "verified"
   },
   {
+    "billingNote": "Available on the xAI API since 2026-08-12. V1 stores short-context pricing. Canonical Pricing V2 tiers model standard prompt tokens < 200K and long-context prompt tokens >= 200K. Total prompt tokens include cached and non-cached prompt tokens, and the selected tier applies to the whole request. The xAI model page marks Batch API as not supported, so Batch fields remain null.",
+    "calculationDefault": true,
+    "charges": [
+      {
+        "amount": "2",
+        "chargeId": "price:xai/grok-4.6:standard:short:current:input:text:per_1m_tokens",
+        "component": "input",
+        "modality": "text",
+        "unit": "per_1m_tokens"
+      },
+      {
+        "amount": "0.5",
+        "chargeId": "price:xai/grok-4.6:standard:short:current:cached_input:text:per_1m_tokens",
+        "component": "cached_input",
+        "modality": "text",
+        "unit": "per_1m_tokens"
+      },
+      {
+        "amount": "6",
+        "chargeId": "price:xai/grok-4.6:standard:short:current:output:text:per_1m_tokens",
+        "component": "output",
+        "modality": "text",
+        "unit": "per_1m_tokens"
+      }
+    ],
+    "contextClass": "short",
+    "currency": "USD",
+    "effectiveFrom": null,
+    "effectiveUntil": null,
+    "modelInternalId": "xai/grok-4.6",
+    "pricingId": "price:xai/grok-4.6:standard:short:current",
+    "pricingStatus": "current",
+    "processingMode": "standard",
+    "promptTokenThreshold": 200000,
+    "regionPolicy": "global",
+    "sourceDatasetIds": {
+      "publicDatasetIds": [
+        "grok-4.6"
+      ],
+      "websiteIds": []
+    },
+    "sourceRefs": [
+      "source:xai:docs-x-ai-developers-advanced-api-usage-prompt-caching-usage-and-pricing-md",
+      "source:xai:docs-x-ai-developers-models-grok-4-6",
+      "source:xai:docs-x-ai-developers-pricing-md",
+      "source:xai:docs-x-ai-developers-release-notes"
+    ],
+    "tierSelection": {
+      "cachedPromptTokensIncluded": true,
+      "comparison": "less_than",
+      "tokenBasis": "total_prompt_tokens",
+      "wholeRequestPricing": true
+    },
+    "verificationStatus": "verified"
+  },
+  {
+    "billingNote": "Available on the xAI API since 2026-08-12. V1 stores short-context pricing. Canonical Pricing V2 tiers model standard prompt tokens < 200K and long-context prompt tokens >= 200K. Total prompt tokens include cached and non-cached prompt tokens, and the selected tier applies to the whole request. The xAI model page marks Batch API as not supported, so Batch fields remain null.",
+    "calculationDefault": false,
+    "charges": [
+      {
+        "amount": "4",
+        "chargeId": "price:xai/grok-4.6:standard:long:current:input:text:per_1m_tokens",
+        "component": "input",
+        "modality": "text",
+        "unit": "per_1m_tokens"
+      },
+      {
+        "amount": "1",
+        "chargeId": "price:xai/grok-4.6:standard:long:current:cached_input:text:per_1m_tokens",
+        "component": "cached_input",
+        "modality": "text",
+        "unit": "per_1m_tokens"
+      },
+      {
+        "amount": "12",
+        "chargeId": "price:xai/grok-4.6:standard:long:current:output:text:per_1m_tokens",
+        "component": "output",
+        "modality": "text",
+        "unit": "per_1m_tokens"
+      }
+    ],
+    "contextClass": "long",
+    "currency": "USD",
+    "effectiveFrom": null,
+    "effectiveUntil": null,
+    "modelInternalId": "xai/grok-4.6",
+    "pricingId": "price:xai/grok-4.6:standard:long:current",
+    "pricingStatus": "current",
+    "processingMode": "standard",
+    "promptTokenThreshold": 200000,
+    "regionPolicy": "global",
+    "sourceDatasetIds": {
+      "publicDatasetIds": [
+        "grok-4.6"
+      ],
+      "websiteIds": []
+    },
+    "sourceRefs": [
+      "source:xai:docs-x-ai-developers-advanced-api-usage-prompt-caching-usage-and-pricing-md",
+      "source:xai:docs-x-ai-developers-models-grok-4-6",
+      "source:xai:docs-x-ai-developers-pricing-md",
+      "source:xai:docs-x-ai-developers-release-notes"
+    ],
+    "tierSelection": {
+      "cachedPromptTokensIncluded": true,
+      "comparison": "greater_than_or_equal",
+      "tokenBasis": "total_prompt_tokens",
+      "wholeRequestPricing": true
+    },
+    "verificationStatus": "verified"
+  },
+  {
     "billingNote": "Fast coding model trained for agentic coding workflows.",
     "calculationDefault": true,
     "charges": [

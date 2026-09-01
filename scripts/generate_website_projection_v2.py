@@ -21,8 +21,8 @@ PROJECTION_ROW_RECONCILIATION = PREVIEW / "phase4a-5-projection-row-reconciliati
 UNSAFE_DIFFERENCE_AUDIT = PREVIEW / "phase4a-5-unsafe-difference-audit.json"
 CONTEXT_WINDOW_AUDIT = PREVIEW / "phase4a-5-context-window-audit.json"
 
-DEFAULT_GENERATED_AT = "2026-08-29T05:28:25Z"
-DEFAULT_EFFECTIVE_AT = "2026-08-29T05:28:24Z"
+DEFAULT_GENERATED_AT = "2026-08-31T17:11:59Z"
+DEFAULT_EFFECTIVE_AT = "2026-08-31T17:11:58Z"
 PROJECTION_SCHEMA_VERSION = "website-pricing-projection-v2.phase4a"
 WEBSITE_ROW_REQUIRED_FIELDS = ("id", "inputPrice", "cachedInputPrice", "outputPrice")
 DEFAULT_SELECTION_RULE = [
@@ -1181,7 +1181,7 @@ def build_phase45_audits(
     readiness = {
         "safeToEnterPhase4B": (
             safe_stats["unexplained"] == 0
-            and len(row_reconciliation_rows) == 38
+            and len(row_reconciliation_rows) == 39
             and len(unsafe_audit["blockerUnsafeDifferences"]) == 0
             and context_audit["projectedNullCount"] == context_audit["contextWindowRows"]
             and all(all(value is True for key, value in item.items() if key not in {"projectionRowId", "canonicalInternalId", "selectedPriceRecordId"}) for item in default_safe_review)

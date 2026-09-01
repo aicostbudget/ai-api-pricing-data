@@ -4,12 +4,12 @@
     "version": "1.0.0",
     "schema_version": "1.5.0",
     "page_url": "https://aicostbudget.com/en/datasets/ai-api-pricing",
-    "last_updated": "2026-08-29T05:28:25Z",
-    "last_verified_at": "2026-08-29T05:28:25Z",
-    "generated_at": "2026-08-29T11:08:08Z",
+    "last_updated": "2026-08-31T17:11:58Z",
+    "last_verified_at": "2026-08-31T17:11:58Z",
+    "generated_at": "2026-09-01T00:51:46Z",
     "provider_count": 7,
-    "record_count": 44,
-    "official_source_count": 13,
+    "record_count": 45,
+    "official_source_count": 14,
     "currency": "USD",
     "pricing_unit": "Multiple billing units",
     "statistics_scope": "public pricing records returned by the public pricing adapter with Pricing V2 enabled",
@@ -9937,7 +9937,7 @@
       "output_price_per_1m_tokens": 6,
       "currency": "USD",
       "pricing_unit": "1M tokens",
-      "status": "latest",
+      "status": "active",
       "availability": "Standard",
       "official_source_url": "https://docs.x.ai/developers/pricing",
       "verification_status": "verified",
@@ -10025,6 +10025,314 @@
           ],
           "source_urls": [
             "https://docs.x.ai/developers/pricing"
+          ],
+          "verification_status": "verified"
+        }
+      ],
+      "unit_price": null,
+      "billing_unit": null,
+      "billing_quantity": null,
+      "pricing_dimension": null
+    },
+    {
+      "provider_id": "xai",
+      "provider": "xAI",
+      "model_id": "grok-4.6",
+      "model": "Grok 4.6",
+      "input_price_per_1m_tokens": 2,
+      "cached_input_price_per_1m_tokens": 0.5,
+      "output_price_per_1m_tokens": 6,
+      "currency": "USD",
+      "pricing_unit": "1M tokens",
+      "status": "latest",
+      "availability": "Standard",
+      "official_source_url": "https://docs.x.ai/developers/advanced-api-usage/prompt-caching/usage-and-pricing.md",
+      "verification_status": "verified",
+      "last_verified_at": "2026-08-31",
+      "checked_at": "2026-08-31",
+      "effective_from": null,
+      "effective_until": null,
+      "notes": "Available on the xAI API since 2026-08-12. At 200K or more total prompt tokens, including cached tokens, xAI lists $4 input, $1 cached input, and $12 output per 1M tokens for the whole request. Grok 4.6 is not supported by the Batch API.",
+      "pricing_tier_count": 2,
+      "pricing_tiers": [
+        {
+          "id": "price:xai/grok-4.6:standard:long:current",
+          "pricing_id": "price:xai/grok-4.6:standard:long:current",
+          "label": "Long context",
+          "context_class": "long",
+          "calculation_default": false,
+          "prompt_token_threshold": 200000,
+          "comparison": "greater_than_or_equal",
+          "token_basis": "total_prompt_tokens",
+          "cached_prompt_tokens_included": true,
+          "whole_request_pricing": true,
+          "processing_mode": "standard",
+          "input_price_per_1m_tokens": 4,
+          "cached_input_price_per_1m_tokens": 1,
+          "output_price_per_1m_tokens": 12,
+          "currency": "USD",
+          "pricing_unit": "1M tokens",
+          "official_source_url": "https://docs.x.ai/developers/advanced-api-usage/prompt-caching/usage-and-pricing.md",
+          "source_refs": [
+            "source:xai:docs-x-ai-developers-advanced-api-usage-prompt-caching-usage-and-pricing-md",
+            "source:xai:docs-x-ai-developers-models-grok-4-6",
+            "source:xai:docs-x-ai-developers-pricing-md",
+            "source:xai:docs-x-ai-developers-release-notes"
+          ],
+          "last_verified_at": "2026-08-31",
+          "checked_at": "2026-08-31",
+          "verification_status": "verified"
+        },
+        {
+          "id": "price:xai/grok-4.6:standard:short:current",
+          "pricing_id": "price:xai/grok-4.6:standard:short:current",
+          "label": "Short context",
+          "context_class": "short",
+          "calculation_default": true,
+          "prompt_token_threshold": 200000,
+          "comparison": "less_than",
+          "token_basis": "total_prompt_tokens",
+          "cached_prompt_tokens_included": true,
+          "whole_request_pricing": true,
+          "processing_mode": "standard",
+          "input_price_per_1m_tokens": 2,
+          "cached_input_price_per_1m_tokens": 0.5,
+          "output_price_per_1m_tokens": 6,
+          "currency": "USD",
+          "pricing_unit": "1M tokens",
+          "official_source_url": "https://docs.x.ai/developers/advanced-api-usage/prompt-caching/usage-and-pricing.md",
+          "source_refs": [
+            "source:xai:docs-x-ai-developers-advanced-api-usage-prompt-caching-usage-and-pricing-md",
+            "source:xai:docs-x-ai-developers-models-grok-4-6",
+            "source:xai:docs-x-ai-developers-pricing-md",
+            "source:xai:docs-x-ai-developers-release-notes"
+          ],
+          "last_verified_at": "2026-08-31",
+          "checked_at": "2026-08-31",
+          "verification_status": "verified"
+        }
+      ],
+      "time_pricing": null,
+      "pricing_components": [
+        {
+          "pricing_id": "price:xai/grok-4.6:standard:long:current",
+          "charge_id": "price:xai/grok-4.6:standard:long:current:cached_input:text:per_1m_tokens",
+          "component": "cached_input",
+          "amount": "1",
+          "unit": "per_1m_tokens",
+          "currency": "USD",
+          "modality": "text",
+          "condition": {
+            "processing_mode": "standard",
+            "context_class": "long",
+            "prompt_token_threshold": 200000,
+            "tier_selection": {
+              "comparison": "greater_than_or_equal",
+              "token_basis": "total_prompt_tokens",
+              "cached_prompt_tokens_included": true,
+              "whole_request_pricing": true
+            },
+            "region_policy": "global",
+            "effective_from": null,
+            "effective_until": null
+          },
+          "calculation_default": false,
+          "source_refs": [
+            "source:xai:docs-x-ai-developers-advanced-api-usage-prompt-caching-usage-and-pricing-md",
+            "source:xai:docs-x-ai-developers-models-grok-4-6",
+            "source:xai:docs-x-ai-developers-pricing-md",
+            "source:xai:docs-x-ai-developers-release-notes"
+          ],
+          "source_urls": [
+            "https://docs.x.ai/developers/advanced-api-usage/prompt-caching/usage-and-pricing.md",
+            "https://docs.x.ai/developers/models/grok-4.6",
+            "https://docs.x.ai/developers/pricing.md",
+            "https://docs.x.ai/developers/release-notes"
+          ],
+          "verification_status": "verified"
+        },
+        {
+          "pricing_id": "price:xai/grok-4.6:standard:long:current",
+          "charge_id": "price:xai/grok-4.6:standard:long:current:input:text:per_1m_tokens",
+          "component": "input",
+          "amount": "4",
+          "unit": "per_1m_tokens",
+          "currency": "USD",
+          "modality": "text",
+          "condition": {
+            "processing_mode": "standard",
+            "context_class": "long",
+            "prompt_token_threshold": 200000,
+            "tier_selection": {
+              "comparison": "greater_than_or_equal",
+              "token_basis": "total_prompt_tokens",
+              "cached_prompt_tokens_included": true,
+              "whole_request_pricing": true
+            },
+            "region_policy": "global",
+            "effective_from": null,
+            "effective_until": null
+          },
+          "calculation_default": false,
+          "source_refs": [
+            "source:xai:docs-x-ai-developers-advanced-api-usage-prompt-caching-usage-and-pricing-md",
+            "source:xai:docs-x-ai-developers-models-grok-4-6",
+            "source:xai:docs-x-ai-developers-pricing-md",
+            "source:xai:docs-x-ai-developers-release-notes"
+          ],
+          "source_urls": [
+            "https://docs.x.ai/developers/advanced-api-usage/prompt-caching/usage-and-pricing.md",
+            "https://docs.x.ai/developers/models/grok-4.6",
+            "https://docs.x.ai/developers/pricing.md",
+            "https://docs.x.ai/developers/release-notes"
+          ],
+          "verification_status": "verified"
+        },
+        {
+          "pricing_id": "price:xai/grok-4.6:standard:long:current",
+          "charge_id": "price:xai/grok-4.6:standard:long:current:output:text:per_1m_tokens",
+          "component": "output",
+          "amount": "12",
+          "unit": "per_1m_tokens",
+          "currency": "USD",
+          "modality": "text",
+          "condition": {
+            "processing_mode": "standard",
+            "context_class": "long",
+            "prompt_token_threshold": 200000,
+            "tier_selection": {
+              "comparison": "greater_than_or_equal",
+              "token_basis": "total_prompt_tokens",
+              "cached_prompt_tokens_included": true,
+              "whole_request_pricing": true
+            },
+            "region_policy": "global",
+            "effective_from": null,
+            "effective_until": null
+          },
+          "calculation_default": false,
+          "source_refs": [
+            "source:xai:docs-x-ai-developers-advanced-api-usage-prompt-caching-usage-and-pricing-md",
+            "source:xai:docs-x-ai-developers-models-grok-4-6",
+            "source:xai:docs-x-ai-developers-pricing-md",
+            "source:xai:docs-x-ai-developers-release-notes"
+          ],
+          "source_urls": [
+            "https://docs.x.ai/developers/advanced-api-usage/prompt-caching/usage-and-pricing.md",
+            "https://docs.x.ai/developers/models/grok-4.6",
+            "https://docs.x.ai/developers/pricing.md",
+            "https://docs.x.ai/developers/release-notes"
+          ],
+          "verification_status": "verified"
+        },
+        {
+          "pricing_id": "price:xai/grok-4.6:standard:short:current",
+          "charge_id": "price:xai/grok-4.6:standard:short:current:cached_input:text:per_1m_tokens",
+          "component": "cached_input",
+          "amount": "0.5",
+          "unit": "per_1m_tokens",
+          "currency": "USD",
+          "modality": "text",
+          "condition": {
+            "processing_mode": "standard",
+            "context_class": "short",
+            "prompt_token_threshold": 200000,
+            "tier_selection": {
+              "comparison": "less_than",
+              "token_basis": "total_prompt_tokens",
+              "cached_prompt_tokens_included": true,
+              "whole_request_pricing": true
+            },
+            "region_policy": "global",
+            "effective_from": null,
+            "effective_until": null
+          },
+          "calculation_default": true,
+          "source_refs": [
+            "source:xai:docs-x-ai-developers-advanced-api-usage-prompt-caching-usage-and-pricing-md",
+            "source:xai:docs-x-ai-developers-models-grok-4-6",
+            "source:xai:docs-x-ai-developers-pricing-md",
+            "source:xai:docs-x-ai-developers-release-notes"
+          ],
+          "source_urls": [
+            "https://docs.x.ai/developers/advanced-api-usage/prompt-caching/usage-and-pricing.md",
+            "https://docs.x.ai/developers/models/grok-4.6",
+            "https://docs.x.ai/developers/pricing.md",
+            "https://docs.x.ai/developers/release-notes"
+          ],
+          "verification_status": "verified"
+        },
+        {
+          "pricing_id": "price:xai/grok-4.6:standard:short:current",
+          "charge_id": "price:xai/grok-4.6:standard:short:current:input:text:per_1m_tokens",
+          "component": "input",
+          "amount": "2",
+          "unit": "per_1m_tokens",
+          "currency": "USD",
+          "modality": "text",
+          "condition": {
+            "processing_mode": "standard",
+            "context_class": "short",
+            "prompt_token_threshold": 200000,
+            "tier_selection": {
+              "comparison": "less_than",
+              "token_basis": "total_prompt_tokens",
+              "cached_prompt_tokens_included": true,
+              "whole_request_pricing": true
+            },
+            "region_policy": "global",
+            "effective_from": null,
+            "effective_until": null
+          },
+          "calculation_default": true,
+          "source_refs": [
+            "source:xai:docs-x-ai-developers-advanced-api-usage-prompt-caching-usage-and-pricing-md",
+            "source:xai:docs-x-ai-developers-models-grok-4-6",
+            "source:xai:docs-x-ai-developers-pricing-md",
+            "source:xai:docs-x-ai-developers-release-notes"
+          ],
+          "source_urls": [
+            "https://docs.x.ai/developers/advanced-api-usage/prompt-caching/usage-and-pricing.md",
+            "https://docs.x.ai/developers/models/grok-4.6",
+            "https://docs.x.ai/developers/pricing.md",
+            "https://docs.x.ai/developers/release-notes"
+          ],
+          "verification_status": "verified"
+        },
+        {
+          "pricing_id": "price:xai/grok-4.6:standard:short:current",
+          "charge_id": "price:xai/grok-4.6:standard:short:current:output:text:per_1m_tokens",
+          "component": "output",
+          "amount": "6",
+          "unit": "per_1m_tokens",
+          "currency": "USD",
+          "modality": "text",
+          "condition": {
+            "processing_mode": "standard",
+            "context_class": "short",
+            "prompt_token_threshold": 200000,
+            "tier_selection": {
+              "comparison": "less_than",
+              "token_basis": "total_prompt_tokens",
+              "cached_prompt_tokens_included": true,
+              "whole_request_pricing": true
+            },
+            "region_policy": "global",
+            "effective_from": null,
+            "effective_until": null
+          },
+          "calculation_default": true,
+          "source_refs": [
+            "source:xai:docs-x-ai-developers-advanced-api-usage-prompt-caching-usage-and-pricing-md",
+            "source:xai:docs-x-ai-developers-models-grok-4-6",
+            "source:xai:docs-x-ai-developers-pricing-md",
+            "source:xai:docs-x-ai-developers-release-notes"
+          ],
+          "source_urls": [
+            "https://docs.x.ai/developers/advanced-api-usage/prompt-caching/usage-and-pricing.md",
+            "https://docs.x.ai/developers/models/grok-4.6",
+            "https://docs.x.ai/developers/pricing.md",
+            "https://docs.x.ai/developers/release-notes"
           ],
           "verification_status": "verified"
         }

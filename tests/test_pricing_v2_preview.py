@@ -180,6 +180,51 @@ class PricingV2PreviewTests(unittest.TestCase):
             "price:xai/grok-4.3:standard:short:current",
         )
 
+    def test_grok_4_6_canonical_and_v2_tiers_are_complete(self):
+        canonical = [
+            item for item in self.canonical_models
+            if item["provider_id"] == "xai" and item["model_id"] == "grok-4.6"
+        ]
+        self.assertEqual(len(canonical), 1)
+        model = canonical[0]
+        self.assertEqual(model["context_window_tokens"], 500000)
+        self.assertEqual(
+            {key: model["pricing"][key] for key in ("input", "cached_input", "output")},
+            {"input": 2.0, "cached_input": 0.5, "output": 6.0},
+        )
+        self.assertIsNone(model["pricing"]["batch_input"])
+        self.assertIsNone(model["pricing"]["batch_output"])
+        tiers = {tier["id"]: tier for tier in model["pricing_tiers"]}
+        self.assertEqual(
+            {key: tiers["long"][key] for key in ("input", "cached_input", "output")},
+            {"input": 4.0, "cached_input": 1.0, "output": 12.0},
+        )
+        self.assertEqual(tiers["short"]["threshold_comparison"], "less_than")
+        self.assertEqual(tiers["long"]["threshold_comparison"], "greater_than_or_equal")
+        for tier in tiers.values():
+            self.assertEqual(tier["prompt_token_threshold"], 200000)
+            self.assertEqual(tier["threshold_token_basis"], "total_prompt_tokens")
+            self.assertTrue(tier["cached_prompt_tokens_included"])
+            self.assertTrue(tier["whole_request_pricing"])
+
+        records = [
+            price for price in self.prices
+            if price["modelInternalId"] == "xai/grok-4.6"
+        ]
+        self.assertEqual(len(records), 2)
+        self.assertFalse(any(record["processingMode"] == "batch" for record in records))
+        by_context = {record["contextClass"]: record for record in records}
+        self.assertEqual(
+            {charge["component"]: charge["amount"] for charge in by_context["short"]["charges"]},
+            {"input": "2", "cached_input": "0.5", "output": "6"},
+        )
+        self.assertEqual(
+            {charge["component"]: charge["amount"] for charge in by_context["long"]["charges"]},
+            {"input": "4", "cached_input": "1", "output": "12"},
+        )
+        projected_model = self.model("xai/grok-4.6")
+        self.assertEqual(projected_model["lifecycleStatus"], "active")
+
     def test_openai_gpt56_terra_and_luna_tiers_and_boundaries(self):
         source_by_id = {source["sourceId"]: source for source in self.sources}
         expected_base = {
@@ -341,7 +386,7 @@ class PricingV2PreviewTests(unittest.TestCase):
         self.assertEqual(self.report["candidateUnionCount"], len(self.dispositions))
         self.assertEqual(self.report["websiteOnlyCount"], 13)
         self.assertEqual(self.report["publicOnlyCount"], 10)
-        self.assertEqual(self.report["commonCount"], 26)
+        self.assertEqual(self.report["commonCount"], 27)
         self.assertEqual(self.report["aliasCount"], 2)
         self.assertEqual(self.report["normalizedCanonicalIdentityCount"], len(self.models))
         self.assertEqual(self.report["candidateDispositionCounts"]["unresolved"], 3)
@@ -444,9 +489,9 @@ class PricingV2PreviewTests(unittest.TestCase):
 
     def test_phase2_5_default_safe_gate_counts(self):
         self.assertEqual(len(self.phase25_evidence), self.phase25_default_safe["totalPriceRecords"])
-        self.assertEqual(self.phase25_default_safe["productionDefaultCandidateCount"], 38)
-        self.assertEqual(self.phase25_default_safe["defaultSafeCount"], 38)
-        self.assertEqual(self.phase25_default_safe["defaultUnsafeCount"], 61)
+        self.assertEqual(self.phase25_default_safe["productionDefaultCandidateCount"], 39)
+        self.assertEqual(self.phase25_default_safe["defaultSafeCount"], 39)
+        self.assertEqual(self.phase25_default_safe["defaultUnsafeCount"], 62)
         self.assertEqual(self.phase25_default_safe["P0PartialBefore"], 4)
         self.assertEqual(self.phase25_default_safe["P0PartialAfter"], 0)
         self.assertEqual(self.phase25_default_safe["P1PartialCount"], 7)
@@ -467,10 +512,10 @@ class PricingV2PreviewTests(unittest.TestCase):
 
     def test_phase2_6_closes_p0_default_safe_gate(self):
         self.assertTrue(self.phase26_closure["closureGatePassed"])
-        self.assertEqual(self.phase26_closure["defaultCandidatesBefore"], 38)
-        self.assertEqual(self.phase26_closure["defaultCandidatesAfter"], 38)
-        self.assertEqual(self.phase26_closure["safeBefore"], 33)
-        self.assertEqual(self.phase26_closure["safeAfter"], 38)
+        self.assertEqual(self.phase26_closure["defaultCandidatesBefore"], 39)
+        self.assertEqual(self.phase26_closure["defaultCandidatesAfter"], 39)
+        self.assertEqual(self.phase26_closure["safeBefore"], 34)
+        self.assertEqual(self.phase26_closure["safeAfter"], 39)
         self.assertEqual(self.phase26_closure["unsafeBefore"], 5)
         self.assertEqual(self.phase26_closure["unsafeAfter"], 0)
         self.assertEqual(self.phase26_resolution["P0BlockersAfter"], [])
@@ -491,7 +536,7 @@ class PricingV2PreviewTests(unittest.TestCase):
         self.assertEqual(self.phase25_readiness["defaultPricingReadiness"], "ready")
         counts = self.phase25_readiness["websiteIntegrationActionCounts"]
         self.assertEqual(sum(counts.values()), len(self.phase25_blockers))
-        self.assertEqual(counts["safe_to_integrate"], 169)
+        self.assertEqual(counts["safe_to_integrate"], 173)
         self.assertEqual(counts["integrate_with_warning"], 8)
         self.assertEqual(counts.get("exclude_from_default", 0), 0)
         self.assertEqual(counts["keep_existing_temporarily"], 13)
@@ -513,7 +558,7 @@ class PricingV2PreviewTests(unittest.TestCase):
         action_counts = {}
         for row in self.phase3_mapping:
             action_counts[row["action"]] = action_counts.get(row["action"], 0) + 1
-        self.assertEqual(action_counts["safe_to_integrate"], 169)
+        self.assertEqual(action_counts["safe_to_integrate"], 173)
         self.assertEqual(action_counts["integrate_with_warning"], 8)
         self.assertEqual(action_counts["keep_existing_temporarily"], 13)
         self.assertEqual(self.phase3_readiness["implementationReadiness"], "blocked")

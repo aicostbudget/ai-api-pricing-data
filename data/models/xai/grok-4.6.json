@@ -1,0 +1,65 @@
+{
+  "accessed_at": "2026-08-31T17:11:58Z",
+  "context_window_tokens": 500000,
+  "display_name": "Grok 4.6",
+  "effective_from": null,
+  "last_verified_at": "2026-08-31T17:11:58Z",
+  "model_family": "Grok 4",
+  "model_id": "grok-4.6",
+  "notes": "Available on the xAI API since 2026-08-12. V1 stores short-context pricing. Canonical Pricing V2 tiers model standard prompt tokens < 200K and long-context prompt tokens >= 200K. Total prompt tokens include cached and non-cached prompt tokens, and the selected tier applies to the whole request. The xAI model page marks Batch API as not supported, so Batch fields remain null.",
+  "official_source_url": "https://docs.x.ai/developers/models/grok-4.6",
+  "official_source_urls": [
+    "https://docs.x.ai/developers/pricing.md",
+    "https://docs.x.ai/developers/models/grok-4.6",
+    "https://docs.x.ai/developers/release-notes",
+    "https://docs.x.ai/developers/advanced-api-usage/prompt-caching/usage-and-pricing.md"
+  ],
+  "pricing": {
+    "batch_input": null,
+    "batch_output": null,
+    "cache_write": null,
+    "cache_write_1h": null,
+    "cached_input": 0.5,
+    "currency": "USD",
+    "input": 2.0,
+    "output": 6.0,
+    "unit": "1M tokens"
+  },
+  "pricing_tiers": [
+    {
+      "cached_input": 0.5,
+      "cached_prompt_tokens_included": true,
+      "calculation_default": true,
+      "currency": "USD",
+      "id": "short",
+      "input": 2.0,
+      "output": 6.0,
+      "pricing_status": "current",
+      "processing_mode": "standard",
+      "prompt_token_threshold": 200000,
+      "threshold_comparison": "less_than",
+      "threshold_token_basis": "total_prompt_tokens",
+      "unit": "1M tokens",
+      "whole_request_pricing": true
+    },
+    {
+      "cached_input": 1.0,
+      "cached_prompt_tokens_included": true,
+      "calculation_default": false,
+      "currency": "USD",
+      "id": "long",
+      "input": 4.0,
+      "output": 12.0,
+      "pricing_status": "current",
+      "processing_mode": "standard",
+      "prompt_token_threshold": 200000,
+      "threshold_comparison": "greater_than_or_equal",
+      "threshold_token_basis": "total_prompt_tokens",
+      "unit": "1M tokens",
+      "whole_request_pricing": true
+    }
+  ],
+  "provider_id": "xai",
+  "release_stage": "stable",
+  "status": "active"
+}

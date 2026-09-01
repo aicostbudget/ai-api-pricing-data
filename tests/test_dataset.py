@@ -49,7 +49,7 @@ class DatasetTests(unittest.TestCase):
         self.assertEqual(len({item["provider_id"] for item in providers}), len(providers))
         self.assertEqual(len({(item["provider_id"], item["model_id"]) for item in models}), len(models))
         self.assertEqual(len(providers), 7)
-        self.assertEqual(len(models), 36)
+        self.assertEqual(len(models), 37)
 
     def test_cohere_parse_uses_page_billing_without_token_prices(self):
         by_key = {(model["provider_id"], model["model_id"]): model for model in load_models()}
