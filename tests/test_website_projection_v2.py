@@ -188,7 +188,7 @@ class WebsiteProjectionV2Tests(unittest.TestCase):
         self.assertEqual(len(grok46["pricingTiers"]), 2)
         self.assertNotIn("redirectedBilling", grok46)
         self.assertEqual(self.by_internal["xai/grok-4.5"]["lifecycleStatus"], "active")
-        self.assertEqual(self.by_internal["xai/grok-build-0.1"]["status"], "latest")
+        self.assertEqual(self.by_internal["xai/grok-build-0.1"]["status"], "active")
 
     def test_redirected_billing_is_owned_only_by_grok_3(self):
         owners = [
