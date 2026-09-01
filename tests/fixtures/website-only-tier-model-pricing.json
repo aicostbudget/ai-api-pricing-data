@@ -1,0 +1,48 @@
+{
+  "id": "test-tiered-website-only",
+  "provider": "Test Provider",
+  "model": "Synthetic Tiered Website Model",
+  "status": "active",
+  "availability": "Test",
+  "inputPrice": 1,
+  "cachedInputPrice": 0.2,
+  "outputPrice": 2,
+  "lastUpdated": "2026-01-01",
+  "lastVerifiedAt": "2026-01-01T00:00:00Z",
+  "officialPriceUrl": "https://example.com/pricing",
+  "verificationStatus": "verified",
+  "pricing_tiers": [
+    {
+      "id": "short",
+      "processing_mode": "standard",
+      "pricing_status": "current",
+      "prompt_token_threshold": 200000,
+      "threshold_comparison": "less_than",
+      "threshold_token_basis": "total_prompt_tokens",
+      "cached_prompt_tokens_included": true,
+      "whole_request_pricing": true,
+      "calculation_default": true,
+      "currency": "USD",
+      "unit": "1M tokens",
+      "input": 1,
+      "cached_input": 0.2,
+      "output": 2
+    },
+    {
+      "id": "long",
+      "processing_mode": "standard",
+      "pricing_status": "current",
+      "prompt_token_threshold": 200000,
+      "threshold_comparison": "greater_than_or_equal",
+      "threshold_token_basis": "total_prompt_tokens",
+      "cached_prompt_tokens_included": true,
+      "whole_request_pricing": true,
+      "calculation_default": false,
+      "currency": "USD",
+      "unit": "1M tokens",
+      "input": 2,
+      "cached_input": 0.4,
+      "output": 4
+    }
+  ]
+}

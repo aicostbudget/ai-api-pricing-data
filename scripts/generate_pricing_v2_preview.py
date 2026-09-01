@@ -2,6 +2,7 @@ from __future__ import annotations
 
 import argparse
 import json
+import math
 import time
 from collections import defaultdict
 from datetime import date, datetime
@@ -1716,6 +1717,108 @@ def number_or_none(value: str | None) -> float | int | None:
     return float(decimal)
 
 
+TIER_COMPARISONS = {
+    "less_than",
+    "less_than_or_equal",
+    "greater_than",
+    "greater_than_or_equal",
+}
+
+
+def _valid_tier_price(value: Any) -> bool:
+    return (
+        isinstance(value, (int, float))
+        and not isinstance(value, bool)
+        and math.isfinite(value)
+        and value >= 0
+    )
+
+
+def _tier_matches_prompt_tokens(tier: dict[str, Any], prompt_tokens: int) -> bool:
+    comparison = tier["threshold_comparison"]
+    threshold = tier["prompt_token_threshold"]
+    if comparison == "less_than":
+        return prompt_tokens < threshold
+    if comparison == "less_than_or_equal":
+        return prompt_tokens <= threshold
+    if comparison == "greater_than":
+        return prompt_tokens > threshold
+    return prompt_tokens >= threshold
+
+
+def validate_website_pricing_tiers(website: dict[str, Any]) -> list[dict[str, Any]] | None:
+    """Validate the optional Website source contract using canonical tier semantics."""
+    tiers = website.get("pricing_tiers")
+    if tiers is None:
+        return None
+    model_id = website.get("id", "(unknown)")
+    if not isinstance(tiers, list) or len(tiers) < 2:
+        raise ValueError(f"Website pricing_tiers for {model_id} must contain at least two tiers")
+
+    tier_ids: set[str] = set()
+    selectors: set[tuple[str, int, str]] = set()
+    defaults = 0
+    thresholds: set[int] = set()
+    for index, tier in enumerate(tiers):
+        label = f"Website pricing_tiers for {model_id} tier {index}"
+        if not isinstance(tier, dict):
+            raise ValueError(f"{label} must be an object")
+        tier_id = tier.get("id")
+        if not isinstance(tier_id, str) or not tier_id:
+            raise ValueError(f"{label} is missing id")
+        if tier_id in tier_ids:
+            raise ValueError(f"Website pricing_tiers for {model_id} contain duplicate tier id {tier_id}")
+        tier_ids.add(tier_id)
+
+        for field, expected in (
+            ("processing_mode", "standard"),
+            ("pricing_status", "current"),
+            ("threshold_token_basis", "total_prompt_tokens"),
+            ("currency", "USD"),
+            ("unit", "1M tokens"),
+        ):
+            if tier.get(field) != expected:
+                raise ValueError(f"{label} has invalid {field}")
+        comparison = tier.get("threshold_comparison")
+        if comparison not in TIER_COMPARISONS:
+            raise ValueError(f"{label} has invalid threshold_comparison")
+        threshold = tier.get("prompt_token_threshold")
+        if not isinstance(threshold, int) or isinstance(threshold, bool) or threshold <= 0:
+            raise ValueError(f"{label} has invalid prompt_token_threshold")
+        thresholds.add(threshold)
+        selector = (comparison, threshold, tier["threshold_token_basis"])
+        if selector in selectors:
+            raise ValueError(f"Website pricing_tiers for {model_id} contain duplicate/conflicting tiers")
+        selectors.add(selector)
+
+        for field in ("cached_prompt_tokens_included", "whole_request_pricing"):
+            if tier.get(field) is not True:
+                raise ValueError(f"{label} requires {field}=true")
+        if not isinstance(tier.get("calculation_default"), bool):
+            raise ValueError(f"{label} is missing calculation_default")
+        defaults += int(tier["calculation_default"])
+
+        for field in ("input", "output"):
+            if not _valid_tier_price(tier.get(field)):
+                raise ValueError(f"{label} has invalid or missing {field} price")
+        if tier.get("cached_input") is not None and not _valid_tier_price(tier["cached_input"]):
+            raise ValueError(f"{label} has invalid cached_input price")
+
+    if defaults != 1:
+        raise ValueError(f"Website pricing_tiers for {model_id} require exactly one calculation_default tier")
+
+    sample_points = {0}
+    for threshold in thresholds:
+        sample_points.update({threshold - 1, threshold, threshold + 1})
+    for prompt_tokens in sorted(point for point in sample_points if point >= 0):
+        matches = sum(_tier_matches_prompt_tokens(tier, prompt_tokens) for tier in tiers)
+        if matches != 1:
+            raise ValueError(
+                f"Website pricing_tiers for {model_id} contain conflicting tiers or gaps at {prompt_tokens} prompt tokens"
+            )
+    return tiers
+
+
 def internal_id(provider_id: str, model_id: str) -> str:
     return f"{provider_id}/{model_id}"
 
@@ -1871,6 +1974,70 @@ def make_charges(
                 }
             )
     return charges
+
+
+def build_tier_price_record(
+    model_internal_id: str,
+    tier: dict[str, Any],
+    *,
+    effective_from: str | None,
+    source_refs: list[str],
+    billing_note: str,
+    verification: str,
+    source_dataset_ids: dict[str, list[str]],
+) -> dict[str, Any]:
+    tier_id = (
+        f"price:{model_internal_id}:{tier['processing_mode']}:"
+        f"{tier['id']}:{tier['pricing_status']}"
+    )
+    return {
+        "pricingId": tier_id,
+        "modelInternalId": model_internal_id,
+        "processingMode": tier["processing_mode"],
+        "pricingStatus": tier["pricing_status"],
+        "contextClass": tier["id"],
+        "regionPolicy": "global",
+        "promptTokenThreshold": tier["prompt_token_threshold"],
+        "tierSelection": {
+            "comparison": tier["threshold_comparison"],
+            "tokenBasis": tier["threshold_token_basis"],
+            "cachedPromptTokensIncluded": tier["cached_prompt_tokens_included"],
+            "wholeRequestPricing": tier["whole_request_pricing"],
+        },
+        "effectiveFrom": effective_from,
+        "effectiveUntil": None,
+        "currency": tier["currency"],
+        "charges": make_charges(tier_id, tier, "public"),
+        "sourceRefs": source_refs,
+        "billingNote": billing_note,
+        "verificationStatus": verification,
+        "calculationDefault": tier["calculation_default"],
+        "sourceDatasetIds": source_dataset_ids,
+    }
+
+
+def build_website_tier_price_records(
+    model_internal_id: str,
+    website: dict[str, Any],
+    *,
+    source_refs: list[str],
+    verification: str,
+) -> list[dict[str, Any]] | None:
+    tiers = validate_website_pricing_tiers(website)
+    if tiers is None:
+        return None
+    return [
+        build_tier_price_record(
+            model_internal_id,
+            tier,
+            effective_from=website.get("lastUpdated"),
+            source_refs=source_refs,
+            billing_note=website.get("priceNote", ""),
+            verification=verification,
+            source_dataset_ids={"publicDatasetIds": [], "websiteIds": [website["id"]]},
+        )
+        for tier in tiers
+    ]
 
 
 def price_lookup(record: dict[str, Any]) -> dict[str, str | None]:
@@ -2222,39 +2389,21 @@ def main() -> None:
             pricing_tiers = public.get("pricing_tiers", [])
             if pricing_tiers:
                 default_tier_record = None
+                tier_source_refs = source_refs_for(provider_id, public, None, source_by_url)
                 for tier in pricing_tiers:
-                    tier_id = (
-                        f"price:{model_internal_id}:{tier['processing_mode']}:"
-                        f"{tier['id']}:{tier['pricing_status']}"
-                    )
-                    tier_record = {
-                        "pricingId": tier_id,
-                        "modelInternalId": model_internal_id,
-                        "processingMode": tier["processing_mode"],
-                        "pricingStatus": tier["pricing_status"],
-                        "contextClass": tier["id"],
-                        "regionPolicy": "global",
-                        "promptTokenThreshold": tier["prompt_token_threshold"],
-                        "tierSelection": {
-                            "comparison": tier["threshold_comparison"],
-                            "tokenBasis": tier["threshold_token_basis"],
-                            "cachedPromptTokensIncluded": tier["cached_prompt_tokens_included"],
-                            "wholeRequestPricing": tier["whole_request_pricing"],
-                        },
-                        "effectiveFrom": public.get("effective_from"),
-                        "effectiveUntil": None,
-                        "currency": tier["currency"],
-                        "charges": make_charges(tier_id, tier, "public"),
+                    tier_record = build_tier_price_record(
+                        model_internal_id,
+                        tier,
+                        effective_from=public.get("effective_from"),
                         # Canonical tier records must not inherit legacy website pricing provenance.
-                        "sourceRefs": source_refs_for(provider_id, public, None, source_by_url),
-                        "billingNote": public.get("notes", ""),
-                        "verificationStatus": verification,
-                        "calculationDefault": tier["calculation_default"],
-                        "sourceDatasetIds": {
+                        source_refs=tier_source_refs,
+                        billing_note=public.get("notes", ""),
+                        verification=verification,
+                        source_dataset_ids={
                             "publicDatasetIds": [public["model_id"]],
                             "websiteIds": [],
                         },
-                    }
+                    )
                     add_price(model_internal_id, tier_record)
                     if tier_record["calculationDefault"]:
                         if default_tier_record is not None:
@@ -2419,8 +2568,18 @@ def main() -> None:
                     },
                 )
         elif website:
-            pricing_id = f"price:{model_internal_id}:standard:short:website-preview"
             verification = "review_required" if (provider_id, model_id) in REVIEW_REQUIRED_IDS else website.get("verificationStatus", "partially_verified")
+            website_tier_records = build_website_tier_price_records(
+                model_internal_id,
+                website,
+                source_refs=source_refs_for(provider_id, None, website, source_by_url),
+                verification=verification,
+            )
+            if website_tier_records:
+                for tier_record in website_tier_records:
+                    add_price(model_internal_id, tier_record)
+                continue
+            pricing_id = f"price:{model_internal_id}:standard:short:website-preview"
             if pricing_id in PHASE26_OFFICIAL_COMPLETION:
                 verification = "verified"
             excluded_from_default = model_internal_id in PHASE26_EXCLUDED_DEFAULT_MODELS
