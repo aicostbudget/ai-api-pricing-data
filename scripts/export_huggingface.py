@@ -50,6 +50,14 @@ CSV_HEADERS = (
     "billing_quantity",
     "pricing_dimension",
 )
+VIEWER_OMITTED_FIELDS = frozenset(
+    {
+        "pricing_tiers_json",
+        "time_pricing_json",
+        "pricing_components_json",
+    }
+)
+VIEWER_CSV_HEADERS = tuple(field for field in CSV_HEADERS if field not in VIEWER_OMITTED_FIELDS)
 PUBLIC_SCHEMA_VERSION = "1.5.0"
 PUBLIC_VERIFICATION_STATUSES = {
     "verified",
@@ -529,28 +537,31 @@ def validate_payload(
         raise ValueError("Hugging Face generated_at precedes max(checked_at)")
 
 
-def csv_text(records: list[dict[str, Any]]) -> str:
+def csv_text(
+    records: list[dict[str, Any]],
+    fieldnames: tuple[str, ...] = CSV_HEADERS,
+) -> str:
     output = io.StringIO(newline="")
-    writer = csv.DictWriter(output, fieldnames=CSV_HEADERS, lineterminator="\n")
+    writer = csv.DictWriter(output, fieldnames=fieldnames, lineterminator="\n")
     writer.writeheader()
-    writer.writerows(
-        {
+    for record in records:
+        serialized = {
             **{key: value for key, value in record.items() if key not in {"pricing_tiers", "time_pricing", "pricing_components"}},
             "pricing_tiers_json": json.dumps(record["pricing_tiers"], separators=(",", ":"), ensure_ascii=False),
             "time_pricing_json": json.dumps(record["time_pricing"], separators=(",", ":"), ensure_ascii=False),
             "pricing_components_json": json.dumps(record["pricing_components"], separators=(",", ":"), ensure_ascii=False),
         }
-        for record in records
-    )
+        writer.writerow({field: serialized.get(field) for field in fieldnames})
     return output.getvalue()
 
 
 def artifact_contents(payload: dict[str, Any]) -> dict[str, str]:
-    csv_payload = csv_text(payload["records"])
+    full_csv_payload = csv_text(payload["records"])
+    viewer_csv_payload = csv_text(payload["records"], VIEWER_CSV_HEADERS)
     return {
         "prices.json": json.dumps(payload, indent=2, ensure_ascii=False) + "\n",
-        "prices.csv": csv_payload,
-        "train.csv": csv_payload,
+        "prices.csv": full_csv_payload,
+        "train.csv": viewer_csv_payload,
         "meta.json": json.dumps(payload["metadata"], indent=2, ensure_ascii=False) + "\n",
     }
 
