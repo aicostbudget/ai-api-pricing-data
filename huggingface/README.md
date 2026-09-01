@@ -44,12 +44,14 @@ Use the current pricing dataset to estimate a real AI API workload, compare mode
 
 ## Published files
 
-- `train.csv`: the CSV consumed by the Hugging Face Dataset Viewer
-- `prices.csv`: the same normalized CSV download
+- `train.csv`: a lightweight CSV projection consumed by the Hugging Face Dataset Viewer
+- `prices.csv`: the complete normalized CSV download
 - `prices.json`: metadata plus the complete public Website record set
 - `meta.json`: generation time, verification date, and coverage counts for this export
 
-`train.csv` and `prices.csv` are byte-for-byte identical. Unknown or unavailable prices are `null` in JSON and empty in CSV; they are never rewritten as zero.
+`train.csv` intentionally omits the large serialized `pricing_tiers_json`, `time_pricing_json`, and `pricing_components_json` columns for Dataset Viewer usability. It preserves every exported model and all other CSV fields. Complete tier, time, and component pricing details remain available in `prices.csv` and `prices.json`.
+
+Unknown or unavailable prices are `null` in JSON and empty in CSV; they are never rewritten as zero.
 
 ## Distribution rule
 

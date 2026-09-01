@@ -8,11 +8,15 @@ from datetime import datetime, timezone
 from pathlib import Path
 
 from scripts.export_huggingface import (
+    CSV_HEADERS,
     FORBIDDEN_UTM,
     HF_DIR,
     META_PATH,
     PROJECTION_PATH,
     REQUIRED_UTM,
+    VIEWER_CSV_HEADERS,
+    VIEWER_OMITTED_FIELDS,
+    artifact_contents,
     date_only,
     expected_public_keys,
     parse_date,
@@ -29,18 +33,73 @@ class HuggingFaceExportTests(unittest.TestCase):
         cls.metadata = cls.payload["metadata"]
         cls.records = cls.payload["records"]
         cls.projection = json.loads(PROJECTION_PATH.read_text(encoding="utf-8"))
+        with (HF_DIR / "prices.csv").open(encoding="utf-8", newline="") as handle:
+            reader = csv.DictReader(handle)
+            cls.prices_csv_headers = tuple(reader.fieldnames or ())
+            cls.prices_csv_rows = list(reader)
+        with (HF_DIR / "train.csv").open(encoding="utf-8", newline="") as handle:
+            reader = csv.DictReader(handle)
+            cls.train_csv_headers = tuple(reader.fieldnames or ())
+            cls.train_csv_rows = list(reader)
 
     def test_export_artifacts_are_internally_consistent(self):
         validate_huggingface_artifacts()
-        self.assertEqual((HF_DIR / "train.csv").read_bytes(), (HF_DIR / "prices.csv").read_bytes())
-        with (HF_DIR / "train.csv").open(encoding="utf-8", newline="") as handle:
-            self.assertEqual(len(list(csv.DictReader(handle))), len(self.records))
-        self.assertEqual(
-            hashlib.sha256((HF_DIR / "train.csv").read_bytes()).hexdigest(),
-            hashlib.sha256((HF_DIR / "prices.csv").read_bytes()).hexdigest(),
-        )
         self.assertEqual(self.metadata["schema_version"], "1.5.0")
         self.assertEqual(self.metadata["last_verified_at"], self.metadata["last_updated"])
+
+    def test_viewer_projection_preserves_rows_identities_providers_and_values(self):
+        json_keys = {(row["provider_id"], row["model_id"]) for row in self.records}
+        prices_by_key = {
+            (row["provider_id"], row["model_id"]): row
+            for row in self.prices_csv_rows
+        }
+        train_by_key = {
+            (row["provider_id"], row["model_id"]): row
+            for row in self.train_csv_rows
+        }
+
+        self.assertEqual(len(self.train_csv_rows), len(self.prices_csv_rows))
+        self.assertEqual(len(self.train_csv_rows), len(self.records))
+        self.assertEqual(set(train_by_key), set(prices_by_key))
+        self.assertEqual(set(train_by_key), json_keys)
+        self.assertEqual(
+            {row["provider_id"] for row in self.train_csv_rows},
+            {row["provider_id"] for row in self.prices_csv_rows},
+        )
+        self.assertEqual(len({row["provider_id"] for row in self.train_csv_rows}), 7)
+        self.assertIn("xai", {row["provider_id"] for row in self.train_csv_rows})
+        for key, train_row in train_by_key.items():
+            self.assertEqual(
+                train_row,
+                {field: prices_by_key[key][field] for field in VIEWER_CSV_HEADERS},
+                key,
+            )
+
+    def test_viewer_projection_omits_only_heavy_serialized_fields(self):
+        self.assertEqual(self.prices_csv_headers, CSV_HEADERS)
+        self.assertEqual(self.train_csv_headers, VIEWER_CSV_HEADERS)
+        self.assertEqual(set(CSV_HEADERS) - set(VIEWER_CSV_HEADERS), VIEWER_OMITTED_FIELDS)
+        self.assertTrue(VIEWER_OMITTED_FIELDS.isdisjoint(self.train_csv_headers))
+        self.assertTrue(VIEWER_OMITTED_FIELDS.issubset(self.prices_csv_headers))
+        self.assertIn("pricing_tier_count", self.train_csv_headers)
+        self.assertIn("official_source_url", self.train_csv_headers)
+
+    def test_viewer_projection_is_deterministic_and_covers_all_xai_models(self):
+        first = artifact_contents(self.payload)["train.csv"]
+        second = artifact_contents(self.payload)["train.csv"]
+        self.assertEqual(first, second)
+        prices_xai = {
+            row["model_id"] for row in self.prices_csv_rows if row["provider_id"] == "xai"
+        }
+        train_xai = {
+            row["model_id"] for row in self.train_csv_rows if row["provider_id"] == "xai"
+        }
+        json_xai = {
+            row["model_id"] for row in self.records if row["provider_id"] == "xai"
+        }
+        self.assertEqual(train_xai, prices_xai)
+        self.assertEqual(train_xai, json_xai)
+        self.assertEqual(len(train_xai), 5)
 
     def test_export_matches_full_public_website_key_set(self):
         actual = {(row["provider_id"], row["model_id"]) for row in self.records}

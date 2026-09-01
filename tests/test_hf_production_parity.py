@@ -26,6 +26,12 @@ CSV_FIELDS = (
     "last_verified_at",
     "checked_at",
 )
+FULL_CSV_FIELDS = (
+    *CSV_FIELDS,
+    "pricing_tiers_json",
+    "time_pricing_json",
+    "pricing_components_json",
+)
 
 
 def record(model_id, *, status="verified", verified="2026-08-01", checked="2026-08-01"):
@@ -41,9 +47,9 @@ def record(model_id, *, status="verified", verified="2026-08-01", checked="2026-
     }
 
 
-def csv_bytes(records):
+def csv_bytes(records, fieldnames=CSV_FIELDS):
     output = io.StringIO(newline="")
-    writer = csv.DictWriter(output, fieldnames=CSV_FIELDS, lineterminator="\n")
+    writer = csv.DictWriter(output, fieldnames=fieldnames, lineterminator="\n")
     writer.writeheader()
     writer.writerows(records)
     return output.getvalue().encode()
@@ -61,11 +67,19 @@ def build_snapshot():
     ]
     metadata = {"record_count": 2, "generated_at": "2026-08-03T00:00:00Z"}
     prices = {"metadata": metadata, "records": records}
-    csv_payload = csv_bytes(records)
+    full_csv_records = [
+        {
+            **item,
+            "pricing_tiers_json": "[]",
+            "time_pricing_json": "null",
+            "pricing_components_json": "[]",
+        }
+        for item in records
+    ]
     return {
         "prices.json": (json.dumps(prices, indent=2) + "\n").encode(),
-        "prices.csv": csv_payload,
-        "train.csv": csv_payload,
+        "prices.csv": csv_bytes(full_csv_records, FULL_CSV_FIELDS),
+        "train.csv": csv_bytes(records),
         "meta.json": (json.dumps(metadata, indent=2) + "\n").encode(),
     }
 
@@ -178,6 +192,18 @@ class HuggingFaceProductionParityTests(unittest.TestCase):
         snapshot["prices.csv"] = text.replace("\n", "\r\n").encode()
         drifts = self.assert_data_drift(snapshot)
         self.assertTrue(any(d.artifact == "prices.csv" and d.field == "input_price_per_1m_tokens" for d in drifts))
+
+    def test_viewer_csv_drift_is_checked_independently(self):
+        snapshot = dict(self.expected)
+        snapshot["train.csv"] = snapshot["train.csv"].replace(b"1.25", b"7.50", 1)
+        drifts = self.assert_data_drift(snapshot)
+        self.assertTrue(
+            any(
+                drift.artifact == "train.csv"
+                and drift.field == "input_price_per_1m_tokens"
+                for drift in drifts
+            )
+        )
 
     def test_meta_json_drift_fails(self):
         snapshot = self.mutated_json(
