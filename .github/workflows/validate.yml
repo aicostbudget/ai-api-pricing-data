@@ -4,12 +4,16 @@ on:
   push:
   pull_request:
 
+permissions:
+  contents: read
+
 jobs:
   validate:
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v5
       - name: Checkout Website public pricing source
+        if: github.event_name != 'pull_request' || (github.event.pull_request.head.repo.full_name == github.repository && github.actor != 'dependabot[bot]')
         uses: actions/checkout@v5
         with:
           repository: linqiang-max/aicostbudget
@@ -25,14 +29,13 @@ jobs:
         with:
           node-version: "24"
       - name: Install Website dependencies
+        if: github.event_name != 'pull_request' || (github.event.pull_request.head.repo.full_name == github.repository && github.actor != 'dependabot[bot]')
         run: npm ci --ignore-scripts --no-audit --no-fund
         working-directory: website-source
       - name: Build generated data
         run: python scripts/build.py --output-root "$RUNNER_TEMP/pricing-build"
       - name: Validate dataset
         run: python scripts/validate.py
-      - name: Check Hugging Face export parity with Website
-        run: python scripts/export_huggingface.py --website-repo website-source --website-ref HEAD --check
       - name: Run tests
         run: python -m unittest discover -s tests
 

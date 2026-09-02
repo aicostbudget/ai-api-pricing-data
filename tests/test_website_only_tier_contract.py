@@ -17,13 +17,19 @@ ROOT = Path(__file__).resolve().parents[1]
 FIXTURE = ROOT / "tests" / "fixtures" / "website-only-tier-model-pricing.json"
 
 
-def resolve_website_root(root=ROOT, environ=os.environ):
+def resolve_website_root(
+    root=ROOT,
+    environ=os.environ,
+    *,
+    required=True,
+    fallback_root=Path(r"D:\ai-cost-control-tool\aicostguard-english"),
+):
     candidates = []
     configured_root = environ.get("AICOSTBUDGET_WEBSITE_ROOT")
     if configured_root:
         candidates.append(Path(configured_root).expanduser())
     candidates.extend(
-        [root / "website-source", Path(r"D:\ai-cost-control-tool\aicostguard-english")]
+        [root / "website-source", fallback_root]
     )
 
     for candidate in candidates:
@@ -31,14 +37,21 @@ def resolve_website_root(root=ROOT, environ=os.environ):
         if candidate.is_dir() and consumer_test.is_file():
             return candidate
 
+    if not required:
+        return None
+
     checked = "\n".join(f"- {candidate}" for candidate in candidates)
     raise FileNotFoundError(
         "Unable to locate the AICostBudget Website checkout. Checked:\n" + checked
     )
 
 
-WEBSITE_ROOT = resolve_website_root()
-CONSUMER_TEST = WEBSITE_ROOT / "scripts" / "test-website-only-tier-contract.mjs"
+WEBSITE_ROOT = resolve_website_root(required=False)
+CONSUMER_TEST = (
+    WEBSITE_ROOT / "scripts" / "test-website-only-tier-contract.mjs"
+    if WEBSITE_ROOT is not None
+    else None
+)
 
 
 class WebsiteOnlyTierContractTests(unittest.TestCase):
@@ -112,6 +125,9 @@ class WebsiteOnlyTierContractTests(unittest.TestCase):
                 ci_root / "website-source",
             )
 
+        if CONSUMER_TEST is None:
+            self.skipTest("private Website checkout is unavailable for this pull request")
+
         records = self.generated_records()
         model = {
             "inputPrice": 1,
@@ -133,6 +149,24 @@ class WebsiteOnlyTierContractTests(unittest.TestCase):
             f"production resolver test failed\nstdout:\n{result.stdout}\nstderr:\n{result.stderr}",
         )
         self.assertIn("website-only generic tier resolver tests passed", result.stdout)
+
+    def test_missing_website_checkout_is_optional_only_when_requested(self):
+        with tempfile.TemporaryDirectory() as temp_dir:
+            root = Path(temp_dir)
+            self.assertIsNone(
+                resolve_website_root(
+                    root=root,
+                    environ={},
+                    required=False,
+                    fallback_root=root / "missing",
+                )
+            )
+            with self.assertRaises(FileNotFoundError):
+                resolve_website_root(
+                    root=root,
+                    environ={},
+                    fallback_root=root / "missing",
+                )
 
     def test_missing_cached_price_is_explicitly_allowed_without_derivation(self):
         website = copy.deepcopy(self.website)

@@ -1,0 +1,31 @@
+name: Website Pricing Parity
+
+on:
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+concurrency:
+  group: website-pricing-parity
+  cancel-in-progress: false
+
+jobs:
+  check-website-pricing:
+    runs-on: ubuntu-latest
+    timeout-minutes: 10
+    steps:
+      - uses: actions/checkout@v5
+      - name: Checkout Website public pricing source
+        uses: actions/checkout@v5
+        with:
+          repository: linqiang-max/aicostbudget
+          ref: main
+          path: website-source
+          token: ${{ secrets.WEBSITE_REPO_TOKEN }}
+          persist-credentials: false
+      - uses: actions/setup-python@v6
+        with:
+          python-version: "3.11"
+      - name: Compare Website pricing with approved Pricing Data artifacts
+        run: python scripts/export_huggingface.py --website-repo website-source --website-ref HEAD --check

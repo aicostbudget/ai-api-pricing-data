@@ -235,11 +235,10 @@ class HuggingFaceProductionParityTests(unittest.TestCase):
         self.assertIn("HF production check unavailable", output.getvalue())
         self.assertIn("NETWORK_FAILURE", output.getvalue())
 
-    def test_workflow_runs_outside_pull_requests(self):
+    def test_workflow_is_scheduled_or_manual_only(self):
         workflow = WORKFLOW.read_text(encoding="utf-8")
         self.assertIn("name: Hugging Face Production Parity", workflow)
-        self.assertIn("push:", workflow)
-        self.assertIn("- main", workflow)
+        self.assertNotIn("push:", workflow)
         self.assertIn("schedule:", workflow)
         self.assertIn("workflow_dispatch:", workflow)
         self.assertNotIn("pull_request", workflow)
