@@ -1,6 +1,8 @@
 import copy
 import json
+import os
 import subprocess
+import tempfile
 import unittest
 from pathlib import Path
 
@@ -13,7 +15,29 @@ from scripts.generate_website_projection_v2 import project_canonical_tier
 
 ROOT = Path(__file__).resolve().parents[1]
 FIXTURE = ROOT / "tests" / "fixtures" / "website-only-tier-model-pricing.json"
-WEBSITE_ROOT = Path(r"D:\ai-cost-control-tool\aicostguard-english")
+
+
+def resolve_website_root(root=ROOT, environ=os.environ):
+    candidates = []
+    configured_root = environ.get("AICOSTBUDGET_WEBSITE_ROOT")
+    if configured_root:
+        candidates.append(Path(configured_root).expanduser())
+    candidates.extend(
+        [root / "website-source", Path(r"D:\ai-cost-control-tool\aicostguard-english")]
+    )
+
+    for candidate in candidates:
+        consumer_test = candidate / "scripts" / "test-website-only-tier-contract.mjs"
+        if candidate.is_dir() and consumer_test.is_file():
+            return candidate
+
+    checked = "\n".join(f"- {candidate}" for candidate in candidates)
+    raise FileNotFoundError(
+        "Unable to locate the AICostBudget Website checkout. Checked:\n" + checked
+    )
+
+
+WEBSITE_ROOT = resolve_website_root()
 CONSUMER_TEST = WEBSITE_ROOT / "scripts" / "test-website-only-tier-contract.mjs"
 
 
@@ -73,6 +97,21 @@ class WebsiteOnlyTierContractTests(unittest.TestCase):
         )
 
     def test_generated_projection_is_consumed_by_production_tier_resolver(self):
+        with tempfile.TemporaryDirectory() as temp_dir:
+            ci_root = Path(temp_dir)
+            ci_consumer = (
+                ci_root
+                / "website-source"
+                / "scripts"
+                / "test-website-only-tier-contract.mjs"
+            )
+            ci_consumer.parent.mkdir(parents=True)
+            ci_consumer.touch()
+            self.assertEqual(
+                resolve_website_root(root=ci_root, environ={}),
+                ci_root / "website-source",
+            )
+
         records = self.generated_records()
         model = {
             "inputPrice": 1,
