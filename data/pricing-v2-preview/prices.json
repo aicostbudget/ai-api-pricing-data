@@ -5108,14 +5108,21 @@
     "charges": [
       {
         "amount": "1",
-        "chargeId": "price:xai/grok-build-0.1:standard:short:website-preview:input:text:per_1m_tokens",
+        "chargeId": "price:xai/grok-build-0.1:standard:short:current:input:text:per_1m_tokens",
         "component": "input",
         "modality": "text",
         "unit": "per_1m_tokens"
       },
       {
+        "amount": "0.2",
+        "chargeId": "price:xai/grok-build-0.1:standard:short:current:cached_input:text:per_1m_tokens",
+        "component": "cached_input",
+        "modality": "text",
+        "unit": "per_1m_tokens"
+      },
+      {
         "amount": "2",
-        "chargeId": "price:xai/grok-build-0.1:standard:short:website-preview:output:text:per_1m_tokens",
+        "chargeId": "price:xai/grok-build-0.1:standard:short:current:output:text:per_1m_tokens",
         "component": "output",
         "modality": "text",
         "unit": "per_1m_tokens"
@@ -5126,9 +5133,10 @@
     "effectiveFrom": "2026-07-03",
     "effectiveUntil": null,
     "modelInternalId": "xai/grok-build-0.1",
-    "pricingId": "price:xai/grok-build-0.1:standard:short:website-preview",
+    "pricingId": "price:xai/grok-build-0.1:standard:short:current",
+    "pricingStatus": "current",
     "processingMode": "standard",
-    "promptTokenThreshold": null,
+    "promptTokenThreshold": 200000,
     "regionPolicy": "global",
     "sourceDatasetIds": {
       "publicDatasetIds": [],
@@ -5137,8 +5145,67 @@
       ]
     },
     "sourceRefs": [
-      "source:xai:docs-x-ai-developers-models"
+      "source:xai:docs-x-ai-developers-pricing-text-api"
     ],
+    "tierSelection": {
+      "cachedPromptTokensIncluded": true,
+      "comparison": "less_than",
+      "tokenBasis": "total_prompt_tokens",
+      "wholeRequestPricing": true
+    },
+    "verificationStatus": "verified"
+  },
+  {
+    "billingNote": "Fast coding model trained for agentic coding workflows.",
+    "calculationDefault": false,
+    "charges": [
+      {
+        "amount": "2",
+        "chargeId": "price:xai/grok-build-0.1:standard:long:current:input:text:per_1m_tokens",
+        "component": "input",
+        "modality": "text",
+        "unit": "per_1m_tokens"
+      },
+      {
+        "amount": "0.4",
+        "chargeId": "price:xai/grok-build-0.1:standard:long:current:cached_input:text:per_1m_tokens",
+        "component": "cached_input",
+        "modality": "text",
+        "unit": "per_1m_tokens"
+      },
+      {
+        "amount": "4",
+        "chargeId": "price:xai/grok-build-0.1:standard:long:current:output:text:per_1m_tokens",
+        "component": "output",
+        "modality": "text",
+        "unit": "per_1m_tokens"
+      }
+    ],
+    "contextClass": "long",
+    "currency": "USD",
+    "effectiveFrom": "2026-07-03",
+    "effectiveUntil": null,
+    "modelInternalId": "xai/grok-build-0.1",
+    "pricingId": "price:xai/grok-build-0.1:standard:long:current",
+    "pricingStatus": "current",
+    "processingMode": "standard",
+    "promptTokenThreshold": 200000,
+    "regionPolicy": "global",
+    "sourceDatasetIds": {
+      "publicDatasetIds": [],
+      "websiteIds": [
+        "grok-build-0.1"
+      ]
+    },
+    "sourceRefs": [
+      "source:xai:docs-x-ai-developers-pricing-text-api"
+    ],
+    "tierSelection": {
+      "cachedPromptTokensIncluded": true,
+      "comparison": "greater_than_or_equal",
+      "tokenBasis": "total_prompt_tokens",
+      "wholeRequestPricing": true
+    },
     "verificationStatus": "verified"
   }
 ]

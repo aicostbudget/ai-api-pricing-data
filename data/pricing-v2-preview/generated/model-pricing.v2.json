@@ -18,7 +18,7 @@
     "partialJson": "not_written",
     "publicV1Mutation": "forbidden"
   },
-  "generatedAt": "2026-09-01T00:54:32Z",
+  "generatedAt": "2026-09-02T05:13:28Z",
   "generatedAtPolicy": "UTC artifact generation timestamp injected by the generation pipeline",
   "governancePolicy": {
     "classes": [
@@ -11920,11 +11920,11 @@
       "batchOutputPrice": null,
       "billingModelInternalId": null,
       "blockedFromDefaultReasons": [],
-      "cachedInputPrice": null,
+      "cachedInputPrice": 0.2,
       "canonicalInternalId": "xai/grok-build-0.1",
-      "checkedAt": "2026-07-03",
+      "checkedAt": "2026-09-02T05:13:28Z",
       "checkedSourceRefs": [
-        "source:xai:docs-x-ai-developers-models"
+        "source:xai:docs-x-ai-developers-pricing-text-api"
       ],
       "contextWindow": null,
       "contextWindowStatus": "unknown_not_guessed",
@@ -11947,28 +11947,145 @@
       "inputPrice": 1,
       "lifecycleStatus": "active",
       "model": "Grok Build 0.1",
-      "officialSourceUrl": "https://docs.x.ai/developers/models",
+      "officialSourceUrl": "https://docs.x.ai/developers/pricing#text-api",
       "outputPrice": 2,
       "pricingComponents": [
         {
+          "amount": "0.4",
+          "calculationDefault": false,
+          "chargeId": "price:xai/grok-build-0.1:standard:long:current:cached_input:text:per_1m_tokens",
+          "component": "cached_input",
+          "condition": {
+            "contextClass": "long",
+            "effectiveFrom": "2026-07-03",
+            "effectiveUntil": null,
+            "processingMode": "standard",
+            "promptTokenThreshold": 200000,
+            "regionPolicy": "global",
+            "tierSelection": {
+              "cachedPromptTokensIncluded": true,
+              "comparison": "greater_than_or_equal",
+              "tokenBasis": "total_prompt_tokens",
+              "wholeRequestPricing": true
+            }
+          },
+          "currency": "USD",
+          "modality": "text",
+          "pricingId": "price:xai/grok-build-0.1:standard:long:current",
+          "sourceRefs": [
+            "source:xai:docs-x-ai-developers-pricing-text-api"
+          ],
+          "unit": "per_1m_tokens",
+          "verificationStatus": "verified"
+        },
+        {
+          "amount": "2",
+          "calculationDefault": false,
+          "chargeId": "price:xai/grok-build-0.1:standard:long:current:input:text:per_1m_tokens",
+          "component": "input",
+          "condition": {
+            "contextClass": "long",
+            "effectiveFrom": "2026-07-03",
+            "effectiveUntil": null,
+            "processingMode": "standard",
+            "promptTokenThreshold": 200000,
+            "regionPolicy": "global",
+            "tierSelection": {
+              "cachedPromptTokensIncluded": true,
+              "comparison": "greater_than_or_equal",
+              "tokenBasis": "total_prompt_tokens",
+              "wholeRequestPricing": true
+            }
+          },
+          "currency": "USD",
+          "modality": "text",
+          "pricingId": "price:xai/grok-build-0.1:standard:long:current",
+          "sourceRefs": [
+            "source:xai:docs-x-ai-developers-pricing-text-api"
+          ],
+          "unit": "per_1m_tokens",
+          "verificationStatus": "verified"
+        },
+        {
+          "amount": "4",
+          "calculationDefault": false,
+          "chargeId": "price:xai/grok-build-0.1:standard:long:current:output:text:per_1m_tokens",
+          "component": "output",
+          "condition": {
+            "contextClass": "long",
+            "effectiveFrom": "2026-07-03",
+            "effectiveUntil": null,
+            "processingMode": "standard",
+            "promptTokenThreshold": 200000,
+            "regionPolicy": "global",
+            "tierSelection": {
+              "cachedPromptTokensIncluded": true,
+              "comparison": "greater_than_or_equal",
+              "tokenBasis": "total_prompt_tokens",
+              "wholeRequestPricing": true
+            }
+          },
+          "currency": "USD",
+          "modality": "text",
+          "pricingId": "price:xai/grok-build-0.1:standard:long:current",
+          "sourceRefs": [
+            "source:xai:docs-x-ai-developers-pricing-text-api"
+          ],
+          "unit": "per_1m_tokens",
+          "verificationStatus": "verified"
+        },
+        {
+          "amount": "0.2",
+          "calculationDefault": true,
+          "chargeId": "price:xai/grok-build-0.1:standard:short:current:cached_input:text:per_1m_tokens",
+          "component": "cached_input",
+          "condition": {
+            "contextClass": "short",
+            "effectiveFrom": "2026-07-03",
+            "effectiveUntil": null,
+            "processingMode": "standard",
+            "promptTokenThreshold": 200000,
+            "regionPolicy": "global",
+            "tierSelection": {
+              "cachedPromptTokensIncluded": true,
+              "comparison": "less_than",
+              "tokenBasis": "total_prompt_tokens",
+              "wholeRequestPricing": true
+            }
+          },
+          "currency": "USD",
+          "modality": "text",
+          "pricingId": "price:xai/grok-build-0.1:standard:short:current",
+          "sourceRefs": [
+            "source:xai:docs-x-ai-developers-pricing-text-api"
+          ],
+          "unit": "per_1m_tokens",
+          "verificationStatus": "verified"
+        },
+        {
           "amount": "1",
           "calculationDefault": true,
-          "chargeId": "price:xai/grok-build-0.1:standard:short:website-preview:input:text:per_1m_tokens",
+          "chargeId": "price:xai/grok-build-0.1:standard:short:current:input:text:per_1m_tokens",
           "component": "input",
           "condition": {
             "contextClass": "short",
             "effectiveFrom": "2026-07-03",
             "effectiveUntil": null,
             "processingMode": "standard",
-            "promptTokenThreshold": null,
+            "promptTokenThreshold": 200000,
             "regionPolicy": "global",
-            "tierSelection": null
+            "tierSelection": {
+              "cachedPromptTokensIncluded": true,
+              "comparison": "less_than",
+              "tokenBasis": "total_prompt_tokens",
+              "wholeRequestPricing": true
+            }
           },
           "currency": "USD",
           "modality": "text",
-          "pricingId": "price:xai/grok-build-0.1:standard:short:website-preview",
+          "pricingId": "price:xai/grok-build-0.1:standard:short:current",
           "sourceRefs": [
-            "source:xai:docs-x-ai-developers-models"
+            "source:xai:docs-x-ai-developers-pricing-text-api"
           ],
           "unit": "per_1m_tokens",
           "verificationStatus": "verified"
@@ -11976,28 +12093,79 @@
         {
           "amount": "2",
           "calculationDefault": true,
-          "chargeId": "price:xai/grok-build-0.1:standard:short:website-preview:output:text:per_1m_tokens",
+          "chargeId": "price:xai/grok-build-0.1:standard:short:current:output:text:per_1m_tokens",
           "component": "output",
           "condition": {
             "contextClass": "short",
             "effectiveFrom": "2026-07-03",
             "effectiveUntil": null,
             "processingMode": "standard",
-            "promptTokenThreshold": null,
+            "promptTokenThreshold": 200000,
             "regionPolicy": "global",
-            "tierSelection": null
+            "tierSelection": {
+              "cachedPromptTokensIncluded": true,
+              "comparison": "less_than",
+              "tokenBasis": "total_prompt_tokens",
+              "wholeRequestPricing": true
+            }
           },
           "currency": "USD",
           "modality": "text",
-          "pricingId": "price:xai/grok-build-0.1:standard:short:website-preview",
+          "pricingId": "price:xai/grok-build-0.1:standard:short:current",
           "sourceRefs": [
-            "source:xai:docs-x-ai-developers-models"
+            "source:xai:docs-x-ai-developers-pricing-text-api"
           ],
           "unit": "per_1m_tokens",
           "verificationStatus": "verified"
         }
       ],
       "pricingSourceType": "verified_website_seed_price",
+      "pricingTiers": [
+        {
+          "cachedInputPrice": 0.4,
+          "cachedPromptTokensIncluded": true,
+          "calculationDefault": false,
+          "comparison": "greater_than_or_equal",
+          "contextClass": "long",
+          "currency": "USD",
+          "id": "price:xai/grok-build-0.1:standard:long:current",
+          "inputPrice": 2,
+          "label": "Long context",
+          "outputPrice": 4,
+          "pricingId": "price:xai/grok-build-0.1:standard:long:current",
+          "processingMode": "standard",
+          "promptTokenThreshold": 200000,
+          "sourceRefs": [
+            "source:xai:docs-x-ai-developers-pricing-text-api"
+          ],
+          "tokenBasis": "total_prompt_tokens",
+          "unit": "per_1m_tokens",
+          "verificationStatus": "verified",
+          "wholeRequestPricing": true
+        },
+        {
+          "cachedInputPrice": 0.2,
+          "cachedPromptTokensIncluded": true,
+          "calculationDefault": true,
+          "comparison": "less_than",
+          "contextClass": "short",
+          "currency": "USD",
+          "id": "price:xai/grok-build-0.1:standard:short:current",
+          "inputPrice": 1,
+          "label": "Short context",
+          "outputPrice": 2,
+          "pricingId": "price:xai/grok-build-0.1:standard:short:current",
+          "processingMode": "standard",
+          "promptTokenThreshold": 200000,
+          "sourceRefs": [
+            "source:xai:docs-x-ai-developers-pricing-text-api"
+          ],
+          "tokenBasis": "total_prompt_tokens",
+          "unit": "per_1m_tokens",
+          "verificationStatus": "verified",
+          "wholeRequestPricing": true
+        }
+      ],
       "provider": "xai",
       "publicExposure": "public",
       "redirectTargetInternalId": null,
@@ -12006,21 +12174,21 @@
       "routingBehavior": "direct",
       "routingDetails": {},
       "selectedBatchPriceRecordId": null,
-      "selectedBillingPriceRecordId": "price:xai/grok-build-0.1:standard:short:website-preview",
+      "selectedBillingPriceRecordId": "price:xai/grok-build-0.1:standard:short:current",
       "selectedPriceEffectiveFrom": "2026-07-03",
       "selectedPriceEffectiveUntil": null,
-      "selectedPriceRecordId": "price:xai/grok-build-0.1:standard:short:website-preview",
+      "selectedPriceRecordId": "price:xai/grok-build-0.1:standard:short:current",
       "sourceRefs": [
-        "source:xai:docs-x-ai-developers-models"
+        "source:xai:docs-x-ai-developers-pricing-text-api"
       ],
       "sourceUrls": [
-        "https://docs.x.ai/developers/models"
+        "https://docs.x.ai/developers/pricing#text-api"
       ],
       "status": "active",
       "verificationStatus": "verified",
-      "verifiedAt": "2026-07-07T00:00:00Z",
+      "verifiedAt": "2026-09-02T05:13:28Z",
       "verifiedSourceRefs": [
-        "source:xai:docs-x-ai-developers-models"
+        "source:xai:docs-x-ai-developers-pricing-text-api"
       ]
     }
   ],

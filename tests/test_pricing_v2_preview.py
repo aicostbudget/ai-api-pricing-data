@@ -491,7 +491,7 @@ class PricingV2PreviewTests(unittest.TestCase):
         self.assertEqual(len(self.phase25_evidence), self.phase25_default_safe["totalPriceRecords"])
         self.assertEqual(self.phase25_default_safe["productionDefaultCandidateCount"], 39)
         self.assertEqual(self.phase25_default_safe["defaultSafeCount"], 39)
-        self.assertEqual(self.phase25_default_safe["defaultUnsafeCount"], 62)
+        self.assertEqual(self.phase25_default_safe["defaultUnsafeCount"], 63)
         self.assertEqual(self.phase25_default_safe["P0PartialBefore"], 4)
         self.assertEqual(self.phase25_default_safe["P0PartialAfter"], 0)
         self.assertEqual(self.phase25_default_safe["P1PartialCount"], 7)

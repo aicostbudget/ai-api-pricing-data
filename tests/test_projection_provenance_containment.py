@@ -51,7 +51,13 @@ class ProjectionProvenanceContainmentTests(unittest.TestCase):
         existing = json.loads(ARTIFACT.read_text(encoding="utf-8"))
         row = next(item for item in existing["models"] if item["id"] == "grok-4.5")
         row["verifiedAt"] = "2026-08-30T00:00:00Z"
-        existing["generatedAt"] = "2026-09-01T00:54:32Z"
+        artifact_timestamps = [
+            item[field]
+            for item in existing["models"]
+            for field in ("verifiedAt", "checkedAt")
+            if isinstance(item.get(field), str) and item[field]
+        ]
+        existing["generatedAt"] = max([existing["generatedAt"], *artifact_timestamps])
         with tempfile.TemporaryDirectory() as directory:
             path = Path(directory) / "existing.json"
             path.write_text(json.dumps(existing), encoding="utf-8")

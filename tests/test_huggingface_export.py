@@ -199,7 +199,7 @@ class HuggingFaceExportTests(unittest.TestCase):
                 self.assertIsInstance(component["amount"], str, key)
                 self.assertEqual(len(component["source_refs"]), len(component["source_urls"]), key)
                 self.assertTrue(all(url.startswith("https://") for url in component["source_urls"]), key)
-        self.assertEqual(component_count, 284)
+        self.assertEqual(component_count, 288)
         self.assertEqual(cache_write_count, 33)
         self.assertTrue(any(not record["pricing_components"] for record in self.records))
 
@@ -240,6 +240,7 @@ class HuggingFaceExportTests(unittest.TestCase):
             if (record.get("provider_id"), record.get("model_id")) in {
                 ("cohere", "parse-v5.0"),
                 ("xai", "grok-4.6"),
+                ("xai", "grok-build-0.1"),
             }:
                 continue
             baseline = dict(record)
@@ -255,7 +256,7 @@ class HuggingFaceExportTests(unittest.TestCase):
         digest = hashlib.sha256(
             json.dumps(baseline_records, sort_keys=True, separators=(",", ":"), ensure_ascii=False).encode()
         ).hexdigest()
-        self.assertEqual(digest, "20dcf101cd214013e61a564cfd7ddad1e0416546350e9f872688afbebd0192f7")
+        self.assertEqual(digest, "4a0afaa6e9380524cf0c2170fc4a44c9ac053d9a81826c120e95476e14ace4e9")
 
     def test_timestamps_preserve_verification_semantics(self):
         pricing_meta = json.loads(META_PATH.read_text(encoding="utf-8"))
