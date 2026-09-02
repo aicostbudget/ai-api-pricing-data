@@ -256,7 +256,7 @@ class HuggingFaceExportTests(unittest.TestCase):
         digest = hashlib.sha256(
             json.dumps(baseline_records, sort_keys=True, separators=(",", ":"), ensure_ascii=False).encode()
         ).hexdigest()
-        self.assertEqual(digest, "4a0afaa6e9380524cf0c2170fc4a44c9ac053d9a81826c120e95476e14ace4e9")
+        self.assertEqual(digest, "2531b7e7b9b1f0f62e515a20256ecdab7bafc5734309926d9a53947319c339ba")
 
     def test_timestamps_preserve_verification_semantics(self):
         pricing_meta = json.loads(META_PATH.read_text(encoding="utf-8"))

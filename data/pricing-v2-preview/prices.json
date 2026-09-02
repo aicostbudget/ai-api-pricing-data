@@ -772,7 +772,7 @@
     "verificationStatus": "partially_verified"
   },
   {
-    "billingNote": "Cohere's official Command A+ page states that access is free until applicable rate limits are reached and that production use is available through Model Vault. Another official Cohere page shows per-token pricing for the same model ID, so V1 keeps token pricing null until the official documentation is reconciled.",
+    "billingNote": "Cohere lists command-a-plus-05-2026 as Live and available through standard API endpoints, with no deprecation date. Its model page says both trial and production keys are free until rate limits are reached, while general pricing documentation says generative models including Command A+ are priced per token and the public pricing page says production keys are billed pay-as-you-go without publishing a Command A+ token rate. Standard Model Vault is a separate managed deployment option and lists Command A+ at $57.50 per XL instance-hour. V1 keeps Standard token, cached-input, and Batch prices null; null is not zero.",
     "calculationDefault": false,
     "charges": [],
     "contextClass": "short",
@@ -791,7 +791,14 @@
       "websiteIds": []
     },
     "sourceRefs": [
-      "source:cohere:docs-cohere-com-docs-command-a-plus"
+      "source:cohere:cohere-com-pricing",
+      "source:cohere:docs-cohere-com-docs-command-a-plus",
+      "source:cohere:docs-cohere-com-docs-deprecations",
+      "source:cohere:docs-cohere-com-docs-how-does-cohere-pricing-work",
+      "source:cohere:docs-cohere-com-docs-model-vault-standard-pricing",
+      "source:cohere:docs-cohere-com-docs-models",
+      "source:cohere:docs-cohere-com-docs-rate-limits",
+      "source:cohere:docs-cohere-com-v2-changelog"
     ],
     "verificationStatus": "partially_verified"
   },
@@ -2244,7 +2251,7 @@
     "verificationStatus": "verified"
   },
   {
-    "billingNote": "mistral-large-latest currently maps to Mistral Large 3. Standard price is $0.50/M input and $1.50/M output. Cached input receives a 90% discount. Batch processing receives a 50% discount.",
+    "billingNote": "Mistral's current documentation maps mistral-large-latest to Mistral Large 3 (mistral-large-2512), which remains GA and available through Chat Completions and Batch. Standard pricing is $0.50 input, $0.05 cached input, and $1.50 output per 1M tokens. Cached prompt tokens are billed at 10% of standard input, and Batch processing receives a 50% discount, represented in V1 as $0.25 input and $0.75 output. The official docs do not separately specify whether cached-input and Batch discounts combine.",
     "calculationDefault": true,
     "charges": [
       {
@@ -2285,7 +2292,11 @@
       "websiteIds": []
     },
     "sourceRefs": [
-      "source:mistral-ai:mistral-ai-pricing-api"
+      "source:mistral-ai:docs-mistral-ai-inference-pricing",
+      "source:mistral-ai:docs-mistral-ai-models-mistral-large-3-25-12",
+      "source:mistral-ai:docs-mistral-ai-studio-batch-processing",
+      "source:mistral-ai:docs-mistral-ai-studio-conversations-advanced-prompt-caching",
+      "source:mistral-ai:docs-mistral-ai-studio-conversations-function-calling"
     ],
     "verificationStatus": "partially_verified"
   },
@@ -2324,7 +2335,11 @@
       "websiteIds": []
     },
     "sourceRefs": [
-      "source:mistral-ai:mistral-ai-pricing-api"
+      "source:mistral-ai:docs-mistral-ai-inference-pricing",
+      "source:mistral-ai:docs-mistral-ai-models-mistral-large-3-25-12",
+      "source:mistral-ai:docs-mistral-ai-studio-batch-processing",
+      "source:mistral-ai:docs-mistral-ai-studio-conversations-advanced-prompt-caching",
+      "source:mistral-ai:docs-mistral-ai-studio-conversations-function-calling"
     ],
     "verificationStatus": "partially_verified"
   },
@@ -2375,7 +2390,7 @@
     "verificationStatus": "verified"
   },
   {
-    "billingNote": "OpenAI official pricing page lists standard and batch rates per 1M tokens.",
+    "billingNote": "OpenAI lists gpt-4.1 with default snapshot gpt-4.1-2025-04-14 and continues to expose Chat Completions, Responses, and Batch endpoints. Standard pricing is $2 input, $0.50 cached input, and $8 output per 1M tokens. The Batch guide states a 50% discount, represented in V1 as $1 input and $4 output. No GPT-4.1 deprecation is listed in the current official deprecations documentation.",
     "calculationDefault": false,
     "charges": [
       {
@@ -2418,8 +2433,10 @@
       ]
     },
     "sourceRefs": [
-      "source:openai:developers-openai-com-api-docs-pricing",
-      "source:openai:platform-openai-com-docs-pricing"
+      "source:openai:developers-openai-com-api-docs-deprecations",
+      "source:openai:developers-openai-com-api-docs-guides-batch",
+      "source:openai:developers-openai-com-api-docs-models-gpt-4-1",
+      "source:openai:developers-openai-com-api-docs-pricing"
     ],
     "verificationStatus": "review_required"
   },
@@ -2460,8 +2477,10 @@
       ]
     },
     "sourceRefs": [
-      "source:openai:developers-openai-com-api-docs-pricing",
-      "source:openai:platform-openai-com-docs-pricing"
+      "source:openai:developers-openai-com-api-docs-deprecations",
+      "source:openai:developers-openai-com-api-docs-guides-batch",
+      "source:openai:developers-openai-com-api-docs-models-gpt-4-1",
+      "source:openai:developers-openai-com-api-docs-pricing"
     ],
     "verificationStatus": "review_required"
   },
@@ -2544,7 +2563,7 @@
     "verificationStatus": "review_required"
   },
   {
-    "billingNote": "OpenAI official pricing page lists standard and batch rates per 1M tokens.",
+    "billingNote": "OpenAI lists the gpt-5 alias as Default and continues to publish Chat Completions, Responses, and Batch endpoints for it. Standard pricing is $1.25 input, $0.125 cached input, and $10 output per 1M tokens. The Batch guide states a 50% discount, represented in V1 as $0.625 input and $5 output. The dated snapshot gpt-5-2025-08-07 is deprecated and scheduled for API shutdown on 2026-12-11; OpenAI recommends gpt-5.6-sol as its replacement.",
     "calculationDefault": false,
     "charges": [
       {
@@ -2585,7 +2604,10 @@
       "websiteIds": []
     },
     "sourceRefs": [
-      "source:openai:platform-openai-com-docs-pricing"
+      "source:openai:developers-openai-com-api-docs-deprecations",
+      "source:openai:developers-openai-com-api-docs-guides-batch",
+      "source:openai:developers-openai-com-api-docs-models-gpt-5",
+      "source:openai:developers-openai-com-api-docs-pricing"
     ],
     "verificationStatus": "partially_verified"
   },
@@ -2624,7 +2646,10 @@
       "websiteIds": []
     },
     "sourceRefs": [
-      "source:openai:platform-openai-com-docs-pricing"
+      "source:openai:developers-openai-com-api-docs-deprecations",
+      "source:openai:developers-openai-com-api-docs-guides-batch",
+      "source:openai:developers-openai-com-api-docs-models-gpt-5",
+      "source:openai:developers-openai-com-api-docs-pricing"
     ],
     "verificationStatus": "partially_verified"
   },
@@ -4703,7 +4728,7 @@
     "verificationStatus": "verified"
   },
   {
-    "billingNote": "OpenAI official pricing page lists standard and batch rates per 1M tokens.",
+    "billingNote": "OpenAI lists the o3 alias as Default and continues to publish Chat Completions, Responses, and Batch endpoints for it. Standard pricing is $2 input, $0.50 cached input, and $8 output per 1M tokens; the model page also lists Batch pricing of $1 input, $0.25 cached input, and $4 output. The dated snapshot o3-2025-04-16 is deprecated and scheduled for API shutdown on 2026-12-11; OpenAI recommends gpt-5.6-sol as its replacement. V1 has no batch_cached_input field.",
     "calculationDefault": false,
     "charges": [
       {
@@ -4744,7 +4769,10 @@
       "websiteIds": []
     },
     "sourceRefs": [
-      "source:openai:platform-openai-com-docs-pricing"
+      "source:openai:developers-openai-com-api-docs-deprecations",
+      "source:openai:developers-openai-com-api-docs-guides-batch",
+      "source:openai:developers-openai-com-api-docs-models-o3",
+      "source:openai:developers-openai-com-api-docs-pricing"
     ],
     "verificationStatus": "partially_verified"
   },
@@ -4783,7 +4811,10 @@
       "websiteIds": []
     },
     "sourceRefs": [
-      "source:openai:platform-openai-com-docs-pricing"
+      "source:openai:developers-openai-com-api-docs-deprecations",
+      "source:openai:developers-openai-com-api-docs-guides-batch",
+      "source:openai:developers-openai-com-api-docs-models-o3",
+      "source:openai:developers-openai-com-api-docs-pricing"
     ],
     "verificationStatus": "partially_verified"
   },
