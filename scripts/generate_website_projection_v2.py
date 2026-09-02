@@ -7,6 +7,7 @@ from datetime import datetime, timezone
 from decimal import Decimal
 from pathlib import Path
 from typing import Any
+from urllib.parse import urlsplit
 
 try:
     from lib import ROOT
@@ -240,6 +241,77 @@ def display_status(
 
 def source_urls(source_refs: list[str], sources_by_id: dict[str, dict[str, Any]]) -> list[str]:
     return [sources_by_id[source_ref]["url"] for source_ref in source_refs if source_ref in sources_by_id]
+
+
+def source_evidence_role(source: dict[str, Any]) -> str:
+    """Classify official evidence by purpose, never by lexical URL order."""
+    path_tokens = {
+        token
+        for token in urlsplit(source.get("url", "")).path.lower().replace(".", "-").split("/")
+        if token
+    }
+    source_type = source.get("sourceType")
+    supports = set(source.get("supports", []))
+    if path_tokens & {"pricing", "pricing-md", "prices"}:
+        return "direct_pricing"
+    if source_type in {"official_model_page", "official_model_docs"} or "reference" in path_tokens:
+        return "model_detail"
+    if path_tokens & {"changelog", "release", "releases", "release-notes"}:
+        return "release_note"
+    if path_tokens & {"blog", "news", "announcement", "announcements"}:
+        return "announcement"
+    if "pricing" in supports:
+        return "pricing_support"
+    return "general_documentation"
+
+
+SOURCE_EVIDENCE_PRIORITY = {
+    "direct_pricing": 5,
+    "model_detail": 4,
+    "pricing_support": 3,
+    "release_note": 2,
+    "announcement": 1,
+    "general_documentation": 0,
+}
+
+
+def select_official_source_url(
+    refs: list[str],
+    sources_by_id: dict[str, dict[str, Any]],
+    *,
+    existing_url: str | None,
+    price_source_refs: list[str],
+    public_official_url: str | None,
+    website_official_url: str | None,
+) -> str | None:
+    candidates = [sources_by_id[ref] for ref in refs if ref in sources_by_id]
+    urls = {source["url"] for source in candidates}
+    if existing_url in urls:
+        return existing_url
+    if not candidates:
+        return None
+
+    price_refs = set(price_source_refs)
+
+    def semantic_score(source: dict[str, Any]) -> tuple[int, int, int, int, str, str]:
+        return (
+            int(source.get("sourceId") in price_refs),
+            SOURCE_EVIDENCE_PRIORITY[source_evidence_role(source)],
+            int(source.get("url") == public_official_url),
+            int(source.get("url") == website_official_url),
+            source_timestamp(source, "verifiedAt") or "",
+            source_timestamp(source, "checkedAt") or "",
+        )
+
+    best_score = max(semantic_score(source) for source in candidates)
+    winners = [source for source in candidates if semantic_score(source) == best_score]
+    winner_urls = {source["url"] for source in winners}
+    if len(winner_urls) != 1:
+        raise ValueError(
+            "ambiguous official source candidates without semantic priority: "
+            + ", ".join(sorted(winner_urls))
+        )
+    return winners[0]["url"]
 
 
 def price_source_refs(identity: dict[str, Any], price: dict[str, Any] | None) -> list[str]:
@@ -549,6 +621,51 @@ def build_pricing_components(
     return components or None
 
 
+def website_price_matches(
+    website_row: dict[str, Any] | None,
+    selected_price: dict[str, Any] | None,
+) -> bool:
+    if not website_row or not selected_price or website_row.get("verificationStatus") != "verified":
+        return False
+    for website_field, component in (("inputPrice", "input"), ("outputPrice", "output")):
+        value = website_row.get(website_field)
+        if value is None or parse_decimal(str(value)) != charge_amount(selected_price, component):
+            return False
+    cached = website_row.get("cachedInputPrice")
+    return cached is None or parse_decimal(str(cached)) == charge_amount(selected_price, "cached_input")
+
+
+def refs_for_url(
+    refs: list[str],
+    sources_by_id: dict[str, dict[str, Any]],
+    url: str | None,
+) -> list[str]:
+    if not url:
+        return []
+    return sorted(ref for ref in refs if ref in sources_by_id and sources_by_id[ref].get("url") == url)
+
+
+def resolve_generated_at(
+    explicit_value: str | None,
+    existing_projection: dict[str, Any] | None,
+    rows: list[dict[str, Any]],
+) -> str:
+    if explicit_value:
+        return explicit_value
+    existing_value = (existing_projection or {}).get("generatedAt")
+    if isinstance(existing_value, str) and existing_value:
+        return existing_value
+    timestamps = [
+        row[field]
+        for row in rows
+        for field in ("checkedAt", "verifiedAt")
+        if isinstance(row.get(field), str) and row[field]
+    ]
+    if not timestamps:
+        return DEFAULT_GENERATED_AT
+    return max(parse_effective_at(value) for value in timestamps).isoformat().replace("+00:00", "Z")
+
+
 def projection_row(
     identity: dict[str, Any],
     model_by_id: dict[str, dict[str, Any]],
@@ -602,13 +719,26 @@ def projection_row(
     default_safe = not blocked_reasons
     refs = price_source_refs(identity, selected_price or selected_billing_price)
     urls = source_urls(refs, sources_by_id)
+    selected_evidence = selected_price or selected_billing_price or {}
+    selected_price_source_refs = selected_evidence.get("sourceRefs", [])
+    public_verification = public_verification_by_internal_id.get(target_internal_id)
+    public_official_url = (public_verification or {}).get("official_source_url")
+    website_official_url = (website_row or {}).get("officialPriceUrl")
+    website_matches = website_price_matches(website_row, selected_price)
+    website_url_refs = refs_for_url(refs, sources_by_id, website_official_url)
+    website_source_refs = website_url_refs if website_matches else []
+    website_verified_at = (
+        (website_row or {}).get("lastVerifiedAt") or (website_row or {}).get("verifiedAt")
+    ) if website_source_refs else None
+    website_checked_at = (
+        (website_row or {}).get("lastCheckedAt") or (website_row or {}).get("checkedAt")
+    ) if website_source_refs else None
     verified_at = None
     verified_source_refs: list[str] = []
     if default_safe and selected_price:
         verified_evidence = verified_price_by_id.get(selected_price["pricingId"], {})
         verified_at = verified_evidence.get("phase25VerifiedAt")
         if verified_at is None:
-            public_verification = public_verification_by_internal_id.get(target_internal_id)
             public_source_refs = sorted(
                 ref
                 for ref in refs
@@ -643,6 +773,9 @@ def projection_row(
                 verified_at = existing_row["verifiedAt"]
                 existing_verified_refs = existing_row.get("verifiedSourceRefs", [])
                 verified_source_refs = sorted(ref for ref in existing_verified_refs if ref in refs)
+            elif website_verified_at is not None:
+                verified_at = website_verified_at
+                verified_source_refs = website_source_refs
             elif public_verified_at is not None:
                 verified_at = public_verified_at
                 verified_source_refs = public_source_refs
@@ -677,6 +810,9 @@ def projection_row(
             checked_source_refs = sorted(
                 ref for ref in (selected_price or {}).get("sourceRefs", refs) if ref in refs
             )
+    elif website_checked_at is not None:
+        checked_at = website_checked_at
+        checked_source_refs = website_source_refs
     else:
         checked_at = latest_timestamp(
             [source_timestamp(sources_by_id[ref], "checkedAt") for ref in refs if ref in sources_by_id]
@@ -698,10 +834,16 @@ def projection_row(
         "checkedAt": checked_at,
         "verifiedSourceRefs": verified_source_refs,
         "checkedSourceRefs": checked_source_refs,
-        "officialSourceUrl": (
-            existing_row["officialSourceUrl"]
-            if existing_row and existing_row.get("officialSourceUrl") in urls
-            else urls[0] if urls else None
+        "officialSourceUrl": select_official_source_url(
+            refs,
+            sources_by_id,
+            existing_url=(
+                (existing_row or {}).get("officialSourceUrl")
+                or (website_official_url if website_url_refs else None)
+            ),
+            price_source_refs=selected_price_source_refs,
+            public_official_url=public_official_url,
+            website_official_url=website_official_url,
         ),
         "contextWindow": None,
         "contextWindowStatus": "unknown_not_guessed",
@@ -1208,7 +1350,8 @@ def build_projection(
     effective_at_value: str = DEFAULT_EFFECTIVE_AT,
     *,
     website_dataset: Path,
-    generated_at_value: str = DEFAULT_GENERATED_AT,
+    generated_at_value: str | None = None,
+    existing_artifact: Path | None = ARTIFACT,
 ) -> tuple[dict[str, Any], dict[str, Any]]:
     schema_version = read_json(PREVIEW / "schema-version.json")
     identities = read_json(PREVIEW / "model-identity-registry.json")
@@ -1232,8 +1375,9 @@ def build_projection(
         for row in public_dataset["models"]
     }
     existing_projection_by_id: dict[str, dict[str, Any]] = {}
-    if ARTIFACT.exists():
-        existing_projection = read_json(ARTIFACT)
+    existing_projection: dict[str, Any] | None = None
+    if existing_artifact is not None and existing_artifact.exists():
+        existing_projection = read_json(existing_artifact)
         existing_projection_by_id = {
             row["id"]: row for row in existing_projection.get("models", [])
         }
@@ -1254,9 +1398,10 @@ def build_projection(
         for identity in identities
     ]
     rows.sort(key=lambda row: (row["provider"], row["id"], row["canonicalInternalId"]))
+    generated_at = resolve_generated_at(generated_at_value, existing_projection, rows)
     artifact = {
         "schemaVersion": PROJECTION_SCHEMA_VERSION,
-        "generatedAt": generated_at_value,
+        "generatedAt": generated_at,
         "generatedAtPolicy": "UTC artifact generation timestamp injected by the generation pipeline",
         "effectiveAt": effective_at.isoformat().replace("+00:00", "Z"),
         "effectiveTimezone": "UTC",
@@ -1285,7 +1430,7 @@ def build_projection(
         "models": rows,
     }
     report = {
-        "generatedAt": generated_at_value,
+        "generatedAt": generated_at,
         "phase": "Phase 4A Production-Ready Website Projection",
         "artifactPath": str(ARTIFACT.relative_to(ROOT)).replace("\\", "/"),
         "projectionModelCount": len(rows),
@@ -1419,18 +1564,18 @@ def validate_pricing_components(row: dict[str, Any]) -> None:
 def main() -> None:
     parser = argparse.ArgumentParser(description="Generate the Phase 4A Website pricing projection.")
     parser.add_argument("--effective-at", default=DEFAULT_EFFECTIVE_AT)
-    parser.add_argument(
-        "--generated-at",
-        default=datetime.now(timezone.utc).replace(microsecond=0).isoformat().replace("+00:00", "Z"),
-    )
+    parser.add_argument("--generated-at")
     parser.add_argument("--website-dataset", type=Path, required=True)
     parser.add_argument("--artifact", type=Path, default=ARTIFACT)
+    parser.add_argument("--existing-artifact", type=Path)
     parser.add_argument("--report", type=Path, default=REPORT)
     args = parser.parse_args()
+    existing_artifact = args.existing_artifact if args.existing_artifact is not None else args.artifact
     artifact, report = build_projection(
         args.effective_at,
         website_dataset=args.website_dataset,
         generated_at_value=args.generated_at,
+        existing_artifact=existing_artifact,
     )
     audits = build_phase45_audits(artifact, report, website_dataset=args.website_dataset)
     atomic_write_json(args.artifact, artifact)
