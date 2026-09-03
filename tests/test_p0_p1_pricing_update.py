@@ -142,7 +142,7 @@ class P0P1PricingUpdateTests(unittest.TestCase):
             self.assertEqual(v2_model_by_id[internal_id]["lifecycleStatus"], "active")
 
     def test_gemini_flash_promotional_and_future_price_lifecycle(self):
-        for model_id in ("gemini-3.6-flash", "gemini-3.7-flash"):
+        for model_id in ("gemini-3.6-flash", "gemini-3.7-flash", "gemini-3.8-flash"):
             canonical = self.canonical_by_id[model_id]
             self.assertEqual(
                 {field: canonical["pricing"][field] for field in ("input", "cached_input", "output", "batch_input", "batch_cached_input", "batch_output")},
@@ -186,6 +186,26 @@ class P0P1PricingUpdateTests(unittest.TestCase):
                 if component["condition"]["effectiveFrom"] == "2027-01-01"
             ]
             self.assertEqual(len(future_components), 6)
+
+        gemini_38 = self.canonical_by_id["gemini-3.8-flash"]
+        self.assertEqual(gemini_38["effective_from"], "2026-09-02")
+        self.assertEqual(gemini_38["context_window_tokens"], 1048576)
+        self.assertEqual(gemini_38["status"], "active")
+        self.assertEqual(gemini_38["release_stage"], "stable")
+        self.assertEqual(gemini_38["pricing"]["unit"], "1M tokens")
+        self.assertEqual(gemini_38["official_source_url"], "https://ai.google.dev/gemini-api/docs/pricing")
+        self.assertIn("https://ai.google.dev/gemini-api/docs/models/gemini-3.8-flash", gemini_38["official_source_urls"])
+        self.assertIn("https://ai.google.dev/gemini-api/docs/deprecations", gemini_38["official_source_urls"])
+
+        gemini_38_projection = next(row for row in self.v2_projection if row["id"] == "gemini-3.8-flash")
+        self.assertEqual(gemini_38_projection["lifecycleStatus"], "active")
+        self.assertEqual(gemini_38_projection["releaseStage"], "stable")
+        self.assertTrue(gemini_38_projection["defaultSafe"])
+
+        gemini_37 = self.canonical_by_id["gemini-3.7-flash"]
+        self.assertEqual(gemini_37["status"], "active")
+        self.assertEqual(gemini_37["release_stage"], "stable")
+        self.assertNotIn(gemini_37["status"], {"deprecated", "retired", "shutdown", "end_of_life"})
 
     def test_claude_fable_and_mythos_5_1_pricing_and_lifecycle(self):
         expected_prices = {

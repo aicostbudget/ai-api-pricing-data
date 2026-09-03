@@ -225,10 +225,10 @@ class WebsiteProjectionV2Tests(unittest.TestCase):
 
     def test_report_counts_and_parity_buckets(self):
         self.assertEqual(self.report["projectionModelCount"], len(self.rows))
-        self.assertEqual(self.report["projectionModelCount"], 52)
+        self.assertEqual(self.report["projectionModelCount"], 53)
         self.assertEqual(self.report["defaultSafeModelCount"], 42)
-        self.assertEqual(self.report["unsafeIdentityCount"], 10)
-        self.assertEqual(self.report["nullPriceCount"], 10)
+        self.assertEqual(self.report["unsafeIdentityCount"], 11)
+        self.assertEqual(self.report["nullPriceCount"], 11)
         self.assertEqual(self.report["parity"]["websiteModelCount"], 36)
         self.assertEqual(sum(self.report["parity"]["counts"].values()), 36)
         self.assertEqual(self.report["parity"]["counts"]["unsafe_difference"], 4)
@@ -475,18 +475,18 @@ class WebsiteProjectionV2Tests(unittest.TestCase):
         rows = self.audits["row_reconciliation"]
         unsafe = self.audits["unsafe_audit"]
         context = self.audits["context_audit"]
-        self.assertEqual(safe["stats"]["safePriceRecordsInput"], 41)
+        self.assertEqual(safe["stats"]["safePriceRecordsInput"], 42)
         self.assertEqual(safe["stats"]["mappedToProjection"], 39)
         self.assertEqual(safe["stats"]["unexplained"], 0)
-        self.assertEqual(rows["counts"]["canonical_model"], 49)
+        self.assertEqual(rows["counts"]["canonical_model"], 50)
         self.assertEqual(rows["counts"]["alias"], 2)
         self.assertEqual(rows["counts"]["redirecting_identity"], 1)
         self.assertEqual(unsafe["beforePhase4A5UnsafeDifferenceCount"], 5)
         self.assertEqual(unsafe["currentUnsafeDifferenceCount"], 4)
         self.assertEqual(len(unsafe["blockerUnsafeDifferences"]), 0)
-        self.assertEqual(context["contextWindowRows"], 52)
+        self.assertEqual(context["contextWindowRows"], 53)
         self.assertEqual(context["verifiedCanonicalContextWindowCount"], 0)
-        self.assertEqual(context["projectedNullCount"], 52)
+        self.assertEqual(context["projectedNullCount"], 53)
 
 
 if __name__ == "__main__":

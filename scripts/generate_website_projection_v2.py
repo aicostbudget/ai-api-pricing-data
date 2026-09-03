@@ -1323,7 +1323,7 @@ def build_phase45_audits(
     readiness = {
         "safeToEnterPhase4B": (
             safe_stats["unexplained"] == 0
-            and len(row_reconciliation_rows) == 39
+            and len(row_reconciliation_rows) == len(projection_rows)
             and len(unsafe_audit["blockerUnsafeDifferences"]) == 0
             and context_audit["projectedNullCount"] == context_audit["contextWindowRows"]
             and all(all(value is True for key, value in item.items() if key not in {"projectionRowId", "canonicalInternalId", "selectedPriceRecordId"}) for item in default_safe_review)

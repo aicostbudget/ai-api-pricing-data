@@ -49,7 +49,7 @@ class DatasetTests(unittest.TestCase):
         self.assertEqual(len({item["provider_id"] for item in providers}), len(providers))
         self.assertEqual(len({(item["provider_id"], item["model_id"]) for item in models}), len(models))
         self.assertEqual(len(providers), 7)
-        self.assertEqual(len(models), 39)
+        self.assertEqual(len(models), 40)
 
     def test_cohere_parse_uses_page_billing_without_token_prices(self):
         by_key = {(model["provider_id"], model["model_id"]): model for model in load_models()}
@@ -77,6 +77,7 @@ class DatasetTests(unittest.TestCase):
         expected = {
             ("google-gemini", "gemini-3.6-flash"): (0.75, 0.075, 3.75, 0.375, 1.875, "2026-08-13"),
             ("google-gemini", "gemini-3.7-flash"): (0.75, 0.075, 3.75, 0.375, 1.875, "2026-08-13"),
+            ("google-gemini", "gemini-3.8-flash"): (0.75, 0.075, 3.75, 0.375, 1.875, "2026-09-02"),
             ("google-gemini", "gemini-3.5-flash-lite"): (0.3, 0.03, 2.5, 0.15, 1.25, None),
             ("xai", "grok-4.5"): (2.0, 0.3, 6.0, None, None, None),
         }
@@ -93,7 +94,12 @@ class DatasetTests(unittest.TestCase):
                 ),
                 values,
             )
-            self.assertEqual(row["last_verified_at"], "2026-08-29T05:28:25Z" if key[1] in {"gemini-3.6-flash", "gemini-3.7-flash"} else "2026-08-08T18:00:00Z")
+            expected_verified_at = {
+                "gemini-3.6-flash": "2026-08-29T05:28:25Z",
+                "gemini-3.7-flash": "2026-08-29T05:28:25Z",
+                "gemini-3.8-flash": "2026-09-03T18:03:16Z",
+            }.get(key[1], "2026-08-08T18:00:00Z")
+            self.assertEqual(row["last_verified_at"], expected_verified_at)
 
         self.assertEqual(
             tuple(by_key[("openai", "gpt-5.6-terra")]["pricing"][field] for field in ("input", "cached_input", "output")),

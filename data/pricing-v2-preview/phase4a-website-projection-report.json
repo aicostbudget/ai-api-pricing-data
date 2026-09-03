@@ -1,20 +1,20 @@
 {
   "artifactPath": "data/pricing-v2-preview/generated/model-pricing.v2.json",
-  "defaultSafeModelCount": 44,
-  "generatedAt": "2026-09-03T13:03:55Z",
+  "defaultSafeModelCount": 45,
+  "generatedAt": "2026-09-03T18:03:16Z",
   "governanceClassCounts": {
     "COMPATIBILITY_FALLBACK": 0,
     "EXCLUDED": 3,
     "HISTORICAL_REFERENCE": 2,
     "PROJECTED_IDENTITY": 2,
     "REVIEW_REQUIRED": 3,
-    "VERIFIED_CANONICAL": 35,
+    "VERIFIED_CANONICAL": 36,
     "VERIFIED_PROJECTION": 7
   },
   "nullPriceCount": 8,
   "parity": {
     "counts": {
-      "exact_parity": 36,
+      "exact_parity": 37,
       "expected_difference": 2,
       "unsafe_difference": 4
     },
@@ -380,6 +380,21 @@
         }
       },
       {
+        "classification": "exact_parity",
+        "modelId": "gemini-3.8-flash",
+        "projection": {
+          "cachedInputPrice": 0.075,
+          "inputPrice": 0.75,
+          "outputPrice": 3.75
+        },
+        "reason": "Legacy Website values match current projection values.",
+        "website": {
+          "cachedInputPrice": 0.075,
+          "inputPrice": 0.75,
+          "outputPrice": 3.75
+        }
+      },
+      {
         "classification": "unsafe_difference",
         "modelId": "gpt-4.1",
         "projection": {
@@ -650,12 +665,12 @@
         }
       }
     ],
-    "projectionModelCount": 52,
-    "websiteModelCount": 42
+    "projectionModelCount": 53,
+    "websiteModelCount": 43
   },
   "phase": "Phase 4A Production-Ready Website Projection",
   "phase35Readiness": "ready",
-  "projectionModelCount": 52,
+  "projectionModelCount": 53,
   "runtimeNetworkDependency": "none",
   "unsafeIdentityCount": 8
 }
