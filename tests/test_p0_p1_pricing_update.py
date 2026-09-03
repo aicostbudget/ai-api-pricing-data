@@ -234,6 +234,20 @@ class P0P1PricingUpdateTests(unittest.TestCase):
             self.assertNotIn(previous["status"], {"deprecated", "retired"})
             self.assertEqual(previous["cachedInputPrice"], 1)
 
+        self.assertEqual(projection_by_id["claude-fable-5"]["status"], "active")
+        self.assertNotIn(projection_by_id["claude-fable-5"]["status"], {"latest", "legacy", "deprecated", "retired"})
+        self.assertEqual(projection_by_id["claude-fable-5-1"]["status"], "latest")
+        self.assertEqual(
+            sum(
+                row["status"] == "latest"
+                for row in self.v2_projection
+                if row["provider"] == "anthropic" and row["id"] in {"claude-fable-5", "claude-fable-5-1"}
+            ),
+            1,
+        )
+        self.assertEqual(projection_by_id["claude-mythos-5"]["status"], "limited")
+        self.assertEqual(projection_by_id["claude-mythos-5-1"]["status"], "limited")
+
         all_model_ids = set(self.canonical_by_id) | set(projection_by_id)
         for invalid_id in (
             "claude-fable-5.1",
