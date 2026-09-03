@@ -4,6 +4,7 @@ import subprocess
 import tempfile
 import unittest
 from pathlib import Path
+from unittest.mock import patch
 
 from scripts.publish_huggingface import (
     ALLOWED_ARTIFACTS,
@@ -16,6 +17,7 @@ from scripts.publish_huggingface import (
     ValidationFailure,
     audit_changed_files,
     classify_git_error,
+    clone_latest,
     git_auth_environment,
     publish_huggingface,
     push_fast_forward,
@@ -79,11 +81,11 @@ class HuggingFaceSafePublishTests(unittest.TestCase):
         git("remote", "add", "origin", str(self.remote), cwd=self.seed)
         git("push", "-u", "origin", "main", cwd=self.seed)
 
-    def publish(self, *, dry_run=False, source_sha="071deb28dbd8d39f53546511b645c0fdf3d7ad51", reader=read_remote_head):
+    def publish(self, *, dry_run=False, source_sha="071deb28dbd8d39f53546511b645c0fdf3d7ad51", reader=read_remote_head, repo_url=None):
         output = io.StringIO()
         result = publish_huggingface(
             source_dir=self.source,
-            repo_url=str(self.remote),
+            repo_url=str(repo_url or self.remote),
             token="unit-test-token",
             source_sha=source_sha,
             dry_run=dry_run,
@@ -119,12 +121,59 @@ class HuggingFaceSafePublishTests(unittest.TestCase):
         git("config", "user.email", "writer@example.test", cwd=destination)
         return destination
 
+    def init_remote_without_gitattributes(self):
+        remote = self.root / "hf-remote-no-attributes.git"
+        seed = self.root / "seed-no-attributes"
+        git("init", "--bare", "--initial-branch=main", str(remote))
+        git("init", "--initial-branch=main", str(seed))
+        git("config", "core.autocrlf", "false", cwd=seed)
+        git("config", "user.name", "HF History Owner", cwd=seed)
+        git("config", "user.email", "owner@example.test", cwd=seed)
+        (seed / "README.md").write_text("HF-only dataset card\n", encoding="utf-8", newline="\n")
+        for name, content in self.initial_artifacts.items():
+            (seed / name).write_bytes(content)
+        git("add", ".", cwd=seed)
+        git("commit", "-m", "HF independent history without attributes", cwd=seed)
+        git("remote", "add", "origin", str(remote), cwd=seed)
+        git("push", "-u", "origin", "main", cwd=seed)
+        return remote
+
     def test_all_artifacts_in_sync_creates_no_commit(self):
         before = self.remote_head()
         result, output = self.publish()
         self.assertEqual(result.status, "HF_ALREADY_IN_SYNC")
         self.assertEqual(self.remote_head(), before)
         self.assertIn("HF_ALREADY_IN_SYNC", output)
+
+    def test_clone_is_lf_deterministic_when_external_autocrlf_is_true(self):
+        remote = self.init_remote_without_gitattributes()
+        external_git_config = {
+            "GIT_CONFIG_COUNT": "1",
+            "GIT_CONFIG_KEY_0": "core.autocrlf",
+            "GIT_CONFIG_VALUE_0": "true",
+        }
+        checkout = self.root / "lf-checkout"
+
+        with patch.dict(os.environ, external_git_config):
+            with git_auth_environment("unit-test-token", self.root) as env:
+                head = read_remote_head(str(remote), "main", env, "unit-test-token")
+                clone_latest(str(remote), "main", checkout, env, "unit-test-token", head)
+
+            for name, expected in self.initial_artifacts.items():
+                actual = (checkout / name).read_bytes()
+                self.assertEqual(actual, expected, name)
+                self.assertNotIn(b"\r\n", actual, name)
+
+            result, output = self.publish(dry_run=True, repo_url=remote)
+            self.assertEqual(result.status, "HF_ALREADY_IN_SYNC")
+            self.assertEqual(result.changed_files, ())
+            self.assertIn("HF_ALREADY_IN_SYNC", output)
+
+            self.write_source({"prices.json": b'{"version":"genuinely-new"}\n'})
+            changed_result, changed_output = self.publish(dry_run=True, repo_url=remote)
+            self.assertEqual(changed_result.status, "DRY_RUN_OK")
+            self.assertEqual(changed_result.changed_files, ("prices.json",))
+            self.assertIn("file: prices.json", changed_output)
 
     def test_only_prices_json_update_is_allowed(self):
         self.write_source({"prices.json": b'{"version":"new"}\n'})

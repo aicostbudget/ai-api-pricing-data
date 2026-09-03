@@ -268,7 +268,7 @@ def clone_latest(
 ) -> None:
     try:
         run_git(
-            ["clone", "--branch", branch, "--single-branch", "--no-tags", repo_url, str(destination)],
+            ["-c", "core.autocrlf=false", "clone", "--branch", branch, "--single-branch", "--no-tags", repo_url, str(destination)],
             env=env,
             secrets=(token,),
         )
