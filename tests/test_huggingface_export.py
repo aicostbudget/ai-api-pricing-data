@@ -105,7 +105,7 @@ class HuggingFaceExportTests(unittest.TestCase):
         actual = {(row["provider_id"], row["model_id"]) for row in self.records}
         self.assertEqual(actual, expected_public_keys(self.projection))
         self.assertEqual(len(actual), len(self.records))
-        self.assertEqual(len(self.records), 45, "audited public Website distribution must include Grok 4.6 and Cohere Parse v5")
+        self.assertEqual(len(self.records), 47, "audited public Website distribution must include Claude Fable 5.1, Claude Mythos 5.1, Grok 4.6, and Cohere Parse v5")
         self.assertEqual(self.metadata["record_count"], len(self.records))
         self.assertEqual(self.metadata["provider_count"], 7)
 
@@ -199,13 +199,13 @@ class HuggingFaceExportTests(unittest.TestCase):
                 self.assertIsInstance(component["amount"], str, key)
                 self.assertEqual(len(component["source_refs"]), len(component["source_urls"]), key)
                 self.assertTrue(all(url.startswith("https://") for url in component["source_urls"]), key)
-        self.assertEqual(component_count, 288)
-        self.assertEqual(cache_write_count, 33)
+        self.assertEqual(component_count, 302)
+        self.assertEqual(cache_write_count, 37)
         self.assertTrue(any(not record["pricing_components"] for record in self.records))
 
-    def test_nine_cache_pricing_targets_have_component_contract(self):
+    def test_eleven_cache_pricing_targets_have_component_contract(self):
         target_ids = {
-            "gpt-5.6-sol", "gpt-5.6-terra", "gpt-5.6-luna", "claude-fable-5",
+            "gpt-5.6-sol", "gpt-5.6-terra", "gpt-5.6-luna", "claude-fable-5", "claude-fable-5-1", "claude-mythos-5-1",
             "claude-haiku-4.5", "claude-opus-4.8", "claude-opus-5",
             "claude-sonnet-4.6", "claude-sonnet-5",
         }
@@ -256,7 +256,7 @@ class HuggingFaceExportTests(unittest.TestCase):
         digest = hashlib.sha256(
             json.dumps(baseline_records, sort_keys=True, separators=(",", ":"), ensure_ascii=False).encode()
         ).hexdigest()
-        self.assertEqual(digest, "2531b7e7b9b1f0f62e515a20256ecdab7bafc5734309926d9a53947319c339ba")
+        self.assertEqual(digest, "696efe5d08096fec5ac45c5b932fbfee1bb211b599acc57babd3c08fd664b7fb")
 
     def test_timestamps_preserve_verification_semantics(self):
         pricing_meta = json.loads(META_PATH.read_text(encoding="utf-8"))

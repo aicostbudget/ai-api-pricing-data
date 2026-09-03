@@ -9,7 +9,7 @@
     "review_required": "display only with warning; no default or recommendation placement",
     "unsafe": "exclude from default calculations and show warning only where explicitly allowed"
   },
-  "effectiveAt": "2026-08-31T17:11:58Z",
+  "effectiveAt": "2026-09-03T13:03:55Z",
   "effectiveTimezone": "UTC",
   "failureBehavior": {
     "atomicWrite": true,
@@ -18,7 +18,7 @@
     "partialJson": "not_written",
     "publicV1Mutation": "forbidden"
   },
-  "generatedAt": "2026-09-02T05:13:28Z",
+  "generatedAt": "2026-09-03T13:03:55Z",
   "generatedAtPolicy": "UTC artifact generation timestamp injected by the generation pipeline",
   "governancePolicy": {
     "classes": [
@@ -263,6 +263,258 @@
       "status": "latest",
       "verificationStatus": "verified",
       "verifiedAt": "2026-08-24T08:42:53Z",
+      "verifiedSourceRefs": [
+        "source:anthropic:platform-claude-com-docs-en-about-claude-pricing"
+      ]
+    },
+    {
+      "aliasTargetInternalId": null,
+      "availability": "Standard",
+      "batchInputPrice": 5,
+      "batchOutputPrice": 25,
+      "billingModelInternalId": null,
+      "blockedFromDefaultReasons": [],
+      "cachedInputPrice": 0.25,
+      "canonicalInternalId": "anthropic/claude-fable-5-1",
+      "checkedAt": "2026-09-03T13:03:55Z",
+      "checkedSourceRefs": [
+        "source:anthropic:platform-claude-com-docs-en-about-claude-pricing"
+      ],
+      "contextWindow": null,
+      "contextWindowStatus": "unknown_not_guessed",
+      "defaultPriceSelectionRule": [
+        "current_effective_utc",
+        "verified",
+        "standard",
+        "text",
+        "default_context_class"
+      ],
+      "defaultSafe": true,
+      "governanceClass": "VERIFIED_CANONICAL",
+      "governanceDetails": null,
+      "governanceReason": "canonical_verified_direct_public_projection",
+      "governanceSourceCandidateIds": [
+        "anthropic/claude-fable-5-1"
+      ],
+      "id": "claude-fable-5-1",
+      "identityType": "canonical_model",
+      "inputPrice": 10,
+      "lifecycleStatus": "active",
+      "model": "Claude Fable 5.1",
+      "officialSourceUrl": "https://platform.claude.com/docs/en/about-claude/pricing",
+      "outputPrice": 50,
+      "pricingComponents": [
+        {
+          "amount": "5",
+          "calculationDefault": false,
+          "chargeId": "price:anthropic/claude-fable-5-1:batch:short:current:input:text:per_1m_tokens",
+          "component": "input",
+          "condition": {
+            "contextClass": "short",
+            "effectiveFrom": "2026-09-01",
+            "effectiveUntil": null,
+            "processingMode": "batch",
+            "promptTokenThreshold": null,
+            "regionPolicy": "global",
+            "tierSelection": null
+          },
+          "currency": "USD",
+          "modality": "text",
+          "pricingId": "price:anthropic/claude-fable-5-1:batch:short:current",
+          "sourceRefs": [
+            "source:anthropic:platform-claude-com-docs-en-about-claude-model-deprecations",
+            "source:anthropic:platform-claude-com-docs-en-about-claude-pricing",
+            "source:anthropic:platform-claude-com-docs-en-models-fable-5-1-overview",
+            "source:anthropic:platform-claude-com-docs-en-release-notes-overview"
+          ],
+          "unit": "per_1m_tokens",
+          "verificationStatus": "verified"
+        },
+        {
+          "amount": "25",
+          "calculationDefault": false,
+          "chargeId": "price:anthropic/claude-fable-5-1:batch:short:current:output:text:per_1m_tokens",
+          "component": "output",
+          "condition": {
+            "contextClass": "short",
+            "effectiveFrom": "2026-09-01",
+            "effectiveUntil": null,
+            "processingMode": "batch",
+            "promptTokenThreshold": null,
+            "regionPolicy": "global",
+            "tierSelection": null
+          },
+          "currency": "USD",
+          "modality": "text",
+          "pricingId": "price:anthropic/claude-fable-5-1:batch:short:current",
+          "sourceRefs": [
+            "source:anthropic:platform-claude-com-docs-en-about-claude-model-deprecations",
+            "source:anthropic:platform-claude-com-docs-en-about-claude-pricing",
+            "source:anthropic:platform-claude-com-docs-en-models-fable-5-1-overview",
+            "source:anthropic:platform-claude-com-docs-en-release-notes-overview"
+          ],
+          "unit": "per_1m_tokens",
+          "verificationStatus": "verified"
+        },
+        {
+          "amount": "20",
+          "calculationDefault": true,
+          "chargeId": "price:anthropic/claude-fable-5-1:standard:short:current:cache_write_1h:text:per_1m_tokens",
+          "component": "cache_write_1h",
+          "condition": {
+            "contextClass": "short",
+            "effectiveFrom": "2026-09-01",
+            "effectiveUntil": null,
+            "processingMode": "standard",
+            "promptTokenThreshold": null,
+            "regionPolicy": "global",
+            "tierSelection": null
+          },
+          "currency": "USD",
+          "modality": "text",
+          "pricingId": "price:anthropic/claude-fable-5-1:standard:short:current",
+          "sourceRefs": [
+            "source:anthropic:platform-claude-com-docs-en-about-claude-model-deprecations",
+            "source:anthropic:platform-claude-com-docs-en-about-claude-pricing",
+            "source:anthropic:platform-claude-com-docs-en-models-fable-5-1-overview",
+            "source:anthropic:platform-claude-com-docs-en-release-notes-overview"
+          ],
+          "unit": "per_1m_tokens",
+          "verificationStatus": "verified"
+        },
+        {
+          "amount": "12.5",
+          "calculationDefault": true,
+          "chargeId": "price:anthropic/claude-fable-5-1:standard:short:current:cache_write_5m:text:per_1m_tokens",
+          "component": "cache_write_5m",
+          "condition": {
+            "contextClass": "short",
+            "effectiveFrom": "2026-09-01",
+            "effectiveUntil": null,
+            "processingMode": "standard",
+            "promptTokenThreshold": null,
+            "regionPolicy": "global",
+            "tierSelection": null
+          },
+          "currency": "USD",
+          "modality": "text",
+          "pricingId": "price:anthropic/claude-fable-5-1:standard:short:current",
+          "sourceRefs": [
+            "source:anthropic:platform-claude-com-docs-en-about-claude-model-deprecations",
+            "source:anthropic:platform-claude-com-docs-en-about-claude-pricing",
+            "source:anthropic:platform-claude-com-docs-en-models-fable-5-1-overview",
+            "source:anthropic:platform-claude-com-docs-en-release-notes-overview"
+          ],
+          "unit": "per_1m_tokens",
+          "verificationStatus": "verified"
+        },
+        {
+          "amount": "0.25",
+          "calculationDefault": true,
+          "chargeId": "price:anthropic/claude-fable-5-1:standard:short:current:cached_input:text:per_1m_tokens",
+          "component": "cached_input",
+          "condition": {
+            "contextClass": "short",
+            "effectiveFrom": "2026-09-01",
+            "effectiveUntil": null,
+            "processingMode": "standard",
+            "promptTokenThreshold": null,
+            "regionPolicy": "global",
+            "tierSelection": null
+          },
+          "currency": "USD",
+          "modality": "text",
+          "pricingId": "price:anthropic/claude-fable-5-1:standard:short:current",
+          "sourceRefs": [
+            "source:anthropic:platform-claude-com-docs-en-about-claude-model-deprecations",
+            "source:anthropic:platform-claude-com-docs-en-about-claude-pricing",
+            "source:anthropic:platform-claude-com-docs-en-models-fable-5-1-overview",
+            "source:anthropic:platform-claude-com-docs-en-release-notes-overview"
+          ],
+          "unit": "per_1m_tokens",
+          "verificationStatus": "verified"
+        },
+        {
+          "amount": "10",
+          "calculationDefault": true,
+          "chargeId": "price:anthropic/claude-fable-5-1:standard:short:current:input:text:per_1m_tokens",
+          "component": "input",
+          "condition": {
+            "contextClass": "short",
+            "effectiveFrom": "2026-09-01",
+            "effectiveUntil": null,
+            "processingMode": "standard",
+            "promptTokenThreshold": null,
+            "regionPolicy": "global",
+            "tierSelection": null
+          },
+          "currency": "USD",
+          "modality": "text",
+          "pricingId": "price:anthropic/claude-fable-5-1:standard:short:current",
+          "sourceRefs": [
+            "source:anthropic:platform-claude-com-docs-en-about-claude-model-deprecations",
+            "source:anthropic:platform-claude-com-docs-en-about-claude-pricing",
+            "source:anthropic:platform-claude-com-docs-en-models-fable-5-1-overview",
+            "source:anthropic:platform-claude-com-docs-en-release-notes-overview"
+          ],
+          "unit": "per_1m_tokens",
+          "verificationStatus": "verified"
+        },
+        {
+          "amount": "50",
+          "calculationDefault": true,
+          "chargeId": "price:anthropic/claude-fable-5-1:standard:short:current:output:text:per_1m_tokens",
+          "component": "output",
+          "condition": {
+            "contextClass": "short",
+            "effectiveFrom": "2026-09-01",
+            "effectiveUntil": null,
+            "processingMode": "standard",
+            "promptTokenThreshold": null,
+            "regionPolicy": "global",
+            "tierSelection": null
+          },
+          "currency": "USD",
+          "modality": "text",
+          "pricingId": "price:anthropic/claude-fable-5-1:standard:short:current",
+          "sourceRefs": [
+            "source:anthropic:platform-claude-com-docs-en-about-claude-model-deprecations",
+            "source:anthropic:platform-claude-com-docs-en-about-claude-pricing",
+            "source:anthropic:platform-claude-com-docs-en-models-fable-5-1-overview",
+            "source:anthropic:platform-claude-com-docs-en-release-notes-overview"
+          ],
+          "unit": "per_1m_tokens",
+          "verificationStatus": "verified"
+        }
+      ],
+      "pricingSourceType": "canonical_verified_price",
+      "provider": "anthropic",
+      "publicExposure": "public",
+      "redirectTargetInternalId": null,
+      "releaseStage": "stable",
+      "replacementInternalId": null,
+      "routingBehavior": "direct",
+      "routingDetails": {},
+      "selectedBatchPriceRecordId": "price:anthropic/claude-fable-5-1:batch:short:current",
+      "selectedBillingPriceRecordId": "price:anthropic/claude-fable-5-1:standard:short:current",
+      "selectedPriceEffectiveFrom": "2026-09-01",
+      "selectedPriceEffectiveUntil": null,
+      "selectedPriceRecordId": "price:anthropic/claude-fable-5-1:standard:short:current",
+      "sourceRefs": [
+        "source:anthropic:platform-claude-com-docs-en-about-claude-model-deprecations",
+        "source:anthropic:platform-claude-com-docs-en-about-claude-pricing",
+        "source:anthropic:platform-claude-com-docs-en-models-fable-5-1-overview",
+        "source:anthropic:platform-claude-com-docs-en-release-notes-overview"
+      ],
+      "sourceUrls": [
+        "https://platform.claude.com/docs/en/about-claude/model-deprecations",
+        "https://platform.claude.com/docs/en/about-claude/pricing",
+        "https://platform.claude.com/docs/en/models/fable-5-1/overview",
+        "https://platform.claude.com/docs/en/release-notes/overview"
+      ],
+      "status": "latest",
+      "verificationStatus": "verified",
+      "verifiedAt": "2026-09-03T13:03:55Z",
       "verifiedSourceRefs": [
         "source:anthropic:platform-claude-com-docs-en-about-claude-pricing"
       ]
@@ -598,6 +850,249 @@
       "status": "limited",
       "verificationStatus": "verified",
       "verifiedAt": "2026-07-07T00:00:00Z",
+      "verifiedSourceRefs": [
+        "source:anthropic:platform-claude-com-docs-en-about-claude-pricing"
+      ]
+    },
+    {
+      "aliasTargetInternalId": null,
+      "availability": "Limited availability",
+      "batchInputPrice": 5,
+      "batchOutputPrice": 25,
+      "billingModelInternalId": null,
+      "blockedFromDefaultReasons": [],
+      "cachedInputPrice": 0.25,
+      "canonicalInternalId": "anthropic/claude-mythos-5-1",
+      "checkedAt": "2026-09-03T13:03:55Z",
+      "checkedSourceRefs": [
+        "source:anthropic:platform-claude-com-docs-en-about-claude-pricing"
+      ],
+      "contextWindow": null,
+      "contextWindowStatus": "unknown_not_guessed",
+      "defaultPriceSelectionRule": [
+        "current_effective_utc",
+        "verified",
+        "standard",
+        "text",
+        "default_context_class"
+      ],
+      "defaultSafe": true,
+      "governanceClass": "VERIFIED_CANONICAL",
+      "governanceDetails": null,
+      "governanceReason": "canonical_verified_direct_public_projection",
+      "governanceSourceCandidateIds": [
+        "anthropic/claude-mythos-5-1"
+      ],
+      "id": "claude-mythos-5-1",
+      "identityType": "canonical_model",
+      "inputPrice": 10,
+      "lifecycleStatus": "active",
+      "model": "Claude Mythos 5.1",
+      "officialSourceUrl": "https://platform.claude.com/docs/en/about-claude/pricing",
+      "outputPrice": 50,
+      "pricingComponents": [
+        {
+          "amount": "5",
+          "calculationDefault": false,
+          "chargeId": "price:anthropic/claude-mythos-5-1:batch:short:current:input:text:per_1m_tokens",
+          "component": "input",
+          "condition": {
+            "contextClass": "short",
+            "effectiveFrom": "2026-09-01",
+            "effectiveUntil": null,
+            "processingMode": "batch",
+            "promptTokenThreshold": null,
+            "regionPolicy": "global",
+            "tierSelection": null
+          },
+          "currency": "USD",
+          "modality": "text",
+          "pricingId": "price:anthropic/claude-mythos-5-1:batch:short:current",
+          "sourceRefs": [
+            "source:anthropic:platform-claude-com-docs-en-about-claude-pricing",
+            "source:anthropic:platform-claude-com-docs-en-models-mythos-5-1-overview",
+            "source:anthropic:platform-claude-com-docs-en-release-notes-overview"
+          ],
+          "unit": "per_1m_tokens",
+          "verificationStatus": "verified"
+        },
+        {
+          "amount": "25",
+          "calculationDefault": false,
+          "chargeId": "price:anthropic/claude-mythos-5-1:batch:short:current:output:text:per_1m_tokens",
+          "component": "output",
+          "condition": {
+            "contextClass": "short",
+            "effectiveFrom": "2026-09-01",
+            "effectiveUntil": null,
+            "processingMode": "batch",
+            "promptTokenThreshold": null,
+            "regionPolicy": "global",
+            "tierSelection": null
+          },
+          "currency": "USD",
+          "modality": "text",
+          "pricingId": "price:anthropic/claude-mythos-5-1:batch:short:current",
+          "sourceRefs": [
+            "source:anthropic:platform-claude-com-docs-en-about-claude-pricing",
+            "source:anthropic:platform-claude-com-docs-en-models-mythos-5-1-overview",
+            "source:anthropic:platform-claude-com-docs-en-release-notes-overview"
+          ],
+          "unit": "per_1m_tokens",
+          "verificationStatus": "verified"
+        },
+        {
+          "amount": "20",
+          "calculationDefault": true,
+          "chargeId": "price:anthropic/claude-mythos-5-1:standard:short:current:cache_write_1h:text:per_1m_tokens",
+          "component": "cache_write_1h",
+          "condition": {
+            "contextClass": "short",
+            "effectiveFrom": "2026-09-01",
+            "effectiveUntil": null,
+            "processingMode": "standard",
+            "promptTokenThreshold": null,
+            "regionPolicy": "global",
+            "tierSelection": null
+          },
+          "currency": "USD",
+          "modality": "text",
+          "pricingId": "price:anthropic/claude-mythos-5-1:standard:short:current",
+          "sourceRefs": [
+            "source:anthropic:platform-claude-com-docs-en-about-claude-pricing",
+            "source:anthropic:platform-claude-com-docs-en-models-mythos-5-1-overview",
+            "source:anthropic:platform-claude-com-docs-en-release-notes-overview"
+          ],
+          "unit": "per_1m_tokens",
+          "verificationStatus": "verified"
+        },
+        {
+          "amount": "12.5",
+          "calculationDefault": true,
+          "chargeId": "price:anthropic/claude-mythos-5-1:standard:short:current:cache_write_5m:text:per_1m_tokens",
+          "component": "cache_write_5m",
+          "condition": {
+            "contextClass": "short",
+            "effectiveFrom": "2026-09-01",
+            "effectiveUntil": null,
+            "processingMode": "standard",
+            "promptTokenThreshold": null,
+            "regionPolicy": "global",
+            "tierSelection": null
+          },
+          "currency": "USD",
+          "modality": "text",
+          "pricingId": "price:anthropic/claude-mythos-5-1:standard:short:current",
+          "sourceRefs": [
+            "source:anthropic:platform-claude-com-docs-en-about-claude-pricing",
+            "source:anthropic:platform-claude-com-docs-en-models-mythos-5-1-overview",
+            "source:anthropic:platform-claude-com-docs-en-release-notes-overview"
+          ],
+          "unit": "per_1m_tokens",
+          "verificationStatus": "verified"
+        },
+        {
+          "amount": "0.25",
+          "calculationDefault": true,
+          "chargeId": "price:anthropic/claude-mythos-5-1:standard:short:current:cached_input:text:per_1m_tokens",
+          "component": "cached_input",
+          "condition": {
+            "contextClass": "short",
+            "effectiveFrom": "2026-09-01",
+            "effectiveUntil": null,
+            "processingMode": "standard",
+            "promptTokenThreshold": null,
+            "regionPolicy": "global",
+            "tierSelection": null
+          },
+          "currency": "USD",
+          "modality": "text",
+          "pricingId": "price:anthropic/claude-mythos-5-1:standard:short:current",
+          "sourceRefs": [
+            "source:anthropic:platform-claude-com-docs-en-about-claude-pricing",
+            "source:anthropic:platform-claude-com-docs-en-models-mythos-5-1-overview",
+            "source:anthropic:platform-claude-com-docs-en-release-notes-overview"
+          ],
+          "unit": "per_1m_tokens",
+          "verificationStatus": "verified"
+        },
+        {
+          "amount": "10",
+          "calculationDefault": true,
+          "chargeId": "price:anthropic/claude-mythos-5-1:standard:short:current:input:text:per_1m_tokens",
+          "component": "input",
+          "condition": {
+            "contextClass": "short",
+            "effectiveFrom": "2026-09-01",
+            "effectiveUntil": null,
+            "processingMode": "standard",
+            "promptTokenThreshold": null,
+            "regionPolicy": "global",
+            "tierSelection": null
+          },
+          "currency": "USD",
+          "modality": "text",
+          "pricingId": "price:anthropic/claude-mythos-5-1:standard:short:current",
+          "sourceRefs": [
+            "source:anthropic:platform-claude-com-docs-en-about-claude-pricing",
+            "source:anthropic:platform-claude-com-docs-en-models-mythos-5-1-overview",
+            "source:anthropic:platform-claude-com-docs-en-release-notes-overview"
+          ],
+          "unit": "per_1m_tokens",
+          "verificationStatus": "verified"
+        },
+        {
+          "amount": "50",
+          "calculationDefault": true,
+          "chargeId": "price:anthropic/claude-mythos-5-1:standard:short:current:output:text:per_1m_tokens",
+          "component": "output",
+          "condition": {
+            "contextClass": "short",
+            "effectiveFrom": "2026-09-01",
+            "effectiveUntil": null,
+            "processingMode": "standard",
+            "promptTokenThreshold": null,
+            "regionPolicy": "global",
+            "tierSelection": null
+          },
+          "currency": "USD",
+          "modality": "text",
+          "pricingId": "price:anthropic/claude-mythos-5-1:standard:short:current",
+          "sourceRefs": [
+            "source:anthropic:platform-claude-com-docs-en-about-claude-pricing",
+            "source:anthropic:platform-claude-com-docs-en-models-mythos-5-1-overview",
+            "source:anthropic:platform-claude-com-docs-en-release-notes-overview"
+          ],
+          "unit": "per_1m_tokens",
+          "verificationStatus": "verified"
+        }
+      ],
+      "pricingSourceType": "canonical_verified_price",
+      "provider": "anthropic",
+      "publicExposure": "public",
+      "redirectTargetInternalId": null,
+      "releaseStage": "stable",
+      "replacementInternalId": null,
+      "routingBehavior": "direct",
+      "routingDetails": {},
+      "selectedBatchPriceRecordId": "price:anthropic/claude-mythos-5-1:batch:short:current",
+      "selectedBillingPriceRecordId": "price:anthropic/claude-mythos-5-1:standard:short:current",
+      "selectedPriceEffectiveFrom": "2026-09-01",
+      "selectedPriceEffectiveUntil": null,
+      "selectedPriceRecordId": "price:anthropic/claude-mythos-5-1:standard:short:current",
+      "sourceRefs": [
+        "source:anthropic:platform-claude-com-docs-en-about-claude-pricing",
+        "source:anthropic:platform-claude-com-docs-en-models-mythos-5-1-overview",
+        "source:anthropic:platform-claude-com-docs-en-release-notes-overview"
+      ],
+      "sourceUrls": [
+        "https://platform.claude.com/docs/en/about-claude/pricing",
+        "https://platform.claude.com/docs/en/models/mythos-5-1/overview",
+        "https://platform.claude.com/docs/en/release-notes/overview"
+      ],
+      "status": "limited",
+      "verificationStatus": "verified",
+      "verifiedAt": "2026-09-03T13:03:55Z",
       "verifiedSourceRefs": [
         "source:anthropic:platform-claude-com-docs-en-about-claude-pricing"
       ]

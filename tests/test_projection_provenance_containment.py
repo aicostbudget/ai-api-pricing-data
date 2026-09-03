@@ -38,6 +38,7 @@ class ProjectionProvenanceContainmentTests(unittest.TestCase):
     def test_existing_projection_preserves_all_provenance_and_generated_at(self):
         committed = json.loads(ARTIFACT.read_text(encoding="utf-8"))
         generated, _ = build_projection(
+            effective_at_value=committed["effectiveAt"],
             website_dataset=WEBSITE_FIXTURE,
             existing_artifact=ARTIFACT,
         )

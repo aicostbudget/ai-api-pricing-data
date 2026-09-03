@@ -187,6 +187,63 @@ class P0P1PricingUpdateTests(unittest.TestCase):
             ]
             self.assertEqual(len(future_components), 6)
 
+    def test_claude_fable_and_mythos_5_1_pricing_and_lifecycle(self):
+        expected_prices = {
+            "input": 10.0,
+            "output": 50.0,
+            "cached_input": 0.25,
+            "cache_write": 12.5,
+            "cache_write_1h": 20.0,
+            "batch_input": 5.0,
+            "batch_output": 25.0,
+        }
+        v2_model_by_id = {row["internalId"]: row for row in self.v2_models}
+        projection_by_id = {row["id"]: row for row in self.v2_projection}
+
+        for model_id, expected_availability, expected_status in (
+            ("claude-fable-5-1", "Standard", "latest"),
+            ("claude-mythos-5-1", "Limited availability", "limited"),
+        ):
+            with self.subTest(model=model_id):
+                canonical = self.canonical_by_id[model_id]
+                self.assertEqual(canonical["status"], "active")
+                self.assertEqual(canonical["release_stage"], "stable")
+                self.assertEqual(canonical["pricing"], {"currency": "USD", "unit": "1M tokens", **expected_prices})
+
+                internal_id = f"anthropic/{model_id}"
+                v2_model = v2_model_by_id[internal_id]
+                self.assertEqual(v2_model["lifecycleStatus"], "active")
+                self.assertEqual(v2_model["availability"], expected_availability)
+                self.assertEqual(v2_model["verificationStatus"], "verified")
+
+                projection = projection_by_id[model_id]
+                self.assertEqual(projection["status"], expected_status)
+                self.assertEqual(projection["lifecycleStatus"], "active")
+                self.assertEqual(projection["availability"], expected_availability)
+                self.assertTrue(projection["defaultSafe"])
+                self.assertEqual(projection["publicExposure"], "public")
+                self.assertEqual(projection["inputPrice"], 10)
+                self.assertEqual(projection["cachedInputPrice"], 0.25)
+                self.assertEqual(projection["outputPrice"], 50)
+                self.assertEqual(projection["batchInputPrice"], 5)
+                self.assertEqual(projection["batchOutputPrice"], 25)
+
+        for previous_model_id in ("claude-fable-5", "claude-mythos-5"):
+            previous = projection_by_id[previous_model_id]
+            self.assertEqual(previous["lifecycleStatus"], "active")
+            self.assertNotIn(previous["status"], {"deprecated", "retired"})
+            self.assertEqual(previous["cachedInputPrice"], 1)
+
+        all_model_ids = set(self.canonical_by_id) | set(projection_by_id)
+        for invalid_id in (
+            "claude-fable-5.1",
+            "claude-fable-5_1",
+            "claude-fable-5-01",
+            "claude-mythos-5.1",
+            "claude-mythos-5_1",
+        ):
+            self.assertNotIn(invalid_id, all_model_ids)
+
     def test_non_token_models_are_not_misrepresented(self):
         parse = self.canonical_by_id["parse-v5.0"]
         for field in (
