@@ -213,12 +213,9 @@ The generator matches models by `provider_id + model_id`, compares only pricing 
 
 Manual backfills should edit the existing event with the same `dedupe_key`. Add `effective_from` only when an official provider announcement, official changelog, or pricing page explicitly gives the effective date. Add `announcement_url` only for an official URL; do not invent one.
 
-Current canonical event count is 2:
+Do not copy a fixed event count into documentation or product code. The validated records in `data/price-change-events/events.jsonl` are the authoritative current count.
 
-- Mistral AI `mistral-large`: `price_update`
-- xAI `grok-4.3`: `cached_price_added`
-
-The current data is not ready for a public Pricing History page. Suggested readiness gates are at least 5 real price changes, at least 3 providers covered, official source for every event, `detected_at` and `verified_at` for every event, explicit marking of unknown effective dates, and no inferred old prices.
+Publication readiness is determined from the current event file: require at least 5 real price changes, at least 3 providers covered, an official source plus `detected_at` and `verified_at` for every event, explicit marking of unknown effective dates, and no inferred old prices. Passing these gates supports a recent verified price-changes feed; it does not by itself establish deep multi-year Pricing History coverage.
 
 ## Methodology
 
