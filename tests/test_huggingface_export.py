@@ -105,7 +105,7 @@ class HuggingFaceExportTests(unittest.TestCase):
         actual = {(row["provider_id"], row["model_id"]) for row in self.records}
         self.assertEqual(actual, expected_public_keys(self.projection))
         self.assertEqual(len(actual), len(self.records))
-        self.assertEqual(len(self.records), 48, "audited public Website distribution must include Gemini 3.8 Flash")
+        self.assertEqual(len(self.records), 49, "audited public Website distribution must include GPT-6 Astra")
         self.assertEqual(self.metadata["record_count"], len(self.records))
         self.assertEqual(self.metadata["provider_count"], 7)
 
@@ -199,8 +199,8 @@ class HuggingFaceExportTests(unittest.TestCase):
                 self.assertIsInstance(component["amount"], str, key)
                 self.assertEqual(len(component["source_refs"]), len(component["source_urls"]), key)
                 self.assertTrue(all(url.startswith("https://") for url in component["source_urls"]), key)
-        self.assertEqual(component_count, 314)
-        self.assertEqual(cache_write_count, 37)
+        self.assertEqual(component_count, 346)
+        self.assertEqual(cache_write_count, 45)
         self.assertTrue(any(not record["pricing_components"] for record in self.records))
 
     def test_eleven_cache_pricing_targets_have_component_contract(self):
@@ -256,7 +256,7 @@ class HuggingFaceExportTests(unittest.TestCase):
         digest = hashlib.sha256(
             json.dumps(baseline_records, sort_keys=True, separators=(",", ":"), ensure_ascii=False).encode()
         ).hexdigest()
-        self.assertEqual(digest, "d789e59d23d0592c28b6ab8e3d5b8cf11c7a598900254e4ac6ade736842d6a62")
+        self.assertEqual(digest, "5cfdc8f0433aceecc26ca530d33b7afbee04f637f0aae8850f83861411ae50f1")
 
     def test_timestamps_preserve_verification_semantics(self):
         pricing_meta = json.loads(META_PATH.read_text(encoding="utf-8"))

@@ -8,6 +8,11 @@ from typing import Any
 from urllib.parse import urlparse
 
 try:
+    from pricing_contract import PricingContractError, validate_normalized_region_contract
+except ModuleNotFoundError:
+    from scripts.pricing_contract import PricingContractError, validate_normalized_region_contract
+
+try:
     from lib import ROOT
 except ModuleNotFoundError:
     from scripts.lib import ROOT
@@ -530,6 +535,10 @@ def validate_preview() -> dict[str, Any]:
         for ref in price["sourceRefs"]:
             if ref not in source_set:
                 fail(f"price {price['pricingId']} has orphan sourceRef {ref}")
+        try:
+            validate_normalized_region_contract(price, known_source_refs=source_set)
+        except PricingContractError as exc:
+            fail(str(exc))
         if price["verificationStatus"] == "verified":
             verified_sources = [source_by_id[ref] for ref in price["sourceRefs"] if source_by_id[ref]["verificationStatus"] == "verified"]
             if not verified_sources:

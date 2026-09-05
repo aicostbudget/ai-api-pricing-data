@@ -2,14 +2,14 @@
   "dataset_name": "AICostBudget AI API Pricing Dataset",
   "dataset_version": "1.0.0",
   "description": "Open, machine-readable pricing data for LLM and AI APIs.",
-  "generated_at": "2026-09-03T18:09:33Z",
+  "generated_at": "2026-09-04T17:39:41Z",
   "homepage": "https://aicostbudget.com",
-  "last_verified_at": "2026-09-03T18:03:16Z",
+  "last_verified_at": "2026-09-04T17:34:11Z",
   "licenses": {
     "code": "MIT",
     "data": "CC BY 4.0"
   },
-  "model_count": 40,
+  "model_count": 41,
   "models": [
     {
       "accessed_at": "2026-08-24T08:42:53Z",
@@ -1211,6 +1211,769 @@
       "status": "active"
     },
     {
+      "accessed_at": "2026-09-04T17:34:11Z",
+      "context_window_tokens": 1050000,
+      "display_name": "GPT-6 Astra",
+      "effective_from": "2026-09-03",
+      "input_modality": "text",
+      "last_verified_at": "2026-09-04T17:34:11Z",
+      "model_family": "GPT-6",
+      "model_id": "gpt-6-astra",
+      "notes": "OpenAI released GPT-6 Astra on 2026-09-03. Public V1 fields intentionally project Standard short-context prices and Batch short-context input/output prices. Declarative price_records preserve Standard, Batch, Flex, and Fast short/long pricing, the whole-request 272K input-token threshold, cache-write charges, regional data-residency uplift, and the Fast EU data-residency exclusion. Priority is a routing alias for Fast and is not duplicated as a price record.",
+      "official_source_url": "https://developers.openai.com/api/docs/models/gpt-6-astra",
+      "official_source_urls": [
+        "https://developers.openai.com/api/docs/models/gpt-6-astra",
+        "https://developers.openai.com/api/docs/pricing",
+        "https://developers.openai.com/api/docs/changelog",
+        "https://developers.openai.com/api/docs/guides/batch",
+        "https://developers.openai.com/api/docs/guides/flex-processing",
+        "https://developers.openai.com/api/docs/guides/fast-mode",
+        "https://developers.openai.com/api/docs/guides/your-data",
+        "https://openai.com/index/gpt-6-astra/"
+      ],
+      "output_modality": "text",
+      "price_records": [
+        {
+          "billing_note": "Standard pricing for prompts with 272,000 or fewer total input tokens; cached prompt tokens are included and the selected tier applies to the full request.",
+          "calculation_default": true,
+          "charges": [
+            {
+              "amount": "10",
+              "component": "input",
+              "id": "price:openai/gpt-6-astra:standard:short:current:input:text:per_1m_tokens",
+              "modality": "text",
+              "unit": "per_1m_tokens"
+            },
+            {
+              "amount": "1",
+              "component": "cached_input",
+              "id": "price:openai/gpt-6-astra:standard:short:current:cached_input:text:per_1m_tokens",
+              "modality": "text",
+              "unit": "per_1m_tokens"
+            },
+            {
+              "amount": "12.5",
+              "component": "cache_write",
+              "id": "price:openai/gpt-6-astra:standard:short:current:cache_write:text:per_1m_tokens",
+              "modality": "text",
+              "unit": "per_1m_tokens"
+            },
+            {
+              "amount": "50",
+              "component": "output",
+              "id": "price:openai/gpt-6-astra:standard:short:current:output:text:per_1m_tokens",
+              "modality": "text",
+              "unit": "per_1m_tokens"
+            }
+          ],
+          "checked_at": "2026-09-04T17:34:11Z",
+          "context_class": "short",
+          "currency": "USD",
+          "effective_from": "2026-09-03",
+          "effective_until": null,
+          "id": "price:openai/gpt-6-astra:standard:short:current",
+          "pricing_status": "current",
+          "processing_mode": "standard",
+          "prompt_token_threshold": 272000,
+          "region_policy": {
+            "availability": {
+              "default": "available",
+              "rules": []
+            },
+            "data_residencies": [
+              "global",
+              "us",
+              "eu"
+            ],
+            "endpoint_geographies": [
+              "global",
+              "regional"
+            ],
+            "price_adjustments": [
+              {
+                "factor": "1.10",
+                "id": "regional-data-residency-uplift",
+                "operation": "multiply",
+                "selector": {
+                  "endpoint_geographies": [
+                    "regional"
+                  ]
+                },
+                "source_refs": [
+                  "https://developers.openai.com/api/docs/pricing",
+                  "https://developers.openai.com/api/docs/guides/your-data"
+                ]
+              }
+            ],
+            "pricing_geography": "global_base"
+          },
+          "source_refs": [
+            "https://developers.openai.com/api/docs/models/gpt-6-astra",
+            "https://developers.openai.com/api/docs/pricing"
+          ],
+          "tier_selection": {
+            "cached_prompt_tokens_included": true,
+            "comparison": "less_than_or_equal",
+            "token_basis": "total_prompt_tokens",
+            "whole_request_pricing": true
+          },
+          "verification_status": "verified",
+          "verified_at": "2026-09-04T17:34:11Z"
+        },
+        {
+          "billing_note": "Standard pricing for prompts with more than 272,000 total input tokens; cached prompt tokens are included and long-context rates apply to the full request.",
+          "calculation_default": false,
+          "charges": [
+            {
+              "amount": "20",
+              "component": "input",
+              "id": "price:openai/gpt-6-astra:standard:long:current:input:text:per_1m_tokens",
+              "modality": "text",
+              "unit": "per_1m_tokens"
+            },
+            {
+              "amount": "2",
+              "component": "cached_input",
+              "id": "price:openai/gpt-6-astra:standard:long:current:cached_input:text:per_1m_tokens",
+              "modality": "text",
+              "unit": "per_1m_tokens"
+            },
+            {
+              "amount": "25",
+              "component": "cache_write",
+              "id": "price:openai/gpt-6-astra:standard:long:current:cache_write:text:per_1m_tokens",
+              "modality": "text",
+              "unit": "per_1m_tokens"
+            },
+            {
+              "amount": "75",
+              "component": "output",
+              "id": "price:openai/gpt-6-astra:standard:long:current:output:text:per_1m_tokens",
+              "modality": "text",
+              "unit": "per_1m_tokens"
+            }
+          ],
+          "checked_at": "2026-09-04T17:34:11Z",
+          "context_class": "long",
+          "currency": "USD",
+          "effective_from": "2026-09-03",
+          "effective_until": null,
+          "id": "price:openai/gpt-6-astra:standard:long:current",
+          "pricing_status": "current",
+          "processing_mode": "standard",
+          "prompt_token_threshold": 272000,
+          "region_policy": {
+            "availability": {
+              "default": "available",
+              "rules": []
+            },
+            "data_residencies": [
+              "global",
+              "us",
+              "eu"
+            ],
+            "endpoint_geographies": [
+              "global",
+              "regional"
+            ],
+            "price_adjustments": [
+              {
+                "factor": "1.10",
+                "id": "regional-data-residency-uplift",
+                "operation": "multiply",
+                "selector": {
+                  "endpoint_geographies": [
+                    "regional"
+                  ]
+                },
+                "source_refs": [
+                  "https://developers.openai.com/api/docs/pricing",
+                  "https://developers.openai.com/api/docs/guides/your-data"
+                ]
+              }
+            ],
+            "pricing_geography": "global_base"
+          },
+          "source_refs": [
+            "https://developers.openai.com/api/docs/models/gpt-6-astra",
+            "https://developers.openai.com/api/docs/pricing"
+          ],
+          "tier_selection": {
+            "cached_prompt_tokens_included": true,
+            "comparison": "greater_than",
+            "token_basis": "total_prompt_tokens",
+            "whole_request_pricing": true
+          },
+          "verification_status": "verified",
+          "verified_at": "2026-09-04T17:34:11Z"
+        },
+        {
+          "billing_note": "Batch short-context pricing is the published 50% discounted rate and retains the whole-request 272,000-token boundary.",
+          "calculation_default": false,
+          "charges": [
+            {
+              "amount": "5",
+              "component": "input",
+              "id": "price:openai/gpt-6-astra:batch:short:current:input:text:per_1m_tokens",
+              "modality": "text",
+              "unit": "per_1m_tokens"
+            },
+            {
+              "amount": "0.5",
+              "component": "cached_input",
+              "id": "price:openai/gpt-6-astra:batch:short:current:cached_input:text:per_1m_tokens",
+              "modality": "text",
+              "unit": "per_1m_tokens"
+            },
+            {
+              "amount": "6.25",
+              "component": "cache_write",
+              "id": "price:openai/gpt-6-astra:batch:short:current:cache_write:text:per_1m_tokens",
+              "modality": "text",
+              "unit": "per_1m_tokens"
+            },
+            {
+              "amount": "25",
+              "component": "output",
+              "id": "price:openai/gpt-6-astra:batch:short:current:output:text:per_1m_tokens",
+              "modality": "text",
+              "unit": "per_1m_tokens"
+            }
+          ],
+          "checked_at": "2026-09-04T17:34:11Z",
+          "context_class": "short",
+          "currency": "USD",
+          "effective_from": "2026-09-03",
+          "effective_until": null,
+          "id": "price:openai/gpt-6-astra:batch:short:current",
+          "pricing_status": "current",
+          "processing_mode": "batch",
+          "prompt_token_threshold": 272000,
+          "region_policy": {
+            "availability": {
+              "default": "available",
+              "rules": []
+            },
+            "data_residencies": [
+              "global",
+              "us",
+              "eu"
+            ],
+            "endpoint_geographies": [
+              "global",
+              "regional"
+            ],
+            "price_adjustments": [
+              {
+                "factor": "1.10",
+                "id": "regional-data-residency-uplift",
+                "operation": "multiply",
+                "selector": {
+                  "endpoint_geographies": [
+                    "regional"
+                  ]
+                },
+                "source_refs": [
+                  "https://developers.openai.com/api/docs/pricing",
+                  "https://developers.openai.com/api/docs/guides/your-data"
+                ]
+              }
+            ],
+            "pricing_geography": "global_base"
+          },
+          "source_refs": [
+            "https://developers.openai.com/api/docs/pricing",
+            "https://developers.openai.com/api/docs/guides/batch"
+          ],
+          "tier_selection": {
+            "cached_prompt_tokens_included": true,
+            "comparison": "less_than_or_equal",
+            "token_basis": "total_prompt_tokens",
+            "whole_request_pricing": true
+          },
+          "verification_status": "verified",
+          "verified_at": "2026-09-04T17:34:11Z"
+        },
+        {
+          "billing_note": "Batch long-context pricing is the published 50% discounted rate and applies to the full request above 272,000 total input tokens.",
+          "calculation_default": false,
+          "charges": [
+            {
+              "amount": "10",
+              "component": "input",
+              "id": "price:openai/gpt-6-astra:batch:long:current:input:text:per_1m_tokens",
+              "modality": "text",
+              "unit": "per_1m_tokens"
+            },
+            {
+              "amount": "1",
+              "component": "cached_input",
+              "id": "price:openai/gpt-6-astra:batch:long:current:cached_input:text:per_1m_tokens",
+              "modality": "text",
+              "unit": "per_1m_tokens"
+            },
+            {
+              "amount": "12.5",
+              "component": "cache_write",
+              "id": "price:openai/gpt-6-astra:batch:long:current:cache_write:text:per_1m_tokens",
+              "modality": "text",
+              "unit": "per_1m_tokens"
+            },
+            {
+              "amount": "37.5",
+              "component": "output",
+              "id": "price:openai/gpt-6-astra:batch:long:current:output:text:per_1m_tokens",
+              "modality": "text",
+              "unit": "per_1m_tokens"
+            }
+          ],
+          "checked_at": "2026-09-04T17:34:11Z",
+          "context_class": "long",
+          "currency": "USD",
+          "effective_from": "2026-09-03",
+          "effective_until": null,
+          "id": "price:openai/gpt-6-astra:batch:long:current",
+          "pricing_status": "current",
+          "processing_mode": "batch",
+          "prompt_token_threshold": 272000,
+          "region_policy": {
+            "availability": {
+              "default": "available",
+              "rules": []
+            },
+            "data_residencies": [
+              "global",
+              "us",
+              "eu"
+            ],
+            "endpoint_geographies": [
+              "global",
+              "regional"
+            ],
+            "price_adjustments": [
+              {
+                "factor": "1.10",
+                "id": "regional-data-residency-uplift",
+                "operation": "multiply",
+                "selector": {
+                  "endpoint_geographies": [
+                    "regional"
+                  ]
+                },
+                "source_refs": [
+                  "https://developers.openai.com/api/docs/pricing",
+                  "https://developers.openai.com/api/docs/guides/your-data"
+                ]
+              }
+            ],
+            "pricing_geography": "global_base"
+          },
+          "source_refs": [
+            "https://developers.openai.com/api/docs/pricing",
+            "https://developers.openai.com/api/docs/guides/batch"
+          ],
+          "tier_selection": {
+            "cached_prompt_tokens_included": true,
+            "comparison": "greater_than",
+            "token_basis": "total_prompt_tokens",
+            "whole_request_pricing": true
+          },
+          "verification_status": "verified",
+          "verified_at": "2026-09-04T17:34:11Z"
+        },
+        {
+          "billing_note": "Flex short-context pricing uses the published Batch-equivalent rates and retains the whole-request 272,000-token boundary.",
+          "calculation_default": false,
+          "charges": [
+            {
+              "amount": "5",
+              "component": "input",
+              "id": "price:openai/gpt-6-astra:flex:short:current:input:text:per_1m_tokens",
+              "modality": "text",
+              "unit": "per_1m_tokens"
+            },
+            {
+              "amount": "0.5",
+              "component": "cached_input",
+              "id": "price:openai/gpt-6-astra:flex:short:current:cached_input:text:per_1m_tokens",
+              "modality": "text",
+              "unit": "per_1m_tokens"
+            },
+            {
+              "amount": "6.25",
+              "component": "cache_write",
+              "id": "price:openai/gpt-6-astra:flex:short:current:cache_write:text:per_1m_tokens",
+              "modality": "text",
+              "unit": "per_1m_tokens"
+            },
+            {
+              "amount": "25",
+              "component": "output",
+              "id": "price:openai/gpt-6-astra:flex:short:current:output:text:per_1m_tokens",
+              "modality": "text",
+              "unit": "per_1m_tokens"
+            }
+          ],
+          "checked_at": "2026-09-04T17:34:11Z",
+          "context_class": "short",
+          "currency": "USD",
+          "effective_from": "2026-09-03",
+          "effective_until": null,
+          "id": "price:openai/gpt-6-astra:flex:short:current",
+          "pricing_status": "current",
+          "processing_mode": "flex",
+          "prompt_token_threshold": 272000,
+          "region_policy": {
+            "availability": {
+              "default": "available",
+              "rules": []
+            },
+            "data_residencies": [
+              "global",
+              "us",
+              "eu"
+            ],
+            "endpoint_geographies": [
+              "global",
+              "regional"
+            ],
+            "price_adjustments": [
+              {
+                "factor": "1.10",
+                "id": "regional-data-residency-uplift",
+                "operation": "multiply",
+                "selector": {
+                  "endpoint_geographies": [
+                    "regional"
+                  ]
+                },
+                "source_refs": [
+                  "https://developers.openai.com/api/docs/pricing",
+                  "https://developers.openai.com/api/docs/guides/your-data"
+                ]
+              }
+            ],
+            "pricing_geography": "global_base"
+          },
+          "source_refs": [
+            "https://developers.openai.com/api/docs/pricing",
+            "https://developers.openai.com/api/docs/guides/flex-processing"
+          ],
+          "tier_selection": {
+            "cached_prompt_tokens_included": true,
+            "comparison": "less_than_or_equal",
+            "token_basis": "total_prompt_tokens",
+            "whole_request_pricing": true
+          },
+          "verification_status": "verified",
+          "verified_at": "2026-09-04T17:34:11Z"
+        },
+        {
+          "billing_note": "Flex long-context pricing uses the published Batch-equivalent rates and applies to the full request above 272,000 total input tokens.",
+          "calculation_default": false,
+          "charges": [
+            {
+              "amount": "10",
+              "component": "input",
+              "id": "price:openai/gpt-6-astra:flex:long:current:input:text:per_1m_tokens",
+              "modality": "text",
+              "unit": "per_1m_tokens"
+            },
+            {
+              "amount": "1",
+              "component": "cached_input",
+              "id": "price:openai/gpt-6-astra:flex:long:current:cached_input:text:per_1m_tokens",
+              "modality": "text",
+              "unit": "per_1m_tokens"
+            },
+            {
+              "amount": "12.5",
+              "component": "cache_write",
+              "id": "price:openai/gpt-6-astra:flex:long:current:cache_write:text:per_1m_tokens",
+              "modality": "text",
+              "unit": "per_1m_tokens"
+            },
+            {
+              "amount": "37.5",
+              "component": "output",
+              "id": "price:openai/gpt-6-astra:flex:long:current:output:text:per_1m_tokens",
+              "modality": "text",
+              "unit": "per_1m_tokens"
+            }
+          ],
+          "checked_at": "2026-09-04T17:34:11Z",
+          "context_class": "long",
+          "currency": "USD",
+          "effective_from": "2026-09-03",
+          "effective_until": null,
+          "id": "price:openai/gpt-6-astra:flex:long:current",
+          "pricing_status": "current",
+          "processing_mode": "flex",
+          "prompt_token_threshold": 272000,
+          "region_policy": {
+            "availability": {
+              "default": "available",
+              "rules": []
+            },
+            "data_residencies": [
+              "global",
+              "us",
+              "eu"
+            ],
+            "endpoint_geographies": [
+              "global",
+              "regional"
+            ],
+            "price_adjustments": [
+              {
+                "factor": "1.10",
+                "id": "regional-data-residency-uplift",
+                "operation": "multiply",
+                "selector": {
+                  "endpoint_geographies": [
+                    "regional"
+                  ]
+                },
+                "source_refs": [
+                  "https://developers.openai.com/api/docs/pricing",
+                  "https://developers.openai.com/api/docs/guides/your-data"
+                ]
+              }
+            ],
+            "pricing_geography": "global_base"
+          },
+          "source_refs": [
+            "https://developers.openai.com/api/docs/pricing",
+            "https://developers.openai.com/api/docs/guides/flex-processing"
+          ],
+          "tier_selection": {
+            "cached_prompt_tokens_included": true,
+            "comparison": "greater_than",
+            "token_basis": "total_prompt_tokens",
+            "whole_request_pricing": true
+          },
+          "verification_status": "verified",
+          "verified_at": "2026-09-04T17:34:11Z"
+        },
+        {
+          "billing_note": "Fast short-context pricing is 2x Standard. The service_tier values fast and priority are routing aliases with the same behavior; no duplicate Priority price record is created.",
+          "calculation_default": false,
+          "charges": [
+            {
+              "amount": "20",
+              "component": "input",
+              "id": "price:openai/gpt-6-astra:fast:short:current:input:text:per_1m_tokens",
+              "modality": "text",
+              "unit": "per_1m_tokens"
+            },
+            {
+              "amount": "2",
+              "component": "cached_input",
+              "id": "price:openai/gpt-6-astra:fast:short:current:cached_input:text:per_1m_tokens",
+              "modality": "text",
+              "unit": "per_1m_tokens"
+            },
+            {
+              "amount": "25",
+              "component": "cache_write",
+              "id": "price:openai/gpt-6-astra:fast:short:current:cache_write:text:per_1m_tokens",
+              "modality": "text",
+              "unit": "per_1m_tokens"
+            },
+            {
+              "amount": "100",
+              "component": "output",
+              "id": "price:openai/gpt-6-astra:fast:short:current:output:text:per_1m_tokens",
+              "modality": "text",
+              "unit": "per_1m_tokens"
+            }
+          ],
+          "checked_at": "2026-09-04T17:34:11Z",
+          "context_class": "short",
+          "currency": "USD",
+          "effective_from": "2026-09-03",
+          "effective_until": null,
+          "id": "price:openai/gpt-6-astra:fast:short:current",
+          "pricing_status": "current",
+          "processing_mode": "fast",
+          "prompt_token_threshold": 272000,
+          "region_policy": {
+            "availability": {
+              "default": "available",
+              "rules": [
+                {
+                  "id": "fast-eu-data-residency-unavailable",
+                  "reason": "GPT-6 Astra Fast mode is unavailable with EU data residency.",
+                  "selector": {
+                    "data_residencies": [
+                      "eu"
+                    ]
+                  },
+                  "source_refs": [
+                    "https://developers.openai.com/api/docs/guides/fast-mode"
+                  ],
+                  "status": "unavailable"
+                }
+              ]
+            },
+            "data_residencies": [
+              "global",
+              "us",
+              "eu"
+            ],
+            "endpoint_geographies": [
+              "global",
+              "regional"
+            ],
+            "price_adjustments": [
+              {
+                "factor": "1.10",
+                "id": "regional-data-residency-uplift",
+                "operation": "multiply",
+                "selector": {
+                  "endpoint_geographies": [
+                    "regional"
+                  ]
+                },
+                "source_refs": [
+                  "https://developers.openai.com/api/docs/pricing",
+                  "https://developers.openai.com/api/docs/guides/your-data"
+                ]
+              }
+            ],
+            "pricing_geography": "global_base"
+          },
+          "source_refs": [
+            "https://developers.openai.com/api/docs/pricing",
+            "https://developers.openai.com/api/docs/guides/fast-mode"
+          ],
+          "tier_selection": {
+            "cached_prompt_tokens_included": true,
+            "comparison": "less_than_or_equal",
+            "token_basis": "total_prompt_tokens",
+            "whole_request_pricing": true
+          },
+          "verification_status": "verified",
+          "verified_at": "2026-09-04T17:34:11Z"
+        },
+        {
+          "billing_note": "Fast long-context pricing is 2x the applicable Standard rate. Fast and priority route identically, and Fast remains unavailable with EU data residency.",
+          "calculation_default": false,
+          "charges": [
+            {
+              "amount": "40",
+              "component": "input",
+              "id": "price:openai/gpt-6-astra:fast:long:current:input:text:per_1m_tokens",
+              "modality": "text",
+              "unit": "per_1m_tokens"
+            },
+            {
+              "amount": "4",
+              "component": "cached_input",
+              "id": "price:openai/gpt-6-astra:fast:long:current:cached_input:text:per_1m_tokens",
+              "modality": "text",
+              "unit": "per_1m_tokens"
+            },
+            {
+              "amount": "50",
+              "component": "cache_write",
+              "id": "price:openai/gpt-6-astra:fast:long:current:cache_write:text:per_1m_tokens",
+              "modality": "text",
+              "unit": "per_1m_tokens"
+            },
+            {
+              "amount": "150",
+              "component": "output",
+              "id": "price:openai/gpt-6-astra:fast:long:current:output:text:per_1m_tokens",
+              "modality": "text",
+              "unit": "per_1m_tokens"
+            }
+          ],
+          "checked_at": "2026-09-04T17:34:11Z",
+          "context_class": "long",
+          "currency": "USD",
+          "effective_from": "2026-09-03",
+          "effective_until": null,
+          "id": "price:openai/gpt-6-astra:fast:long:current",
+          "pricing_status": "current",
+          "processing_mode": "fast",
+          "prompt_token_threshold": 272000,
+          "region_policy": {
+            "availability": {
+              "default": "available",
+              "rules": [
+                {
+                  "id": "fast-eu-data-residency-unavailable",
+                  "reason": "GPT-6 Astra Fast mode is unavailable with EU data residency.",
+                  "selector": {
+                    "data_residencies": [
+                      "eu"
+                    ]
+                  },
+                  "source_refs": [
+                    "https://developers.openai.com/api/docs/guides/fast-mode"
+                  ],
+                  "status": "unavailable"
+                }
+              ]
+            },
+            "data_residencies": [
+              "global",
+              "us",
+              "eu"
+            ],
+            "endpoint_geographies": [
+              "global",
+              "regional"
+            ],
+            "price_adjustments": [
+              {
+                "factor": "1.10",
+                "id": "regional-data-residency-uplift",
+                "operation": "multiply",
+                "selector": {
+                  "endpoint_geographies": [
+                    "regional"
+                  ]
+                },
+                "source_refs": [
+                  "https://developers.openai.com/api/docs/pricing",
+                  "https://developers.openai.com/api/docs/guides/your-data"
+                ]
+              }
+            ],
+            "pricing_geography": "global_base"
+          },
+          "source_refs": [
+            "https://developers.openai.com/api/docs/pricing",
+            "https://developers.openai.com/api/docs/guides/fast-mode"
+          ],
+          "tier_selection": {
+            "cached_prompt_tokens_included": true,
+            "comparison": "greater_than",
+            "token_basis": "total_prompt_tokens",
+            "whole_request_pricing": true
+          },
+          "verification_status": "verified",
+          "verified_at": "2026-09-04T17:34:11Z"
+        }
+      ],
+      "pricing": {
+        "batch_input": 5.0,
+        "batch_output": 25.0,
+        "cache_write": 12.5,
+        "cache_write_1h": null,
+        "cached_input": 1.0,
+        "currency": "USD",
+        "input": 10.0,
+        "output": 50.0,
+        "unit": "1M tokens"
+      },
+      "provider_id": "openai",
+      "release_stage": "stable",
+      "status": "active"
+    },
+    {
       "accessed_at": "2026-09-02T11:29:12Z",
       "display_name": "o3",
       "effective_from": null,
@@ -1391,7 +2154,7 @@
       "status": "active"
     }
   ],
-  "official_source_count": 16,
+  "official_source_count": 17,
   "official_sources": [
     "https://ai.google.dev/gemini-api/docs/pricing",
     "https://api-docs.deepseek.com/quick_start/pricing",
@@ -1400,6 +2163,7 @@
     "https://developers.openai.com/api/docs/models/gpt-4.1",
     "https://developers.openai.com/api/docs/models/gpt-5",
     "https://developers.openai.com/api/docs/models/gpt-5.6-sol",
+    "https://developers.openai.com/api/docs/models/gpt-6-astra",
     "https://developers.openai.com/api/docs/models/o3",
     "https://developers.openai.com/api/docs/pricing",
     "https://docs.anthropic.com/en/docs/about-claude/pricing",

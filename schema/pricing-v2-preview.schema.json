@@ -163,6 +163,10 @@
         "pricingStatus": {"type": "string", "enum": ["current", "future", "historical"]},
         "contextClass": {"type": "string", "enum": ["short", "long"]},
         "regionPolicy": {"type": "string"},
+        "regionSelector": {"$ref": "#/$defs/regionSelector"},
+        "defaultAvailabilityStatus": {"type": "string", "enum": ["available", "unavailable"]},
+        "availabilityRules": {"type": "array", "items": {"$ref": "#/$defs/availabilityRule"}},
+        "priceAdjustments": {"type": "array", "items": {"$ref": "#/$defs/priceAdjustment"}},
         "promptTokenThreshold": {"type": ["integer", "null"], "minimum": 0},
         "tierSelection": {"$ref": "#/$defs/tierSelection"},
         "temporalCondition": {"$ref": "#/$defs/temporalCondition"},
@@ -185,6 +189,8 @@
         "sourceRefs": {"type": "array", "minItems": 1, "uniqueItems": true, "items": {"type": "string"}},
         "billingNote": {"type": "string"},
         "verificationStatus": {"$ref": "#/$defs/verificationStatus"},
+        "checkedAt": {"type": "string", "format": "date-time"},
+        "verifiedAt": {"type": "string", "format": "date-time"},
         "calculationDefault": {"type": "boolean"}
       },
       "allOf": [
@@ -206,6 +212,10 @@
               "promptTokenThreshold": {"type": "integer", "minimum": 0}
             }
           }
+        },
+        {
+          "if": {"required": ["regionSelector"]},
+          "then": {"required": ["defaultAvailabilityStatus", "availabilityRules", "priceAdjustments", "checkedAt", "verifiedAt"]}
         }
       ]
     },
@@ -225,6 +235,49 @@
         "tokenBasis": {"type": "string", "enum": ["total_prompt_tokens"]},
         "cachedPromptTokensIncluded": {"type": "boolean"},
         "wholeRequestPricing": {"type": "boolean"}
+      }
+    },
+    "regionSelector": {
+      "type": "object",
+      "additionalProperties": false,
+      "minProperties": 1,
+      "properties": {
+        "pricingGeography": {"type": "string", "enum": ["global_base", "region_specific"]},
+        "endpointGeographies": {"type": "array", "minItems": 1, "uniqueItems": true, "items": {"type": "string", "pattern": "^[a-z0-9][a-z0-9_-]*$"}},
+        "dataResidencies": {"type": "array", "minItems": 1, "uniqueItems": true, "items": {"type": "string", "pattern": "^[a-z0-9][a-z0-9_-]*$"}}
+      }
+    },
+    "regionRuleSelector": {
+      "type": "object",
+      "additionalProperties": false,
+      "minProperties": 1,
+      "properties": {
+        "endpointGeographies": {"type": "array", "minItems": 1, "uniqueItems": true, "items": {"type": "string", "pattern": "^[a-z0-9][a-z0-9_-]*$"}},
+        "dataResidencies": {"type": "array", "minItems": 1, "uniqueItems": true, "items": {"type": "string", "pattern": "^[a-z0-9][a-z0-9_-]*$"}}
+      }
+    },
+    "availabilityRule": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["availabilityRuleId", "selector", "availabilityStatus", "reason", "sourceRefs"],
+      "properties": {
+        "availabilityRuleId": {"type": "string", "minLength": 1},
+        "selector": {"$ref": "#/$defs/regionRuleSelector"},
+        "availabilityStatus": {"type": "string", "enum": ["available", "unavailable"]},
+        "reason": {"type": "string", "minLength": 1},
+        "sourceRefs": {"type": "array", "minItems": 1, "uniqueItems": true, "items": {"type": "string"}}
+      }
+    },
+    "priceAdjustment": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["priceAdjustmentId", "selector", "operation", "factor", "sourceRefs"],
+      "properties": {
+        "priceAdjustmentId": {"type": "string", "minLength": 1},
+        "selector": {"$ref": "#/$defs/regionRuleSelector"},
+        "operation": {"type": "string", "const": "multiply"},
+        "factor": {"type": "string", "pattern": "^(?:0\\.(?:0*[1-9]\\d*)|[1-9]\\d*(?:\\.\\d+)?)$"},
+        "sourceRefs": {"type": "array", "minItems": 1, "uniqueItems": true, "items": {"type": "string"}}
       }
     },
     "temporalCondition": {

@@ -188,6 +188,29 @@ def public_pricing_components(row: dict[str, Any]) -> list[dict[str, Any]]:
             ) from exc
         condition = component["condition"]
         tier_selection = condition.get("tierSelection")
+        public_condition = {
+            "processing_mode": condition["processingMode"],
+            "context_class": condition["contextClass"],
+            "prompt_token_threshold": condition.get("promptTokenThreshold"),
+            "tier_selection": None if tier_selection is None else {
+                "comparison": tier_selection["comparison"],
+                "token_basis": tier_selection["tokenBasis"],
+                "cached_prompt_tokens_included": tier_selection["cachedPromptTokensIncluded"],
+                "whole_request_pricing": tier_selection["wholeRequestPricing"],
+            },
+            "region_policy": condition["regionPolicy"],
+            "effective_from": condition.get("effectiveFrom"),
+            "effective_until": condition.get("effectiveUntil"),
+        }
+        optional_condition_fields = {
+            "regionSelector": "region_selector",
+            "defaultAvailabilityStatus": "default_availability_status",
+            "availabilityRules": "availability_rules",
+            "priceAdjustments": "price_adjustments",
+        }
+        for internal_name, public_name in optional_condition_fields.items():
+            if condition.get(internal_name) is not None:
+                public_condition[public_name] = condition[internal_name]
         public_components.append(
             {
                 "pricing_id": component["pricingId"],
@@ -197,20 +220,7 @@ def public_pricing_components(row: dict[str, Any]) -> list[dict[str, Any]]:
                 "unit": component["unit"],
                 "currency": component["currency"],
                 "modality": component["modality"],
-                "condition": {
-                    "processing_mode": condition["processingMode"],
-                    "context_class": condition["contextClass"],
-                    "prompt_token_threshold": condition.get("promptTokenThreshold"),
-                    "tier_selection": None if tier_selection is None else {
-                        "comparison": tier_selection["comparison"],
-                        "token_basis": tier_selection["tokenBasis"],
-                        "cached_prompt_tokens_included": tier_selection["cachedPromptTokensIncluded"],
-                        "whole_request_pricing": tier_selection["wholeRequestPricing"],
-                    },
-                    "region_policy": condition["regionPolicy"],
-                    "effective_from": condition.get("effectiveFrom"),
-                    "effective_until": condition.get("effectiveUntil"),
-                },
+                "condition": public_condition,
                 "calculation_default": component["calculationDefault"],
                 "source_refs": source_refs,
                 "source_urls": source_urls,

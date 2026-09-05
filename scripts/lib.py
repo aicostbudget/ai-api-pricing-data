@@ -19,6 +19,7 @@ HISTORY_COMPARE_FIELDS = (
     "pricing_periods",
     "time_pricing",
     "pricing_components",
+    "price_records",
     "official_source_url",
     "effective_from",
     "last_verified_at",
@@ -177,6 +178,8 @@ def history_entry(model: dict[str, Any], recorded_at: str) -> dict[str, Any]:
         entry["time_pricing"] = model["time_pricing"]
     if "pricing_components" in model:
         entry["pricing_components"] = model["pricing_components"]
+    if "price_records" in model:
+        entry["price_records"] = model["price_records"]
     return entry
 
 

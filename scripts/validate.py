@@ -20,6 +20,10 @@ try:
     from lib import API, DATA, PRICE_FIELDS, ROOT, build_dataset, csv_rows, load_models, load_providers
 except ModuleNotFoundError:
     from scripts.lib import API, DATA, PRICE_FIELDS, ROOT, build_dataset, csv_rows, load_models, load_providers
+try:
+    from pricing_contract import PricingContractError, validate_model_price_records
+except ModuleNotFoundError:
+    from scripts.pricing_contract import PricingContractError, validate_model_price_records
 
 MODEL_SCHEMA = json.loads((ROOT / "schema" / "model.schema.json").read_text(encoding="utf-8"))
 PRICING_PROPERTIES = MODEL_SCHEMA["properties"]["pricing"]["properties"]
@@ -143,6 +147,11 @@ def validate_models(now: datetime | None = None) -> None:
             not str(url).startswith("https://") for url in source_urls
         ):
             fail(f"invalid official_source_urls for {item[0]}/{item[1]}")
+
+        try:
+            validate_model_price_records(model)
+        except PricingContractError as exc:
+            fail(f"invalid declarative pricing contract for {item[0]}/{item[1]}: {exc}")
 
         tiers = model.get("pricing_tiers", [])
         if tiers:

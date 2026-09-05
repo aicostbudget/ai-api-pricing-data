@@ -385,7 +385,7 @@ class PricingV2PreviewTests(unittest.TestCase):
     def test_report_counts_match_phase_1_baseline(self):
         self.assertEqual(self.report["candidateUnionCount"], len(self.dispositions))
         self.assertEqual(self.report["websiteOnlyCount"], 13)
-        self.assertEqual(self.report["publicOnlyCount"], 10)
+        self.assertEqual(self.report["publicOnlyCount"], 11)
         self.assertEqual(self.report["commonCount"], 30)
         self.assertEqual(self.report["aliasCount"], 2)
         self.assertEqual(self.report["normalizedCanonicalIdentityCount"], len(self.models))
@@ -489,9 +489,9 @@ class PricingV2PreviewTests(unittest.TestCase):
 
     def test_phase2_5_default_safe_gate_counts(self):
         self.assertEqual(len(self.phase25_evidence), self.phase25_default_safe["totalPriceRecords"])
-        self.assertEqual(self.phase25_default_safe["productionDefaultCandidateCount"], 42)
-        self.assertEqual(self.phase25_default_safe["defaultSafeCount"], 42)
-        self.assertEqual(self.phase25_default_safe["defaultUnsafeCount"], 68)
+        self.assertEqual(self.phase25_default_safe["productionDefaultCandidateCount"], 43)
+        self.assertEqual(self.phase25_default_safe["defaultSafeCount"], 43)
+        self.assertEqual(self.phase25_default_safe["defaultUnsafeCount"], 75)
         self.assertEqual(self.phase25_default_safe["P0PartialBefore"], 4)
         self.assertEqual(self.phase25_default_safe["P0PartialAfter"], 0)
         self.assertEqual(self.phase25_default_safe["P1PartialCount"], 7)
@@ -512,10 +512,10 @@ class PricingV2PreviewTests(unittest.TestCase):
 
     def test_phase2_6_closes_p0_default_safe_gate(self):
         self.assertTrue(self.phase26_closure["closureGatePassed"])
-        self.assertEqual(self.phase26_closure["defaultCandidatesBefore"], 42)
-        self.assertEqual(self.phase26_closure["defaultCandidatesAfter"], 42)
-        self.assertEqual(self.phase26_closure["safeBefore"], 37)
-        self.assertEqual(self.phase26_closure["safeAfter"], 42)
+        self.assertEqual(self.phase26_closure["defaultCandidatesBefore"], 43)
+        self.assertEqual(self.phase26_closure["defaultCandidatesAfter"], 43)
+        self.assertEqual(self.phase26_closure["safeBefore"], 38)
+        self.assertEqual(self.phase26_closure["safeAfter"], 43)
         self.assertEqual(self.phase26_closure["unsafeBefore"], 5)
         self.assertEqual(self.phase26_closure["unsafeAfter"], 0)
         self.assertEqual(self.phase26_resolution["P0BlockersAfter"], [])

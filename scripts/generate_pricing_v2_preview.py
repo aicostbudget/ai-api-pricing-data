@@ -14,6 +14,10 @@ try:
     from lib import CANONICAL, ROOT
 except ModuleNotFoundError:
     from scripts.lib import CANONICAL, ROOT
+try:
+    from pricing_contract import normalize_canonical_price_records, validate_model_price_records
+except ModuleNotFoundError:
+    from scripts.pricing_contract import normalize_canonical_price_records, validate_model_price_records
 
 PREVIEW = ROOT / "data" / "pricing-v2-preview"
 GENERATED = PREVIEW / "generated"
@@ -41,7 +45,7 @@ PROVIDER_DISPLAY = {
 }
 
 OFFICIAL_DOMAINS = {
-    "openai": ("platform.openai.com", "developers.openai.com"),
+    "openai": ("platform.openai.com", "developers.openai.com", "openai.com"),
     "anthropic": ("docs.anthropic.com", "platform.claude.com", "anthropic.com"),
     "google-gemini": ("ai.google.dev",),
     "xai": ("docs.x.ai",),
@@ -247,7 +251,7 @@ def scale_prices(pricing: dict[str, Any], factors: dict[str, Decimal]) -> dict[s
     }
 
 
-def openai_gpt56_tiers(pricing: dict[str, Any]) -> dict[tuple[str, str], dict[str, str]]:
+def legacy_openai_gpt56_tiers(pricing: dict[str, Any]) -> dict[tuple[str, str], dict[str, str]]:
     standard_short = scale_prices(
         pricing,
         {"input": Decimal(1), "cached_input": Decimal(1), "cache_write": Decimal(1), "output": Decimal(1)},
@@ -277,10 +281,10 @@ def openai_gpt56_tiers(pricing: dict[str, Any]) -> dict[tuple[str, str], dict[st
     }
 
 
-OPENAI_GPT56_CONTEXT_PRICING_MODEL_IDS = {"gpt-5.6-terra", "gpt-5.6-luna"}
+LEGACY_OPENAI_GPT56_CONTEXT_PRICING_MODEL_IDS = {"gpt-5.6-terra", "gpt-5.6-luna"}
 
 
-def openai_gpt56_tier_selection(context_class: str) -> dict[str, Any]:
+def legacy_openai_gpt56_tier_selection(context_class: str) -> dict[str, Any]:
     return {
         "pricingStatus": "current",
         "promptTokenThreshold": 272000,
@@ -1927,7 +1931,13 @@ def official_ids(provider_id: str, model_id: str, public: dict[str, Any] | None,
 def public_source_urls(record: dict[str, Any] | None) -> list[str]:
     if not record:
         return []
-    urls = record.get("official_source_urls") or [record["official_source_url"]]
+    urls = list(record.get("official_source_urls") or [record["official_source_url"]])
+    for price_record in record.get("price_records", []):
+        urls.extend(price_record.get("source_refs", []))
+        for rule in price_record.get("region_policy", {}).get("availability", {}).get("rules", []):
+            urls.extend(rule.get("source_refs", []))
+        for adjustment in price_record.get("region_policy", {}).get("price_adjustments", []):
+            urls.extend(adjustment.get("source_refs", []))
     return sorted(set(urls))
 
 
@@ -1937,6 +1947,31 @@ def source_refs_for(provider_id: str, public: dict[str, Any] | None, website: di
     if website_url:
         urls.append(website_url)
     return sorted({source_by_url[url] for url in urls})
+
+
+def build_declarative_price_records(
+    model_internal_id: str,
+    public: dict[str, Any],
+    website: dict[str, Any] | None,
+    source_by_url: dict[str, str],
+) -> list[dict[str, Any]]:
+    """Build V2 records from a canonical contract without provider/model inference."""
+
+    declarative_records = public.get("price_records", [])
+    if not declarative_records:
+        return []
+    validate_model_price_records(public)
+    normalized_records = normalize_canonical_price_records(
+        model_internal_id,
+        declarative_records,
+        source_by_url,
+    )
+    for normalized_record in normalized_records:
+        normalized_record["sourceDatasetIds"] = {
+            "publicDatasetIds": [public["model_id"]],
+            "websiteIds": [website["id"]] if website else [],
+        }
+    return normalized_records
 
 
 def make_charges(
@@ -2278,6 +2313,16 @@ def main() -> None:
 
         if public:
             pricing = public["pricing"]
+            declarative_prices = build_declarative_price_records(
+                model_internal_id,
+                public,
+                website,
+                source_by_url,
+            )
+            if declarative_prices:
+                for declarative_price in declarative_prices:
+                    add_price(model_internal_id, declarative_price)
+                continue
             pricing_components = public.get("pricing_components", [])
             if pricing_components:
                 for component in pricing_components:
@@ -2517,11 +2562,13 @@ def main() -> None:
                 },
             }
             if provider_id == "openai" and public.get("model_family") == "GPT-5.6":
-                for (processing_mode, context_class), amounts in openai_gpt56_tiers(pricing).items():
+                # Staged migration fallback. New canonical contracts take the generic
+                # price_records branch above and never reach this family-specific path.
+                for (processing_mode, context_class), amounts in legacy_openai_gpt56_tiers(pricing).items():
                     tier_id = f"price:{model_internal_id}:{processing_mode}:{context_class}:current"
                     tier_selection = (
-                        openai_gpt56_tier_selection(context_class)
-                        if model_id in OPENAI_GPT56_CONTEXT_PRICING_MODEL_IDS
+                        legacy_openai_gpt56_tier_selection(context_class)
+                        if model_id in LEGACY_OPENAI_GPT56_CONTEXT_PRICING_MODEL_IDS
                         else {}
                     )
                     add_price(

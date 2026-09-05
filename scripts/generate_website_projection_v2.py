@@ -16,6 +16,8 @@ except ModuleNotFoundError:
 
 PREVIEW = ROOT / "data" / "pricing-v2-preview"
 ARTIFACT = PREVIEW / "generated" / "model-pricing.v2.json"
+COMPATIBILITY_PREVIEW = PREVIEW / "generated" / "model-pricing.website-preview.json"
+CONVERGENCE_REPORT = PREVIEW / "convergence-report.json"
 REPORT = PREVIEW / "phase4a-website-projection-report.json"
 SAFE_PRICE_RECONCILIATION = PREVIEW / "phase4a-5-safe-price-record-reconciliation.json"
 PROJECTION_ROW_RECONCILIATION = PREVIEW / "phase4a-5-projection-row-reconciliation.json"
@@ -519,6 +521,14 @@ def project_pricing_component(record: dict[str, Any], charge: dict[str, Any]) ->
     }
     if record.get("temporalCondition") is not None:
         condition["temporalCondition"] = record["temporalCondition"]
+    for field in (
+        "regionSelector",
+        "defaultAvailabilityStatus",
+        "availabilityRules",
+        "priceAdjustments",
+    ):
+        if record.get(field) is not None:
+            condition[field] = record[field]
 
     return {
         "pricingId": record["pricingId"],
@@ -1561,6 +1571,63 @@ def validate_pricing_components(row: dict[str, Any]) -> None:
             )
 
 
+def sync_complex_contract_compatibility_preview(artifact: dict[str, Any]) -> None:
+    compatibility_rows = read_json(COMPATIBILITY_PREVIEW)
+    convergence = read_json(CONVERGENCE_REPORT)
+    parity = convergence["websiteCompatibilityPreviewParity"]
+    rows_by_id = {row["id"]: row for row in compatibility_rows}
+    details_by_internal_id = {row["internalId"]: row for row in parity["details"]}
+    expected_by_internal_id = {row["internalId"]: row for row in parity["expected_difference"]}
+
+    for row in artifact["models"]:
+        components = row.get("pricingComponents", [])
+        processing_modes = {component["condition"]["processingMode"] for component in components}
+        context_classes = {component["condition"]["contextClass"] for component in components}
+        existing = rows_by_id.get(row["id"])
+        if (
+            len(processing_modes) <= 1
+            or len(context_classes) <= 1
+            or (existing is not None and "canonicalInternalId" not in existing)
+        ):
+            continue
+
+        compatibility_row = {
+            **row,
+            "defaultPriceRecordId": row["selectedPriceRecordId"],
+        }
+
+        if existing is None:
+            compatibility_rows.append(compatibility_row)
+        else:
+            compatibility_rows[compatibility_rows.index(existing)] = compatibility_row
+        rows_by_id[row["id"]] = compatibility_row
+
+        internal_id = row["canonicalInternalId"]
+        reason = "Canonical-only multi-record contract is exposed through the rich Website projection."
+        if internal_id not in details_by_internal_id:
+            detail = {
+                "modelId": row["id"],
+                "internalId": internal_id,
+                "oldWebsiteValue": None,
+                "v2PreviewValue": {
+                    "inputPrice": row["inputPrice"],
+                    "cachedInputPrice": row["cachedInputPrice"],
+                    "outputPrice": row["outputPrice"],
+                },
+                "classification": "expected_difference",
+                "reason": reason,
+            }
+            parity["details"].append(detail)
+            details_by_internal_id[internal_id] = detail
+        if internal_id not in expected_by_internal_id:
+            item = {"internalId": internal_id, "reason": reason}
+            parity["expected_difference"].append(item)
+            expected_by_internal_id[internal_id] = item
+
+    atomic_write_json(COMPATIBILITY_PREVIEW, compatibility_rows)
+    atomic_write_json(CONVERGENCE_REPORT, convergence)
+
+
 def main() -> None:
     parser = argparse.ArgumentParser(description="Generate the Phase 4A Website pricing projection.")
     parser.add_argument("--effective-at", default=DEFAULT_EFFECTIVE_AT)
@@ -1584,6 +1651,7 @@ def main() -> None:
     atomic_write_json(PROJECTION_ROW_RECONCILIATION, audits["row_reconciliation"])
     atomic_write_json(UNSAFE_DIFFERENCE_AUDIT, audits["unsafe_audit"])
     atomic_write_json(CONTEXT_WINDOW_AUDIT, audits["context_audit"])
+    sync_complex_contract_compatibility_preview(artifact)
     print(f"generated website projection: {args.artifact}")
     print(f"generated projection report: {args.report}")
 

@@ -2,27 +2,27 @@
   "aliasCount": 2,
   "candidateDispositionCounts": {
     "alias": 2,
-    "canonical_identity": 47,
+    "canonical_identity": 48,
     "historical_reference": 1,
     "unresolved": 3
   },
-  "candidateUnionCount": 53,
+  "candidateUnionCount": 54,
   "commonCount": 30,
   "counts": {
-    "chargeRecordCount": 330,
-    "modelRecordCount": 50,
-    "priceRecordCount": 110,
-    "sourceRecordCount": 59
+    "chargeRecordCount": 362,
+    "modelRecordCount": 51,
+    "priceRecordCount": 118,
+    "sourceRecordCount": 63
   },
   "duplicateIdentityCount": 3,
-  "generatedAt": "2026-09-03T18:03:16Z",
+  "generatedAt": "2026-09-04T17:34:11Z",
   "lifecycleConflicts": [
     {
       "internalId": "xai/grok-3",
       "resolution": "retired identity retained; redirects to xai/grok-4.3 current billing"
     }
   ],
-  "normalizedCanonicalIdentityCount": 50,
+  "normalizedCanonicalIdentityCount": 51,
   "pricingConflicts": [
     {
       "internalId": "openai/gpt-4.1",
@@ -37,7 +37,7 @@
       "reason": "no safe default calculation price"
     }
   ],
-  "publicOnlyCount": 10,
+  "publicOnlyCount": 11,
   "sourceConflicts": [],
   "specialCases": {
     "claude-sonnet-5_pricing_policy": "Claude Sonnet 5 uses one permanent standard PriceRecord; the canceled 2026-09-01 increase is retained only in historical evidence.",
@@ -761,6 +761,18 @@
           "inputPrice": 1.25,
           "outputPrice": 2.5
         }
+      },
+      {
+        "classification": "expected_difference",
+        "internalId": "openai/gpt-6-astra",
+        "modelId": "gpt-6-astra",
+        "oldWebsiteValue": null,
+        "reason": "Canonical-only multi-record contract is exposed through the rich Website projection.",
+        "v2PreviewValue": {
+          "cachedInputPrice": 1,
+          "inputPrice": 10,
+          "outputPrice": 50
+        }
       }
     ],
     "exact_parity": [
@@ -811,6 +823,10 @@
       {
         "internalId": "google-gemini/gemini-2.5-flash",
         "reason": "canonical V2 projection has richer condition/source metadata"
+      },
+      {
+        "internalId": "openai/gpt-6-astra",
+        "reason": "Canonical-only multi-record contract is exposed through the rich Website projection."
       }
     ],
     "unresolved_difference": [
