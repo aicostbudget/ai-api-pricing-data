@@ -9,7 +9,7 @@
     "review_required": "display only with warning; no default or recommendation placement",
     "unsafe": "exclude from default calculations and show warning only where explicitly allowed"
   },
-  "effectiveAt": "2026-09-04T17:39:41Z",
+  "effectiveAt": "2026-09-05T15:40:04Z",
   "effectiveTimezone": "UTC",
   "failureBehavior": {
     "atomicWrite": true,
@@ -18,7 +18,7 @@
     "partialJson": "not_written",
     "publicV1Mutation": "forbidden"
   },
-  "generatedAt": "2026-09-04T17:39:41Z",
+  "generatedAt": "2026-09-05T15:51:32Z",
   "generatedAtPolicy": "UTC artifact generation timestamp injected by the generation pipeline",
   "governancePolicy": {
     "classes": [
@@ -15261,6 +15261,339 @@
       "verifiedAt": "2026-09-02T05:13:28Z",
       "verifiedSourceRefs": [
         "source:xai:docs-x-ai-developers-pricing-text-api"
+      ]
+    },
+    {
+      "aliasTargetInternalId": null,
+      "availability": "active",
+      "batchInputPrice": null,
+      "batchOutputPrice": null,
+      "billingModelInternalId": null,
+      "blockedFromDefaultReasons": [
+        "missing_verified_current_price"
+      ],
+      "cachedInputPrice": null,
+      "canonicalInternalId": "xai/grok-imagine-image-2.0",
+      "checkedAt": "2026-09-05T15:40:04Z",
+      "checkedSourceRefs": [
+        "source:xai:docs-x-ai-developers-model-capabilities-images-generation",
+        "source:xai:docs-x-ai-developers-models-grok-imagine-image-2-0",
+        "source:xai:docs-x-ai-developers-pricing"
+      ],
+      "contextWindow": null,
+      "contextWindowStatus": "unknown_not_guessed",
+      "defaultPriceSelectionRule": [
+        "current_effective_utc",
+        "verified",
+        "standard",
+        "text",
+        "default_context_class"
+      ],
+      "defaultSafe": false,
+      "governanceClass": "PROJECTED_IDENTITY",
+      "governanceDetails": "Structured pricing cannot be represented losslessly by the current public Dataset 1.5 contract.",
+      "governanceReason": "internal_structured_pricing_deferred_from_public_dataset",
+      "governanceSourceCandidateIds": [
+        "xai/grok-imagine-image-2.0"
+      ],
+      "id": "grok-imagine-image-2.0",
+      "identityType": "canonical_model",
+      "inputPrice": null,
+      "lifecycleStatus": "active",
+      "model": "Grok Imagine Image 2.0",
+      "officialSourceUrl": "https://docs.x.ai/developers/pricing",
+      "outputPrice": null,
+      "pricingComponents": [
+        {
+          "amount": "0.01",
+          "calculationDefault": false,
+          "chargeId": "price:xai/grok-imagine-image-2.0:standard:short:current:media_input_image:input:image:per_image",
+          "component": "input",
+          "condition": {
+            "contextClass": "short",
+            "effectiveFrom": null,
+            "effectiveUntil": null,
+            "processingMode": "standard",
+            "promptTokenThreshold": null,
+            "regionPolicy": "global",
+            "tierSelection": null
+          },
+          "currency": "USD",
+          "modality": "image",
+          "pricingId": "price:xai/grok-imagine-image-2.0:standard:short:current:media_input_image",
+          "sourceRefs": [
+            "source:xai:docs-x-ai-developers-model-capabilities-images-generation",
+            "source:xai:docs-x-ai-developers-models-grok-imagine-image-2-0",
+            "source:xai:docs-x-ai-developers-pricing"
+          ],
+          "unit": "per_image",
+          "verificationStatus": "verified"
+        },
+        {
+          "amount": "0.04",
+          "calculationDefault": true,
+          "chargeId": "price:xai/grok-imagine-image-2.0:standard:short:current:output_image_1k_low:output:image:per_image",
+          "component": "output",
+          "condition": {
+            "configuration": {
+              "quality": "low",
+              "resolution": "1k"
+            },
+            "contextClass": "short",
+            "effectiveFrom": null,
+            "effectiveUntil": null,
+            "processingMode": "standard",
+            "promptTokenThreshold": null,
+            "regionPolicy": "global",
+            "tierSelection": null
+          },
+          "currency": "USD",
+          "modality": "image",
+          "pricingId": "price:xai/grok-imagine-image-2.0:standard:short:current:output_image_1k_low",
+          "sourceRefs": [
+            "source:xai:docs-x-ai-developers-model-capabilities-images-generation",
+            "source:xai:docs-x-ai-developers-models-grok-imagine-image-2-0",
+            "source:xai:docs-x-ai-developers-pricing"
+          ],
+          "unit": "per_image",
+          "verificationStatus": "verified"
+        },
+        {
+          "amount": "0.06",
+          "calculationDefault": false,
+          "chargeId": "price:xai/grok-imagine-image-2.0:standard:short:current:output_image_2k_low:output:image:per_image",
+          "component": "output",
+          "condition": {
+            "configuration": {
+              "quality": "low",
+              "resolution": "2k"
+            },
+            "contextClass": "short",
+            "effectiveFrom": null,
+            "effectiveUntil": null,
+            "processingMode": "standard",
+            "promptTokenThreshold": null,
+            "regionPolicy": "global",
+            "tierSelection": null
+          },
+          "currency": "USD",
+          "modality": "image",
+          "pricingId": "price:xai/grok-imagine-image-2.0:standard:short:current:output_image_2k_low",
+          "sourceRefs": [
+            "source:xai:docs-x-ai-developers-model-capabilities-images-generation",
+            "source:xai:docs-x-ai-developers-models-grok-imagine-image-2-0",
+            "source:xai:docs-x-ai-developers-pricing"
+          ],
+          "unit": "per_image",
+          "verificationStatus": "verified"
+        }
+      ],
+      "pricingSourceType": "canonical_verified_structured_price",
+      "provider": "xai",
+      "publicExposure": "excluded",
+      "redirectTargetInternalId": null,
+      "releaseStage": "stable",
+      "replacementInternalId": null,
+      "routingBehavior": "direct",
+      "routingDetails": {},
+      "selectedBatchPriceRecordId": null,
+      "selectedBillingPriceRecordId": "price:xai/grok-imagine-image-2.0:standard:short:current:output_image_2k_low",
+      "selectedPriceEffectiveFrom": null,
+      "selectedPriceEffectiveUntil": null,
+      "selectedPriceRecordId": null,
+      "sourceRefs": [
+        "source:xai:docs-x-ai-developers-model-capabilities-images-generation",
+        "source:xai:docs-x-ai-developers-models-grok-imagine-image-2-0",
+        "source:xai:docs-x-ai-developers-pricing"
+      ],
+      "sourceUrls": [
+        "https://docs.x.ai/developers/model-capabilities/images/generation",
+        "https://docs.x.ai/developers/models/grok-imagine-image-2.0",
+        "https://docs.x.ai/developers/pricing"
+      ],
+      "status": "latest",
+      "verificationStatus": "verified",
+      "verifiedAt": "2026-09-05T15:40:04Z",
+      "verifiedSourceRefs": [
+        "source:xai:docs-x-ai-developers-model-capabilities-images-generation",
+        "source:xai:docs-x-ai-developers-models-grok-imagine-image-2-0",
+        "source:xai:docs-x-ai-developers-pricing"
+      ]
+    },
+    {
+      "aliasTargetInternalId": null,
+      "availability": "deprecated",
+      "batchInputPrice": null,
+      "batchOutputPrice": null,
+      "billingModelInternalId": null,
+      "blockedFromDefaultReasons": [
+        "missing_verified_current_price"
+      ],
+      "cachedInputPrice": null,
+      "canonicalInternalId": "xai/grok-imagine-image-quality",
+      "checkedAt": "2026-09-05T15:40:04Z",
+      "checkedSourceRefs": [
+        "source:xai:docs-x-ai-developers-migration-imagine-image-quality-nov-2",
+        "source:xai:docs-x-ai-developers-models-grok-imagine-image-pro",
+        "source:xai:docs-x-ai-developers-pricing",
+        "source:xai:docs-x-ai-developers-release-notes"
+      ],
+      "contextWindow": null,
+      "contextWindowStatus": "unknown_not_guessed",
+      "defaultPriceSelectionRule": [
+        "current_effective_utc",
+        "verified",
+        "standard",
+        "text",
+        "default_context_class"
+      ],
+      "defaultSafe": false,
+      "governanceClass": "PROJECTED_IDENTITY",
+      "governanceDetails": "Structured pricing cannot be represented losslessly by the current public Dataset 1.5 contract.",
+      "governanceReason": "internal_structured_pricing_deferred_from_public_dataset",
+      "governanceSourceCandidateIds": [
+        "xai/grok-imagine-image-quality"
+      ],
+      "id": "grok-imagine-image-quality",
+      "identityType": "canonical_model",
+      "inputPrice": null,
+      "lifecycleStatus": "deprecated",
+      "model": "Grok Imagine Image Quality",
+      "officialSourceUrl": "https://docs.x.ai/developers/pricing",
+      "outputPrice": null,
+      "pricingComponents": [
+        {
+          "amount": "0.01",
+          "calculationDefault": false,
+          "chargeId": "price:xai/grok-imagine-image-quality:standard:short:current:media_input_image:input:image:per_image",
+          "component": "input",
+          "condition": {
+            "contextClass": "short",
+            "effectiveFrom": null,
+            "effectiveUntil": null,
+            "processingMode": "standard",
+            "promptTokenThreshold": null,
+            "regionPolicy": "global",
+            "tierSelection": null
+          },
+          "currency": "USD",
+          "modality": "image",
+          "pricingId": "price:xai/grok-imagine-image-quality:standard:short:current:media_input_image",
+          "sourceRefs": [
+            "source:xai:docs-x-ai-developers-migration-imagine-image-quality-nov-2",
+            "source:xai:docs-x-ai-developers-models-grok-imagine-image-pro",
+            "source:xai:docs-x-ai-developers-pricing",
+            "source:xai:docs-x-ai-developers-release-notes"
+          ],
+          "unit": "per_image",
+          "verificationStatus": "verified"
+        },
+        {
+          "amount": "0.05",
+          "calculationDefault": true,
+          "chargeId": "price:xai/grok-imagine-image-quality:standard:short:current:output_image_1k:output:image:per_image",
+          "component": "output",
+          "condition": {
+            "configuration": {
+              "resolution": "1k"
+            },
+            "contextClass": "short",
+            "effectiveFrom": null,
+            "effectiveUntil": null,
+            "processingMode": "standard",
+            "promptTokenThreshold": null,
+            "regionPolicy": "global",
+            "tierSelection": null
+          },
+          "currency": "USD",
+          "modality": "image",
+          "pricingId": "price:xai/grok-imagine-image-quality:standard:short:current:output_image_1k",
+          "sourceRefs": [
+            "source:xai:docs-x-ai-developers-migration-imagine-image-quality-nov-2",
+            "source:xai:docs-x-ai-developers-models-grok-imagine-image-pro",
+            "source:xai:docs-x-ai-developers-pricing",
+            "source:xai:docs-x-ai-developers-release-notes"
+          ],
+          "unit": "per_image",
+          "verificationStatus": "verified"
+        },
+        {
+          "amount": "0.07",
+          "calculationDefault": false,
+          "chargeId": "price:xai/grok-imagine-image-quality:standard:short:current:output_image_2k:output:image:per_image",
+          "component": "output",
+          "condition": {
+            "configuration": {
+              "resolution": "2k"
+            },
+            "contextClass": "short",
+            "effectiveFrom": null,
+            "effectiveUntil": null,
+            "processingMode": "standard",
+            "promptTokenThreshold": null,
+            "regionPolicy": "global",
+            "tierSelection": null
+          },
+          "currency": "USD",
+          "modality": "image",
+          "pricingId": "price:xai/grok-imagine-image-quality:standard:short:current:output_image_2k",
+          "sourceRefs": [
+            "source:xai:docs-x-ai-developers-migration-imagine-image-quality-nov-2",
+            "source:xai:docs-x-ai-developers-models-grok-imagine-image-pro",
+            "source:xai:docs-x-ai-developers-pricing",
+            "source:xai:docs-x-ai-developers-release-notes"
+          ],
+          "unit": "per_image",
+          "verificationStatus": "verified"
+        }
+      ],
+      "pricingSourceType": "canonical_verified_structured_price",
+      "provider": "xai",
+      "publicExposure": "excluded",
+      "redirectTargetInternalId": null,
+      "releaseStage": "legacy",
+      "replacementInternalId": "xai/grok-imagine-image-2.0",
+      "routingBehavior": "direct",
+      "routingDetails": {},
+      "scheduledTransition": {
+        "billingConfiguration": {
+          "quality": "low"
+        },
+        "billingModelInternalId": "xai/grok-imagine-image-2.0",
+        "billingSource": "redirect_target",
+        "effectiveFrom": "2026-11-02",
+        "kind": "retirement_redirect",
+        "redirectTargetInternalId": "xai/grok-imagine-image-2.0",
+        "sourceSlugRemainsResolvable": true,
+        "targetConfiguration": {
+          "quality": "low"
+        }
+      },
+      "selectedBatchPriceRecordId": null,
+      "selectedBillingPriceRecordId": "price:xai/grok-imagine-image-quality:standard:short:current:output_image_2k",
+      "selectedPriceEffectiveFrom": null,
+      "selectedPriceEffectiveUntil": null,
+      "selectedPriceRecordId": null,
+      "sourceRefs": [
+        "source:xai:docs-x-ai-developers-migration-imagine-image-quality-nov-2",
+        "source:xai:docs-x-ai-developers-models-grok-imagine-image-pro",
+        "source:xai:docs-x-ai-developers-pricing",
+        "source:xai:docs-x-ai-developers-release-notes"
+      ],
+      "sourceUrls": [
+        "https://docs.x.ai/developers/migration/imagine-image-quality-nov-2",
+        "https://docs.x.ai/developers/models/grok-imagine-image-pro",
+        "https://docs.x.ai/developers/pricing",
+        "https://docs.x.ai/developers/release-notes"
+      ],
+      "status": "legacy",
+      "verificationStatus": "verified",
+      "verifiedAt": "2026-09-05T15:40:04Z",
+      "verifiedSourceRefs": [
+        "source:xai:docs-x-ai-developers-migration-imagine-image-quality-nov-2",
+        "source:xai:docs-x-ai-developers-models-grok-imagine-image-pro",
+        "source:xai:docs-x-ai-developers-pricing",
+        "source:xai:docs-x-ai-developers-release-notes"
       ]
     }
   ],

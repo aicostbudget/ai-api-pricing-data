@@ -672,7 +672,11 @@ def build_phase25_artifacts(
             return "future_effective"
         if effective_until and effective_until < today:
             return "historical"
-        if price["pricingId"] in default_price_ids and price["processingMode"] == "standard":
+        if (
+            price["pricingId"] in default_price_ids
+            and price["processingMode"] == "standard"
+            and text_modality_present(price)
+        ):
             return "production_default_candidate"
         if price["processingMode"] != "standard":
             return "non_default_tier"
@@ -1858,6 +1862,14 @@ def website_provider_id(record: dict[str, Any]) -> str:
     return PROVIDER_SLUGS.get(record["provider"], record["provider"].lower().replace(" ", "-"))
 
 
+def has_verified_non_token_components(public: dict[str, Any] | None) -> bool:
+    components = (public or {}).get("pricing_components", [])
+    return bool(components) and all(
+        component["unit"] != "per_1m_tokens"
+        for component in components
+    )
+
+
 def status_parts(provider_id: str, model_id: str, public: dict[str, Any] | None, website: dict[str, Any] | None) -> dict[str, Any]:
     website_status = (website or {}).get("status")
     public_status = (public or {}).get("status")
@@ -1895,7 +1907,11 @@ def status_parts(provider_id: str, model_id: str, public: dict[str, Any] | None,
 
     verification = (
         "verified"
-        if public and (website or (provider_id, model_id) in VERIFIED_PUBLIC_ONLY_KEYS)
+        if public and (
+            website
+            or has_verified_non_token_components(public)
+            or (provider_id, model_id) in VERIFIED_PUBLIC_ONLY_KEYS
+        )
         else "partially_verified"
     )
     availability = MODEL_AVAILABILITY_OVERRIDES.get((provider_id, model_id))
@@ -1906,6 +1922,26 @@ def status_parts(provider_id: str, model_id: str, public: dict[str, Any] | None,
         "releaseStage": release_stage,
         "availability": availability,
         "verificationStatus": verification,
+    }
+
+
+def scheduled_lifecycle_transition(
+    provider_id: str,
+    public: dict[str, Any] | None,
+) -> dict[str, Any] | None:
+    lifecycle = (public or {}).get("lifecycle")
+    if lifecycle is None:
+        return None
+    transition = lifecycle["scheduled_transition"]
+    return {
+        "kind": transition["kind"],
+        "effectiveFrom": transition["effective_from"],
+        "sourceSlugRemainsResolvable": transition["source_slug_remains_resolvable"],
+        "redirectTargetInternalId": internal_id(provider_id, transition["redirect_target_model_id"]),
+        "targetConfiguration": dict(sorted(transition["target_configuration"].items())),
+        "billingSource": transition["billing_source"],
+        "billingModelInternalId": internal_id(provider_id, transition["billing_model_id"]),
+        "billingConfiguration": dict(sorted(transition["billing_configuration"].items())),
     }
 
 
@@ -2129,7 +2165,11 @@ def main() -> None:
 
     for key, item in public_by_key.items():
         for url in public_source_urls(item):
-            if item.get("pricing_tiers") or item.get("time_pricing"):
+            if (
+                item.get("pricing_tiers")
+                or item.get("time_pricing")
+                or item.get("lifecycle")
+            ):
                 canonical_tier_source_times[url] = {
                     "accessedAt": item.get("accessed_at"),
                     "verifiedAt": item.get("last_verified_at"),
@@ -2144,7 +2184,11 @@ def main() -> None:
                 # Keep record-level provenance without lowering a shared source timestamp.
                 "verifiedAt": None if key in PROMOTED_CANONICAL_KEYS else item.get("last_verified_at"),
                 "officialProviderDomain": official_domain(key[0], url),
-                "supports": ["pricing"],
+                "supports": (
+                    ["pricing", "retirement", "redirect", "billing"]
+                    if item.get("lifecycle")
+                    else ["pricing"]
+                ),
                 "verificationStatus": "verified",
             })
     for key, item in website_by_key.items():
@@ -2221,35 +2265,46 @@ def main() -> None:
         target = collapse["target"] if collapse else None
         if identity_type == "canonical_model":
             canonical_keys.append((provider_id, model_id))
-        identities.append(
-            {
-                "providerId": provider_id,
-                "internalId": internal_id(provider_id, model_id),
-                "displayName": (public or {}).get("display_name") or (website or {}).get("model") or model_id,
-                "canonicalOfficialId": target.split("/", 1)[1] if target else model_id,
-                "officialIds": official_ids(provider_id, model_id, public, website),
-                "websiteIds": [model_id] if website else [],
-                "publicDatasetIds": [model_id] if public else [],
-                "identityType": identity_type,
-                "lifecycleStatus": parts["lifecycleStatus"],
-                "releaseStage": parts["releaseStage"],
-                "availability": parts["availability"],
-                "routingBehavior": (collapse or {}).get("routingBehavior", "direct"),
-                "routingDetails": (collapse or {}).get("routingDetails", {}),
-                "aliasTargetInternalId": target if identity_type in {"alias", "pinned_id"} else None,
-                "redirectTargetInternalId": (collapse or {}).get("routingDetails", {}).get("redirectTargetInternalId"),
-                "billingModelInternalId": (collapse or {}).get("routingDetails", {}).get("billingModelInternalId"),
-                "replacementInternalId": (
+        scheduled_transition = scheduled_lifecycle_transition(provider_id, public)
+        lifecycle = (public or {}).get("lifecycle")
+        identity = {
+            "providerId": provider_id,
+            "internalId": internal_id(provider_id, model_id),
+            "displayName": (public or {}).get("display_name") or (website or {}).get("model") or model_id,
+            "canonicalOfficialId": target.split("/", 1)[1] if target else model_id,
+            "officialIds": official_ids(provider_id, model_id, public, website),
+            "websiteIds": [model_id] if website else [],
+            "publicDatasetIds": [model_id] if public else [],
+            "identityType": identity_type,
+            "lifecycleStatus": parts["lifecycleStatus"],
+            "releaseStage": parts["releaseStage"],
+            "availability": parts["availability"],
+            "routingBehavior": (collapse or {}).get("routingBehavior", "direct"),
+            "routingDetails": (collapse or {}).get("routingDetails", {}),
+            "aliasTargetInternalId": target if identity_type in {"alias", "pinned_id"} else None,
+            "redirectTargetInternalId": (collapse or {}).get("routingDetails", {}).get("redirectTargetInternalId"),
+            "billingModelInternalId": (collapse or {}).get("routingDetails", {}).get("billingModelInternalId"),
+            "replacementInternalId": (
+                internal_id(provider_id, lifecycle["replacement_model_id"])
+                if lifecycle
+                else (
                     internal_id(provider_id, website["replacementModelId"])
                     if website and website.get("replacementModelId") and not (provider_id == "xai" and model_id == "grok-3")
                     else None
-                ),
-                "deprecationDate": None,
-                "retirementDate": (website or {}).get("retirementDate"),
-                "verificationStatus": parts["verificationStatus"],
-                "sourceRefs": source_refs_for(provider_id, public, website, source_by_url),
-            }
-        )
+                )
+            ),
+            "deprecationDate": None,
+            "retirementDate": (
+                lifecycle["retirement_date"]
+                if lifecycle
+                else (website or {}).get("retirementDate")
+            ),
+            "verificationStatus": parts["verificationStatus"],
+            "sourceRefs": source_refs_for(provider_id, public, website, source_by_url),
+        }
+        if scheduled_transition is not None:
+            identity["scheduledTransition"] = scheduled_transition
+        identities.append(identity)
 
     candidate_dispositions = []
     for provider_id, model_id in candidate_keys:
@@ -2355,6 +2410,11 @@ def main() -> None:
                                     "amount": decimal_string(component["amount"]),
                                 }
                             ],
+                            **(
+                                {"configuration": dict(sorted(component["configuration"].items()))}
+                                if component.get("configuration")
+                                else {}
+                            ),
                             "sourceRefs": source_refs_for(provider_id, public, website, source_by_url),
                             "billingNote": public.get("notes", ""),
                             "verificationStatus": verification,

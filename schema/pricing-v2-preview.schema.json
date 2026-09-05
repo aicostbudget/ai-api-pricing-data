@@ -88,6 +88,7 @@
         "replacementInternalId": {"type": ["string", "null"]},
         "deprecationDate": {"type": ["string", "null"], "format": "date"},
         "retirementDate": {"type": ["string", "null"]},
+        "scheduledTransition": {"$ref": "#/$defs/scheduledLifecycleTransition"},
         "verificationStatus": {"$ref": "#/$defs/verificationStatus"},
         "sourceRefs": {"type": "array", "items": {"type": "string"}}
       }
@@ -186,6 +187,7 @@
         },
         "currency": {"type": "string", "const": "USD"},
         "charges": {"type": "array", "minItems": 1, "items": {"$ref": "#/$defs/chargeRecord"}},
+        "configuration": {"type": "object", "minProperties": 1, "additionalProperties": {"type": "string", "minLength": 1}},
         "sourceRefs": {"type": "array", "minItems": 1, "uniqueItems": true, "items": {"type": "string"}},
         "billingNote": {"type": "string"},
         "verificationStatus": {"$ref": "#/$defs/verificationStatus"},
@@ -235,6 +237,21 @@
         "tokenBasis": {"type": "string", "enum": ["total_prompt_tokens"]},
         "cachedPromptTokensIncluded": {"type": "boolean"},
         "wholeRequestPricing": {"type": "boolean"}
+      }
+    },
+    "scheduledLifecycleTransition": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["kind", "effectiveFrom", "sourceSlugRemainsResolvable", "redirectTargetInternalId", "targetConfiguration", "billingSource", "billingModelInternalId", "billingConfiguration"],
+      "properties": {
+        "kind": {"type": "string", "const": "retirement_redirect"},
+        "effectiveFrom": {"type": "string", "format": "date"},
+        "sourceSlugRemainsResolvable": {"type": "boolean", "const": true},
+        "redirectTargetInternalId": {"type": "string", "minLength": 1},
+        "targetConfiguration": {"type": "object", "minProperties": 1, "additionalProperties": {"type": "string", "minLength": 1}},
+        "billingSource": {"type": "string", "const": "redirect_target"},
+        "billingModelInternalId": {"type": "string", "minLength": 1},
+        "billingConfiguration": {"type": "object", "minProperties": 1, "additionalProperties": {"type": "string", "minLength": 1}}
       }
     },
     "regionSelector": {

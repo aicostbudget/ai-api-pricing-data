@@ -72,20 +72,29 @@ class PricingGovernanceTests(unittest.TestCase):
                 {
                     "VERIFIED_CANONICAL": 37,
                     "VERIFIED_PROJECTION": 7,
-                    "PROJECTED_IDENTITY": 2,
+                    "PROJECTED_IDENTITY": 4,
                     "HISTORICAL_REFERENCE": 2,
                     "EXCLUDED": 3,
                     "REVIEW_REQUIRED": 3,
                 }
             ),
-            "GOVERNANCE_CLASS_COUNT_MISMATCH: current 54-row normalized projection changed classification",
+            "GOVERNANCE_CLASS_COUNT_MISMATCH: current 56-row normalized projection changed classification",
         )
         exposures = Counter(row["publicExposure"] for row in self.projection.values())
         self.assertEqual(
             exposures,
-            Counter({"public": 49, "excluded": 3, "alias_only": 2}),
-            "PUBLIC_EXPOSURE_COUNT_MISMATCH: expected 49 public, 3 excluded, and 2 alias-only rows",
+            Counter({"public": 49, "excluded": 5, "alias_only": 2}),
+            "PUBLIC_EXPOSURE_COUNT_MISMATCH: expected 49 public, 5 excluded, and 2 alias-only rows",
         )
+        for internal_id in (
+            "xai/grok-imagine-image-quality",
+            "xai/grok-imagine-image-2.0",
+        ):
+            self.assertEqual(self.projection[internal_id]["publicExposure"], "excluded")
+            self.assertEqual(
+                self.projection[internal_id]["governanceReason"],
+                "internal_structured_pricing_deferred_from_public_dataset",
+            )
         for internal_id, row in self.projection.items():
             self.assertTrue(row["governanceReason"], f"MISSING_GOVERNANCE_REASON: {internal_id}")
             self.assertTrue(row["governanceSourceCandidateIds"], f"MISSING_GOVERNANCE_SOURCE: {internal_id}")
@@ -118,7 +127,7 @@ class PricingGovernanceTests(unittest.TestCase):
             self.assertIsNotNone(row, f"UNEXPLAINED_CANONICAL_EXCLUSION: {internal_id}")
             self.assertIn(
                 row["governanceClass"],
-                {"VERIFIED_CANONICAL", "EXCLUDED", "REVIEW_REQUIRED"},
+                {"VERIFIED_CANONICAL", "PROJECTED_IDENTITY", "EXCLUDED", "REVIEW_REQUIRED"},
                 f"INVALID_CANONICAL_GOVERNANCE: {internal_id}",
             )
 
@@ -164,7 +173,19 @@ class PricingGovernanceTests(unittest.TestCase):
             self.assertNotIn(current, visited, f"ALIAS_CYCLE: {internal_id} -> {current}")
             self.assertEqual(self.projection[internal_id]["publicExposure"], "alias_only")
         excluded = {key for key, row in self.projection.items() if row["publicExposure"] == "excluded"}
-        self.assertEqual(excluded, set(self.excluded_decisions), "EXCLUSION_DECISION_DRIFT: projection differs from Phase 2.6")
+        contract_deferred = {
+            key for key in excluded
+            if self.projection[key]["governanceReason"] == "internal_structured_pricing_deferred_from_public_dataset"
+        }
+        self.assertEqual(contract_deferred, {
+            "xai/grok-imagine-image-quality",
+            "xai/grok-imagine-image-2.0",
+        })
+        self.assertEqual(
+            excluded - contract_deferred,
+            set(self.excluded_decisions),
+            "EXCLUSION_DECISION_DRIFT: non-contract exclusions differ from Phase 2.6",
+        )
         for internal_id in excluded:
             self.assertTrue(self.projection[internal_id]["governanceDetails"], f"EXCLUSION_WITHOUT_REASON: {internal_id}")
 

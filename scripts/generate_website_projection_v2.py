@@ -343,6 +343,19 @@ def legacy_grok_history(website_rows: list[dict[str, Any]]) -> dict[str, Any] | 
     }
 
 
+def public_dataset_v15_compatible(row: dict[str, Any]) -> bool:
+    components = row.get("pricingComponents", [])
+    if any(component.get("condition", {}).get("configuration") is not None for component in components):
+        return False
+    non_token_components = [component for component in components if component["unit"] != "per_1m_tokens"]
+    return not non_token_components or (
+        len(non_token_components) == 1
+        and non_token_components[0]["component"] == "document_page"
+        and non_token_components[0]["modality"] == "document"
+        and non_token_components[0]["unit"] == "per_1000_pages"
+    )
+
+
 def governance_metadata(
     identity: dict[str, Any],
     row: dict[str, Any],
@@ -359,6 +372,12 @@ def governance_metadata(
         reason = "official_price_incomplete_excluded_from_public_projection"
         details = excluded_reasons[internal_id]
         pricing_source = "none"
+        public_exposure = "excluded"
+    elif row.get("pricingComponents") and not public_dataset_v15_compatible(row):
+        governance_class = "PROJECTED_IDENTITY"
+        reason = "internal_structured_pricing_deferred_from_public_dataset"
+        details = "Structured pricing cannot be represented losslessly by the current public Dataset 1.5 contract."
+        pricing_source = "canonical_verified_structured_price"
         public_exposure = "excluded"
     elif identity["identityType"] == "alias":
         governance_class = "PROJECTED_IDENTITY"
@@ -521,6 +540,8 @@ def project_pricing_component(record: dict[str, Any], charge: dict[str, Any]) ->
     }
     if record.get("temporalCondition") is not None:
         condition["temporalCondition"] = record["temporalCondition"]
+    if record.get("configuration") is not None:
+        condition["configuration"] = record["configuration"]
     for field in (
         "regionSelector",
         "defaultAvailabilityStatus",
@@ -878,6 +899,8 @@ def projection_row(
         "sourceRefs": refs,
         "sourceUrls": urls,
     }
+    if identity.get("scheduledTransition") is not None:
+        row["scheduledTransition"] = identity["scheduledTransition"]
     if identity["internalId"] == "xai/grok-3":
         row["historicalPrice"] = legacy_grok_history(website_rows)
         row["redirectedBilling"] = {

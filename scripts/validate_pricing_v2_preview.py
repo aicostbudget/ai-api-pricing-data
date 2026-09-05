@@ -570,12 +570,19 @@ def validate_preview() -> dict[str, Any]:
             price["contextClass"],
             price.get("pricingStatus"),
             (price.get("temporalCondition") or {}).get("periodId"),
+            tuple(sorted((price.get("configuration") or {}).items())),
+            tuple(
+                sorted(
+                    (charge["component"], charge["modality"], charge["unit"])
+                    for charge in price["charges"]
+                )
+            ),
         )
         for price in prices
         if price.get("pricingStatus") == "current"
     ]
     if len(current_tier_keys) != len(set(current_tier_keys)):
-        fail("duplicate current pricing tier for the same model, processing mode, and context")
+        fail("duplicate current pricing tier for the same model, processing mode, context, and component variant")
 
     sonnet_standard = [
         price
@@ -685,8 +692,12 @@ def validate_preview() -> dict[str, Any]:
                     fail(f"xai/grok-4.3 source missing checkedAt: {ref}")
                 if parse_timestamp(source.get("verifiedAt"), f"{ref} verifiedAt") is None:
                     fail(f"xai/grok-4.3 source missing verifiedAt: {ref}")
-                if source["checkedAt"] != "2026-08-15T12:25:26Z" or source["verifiedAt"] != "2026-08-15T12:25:26Z":
-                    fail(f"xai/grok-4.3 source timestamp mismatch: {ref}")
+                minimum_source_time = parse_timestamp("2026-08-15T12:25:26Z", "grok-4.3 baseline")
+                if (
+                    parse_timestamp(source["checkedAt"], f"{ref} checkedAt") < minimum_source_time
+                    or parse_timestamp(source["verifiedAt"], f"{ref} verifiedAt") < minimum_source_time
+                ):
+                    fail(f"xai/grok-4.3 source timestamp predates canonical verification: {ref}")
 
     def selected_grok43_context(prompt_tokens: int) -> list[str]:
         selected = []

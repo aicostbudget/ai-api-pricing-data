@@ -49,6 +49,7 @@
       "minItems": 1,
       "items": {"$ref": "#/$defs/pricingComponent"}
     },
+    "lifecycle": {"$ref": "#/$defs/lifecycle"},
     "price_records": {
       "type": "array",
       "minItems": 1,
@@ -189,16 +190,42 @@
       "required": ["id", "component", "modality", "unit", "amount", "currency", "processing_mode", "pricing_status", "calculation_default", "effective_from", "effective_until"],
       "properties": {
         "id": {"type": "string", "minLength": 1},
-        "component": {"type": "string", "enum": ["document_page"]},
-        "modality": {"type": "string", "enum": ["document"]},
-        "unit": {"type": "string", "enum": ["per_1000_pages"]},
+        "component": {"type": "string", "enum": ["input", "output", "document_page"]},
+        "modality": {"type": "string", "enum": ["image", "document"]},
+        "unit": {"type": "string", "enum": ["per_image", "per_1000_pages"]},
         "amount": {"type": "number", "minimum": 0},
         "currency": {"type": "string", "const": "USD"},
         "processing_mode": {"type": "string", "enum": ["standard"]},
         "pricing_status": {"type": "string", "enum": ["current", "future", "historical"]},
         "calculation_default": {"type": "boolean"},
+        "configuration": {"type": "object", "minProperties": 1, "additionalProperties": {"type": "string", "minLength": 1}},
         "effective_from": {"type": ["string", "null"], "format": "date"},
         "effective_until": {"type": ["string", "null"], "format": "date"}
+      }
+    },
+    "lifecycle": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["retirement_notice_date", "retirement_date", "replacement_model_id", "scheduled_transition"],
+      "properties": {
+        "retirement_notice_date": {"type": "string", "format": "date"},
+        "retirement_date": {"type": "string", "format": "date"},
+        "replacement_model_id": {"type": "string", "minLength": 1},
+        "scheduled_transition": {
+          "type": "object",
+          "additionalProperties": false,
+          "required": ["kind", "effective_from", "source_slug_remains_resolvable", "redirect_target_model_id", "target_configuration", "billing_source", "billing_model_id", "billing_configuration"],
+          "properties": {
+            "kind": {"type": "string", "const": "retirement_redirect"},
+            "effective_from": {"type": "string", "format": "date"},
+            "source_slug_remains_resolvable": {"type": "boolean", "const": true},
+            "redirect_target_model_id": {"type": "string", "minLength": 1},
+            "target_configuration": {"type": "object", "minProperties": 1, "additionalProperties": {"type": "string", "minLength": 1}},
+            "billing_source": {"type": "string", "const": "redirect_target"},
+            "billing_model_id": {"type": "string", "minLength": 1},
+            "billing_configuration": {"type": "object", "minProperties": 1, "additionalProperties": {"type": "string", "minLength": 1}}
+          }
+        }
       }
     },
     "pricingPeriod": {

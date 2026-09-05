@@ -1648,5 +1648,66 @@
     "last_verified_at": "2026-08-29T00:00:00Z",
     "effective_from": "2026-08-27",
     "notes": "Cohere Parse v5 is generally available through the Cohere Parse API as parse-v5.0 at $1.50 per 1,000 pages. The public official sources do not publish a separate async or Batch API rate, page-count tier, or API free allowance. The free Cohere Space is a product demo, not a free API billing tier."
+  },
+  {
+    "provider_id": "xai",
+    "model_id": "grok-imagine-image-quality",
+    "display_name": "Grok Imagine Image Quality",
+    "model_family": "Grok Imagine Image",
+    "model_category": "image_generation",
+    "status": "deprecated",
+    "release_stage": "legacy",
+    "input_modality": "image",
+    "output_modality": "image",
+    "pricing": {"currency": "USD", "unit": null, "input": null, "output": null, "cached_input": null, "cache_write": null, "cache_write_1h": null, "batch_input": null, "batch_output": null},
+    "pricing_components": [
+      {"id": "media_input_image", "component": "input", "modality": "image", "unit": "per_image", "amount": 0.01, "currency": "USD", "processing_mode": "standard", "pricing_status": "current", "calculation_default": false, "effective_from": null, "effective_until": null},
+      {"id": "output_image_1k", "component": "output", "modality": "image", "unit": "per_image", "amount": 0.05, "currency": "USD", "processing_mode": "standard", "pricing_status": "current", "calculation_default": true, "effective_from": null, "effective_until": null, "configuration": {"resolution": "1k"}},
+      {"id": "output_image_2k", "component": "output", "modality": "image", "unit": "per_image", "amount": 0.07, "currency": "USD", "processing_mode": "standard", "pricing_status": "current", "calculation_default": false, "effective_from": null, "effective_until": null, "configuration": {"resolution": "2k"}}
+    ],
+    "lifecycle": {
+      "retirement_notice_date": "2026-09-02",
+      "retirement_date": "2026-11-02",
+      "replacement_model_id": "grok-imagine-image-2.0",
+      "scheduled_transition": {
+        "kind": "retirement_redirect",
+        "effective_from": "2026-11-02",
+        "source_slug_remains_resolvable": true,
+        "redirect_target_model_id": "grok-imagine-image-2.0",
+        "target_configuration": {"quality": "low"},
+        "billing_source": "redirect_target",
+        "billing_model_id": "grok-imagine-image-2.0",
+        "billing_configuration": {"quality": "low"}
+      }
+    },
+    "official_source_url": "https://docs.x.ai/developers/pricing",
+    "official_source_urls": ["https://docs.x.ai/developers/pricing", "https://docs.x.ai/developers/models/grok-imagine-image-pro", "https://docs.x.ai/developers/migration/imagine-image-quality-nov-2", "https://docs.x.ai/developers/release-notes"],
+    "accessed_at": "2026-09-05T15:40:04Z",
+    "last_verified_at": "2026-09-05T15:40:04Z",
+    "effective_from": null,
+    "notes": "Current billing remains $0.01 per input image, $0.05 per 1K output image, and $0.07 per 2K output image. xAI began the retirement notice on 2026-09-02. Effective 2026-11-02, the old slug is scheduled to remain resolvable and redirect to grok-imagine-image-2.0 with quality=low; billing then follows the redirect target configuration. This scheduled transition does not change current prices."
+  },
+  {
+    "provider_id": "xai",
+    "model_id": "grok-imagine-image-2.0",
+    "display_name": "Grok Imagine Image 2.0",
+    "model_family": "Grok Imagine Image",
+    "model_category": "image_generation",
+    "status": "active",
+    "release_stage": "stable",
+    "input_modality": "image",
+    "output_modality": "image",
+    "pricing": {"currency": "USD", "unit": null, "input": null, "output": null, "cached_input": null, "cache_write": null, "cache_write_1h": null, "batch_input": null, "batch_output": null},
+    "pricing_components": [
+      {"id": "media_input_image", "component": "input", "modality": "image", "unit": "per_image", "amount": 0.01, "currency": "USD", "processing_mode": "standard", "pricing_status": "current", "calculation_default": false, "effective_from": null, "effective_until": null},
+      {"id": "output_image_1k_low", "component": "output", "modality": "image", "unit": "per_image", "amount": 0.04, "currency": "USD", "processing_mode": "standard", "pricing_status": "current", "calculation_default": true, "effective_from": null, "effective_until": null, "configuration": {"quality": "low", "resolution": "1k"}},
+      {"id": "output_image_2k_low", "component": "output", "modality": "image", "unit": "per_image", "amount": 0.06, "currency": "USD", "processing_mode": "standard", "pricing_status": "current", "calculation_default": false, "effective_from": null, "effective_until": null, "configuration": {"quality": "low", "resolution": "2k"}}
+    ],
+    "official_source_url": "https://docs.x.ai/developers/models/grok-imagine-image-2.0",
+    "official_source_urls": ["https://docs.x.ai/developers/models/grok-imagine-image-2.0", "https://docs.x.ai/developers/pricing", "https://docs.x.ai/developers/model-capabilities/images/generation"],
+    "accessed_at": "2026-09-05T15:40:04Z",
+    "last_verified_at": "2026-09-05T15:40:04Z",
+    "effective_from": null,
+    "notes": "Low quality billing is $0.01 per input image, $0.04 per 1K output image, and $0.06 per 2K output image. The quality selector is explicit because redirected requests from grok-imagine-image-quality are scheduled to use quality=low."
   }
 ]

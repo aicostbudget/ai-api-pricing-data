@@ -225,10 +225,10 @@ class WebsiteProjectionV2Tests(unittest.TestCase):
 
     def test_report_counts_and_parity_buckets(self):
         self.assertEqual(self.report["projectionModelCount"], len(self.rows))
-        self.assertEqual(self.report["projectionModelCount"], 54)
+        self.assertEqual(self.report["projectionModelCount"], 56)
         self.assertEqual(self.report["defaultSafeModelCount"], 42)
-        self.assertEqual(self.report["unsafeIdentityCount"], 12)
-        self.assertEqual(self.report["nullPriceCount"], 12)
+        self.assertEqual(self.report["unsafeIdentityCount"], 14)
+        self.assertEqual(self.report["nullPriceCount"], 14)
         self.assertEqual(self.report["parity"]["websiteModelCount"], 36)
         self.assertEqual(sum(self.report["parity"]["counts"].values()), 36)
         self.assertEqual(self.report["parity"]["counts"]["unsafe_difference"], 4)
@@ -478,15 +478,15 @@ class WebsiteProjectionV2Tests(unittest.TestCase):
         self.assertEqual(safe["stats"]["safePriceRecordsInput"], 43)
         self.assertEqual(safe["stats"]["mappedToProjection"], 39)
         self.assertEqual(safe["stats"]["unexplained"], 0)
-        self.assertEqual(rows["counts"]["canonical_model"], 51)
+        self.assertEqual(rows["counts"]["canonical_model"], 53)
         self.assertEqual(rows["counts"]["alias"], 2)
         self.assertEqual(rows["counts"]["redirecting_identity"], 1)
         self.assertEqual(unsafe["beforePhase4A5UnsafeDifferenceCount"], 5)
         self.assertEqual(unsafe["currentUnsafeDifferenceCount"], 4)
         self.assertEqual(len(unsafe["blockerUnsafeDifferences"]), 0)
-        self.assertEqual(context["contextWindowRows"], 54)
+        self.assertEqual(context["contextWindowRows"], 56)
         self.assertEqual(context["verifiedCanonicalContextWindowCount"], 0)
-        self.assertEqual(context["projectedNullCount"], 54)
+        self.assertEqual(context["projectedNullCount"], 56)
 
 
 if __name__ == "__main__":

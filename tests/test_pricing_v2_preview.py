@@ -155,8 +155,8 @@ class PricingV2PreviewTests(unittest.TestCase):
                 {"publicDatasetIds": ["grok-4.3"], "websiteIds": []},
             )
             for ref in record["sourceRefs"]:
-                self.assertEqual(source_by_id[ref]["checkedAt"], "2026-08-15T12:25:26Z")
-                self.assertEqual(source_by_id[ref]["verifiedAt"], "2026-08-15T12:25:26Z")
+                self.assertGreaterEqual(source_by_id[ref]["checkedAt"], "2026-08-15T12:25:26Z")
+                self.assertGreaterEqual(source_by_id[ref]["verifiedAt"], "2026-08-15T12:25:26Z")
 
         def selected(prompt_tokens):
             return sorted(
@@ -385,7 +385,7 @@ class PricingV2PreviewTests(unittest.TestCase):
     def test_report_counts_match_phase_1_baseline(self):
         self.assertEqual(self.report["candidateUnionCount"], len(self.dispositions))
         self.assertEqual(self.report["websiteOnlyCount"], 13)
-        self.assertEqual(self.report["publicOnlyCount"], 11)
+        self.assertEqual(self.report["publicOnlyCount"], 13)
         self.assertEqual(self.report["commonCount"], 30)
         self.assertEqual(self.report["aliasCount"], 2)
         self.assertEqual(self.report["normalizedCanonicalIdentityCount"], len(self.models))
@@ -491,7 +491,7 @@ class PricingV2PreviewTests(unittest.TestCase):
         self.assertEqual(len(self.phase25_evidence), self.phase25_default_safe["totalPriceRecords"])
         self.assertEqual(self.phase25_default_safe["productionDefaultCandidateCount"], 43)
         self.assertEqual(self.phase25_default_safe["defaultSafeCount"], 43)
-        self.assertEqual(self.phase25_default_safe["defaultUnsafeCount"], 75)
+        self.assertEqual(self.phase25_default_safe["defaultUnsafeCount"], 81)
         self.assertEqual(self.phase25_default_safe["P0PartialBefore"], 4)
         self.assertEqual(self.phase25_default_safe["P0PartialAfter"], 0)
         self.assertEqual(self.phase25_default_safe["P1PartialCount"], 7)
@@ -593,6 +593,126 @@ class PricingV2PreviewTests(unittest.TestCase):
         self.assertEqual(self.phase35_scope["featureFlag"]["default"], "off")
         self.assertIn("runtime GitHub Pages fetch", self.phase35_scope["outOfScope"])
 
+
+class XaiImageLifecycleTests(unittest.TestCase):
+    OLD_ID = "grok-imagine-image-quality"
+    NEW_ID = "grok-imagine-image-2.0"
+    OLD_INTERNAL_ID = f"xai/{OLD_ID}"
+    NEW_INTERNAL_ID = f"xai/{NEW_ID}"
+
+    @classmethod
+    def setUpClass(cls):
+        cls.canonical = json.loads((CANONICAL / "models.json").read_text(encoding="utf-8"))
+        cls.canonical_by_id = {
+            row["model_id"]: row for row in cls.canonical if row["provider_id"] == "xai"
+        }
+        cls.identities = json.loads((PREVIEW / "model-identity-registry.json").read_text(encoding="utf-8"))
+        projection = json.loads((PREVIEW / "generated/model-pricing.v2.json").read_text(encoding="utf-8"))
+        cls.projection_rows = projection["models"]
+        cls.projection_by_id = {row["id"]: row for row in cls.projection_rows}
+        cls.hf_records = json.loads((CANONICAL.parent.parent / "huggingface/prices.json").read_text(encoding="utf-8"))["records"]
+        events_path = CANONICAL.parent / "price-change-events/events.jsonl"
+        cls.events = [json.loads(line) for line in events_path.read_text(encoding="utf-8").splitlines() if line]
+
+    @staticmethod
+    def component_amounts(row):
+        return {
+            (component["component"], tuple(sorted(component.get("configuration", {}).items()))): component["amount"]
+            for component in row["pricing_components"]
+        }
+
+    def test_current_prices_and_scheduled_transition_are_distinct(self):
+        old = self.canonical_by_id[self.OLD_ID]
+        new = self.canonical_by_id[self.NEW_ID]
+        self.assertEqual(old["status"], "deprecated")
+        self.assertNotEqual(old["status"], "retired")
+        self.assertEqual(self.component_amounts(old), {
+            ("input", ()): 0.01,
+            ("output", (("resolution", "1k"),)): 0.05,
+            ("output", (("resolution", "2k"),)): 0.07,
+        })
+        self.assertEqual(self.component_amounts(new), {
+            ("input", ()): 0.01,
+            ("output", (("quality", "low"), ("resolution", "1k"))): 0.04,
+            ("output", (("quality", "low"), ("resolution", "2k"))): 0.06,
+        })
+        self.assertEqual(old["lifecycle"], {
+            "retirement_notice_date": "2026-09-02",
+            "retirement_date": "2026-11-02",
+            "replacement_model_id": self.NEW_ID,
+            "scheduled_transition": {
+                "kind": "retirement_redirect",
+                "effective_from": "2026-11-02",
+                "source_slug_remains_resolvable": True,
+                "redirect_target_model_id": self.NEW_ID,
+                "target_configuration": {"quality": "low"},
+                "billing_source": "redirect_target",
+                "billing_model_id": self.NEW_ID,
+                "billing_configuration": {"quality": "low"},
+            },
+        })
+
+    def test_only_old_slug_owns_the_scheduled_transition(self):
+        canonical_owners = [f"{row['provider_id']}/{row['model_id']}" for row in self.canonical if "lifecycle" in row]
+        identity_owners = [row["internalId"] for row in self.identities if "scheduledTransition" in row]
+        projection_owners = [row["canonicalInternalId"] for row in self.projection_rows if "scheduledTransition" in row]
+        self.assertEqual(canonical_owners, [self.OLD_INTERNAL_ID])
+        self.assertEqual(identity_owners, [self.OLD_INTERNAL_ID])
+        self.assertEqual(projection_owners, [self.OLD_INTERNAL_ID])
+        self.assertNotIn("cohere/parse-v5.0", canonical_owners + identity_owners + projection_owners)
+
+    def test_pre_retirement_redirect_and_target_billing_are_not_active(self):
+        old = next(row for row in self.identities if row["internalId"] == self.OLD_INTERNAL_ID)
+        self.assertEqual(old["lifecycleStatus"], "deprecated")
+        self.assertEqual(old["routingBehavior"], "direct")
+        self.assertIsNone(old["redirectTargetInternalId"])
+        self.assertIsNone(old["billingModelInternalId"])
+        self.assertEqual(old["replacementInternalId"], self.NEW_INTERNAL_ID)
+        self.assertEqual(old["retirementDate"], "2026-11-02")
+        self.assertEqual(old["scheduledTransition"], {
+            "kind": "retirement_redirect",
+            "effectiveFrom": "2026-11-02",
+            "sourceSlugRemainsResolvable": True,
+            "redirectTargetInternalId": self.NEW_INTERNAL_ID,
+            "targetConfiguration": {"quality": "low"},
+            "billingSource": "redirect_target",
+            "billingModelInternalId": self.NEW_INTERNAL_ID,
+            "billingConfiguration": {"quality": "low"},
+        })
+
+    def test_projection_keeps_current_prices_separate_from_future_transition(self):
+        old = self.projection_by_id[self.OLD_ID]
+        new = self.projection_by_id[self.NEW_ID]
+        self.assertEqual(old["publicExposure"], "excluded")
+        self.assertEqual(new["publicExposure"], "excluded")
+        self.assertIsNone(old["inputPrice"])
+        self.assertIsNone(old["outputPrice"])
+        self.assertIsNone(old["redirectTargetInternalId"])
+        self.assertIsNone(old["billingModelInternalId"])
+        self.assertNotIn("redirectedBilling", old)
+        projected = {
+            (component["component"], tuple(sorted(component["condition"].get("configuration", {}).items()))): component["amount"]
+            for component in old["pricingComponents"]
+        }
+        self.assertEqual(projected, {
+            ("input", ()): "0.01",
+            ("output", (("resolution", "1k"),)): "0.05",
+            ("output", (("resolution", "2k"),)): "0.07",
+        })
+        self.assertEqual(old["scheduledTransition"]["targetConfiguration"], {"quality": "low"})
+
+    def test_notice_is_not_a_normal_price_change_event(self):
+        self.assertFalse(any(event.get("model_id") == self.OLD_ID for event in self.events))
+        self.assertFalse(any(self.OLD_ID in json.dumps(event, sort_keys=True) for event in self.events))
+
+    def test_hf_defers_image_records_outside_public_schema_1_5(self):
+        records = {row["model_id"]: row for row in self.hf_records if row["provider_id"] == "xai"}
+        self.assertNotIn(self.OLD_ID, records)
+        self.assertNotIn(self.NEW_ID, records)
+        for record in self.hf_records:
+            self.assertNotEqual(record["billing_unit"], "per_image")
+            for component in record["pricing_components"]:
+                self.assertNotIn("configuration", component["condition"])
 
 if __name__ == "__main__":
     unittest.main()
