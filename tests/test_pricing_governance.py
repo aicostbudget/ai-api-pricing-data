@@ -70,7 +70,7 @@ class PricingGovernanceTests(unittest.TestCase):
             counts,
             Counter(
                 {
-                    "VERIFIED_CANONICAL": 37,
+                    "VERIFIED_CANONICAL": 40,
                     "VERIFIED_PROJECTION": 7,
                     "PROJECTED_IDENTITY": 4,
                     "HISTORICAL_REFERENCE": 2,
@@ -78,13 +78,13 @@ class PricingGovernanceTests(unittest.TestCase):
                     "REVIEW_REQUIRED": 3,
                 }
             ),
-            "GOVERNANCE_CLASS_COUNT_MISMATCH: current 56-row normalized projection changed classification",
+            "GOVERNANCE_CLASS_COUNT_MISMATCH: current 59-row normalized projection changed classification",
         )
         exposures = Counter(row["publicExposure"] for row in self.projection.values())
         self.assertEqual(
             exposures,
-            Counter({"public": 49, "excluded": 5, "alias_only": 2}),
-            "PUBLIC_EXPOSURE_COUNT_MISMATCH: expected 49 public, 5 excluded, and 2 alias-only rows",
+            Counter({"public": 52, "excluded": 5, "alias_only": 2}),
+            "PUBLIC_EXPOSURE_COUNT_MISMATCH: expected 52 public, 5 excluded, and 2 alias-only rows",
         )
         for internal_id in (
             "xai/grok-imagine-image-quality",

@@ -7,7 +7,12 @@ from decimal import Decimal
 from pathlib import Path
 
 from scripts.export_huggingface import public_pricing_components
-from scripts.generate_pricing_v2_preview import build_declarative_price_records, public_source_urls
+from scripts.generate_pricing_v2_preview import (
+    build_declarative_price_records,
+    has_verified_price_record_evidence,
+    public_source_urls,
+    status_parts,
+)
 from scripts.generate_website_projection_v2 import (
     build_canonical_pricing_tiers,
     project_pricing_component,
@@ -550,6 +555,25 @@ class DeclarativePricingContractTests(unittest.TestCase):
         model["pricing_tiers"] = [{"legacy": True}]
         with self.assertRaisesRegex(PricingContractError, "cannot coexist"):
             validate_model_price_records(model)
+
+    def test_model_verification_gate_requires_verified_price_record_evidence(self) -> None:
+        insufficient_evidence = astra_like_model()
+        insufficient_evidence["price_records"][0]["verification_status"] = "partially_verified"
+        self.assertFalse(has_verified_price_record_evidence(insufficient_evidence))
+        self.assertEqual(
+            status_parts("fixture-provider", "complex-model", insufficient_evidence, None)["verificationStatus"],
+            "partially_verified",
+        )
+
+        invalid_provenance = astra_like_model()
+        invalid_provenance["price_records"][0]["source_refs"] = [
+            "https://unlisted.example/pricing"
+        ]
+        self.assertFalse(has_verified_price_record_evidence(invalid_provenance))
+        self.assertEqual(
+            status_parts("fixture-provider", "complex-model", invalid_provenance, None)["verificationStatus"],
+            "partially_verified",
+        )
 
     def test_v2_region_validator_rejects_invalid_normalized_contract(self) -> None:
         record = deepcopy(self.normalized[0])

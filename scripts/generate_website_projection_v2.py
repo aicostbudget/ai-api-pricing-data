@@ -323,6 +323,14 @@ def price_source_refs(identity: dict[str, Any], price: dict[str, Any] | None) ->
     return sorted(set(refs))
 
 
+def format_context_window(tokens: int) -> str:
+    if tokens % 1_000_000 == 0:
+        return f"{tokens // 1_000_000}M"
+    if tokens % 1_000 == 0:
+        return f"{tokens // 1_000}K"
+    return f"{tokens:,}"
+
+
 def website_id_for(identity: dict[str, Any]) -> str:
     website_ids = identity.get("websiteIds") or []
     return website_ids[0] if website_ids else identity["canonicalOfficialId"]
@@ -849,6 +857,7 @@ def projection_row(
             [source_timestamp(sources_by_id[ref], "checkedAt") for ref in refs if ref in sources_by_id]
         )
         checked_source_refs = source_refs_at_timestamp(refs, sources_by_id, "checkedAt", checked_at)
+    context_window_tokens = (model or {}).get("contextWindowTokens")
     row = {
         "id": website_id_for(identity),
         "provider": identity["providerId"],
@@ -876,8 +885,8 @@ def projection_row(
             public_official_url=public_official_url,
             website_official_url=website_official_url,
         ),
-        "contextWindow": None,
-        "contextWindowStatus": "unknown_not_guessed",
+        "contextWindow": format_context_window(context_window_tokens) if context_window_tokens is not None else None,
+        "contextWindowStatus": "canonical_verified" if context_window_tokens is not None else "unknown_not_guessed",
         "canonicalInternalId": identity["internalId"],
         "identityType": identity["identityType"],
         "lifecycleStatus": identity["lifecycleStatus"],
@@ -899,6 +908,8 @@ def projection_row(
         "sourceRefs": refs,
         "sourceUrls": urls,
     }
+    if context_window_tokens is not None:
+        row["contextWindowTokens"] = context_window_tokens
     if identity.get("scheduledTransition") is not None:
         row["scheduledTransition"] = identity["scheduledTransition"]
     if identity["internalId"] == "xai/grok-3":
@@ -1298,7 +1309,7 @@ def build_phase45_audits(
                 "canonicalVerificationStatus": "verified" if canonical_value is not None else "not_present",
                 "officialSourceAvailable": bool(row["sourceRefs"]),
                 "projectedContextWindow": row["contextWindow"],
-                "reason": "Canonical V2 has no verified context-window field for this identity; projection leaves null rather than copying Website editorial text.",
+                "reason": ("Projected from the opt-in verified canonical V2 context-window field." if canonical_value is not None else "Canonical V2 has no verified context-window field for this identity; projection leaves null rather than copying Website editorial text."),
             }
         )
     context_audit = {
@@ -1306,6 +1317,7 @@ def build_phase45_audits(
         "contextWindowRows": len(context_rows),
         "verifiedCanonicalContextWindowCount": sum(1 for row in context_rows if row["canonicalContextWindow"] is not None),
         "projectedNullCount": sum(1 for row in context_rows if row["projectedContextWindow"] is None),
+        "projectedCanonicalMatchCount": sum(1 for row in context_rows if (row["canonicalContextWindow"] is None and row["projectedContextWindow"] is None) or (row["canonicalContextWindow"] is not None and row["projectedContextWindow"] == format_context_window(row["canonicalContextWindow"]))),
         "rows": context_rows,
     }
 
@@ -1358,7 +1370,7 @@ def build_phase45_audits(
             safe_stats["unexplained"] == 0
             and len(row_reconciliation_rows) == len(projection_rows)
             and len(unsafe_audit["blockerUnsafeDifferences"]) == 0
-            and context_audit["projectedNullCount"] == context_audit["contextWindowRows"]
+            and context_audit["projectedCanonicalMatchCount"] == context_audit["contextWindowRows"]
             and all(all(value is True for key, value in item.items() if key not in {"projectionRowId", "canonicalInternalId", "selectedPriceRecordId"}) for item in default_safe_review)
             and all(item["phase4BPolicy"] != "shadow_only" or item["defaultSafe"] for item in unsafe_null_policy)
         ),
@@ -1489,8 +1501,16 @@ def validate_projection(artifact: dict[str, Any], report: dict[str, Any]) -> Non
         missing = sorted(field for field in required if field not in row)
         if missing:
             raise ValueError(f"projection row {row.get('id')} missing required fields {missing}")
-        if row["contextWindow"] is not None:
-            raise ValueError(f"contextWindow must not be guessed: {row['id']}")
+        context_window_tokens = row.get("contextWindowTokens")
+        if row["contextWindow"] is None and context_window_tokens is not None:
+            raise ValueError(f"contextWindowTokens must not exist without contextWindow: {row['id']}")
+        if row["contextWindow"] is not None and (
+            not isinstance(context_window_tokens, int)
+            or context_window_tokens <= 0
+            or row["contextWindow"] != format_context_window(context_window_tokens)
+            or row["contextWindowStatus"] != "canonical_verified"
+        ):
+            raise ValueError(f"contextWindow must match verified canonical tokens: {row['id']}")
         if row["verificationStatus"] in {"review_required", "unconfirmed_price"} and row["verifiedAt"] is not None:
             raise ValueError(f"review/unconfirmed row must not have verifiedAt: {row['id']}")
         for timestamp_field, source_refs_field in (

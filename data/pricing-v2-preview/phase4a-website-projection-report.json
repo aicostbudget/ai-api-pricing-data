@@ -1,20 +1,20 @@
 {
   "artifactPath": "data/pricing-v2-preview/generated/model-pricing.v2.json",
-  "defaultSafeModelCount": 46,
-  "generatedAt": "2026-09-05T15:51:32Z",
+  "defaultSafeModelCount": 49,
+  "generatedAt": "2026-09-06T05:12:08Z",
   "governanceClassCounts": {
     "COMPATIBILITY_FALLBACK": 0,
     "EXCLUDED": 3,
     "HISTORICAL_REFERENCE": 2,
     "PROJECTED_IDENTITY": 4,
     "REVIEW_REQUIRED": 3,
-    "VERIFIED_CANONICAL": 37,
+    "VERIFIED_CANONICAL": 40,
     "VERIFIED_PROJECTION": 7
   },
   "nullPriceCount": 10,
   "parity": {
     "counts": {
-      "exact_parity": 37,
+      "exact_parity": 40,
       "expected_difference": 2,
       "unsafe_difference": 4
     },
@@ -606,6 +606,51 @@
       },
       {
         "classification": "exact_parity",
+        "modelId": "grok-4.20-0309-non-reasoning",
+        "projection": {
+          "cachedInputPrice": 0.2,
+          "inputPrice": 1.25,
+          "outputPrice": 2.5
+        },
+        "reason": "Legacy Website values match current projection values.",
+        "website": {
+          "cachedInputPrice": 0.2,
+          "inputPrice": 1.25,
+          "outputPrice": 2.5
+        }
+      },
+      {
+        "classification": "exact_parity",
+        "modelId": "grok-4.20-0309-reasoning",
+        "projection": {
+          "cachedInputPrice": 0.2,
+          "inputPrice": 1.25,
+          "outputPrice": 2.5
+        },
+        "reason": "Legacy Website values match current projection values.",
+        "website": {
+          "cachedInputPrice": 0.2,
+          "inputPrice": 1.25,
+          "outputPrice": 2.5
+        }
+      },
+      {
+        "classification": "exact_parity",
+        "modelId": "grok-4.20-multi-agent-0309",
+        "projection": {
+          "cachedInputPrice": 0.2,
+          "inputPrice": 1.25,
+          "outputPrice": 2.5
+        },
+        "reason": "Legacy Website values match current projection values.",
+        "website": {
+          "cachedInputPrice": 0.2,
+          "inputPrice": 1.25,
+          "outputPrice": 2.5
+        }
+      },
+      {
+        "classification": "exact_parity",
         "modelId": "grok-4.3",
         "projection": {
           "cachedInputPrice": 0.2,
@@ -665,12 +710,12 @@
         }
       }
     ],
-    "projectionModelCount": 56,
-    "websiteModelCount": 43
+    "projectionModelCount": 59,
+    "websiteModelCount": 46
   },
   "phase": "Phase 4A Production-Ready Website Projection",
   "phase35Readiness": "ready",
-  "projectionModelCount": 56,
+  "projectionModelCount": 59,
   "runtimeNetworkDependency": "none",
   "unsafeIdentityCount": 10
 }

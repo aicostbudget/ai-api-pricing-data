@@ -133,7 +133,9 @@ class WebsiteProjectionV2Tests(unittest.TestCase):
             self.assertEqual(row["defaultPriceSelectionRule"], DEFAULT_SELECTION_RULE)
 
     def test_context_window_and_verified_at_semantics(self):
-        self.assertTrue(all(row["contextWindow"] is None for row in self.rows))
+        projected = {row["id"]: row for row in self.rows if row["contextWindow"] is not None}
+        self.assertEqual(set(projected), {"grok-4.20-0309-reasoning", "grok-4.20-0309-non-reasoning", "grok-4.20-multi-agent-0309"})
+        self.assertTrue(all(row["contextWindow"] == "1M" and row["contextWindowTokens"] == 1_000_000 and row["contextWindowStatus"] == "canonical_verified" for row in projected.values()))
         for row in self.rows:
             if row["verificationStatus"] in {"review_required", "unconfirmed_price"}:
                 self.assertIsNone(row["verifiedAt"])
@@ -225,8 +227,8 @@ class WebsiteProjectionV2Tests(unittest.TestCase):
 
     def test_report_counts_and_parity_buckets(self):
         self.assertEqual(self.report["projectionModelCount"], len(self.rows))
-        self.assertEqual(self.report["projectionModelCount"], 56)
-        self.assertEqual(self.report["defaultSafeModelCount"], 42)
+        self.assertEqual(self.report["projectionModelCount"], 59)
+        self.assertEqual(self.report["defaultSafeModelCount"], 45)
         self.assertEqual(self.report["unsafeIdentityCount"], 14)
         self.assertEqual(self.report["nullPriceCount"], 14)
         self.assertEqual(self.report["parity"]["websiteModelCount"], 36)
@@ -475,18 +477,19 @@ class WebsiteProjectionV2Tests(unittest.TestCase):
         rows = self.audits["row_reconciliation"]
         unsafe = self.audits["unsafe_audit"]
         context = self.audits["context_audit"]
-        self.assertEqual(safe["stats"]["safePriceRecordsInput"], 43)
-        self.assertEqual(safe["stats"]["mappedToProjection"], 39)
+        self.assertEqual(safe["stats"]["safePriceRecordsInput"], 46)
+        self.assertEqual(safe["stats"]["mappedToProjection"], 42)
         self.assertEqual(safe["stats"]["unexplained"], 0)
-        self.assertEqual(rows["counts"]["canonical_model"], 53)
+        self.assertEqual(rows["counts"]["canonical_model"], 56)
         self.assertEqual(rows["counts"]["alias"], 2)
         self.assertEqual(rows["counts"]["redirecting_identity"], 1)
         self.assertEqual(unsafe["beforePhase4A5UnsafeDifferenceCount"], 5)
         self.assertEqual(unsafe["currentUnsafeDifferenceCount"], 4)
         self.assertEqual(len(unsafe["blockerUnsafeDifferences"]), 0)
-        self.assertEqual(context["contextWindowRows"], 56)
-        self.assertEqual(context["verifiedCanonicalContextWindowCount"], 0)
+        self.assertEqual(context["contextWindowRows"], 59)
+        self.assertEqual(context["verifiedCanonicalContextWindowCount"], 3)
         self.assertEqual(context["projectedNullCount"], 56)
+        self.assertEqual(context["projectedCanonicalMatchCount"], 59)
 
 
 if __name__ == "__main__":

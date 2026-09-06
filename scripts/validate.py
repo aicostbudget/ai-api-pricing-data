@@ -128,6 +128,7 @@ def validate_models(now: datetime | None = None) -> None:
         fail("duplicate provider_id")
     provider_set = set(provider_ids)
     seen_models: set[tuple[str, str]] = set()
+    seen_xai_identifiers: dict[str, str] = {}
     model_keys = {(model["provider_id"], model["model_id"]) for model in models}
     for provider in providers:
         for field in ("provider_id", "display_name", "website_url", "pricing_url", "docs_url", "notes"):
@@ -138,6 +139,19 @@ def validate_models(now: datetime | None = None) -> None:
         if item in seen_models:
             fail(f"duplicate model id {item[0]}/{item[1]}")
         seen_models.add(item)
+        aliases = model.get("aliases", [])
+        if not isinstance(aliases, list) or any(not isinstance(alias, str) or not alias for alias in aliases):
+            fail(f"invalid aliases for {item[0]}/{item[1]}")
+        if model["model_id"] in aliases:
+            fail(f"canonical model id repeated as alias for {item[0]}/{item[1]}")
+        if model.get("project_context_window") is True and not model.get("context_window_tokens"):
+            fail(f"project_context_window requires context_window_tokens for {item[0]}/{item[1]}")
+        if model["provider_id"] == "xai":
+            for identifier in [model["model_id"], *aliases]:
+                owner = seen_xai_identifiers.get(identifier)
+                if owner is not None:
+                    fail(f"duplicate xAI canonical/alias identifier {identifier}: {owner} and {model['model_id']}")
+                seen_xai_identifiers[identifier] = model["model_id"]
         if model["provider_id"] not in provider_set:
             fail(f"model uses unknown provider {model['provider_id']}")
         if not str(model.get("official_source_url", "")).startswith("https://"):

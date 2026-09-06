@@ -99,13 +99,13 @@ class HuggingFaceExportTests(unittest.TestCase):
         }
         self.assertEqual(train_xai, prices_xai)
         self.assertEqual(train_xai, json_xai)
-        self.assertEqual(len(train_xai), 5)
+        self.assertEqual(len(train_xai), 8)
 
     def test_export_matches_full_public_website_key_set(self):
         actual = {(row["provider_id"], row["model_id"]) for row in self.records}
         self.assertEqual(actual, expected_public_keys(self.projection))
         self.assertEqual(len(actual), len(self.records))
-        self.assertEqual(len(self.records), 49, "audited public Website distribution must include GPT-6 Astra")
+        self.assertEqual(len(self.records), 52, "audited public Website distribution must include GPT-6 Astra")
         self.assertEqual(self.metadata["record_count"], len(self.records))
         self.assertEqual(self.metadata["provider_count"], 7)
 
@@ -199,7 +199,7 @@ class HuggingFaceExportTests(unittest.TestCase):
                 self.assertIsInstance(component["amount"], str, key)
                 self.assertEqual(len(component["source_refs"]), len(component["source_urls"]), key)
                 self.assertTrue(all(url.startswith("https://") for url in component["source_urls"]), key)
-        self.assertEqual(component_count, 346)
+        self.assertEqual(component_count, 382)
         self.assertEqual(cache_write_count, 45)
         self.assertTrue(any(not record["pricing_components"] for record in self.records))
 
@@ -256,7 +256,7 @@ class HuggingFaceExportTests(unittest.TestCase):
         digest = hashlib.sha256(
             json.dumps(baseline_records, sort_keys=True, separators=(",", ":"), ensure_ascii=False).encode()
         ).hexdigest()
-        self.assertEqual(digest, "5cfdc8f0433aceecc26ca530d33b7afbee04f637f0aae8850f83861411ae50f1")
+        self.assertEqual(digest, "a652a9d7ea7b070478f03df3d557506054bd86f8914f5b6f5936f66322225312")
 
     def test_timestamps_preserve_verification_semantics(self):
         pricing_meta = json.loads(META_PATH.read_text(encoding="utf-8"))

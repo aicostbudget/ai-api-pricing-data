@@ -1055,8 +1055,15 @@ def validate_preview() -> dict[str, Any]:
     for row in phase4a_rows:
         if any(field not in row for field in phase4a_required):
             fail(f"phase4a projection row missing required field: {row.get('id')}")
-        if row["contextWindow"] is not None:
-            fail(f"phase4a contextWindow must be null unless officially confirmed: {row['id']}")
+        context_tokens = row.get("contextWindowTokens")
+        if row["contextWindow"] is None and context_tokens is not None:
+            fail(f"phase4a contextWindowTokens requires contextWindow: {row['id']}")
+        if row["contextWindow"] is not None and (
+            not isinstance(context_tokens, int)
+            or context_tokens <= 0
+            or row.get("contextWindowStatus") != "canonical_verified"
+        ):
+            fail(f"phase4a verified contextWindow contract mismatch: {row['id']}")
         if row["verificationStatus"] == "review_required" and row["verifiedAt"] is not None:
             fail(f"phase4a review_required row must not have verifiedAt: {row['id']}")
         if row["defaultSafe"] is False and any(row[field] is not None for field in ("inputPrice", "cachedInputPrice", "outputPrice")):
@@ -1076,10 +1083,15 @@ def validate_preview() -> dict[str, Any]:
     if grok3["historicalPrice"]["currentCalculationEligible"] is not False:
         fail("phase4a grok-3 historical price must not be current-calculation eligible")
     safe_stats = phase45_safe_reconciliation["stats"]
-    if safe_stats["safePriceRecordsInput"] != phase4a_report["defaultSafeModelCount"] - 3:
-        fail("phase4a.5 safe reconciliation must cover safe canonical PriceRecords")
-    if safe_stats["mappedToProjection"] != safe_stats["safePriceRecordsInput"]:
-        fail("phase4a.5 safe reconciliation must map all safe PriceRecords")
+    selected_safe_price_ids = {
+        row["selectedPriceRecordId"]
+        for row in phase4a_rows
+        if row["defaultSafe"] and row.get("selectedPriceRecordId") is not None
+    }
+    if safe_stats["mappedToProjection"] != len(selected_safe_price_ids):
+        fail("phase4a.5 safe reconciliation must cover unique selected safe PriceRecords")
+    if safe_stats["safePriceRecordsInput"] != safe_stats["mappedToProjection"] + safe_stats["omitted"]:
+        fail("phase4a.5 safe reconciliation totals must include justified omissions")
     if safe_stats["unexplained"] != 0:
         fail("phase4a.5 safe reconciliation must have zero unexplained rows")
     if len(phase45_safe_reconciliation["rows"]) != safe_stats["safePriceRecordsInput"]:
@@ -1087,8 +1099,10 @@ def validate_preview() -> dict[str, Any]:
     for row in phase45_safe_reconciliation["rows"]:
         if row["pricingId"] not in price_by_id:
             fail(f"phase4a.5 safe reconciliation unknown pricingId {row['pricingId']}")
-        if not row["selectedAsCurrentDefault"] or row["omittedFromProjection"]:
-            fail(f"phase4a.5 safe PriceRecord not mapped: {row['pricingId']}")
+        if row["selectedAsCurrentDefault"] == row["omittedFromProjection"]:
+            fail(f"phase4a.5 safe PriceRecord must be selected or omitted exactly once: {row['pricingId']}")
+        if row["omittedFromProjection"] and row["omissionReason"] != "superseded_by_projection_selection_rule":
+            fail(f"phase4a.5 safe PriceRecord has unjustified omission: {row['pricingId']}")
     row_counts = phase45_row_reconciliation["counts"]
     if row_counts["canonical_model"] != len([row for row in phase4a_rows if row["identityType"] == "canonical_model"]):
         fail("phase4a.5 projection canonical row count mismatch")
@@ -1119,10 +1133,11 @@ def validate_preview() -> dict[str, Any]:
             fail(f"phase4a.5 invalid Phase 4B action {row['websiteModelId']}")
     if phase45_context_audit["contextWindowRows"] != len(phase4a_rows):
         fail("phase4a.5 context audit row count mismatch")
-    if phase45_context_audit["verifiedCanonicalContextWindowCount"] != 0:
-        fail("phase4a.5 context audit expected no verified canonical context windows")
-    if phase45_context_audit["projectedNullCount"] != len(phase4a_rows):
-        fail("phase4a.5 context audit must justify all null contextWindow rows")
+    projected_context_count = sum(1 for row in phase4a_rows if row["contextWindow"] is not None)
+    if phase45_context_audit["verifiedCanonicalContextWindowCount"] != projected_context_count:
+        fail("phase4a.5 verified context audit count mismatch")
+    if phase45_context_audit["projectedCanonicalMatchCount"] != len(phase4a_rows):
+        fail("phase4a.5 context audit must match every canonical projection")
 
     for row in projection:
         for field in ("id", "provider", "model", "inputPrice", "cachedInputPrice", "outputPrice", "status"):

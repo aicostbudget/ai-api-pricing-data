@@ -15,9 +15,17 @@ try:
 except ModuleNotFoundError:
     from scripts.lib import CANONICAL, ROOT
 try:
-    from pricing_contract import normalize_canonical_price_records, validate_model_price_records
+    from pricing_contract import (
+        PricingContractError,
+        normalize_canonical_price_records,
+        validate_model_price_records,
+    )
 except ModuleNotFoundError:
-    from scripts.pricing_contract import normalize_canonical_price_records, validate_model_price_records
+    from scripts.pricing_contract import (
+        PricingContractError,
+        normalize_canonical_price_records,
+        validate_model_price_records,
+    )
 
 PREVIEW = ROOT / "data" / "pricing-v2-preview"
 GENERATED = PREVIEW / "generated"
@@ -1870,6 +1878,16 @@ def has_verified_non_token_components(public: dict[str, Any] | None) -> bool:
     )
 
 
+def has_verified_price_record_evidence(public: dict[str, Any] | None) -> bool:
+    if not public or not public.get("price_records"):
+        return False
+    try:
+        validate_model_price_records(public)
+    except PricingContractError:
+        return False
+    return True
+
+
 def status_parts(provider_id: str, model_id: str, public: dict[str, Any] | None, website: dict[str, Any] | None) -> dict[str, Any]:
     website_status = (website or {}).get("status")
     public_status = (public or {}).get("status")
@@ -1909,6 +1927,7 @@ def status_parts(provider_id: str, model_id: str, public: dict[str, Any] | None,
         "verified"
         if public and (
             website
+            or has_verified_price_record_evidence(public)
             or has_verified_non_token_components(public)
             or (provider_id, model_id) in VERIFIED_PUBLIC_ONLY_KEYS
         )
@@ -1952,6 +1971,10 @@ def official_ids(provider_id: str, model_id: str, public: dict[str, Any] | None,
     values: list[dict[str, str]] = []
     if public:
         values.append({"id": model_id, "type": kind, "source": "public_dataset"})
+        values.extend(
+            {"id": alias, "type": "alias", "source": "public_dataset"}
+            for alias in public.get("aliases", [])
+        )
     if website:
         values.append({"id": model_id, "type": kind, "source": "website_dataset"})
     seen: set[tuple[str, str, str]] = set()
@@ -1975,6 +1998,12 @@ def public_source_urls(record: dict[str, Any] | None) -> list[str]:
         for adjustment in price_record.get("region_policy", {}).get("price_adjustments", []):
             urls.extend(adjustment.get("source_refs", []))
     return sorted(set(urls))
+
+
+def projected_context_window_tokens(public: dict[str, Any] | None) -> int | None:
+    if not public or public.get("project_context_window") is not True:
+        return None
+    return public.get("context_window_tokens")
 
 
 def source_refs_for(provider_id: str, public: dict[str, Any] | None, website: dict[str, Any] | None, source_by_url: dict[str, str]) -> list[str]:
@@ -2302,6 +2331,9 @@ def main() -> None:
             "verificationStatus": parts["verificationStatus"],
             "sourceRefs": source_refs_for(provider_id, public, website, source_by_url),
         }
+        context_window_tokens = projected_context_window_tokens(public)
+        if context_window_tokens is not None:
+            identity["contextWindowTokens"] = context_window_tokens
         if scheduled_transition is not None:
             identity["scheduledTransition"] = scheduled_transition
         identities.append(identity)
@@ -2742,8 +2774,7 @@ def main() -> None:
             ),
             None,
         )
-        models.append(
-            {
+        model_record = {
                 "providerId": provider_id,
                 "internalId": model_internal_id,
                 "displayName": (website or {}).get("model") or (public or {}).get("display_name") or model_id,
@@ -2757,7 +2788,10 @@ def main() -> None:
                 "verificationStatus": parts["verificationStatus"],
                 "sourceRefs": source_refs_for(provider_id, public, website, source_by_url),
             }
-        )
+        context_window_tokens = projected_context_window_tokens(public)
+        if context_window_tokens is not None:
+            model_record["contextWindowTokens"] = context_window_tokens
+        models.append(model_record)
 
     exact_parity: list[str] = []
     expected_difference: list[dict[str, str]] = []
