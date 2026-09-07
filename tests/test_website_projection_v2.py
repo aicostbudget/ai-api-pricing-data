@@ -15,6 +15,8 @@ from scripts.generate_website_projection_v2 import (
     build_projection,
     parse_effective_at,
     project_pricing_component,
+    project_cache_eligibility,
+    project_cache_lifetime_modes,
     validate_projection,
 )
 
@@ -31,6 +33,113 @@ class WebsiteProjectionV2Tests(unittest.TestCase):
         cls.by_id = {row["id"]: row for row in cls.rows}
         cls.by_internal = {row["canonicalInternalId"]: row for row in cls.rows}
 
+    def test_cache_eligibility_projects_verified_model_evidence_without_defaults(self):
+        openai = self.by_internal["openai/gpt-5.6-sol"]["cacheEligibility"]
+        anthropic = self.by_internal["anthropic/claude-sonnet-5"]["cacheEligibility"]
+        self.assertEqual(openai["minimumCacheablePrefixTokens"], 1024)
+        self.assertEqual(anthropic["minimumCacheablePrefixTokens"], 1024)
+        self.assertEqual(openai["verificationStatus"], "verified")
+        self.assertEqual(
+            openai["sourceUrls"],
+            ["https://developers.openai.com/api/docs/guides/prompt-caching"],
+        )
+        self.assertNotIn("cacheEligibility", self.by_internal["openai/gpt-5.4-mini"])
+
+    def test_cache_eligibility_rejects_invalid_minimum(self):
+        source_id = "source:openai:prompt-caching-test"
+        sources = {
+            source_id: {
+                "providerId": "openai",
+                "verificationStatus": "verified",
+                "url": "https://developers.openai.com/api/docs/guides/prompt-caching",
+            }
+        }
+        base = {
+            "internalId": "openai/test",
+            "providerId": "openai",
+            "cacheEligibility": {
+                "minimumCacheablePrefixTokens": -1,
+                "verificationStatus": "verified",
+                "checkedAt": "2026-09-06T16:10:43Z",
+                "verifiedAt": "2026-09-06T16:10:43Z",
+                "sourceRefs": [source_id],
+            },
+        }
+        with self.assertRaisesRegex(ValueError, "non-negative integer"):
+            project_cache_eligibility(base, sources)
+        base["cacheEligibility"]["minimumCacheablePrefixTokens"] = True
+        with self.assertRaisesRegex(ValueError, "non-negative integer"):
+            project_cache_eligibility(base, sources)
+
+    def test_cache_lifetime_modes_project_verified_duration_renewal_and_absence(self):
+        openai = self.by_internal["openai/gpt-5.6-sol"]["cacheLifetimeModes"]
+        fable = self.by_internal["anthropic/claude-fable-5"]["cacheLifetimeModes"]
+        haiku = self.by_internal["anthropic/claude-haiku-4.5"]["cacheLifetimeModes"]
+        self.assertEqual([(mode["cacheWriteComponent"], mode["minimumLifetimeSeconds"]) for mode in openai], [("cache_write", 1800)])
+        self.assertEqual({(mode["cacheWriteComponent"], mode["minimumLifetimeSeconds"]) for mode in fable}, {("cache_write_5m", 300), ("cache_write_1h", 3600)})
+        self.assertEqual([(mode["cacheWriteComponent"], mode["minimumLifetimeSeconds"]) for mode in haiku], [("cache_write_5m", 300)])
+        self.assertEqual(
+            [(mode["activationBehavior"], mode["userSelectable"], mode["isDefault"]) for mode in openai],
+            [("provider_automatic", False, True)],
+        )
+        self.assertEqual(
+            {
+                (mode["cacheWriteComponent"], mode["activationBehavior"], mode["userSelectable"], mode["isDefault"])
+                for mode in fable
+            },
+            {("cache_write_5m", "request_configured", True, True), ("cache_write_1h", "request_configured", True, False)},
+        )
+        self.assertTrue(all(mode["renewalBehavior"] == "refresh_on_reuse" for mode in openai + fable + haiku))
+        self.assertTrue(all(mode["sourceUrls"] and mode["sourceUrls"][0].startswith("https://") for mode in openai + fable + haiku))
+        self.assertNotIn("cacheLifetimeModes", self.by_internal["openai/gpt-5.4-mini"])
+
+    def test_cache_lifetime_modes_reject_invalid_duration_and_duplicate_mode(self):
+        source_id = "source:anthropic:prompt-caching-test"
+        sources = {source_id: {"providerId": "anthropic", "verificationStatus": "verified", "url": "https://platform.claude.com/docs/en/build-with-claude/prompt-caching"}}
+        mode = {
+            "activationBehavior": "request_configured",
+            "isDefault": True,
+            "userSelectable": True,
+            "cacheWriteComponent": "cache_write_5m",
+            "minimumLifetimeSeconds": 0,
+            "renewalBehavior": "refresh_on_reuse",
+            "verificationStatus": "verified",
+            "checkedAt": "2026-09-06T16:57:50Z",
+            "verifiedAt": "2026-09-06T16:57:50Z",
+            "sourceRefs": [source_id],
+        }
+        model = {"internalId": "anthropic/test", "providerId": "anthropic", "cacheLifetimeModes": [mode]}
+        with self.assertRaisesRegex(ValueError, "positive integer"):
+            project_cache_lifetime_modes(model, sources)
+        mode["minimumLifetimeSeconds"] = True
+        with self.assertRaisesRegex(ValueError, "positive integer"):
+            project_cache_lifetime_modes(model, sources)
+        mode["minimumLifetimeSeconds"] = 300
+        mode["activationBehavior"] = "unknown"
+        with self.assertRaisesRegex(ValueError, "activation behavior"):
+            project_cache_lifetime_modes(model, sources)
+        mode["activationBehavior"] = "provider_automatic"
+        with self.assertRaisesRegex(ValueError, "cannot be user-selectable"):
+            project_cache_lifetime_modes(model, sources)
+        mode["activationBehavior"] = "request_configured"
+        mode["minimumLifetimeSeconds"] = 3600
+        with self.assertRaisesRegex(ValueError, "does not match write component"):
+            project_cache_lifetime_modes(model, sources)
+        mode["minimumLifetimeSeconds"] = 300
+        mode["isDefault"] = False
+        with self.assertRaisesRegex(ValueError, "exactly one default"):
+            project_cache_lifetime_modes(model, sources)
+        mode["isDefault"] = True
+        model["cacheLifetimeModes"] = [mode, dict(mode)]
+        with self.assertRaisesRegex(ValueError, "invalid or duplicated"):
+            project_cache_lifetime_modes(model, sources)
+        model["cacheLifetimeModes"] = [dict(mode, sourceRefs=["source:missing"])]
+        with self.assertRaisesRegex(ValueError, "known unique source refs"):
+            project_cache_lifetime_modes(model, sources)
+        model["cacheLifetimeModes"] = [mode]
+        sources[source_id]["providerId"] = "openai"
+        with self.assertRaisesRegex(ValueError, "source provider mismatch"):
+            project_cache_lifetime_modes(model, sources)
     def test_projection_default_times_are_ordered_utc_instants(self):
         self.assertNotEqual(
             self.artifact["generatedAt"],
@@ -53,6 +162,9 @@ class WebsiteProjectionV2Tests(unittest.TestCase):
     def test_projection_rejects_generated_at_before_checked_or_verified(self):
         for field in ("checkedAt", "verifiedAt"):
             artifact = json.loads(json.dumps(self.artifact))
+            for item in artifact["models"]:
+                item.pop("cacheEligibility", None)
+                item.pop("cacheLifetimeModes", None)
             row = next(item for item in artifact["models"] if item[field] is not None)
             other_field = "verifiedAt" if field == "checkedAt" else "checkedAt"
             other_refs_field = "verifiedSourceRefs" if field == "checkedAt" else "checkedSourceRefs"

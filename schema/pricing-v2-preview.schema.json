@@ -34,7 +34,35 @@
       "type": "string",
       "enum": ["verified", "partially_verified", "unconfirmed_price", "stale", "review_required"]
     },
-    "officialId": {
+    "cacheEligibility": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["minimumCacheablePrefixTokens", "verificationStatus", "checkedAt", "verifiedAt", "sourceRefs"],
+      "properties": {
+        "minimumCacheablePrefixTokens": {"type": "integer", "minimum": 0},
+        "verificationStatus": {"$ref": "#/$defs/verificationStatus"},
+        "checkedAt": {"type": "string", "format": "date-time"},
+        "verifiedAt": {"type": "string", "format": "date-time"},
+        "sourceRefs": {"type": "array", "minItems": 1, "uniqueItems": true, "items": {"type": "string"}}
+      }
+    },
+    "cacheLifetimeMode": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["activationBehavior", "cacheWriteComponent", "isDefault", "minimumLifetimeSeconds", "renewalBehavior", "userSelectable", "verificationStatus", "checkedAt", "verifiedAt", "sourceRefs"],
+      "properties": {
+        "activationBehavior": {"type": "string", "enum": ["provider_automatic", "request_configured"]},
+        "cacheWriteComponent": {"type": "string", "enum": ["cache_write", "cache_write_5m", "cache_write_1h"]},
+        "isDefault": {"type": "boolean"},
+        "minimumLifetimeSeconds": {"type": "integer", "minimum": 1},
+        "renewalBehavior": {"type": "string", "enum": ["refresh_on_reuse"]},
+        "userSelectable": {"type": "boolean"},
+        "verificationStatus": {"$ref": "#/$defs/verificationStatus"},
+        "checkedAt": {"type": "string", "format": "date-time"},
+        "verifiedAt": {"type": "string", "format": "date-time"},
+        "sourceRefs": {"type": "array", "minItems": 1, "uniqueItems": true, "items": {"type": "string"}}
+      }
+    },    "officialId": {
       "type": "object",
       "required": ["id", "type", "source"],
       "properties": {
@@ -130,6 +158,8 @@
         "internalId": {"type": "string"},
         "displayName": {"type": "string"},
         "contextWindowTokens": {"type": "integer", "minimum": 1},
+        "cacheEligibility": {"$ref": "#/$defs/cacheEligibility"},
+        "cacheLifetimeModes": {"type": "array", "minItems": 1, "uniqueItems": true, "items": {"$ref": "#/$defs/cacheLifetimeMode"}},
         "canonicalOfficialId": {"type": "string"},
         "officialIds": {"type": "array", "items": {"$ref": "#/$defs/officialId"}},
         "lifecycleStatus": {"type": "string", "enum": ["active", "deprecated", "retired", "unknown"]},

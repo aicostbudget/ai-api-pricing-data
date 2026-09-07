@@ -245,6 +245,104 @@ def source_urls(source_refs: list[str], sources_by_id: dict[str, dict[str, Any]]
     return [sources_by_id[source_ref]["url"] for source_ref in source_refs if source_ref in sources_by_id]
 
 
+def project_cache_eligibility(
+    model: dict[str, Any] | None,
+    sources_by_id: dict[str, dict[str, Any]],
+) -> dict[str, Any] | None:
+    eligibility = (model or {}).get("cacheEligibility")
+    if eligibility is None:
+        return None
+
+    required = {
+        "minimumCacheablePrefixTokens",
+        "verificationStatus",
+        "checkedAt",
+        "verifiedAt",
+        "sourceRefs",
+    }
+    if set(eligibility) != required:
+        raise ValueError(f"cacheEligibility has unsupported fields: {(model or {}).get('internalId')}")
+    minimum_tokens = eligibility["minimumCacheablePrefixTokens"]
+    if isinstance(minimum_tokens, bool) or not isinstance(minimum_tokens, int) or minimum_tokens < 0:
+        raise ValueError(f"cacheEligibility minimum must be a non-negative integer: {(model or {}).get('internalId')}")
+    refs = sorted(eligibility["sourceRefs"])
+    if not refs or len(refs) != len(set(refs)) or any(ref not in sources_by_id for ref in refs):
+        raise ValueError(f"cacheEligibility requires known unique source refs: {(model or {}).get('internalId')}")
+    if any(sources_by_id[ref]["providerId"] != (model or {}).get("providerId") for ref in refs):
+        raise ValueError(f"cacheEligibility source provider mismatch: {(model or {}).get('internalId')}")
+    if eligibility["verificationStatus"] == "verified" and any(
+        sources_by_id[ref]["verificationStatus"] != "verified" for ref in refs
+    ):
+        raise ValueError(f"verified cacheEligibility requires verified sources: {(model or {}).get('internalId')}")
+    urls = source_urls(refs, sources_by_id)
+    if any(not url.startswith("https://") for url in urls):
+        raise ValueError(f"cacheEligibility requires public HTTPS sources: {(model or {}).get('internalId')}")
+    parse_effective_at(eligibility["checkedAt"])
+    parse_effective_at(eligibility["verifiedAt"])
+    return {
+        **eligibility,
+        "sourceRefs": refs,
+        "sourceUrls": urls,
+    }
+
+
+def project_cache_lifetime_modes(
+    model: dict[str, Any] | None,
+    sources_by_id: dict[str, dict[str, Any]],
+    available_write_components: set[str] | None = None,
+) -> list[dict[str, Any]] | None:
+    modes = (model or {}).get("cacheLifetimeModes")
+    if modes is None:
+        return None
+    if not isinstance(modes, list) or not modes:
+        raise ValueError(f"cacheLifetimeModes must be a non-empty array: {(model or {}).get('internalId')}")
+    projected = []
+    seen_components = set()
+    required = {
+        "activationBehavior", "isDefault", "userSelectable",
+        "cacheWriteComponent", "minimumLifetimeSeconds", "renewalBehavior",
+        "verificationStatus", "checkedAt", "verifiedAt", "sourceRefs",
+    }
+    for mode in modes:
+        if not isinstance(mode, dict) or set(mode) != required:
+            raise ValueError(f"cacheLifetimeModes has unsupported fields: {(model or {}).get('internalId')}")
+        component = mode["cacheWriteComponent"]
+        if component not in {"cache_write", "cache_write_5m", "cache_write_1h"} or component in seen_components:
+            raise ValueError(f"cacheLifetimeModes component is invalid or duplicated: {(model or {}).get('internalId')}")
+        seen_components.add(component)
+        activation = mode["activationBehavior"]
+        if activation not in {"provider_automatic", "request_configured"}:
+            raise ValueError(f"cache activation behavior is invalid: {(model or {}).get('internalId')}")
+        if not isinstance(mode["userSelectable"], bool) or not isinstance(mode["isDefault"], bool):
+            raise ValueError(f"cache selection behavior is invalid: {(model or {}).get('internalId')}")
+        if activation == "provider_automatic" and mode["userSelectable"]:
+            raise ValueError(f"provider automatic cache mode cannot be user-selectable: {(model or {}).get('internalId')}")
+        duration = mode["minimumLifetimeSeconds"]
+        if isinstance(duration, bool) or not isinstance(duration, int) or duration <= 0:
+            raise ValueError(f"cache lifetime must be a positive integer: {(model or {}).get('internalId')}")
+        expected_duration = {"cache_write_5m": 300, "cache_write_1h": 3600}.get(component)
+        if expected_duration is not None and duration != expected_duration:
+            raise ValueError(f"cache lifetime does not match write component: {(model or {}).get('internalId')}")
+        if mode["renewalBehavior"] != "refresh_on_reuse" or mode["verificationStatus"] != "verified":
+            raise ValueError(f"cache lifetime renewal/evidence is not verified: {(model or {}).get('internalId')}")
+        refs = sorted(mode["sourceRefs"])
+        if not refs or len(refs) != len(set(refs)) or any(ref not in sources_by_id for ref in refs):
+            raise ValueError(f"cache lifetime requires known unique source refs: {(model or {}).get('internalId')}")
+        if any(sources_by_id[ref]["providerId"] != (model or {}).get("providerId") for ref in refs):
+            raise ValueError(f"cache lifetime source provider mismatch: {(model or {}).get('internalId')}")
+        if any(sources_by_id[ref]["verificationStatus"] != "verified" for ref in refs):
+            raise ValueError(f"verified cache lifetime requires verified sources: {(model or {}).get('internalId')}")
+        urls = source_urls(refs, sources_by_id)
+        if any(not url.startswith("https://") for url in urls):
+            raise ValueError(f"cache lifetime requires public HTTPS sources: {(model or {}).get('internalId')}")
+        parse_effective_at(mode["checkedAt"])
+        parse_effective_at(mode["verifiedAt"])
+        if available_write_components is None or component in available_write_components:
+            projected.append({**mode, "sourceRefs": refs, "sourceUrls": urls})
+    if projected and sum(1 for mode in projected if mode["isDefault"]) != 1:
+        raise ValueError(f"projected cache modes require exactly one default: {(model or {}).get('internalId')}")
+    return projected or None
+
 def source_evidence_role(source: dict[str, Any]) -> str:
     """Classify official evidence by purpose, never by lexical URL order."""
     path_tokens = {
@@ -858,6 +956,15 @@ def projection_row(
         )
         checked_source_refs = source_refs_at_timestamp(refs, sources_by_id, "checkedAt", checked_at)
     context_window_tokens = (model or {}).get("contextWindowTokens")
+    cache_eligibility = project_cache_eligibility(model, sources_by_id)
+    cache_lifetime_modes = project_cache_lifetime_modes(
+        model,
+        sources_by_id,
+        {
+            component["component"] for component in (pricing_components or [])
+            if component["component"] in {"cache_write", "cache_write_5m", "cache_write_1h"}
+        },
+    )
     row = {
         "id": website_id_for(identity),
         "provider": identity["providerId"],
@@ -910,6 +1017,10 @@ def projection_row(
     }
     if context_window_tokens is not None:
         row["contextWindowTokens"] = context_window_tokens
+    if cache_eligibility is not None:
+        row["cacheEligibility"] = cache_eligibility
+    if cache_lifetime_modes is not None:
+        row["cacheLifetimeModes"] = cache_lifetime_modes
     if identity.get("scheduledTransition") is not None:
         row["scheduledTransition"] = identity["scheduledTransition"]
     if identity["internalId"] == "xai/grok-3":
@@ -1511,6 +1622,73 @@ def validate_projection(artifact: dict[str, Any], report: dict[str, Any]) -> Non
             or row["contextWindowStatus"] != "canonical_verified"
         ):
             raise ValueError(f"contextWindow must match verified canonical tokens: {row['id']}")
+        cache_eligibility = row.get("cacheEligibility")
+        if cache_eligibility is not None:
+            if set(cache_eligibility) != {
+                "minimumCacheablePrefixTokens",
+                "verificationStatus",
+                "checkedAt",
+                "verifiedAt",
+                "sourceRefs",
+                "sourceUrls",
+            }:
+                raise ValueError(f"projection cacheEligibility has unsupported fields: {row['id']}")
+            minimum_tokens = cache_eligibility["minimumCacheablePrefixTokens"]
+            if isinstance(minimum_tokens, bool) or not isinstance(minimum_tokens, int) or minimum_tokens < 0:
+                raise ValueError(f"projection cacheEligibility minimum is invalid: {row['id']}")
+            if cache_eligibility["verificationStatus"] != "verified":
+                raise ValueError(f"projection cacheEligibility must be verified: {row['id']}")
+            if not cache_eligibility["sourceRefs"] or len(cache_eligibility["sourceRefs"]) != len(cache_eligibility["sourceUrls"]):
+                raise ValueError(f"projection cacheEligibility source mapping is invalid: {row['id']}")
+            if any(not url.startswith("https://") for url in cache_eligibility["sourceUrls"]):
+                raise ValueError(f"projection cacheEligibility source URL is invalid: {row['id']}")
+            for timestamp_field in ("checkedAt", "verifiedAt"):
+                if generated_at < parse_effective_at(cache_eligibility[timestamp_field]):
+                    raise ValueError(f"projection generatedAt precedes cacheEligibility {timestamp_field}: {row['id']}")
+        cache_lifetime_modes = row.get("cacheLifetimeModes")
+        if cache_lifetime_modes is not None:
+            if not isinstance(cache_lifetime_modes, list) or not cache_lifetime_modes:
+                raise ValueError(f"projection cacheLifetimeModes is invalid: {row['id']}")
+            write_components = {
+                component["component"] for component in row.get("pricingComponents", [])
+                if component["component"] in {"cache_write", "cache_write_5m", "cache_write_1h"}
+            }
+            seen_components = set()
+            for mode in cache_lifetime_modes:
+                if set(mode) != {
+                    "activationBehavior", "isDefault", "userSelectable",
+                    "cacheWriteComponent", "minimumLifetimeSeconds", "renewalBehavior",
+                    "verificationStatus", "checkedAt", "verifiedAt", "sourceRefs", "sourceUrls",
+                }:
+                    raise ValueError(f"projection cache lifetime mode has unsupported fields: {row['id']}")
+                component = mode["cacheWriteComponent"]
+                if component in seen_components or component not in write_components:
+                    raise ValueError(f"projection cache lifetime mode lacks unique write component: {row['id']}")
+                seen_components.add(component)
+                activation = mode["activationBehavior"]
+                if activation not in {"provider_automatic", "request_configured"}:
+                    raise ValueError(f"projection cache activation behavior is invalid: {row['id']}")
+                if not isinstance(mode["userSelectable"], bool) or not isinstance(mode["isDefault"], bool):
+                    raise ValueError(f"projection cache selection behavior is invalid: {row['id']}")
+                if activation == "provider_automatic" and mode["userSelectable"]:
+                    raise ValueError(f"projection provider automatic cache mode cannot be user-selectable: {row['id']}")
+                duration = mode["minimumLifetimeSeconds"]
+                if isinstance(duration, bool) or not isinstance(duration, int) or duration <= 0:
+                    raise ValueError(f"projection cache lifetime duration is invalid: {row['id']}")
+                expected_duration = {"cache_write_5m": 300, "cache_write_1h": 3600}.get(component)
+                if expected_duration is not None and duration != expected_duration:
+                    raise ValueError(f"projection cache lifetime does not match write component: {row['id']}")
+                if mode["renewalBehavior"] != "refresh_on_reuse" or mode["verificationStatus"] != "verified":
+                    raise ValueError(f"projection cache lifetime renewal/evidence is invalid: {row['id']}")
+                if not mode["sourceRefs"] or len(mode["sourceRefs"]) != len(mode["sourceUrls"]):
+                    raise ValueError(f"projection cache lifetime source mapping is invalid: {row['id']}")
+                if any(not url.startswith("https://") for url in mode["sourceUrls"]):
+                    raise ValueError(f"projection cache lifetime source URL is invalid: {row['id']}")
+                for timestamp_field in ("checkedAt", "verifiedAt"):
+                    if generated_at < parse_effective_at(mode[timestamp_field]):
+                        raise ValueError(f"projection generatedAt precedes cache lifetime {timestamp_field}: {row['id']}")
+            if sum(1 for mode in cache_lifetime_modes if mode["isDefault"]) != 1:
+                raise ValueError(f"projection cache lifetime modes require exactly one default: {row['id']}")
         if row["verificationStatus"] in {"review_required", "unconfirmed_price"} and row["verifiedAt"] is not None:
             raise ValueError(f"review/unconfirmed row must not have verifiedAt: {row['id']}")
         for timestamp_field, source_refs_field in (
@@ -1617,6 +1795,8 @@ def validate_pricing_components(row: dict[str, Any]) -> None:
 def sync_complex_contract_compatibility_preview(artifact: dict[str, Any]) -> None:
     compatibility_rows = read_json(COMPATIBILITY_PREVIEW)
     convergence = read_json(CONVERGENCE_REPORT)
+    convergence["generatedAt"] = artifact["generatedAt"]
+    convergence["counts"]["sourceRecordCount"] = len(read_json(PREVIEW / "sources.json"))
     parity = convergence["websiteCompatibilityPreviewParity"]
     rows_by_id = {row["id"]: row for row in compatibility_rows}
     details_by_internal_id = {row["internalId"]: row for row in parity["details"]}

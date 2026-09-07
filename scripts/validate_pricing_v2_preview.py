@@ -439,6 +439,97 @@ def validate_preview() -> dict[str, Any]:
         for ref in model["sourceRefs"]:
             if ref not in source_set:
                 fail(f"model {model['internalId']} has orphan sourceRef {ref}")
+        cache_eligibility = model.get("cacheEligibility")
+        if cache_eligibility is not None:
+            required_eligibility_fields = {
+                "minimumCacheablePrefixTokens",
+                "verificationStatus",
+                "checkedAt",
+                "verifiedAt",
+                "sourceRefs",
+            }
+            if set(cache_eligibility) != required_eligibility_fields:
+                fail(f"invalid cacheEligibility fields for {model['internalId']}")
+            minimum_tokens = cache_eligibility["minimumCacheablePrefixTokens"]
+            if isinstance(minimum_tokens, bool) or not isinstance(minimum_tokens, int) or minimum_tokens < 0:
+                fail(f"invalid minimumCacheablePrefixTokens for {model['internalId']}")
+            if cache_eligibility["verificationStatus"] not in VERIFICATION_STATUSES:
+                fail(f"invalid cacheEligibility verificationStatus for {model['internalId']}")
+            parse_timestamp(cache_eligibility["checkedAt"], f"{model['internalId']} cacheEligibility checkedAt")
+            parse_timestamp(cache_eligibility["verifiedAt"], f"{model['internalId']} cacheEligibility verifiedAt")
+            eligibility_refs = cache_eligibility["sourceRefs"]
+            if not isinstance(eligibility_refs, list) or not eligibility_refs or len(eligibility_refs) != len(set(eligibility_refs)):
+                fail(f"invalid cacheEligibility sourceRefs for {model['internalId']}")
+            for ref in eligibility_refs:
+                source = source_by_id.get(ref)
+                if source is None:
+                    fail(f"model {model['internalId']} has orphan cacheEligibility sourceRef {ref}")
+                if source["providerId"] != model["providerId"]:
+                    fail(f"model {model['internalId']} cacheEligibility source provider mismatch")
+                if cache_eligibility["verificationStatus"] == "verified" and source["verificationStatus"] != "verified":
+                    fail(f"model {model['internalId']} verified cacheEligibility uses unverified source")
+        cache_lifetime_modes = model.get("cacheLifetimeModes")
+        if cache_lifetime_modes is not None:
+            if not isinstance(cache_lifetime_modes, list) or not cache_lifetime_modes:
+                fail(f"invalid cacheLifetimeModes for {model['internalId']}")
+            seen_components = set()
+            model_write_components = {
+                charge["component"]
+                for price in prices
+                if price["modelInternalId"] == model["internalId"]
+                for charge in price["charges"]
+                if charge["component"] in {"cache_write", "cache_write_5m", "cache_write_1h"}
+            }
+            for mode in cache_lifetime_modes:
+                required_mode_fields = {
+                    "activationBehavior", "isDefault", "userSelectable",
+                    "cacheWriteComponent", "minimumLifetimeSeconds", "renewalBehavior",
+                    "verificationStatus", "checkedAt", "verifiedAt", "sourceRefs",
+                }
+                if not isinstance(mode, dict) or set(mode) != required_mode_fields:
+                    fail(f"invalid cache lifetime mode fields for {model['internalId']}")
+                component = mode["cacheWriteComponent"]
+                if component not in {"cache_write", "cache_write_5m", "cache_write_1h"}:
+                    fail(f"invalid cache lifetime write component for {model['internalId']}")
+                if component in seen_components:
+                    fail(f"duplicate cache lifetime mode for {model['internalId']}: {component}")
+                seen_components.add(component)
+                if component not in model_write_components:
+                    fail(f"cache lifetime mode lacks matching write price for {model['internalId']}: {component}")
+                activation = mode["activationBehavior"]
+                if activation not in {"provider_automatic", "request_configured"}:
+                    fail(f"invalid cache activation behavior for {model['internalId']}: {component}")
+                if not isinstance(mode["userSelectable"], bool) or not isinstance(mode["isDefault"], bool):
+                    fail(f"invalid cache selection behavior for {model['internalId']}: {component}")
+                if activation == "provider_automatic" and mode["userSelectable"]:
+                    fail(f"provider automatic cache mode cannot be user-selectable for {model['internalId']}: {component}")
+                duration = mode["minimumLifetimeSeconds"]
+                if isinstance(duration, bool) or not isinstance(duration, int) or duration <= 0:
+                    fail(f"invalid minimumLifetimeSeconds for {model['internalId']}: {component}")
+                expected_duration = {"cache_write_5m": 300, "cache_write_1h": 3600}.get(component)
+                if expected_duration is not None and duration != expected_duration:
+                    fail(
+                        f"cache lifetime does not match write component for {model['internalId']}: {component}"
+                    )
+                if mode["renewalBehavior"] != "refresh_on_reuse":
+                    fail(f"invalid cache renewal behavior for {model['internalId']}: {component}")
+                if mode["verificationStatus"] not in VERIFICATION_STATUSES:
+                    fail(f"invalid cache lifetime verificationStatus for {model['internalId']}: {component}")
+                parse_timestamp(mode["checkedAt"], f"{model['internalId']} cache lifetime checkedAt")
+                parse_timestamp(mode["verifiedAt"], f"{model['internalId']} cache lifetime verifiedAt")
+                refs = mode["sourceRefs"]
+                if not isinstance(refs, list) or not refs or len(refs) != len(set(refs)):
+                    fail(f"invalid cache lifetime sourceRefs for {model['internalId']}: {component}")
+                for ref in refs:
+                    source = source_by_id.get(ref)
+                    if source is None:
+                        fail(f"model {model['internalId']} has orphan cache lifetime sourceRef {ref}")
+                    if source["providerId"] != model["providerId"]:
+                        fail(f"model {model['internalId']} cache lifetime source provider mismatch")
+                    if mode["verificationStatus"] == "verified" and source["verificationStatus"] != "verified":
+                        fail(f"model {model['internalId']} verified cache lifetime uses unverified source")
+            if sum(1 for mode in cache_lifetime_modes if mode["isDefault"]) != 1:
+                fail(f"cache lifetime modes require exactly one default for {model['internalId']}")
         default_id = model["defaultPriceRecordId"]
         if default_id is not None:
             if default_id not in price_by_id:
