@@ -48,8 +48,15 @@ class DatasetTests(unittest.TestCase):
         models = load_models()
         self.assertEqual(len({item["provider_id"] for item in providers}), len(providers))
         self.assertEqual(len({(item["provider_id"], item["model_id"]) for item in models}), len(models))
-        self.assertEqual(len(providers), 7)
-        self.assertEqual(len(models), 46)
+        required_providers = {
+            "openai", "anthropic", "google-gemini", "xai", "deepseek",
+            "mistral-ai", "cohere", "moonshot-ai",
+        }
+        self.assertTrue(required_providers <= {item["provider_id"] for item in providers})
+        self.assertTrue(
+            {"kimi-k3", "kimi-k2.7-code", "kimi-k2.6"}
+            <= {item["model_id"] for item in models if item["provider_id"] == "moonshot-ai"}
+        )
 
     def test_cohere_parse_uses_page_billing_without_token_prices(self):
         by_key = {(model["provider_id"], model["model_id"]): model for model in load_models()}

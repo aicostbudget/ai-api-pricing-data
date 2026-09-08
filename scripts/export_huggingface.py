@@ -77,6 +77,7 @@ PROVIDER_DISPLAY = {
     "deepseek": "DeepSeek",
     "google-gemini": "Google",
     "mistral-ai": "Mistral AI",
+    "moonshot-ai": "Moonshot AI",
     "openai": "OpenAI",
     "xai": "xAI",
 }

@@ -14,6 +14,115 @@
     "https://docs.mistral.ai/studio/conversations/advanced/prompt-caching",
     "https://docs.mistral.ai/studio/batch-processing"
   ],
+  "price_records": [
+    {
+      "billing_note": "Standard direct API token pricing with cached prompt tokens billed at 10% of standard input.",
+      "calculation_default": true,
+      "charges": [
+        {
+          "amount": "0.5",
+          "component": "input",
+          "id": "price:mistral-ai/mistral-large:standard:short:current:input:text:per_1m_tokens",
+          "modality": "text",
+          "unit": "per_1m_tokens"
+        },
+        {
+          "amount": "0.05",
+          "component": "cached_input",
+          "id": "price:mistral-ai/mistral-large:standard:short:current:cached_input:text:per_1m_tokens",
+          "modality": "text",
+          "unit": "per_1m_tokens"
+        },
+        {
+          "amount": "1.5",
+          "component": "output",
+          "id": "price:mistral-ai/mistral-large:standard:short:current:output:text:per_1m_tokens",
+          "modality": "text",
+          "unit": "per_1m_tokens"
+        }
+      ],
+      "checked_at": "2026-09-02T11:29:12Z",
+      "context_class": "short",
+      "currency": "USD",
+      "effective_from": null,
+      "effective_until": null,
+      "id": "price:mistral-ai/mistral-large:standard:short:current",
+      "pricing_status": "current",
+      "processing_mode": "standard",
+      "prompt_token_threshold": null,
+      "region_policy": {
+        "availability": {
+          "default": "available",
+          "rules": []
+        },
+        "data_residencies": [
+          "global"
+        ],
+        "endpoint_geographies": [
+          "global"
+        ],
+        "price_adjustments": [],
+        "pricing_geography": "global_base"
+      },
+      "source_refs": [
+        "https://docs.mistral.ai/inference/pricing",
+        "https://docs.mistral.ai/models/mistral-large-3-25-12",
+        "https://docs.mistral.ai/studio/conversations/advanced/prompt-caching"
+      ],
+      "verification_status": "verified",
+      "verified_at": "2026-09-02T11:29:12Z"
+    },
+    {
+      "billing_note": "Asynchronous Batch pricing at the official 50% discount; no Batch-plus-cache price is asserted.",
+      "calculation_default": false,
+      "charges": [
+        {
+          "amount": "0.25",
+          "component": "input",
+          "id": "price:mistral-ai/mistral-large:batch:short:current:input:text:per_1m_tokens",
+          "modality": "text",
+          "unit": "per_1m_tokens"
+        },
+        {
+          "amount": "0.75",
+          "component": "output",
+          "id": "price:mistral-ai/mistral-large:batch:short:current:output:text:per_1m_tokens",
+          "modality": "text",
+          "unit": "per_1m_tokens"
+        }
+      ],
+      "checked_at": "2026-09-02T11:29:12Z",
+      "context_class": "short",
+      "currency": "USD",
+      "effective_from": null,
+      "effective_until": null,
+      "id": "price:mistral-ai/mistral-large:batch:short:current",
+      "pricing_status": "current",
+      "processing_mode": "batch",
+      "prompt_token_threshold": null,
+      "region_policy": {
+        "availability": {
+          "default": "available",
+          "rules": []
+        },
+        "data_residencies": [
+          "global"
+        ],
+        "endpoint_geographies": [
+          "global"
+        ],
+        "price_adjustments": [],
+        "pricing_geography": "global_base"
+      },
+      "source_refs": [
+        "https://docs.mistral.ai/inference/pricing",
+        "https://docs.mistral.ai/models/mistral-large-3-25-12",
+        "https://docs.mistral.ai/studio/batch-processing"
+      ],
+      "verification_status": "verified",
+      "verified_at": "2026-09-02T11:29:12Z"
+    }
+  ],
   "pricing": {
     "batch_input": 0.25,
     "batch_output": 0.75,

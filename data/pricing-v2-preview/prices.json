@@ -2675,7 +2675,485 @@
     "verificationStatus": "verified"
   },
   {
-    "billingNote": "Mistral's current documentation maps mistral-large-latest to Mistral Large 3 (mistral-large-2512), which remains GA and available through Chat Completions and Batch. Standard pricing is $0.50 input, $0.05 cached input, and $1.50 output per 1M tokens. Cached prompt tokens are billed at 10% of standard input, and Batch processing receives a 50% discount, represented in V1 as $0.25 input and $0.75 output. The official docs do not separately specify whether cached-input and Batch discounts combine.",
+    "availabilityRules": [],
+    "billingNote": "Standard direct API token pricing with cached prompt tokens billed at 10% of standard input.",
+    "calculationDefault": true,
+    "charges": [
+      {
+        "amount": "0.3",
+        "chargeId": "price:mistral-ai/codestral-2508:standard:short:current:input:text:per_1m_tokens",
+        "component": "input",
+        "modality": "text",
+        "unit": "per_1m_tokens"
+      },
+      {
+        "amount": "0.03",
+        "chargeId": "price:mistral-ai/codestral-2508:standard:short:current:cached_input:text:per_1m_tokens",
+        "component": "cached_input",
+        "modality": "text",
+        "unit": "per_1m_tokens"
+      },
+      {
+        "amount": "0.9",
+        "chargeId": "price:mistral-ai/codestral-2508:standard:short:current:output:text:per_1m_tokens",
+        "component": "output",
+        "modality": "text",
+        "unit": "per_1m_tokens"
+      }
+    ],
+    "checkedAt": "2026-09-08T07:53:25Z",
+    "contextClass": "short",
+    "currency": "USD",
+    "defaultAvailabilityStatus": "available",
+    "effectiveFrom": null,
+    "effectiveUntil": null,
+    "modelInternalId": "mistral-ai/codestral-2508",
+    "priceAdjustments": [],
+    "pricingId": "price:mistral-ai/codestral-2508:standard:short:current",
+    "pricingStatus": "current",
+    "processingMode": "standard",
+    "promptTokenThreshold": null,
+    "regionPolicy": "global",
+    "regionSelector": {
+      "dataResidencies": [
+        "global"
+      ],
+      "endpointGeographies": [
+        "global"
+      ],
+      "pricingGeography": "global_base"
+    },
+    "sourceDatasetIds": {
+      "publicDatasetIds": [
+        "codestral-2508"
+      ],
+      "websiteIds": []
+    },
+    "sourceRefs": [
+      "source:mistral-ai:docs-mistral-ai-api-endpoint-fim",
+      "source:mistral-ai:docs-mistral-ai-inference-pricing",
+      "source:mistral-ai:docs-mistral-ai-models-codestral-25-08",
+      "source:mistral-ai:docs-mistral-ai-studio-conversations-advanced-prompt-caching"
+    ],
+    "verificationStatus": "verified",
+    "verifiedAt": "2026-09-08T07:53:25Z"
+  },
+  {
+    "availabilityRules": [],
+    "billingNote": "Asynchronous Batch pricing at the official 50% discount; no Batch-plus-cache price is asserted.",
+    "calculationDefault": false,
+    "charges": [
+      {
+        "amount": "0.15",
+        "chargeId": "price:mistral-ai/codestral-2508:batch:short:current:input:text:per_1m_tokens",
+        "component": "input",
+        "modality": "text",
+        "unit": "per_1m_tokens"
+      },
+      {
+        "amount": "0.45",
+        "chargeId": "price:mistral-ai/codestral-2508:batch:short:current:output:text:per_1m_tokens",
+        "component": "output",
+        "modality": "text",
+        "unit": "per_1m_tokens"
+      }
+    ],
+    "checkedAt": "2026-09-08T07:53:25Z",
+    "contextClass": "short",
+    "currency": "USD",
+    "defaultAvailabilityStatus": "available",
+    "effectiveFrom": null,
+    "effectiveUntil": null,
+    "modelInternalId": "mistral-ai/codestral-2508",
+    "priceAdjustments": [],
+    "pricingId": "price:mistral-ai/codestral-2508:batch:short:current",
+    "pricingStatus": "current",
+    "processingMode": "batch",
+    "promptTokenThreshold": null,
+    "regionPolicy": "global",
+    "regionSelector": {
+      "dataResidencies": [
+        "global"
+      ],
+      "endpointGeographies": [
+        "global"
+      ],
+      "pricingGeography": "global_base"
+    },
+    "sourceDatasetIds": {
+      "publicDatasetIds": [
+        "codestral-2508"
+      ],
+      "websiteIds": []
+    },
+    "sourceRefs": [
+      "source:mistral-ai:docs-mistral-ai-inference-pricing",
+      "source:mistral-ai:docs-mistral-ai-models-codestral-25-08",
+      "source:mistral-ai:docs-mistral-ai-studio-batch-processing"
+    ],
+    "verificationStatus": "verified",
+    "verifiedAt": "2026-09-08T07:53:25Z"
+  },
+  {
+    "availabilityRules": [],
+    "billingNote": "Standard direct API token pricing with cached prompt tokens billed at 10% of standard input.",
+    "calculationDefault": true,
+    "charges": [
+      {
+        "amount": "0.2",
+        "chargeId": "price:mistral-ai/ministral-14b-2512:standard:short:current:input:text:per_1m_tokens",
+        "component": "input",
+        "modality": "text",
+        "unit": "per_1m_tokens"
+      },
+      {
+        "amount": "0.02",
+        "chargeId": "price:mistral-ai/ministral-14b-2512:standard:short:current:cached_input:text:per_1m_tokens",
+        "component": "cached_input",
+        "modality": "text",
+        "unit": "per_1m_tokens"
+      },
+      {
+        "amount": "0.2",
+        "chargeId": "price:mistral-ai/ministral-14b-2512:standard:short:current:output:text:per_1m_tokens",
+        "component": "output",
+        "modality": "text",
+        "unit": "per_1m_tokens"
+      }
+    ],
+    "checkedAt": "2026-09-08T07:53:25Z",
+    "contextClass": "short",
+    "currency": "USD",
+    "defaultAvailabilityStatus": "available",
+    "effectiveFrom": null,
+    "effectiveUntil": null,
+    "modelInternalId": "mistral-ai/ministral-14b-2512",
+    "priceAdjustments": [],
+    "pricingId": "price:mistral-ai/ministral-14b-2512:standard:short:current",
+    "pricingStatus": "current",
+    "processingMode": "standard",
+    "promptTokenThreshold": null,
+    "regionPolicy": "global",
+    "regionSelector": {
+      "dataResidencies": [
+        "global"
+      ],
+      "endpointGeographies": [
+        "global"
+      ],
+      "pricingGeography": "global_base"
+    },
+    "sourceDatasetIds": {
+      "publicDatasetIds": [
+        "ministral-14b-2512"
+      ],
+      "websiteIds": []
+    },
+    "sourceRefs": [
+      "source:mistral-ai:docs-mistral-ai-inference-pricing",
+      "source:mistral-ai:docs-mistral-ai-models-ministral-3-14b-25-12",
+      "source:mistral-ai:docs-mistral-ai-studio-conversations-advanced-prompt-caching"
+    ],
+    "verificationStatus": "verified",
+    "verifiedAt": "2026-09-08T07:53:25Z"
+  },
+  {
+    "availabilityRules": [],
+    "billingNote": "Asynchronous Batch pricing at the official 50% discount; no Batch-plus-cache price is asserted.",
+    "calculationDefault": false,
+    "charges": [
+      {
+        "amount": "0.1",
+        "chargeId": "price:mistral-ai/ministral-14b-2512:batch:short:current:input:text:per_1m_tokens",
+        "component": "input",
+        "modality": "text",
+        "unit": "per_1m_tokens"
+      },
+      {
+        "amount": "0.1",
+        "chargeId": "price:mistral-ai/ministral-14b-2512:batch:short:current:output:text:per_1m_tokens",
+        "component": "output",
+        "modality": "text",
+        "unit": "per_1m_tokens"
+      }
+    ],
+    "checkedAt": "2026-09-08T07:53:25Z",
+    "contextClass": "short",
+    "currency": "USD",
+    "defaultAvailabilityStatus": "available",
+    "effectiveFrom": null,
+    "effectiveUntil": null,
+    "modelInternalId": "mistral-ai/ministral-14b-2512",
+    "priceAdjustments": [],
+    "pricingId": "price:mistral-ai/ministral-14b-2512:batch:short:current",
+    "pricingStatus": "current",
+    "processingMode": "batch",
+    "promptTokenThreshold": null,
+    "regionPolicy": "global",
+    "regionSelector": {
+      "dataResidencies": [
+        "global"
+      ],
+      "endpointGeographies": [
+        "global"
+      ],
+      "pricingGeography": "global_base"
+    },
+    "sourceDatasetIds": {
+      "publicDatasetIds": [
+        "ministral-14b-2512"
+      ],
+      "websiteIds": []
+    },
+    "sourceRefs": [
+      "source:mistral-ai:docs-mistral-ai-inference-pricing",
+      "source:mistral-ai:docs-mistral-ai-models-ministral-3-14b-25-12",
+      "source:mistral-ai:docs-mistral-ai-studio-batch-processing"
+    ],
+    "verificationStatus": "verified",
+    "verifiedAt": "2026-09-08T07:53:25Z"
+  },
+  {
+    "availabilityRules": [],
+    "billingNote": "Standard direct API token pricing with cached prompt tokens billed at 10% of standard input.",
+    "calculationDefault": true,
+    "charges": [
+      {
+        "amount": "0.1",
+        "chargeId": "price:mistral-ai/ministral-3b-2512:standard:short:current:input:text:per_1m_tokens",
+        "component": "input",
+        "modality": "text",
+        "unit": "per_1m_tokens"
+      },
+      {
+        "amount": "0.01",
+        "chargeId": "price:mistral-ai/ministral-3b-2512:standard:short:current:cached_input:text:per_1m_tokens",
+        "component": "cached_input",
+        "modality": "text",
+        "unit": "per_1m_tokens"
+      },
+      {
+        "amount": "0.1",
+        "chargeId": "price:mistral-ai/ministral-3b-2512:standard:short:current:output:text:per_1m_tokens",
+        "component": "output",
+        "modality": "text",
+        "unit": "per_1m_tokens"
+      }
+    ],
+    "checkedAt": "2026-09-08T07:53:25Z",
+    "contextClass": "short",
+    "currency": "USD",
+    "defaultAvailabilityStatus": "available",
+    "effectiveFrom": null,
+    "effectiveUntil": null,
+    "modelInternalId": "mistral-ai/ministral-3b-2512",
+    "priceAdjustments": [],
+    "pricingId": "price:mistral-ai/ministral-3b-2512:standard:short:current",
+    "pricingStatus": "current",
+    "processingMode": "standard",
+    "promptTokenThreshold": null,
+    "regionPolicy": "global",
+    "regionSelector": {
+      "dataResidencies": [
+        "global"
+      ],
+      "endpointGeographies": [
+        "global"
+      ],
+      "pricingGeography": "global_base"
+    },
+    "sourceDatasetIds": {
+      "publicDatasetIds": [
+        "ministral-3b-2512"
+      ],
+      "websiteIds": []
+    },
+    "sourceRefs": [
+      "source:mistral-ai:docs-mistral-ai-inference-pricing",
+      "source:mistral-ai:docs-mistral-ai-models-ministral-3-3b-25-12",
+      "source:mistral-ai:docs-mistral-ai-studio-conversations-advanced-prompt-caching"
+    ],
+    "verificationStatus": "verified",
+    "verifiedAt": "2026-09-08T07:53:25Z"
+  },
+  {
+    "availabilityRules": [],
+    "billingNote": "Asynchronous Batch pricing at the official 50% discount; no Batch-plus-cache price is asserted.",
+    "calculationDefault": false,
+    "charges": [
+      {
+        "amount": "0.05",
+        "chargeId": "price:mistral-ai/ministral-3b-2512:batch:short:current:input:text:per_1m_tokens",
+        "component": "input",
+        "modality": "text",
+        "unit": "per_1m_tokens"
+      },
+      {
+        "amount": "0.05",
+        "chargeId": "price:mistral-ai/ministral-3b-2512:batch:short:current:output:text:per_1m_tokens",
+        "component": "output",
+        "modality": "text",
+        "unit": "per_1m_tokens"
+      }
+    ],
+    "checkedAt": "2026-09-08T07:53:25Z",
+    "contextClass": "short",
+    "currency": "USD",
+    "defaultAvailabilityStatus": "available",
+    "effectiveFrom": null,
+    "effectiveUntil": null,
+    "modelInternalId": "mistral-ai/ministral-3b-2512",
+    "priceAdjustments": [],
+    "pricingId": "price:mistral-ai/ministral-3b-2512:batch:short:current",
+    "pricingStatus": "current",
+    "processingMode": "batch",
+    "promptTokenThreshold": null,
+    "regionPolicy": "global",
+    "regionSelector": {
+      "dataResidencies": [
+        "global"
+      ],
+      "endpointGeographies": [
+        "global"
+      ],
+      "pricingGeography": "global_base"
+    },
+    "sourceDatasetIds": {
+      "publicDatasetIds": [
+        "ministral-3b-2512"
+      ],
+      "websiteIds": []
+    },
+    "sourceRefs": [
+      "source:mistral-ai:docs-mistral-ai-inference-pricing",
+      "source:mistral-ai:docs-mistral-ai-models-ministral-3-3b-25-12",
+      "source:mistral-ai:docs-mistral-ai-studio-batch-processing"
+    ],
+    "verificationStatus": "verified",
+    "verifiedAt": "2026-09-08T07:53:25Z"
+  },
+  {
+    "availabilityRules": [],
+    "billingNote": "Standard direct API token pricing with cached prompt tokens billed at 10% of standard input.",
+    "calculationDefault": true,
+    "charges": [
+      {
+        "amount": "0.15",
+        "chargeId": "price:mistral-ai/ministral-8b-2512:standard:short:current:input:text:per_1m_tokens",
+        "component": "input",
+        "modality": "text",
+        "unit": "per_1m_tokens"
+      },
+      {
+        "amount": "0.015",
+        "chargeId": "price:mistral-ai/ministral-8b-2512:standard:short:current:cached_input:text:per_1m_tokens",
+        "component": "cached_input",
+        "modality": "text",
+        "unit": "per_1m_tokens"
+      },
+      {
+        "amount": "0.15",
+        "chargeId": "price:mistral-ai/ministral-8b-2512:standard:short:current:output:text:per_1m_tokens",
+        "component": "output",
+        "modality": "text",
+        "unit": "per_1m_tokens"
+      }
+    ],
+    "checkedAt": "2026-09-08T07:53:25Z",
+    "contextClass": "short",
+    "currency": "USD",
+    "defaultAvailabilityStatus": "available",
+    "effectiveFrom": null,
+    "effectiveUntil": null,
+    "modelInternalId": "mistral-ai/ministral-8b-2512",
+    "priceAdjustments": [],
+    "pricingId": "price:mistral-ai/ministral-8b-2512:standard:short:current",
+    "pricingStatus": "current",
+    "processingMode": "standard",
+    "promptTokenThreshold": null,
+    "regionPolicy": "global",
+    "regionSelector": {
+      "dataResidencies": [
+        "global"
+      ],
+      "endpointGeographies": [
+        "global"
+      ],
+      "pricingGeography": "global_base"
+    },
+    "sourceDatasetIds": {
+      "publicDatasetIds": [
+        "ministral-8b-2512"
+      ],
+      "websiteIds": []
+    },
+    "sourceRefs": [
+      "source:mistral-ai:docs-mistral-ai-inference-pricing",
+      "source:mistral-ai:docs-mistral-ai-models-ministral-3-8b-25-12",
+      "source:mistral-ai:docs-mistral-ai-studio-conversations-advanced-prompt-caching"
+    ],
+    "verificationStatus": "verified",
+    "verifiedAt": "2026-09-08T07:53:25Z"
+  },
+  {
+    "availabilityRules": [],
+    "billingNote": "Asynchronous Batch pricing at the official 50% discount; no Batch-plus-cache price is asserted.",
+    "calculationDefault": false,
+    "charges": [
+      {
+        "amount": "0.075",
+        "chargeId": "price:mistral-ai/ministral-8b-2512:batch:short:current:input:text:per_1m_tokens",
+        "component": "input",
+        "modality": "text",
+        "unit": "per_1m_tokens"
+      },
+      {
+        "amount": "0.075",
+        "chargeId": "price:mistral-ai/ministral-8b-2512:batch:short:current:output:text:per_1m_tokens",
+        "component": "output",
+        "modality": "text",
+        "unit": "per_1m_tokens"
+      }
+    ],
+    "checkedAt": "2026-09-08T07:53:25Z",
+    "contextClass": "short",
+    "currency": "USD",
+    "defaultAvailabilityStatus": "available",
+    "effectiveFrom": null,
+    "effectiveUntil": null,
+    "modelInternalId": "mistral-ai/ministral-8b-2512",
+    "priceAdjustments": [],
+    "pricingId": "price:mistral-ai/ministral-8b-2512:batch:short:current",
+    "pricingStatus": "current",
+    "processingMode": "batch",
+    "promptTokenThreshold": null,
+    "regionPolicy": "global",
+    "regionSelector": {
+      "dataResidencies": [
+        "global"
+      ],
+      "endpointGeographies": [
+        "global"
+      ],
+      "pricingGeography": "global_base"
+    },
+    "sourceDatasetIds": {
+      "publicDatasetIds": [
+        "ministral-8b-2512"
+      ],
+      "websiteIds": []
+    },
+    "sourceRefs": [
+      "source:mistral-ai:docs-mistral-ai-inference-pricing",
+      "source:mistral-ai:docs-mistral-ai-models-ministral-3-8b-25-12",
+      "source:mistral-ai:docs-mistral-ai-studio-batch-processing"
+    ],
+    "verificationStatus": "verified",
+    "verifiedAt": "2026-09-08T07:53:25Z"
+  },
+  {
+    "availabilityRules": [],
+    "billingNote": "Standard direct API token pricing with cached prompt tokens billed at 10% of standard input.",
     "calculationDefault": true,
     "charges": [
       {
@@ -2700,15 +3178,28 @@
         "unit": "per_1m_tokens"
       }
     ],
+    "checkedAt": "2026-09-02T11:29:12Z",
     "contextClass": "short",
     "currency": "USD",
+    "defaultAvailabilityStatus": "available",
     "effectiveFrom": null,
     "effectiveUntil": null,
     "modelInternalId": "mistral-ai/mistral-large",
+    "priceAdjustments": [],
     "pricingId": "price:mistral-ai/mistral-large:standard:short:current",
+    "pricingStatus": "current",
     "processingMode": "standard",
     "promptTokenThreshold": null,
     "regionPolicy": "global",
+    "regionSelector": {
+      "dataResidencies": [
+        "global"
+      ],
+      "endpointGeographies": [
+        "global"
+      ],
+      "pricingGeography": "global_base"
+    },
     "sourceDatasetIds": {
       "publicDatasetIds": [
         "mistral-large"
@@ -2718,14 +3209,14 @@
     "sourceRefs": [
       "source:mistral-ai:docs-mistral-ai-inference-pricing",
       "source:mistral-ai:docs-mistral-ai-models-mistral-large-3-25-12",
-      "source:mistral-ai:docs-mistral-ai-studio-batch-processing",
-      "source:mistral-ai:docs-mistral-ai-studio-conversations-advanced-prompt-caching",
-      "source:mistral-ai:docs-mistral-ai-studio-conversations-function-calling"
+      "source:mistral-ai:docs-mistral-ai-studio-conversations-advanced-prompt-caching"
     ],
-    "verificationStatus": "partially_verified"
+    "verificationStatus": "verified",
+    "verifiedAt": "2026-09-02T11:29:12Z"
   },
   {
-    "billingNote": "Batch projection derived from explicit Public V1 batch fields for mistral-ai/mistral-large.",
+    "availabilityRules": [],
+    "billingNote": "Asynchronous Batch pricing at the official 50% discount; no Batch-plus-cache price is asserted.",
     "calculationDefault": false,
     "charges": [
       {
@@ -2743,15 +3234,28 @@
         "unit": "per_1m_tokens"
       }
     ],
+    "checkedAt": "2026-09-02T11:29:12Z",
     "contextClass": "short",
     "currency": "USD",
+    "defaultAvailabilityStatus": "available",
     "effectiveFrom": null,
     "effectiveUntil": null,
     "modelInternalId": "mistral-ai/mistral-large",
+    "priceAdjustments": [],
     "pricingId": "price:mistral-ai/mistral-large:batch:short:current",
+    "pricingStatus": "current",
     "processingMode": "batch",
     "promptTokenThreshold": null,
     "regionPolicy": "global",
+    "regionSelector": {
+      "dataResidencies": [
+        "global"
+      ],
+      "endpointGeographies": [
+        "global"
+      ],
+      "pricingGeography": "global_base"
+    },
     "sourceDatasetIds": {
       "publicDatasetIds": [
         "mistral-large"
@@ -2761,11 +3265,713 @@
     "sourceRefs": [
       "source:mistral-ai:docs-mistral-ai-inference-pricing",
       "source:mistral-ai:docs-mistral-ai-models-mistral-large-3-25-12",
-      "source:mistral-ai:docs-mistral-ai-studio-batch-processing",
-      "source:mistral-ai:docs-mistral-ai-studio-conversations-advanced-prompt-caching",
-      "source:mistral-ai:docs-mistral-ai-studio-conversations-function-calling"
+      "source:mistral-ai:docs-mistral-ai-studio-batch-processing"
     ],
-    "verificationStatus": "partially_verified"
+    "verificationStatus": "verified",
+    "verifiedAt": "2026-09-02T11:29:12Z"
+  },
+  {
+    "availabilityRules": [],
+    "billingNote": "Standard direct API token pricing with cached prompt tokens billed at 10% of standard input.",
+    "calculationDefault": true,
+    "charges": [
+      {
+        "amount": "1.5",
+        "chargeId": "price:mistral-ai/mistral-medium-3-5:standard:short:current:input:text:per_1m_tokens",
+        "component": "input",
+        "modality": "text",
+        "unit": "per_1m_tokens"
+      },
+      {
+        "amount": "0.15",
+        "chargeId": "price:mistral-ai/mistral-medium-3-5:standard:short:current:cached_input:text:per_1m_tokens",
+        "component": "cached_input",
+        "modality": "text",
+        "unit": "per_1m_tokens"
+      },
+      {
+        "amount": "7.5",
+        "chargeId": "price:mistral-ai/mistral-medium-3-5:standard:short:current:output:text:per_1m_tokens",
+        "component": "output",
+        "modality": "text",
+        "unit": "per_1m_tokens"
+      }
+    ],
+    "checkedAt": "2026-09-08T07:53:25Z",
+    "contextClass": "short",
+    "currency": "USD",
+    "defaultAvailabilityStatus": "available",
+    "effectiveFrom": null,
+    "effectiveUntil": null,
+    "modelInternalId": "mistral-ai/mistral-medium-3-5",
+    "priceAdjustments": [],
+    "pricingId": "price:mistral-ai/mistral-medium-3-5:standard:short:current",
+    "pricingStatus": "current",
+    "processingMode": "standard",
+    "promptTokenThreshold": null,
+    "regionPolicy": "global",
+    "regionSelector": {
+      "dataResidencies": [
+        "global"
+      ],
+      "endpointGeographies": [
+        "global"
+      ],
+      "pricingGeography": "global_base"
+    },
+    "sourceDatasetIds": {
+      "publicDatasetIds": [
+        "mistral-medium-3-5"
+      ],
+      "websiteIds": []
+    },
+    "sourceRefs": [
+      "source:mistral-ai:docs-mistral-ai-inference-pricing",
+      "source:mistral-ai:docs-mistral-ai-models-mistral-medium-3-5-26-04",
+      "source:mistral-ai:docs-mistral-ai-studio-conversations-advanced-prompt-caching"
+    ],
+    "verificationStatus": "verified",
+    "verifiedAt": "2026-09-08T07:53:25Z"
+  },
+  {
+    "availabilityRules": [],
+    "billingNote": "Asynchronous Batch pricing at the official 50% discount; no Batch-plus-cache price is asserted.",
+    "calculationDefault": false,
+    "charges": [
+      {
+        "amount": "0.75",
+        "chargeId": "price:mistral-ai/mistral-medium-3-5:batch:short:current:input:text:per_1m_tokens",
+        "component": "input",
+        "modality": "text",
+        "unit": "per_1m_tokens"
+      },
+      {
+        "amount": "3.75",
+        "chargeId": "price:mistral-ai/mistral-medium-3-5:batch:short:current:output:text:per_1m_tokens",
+        "component": "output",
+        "modality": "text",
+        "unit": "per_1m_tokens"
+      }
+    ],
+    "checkedAt": "2026-09-08T07:53:25Z",
+    "contextClass": "short",
+    "currency": "USD",
+    "defaultAvailabilityStatus": "available",
+    "effectiveFrom": null,
+    "effectiveUntil": null,
+    "modelInternalId": "mistral-ai/mistral-medium-3-5",
+    "priceAdjustments": [],
+    "pricingId": "price:mistral-ai/mistral-medium-3-5:batch:short:current",
+    "pricingStatus": "current",
+    "processingMode": "batch",
+    "promptTokenThreshold": null,
+    "regionPolicy": "global",
+    "regionSelector": {
+      "dataResidencies": [
+        "global"
+      ],
+      "endpointGeographies": [
+        "global"
+      ],
+      "pricingGeography": "global_base"
+    },
+    "sourceDatasetIds": {
+      "publicDatasetIds": [
+        "mistral-medium-3-5"
+      ],
+      "websiteIds": []
+    },
+    "sourceRefs": [
+      "source:mistral-ai:docs-mistral-ai-inference-pricing",
+      "source:mistral-ai:docs-mistral-ai-models-mistral-medium-3-5-26-04",
+      "source:mistral-ai:docs-mistral-ai-studio-batch-processing"
+    ],
+    "verificationStatus": "verified",
+    "verifiedAt": "2026-09-08T07:53:25Z"
+  },
+  {
+    "billingNote": "Mistral OCR 4.0 is a GA Premier OCR model with exact API ID mistral-ocr-4-0. It remains in Mistral's current OCR catalog but has been superseded as the latest route by OCR 4.1. Standard basic OCR pricing is $4 per 1,000 pages. The model supports /v1/ocr and /v1/batch. The official sources do not define page edge-case billing or a minimum charge. The separately listed Document AI annotated-page price, cached-page price, and an OCR-specific numeric Batch price are not admitted because their billing relationships or applicability are not sufficiently explicit for a lossless canonical record.",
+    "calculationDefault": false,
+    "charges": [
+      {
+        "amount": "4",
+        "chargeId": "price:mistral-ai/mistral-ocr-4-0:standard:short:current:ocr_pages:document_page:document:per_1000_pages",
+        "component": "document_page",
+        "modality": "document",
+        "unit": "per_1000_pages"
+      }
+    ],
+    "contextClass": "short",
+    "currency": "USD",
+    "effectiveFrom": "2026-06-23",
+    "effectiveUntil": null,
+    "modelInternalId": "mistral-ai/mistral-ocr-4-0",
+    "pricingId": "price:mistral-ai/mistral-ocr-4-0:standard:short:current:ocr_pages",
+    "pricingStatus": "current",
+    "processingMode": "standard",
+    "promptTokenThreshold": null,
+    "regionPolicy": "global",
+    "sourceDatasetIds": {
+      "publicDatasetIds": [
+        "mistral-ocr-4-0"
+      ],
+      "websiteIds": []
+    },
+    "sourceRefs": [
+      "source:mistral-ai:docs-mistral-ai-api-endpoint-ocr",
+      "source:mistral-ai:docs-mistral-ai-inference-pricing",
+      "source:mistral-ai:docs-mistral-ai-models-ocr-4-0",
+      "source:mistral-ai:docs-mistral-ai-resources-changelogs",
+      "source:mistral-ai:docs-mistral-ai-resources-known-limitations"
+    ],
+    "verificationStatus": "verified"
+  },
+  {
+    "billingNote": "Mistral OCR 4.1 is the current GA Premier OCR model with exact API ID mistral-ocr-4-1; mistral-ocr-latest and mistral-ocr-4 route to it. Standard basic OCR pricing is $4 per 1,000 pages. The model supports /v1/ocr and /v1/batch. The official sources do not define page edge-case billing or a minimum charge. The separately listed Document AI annotated-page price, cached-page price, and an OCR-specific numeric Batch price are not admitted because their billing relationships or applicability are not sufficiently explicit for a lossless canonical record.",
+    "calculationDefault": false,
+    "charges": [
+      {
+        "amount": "4",
+        "chargeId": "price:mistral-ai/mistral-ocr-4-1:standard:short:current:ocr_pages:document_page:document:per_1000_pages",
+        "component": "document_page",
+        "modality": "document",
+        "unit": "per_1000_pages"
+      }
+    ],
+    "contextClass": "short",
+    "currency": "USD",
+    "effectiveFrom": "2026-07-16",
+    "effectiveUntil": null,
+    "modelInternalId": "mistral-ai/mistral-ocr-4-1",
+    "pricingId": "price:mistral-ai/mistral-ocr-4-1:standard:short:current:ocr_pages",
+    "pricingStatus": "current",
+    "processingMode": "standard",
+    "promptTokenThreshold": null,
+    "regionPolicy": "global",
+    "sourceDatasetIds": {
+      "publicDatasetIds": [
+        "mistral-ocr-4-1"
+      ],
+      "websiteIds": []
+    },
+    "sourceRefs": [
+      "source:mistral-ai:docs-mistral-ai-api-endpoint-ocr",
+      "source:mistral-ai:docs-mistral-ai-inference-pricing",
+      "source:mistral-ai:docs-mistral-ai-models-ocr-4-1",
+      "source:mistral-ai:docs-mistral-ai-resources-changelogs",
+      "source:mistral-ai:docs-mistral-ai-resources-known-limitations"
+    ],
+    "verificationStatus": "verified"
+  },
+  {
+    "availabilityRules": [],
+    "billingNote": "Standard direct API token pricing with cached prompt tokens billed at 10% of standard input.",
+    "calculationDefault": true,
+    "charges": [
+      {
+        "amount": "0.15",
+        "chargeId": "price:mistral-ai/mistral-small-2603:standard:short:current:input:text:per_1m_tokens",
+        "component": "input",
+        "modality": "text",
+        "unit": "per_1m_tokens"
+      },
+      {
+        "amount": "0.015",
+        "chargeId": "price:mistral-ai/mistral-small-2603:standard:short:current:cached_input:text:per_1m_tokens",
+        "component": "cached_input",
+        "modality": "text",
+        "unit": "per_1m_tokens"
+      },
+      {
+        "amount": "0.6",
+        "chargeId": "price:mistral-ai/mistral-small-2603:standard:short:current:output:text:per_1m_tokens",
+        "component": "output",
+        "modality": "text",
+        "unit": "per_1m_tokens"
+      }
+    ],
+    "checkedAt": "2026-09-08T07:53:25Z",
+    "contextClass": "short",
+    "currency": "USD",
+    "defaultAvailabilityStatus": "available",
+    "effectiveFrom": null,
+    "effectiveUntil": null,
+    "modelInternalId": "mistral-ai/mistral-small-2603",
+    "priceAdjustments": [],
+    "pricingId": "price:mistral-ai/mistral-small-2603:standard:short:current",
+    "pricingStatus": "current",
+    "processingMode": "standard",
+    "promptTokenThreshold": null,
+    "regionPolicy": "global",
+    "regionSelector": {
+      "dataResidencies": [
+        "global"
+      ],
+      "endpointGeographies": [
+        "global"
+      ],
+      "pricingGeography": "global_base"
+    },
+    "sourceDatasetIds": {
+      "publicDatasetIds": [
+        "mistral-small-2603"
+      ],
+      "websiteIds": []
+    },
+    "sourceRefs": [
+      "source:mistral-ai:docs-mistral-ai-inference-pricing",
+      "source:mistral-ai:docs-mistral-ai-models-mistral-small-4-0-26-03",
+      "source:mistral-ai:docs-mistral-ai-studio-conversations-advanced-prompt-caching"
+    ],
+    "verificationStatus": "verified",
+    "verifiedAt": "2026-09-08T07:53:25Z"
+  },
+  {
+    "availabilityRules": [],
+    "billingNote": "Asynchronous Batch pricing at the official 50% discount; no Batch-plus-cache price is asserted.",
+    "calculationDefault": false,
+    "charges": [
+      {
+        "amount": "0.075",
+        "chargeId": "price:mistral-ai/mistral-small-2603:batch:short:current:input:text:per_1m_tokens",
+        "component": "input",
+        "modality": "text",
+        "unit": "per_1m_tokens"
+      },
+      {
+        "amount": "0.3",
+        "chargeId": "price:mistral-ai/mistral-small-2603:batch:short:current:output:text:per_1m_tokens",
+        "component": "output",
+        "modality": "text",
+        "unit": "per_1m_tokens"
+      }
+    ],
+    "checkedAt": "2026-09-08T07:53:25Z",
+    "contextClass": "short",
+    "currency": "USD",
+    "defaultAvailabilityStatus": "available",
+    "effectiveFrom": null,
+    "effectiveUntil": null,
+    "modelInternalId": "mistral-ai/mistral-small-2603",
+    "priceAdjustments": [],
+    "pricingId": "price:mistral-ai/mistral-small-2603:batch:short:current",
+    "pricingStatus": "current",
+    "processingMode": "batch",
+    "promptTokenThreshold": null,
+    "regionPolicy": "global",
+    "regionSelector": {
+      "dataResidencies": [
+        "global"
+      ],
+      "endpointGeographies": [
+        "global"
+      ],
+      "pricingGeography": "global_base"
+    },
+    "sourceDatasetIds": {
+      "publicDatasetIds": [
+        "mistral-small-2603"
+      ],
+      "websiteIds": []
+    },
+    "sourceRefs": [
+      "source:mistral-ai:docs-mistral-ai-inference-pricing",
+      "source:mistral-ai:docs-mistral-ai-models-mistral-small-4-0-26-03",
+      "source:mistral-ai:docs-mistral-ai-studio-batch-processing"
+    ],
+    "verificationStatus": "verified",
+    "verifiedAt": "2026-09-08T07:53:25Z"
+  },
+  {
+    "availabilityRules": [],
+    "billingNote": "Standard Kimi API pricing. Cache-miss input maps to input and automatic prefix-cache hits map to cached input. Thinking is enabled by default but can be disabled; no separate reasoning surcharge is published.",
+    "calculationDefault": true,
+    "charges": [
+      {
+        "amount": "0.95",
+        "chargeId": "price:moonshot-ai/kimi-k2.6:standard:short:current:input:text:per_1m_tokens",
+        "component": "input",
+        "modality": "text",
+        "unit": "per_1m_tokens"
+      },
+      {
+        "amount": "0.16",
+        "chargeId": "price:moonshot-ai/kimi-k2.6:standard:short:current:cached_input:text:per_1m_tokens",
+        "component": "cached_input",
+        "modality": "text",
+        "unit": "per_1m_tokens"
+      },
+      {
+        "amount": "4",
+        "chargeId": "price:moonshot-ai/kimi-k2.6:standard:short:current:output:text:per_1m_tokens",
+        "component": "output",
+        "modality": "text",
+        "unit": "per_1m_tokens"
+      }
+    ],
+    "checkedAt": "2026-09-08T03:04:30Z",
+    "contextClass": "short",
+    "currency": "USD",
+    "defaultAvailabilityStatus": "available",
+    "effectiveFrom": null,
+    "effectiveUntil": null,
+    "modelInternalId": "moonshot-ai/kimi-k2.6",
+    "priceAdjustments": [],
+    "pricingId": "price:moonshot-ai/kimi-k2.6:standard:short:current",
+    "pricingStatus": "current",
+    "processingMode": "standard",
+    "promptTokenThreshold": null,
+    "regionPolicy": "global",
+    "regionSelector": {
+      "dataResidencies": [
+        "global"
+      ],
+      "endpointGeographies": [
+        "global"
+      ],
+      "pricingGeography": "global_base"
+    },
+    "sourceDatasetIds": {
+      "publicDatasetIds": [
+        "kimi-k2.6"
+      ],
+      "websiteIds": [
+        "kimi-k2.6"
+      ]
+    },
+    "sourceRefs": [
+      "source:moonshot-ai:platform-kimi-ai-docs-guide-kimi-k2-6-quickstart",
+      "source:moonshot-ai:platform-kimi-ai-docs-guide-use-context-caching-feature-of-kimi-api",
+      "source:moonshot-ai:platform-kimi-ai-docs-guide-use-thinking-models",
+      "source:moonshot-ai:platform-kimi-ai-docs-pricing-chat-k26"
+    ],
+    "verificationStatus": "verified",
+    "verifiedAt": "2026-09-08T03:04:30Z"
+  },
+  {
+    "availabilityRules": [],
+    "billingNote": "Moonshot Batch API explicitly supports kimi-k2.6 and charges 60% of the standard model price.",
+    "calculationDefault": false,
+    "charges": [
+      {
+        "amount": "0.57",
+        "chargeId": "price:moonshot-ai/kimi-k2.6:batch:short:current:input:text:per_1m_tokens",
+        "component": "input",
+        "modality": "text",
+        "unit": "per_1m_tokens"
+      },
+      {
+        "amount": "0.096",
+        "chargeId": "price:moonshot-ai/kimi-k2.6:batch:short:current:cached_input:text:per_1m_tokens",
+        "component": "cached_input",
+        "modality": "text",
+        "unit": "per_1m_tokens"
+      },
+      {
+        "amount": "2.4",
+        "chargeId": "price:moonshot-ai/kimi-k2.6:batch:short:current:output:text:per_1m_tokens",
+        "component": "output",
+        "modality": "text",
+        "unit": "per_1m_tokens"
+      }
+    ],
+    "checkedAt": "2026-09-08T03:04:30Z",
+    "contextClass": "short",
+    "currency": "USD",
+    "defaultAvailabilityStatus": "available",
+    "effectiveFrom": null,
+    "effectiveUntil": null,
+    "modelInternalId": "moonshot-ai/kimi-k2.6",
+    "priceAdjustments": [],
+    "pricingId": "price:moonshot-ai/kimi-k2.6:batch:short:current",
+    "pricingStatus": "current",
+    "processingMode": "batch",
+    "promptTokenThreshold": null,
+    "regionPolicy": "global",
+    "regionSelector": {
+      "dataResidencies": [
+        "global"
+      ],
+      "endpointGeographies": [
+        "global"
+      ],
+      "pricingGeography": "global_base"
+    },
+    "sourceDatasetIds": {
+      "publicDatasetIds": [
+        "kimi-k2.6"
+      ],
+      "websiteIds": [
+        "kimi-k2.6"
+      ]
+    },
+    "sourceRefs": [
+      "source:moonshot-ai:platform-kimi-ai-docs-pricing-batch",
+      "source:moonshot-ai:platform-kimi-ai-docs-pricing-chat-k26"
+    ],
+    "verificationStatus": "verified",
+    "verifiedAt": "2026-09-08T03:04:30Z"
+  },
+  {
+    "availabilityRules": [],
+    "billingNote": "Standard Kimi API pricing. Cache-miss input maps to input and automatic prefix-cache hits map to cached input. Thinking is always enabled, and reasoning content follows the normal billable token path with no separate surcharge published.",
+    "calculationDefault": true,
+    "charges": [
+      {
+        "amount": "0.95",
+        "chargeId": "price:moonshot-ai/kimi-k2.7-code:standard:short:current:input:text:per_1m_tokens",
+        "component": "input",
+        "modality": "text",
+        "unit": "per_1m_tokens"
+      },
+      {
+        "amount": "0.19",
+        "chargeId": "price:moonshot-ai/kimi-k2.7-code:standard:short:current:cached_input:text:per_1m_tokens",
+        "component": "cached_input",
+        "modality": "text",
+        "unit": "per_1m_tokens"
+      },
+      {
+        "amount": "4",
+        "chargeId": "price:moonshot-ai/kimi-k2.7-code:standard:short:current:output:text:per_1m_tokens",
+        "component": "output",
+        "modality": "text",
+        "unit": "per_1m_tokens"
+      }
+    ],
+    "checkedAt": "2026-09-08T03:04:30Z",
+    "contextClass": "short",
+    "currency": "USD",
+    "defaultAvailabilityStatus": "available",
+    "effectiveFrom": null,
+    "effectiveUntil": null,
+    "modelInternalId": "moonshot-ai/kimi-k2.7-code",
+    "priceAdjustments": [],
+    "pricingId": "price:moonshot-ai/kimi-k2.7-code:standard:short:current",
+    "pricingStatus": "current",
+    "processingMode": "standard",
+    "promptTokenThreshold": null,
+    "regionPolicy": "global",
+    "regionSelector": {
+      "dataResidencies": [
+        "global"
+      ],
+      "endpointGeographies": [
+        "global"
+      ],
+      "pricingGeography": "global_base"
+    },
+    "sourceDatasetIds": {
+      "publicDatasetIds": [
+        "kimi-k2.7-code"
+      ],
+      "websiteIds": [
+        "kimi-k2.7-code"
+      ]
+    },
+    "sourceRefs": [
+      "source:moonshot-ai:platform-kimi-ai-docs-guide-kimi-k2-7-code-quickstart",
+      "source:moonshot-ai:platform-kimi-ai-docs-guide-use-context-caching-feature-of-kimi-api",
+      "source:moonshot-ai:platform-kimi-ai-docs-guide-use-thinking-models",
+      "source:moonshot-ai:platform-kimi-ai-docs-pricing-chat-k27-code"
+    ],
+    "verificationStatus": "verified",
+    "verifiedAt": "2026-09-08T03:04:30Z"
+  },
+  {
+    "availabilityRules": [],
+    "billingNote": "High-speed serving price for the official kimi-k2.7-code-highspeed API alias. Moonshot documents it as the same K2.7 Code model with different serving speed and price, not a separate canonical model identity.",
+    "calculationDefault": false,
+    "charges": [
+      {
+        "amount": "1.9",
+        "chargeId": "price:moonshot-ai/kimi-k2.7-code:fast:short:current:input:text:per_1m_tokens",
+        "component": "input",
+        "modality": "text",
+        "unit": "per_1m_tokens"
+      },
+      {
+        "amount": "0.38",
+        "chargeId": "price:moonshot-ai/kimi-k2.7-code:fast:short:current:cached_input:text:per_1m_tokens",
+        "component": "cached_input",
+        "modality": "text",
+        "unit": "per_1m_tokens"
+      },
+      {
+        "amount": "8",
+        "chargeId": "price:moonshot-ai/kimi-k2.7-code:fast:short:current:output:text:per_1m_tokens",
+        "component": "output",
+        "modality": "text",
+        "unit": "per_1m_tokens"
+      }
+    ],
+    "checkedAt": "2026-09-08T03:04:30Z",
+    "contextClass": "short",
+    "currency": "USD",
+    "defaultAvailabilityStatus": "available",
+    "effectiveFrom": null,
+    "effectiveUntil": null,
+    "modelInternalId": "moonshot-ai/kimi-k2.7-code",
+    "priceAdjustments": [],
+    "pricingId": "price:moonshot-ai/kimi-k2.7-code:fast:short:current",
+    "pricingStatus": "current",
+    "processingMode": "fast",
+    "promptTokenThreshold": null,
+    "regionPolicy": "global",
+    "regionSelector": {
+      "dataResidencies": [
+        "global"
+      ],
+      "endpointGeographies": [
+        "global"
+      ],
+      "pricingGeography": "global_base"
+    },
+    "sourceDatasetIds": {
+      "publicDatasetIds": [
+        "kimi-k2.7-code"
+      ],
+      "websiteIds": [
+        "kimi-k2.7-code"
+      ]
+    },
+    "sourceRefs": [
+      "source:moonshot-ai:platform-kimi-ai-docs-api-models-overview",
+      "source:moonshot-ai:platform-kimi-ai-docs-guide-kimi-k2-7-code-quickstart",
+      "source:moonshot-ai:platform-kimi-ai-docs-pricing-chat-k27-code"
+    ],
+    "verificationStatus": "verified",
+    "verifiedAt": "2026-09-08T03:04:30Z"
+  },
+  {
+    "availabilityRules": [],
+    "billingNote": "Moonshot Batch API explicitly supports kimi-k2.7-code and charges 60% of the standard model price.",
+    "calculationDefault": false,
+    "charges": [
+      {
+        "amount": "0.57",
+        "chargeId": "price:moonshot-ai/kimi-k2.7-code:batch:short:current:input:text:per_1m_tokens",
+        "component": "input",
+        "modality": "text",
+        "unit": "per_1m_tokens"
+      },
+      {
+        "amount": "0.114",
+        "chargeId": "price:moonshot-ai/kimi-k2.7-code:batch:short:current:cached_input:text:per_1m_tokens",
+        "component": "cached_input",
+        "modality": "text",
+        "unit": "per_1m_tokens"
+      },
+      {
+        "amount": "2.4",
+        "chargeId": "price:moonshot-ai/kimi-k2.7-code:batch:short:current:output:text:per_1m_tokens",
+        "component": "output",
+        "modality": "text",
+        "unit": "per_1m_tokens"
+      }
+    ],
+    "checkedAt": "2026-09-08T03:04:30Z",
+    "contextClass": "short",
+    "currency": "USD",
+    "defaultAvailabilityStatus": "available",
+    "effectiveFrom": null,
+    "effectiveUntil": null,
+    "modelInternalId": "moonshot-ai/kimi-k2.7-code",
+    "priceAdjustments": [],
+    "pricingId": "price:moonshot-ai/kimi-k2.7-code:batch:short:current",
+    "pricingStatus": "current",
+    "processingMode": "batch",
+    "promptTokenThreshold": null,
+    "regionPolicy": "global",
+    "regionSelector": {
+      "dataResidencies": [
+        "global"
+      ],
+      "endpointGeographies": [
+        "global"
+      ],
+      "pricingGeography": "global_base"
+    },
+    "sourceDatasetIds": {
+      "publicDatasetIds": [
+        "kimi-k2.7-code"
+      ],
+      "websiteIds": [
+        "kimi-k2.7-code"
+      ]
+    },
+    "sourceRefs": [
+      "source:moonshot-ai:platform-kimi-ai-docs-pricing-batch",
+      "source:moonshot-ai:platform-kimi-ai-docs-pricing-chat-k27-code"
+    ],
+    "verificationStatus": "verified",
+    "verifiedAt": "2026-09-08T03:04:30Z"
+  },
+  {
+    "availabilityRules": [],
+    "billingNote": "Standard Kimi API pricing. Cache-miss input maps to input; automatically detected prefix-cache hits map to cached input. K3 always reasons, and reasoning content uses the normal billable output-token path with no separate surcharge published.",
+    "calculationDefault": true,
+    "charges": [
+      {
+        "amount": "3",
+        "chargeId": "price:moonshot-ai/kimi-k3:standard:short:current:input:text:per_1m_tokens",
+        "component": "input",
+        "modality": "text",
+        "unit": "per_1m_tokens"
+      },
+      {
+        "amount": "0.3",
+        "chargeId": "price:moonshot-ai/kimi-k3:standard:short:current:cached_input:text:per_1m_tokens",
+        "component": "cached_input",
+        "modality": "text",
+        "unit": "per_1m_tokens"
+      },
+      {
+        "amount": "15",
+        "chargeId": "price:moonshot-ai/kimi-k3:standard:short:current:output:text:per_1m_tokens",
+        "component": "output",
+        "modality": "text",
+        "unit": "per_1m_tokens"
+      }
+    ],
+    "checkedAt": "2026-09-08T03:04:30Z",
+    "contextClass": "short",
+    "currency": "USD",
+    "defaultAvailabilityStatus": "available",
+    "effectiveFrom": null,
+    "effectiveUntil": null,
+    "modelInternalId": "moonshot-ai/kimi-k3",
+    "priceAdjustments": [],
+    "pricingId": "price:moonshot-ai/kimi-k3:standard:short:current",
+    "pricingStatus": "current",
+    "processingMode": "standard",
+    "promptTokenThreshold": null,
+    "regionPolicy": "global",
+    "regionSelector": {
+      "dataResidencies": [
+        "global"
+      ],
+      "endpointGeographies": [
+        "global"
+      ],
+      "pricingGeography": "global_base"
+    },
+    "sourceDatasetIds": {
+      "publicDatasetIds": [
+        "kimi-k3"
+      ],
+      "websiteIds": [
+        "kimi-k3"
+      ]
+    },
+    "sourceRefs": [
+      "source:moonshot-ai:platform-kimi-ai-docs-guide-kimi-k3-quickstart",
+      "source:moonshot-ai:platform-kimi-ai-docs-guide-use-context-caching-feature-of-kimi-api",
+      "source:moonshot-ai:platform-kimi-ai-docs-guide-use-thinking-models",
+      "source:moonshot-ai:platform-kimi-ai-docs-pricing-chat-k3"
+    ],
+    "verificationStatus": "verified",
+    "verifiedAt": "2026-09-08T03:04:30Z"
   },
   {
     "billingNote": "Use this for ChatGPT-style chat-latest estimates only. Production API model IDs may differ.",

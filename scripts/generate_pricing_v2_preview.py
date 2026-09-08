@@ -40,6 +40,7 @@ PROVIDER_SLUGS = {
     "DeepSeek": "deepseek",
     "Mistral AI": "mistral-ai",
     "Cohere": "cohere",
+    "Moonshot AI": "moonshot-ai",
 }
 
 PROVIDER_DISPLAY = {
@@ -50,6 +51,7 @@ PROVIDER_DISPLAY = {
     "deepseek": "DeepSeek",
     "mistral-ai": "Mistral AI",
     "cohere": "Cohere",
+    "moonshot-ai": "Moonshot AI",
 }
 
 OFFICIAL_DOMAINS = {
@@ -60,6 +62,7 @@ OFFICIAL_DOMAINS = {
     "deepseek": ("api-docs.deepseek.com",),
     "mistral-ai": ("mistral.ai",),
     "cohere": ("cohere.com", "docs.cohere.com"),
+    "moonshot-ai": ("platform.kimi.ai", "kimi.ai", "moonshot.ai"),
 }
 
 IDENTITY_COLLAPSE = {
@@ -2273,6 +2276,22 @@ def main() -> None:
             "verificationStatus": meta["verificationStatus"],
         }
 
+    # Prompt-cache evidence is a verified V2 extension that is not represented by
+    # the legacy V1 model schema. Preserve these generic extension records when
+    # regenerating the preview so an unrelated provider onboarding cannot erase
+    # previously verified cache contracts.
+    existing_sources_path = PREVIEW / "sources.json"
+    if existing_sources_path.exists():
+        for existing_source in read_json(existing_sources_path):
+            supports = set(existing_source.get("supports", []))
+            if not supports.intersection({"cache_eligibility", "cache_lifetime", "cache_mode"}):
+                continue
+            url = existing_source["url"]
+            upsert_source(
+                url,
+                {key: value for key, value in existing_source.items() if key != "sourceId"},
+            )
+
     source_by_url = {url: source_id(meta["providerId"], url) for url, meta in source_urls.items()}
     sources = [
         {"sourceId": source_by_url[url], **meta}
@@ -2866,8 +2885,45 @@ def main() -> None:
             }
         )
 
+    # The Website dataset intentionally retains a legacy-compatible row shape.
+    # Do not let a repeat preview generation downgrade richer compatibility rows
+    # that a later V2 projection pass already materialized (for example GPT-6
+    # Astra's multi-record pricing contract).
+    existing_compatibility_path = GENERATED / "model-pricing.website-preview.json"
+    if existing_compatibility_path.exists():
+        existing_compatibility_by_id = {
+            item["id"]: item for item in read_json(existing_compatibility_path)
+        }
+        for index, row in enumerate(website_projection):
+            existing_row = existing_compatibility_by_id.get(row["id"])
+            if (
+                existing_row is not None
+                and "canonicalInternalId" in existing_row
+                and "canonicalInternalId" not in row
+            ):
+                website_projection[index] = existing_row
+        projected_ids = {row["id"] for row in website_projection}
+        canonical_internal_ids = {row["internalId"] for row in models}
+        website_projection.extend(
+            existing_row
+            for existing_row in existing_compatibility_by_id.values()
+            if existing_row["id"] not in projected_ids
+            and existing_row.get("canonicalInternalId") in canonical_internal_ids
+        )
+
     def sql_json(value: dict[str, Any]) -> str:
         return json.dumps(value, sort_keys=True).replace("'", "''")
+
+    existing_models_path = PREVIEW / "models.json"
+    if existing_models_path.exists():
+        existing_models_by_id = {
+            item["internalId"]: item for item in read_json(existing_models_path)
+        }
+        for model in models:
+            existing_model = existing_models_by_id.get(model["internalId"], {})
+            for field in ("cacheEligibility", "cacheLifetimeModes"):
+                if field in existing_model:
+                    model[field] = existing_model[field]
 
     sql_lines = [
         "begin;",

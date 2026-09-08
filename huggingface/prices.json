@@ -4,12 +4,12 @@
     "version": "1.0.0",
     "schema_version": "1.5.0",
     "page_url": "https://aicostbudget.com/en/datasets/ai-api-pricing",
-    "last_updated": "2026-09-06T05:12:08Z",
-    "last_verified_at": "2026-09-06T05:12:08Z",
-    "generated_at": "2026-09-06T05:27:39Z",
-    "provider_count": 7,
-    "record_count": 52,
-    "official_source_count": 14,
+    "last_updated": "2026-09-08T07:53:25Z",
+    "last_verified_at": "2026-09-08T07:53:25Z",
+    "generated_at": "2026-09-08T12:39:10Z",
+    "provider_count": 8,
+    "record_count": 63,
+    "official_source_count": 17,
     "currency": "USD",
     "pricing_unit": "Multiple billing units",
     "statistics_scope": "public pricing records returned by the public pricing adapter with Pricing V2 enabled",
@@ -5224,6 +5224,968 @@
     {
       "provider_id": "mistral-ai",
       "provider": "Mistral AI",
+      "model_id": "codestral-2508",
+      "model": "Codestral",
+      "input_price_per_1m_tokens": 0.3,
+      "cached_input_price_per_1m_tokens": 0.03,
+      "output_price_per_1m_tokens": 0.9,
+      "currency": "USD",
+      "pricing_unit": "1M tokens",
+      "status": "latest",
+      "availability": "active",
+      "official_source_url": "https://docs.mistral.ai/inference/pricing",
+      "verification_status": "verified",
+      "last_verified_at": "2026-09-08",
+      "checked_at": "2026-09-08",
+      "effective_from": null,
+      "effective_until": null,
+      "notes": "",
+      "pricing_tier_count": 0,
+      "pricing_tiers": [],
+      "time_pricing": null,
+      "pricing_components": [
+        {
+          "pricing_id": "price:mistral-ai/codestral-2508:batch:short:current",
+          "charge_id": "price:mistral-ai/codestral-2508:batch:short:current:input:text:per_1m_tokens",
+          "component": "input",
+          "amount": "0.15",
+          "unit": "per_1m_tokens",
+          "currency": "USD",
+          "modality": "text",
+          "condition": {
+            "processing_mode": "batch",
+            "context_class": "short",
+            "prompt_token_threshold": null,
+            "tier_selection": null,
+            "region_policy": "global",
+            "effective_from": null,
+            "effective_until": null,
+            "region_selector": {
+              "dataResidencies": [
+                "global"
+              ],
+              "endpointGeographies": [
+                "global"
+              ],
+              "pricingGeography": "global_base"
+            },
+            "default_availability_status": "available",
+            "availability_rules": [],
+            "price_adjustments": []
+          },
+          "calculation_default": false,
+          "source_refs": [
+            "source:mistral-ai:docs-mistral-ai-inference-pricing",
+            "source:mistral-ai:docs-mistral-ai-models-codestral-25-08",
+            "source:mistral-ai:docs-mistral-ai-studio-batch-processing"
+          ],
+          "source_urls": [
+            "https://docs.mistral.ai/inference/pricing",
+            "https://docs.mistral.ai/models/codestral-25-08",
+            "https://docs.mistral.ai/studio/batch-processing"
+          ],
+          "verification_status": "verified"
+        },
+        {
+          "pricing_id": "price:mistral-ai/codestral-2508:batch:short:current",
+          "charge_id": "price:mistral-ai/codestral-2508:batch:short:current:output:text:per_1m_tokens",
+          "component": "output",
+          "amount": "0.45",
+          "unit": "per_1m_tokens",
+          "currency": "USD",
+          "modality": "text",
+          "condition": {
+            "processing_mode": "batch",
+            "context_class": "short",
+            "prompt_token_threshold": null,
+            "tier_selection": null,
+            "region_policy": "global",
+            "effective_from": null,
+            "effective_until": null,
+            "region_selector": {
+              "dataResidencies": [
+                "global"
+              ],
+              "endpointGeographies": [
+                "global"
+              ],
+              "pricingGeography": "global_base"
+            },
+            "default_availability_status": "available",
+            "availability_rules": [],
+            "price_adjustments": []
+          },
+          "calculation_default": false,
+          "source_refs": [
+            "source:mistral-ai:docs-mistral-ai-inference-pricing",
+            "source:mistral-ai:docs-mistral-ai-models-codestral-25-08",
+            "source:mistral-ai:docs-mistral-ai-studio-batch-processing"
+          ],
+          "source_urls": [
+            "https://docs.mistral.ai/inference/pricing",
+            "https://docs.mistral.ai/models/codestral-25-08",
+            "https://docs.mistral.ai/studio/batch-processing"
+          ],
+          "verification_status": "verified"
+        },
+        {
+          "pricing_id": "price:mistral-ai/codestral-2508:standard:short:current",
+          "charge_id": "price:mistral-ai/codestral-2508:standard:short:current:cached_input:text:per_1m_tokens",
+          "component": "cached_input",
+          "amount": "0.03",
+          "unit": "per_1m_tokens",
+          "currency": "USD",
+          "modality": "text",
+          "condition": {
+            "processing_mode": "standard",
+            "context_class": "short",
+            "prompt_token_threshold": null,
+            "tier_selection": null,
+            "region_policy": "global",
+            "effective_from": null,
+            "effective_until": null,
+            "region_selector": {
+              "dataResidencies": [
+                "global"
+              ],
+              "endpointGeographies": [
+                "global"
+              ],
+              "pricingGeography": "global_base"
+            },
+            "default_availability_status": "available",
+            "availability_rules": [],
+            "price_adjustments": []
+          },
+          "calculation_default": true,
+          "source_refs": [
+            "source:mistral-ai:docs-mistral-ai-api-endpoint-fim",
+            "source:mistral-ai:docs-mistral-ai-inference-pricing",
+            "source:mistral-ai:docs-mistral-ai-models-codestral-25-08",
+            "source:mistral-ai:docs-mistral-ai-studio-conversations-advanced-prompt-caching"
+          ],
+          "source_urls": [
+            "https://docs.mistral.ai/api/endpoint/fim",
+            "https://docs.mistral.ai/inference/pricing",
+            "https://docs.mistral.ai/models/codestral-25-08",
+            "https://docs.mistral.ai/studio/conversations/advanced/prompt-caching"
+          ],
+          "verification_status": "verified"
+        },
+        {
+          "pricing_id": "price:mistral-ai/codestral-2508:standard:short:current",
+          "charge_id": "price:mistral-ai/codestral-2508:standard:short:current:input:text:per_1m_tokens",
+          "component": "input",
+          "amount": "0.3",
+          "unit": "per_1m_tokens",
+          "currency": "USD",
+          "modality": "text",
+          "condition": {
+            "processing_mode": "standard",
+            "context_class": "short",
+            "prompt_token_threshold": null,
+            "tier_selection": null,
+            "region_policy": "global",
+            "effective_from": null,
+            "effective_until": null,
+            "region_selector": {
+              "dataResidencies": [
+                "global"
+              ],
+              "endpointGeographies": [
+                "global"
+              ],
+              "pricingGeography": "global_base"
+            },
+            "default_availability_status": "available",
+            "availability_rules": [],
+            "price_adjustments": []
+          },
+          "calculation_default": true,
+          "source_refs": [
+            "source:mistral-ai:docs-mistral-ai-api-endpoint-fim",
+            "source:mistral-ai:docs-mistral-ai-inference-pricing",
+            "source:mistral-ai:docs-mistral-ai-models-codestral-25-08",
+            "source:mistral-ai:docs-mistral-ai-studio-conversations-advanced-prompt-caching"
+          ],
+          "source_urls": [
+            "https://docs.mistral.ai/api/endpoint/fim",
+            "https://docs.mistral.ai/inference/pricing",
+            "https://docs.mistral.ai/models/codestral-25-08",
+            "https://docs.mistral.ai/studio/conversations/advanced/prompt-caching"
+          ],
+          "verification_status": "verified"
+        },
+        {
+          "pricing_id": "price:mistral-ai/codestral-2508:standard:short:current",
+          "charge_id": "price:mistral-ai/codestral-2508:standard:short:current:output:text:per_1m_tokens",
+          "component": "output",
+          "amount": "0.9",
+          "unit": "per_1m_tokens",
+          "currency": "USD",
+          "modality": "text",
+          "condition": {
+            "processing_mode": "standard",
+            "context_class": "short",
+            "prompt_token_threshold": null,
+            "tier_selection": null,
+            "region_policy": "global",
+            "effective_from": null,
+            "effective_until": null,
+            "region_selector": {
+              "dataResidencies": [
+                "global"
+              ],
+              "endpointGeographies": [
+                "global"
+              ],
+              "pricingGeography": "global_base"
+            },
+            "default_availability_status": "available",
+            "availability_rules": [],
+            "price_adjustments": []
+          },
+          "calculation_default": true,
+          "source_refs": [
+            "source:mistral-ai:docs-mistral-ai-api-endpoint-fim",
+            "source:mistral-ai:docs-mistral-ai-inference-pricing",
+            "source:mistral-ai:docs-mistral-ai-models-codestral-25-08",
+            "source:mistral-ai:docs-mistral-ai-studio-conversations-advanced-prompt-caching"
+          ],
+          "source_urls": [
+            "https://docs.mistral.ai/api/endpoint/fim",
+            "https://docs.mistral.ai/inference/pricing",
+            "https://docs.mistral.ai/models/codestral-25-08",
+            "https://docs.mistral.ai/studio/conversations/advanced/prompt-caching"
+          ],
+          "verification_status": "verified"
+        }
+      ],
+      "unit_price": null,
+      "billing_unit": null,
+      "billing_quantity": null,
+      "pricing_dimension": null
+    },
+    {
+      "provider_id": "mistral-ai",
+      "provider": "Mistral AI",
+      "model_id": "ministral-14b-2512",
+      "model": "Ministral 3 14B",
+      "input_price_per_1m_tokens": 0.2,
+      "cached_input_price_per_1m_tokens": 0.02,
+      "output_price_per_1m_tokens": 0.2,
+      "currency": "USD",
+      "pricing_unit": "1M tokens",
+      "status": "latest",
+      "availability": "active",
+      "official_source_url": "https://docs.mistral.ai/inference/pricing",
+      "verification_status": "verified",
+      "last_verified_at": "2026-09-08",
+      "checked_at": "2026-09-08",
+      "effective_from": null,
+      "effective_until": null,
+      "notes": "",
+      "pricing_tier_count": 0,
+      "pricing_tiers": [],
+      "time_pricing": null,
+      "pricing_components": [
+        {
+          "pricing_id": "price:mistral-ai/ministral-14b-2512:batch:short:current",
+          "charge_id": "price:mistral-ai/ministral-14b-2512:batch:short:current:input:text:per_1m_tokens",
+          "component": "input",
+          "amount": "0.1",
+          "unit": "per_1m_tokens",
+          "currency": "USD",
+          "modality": "text",
+          "condition": {
+            "processing_mode": "batch",
+            "context_class": "short",
+            "prompt_token_threshold": null,
+            "tier_selection": null,
+            "region_policy": "global",
+            "effective_from": null,
+            "effective_until": null,
+            "region_selector": {
+              "dataResidencies": [
+                "global"
+              ],
+              "endpointGeographies": [
+                "global"
+              ],
+              "pricingGeography": "global_base"
+            },
+            "default_availability_status": "available",
+            "availability_rules": [],
+            "price_adjustments": []
+          },
+          "calculation_default": false,
+          "source_refs": [
+            "source:mistral-ai:docs-mistral-ai-inference-pricing",
+            "source:mistral-ai:docs-mistral-ai-models-ministral-3-14b-25-12",
+            "source:mistral-ai:docs-mistral-ai-studio-batch-processing"
+          ],
+          "source_urls": [
+            "https://docs.mistral.ai/inference/pricing",
+            "https://docs.mistral.ai/models/ministral-3-14b-25-12",
+            "https://docs.mistral.ai/studio/batch-processing"
+          ],
+          "verification_status": "verified"
+        },
+        {
+          "pricing_id": "price:mistral-ai/ministral-14b-2512:batch:short:current",
+          "charge_id": "price:mistral-ai/ministral-14b-2512:batch:short:current:output:text:per_1m_tokens",
+          "component": "output",
+          "amount": "0.1",
+          "unit": "per_1m_tokens",
+          "currency": "USD",
+          "modality": "text",
+          "condition": {
+            "processing_mode": "batch",
+            "context_class": "short",
+            "prompt_token_threshold": null,
+            "tier_selection": null,
+            "region_policy": "global",
+            "effective_from": null,
+            "effective_until": null,
+            "region_selector": {
+              "dataResidencies": [
+                "global"
+              ],
+              "endpointGeographies": [
+                "global"
+              ],
+              "pricingGeography": "global_base"
+            },
+            "default_availability_status": "available",
+            "availability_rules": [],
+            "price_adjustments": []
+          },
+          "calculation_default": false,
+          "source_refs": [
+            "source:mistral-ai:docs-mistral-ai-inference-pricing",
+            "source:mistral-ai:docs-mistral-ai-models-ministral-3-14b-25-12",
+            "source:mistral-ai:docs-mistral-ai-studio-batch-processing"
+          ],
+          "source_urls": [
+            "https://docs.mistral.ai/inference/pricing",
+            "https://docs.mistral.ai/models/ministral-3-14b-25-12",
+            "https://docs.mistral.ai/studio/batch-processing"
+          ],
+          "verification_status": "verified"
+        },
+        {
+          "pricing_id": "price:mistral-ai/ministral-14b-2512:standard:short:current",
+          "charge_id": "price:mistral-ai/ministral-14b-2512:standard:short:current:cached_input:text:per_1m_tokens",
+          "component": "cached_input",
+          "amount": "0.02",
+          "unit": "per_1m_tokens",
+          "currency": "USD",
+          "modality": "text",
+          "condition": {
+            "processing_mode": "standard",
+            "context_class": "short",
+            "prompt_token_threshold": null,
+            "tier_selection": null,
+            "region_policy": "global",
+            "effective_from": null,
+            "effective_until": null,
+            "region_selector": {
+              "dataResidencies": [
+                "global"
+              ],
+              "endpointGeographies": [
+                "global"
+              ],
+              "pricingGeography": "global_base"
+            },
+            "default_availability_status": "available",
+            "availability_rules": [],
+            "price_adjustments": []
+          },
+          "calculation_default": true,
+          "source_refs": [
+            "source:mistral-ai:docs-mistral-ai-inference-pricing",
+            "source:mistral-ai:docs-mistral-ai-models-ministral-3-14b-25-12",
+            "source:mistral-ai:docs-mistral-ai-studio-conversations-advanced-prompt-caching"
+          ],
+          "source_urls": [
+            "https://docs.mistral.ai/inference/pricing",
+            "https://docs.mistral.ai/models/ministral-3-14b-25-12",
+            "https://docs.mistral.ai/studio/conversations/advanced/prompt-caching"
+          ],
+          "verification_status": "verified"
+        },
+        {
+          "pricing_id": "price:mistral-ai/ministral-14b-2512:standard:short:current",
+          "charge_id": "price:mistral-ai/ministral-14b-2512:standard:short:current:input:text:per_1m_tokens",
+          "component": "input",
+          "amount": "0.2",
+          "unit": "per_1m_tokens",
+          "currency": "USD",
+          "modality": "text",
+          "condition": {
+            "processing_mode": "standard",
+            "context_class": "short",
+            "prompt_token_threshold": null,
+            "tier_selection": null,
+            "region_policy": "global",
+            "effective_from": null,
+            "effective_until": null,
+            "region_selector": {
+              "dataResidencies": [
+                "global"
+              ],
+              "endpointGeographies": [
+                "global"
+              ],
+              "pricingGeography": "global_base"
+            },
+            "default_availability_status": "available",
+            "availability_rules": [],
+            "price_adjustments": []
+          },
+          "calculation_default": true,
+          "source_refs": [
+            "source:mistral-ai:docs-mistral-ai-inference-pricing",
+            "source:mistral-ai:docs-mistral-ai-models-ministral-3-14b-25-12",
+            "source:mistral-ai:docs-mistral-ai-studio-conversations-advanced-prompt-caching"
+          ],
+          "source_urls": [
+            "https://docs.mistral.ai/inference/pricing",
+            "https://docs.mistral.ai/models/ministral-3-14b-25-12",
+            "https://docs.mistral.ai/studio/conversations/advanced/prompt-caching"
+          ],
+          "verification_status": "verified"
+        },
+        {
+          "pricing_id": "price:mistral-ai/ministral-14b-2512:standard:short:current",
+          "charge_id": "price:mistral-ai/ministral-14b-2512:standard:short:current:output:text:per_1m_tokens",
+          "component": "output",
+          "amount": "0.2",
+          "unit": "per_1m_tokens",
+          "currency": "USD",
+          "modality": "text",
+          "condition": {
+            "processing_mode": "standard",
+            "context_class": "short",
+            "prompt_token_threshold": null,
+            "tier_selection": null,
+            "region_policy": "global",
+            "effective_from": null,
+            "effective_until": null,
+            "region_selector": {
+              "dataResidencies": [
+                "global"
+              ],
+              "endpointGeographies": [
+                "global"
+              ],
+              "pricingGeography": "global_base"
+            },
+            "default_availability_status": "available",
+            "availability_rules": [],
+            "price_adjustments": []
+          },
+          "calculation_default": true,
+          "source_refs": [
+            "source:mistral-ai:docs-mistral-ai-inference-pricing",
+            "source:mistral-ai:docs-mistral-ai-models-ministral-3-14b-25-12",
+            "source:mistral-ai:docs-mistral-ai-studio-conversations-advanced-prompt-caching"
+          ],
+          "source_urls": [
+            "https://docs.mistral.ai/inference/pricing",
+            "https://docs.mistral.ai/models/ministral-3-14b-25-12",
+            "https://docs.mistral.ai/studio/conversations/advanced/prompt-caching"
+          ],
+          "verification_status": "verified"
+        }
+      ],
+      "unit_price": null,
+      "billing_unit": null,
+      "billing_quantity": null,
+      "pricing_dimension": null
+    },
+    {
+      "provider_id": "mistral-ai",
+      "provider": "Mistral AI",
+      "model_id": "ministral-3b-2512",
+      "model": "Ministral 3 3B",
+      "input_price_per_1m_tokens": 0.1,
+      "cached_input_price_per_1m_tokens": 0.01,
+      "output_price_per_1m_tokens": 0.1,
+      "currency": "USD",
+      "pricing_unit": "1M tokens",
+      "status": "latest",
+      "availability": "active",
+      "official_source_url": "https://docs.mistral.ai/inference/pricing",
+      "verification_status": "verified",
+      "last_verified_at": "2026-09-08",
+      "checked_at": "2026-09-08",
+      "effective_from": null,
+      "effective_until": null,
+      "notes": "",
+      "pricing_tier_count": 0,
+      "pricing_tiers": [],
+      "time_pricing": null,
+      "pricing_components": [
+        {
+          "pricing_id": "price:mistral-ai/ministral-3b-2512:batch:short:current",
+          "charge_id": "price:mistral-ai/ministral-3b-2512:batch:short:current:input:text:per_1m_tokens",
+          "component": "input",
+          "amount": "0.05",
+          "unit": "per_1m_tokens",
+          "currency": "USD",
+          "modality": "text",
+          "condition": {
+            "processing_mode": "batch",
+            "context_class": "short",
+            "prompt_token_threshold": null,
+            "tier_selection": null,
+            "region_policy": "global",
+            "effective_from": null,
+            "effective_until": null,
+            "region_selector": {
+              "dataResidencies": [
+                "global"
+              ],
+              "endpointGeographies": [
+                "global"
+              ],
+              "pricingGeography": "global_base"
+            },
+            "default_availability_status": "available",
+            "availability_rules": [],
+            "price_adjustments": []
+          },
+          "calculation_default": false,
+          "source_refs": [
+            "source:mistral-ai:docs-mistral-ai-inference-pricing",
+            "source:mistral-ai:docs-mistral-ai-models-ministral-3-3b-25-12",
+            "source:mistral-ai:docs-mistral-ai-studio-batch-processing"
+          ],
+          "source_urls": [
+            "https://docs.mistral.ai/inference/pricing",
+            "https://docs.mistral.ai/models/ministral-3-3b-25-12",
+            "https://docs.mistral.ai/studio/batch-processing"
+          ],
+          "verification_status": "verified"
+        },
+        {
+          "pricing_id": "price:mistral-ai/ministral-3b-2512:batch:short:current",
+          "charge_id": "price:mistral-ai/ministral-3b-2512:batch:short:current:output:text:per_1m_tokens",
+          "component": "output",
+          "amount": "0.05",
+          "unit": "per_1m_tokens",
+          "currency": "USD",
+          "modality": "text",
+          "condition": {
+            "processing_mode": "batch",
+            "context_class": "short",
+            "prompt_token_threshold": null,
+            "tier_selection": null,
+            "region_policy": "global",
+            "effective_from": null,
+            "effective_until": null,
+            "region_selector": {
+              "dataResidencies": [
+                "global"
+              ],
+              "endpointGeographies": [
+                "global"
+              ],
+              "pricingGeography": "global_base"
+            },
+            "default_availability_status": "available",
+            "availability_rules": [],
+            "price_adjustments": []
+          },
+          "calculation_default": false,
+          "source_refs": [
+            "source:mistral-ai:docs-mistral-ai-inference-pricing",
+            "source:mistral-ai:docs-mistral-ai-models-ministral-3-3b-25-12",
+            "source:mistral-ai:docs-mistral-ai-studio-batch-processing"
+          ],
+          "source_urls": [
+            "https://docs.mistral.ai/inference/pricing",
+            "https://docs.mistral.ai/models/ministral-3-3b-25-12",
+            "https://docs.mistral.ai/studio/batch-processing"
+          ],
+          "verification_status": "verified"
+        },
+        {
+          "pricing_id": "price:mistral-ai/ministral-3b-2512:standard:short:current",
+          "charge_id": "price:mistral-ai/ministral-3b-2512:standard:short:current:cached_input:text:per_1m_tokens",
+          "component": "cached_input",
+          "amount": "0.01",
+          "unit": "per_1m_tokens",
+          "currency": "USD",
+          "modality": "text",
+          "condition": {
+            "processing_mode": "standard",
+            "context_class": "short",
+            "prompt_token_threshold": null,
+            "tier_selection": null,
+            "region_policy": "global",
+            "effective_from": null,
+            "effective_until": null,
+            "region_selector": {
+              "dataResidencies": [
+                "global"
+              ],
+              "endpointGeographies": [
+                "global"
+              ],
+              "pricingGeography": "global_base"
+            },
+            "default_availability_status": "available",
+            "availability_rules": [],
+            "price_adjustments": []
+          },
+          "calculation_default": true,
+          "source_refs": [
+            "source:mistral-ai:docs-mistral-ai-inference-pricing",
+            "source:mistral-ai:docs-mistral-ai-models-ministral-3-3b-25-12",
+            "source:mistral-ai:docs-mistral-ai-studio-conversations-advanced-prompt-caching"
+          ],
+          "source_urls": [
+            "https://docs.mistral.ai/inference/pricing",
+            "https://docs.mistral.ai/models/ministral-3-3b-25-12",
+            "https://docs.mistral.ai/studio/conversations/advanced/prompt-caching"
+          ],
+          "verification_status": "verified"
+        },
+        {
+          "pricing_id": "price:mistral-ai/ministral-3b-2512:standard:short:current",
+          "charge_id": "price:mistral-ai/ministral-3b-2512:standard:short:current:input:text:per_1m_tokens",
+          "component": "input",
+          "amount": "0.1",
+          "unit": "per_1m_tokens",
+          "currency": "USD",
+          "modality": "text",
+          "condition": {
+            "processing_mode": "standard",
+            "context_class": "short",
+            "prompt_token_threshold": null,
+            "tier_selection": null,
+            "region_policy": "global",
+            "effective_from": null,
+            "effective_until": null,
+            "region_selector": {
+              "dataResidencies": [
+                "global"
+              ],
+              "endpointGeographies": [
+                "global"
+              ],
+              "pricingGeography": "global_base"
+            },
+            "default_availability_status": "available",
+            "availability_rules": [],
+            "price_adjustments": []
+          },
+          "calculation_default": true,
+          "source_refs": [
+            "source:mistral-ai:docs-mistral-ai-inference-pricing",
+            "source:mistral-ai:docs-mistral-ai-models-ministral-3-3b-25-12",
+            "source:mistral-ai:docs-mistral-ai-studio-conversations-advanced-prompt-caching"
+          ],
+          "source_urls": [
+            "https://docs.mistral.ai/inference/pricing",
+            "https://docs.mistral.ai/models/ministral-3-3b-25-12",
+            "https://docs.mistral.ai/studio/conversations/advanced/prompt-caching"
+          ],
+          "verification_status": "verified"
+        },
+        {
+          "pricing_id": "price:mistral-ai/ministral-3b-2512:standard:short:current",
+          "charge_id": "price:mistral-ai/ministral-3b-2512:standard:short:current:output:text:per_1m_tokens",
+          "component": "output",
+          "amount": "0.1",
+          "unit": "per_1m_tokens",
+          "currency": "USD",
+          "modality": "text",
+          "condition": {
+            "processing_mode": "standard",
+            "context_class": "short",
+            "prompt_token_threshold": null,
+            "tier_selection": null,
+            "region_policy": "global",
+            "effective_from": null,
+            "effective_until": null,
+            "region_selector": {
+              "dataResidencies": [
+                "global"
+              ],
+              "endpointGeographies": [
+                "global"
+              ],
+              "pricingGeography": "global_base"
+            },
+            "default_availability_status": "available",
+            "availability_rules": [],
+            "price_adjustments": []
+          },
+          "calculation_default": true,
+          "source_refs": [
+            "source:mistral-ai:docs-mistral-ai-inference-pricing",
+            "source:mistral-ai:docs-mistral-ai-models-ministral-3-3b-25-12",
+            "source:mistral-ai:docs-mistral-ai-studio-conversations-advanced-prompt-caching"
+          ],
+          "source_urls": [
+            "https://docs.mistral.ai/inference/pricing",
+            "https://docs.mistral.ai/models/ministral-3-3b-25-12",
+            "https://docs.mistral.ai/studio/conversations/advanced/prompt-caching"
+          ],
+          "verification_status": "verified"
+        }
+      ],
+      "unit_price": null,
+      "billing_unit": null,
+      "billing_quantity": null,
+      "pricing_dimension": null
+    },
+    {
+      "provider_id": "mistral-ai",
+      "provider": "Mistral AI",
+      "model_id": "ministral-8b-2512",
+      "model": "Ministral 3 8B",
+      "input_price_per_1m_tokens": 0.15,
+      "cached_input_price_per_1m_tokens": 0.015,
+      "output_price_per_1m_tokens": 0.15,
+      "currency": "USD",
+      "pricing_unit": "1M tokens",
+      "status": "latest",
+      "availability": "active",
+      "official_source_url": "https://docs.mistral.ai/inference/pricing",
+      "verification_status": "verified",
+      "last_verified_at": "2026-09-08",
+      "checked_at": "2026-09-08",
+      "effective_from": null,
+      "effective_until": null,
+      "notes": "",
+      "pricing_tier_count": 0,
+      "pricing_tiers": [],
+      "time_pricing": null,
+      "pricing_components": [
+        {
+          "pricing_id": "price:mistral-ai/ministral-8b-2512:batch:short:current",
+          "charge_id": "price:mistral-ai/ministral-8b-2512:batch:short:current:input:text:per_1m_tokens",
+          "component": "input",
+          "amount": "0.075",
+          "unit": "per_1m_tokens",
+          "currency": "USD",
+          "modality": "text",
+          "condition": {
+            "processing_mode": "batch",
+            "context_class": "short",
+            "prompt_token_threshold": null,
+            "tier_selection": null,
+            "region_policy": "global",
+            "effective_from": null,
+            "effective_until": null,
+            "region_selector": {
+              "dataResidencies": [
+                "global"
+              ],
+              "endpointGeographies": [
+                "global"
+              ],
+              "pricingGeography": "global_base"
+            },
+            "default_availability_status": "available",
+            "availability_rules": [],
+            "price_adjustments": []
+          },
+          "calculation_default": false,
+          "source_refs": [
+            "source:mistral-ai:docs-mistral-ai-inference-pricing",
+            "source:mistral-ai:docs-mistral-ai-models-ministral-3-8b-25-12",
+            "source:mistral-ai:docs-mistral-ai-studio-batch-processing"
+          ],
+          "source_urls": [
+            "https://docs.mistral.ai/inference/pricing",
+            "https://docs.mistral.ai/models/ministral-3-8b-25-12",
+            "https://docs.mistral.ai/studio/batch-processing"
+          ],
+          "verification_status": "verified"
+        },
+        {
+          "pricing_id": "price:mistral-ai/ministral-8b-2512:batch:short:current",
+          "charge_id": "price:mistral-ai/ministral-8b-2512:batch:short:current:output:text:per_1m_tokens",
+          "component": "output",
+          "amount": "0.075",
+          "unit": "per_1m_tokens",
+          "currency": "USD",
+          "modality": "text",
+          "condition": {
+            "processing_mode": "batch",
+            "context_class": "short",
+            "prompt_token_threshold": null,
+            "tier_selection": null,
+            "region_policy": "global",
+            "effective_from": null,
+            "effective_until": null,
+            "region_selector": {
+              "dataResidencies": [
+                "global"
+              ],
+              "endpointGeographies": [
+                "global"
+              ],
+              "pricingGeography": "global_base"
+            },
+            "default_availability_status": "available",
+            "availability_rules": [],
+            "price_adjustments": []
+          },
+          "calculation_default": false,
+          "source_refs": [
+            "source:mistral-ai:docs-mistral-ai-inference-pricing",
+            "source:mistral-ai:docs-mistral-ai-models-ministral-3-8b-25-12",
+            "source:mistral-ai:docs-mistral-ai-studio-batch-processing"
+          ],
+          "source_urls": [
+            "https://docs.mistral.ai/inference/pricing",
+            "https://docs.mistral.ai/models/ministral-3-8b-25-12",
+            "https://docs.mistral.ai/studio/batch-processing"
+          ],
+          "verification_status": "verified"
+        },
+        {
+          "pricing_id": "price:mistral-ai/ministral-8b-2512:standard:short:current",
+          "charge_id": "price:mistral-ai/ministral-8b-2512:standard:short:current:cached_input:text:per_1m_tokens",
+          "component": "cached_input",
+          "amount": "0.015",
+          "unit": "per_1m_tokens",
+          "currency": "USD",
+          "modality": "text",
+          "condition": {
+            "processing_mode": "standard",
+            "context_class": "short",
+            "prompt_token_threshold": null,
+            "tier_selection": null,
+            "region_policy": "global",
+            "effective_from": null,
+            "effective_until": null,
+            "region_selector": {
+              "dataResidencies": [
+                "global"
+              ],
+              "endpointGeographies": [
+                "global"
+              ],
+              "pricingGeography": "global_base"
+            },
+            "default_availability_status": "available",
+            "availability_rules": [],
+            "price_adjustments": []
+          },
+          "calculation_default": true,
+          "source_refs": [
+            "source:mistral-ai:docs-mistral-ai-inference-pricing",
+            "source:mistral-ai:docs-mistral-ai-models-ministral-3-8b-25-12",
+            "source:mistral-ai:docs-mistral-ai-studio-conversations-advanced-prompt-caching"
+          ],
+          "source_urls": [
+            "https://docs.mistral.ai/inference/pricing",
+            "https://docs.mistral.ai/models/ministral-3-8b-25-12",
+            "https://docs.mistral.ai/studio/conversations/advanced/prompt-caching"
+          ],
+          "verification_status": "verified"
+        },
+        {
+          "pricing_id": "price:mistral-ai/ministral-8b-2512:standard:short:current",
+          "charge_id": "price:mistral-ai/ministral-8b-2512:standard:short:current:input:text:per_1m_tokens",
+          "component": "input",
+          "amount": "0.15",
+          "unit": "per_1m_tokens",
+          "currency": "USD",
+          "modality": "text",
+          "condition": {
+            "processing_mode": "standard",
+            "context_class": "short",
+            "prompt_token_threshold": null,
+            "tier_selection": null,
+            "region_policy": "global",
+            "effective_from": null,
+            "effective_until": null,
+            "region_selector": {
+              "dataResidencies": [
+                "global"
+              ],
+              "endpointGeographies": [
+                "global"
+              ],
+              "pricingGeography": "global_base"
+            },
+            "default_availability_status": "available",
+            "availability_rules": [],
+            "price_adjustments": []
+          },
+          "calculation_default": true,
+          "source_refs": [
+            "source:mistral-ai:docs-mistral-ai-inference-pricing",
+            "source:mistral-ai:docs-mistral-ai-models-ministral-3-8b-25-12",
+            "source:mistral-ai:docs-mistral-ai-studio-conversations-advanced-prompt-caching"
+          ],
+          "source_urls": [
+            "https://docs.mistral.ai/inference/pricing",
+            "https://docs.mistral.ai/models/ministral-3-8b-25-12",
+            "https://docs.mistral.ai/studio/conversations/advanced/prompt-caching"
+          ],
+          "verification_status": "verified"
+        },
+        {
+          "pricing_id": "price:mistral-ai/ministral-8b-2512:standard:short:current",
+          "charge_id": "price:mistral-ai/ministral-8b-2512:standard:short:current:output:text:per_1m_tokens",
+          "component": "output",
+          "amount": "0.15",
+          "unit": "per_1m_tokens",
+          "currency": "USD",
+          "modality": "text",
+          "condition": {
+            "processing_mode": "standard",
+            "context_class": "short",
+            "prompt_token_threshold": null,
+            "tier_selection": null,
+            "region_policy": "global",
+            "effective_from": null,
+            "effective_until": null,
+            "region_selector": {
+              "dataResidencies": [
+                "global"
+              ],
+              "endpointGeographies": [
+                "global"
+              ],
+              "pricingGeography": "global_base"
+            },
+            "default_availability_status": "available",
+            "availability_rules": [],
+            "price_adjustments": []
+          },
+          "calculation_default": true,
+          "source_refs": [
+            "source:mistral-ai:docs-mistral-ai-inference-pricing",
+            "source:mistral-ai:docs-mistral-ai-models-ministral-3-8b-25-12",
+            "source:mistral-ai:docs-mistral-ai-studio-conversations-advanced-prompt-caching"
+          ],
+          "source_urls": [
+            "https://docs.mistral.ai/inference/pricing",
+            "https://docs.mistral.ai/models/ministral-3-8b-25-12",
+            "https://docs.mistral.ai/studio/conversations/advanced/prompt-caching"
+          ],
+          "verification_status": "verified"
+        }
+      ],
+      "unit_price": null,
+      "billing_unit": null,
+      "billing_quantity": null,
+      "pricing_dimension": null
+    },
+    {
+      "provider_id": "mistral-ai",
+      "provider": "Mistral AI",
       "model_id": "mistral-large",
       "model": "Mistral Large 3",
       "input_price_per_1m_tokens": 0.5,
@@ -5245,6 +6207,90 @@
       "time_pricing": null,
       "pricing_components": [
         {
+          "pricing_id": "price:mistral-ai/mistral-large:batch:short:current",
+          "charge_id": "price:mistral-ai/mistral-large:batch:short:current:input:text:per_1m_tokens",
+          "component": "input",
+          "amount": "0.25",
+          "unit": "per_1m_tokens",
+          "currency": "USD",
+          "modality": "text",
+          "condition": {
+            "processing_mode": "batch",
+            "context_class": "short",
+            "prompt_token_threshold": null,
+            "tier_selection": null,
+            "region_policy": "global",
+            "effective_from": null,
+            "effective_until": null,
+            "region_selector": {
+              "dataResidencies": [
+                "global"
+              ],
+              "endpointGeographies": [
+                "global"
+              ],
+              "pricingGeography": "global_base"
+            },
+            "default_availability_status": "available",
+            "availability_rules": [],
+            "price_adjustments": []
+          },
+          "calculation_default": false,
+          "source_refs": [
+            "source:mistral-ai:docs-mistral-ai-inference-pricing",
+            "source:mistral-ai:docs-mistral-ai-models-mistral-large-3-25-12",
+            "source:mistral-ai:docs-mistral-ai-studio-batch-processing"
+          ],
+          "source_urls": [
+            "https://docs.mistral.ai/inference/pricing",
+            "https://docs.mistral.ai/models/mistral-large-3-25-12",
+            "https://docs.mistral.ai/studio/batch-processing"
+          ],
+          "verification_status": "verified"
+        },
+        {
+          "pricing_id": "price:mistral-ai/mistral-large:batch:short:current",
+          "charge_id": "price:mistral-ai/mistral-large:batch:short:current:output:text:per_1m_tokens",
+          "component": "output",
+          "amount": "0.75",
+          "unit": "per_1m_tokens",
+          "currency": "USD",
+          "modality": "text",
+          "condition": {
+            "processing_mode": "batch",
+            "context_class": "short",
+            "prompt_token_threshold": null,
+            "tier_selection": null,
+            "region_policy": "global",
+            "effective_from": null,
+            "effective_until": null,
+            "region_selector": {
+              "dataResidencies": [
+                "global"
+              ],
+              "endpointGeographies": [
+                "global"
+              ],
+              "pricingGeography": "global_base"
+            },
+            "default_availability_status": "available",
+            "availability_rules": [],
+            "price_adjustments": []
+          },
+          "calculation_default": false,
+          "source_refs": [
+            "source:mistral-ai:docs-mistral-ai-inference-pricing",
+            "source:mistral-ai:docs-mistral-ai-models-mistral-large-3-25-12",
+            "source:mistral-ai:docs-mistral-ai-studio-batch-processing"
+          ],
+          "source_urls": [
+            "https://docs.mistral.ai/inference/pricing",
+            "https://docs.mistral.ai/models/mistral-large-3-25-12",
+            "https://docs.mistral.ai/studio/batch-processing"
+          ],
+          "verification_status": "verified"
+        },
+        {
           "pricing_id": "price:mistral-ai/mistral-large:standard:short:current",
           "charge_id": "price:mistral-ai/mistral-large:standard:short:current:cached_input:text:per_1m_tokens",
           "component": "cached_input",
@@ -5259,22 +6305,30 @@
             "tier_selection": null,
             "region_policy": "global",
             "effective_from": null,
-            "effective_until": null
+            "effective_until": null,
+            "region_selector": {
+              "dataResidencies": [
+                "global"
+              ],
+              "endpointGeographies": [
+                "global"
+              ],
+              "pricingGeography": "global_base"
+            },
+            "default_availability_status": "available",
+            "availability_rules": [],
+            "price_adjustments": []
           },
           "calculation_default": true,
           "source_refs": [
             "source:mistral-ai:docs-mistral-ai-inference-pricing",
             "source:mistral-ai:docs-mistral-ai-models-mistral-large-3-25-12",
-            "source:mistral-ai:docs-mistral-ai-studio-batch-processing",
-            "source:mistral-ai:docs-mistral-ai-studio-conversations-advanced-prompt-caching",
-            "source:mistral-ai:docs-mistral-ai-studio-conversations-function-calling"
+            "source:mistral-ai:docs-mistral-ai-studio-conversations-advanced-prompt-caching"
           ],
           "source_urls": [
             "https://docs.mistral.ai/inference/pricing",
             "https://docs.mistral.ai/models/mistral-large-3-25-12",
-            "https://docs.mistral.ai/studio/batch-processing",
-            "https://docs.mistral.ai/studio/conversations/advanced/prompt-caching",
-            "https://docs.mistral.ai/studio/conversations/function-calling"
+            "https://docs.mistral.ai/studio/conversations/advanced/prompt-caching"
           ],
           "verification_status": "verified"
         },
@@ -5293,22 +6347,30 @@
             "tier_selection": null,
             "region_policy": "global",
             "effective_from": null,
-            "effective_until": null
+            "effective_until": null,
+            "region_selector": {
+              "dataResidencies": [
+                "global"
+              ],
+              "endpointGeographies": [
+                "global"
+              ],
+              "pricingGeography": "global_base"
+            },
+            "default_availability_status": "available",
+            "availability_rules": [],
+            "price_adjustments": []
           },
           "calculation_default": true,
           "source_refs": [
             "source:mistral-ai:docs-mistral-ai-inference-pricing",
             "source:mistral-ai:docs-mistral-ai-models-mistral-large-3-25-12",
-            "source:mistral-ai:docs-mistral-ai-studio-batch-processing",
-            "source:mistral-ai:docs-mistral-ai-studio-conversations-advanced-prompt-caching",
-            "source:mistral-ai:docs-mistral-ai-studio-conversations-function-calling"
+            "source:mistral-ai:docs-mistral-ai-studio-conversations-advanced-prompt-caching"
           ],
           "source_urls": [
             "https://docs.mistral.ai/inference/pricing",
             "https://docs.mistral.ai/models/mistral-large-3-25-12",
-            "https://docs.mistral.ai/studio/batch-processing",
-            "https://docs.mistral.ai/studio/conversations/advanced/prompt-caching",
-            "https://docs.mistral.ai/studio/conversations/function-calling"
+            "https://docs.mistral.ai/studio/conversations/advanced/prompt-caching"
           ],
           "verification_status": "verified"
         },
@@ -5327,22 +6389,1483 @@
             "tier_selection": null,
             "region_policy": "global",
             "effective_from": null,
-            "effective_until": null
+            "effective_until": null,
+            "region_selector": {
+              "dataResidencies": [
+                "global"
+              ],
+              "endpointGeographies": [
+                "global"
+              ],
+              "pricingGeography": "global_base"
+            },
+            "default_availability_status": "available",
+            "availability_rules": [],
+            "price_adjustments": []
           },
           "calculation_default": true,
           "source_refs": [
             "source:mistral-ai:docs-mistral-ai-inference-pricing",
             "source:mistral-ai:docs-mistral-ai-models-mistral-large-3-25-12",
-            "source:mistral-ai:docs-mistral-ai-studio-batch-processing",
-            "source:mistral-ai:docs-mistral-ai-studio-conversations-advanced-prompt-caching",
-            "source:mistral-ai:docs-mistral-ai-studio-conversations-function-calling"
+            "source:mistral-ai:docs-mistral-ai-studio-conversations-advanced-prompt-caching"
           ],
           "source_urls": [
             "https://docs.mistral.ai/inference/pricing",
             "https://docs.mistral.ai/models/mistral-large-3-25-12",
-            "https://docs.mistral.ai/studio/batch-processing",
-            "https://docs.mistral.ai/studio/conversations/advanced/prompt-caching",
-            "https://docs.mistral.ai/studio/conversations/function-calling"
+            "https://docs.mistral.ai/studio/conversations/advanced/prompt-caching"
+          ],
+          "verification_status": "verified"
+        }
+      ],
+      "unit_price": null,
+      "billing_unit": null,
+      "billing_quantity": null,
+      "pricing_dimension": null
+    },
+    {
+      "provider_id": "mistral-ai",
+      "provider": "Mistral AI",
+      "model_id": "mistral-medium-3-5",
+      "model": "Mistral Medium 3.5",
+      "input_price_per_1m_tokens": 1.5,
+      "cached_input_price_per_1m_tokens": 0.15,
+      "output_price_per_1m_tokens": 7.5,
+      "currency": "USD",
+      "pricing_unit": "1M tokens",
+      "status": "latest",
+      "availability": "active",
+      "official_source_url": "https://docs.mistral.ai/inference/pricing",
+      "verification_status": "verified",
+      "last_verified_at": "2026-09-08",
+      "checked_at": "2026-09-08",
+      "effective_from": null,
+      "effective_until": null,
+      "notes": "",
+      "pricing_tier_count": 0,
+      "pricing_tiers": [],
+      "time_pricing": null,
+      "pricing_components": [
+        {
+          "pricing_id": "price:mistral-ai/mistral-medium-3-5:batch:short:current",
+          "charge_id": "price:mistral-ai/mistral-medium-3-5:batch:short:current:input:text:per_1m_tokens",
+          "component": "input",
+          "amount": "0.75",
+          "unit": "per_1m_tokens",
+          "currency": "USD",
+          "modality": "text",
+          "condition": {
+            "processing_mode": "batch",
+            "context_class": "short",
+            "prompt_token_threshold": null,
+            "tier_selection": null,
+            "region_policy": "global",
+            "effective_from": null,
+            "effective_until": null,
+            "region_selector": {
+              "dataResidencies": [
+                "global"
+              ],
+              "endpointGeographies": [
+                "global"
+              ],
+              "pricingGeography": "global_base"
+            },
+            "default_availability_status": "available",
+            "availability_rules": [],
+            "price_adjustments": []
+          },
+          "calculation_default": false,
+          "source_refs": [
+            "source:mistral-ai:docs-mistral-ai-inference-pricing",
+            "source:mistral-ai:docs-mistral-ai-models-mistral-medium-3-5-26-04",
+            "source:mistral-ai:docs-mistral-ai-studio-batch-processing"
+          ],
+          "source_urls": [
+            "https://docs.mistral.ai/inference/pricing",
+            "https://docs.mistral.ai/models/mistral-medium-3-5-26-04",
+            "https://docs.mistral.ai/studio/batch-processing"
+          ],
+          "verification_status": "verified"
+        },
+        {
+          "pricing_id": "price:mistral-ai/mistral-medium-3-5:batch:short:current",
+          "charge_id": "price:mistral-ai/mistral-medium-3-5:batch:short:current:output:text:per_1m_tokens",
+          "component": "output",
+          "amount": "3.75",
+          "unit": "per_1m_tokens",
+          "currency": "USD",
+          "modality": "text",
+          "condition": {
+            "processing_mode": "batch",
+            "context_class": "short",
+            "prompt_token_threshold": null,
+            "tier_selection": null,
+            "region_policy": "global",
+            "effective_from": null,
+            "effective_until": null,
+            "region_selector": {
+              "dataResidencies": [
+                "global"
+              ],
+              "endpointGeographies": [
+                "global"
+              ],
+              "pricingGeography": "global_base"
+            },
+            "default_availability_status": "available",
+            "availability_rules": [],
+            "price_adjustments": []
+          },
+          "calculation_default": false,
+          "source_refs": [
+            "source:mistral-ai:docs-mistral-ai-inference-pricing",
+            "source:mistral-ai:docs-mistral-ai-models-mistral-medium-3-5-26-04",
+            "source:mistral-ai:docs-mistral-ai-studio-batch-processing"
+          ],
+          "source_urls": [
+            "https://docs.mistral.ai/inference/pricing",
+            "https://docs.mistral.ai/models/mistral-medium-3-5-26-04",
+            "https://docs.mistral.ai/studio/batch-processing"
+          ],
+          "verification_status": "verified"
+        },
+        {
+          "pricing_id": "price:mistral-ai/mistral-medium-3-5:standard:short:current",
+          "charge_id": "price:mistral-ai/mistral-medium-3-5:standard:short:current:cached_input:text:per_1m_tokens",
+          "component": "cached_input",
+          "amount": "0.15",
+          "unit": "per_1m_tokens",
+          "currency": "USD",
+          "modality": "text",
+          "condition": {
+            "processing_mode": "standard",
+            "context_class": "short",
+            "prompt_token_threshold": null,
+            "tier_selection": null,
+            "region_policy": "global",
+            "effective_from": null,
+            "effective_until": null,
+            "region_selector": {
+              "dataResidencies": [
+                "global"
+              ],
+              "endpointGeographies": [
+                "global"
+              ],
+              "pricingGeography": "global_base"
+            },
+            "default_availability_status": "available",
+            "availability_rules": [],
+            "price_adjustments": []
+          },
+          "calculation_default": true,
+          "source_refs": [
+            "source:mistral-ai:docs-mistral-ai-inference-pricing",
+            "source:mistral-ai:docs-mistral-ai-models-mistral-medium-3-5-26-04",
+            "source:mistral-ai:docs-mistral-ai-studio-conversations-advanced-prompt-caching"
+          ],
+          "source_urls": [
+            "https://docs.mistral.ai/inference/pricing",
+            "https://docs.mistral.ai/models/mistral-medium-3-5-26-04",
+            "https://docs.mistral.ai/studio/conversations/advanced/prompt-caching"
+          ],
+          "verification_status": "verified"
+        },
+        {
+          "pricing_id": "price:mistral-ai/mistral-medium-3-5:standard:short:current",
+          "charge_id": "price:mistral-ai/mistral-medium-3-5:standard:short:current:input:text:per_1m_tokens",
+          "component": "input",
+          "amount": "1.5",
+          "unit": "per_1m_tokens",
+          "currency": "USD",
+          "modality": "text",
+          "condition": {
+            "processing_mode": "standard",
+            "context_class": "short",
+            "prompt_token_threshold": null,
+            "tier_selection": null,
+            "region_policy": "global",
+            "effective_from": null,
+            "effective_until": null,
+            "region_selector": {
+              "dataResidencies": [
+                "global"
+              ],
+              "endpointGeographies": [
+                "global"
+              ],
+              "pricingGeography": "global_base"
+            },
+            "default_availability_status": "available",
+            "availability_rules": [],
+            "price_adjustments": []
+          },
+          "calculation_default": true,
+          "source_refs": [
+            "source:mistral-ai:docs-mistral-ai-inference-pricing",
+            "source:mistral-ai:docs-mistral-ai-models-mistral-medium-3-5-26-04",
+            "source:mistral-ai:docs-mistral-ai-studio-conversations-advanced-prompt-caching"
+          ],
+          "source_urls": [
+            "https://docs.mistral.ai/inference/pricing",
+            "https://docs.mistral.ai/models/mistral-medium-3-5-26-04",
+            "https://docs.mistral.ai/studio/conversations/advanced/prompt-caching"
+          ],
+          "verification_status": "verified"
+        },
+        {
+          "pricing_id": "price:mistral-ai/mistral-medium-3-5:standard:short:current",
+          "charge_id": "price:mistral-ai/mistral-medium-3-5:standard:short:current:output:text:per_1m_tokens",
+          "component": "output",
+          "amount": "7.5",
+          "unit": "per_1m_tokens",
+          "currency": "USD",
+          "modality": "text",
+          "condition": {
+            "processing_mode": "standard",
+            "context_class": "short",
+            "prompt_token_threshold": null,
+            "tier_selection": null,
+            "region_policy": "global",
+            "effective_from": null,
+            "effective_until": null,
+            "region_selector": {
+              "dataResidencies": [
+                "global"
+              ],
+              "endpointGeographies": [
+                "global"
+              ],
+              "pricingGeography": "global_base"
+            },
+            "default_availability_status": "available",
+            "availability_rules": [],
+            "price_adjustments": []
+          },
+          "calculation_default": true,
+          "source_refs": [
+            "source:mistral-ai:docs-mistral-ai-inference-pricing",
+            "source:mistral-ai:docs-mistral-ai-models-mistral-medium-3-5-26-04",
+            "source:mistral-ai:docs-mistral-ai-studio-conversations-advanced-prompt-caching"
+          ],
+          "source_urls": [
+            "https://docs.mistral.ai/inference/pricing",
+            "https://docs.mistral.ai/models/mistral-medium-3-5-26-04",
+            "https://docs.mistral.ai/studio/conversations/advanced/prompt-caching"
+          ],
+          "verification_status": "verified"
+        }
+      ],
+      "unit_price": null,
+      "billing_unit": null,
+      "billing_quantity": null,
+      "pricing_dimension": null
+    },
+    {
+      "provider_id": "mistral-ai",
+      "provider": "Mistral AI",
+      "model_id": "mistral-ocr-4-0",
+      "model": "Mistral OCR 4.0",
+      "input_price_per_1m_tokens": null,
+      "cached_input_price_per_1m_tokens": null,
+      "output_price_per_1m_tokens": null,
+      "currency": "USD",
+      "pricing_unit": null,
+      "status": "latest",
+      "availability": "active",
+      "official_source_url": "https://docs.mistral.ai/inference/pricing",
+      "verification_status": "verified",
+      "last_verified_at": "2026-09-08",
+      "checked_at": "2026-09-08",
+      "effective_from": "2026-06-23",
+      "effective_until": null,
+      "notes": "V2 marks this row as unsafe for default calculations: missing_verified_current_price.",
+      "pricing_tier_count": 0,
+      "pricing_tiers": [],
+      "time_pricing": null,
+      "pricing_components": [
+        {
+          "pricing_id": "price:mistral-ai/mistral-ocr-4-0:standard:short:current:ocr_pages",
+          "charge_id": "price:mistral-ai/mistral-ocr-4-0:standard:short:current:ocr_pages:document_page:document:per_1000_pages",
+          "component": "document_page",
+          "amount": "4",
+          "unit": "per_1000_pages",
+          "currency": "USD",
+          "modality": "document",
+          "condition": {
+            "processing_mode": "standard",
+            "context_class": "short",
+            "prompt_token_threshold": null,
+            "tier_selection": null,
+            "region_policy": "global",
+            "effective_from": "2026-06-23",
+            "effective_until": null
+          },
+          "calculation_default": false,
+          "source_refs": [
+            "source:mistral-ai:docs-mistral-ai-api-endpoint-ocr",
+            "source:mistral-ai:docs-mistral-ai-inference-pricing",
+            "source:mistral-ai:docs-mistral-ai-models-ocr-4-0",
+            "source:mistral-ai:docs-mistral-ai-resources-changelogs",
+            "source:mistral-ai:docs-mistral-ai-resources-known-limitations"
+          ],
+          "source_urls": [
+            "https://docs.mistral.ai/api/endpoint/ocr",
+            "https://docs.mistral.ai/inference/pricing",
+            "https://docs.mistral.ai/models/ocr-4-0",
+            "https://docs.mistral.ai/resources/changelogs",
+            "https://docs.mistral.ai/resources/known-limitations"
+          ],
+          "verification_status": "verified"
+        }
+      ],
+      "unit_price": 4.0,
+      "billing_unit": "per_1000_pages",
+      "billing_quantity": 1000,
+      "pricing_dimension": "document_page"
+    },
+    {
+      "provider_id": "mistral-ai",
+      "provider": "Mistral AI",
+      "model_id": "mistral-ocr-4-1",
+      "model": "Mistral OCR 4.1",
+      "input_price_per_1m_tokens": null,
+      "cached_input_price_per_1m_tokens": null,
+      "output_price_per_1m_tokens": null,
+      "currency": "USD",
+      "pricing_unit": null,
+      "status": "latest",
+      "availability": "active",
+      "official_source_url": "https://docs.mistral.ai/inference/pricing",
+      "verification_status": "verified",
+      "last_verified_at": "2026-09-08",
+      "checked_at": "2026-09-08",
+      "effective_from": "2026-07-16",
+      "effective_until": null,
+      "notes": "V2 marks this row as unsafe for default calculations: missing_verified_current_price.",
+      "pricing_tier_count": 0,
+      "pricing_tiers": [],
+      "time_pricing": null,
+      "pricing_components": [
+        {
+          "pricing_id": "price:mistral-ai/mistral-ocr-4-1:standard:short:current:ocr_pages",
+          "charge_id": "price:mistral-ai/mistral-ocr-4-1:standard:short:current:ocr_pages:document_page:document:per_1000_pages",
+          "component": "document_page",
+          "amount": "4",
+          "unit": "per_1000_pages",
+          "currency": "USD",
+          "modality": "document",
+          "condition": {
+            "processing_mode": "standard",
+            "context_class": "short",
+            "prompt_token_threshold": null,
+            "tier_selection": null,
+            "region_policy": "global",
+            "effective_from": "2026-07-16",
+            "effective_until": null
+          },
+          "calculation_default": false,
+          "source_refs": [
+            "source:mistral-ai:docs-mistral-ai-api-endpoint-ocr",
+            "source:mistral-ai:docs-mistral-ai-inference-pricing",
+            "source:mistral-ai:docs-mistral-ai-models-ocr-4-1",
+            "source:mistral-ai:docs-mistral-ai-resources-changelogs",
+            "source:mistral-ai:docs-mistral-ai-resources-known-limitations"
+          ],
+          "source_urls": [
+            "https://docs.mistral.ai/api/endpoint/ocr",
+            "https://docs.mistral.ai/inference/pricing",
+            "https://docs.mistral.ai/models/ocr-4-1",
+            "https://docs.mistral.ai/resources/changelogs",
+            "https://docs.mistral.ai/resources/known-limitations"
+          ],
+          "verification_status": "verified"
+        }
+      ],
+      "unit_price": 4.0,
+      "billing_unit": "per_1000_pages",
+      "billing_quantity": 1000,
+      "pricing_dimension": "document_page"
+    },
+    {
+      "provider_id": "mistral-ai",
+      "provider": "Mistral AI",
+      "model_id": "mistral-small-2603",
+      "model": "Mistral Small 4",
+      "input_price_per_1m_tokens": 0.15,
+      "cached_input_price_per_1m_tokens": 0.015,
+      "output_price_per_1m_tokens": 0.6,
+      "currency": "USD",
+      "pricing_unit": "1M tokens",
+      "status": "latest",
+      "availability": "active",
+      "official_source_url": "https://docs.mistral.ai/inference/pricing",
+      "verification_status": "verified",
+      "last_verified_at": "2026-09-08",
+      "checked_at": "2026-09-08",
+      "effective_from": null,
+      "effective_until": null,
+      "notes": "",
+      "pricing_tier_count": 0,
+      "pricing_tiers": [],
+      "time_pricing": null,
+      "pricing_components": [
+        {
+          "pricing_id": "price:mistral-ai/mistral-small-2603:batch:short:current",
+          "charge_id": "price:mistral-ai/mistral-small-2603:batch:short:current:input:text:per_1m_tokens",
+          "component": "input",
+          "amount": "0.075",
+          "unit": "per_1m_tokens",
+          "currency": "USD",
+          "modality": "text",
+          "condition": {
+            "processing_mode": "batch",
+            "context_class": "short",
+            "prompt_token_threshold": null,
+            "tier_selection": null,
+            "region_policy": "global",
+            "effective_from": null,
+            "effective_until": null,
+            "region_selector": {
+              "dataResidencies": [
+                "global"
+              ],
+              "endpointGeographies": [
+                "global"
+              ],
+              "pricingGeography": "global_base"
+            },
+            "default_availability_status": "available",
+            "availability_rules": [],
+            "price_adjustments": []
+          },
+          "calculation_default": false,
+          "source_refs": [
+            "source:mistral-ai:docs-mistral-ai-inference-pricing",
+            "source:mistral-ai:docs-mistral-ai-models-mistral-small-4-0-26-03",
+            "source:mistral-ai:docs-mistral-ai-studio-batch-processing"
+          ],
+          "source_urls": [
+            "https://docs.mistral.ai/inference/pricing",
+            "https://docs.mistral.ai/models/mistral-small-4-0-26-03",
+            "https://docs.mistral.ai/studio/batch-processing"
+          ],
+          "verification_status": "verified"
+        },
+        {
+          "pricing_id": "price:mistral-ai/mistral-small-2603:batch:short:current",
+          "charge_id": "price:mistral-ai/mistral-small-2603:batch:short:current:output:text:per_1m_tokens",
+          "component": "output",
+          "amount": "0.3",
+          "unit": "per_1m_tokens",
+          "currency": "USD",
+          "modality": "text",
+          "condition": {
+            "processing_mode": "batch",
+            "context_class": "short",
+            "prompt_token_threshold": null,
+            "tier_selection": null,
+            "region_policy": "global",
+            "effective_from": null,
+            "effective_until": null,
+            "region_selector": {
+              "dataResidencies": [
+                "global"
+              ],
+              "endpointGeographies": [
+                "global"
+              ],
+              "pricingGeography": "global_base"
+            },
+            "default_availability_status": "available",
+            "availability_rules": [],
+            "price_adjustments": []
+          },
+          "calculation_default": false,
+          "source_refs": [
+            "source:mistral-ai:docs-mistral-ai-inference-pricing",
+            "source:mistral-ai:docs-mistral-ai-models-mistral-small-4-0-26-03",
+            "source:mistral-ai:docs-mistral-ai-studio-batch-processing"
+          ],
+          "source_urls": [
+            "https://docs.mistral.ai/inference/pricing",
+            "https://docs.mistral.ai/models/mistral-small-4-0-26-03",
+            "https://docs.mistral.ai/studio/batch-processing"
+          ],
+          "verification_status": "verified"
+        },
+        {
+          "pricing_id": "price:mistral-ai/mistral-small-2603:standard:short:current",
+          "charge_id": "price:mistral-ai/mistral-small-2603:standard:short:current:cached_input:text:per_1m_tokens",
+          "component": "cached_input",
+          "amount": "0.015",
+          "unit": "per_1m_tokens",
+          "currency": "USD",
+          "modality": "text",
+          "condition": {
+            "processing_mode": "standard",
+            "context_class": "short",
+            "prompt_token_threshold": null,
+            "tier_selection": null,
+            "region_policy": "global",
+            "effective_from": null,
+            "effective_until": null,
+            "region_selector": {
+              "dataResidencies": [
+                "global"
+              ],
+              "endpointGeographies": [
+                "global"
+              ],
+              "pricingGeography": "global_base"
+            },
+            "default_availability_status": "available",
+            "availability_rules": [],
+            "price_adjustments": []
+          },
+          "calculation_default": true,
+          "source_refs": [
+            "source:mistral-ai:docs-mistral-ai-inference-pricing",
+            "source:mistral-ai:docs-mistral-ai-models-mistral-small-4-0-26-03",
+            "source:mistral-ai:docs-mistral-ai-studio-conversations-advanced-prompt-caching"
+          ],
+          "source_urls": [
+            "https://docs.mistral.ai/inference/pricing",
+            "https://docs.mistral.ai/models/mistral-small-4-0-26-03",
+            "https://docs.mistral.ai/studio/conversations/advanced/prompt-caching"
+          ],
+          "verification_status": "verified"
+        },
+        {
+          "pricing_id": "price:mistral-ai/mistral-small-2603:standard:short:current",
+          "charge_id": "price:mistral-ai/mistral-small-2603:standard:short:current:input:text:per_1m_tokens",
+          "component": "input",
+          "amount": "0.15",
+          "unit": "per_1m_tokens",
+          "currency": "USD",
+          "modality": "text",
+          "condition": {
+            "processing_mode": "standard",
+            "context_class": "short",
+            "prompt_token_threshold": null,
+            "tier_selection": null,
+            "region_policy": "global",
+            "effective_from": null,
+            "effective_until": null,
+            "region_selector": {
+              "dataResidencies": [
+                "global"
+              ],
+              "endpointGeographies": [
+                "global"
+              ],
+              "pricingGeography": "global_base"
+            },
+            "default_availability_status": "available",
+            "availability_rules": [],
+            "price_adjustments": []
+          },
+          "calculation_default": true,
+          "source_refs": [
+            "source:mistral-ai:docs-mistral-ai-inference-pricing",
+            "source:mistral-ai:docs-mistral-ai-models-mistral-small-4-0-26-03",
+            "source:mistral-ai:docs-mistral-ai-studio-conversations-advanced-prompt-caching"
+          ],
+          "source_urls": [
+            "https://docs.mistral.ai/inference/pricing",
+            "https://docs.mistral.ai/models/mistral-small-4-0-26-03",
+            "https://docs.mistral.ai/studio/conversations/advanced/prompt-caching"
+          ],
+          "verification_status": "verified"
+        },
+        {
+          "pricing_id": "price:mistral-ai/mistral-small-2603:standard:short:current",
+          "charge_id": "price:mistral-ai/mistral-small-2603:standard:short:current:output:text:per_1m_tokens",
+          "component": "output",
+          "amount": "0.6",
+          "unit": "per_1m_tokens",
+          "currency": "USD",
+          "modality": "text",
+          "condition": {
+            "processing_mode": "standard",
+            "context_class": "short",
+            "prompt_token_threshold": null,
+            "tier_selection": null,
+            "region_policy": "global",
+            "effective_from": null,
+            "effective_until": null,
+            "region_selector": {
+              "dataResidencies": [
+                "global"
+              ],
+              "endpointGeographies": [
+                "global"
+              ],
+              "pricingGeography": "global_base"
+            },
+            "default_availability_status": "available",
+            "availability_rules": [],
+            "price_adjustments": []
+          },
+          "calculation_default": true,
+          "source_refs": [
+            "source:mistral-ai:docs-mistral-ai-inference-pricing",
+            "source:mistral-ai:docs-mistral-ai-models-mistral-small-4-0-26-03",
+            "source:mistral-ai:docs-mistral-ai-studio-conversations-advanced-prompt-caching"
+          ],
+          "source_urls": [
+            "https://docs.mistral.ai/inference/pricing",
+            "https://docs.mistral.ai/models/mistral-small-4-0-26-03",
+            "https://docs.mistral.ai/studio/conversations/advanced/prompt-caching"
+          ],
+          "verification_status": "verified"
+        }
+      ],
+      "unit_price": null,
+      "billing_unit": null,
+      "billing_quantity": null,
+      "pricing_dimension": null
+    },
+    {
+      "provider_id": "moonshot-ai",
+      "provider": "Moonshot AI",
+      "model_id": "kimi-k2.6",
+      "model": "Kimi K2.6",
+      "input_price_per_1m_tokens": 0.95,
+      "cached_input_price_per_1m_tokens": 0.16,
+      "output_price_per_1m_tokens": 4,
+      "currency": "USD",
+      "pricing_unit": "1M tokens",
+      "status": "latest",
+      "availability": "Standard",
+      "official_source_url": "https://platform.kimi.ai/docs/pricing/chat-k26",
+      "verification_status": "verified",
+      "last_verified_at": "2026-09-08",
+      "checked_at": "2026-09-08",
+      "effective_from": null,
+      "effective_until": null,
+      "notes": "Automatic prefix caching applies to eligible repeated prefixes. Thinking is enabled by default and can be disabled; reasoning tokens are billed as output tokens. Current Batch pricing is retained in the multi-record pricing contract.",
+      "pricing_tier_count": 0,
+      "pricing_tiers": [],
+      "time_pricing": null,
+      "pricing_components": [
+        {
+          "pricing_id": "price:moonshot-ai/kimi-k2.6:batch:short:current",
+          "charge_id": "price:moonshot-ai/kimi-k2.6:batch:short:current:cached_input:text:per_1m_tokens",
+          "component": "cached_input",
+          "amount": "0.096",
+          "unit": "per_1m_tokens",
+          "currency": "USD",
+          "modality": "text",
+          "condition": {
+            "processing_mode": "batch",
+            "context_class": "short",
+            "prompt_token_threshold": null,
+            "tier_selection": null,
+            "region_policy": "global",
+            "effective_from": null,
+            "effective_until": null,
+            "region_selector": {
+              "dataResidencies": [
+                "global"
+              ],
+              "endpointGeographies": [
+                "global"
+              ],
+              "pricingGeography": "global_base"
+            },
+            "default_availability_status": "available",
+            "availability_rules": [],
+            "price_adjustments": []
+          },
+          "calculation_default": false,
+          "source_refs": [
+            "source:moonshot-ai:platform-kimi-ai-docs-pricing-batch",
+            "source:moonshot-ai:platform-kimi-ai-docs-pricing-chat-k26"
+          ],
+          "source_urls": [
+            "https://platform.kimi.ai/docs/pricing/batch",
+            "https://platform.kimi.ai/docs/pricing/chat-k26"
+          ],
+          "verification_status": "verified"
+        },
+        {
+          "pricing_id": "price:moonshot-ai/kimi-k2.6:batch:short:current",
+          "charge_id": "price:moonshot-ai/kimi-k2.6:batch:short:current:input:text:per_1m_tokens",
+          "component": "input",
+          "amount": "0.57",
+          "unit": "per_1m_tokens",
+          "currency": "USD",
+          "modality": "text",
+          "condition": {
+            "processing_mode": "batch",
+            "context_class": "short",
+            "prompt_token_threshold": null,
+            "tier_selection": null,
+            "region_policy": "global",
+            "effective_from": null,
+            "effective_until": null,
+            "region_selector": {
+              "dataResidencies": [
+                "global"
+              ],
+              "endpointGeographies": [
+                "global"
+              ],
+              "pricingGeography": "global_base"
+            },
+            "default_availability_status": "available",
+            "availability_rules": [],
+            "price_adjustments": []
+          },
+          "calculation_default": false,
+          "source_refs": [
+            "source:moonshot-ai:platform-kimi-ai-docs-pricing-batch",
+            "source:moonshot-ai:platform-kimi-ai-docs-pricing-chat-k26"
+          ],
+          "source_urls": [
+            "https://platform.kimi.ai/docs/pricing/batch",
+            "https://platform.kimi.ai/docs/pricing/chat-k26"
+          ],
+          "verification_status": "verified"
+        },
+        {
+          "pricing_id": "price:moonshot-ai/kimi-k2.6:batch:short:current",
+          "charge_id": "price:moonshot-ai/kimi-k2.6:batch:short:current:output:text:per_1m_tokens",
+          "component": "output",
+          "amount": "2.4",
+          "unit": "per_1m_tokens",
+          "currency": "USD",
+          "modality": "text",
+          "condition": {
+            "processing_mode": "batch",
+            "context_class": "short",
+            "prompt_token_threshold": null,
+            "tier_selection": null,
+            "region_policy": "global",
+            "effective_from": null,
+            "effective_until": null,
+            "region_selector": {
+              "dataResidencies": [
+                "global"
+              ],
+              "endpointGeographies": [
+                "global"
+              ],
+              "pricingGeography": "global_base"
+            },
+            "default_availability_status": "available",
+            "availability_rules": [],
+            "price_adjustments": []
+          },
+          "calculation_default": false,
+          "source_refs": [
+            "source:moonshot-ai:platform-kimi-ai-docs-pricing-batch",
+            "source:moonshot-ai:platform-kimi-ai-docs-pricing-chat-k26"
+          ],
+          "source_urls": [
+            "https://platform.kimi.ai/docs/pricing/batch",
+            "https://platform.kimi.ai/docs/pricing/chat-k26"
+          ],
+          "verification_status": "verified"
+        },
+        {
+          "pricing_id": "price:moonshot-ai/kimi-k2.6:standard:short:current",
+          "charge_id": "price:moonshot-ai/kimi-k2.6:standard:short:current:cached_input:text:per_1m_tokens",
+          "component": "cached_input",
+          "amount": "0.16",
+          "unit": "per_1m_tokens",
+          "currency": "USD",
+          "modality": "text",
+          "condition": {
+            "processing_mode": "standard",
+            "context_class": "short",
+            "prompt_token_threshold": null,
+            "tier_selection": null,
+            "region_policy": "global",
+            "effective_from": null,
+            "effective_until": null,
+            "region_selector": {
+              "dataResidencies": [
+                "global"
+              ],
+              "endpointGeographies": [
+                "global"
+              ],
+              "pricingGeography": "global_base"
+            },
+            "default_availability_status": "available",
+            "availability_rules": [],
+            "price_adjustments": []
+          },
+          "calculation_default": true,
+          "source_refs": [
+            "source:moonshot-ai:platform-kimi-ai-docs-guide-kimi-k2-6-quickstart",
+            "source:moonshot-ai:platform-kimi-ai-docs-guide-use-context-caching-feature-of-kimi-api",
+            "source:moonshot-ai:platform-kimi-ai-docs-guide-use-thinking-models",
+            "source:moonshot-ai:platform-kimi-ai-docs-pricing-chat-k26"
+          ],
+          "source_urls": [
+            "https://platform.kimi.ai/docs/guide/kimi-k2-6-quickstart",
+            "https://platform.kimi.ai/docs/guide/use-context-caching-feature-of-kimi-api",
+            "https://platform.kimi.ai/docs/guide/use-thinking-models",
+            "https://platform.kimi.ai/docs/pricing/chat-k26"
+          ],
+          "verification_status": "verified"
+        },
+        {
+          "pricing_id": "price:moonshot-ai/kimi-k2.6:standard:short:current",
+          "charge_id": "price:moonshot-ai/kimi-k2.6:standard:short:current:input:text:per_1m_tokens",
+          "component": "input",
+          "amount": "0.95",
+          "unit": "per_1m_tokens",
+          "currency": "USD",
+          "modality": "text",
+          "condition": {
+            "processing_mode": "standard",
+            "context_class": "short",
+            "prompt_token_threshold": null,
+            "tier_selection": null,
+            "region_policy": "global",
+            "effective_from": null,
+            "effective_until": null,
+            "region_selector": {
+              "dataResidencies": [
+                "global"
+              ],
+              "endpointGeographies": [
+                "global"
+              ],
+              "pricingGeography": "global_base"
+            },
+            "default_availability_status": "available",
+            "availability_rules": [],
+            "price_adjustments": []
+          },
+          "calculation_default": true,
+          "source_refs": [
+            "source:moonshot-ai:platform-kimi-ai-docs-guide-kimi-k2-6-quickstart",
+            "source:moonshot-ai:platform-kimi-ai-docs-guide-use-context-caching-feature-of-kimi-api",
+            "source:moonshot-ai:platform-kimi-ai-docs-guide-use-thinking-models",
+            "source:moonshot-ai:platform-kimi-ai-docs-pricing-chat-k26"
+          ],
+          "source_urls": [
+            "https://platform.kimi.ai/docs/guide/kimi-k2-6-quickstart",
+            "https://platform.kimi.ai/docs/guide/use-context-caching-feature-of-kimi-api",
+            "https://platform.kimi.ai/docs/guide/use-thinking-models",
+            "https://platform.kimi.ai/docs/pricing/chat-k26"
+          ],
+          "verification_status": "verified"
+        },
+        {
+          "pricing_id": "price:moonshot-ai/kimi-k2.6:standard:short:current",
+          "charge_id": "price:moonshot-ai/kimi-k2.6:standard:short:current:output:text:per_1m_tokens",
+          "component": "output",
+          "amount": "4",
+          "unit": "per_1m_tokens",
+          "currency": "USD",
+          "modality": "text",
+          "condition": {
+            "processing_mode": "standard",
+            "context_class": "short",
+            "prompt_token_threshold": null,
+            "tier_selection": null,
+            "region_policy": "global",
+            "effective_from": null,
+            "effective_until": null,
+            "region_selector": {
+              "dataResidencies": [
+                "global"
+              ],
+              "endpointGeographies": [
+                "global"
+              ],
+              "pricingGeography": "global_base"
+            },
+            "default_availability_status": "available",
+            "availability_rules": [],
+            "price_adjustments": []
+          },
+          "calculation_default": true,
+          "source_refs": [
+            "source:moonshot-ai:platform-kimi-ai-docs-guide-kimi-k2-6-quickstart",
+            "source:moonshot-ai:platform-kimi-ai-docs-guide-use-context-caching-feature-of-kimi-api",
+            "source:moonshot-ai:platform-kimi-ai-docs-guide-use-thinking-models",
+            "source:moonshot-ai:platform-kimi-ai-docs-pricing-chat-k26"
+          ],
+          "source_urls": [
+            "https://platform.kimi.ai/docs/guide/kimi-k2-6-quickstart",
+            "https://platform.kimi.ai/docs/guide/use-context-caching-feature-of-kimi-api",
+            "https://platform.kimi.ai/docs/guide/use-thinking-models",
+            "https://platform.kimi.ai/docs/pricing/chat-k26"
+          ],
+          "verification_status": "verified"
+        }
+      ],
+      "unit_price": null,
+      "billing_unit": null,
+      "billing_quantity": null,
+      "pricing_dimension": null
+    },
+    {
+      "provider_id": "moonshot-ai",
+      "provider": "Moonshot AI",
+      "model_id": "kimi-k2.7-code",
+      "model": "Kimi K2.7 Code",
+      "input_price_per_1m_tokens": 0.95,
+      "cached_input_price_per_1m_tokens": 0.19,
+      "output_price_per_1m_tokens": 4,
+      "currency": "USD",
+      "pricing_unit": "1M tokens",
+      "status": "latest",
+      "availability": "Standard",
+      "official_source_url": "https://platform.kimi.ai/docs/pricing/chat-k27-code",
+      "verification_status": "verified",
+      "last_verified_at": "2026-09-08",
+      "checked_at": "2026-09-08",
+      "effective_from": null,
+      "effective_until": null,
+      "notes": "The high-speed API ID is represented as the same canonical model with a separate fast serving tier. K2.7 always reasons, and reasoning tokens are billed as output tokens. Current Batch pricing is retained in the multi-record pricing contract.",
+      "pricing_tier_count": 0,
+      "pricing_tiers": [],
+      "time_pricing": null,
+      "pricing_components": [
+        {
+          "pricing_id": "price:moonshot-ai/kimi-k2.7-code:batch:short:current",
+          "charge_id": "price:moonshot-ai/kimi-k2.7-code:batch:short:current:cached_input:text:per_1m_tokens",
+          "component": "cached_input",
+          "amount": "0.114",
+          "unit": "per_1m_tokens",
+          "currency": "USD",
+          "modality": "text",
+          "condition": {
+            "processing_mode": "batch",
+            "context_class": "short",
+            "prompt_token_threshold": null,
+            "tier_selection": null,
+            "region_policy": "global",
+            "effective_from": null,
+            "effective_until": null,
+            "region_selector": {
+              "dataResidencies": [
+                "global"
+              ],
+              "endpointGeographies": [
+                "global"
+              ],
+              "pricingGeography": "global_base"
+            },
+            "default_availability_status": "available",
+            "availability_rules": [],
+            "price_adjustments": []
+          },
+          "calculation_default": false,
+          "source_refs": [
+            "source:moonshot-ai:platform-kimi-ai-docs-pricing-batch",
+            "source:moonshot-ai:platform-kimi-ai-docs-pricing-chat-k27-code"
+          ],
+          "source_urls": [
+            "https://platform.kimi.ai/docs/pricing/batch",
+            "https://platform.kimi.ai/docs/pricing/chat-k27-code"
+          ],
+          "verification_status": "verified"
+        },
+        {
+          "pricing_id": "price:moonshot-ai/kimi-k2.7-code:batch:short:current",
+          "charge_id": "price:moonshot-ai/kimi-k2.7-code:batch:short:current:input:text:per_1m_tokens",
+          "component": "input",
+          "amount": "0.57",
+          "unit": "per_1m_tokens",
+          "currency": "USD",
+          "modality": "text",
+          "condition": {
+            "processing_mode": "batch",
+            "context_class": "short",
+            "prompt_token_threshold": null,
+            "tier_selection": null,
+            "region_policy": "global",
+            "effective_from": null,
+            "effective_until": null,
+            "region_selector": {
+              "dataResidencies": [
+                "global"
+              ],
+              "endpointGeographies": [
+                "global"
+              ],
+              "pricingGeography": "global_base"
+            },
+            "default_availability_status": "available",
+            "availability_rules": [],
+            "price_adjustments": []
+          },
+          "calculation_default": false,
+          "source_refs": [
+            "source:moonshot-ai:platform-kimi-ai-docs-pricing-batch",
+            "source:moonshot-ai:platform-kimi-ai-docs-pricing-chat-k27-code"
+          ],
+          "source_urls": [
+            "https://platform.kimi.ai/docs/pricing/batch",
+            "https://platform.kimi.ai/docs/pricing/chat-k27-code"
+          ],
+          "verification_status": "verified"
+        },
+        {
+          "pricing_id": "price:moonshot-ai/kimi-k2.7-code:batch:short:current",
+          "charge_id": "price:moonshot-ai/kimi-k2.7-code:batch:short:current:output:text:per_1m_tokens",
+          "component": "output",
+          "amount": "2.4",
+          "unit": "per_1m_tokens",
+          "currency": "USD",
+          "modality": "text",
+          "condition": {
+            "processing_mode": "batch",
+            "context_class": "short",
+            "prompt_token_threshold": null,
+            "tier_selection": null,
+            "region_policy": "global",
+            "effective_from": null,
+            "effective_until": null,
+            "region_selector": {
+              "dataResidencies": [
+                "global"
+              ],
+              "endpointGeographies": [
+                "global"
+              ],
+              "pricingGeography": "global_base"
+            },
+            "default_availability_status": "available",
+            "availability_rules": [],
+            "price_adjustments": []
+          },
+          "calculation_default": false,
+          "source_refs": [
+            "source:moonshot-ai:platform-kimi-ai-docs-pricing-batch",
+            "source:moonshot-ai:platform-kimi-ai-docs-pricing-chat-k27-code"
+          ],
+          "source_urls": [
+            "https://platform.kimi.ai/docs/pricing/batch",
+            "https://platform.kimi.ai/docs/pricing/chat-k27-code"
+          ],
+          "verification_status": "verified"
+        },
+        {
+          "pricing_id": "price:moonshot-ai/kimi-k2.7-code:fast:short:current",
+          "charge_id": "price:moonshot-ai/kimi-k2.7-code:fast:short:current:cached_input:text:per_1m_tokens",
+          "component": "cached_input",
+          "amount": "0.38",
+          "unit": "per_1m_tokens",
+          "currency": "USD",
+          "modality": "text",
+          "condition": {
+            "processing_mode": "fast",
+            "context_class": "short",
+            "prompt_token_threshold": null,
+            "tier_selection": null,
+            "region_policy": "global",
+            "effective_from": null,
+            "effective_until": null,
+            "region_selector": {
+              "dataResidencies": [
+                "global"
+              ],
+              "endpointGeographies": [
+                "global"
+              ],
+              "pricingGeography": "global_base"
+            },
+            "default_availability_status": "available",
+            "availability_rules": [],
+            "price_adjustments": []
+          },
+          "calculation_default": false,
+          "source_refs": [
+            "source:moonshot-ai:platform-kimi-ai-docs-api-models-overview",
+            "source:moonshot-ai:platform-kimi-ai-docs-guide-kimi-k2-7-code-quickstart",
+            "source:moonshot-ai:platform-kimi-ai-docs-pricing-chat-k27-code"
+          ],
+          "source_urls": [
+            "https://platform.kimi.ai/docs/api/models-overview",
+            "https://platform.kimi.ai/docs/guide/kimi-k2-7-code-quickstart",
+            "https://platform.kimi.ai/docs/pricing/chat-k27-code"
+          ],
+          "verification_status": "verified"
+        },
+        {
+          "pricing_id": "price:moonshot-ai/kimi-k2.7-code:fast:short:current",
+          "charge_id": "price:moonshot-ai/kimi-k2.7-code:fast:short:current:input:text:per_1m_tokens",
+          "component": "input",
+          "amount": "1.9",
+          "unit": "per_1m_tokens",
+          "currency": "USD",
+          "modality": "text",
+          "condition": {
+            "processing_mode": "fast",
+            "context_class": "short",
+            "prompt_token_threshold": null,
+            "tier_selection": null,
+            "region_policy": "global",
+            "effective_from": null,
+            "effective_until": null,
+            "region_selector": {
+              "dataResidencies": [
+                "global"
+              ],
+              "endpointGeographies": [
+                "global"
+              ],
+              "pricingGeography": "global_base"
+            },
+            "default_availability_status": "available",
+            "availability_rules": [],
+            "price_adjustments": []
+          },
+          "calculation_default": false,
+          "source_refs": [
+            "source:moonshot-ai:platform-kimi-ai-docs-api-models-overview",
+            "source:moonshot-ai:platform-kimi-ai-docs-guide-kimi-k2-7-code-quickstart",
+            "source:moonshot-ai:platform-kimi-ai-docs-pricing-chat-k27-code"
+          ],
+          "source_urls": [
+            "https://platform.kimi.ai/docs/api/models-overview",
+            "https://platform.kimi.ai/docs/guide/kimi-k2-7-code-quickstart",
+            "https://platform.kimi.ai/docs/pricing/chat-k27-code"
+          ],
+          "verification_status": "verified"
+        },
+        {
+          "pricing_id": "price:moonshot-ai/kimi-k2.7-code:fast:short:current",
+          "charge_id": "price:moonshot-ai/kimi-k2.7-code:fast:short:current:output:text:per_1m_tokens",
+          "component": "output",
+          "amount": "8",
+          "unit": "per_1m_tokens",
+          "currency": "USD",
+          "modality": "text",
+          "condition": {
+            "processing_mode": "fast",
+            "context_class": "short",
+            "prompt_token_threshold": null,
+            "tier_selection": null,
+            "region_policy": "global",
+            "effective_from": null,
+            "effective_until": null,
+            "region_selector": {
+              "dataResidencies": [
+                "global"
+              ],
+              "endpointGeographies": [
+                "global"
+              ],
+              "pricingGeography": "global_base"
+            },
+            "default_availability_status": "available",
+            "availability_rules": [],
+            "price_adjustments": []
+          },
+          "calculation_default": false,
+          "source_refs": [
+            "source:moonshot-ai:platform-kimi-ai-docs-api-models-overview",
+            "source:moonshot-ai:platform-kimi-ai-docs-guide-kimi-k2-7-code-quickstart",
+            "source:moonshot-ai:platform-kimi-ai-docs-pricing-chat-k27-code"
+          ],
+          "source_urls": [
+            "https://platform.kimi.ai/docs/api/models-overview",
+            "https://platform.kimi.ai/docs/guide/kimi-k2-7-code-quickstart",
+            "https://platform.kimi.ai/docs/pricing/chat-k27-code"
+          ],
+          "verification_status": "verified"
+        },
+        {
+          "pricing_id": "price:moonshot-ai/kimi-k2.7-code:standard:short:current",
+          "charge_id": "price:moonshot-ai/kimi-k2.7-code:standard:short:current:cached_input:text:per_1m_tokens",
+          "component": "cached_input",
+          "amount": "0.19",
+          "unit": "per_1m_tokens",
+          "currency": "USD",
+          "modality": "text",
+          "condition": {
+            "processing_mode": "standard",
+            "context_class": "short",
+            "prompt_token_threshold": null,
+            "tier_selection": null,
+            "region_policy": "global",
+            "effective_from": null,
+            "effective_until": null,
+            "region_selector": {
+              "dataResidencies": [
+                "global"
+              ],
+              "endpointGeographies": [
+                "global"
+              ],
+              "pricingGeography": "global_base"
+            },
+            "default_availability_status": "available",
+            "availability_rules": [],
+            "price_adjustments": []
+          },
+          "calculation_default": true,
+          "source_refs": [
+            "source:moonshot-ai:platform-kimi-ai-docs-guide-kimi-k2-7-code-quickstart",
+            "source:moonshot-ai:platform-kimi-ai-docs-guide-use-context-caching-feature-of-kimi-api",
+            "source:moonshot-ai:platform-kimi-ai-docs-guide-use-thinking-models",
+            "source:moonshot-ai:platform-kimi-ai-docs-pricing-chat-k27-code"
+          ],
+          "source_urls": [
+            "https://platform.kimi.ai/docs/guide/kimi-k2-7-code-quickstart",
+            "https://platform.kimi.ai/docs/guide/use-context-caching-feature-of-kimi-api",
+            "https://platform.kimi.ai/docs/guide/use-thinking-models",
+            "https://platform.kimi.ai/docs/pricing/chat-k27-code"
+          ],
+          "verification_status": "verified"
+        },
+        {
+          "pricing_id": "price:moonshot-ai/kimi-k2.7-code:standard:short:current",
+          "charge_id": "price:moonshot-ai/kimi-k2.7-code:standard:short:current:input:text:per_1m_tokens",
+          "component": "input",
+          "amount": "0.95",
+          "unit": "per_1m_tokens",
+          "currency": "USD",
+          "modality": "text",
+          "condition": {
+            "processing_mode": "standard",
+            "context_class": "short",
+            "prompt_token_threshold": null,
+            "tier_selection": null,
+            "region_policy": "global",
+            "effective_from": null,
+            "effective_until": null,
+            "region_selector": {
+              "dataResidencies": [
+                "global"
+              ],
+              "endpointGeographies": [
+                "global"
+              ],
+              "pricingGeography": "global_base"
+            },
+            "default_availability_status": "available",
+            "availability_rules": [],
+            "price_adjustments": []
+          },
+          "calculation_default": true,
+          "source_refs": [
+            "source:moonshot-ai:platform-kimi-ai-docs-guide-kimi-k2-7-code-quickstart",
+            "source:moonshot-ai:platform-kimi-ai-docs-guide-use-context-caching-feature-of-kimi-api",
+            "source:moonshot-ai:platform-kimi-ai-docs-guide-use-thinking-models",
+            "source:moonshot-ai:platform-kimi-ai-docs-pricing-chat-k27-code"
+          ],
+          "source_urls": [
+            "https://platform.kimi.ai/docs/guide/kimi-k2-7-code-quickstart",
+            "https://platform.kimi.ai/docs/guide/use-context-caching-feature-of-kimi-api",
+            "https://platform.kimi.ai/docs/guide/use-thinking-models",
+            "https://platform.kimi.ai/docs/pricing/chat-k27-code"
+          ],
+          "verification_status": "verified"
+        },
+        {
+          "pricing_id": "price:moonshot-ai/kimi-k2.7-code:standard:short:current",
+          "charge_id": "price:moonshot-ai/kimi-k2.7-code:standard:short:current:output:text:per_1m_tokens",
+          "component": "output",
+          "amount": "4",
+          "unit": "per_1m_tokens",
+          "currency": "USD",
+          "modality": "text",
+          "condition": {
+            "processing_mode": "standard",
+            "context_class": "short",
+            "prompt_token_threshold": null,
+            "tier_selection": null,
+            "region_policy": "global",
+            "effective_from": null,
+            "effective_until": null,
+            "region_selector": {
+              "dataResidencies": [
+                "global"
+              ],
+              "endpointGeographies": [
+                "global"
+              ],
+              "pricingGeography": "global_base"
+            },
+            "default_availability_status": "available",
+            "availability_rules": [],
+            "price_adjustments": []
+          },
+          "calculation_default": true,
+          "source_refs": [
+            "source:moonshot-ai:platform-kimi-ai-docs-guide-kimi-k2-7-code-quickstart",
+            "source:moonshot-ai:platform-kimi-ai-docs-guide-use-context-caching-feature-of-kimi-api",
+            "source:moonshot-ai:platform-kimi-ai-docs-guide-use-thinking-models",
+            "source:moonshot-ai:platform-kimi-ai-docs-pricing-chat-k27-code"
+          ],
+          "source_urls": [
+            "https://platform.kimi.ai/docs/guide/kimi-k2-7-code-quickstart",
+            "https://platform.kimi.ai/docs/guide/use-context-caching-feature-of-kimi-api",
+            "https://platform.kimi.ai/docs/guide/use-thinking-models",
+            "https://platform.kimi.ai/docs/pricing/chat-k27-code"
+          ],
+          "verification_status": "verified"
+        }
+      ],
+      "unit_price": null,
+      "billing_unit": null,
+      "billing_quantity": null,
+      "pricing_dimension": null
+    },
+    {
+      "provider_id": "moonshot-ai",
+      "provider": "Moonshot AI",
+      "model_id": "kimi-k3",
+      "model": "Kimi K3",
+      "input_price_per_1m_tokens": 3,
+      "cached_input_price_per_1m_tokens": 0.3,
+      "output_price_per_1m_tokens": 15,
+      "currency": "USD",
+      "pricing_unit": "1M tokens",
+      "status": "latest",
+      "availability": "Standard",
+      "official_source_url": "https://platform.kimi.ai/docs/pricing/chat-k3",
+      "verification_status": "verified",
+      "last_verified_at": "2026-09-08",
+      "checked_at": "2026-09-08",
+      "effective_from": null,
+      "effective_until": null,
+      "notes": "Automatic prefix caching uses the cache-hit rate for eligible repeated prefixes of more than 256 tokens. K3 reasoning is always enabled; reasoning tokens are billed as output tokens. No current K3 Batch price is published in the canonical contract.",
+      "pricing_tier_count": 0,
+      "pricing_tiers": [],
+      "time_pricing": null,
+      "pricing_components": [
+        {
+          "pricing_id": "price:moonshot-ai/kimi-k3:standard:short:current",
+          "charge_id": "price:moonshot-ai/kimi-k3:standard:short:current:cached_input:text:per_1m_tokens",
+          "component": "cached_input",
+          "amount": "0.3",
+          "unit": "per_1m_tokens",
+          "currency": "USD",
+          "modality": "text",
+          "condition": {
+            "processing_mode": "standard",
+            "context_class": "short",
+            "prompt_token_threshold": null,
+            "tier_selection": null,
+            "region_policy": "global",
+            "effective_from": null,
+            "effective_until": null,
+            "region_selector": {
+              "dataResidencies": [
+                "global"
+              ],
+              "endpointGeographies": [
+                "global"
+              ],
+              "pricingGeography": "global_base"
+            },
+            "default_availability_status": "available",
+            "availability_rules": [],
+            "price_adjustments": []
+          },
+          "calculation_default": true,
+          "source_refs": [
+            "source:moonshot-ai:platform-kimi-ai-docs-guide-kimi-k3-quickstart",
+            "source:moonshot-ai:platform-kimi-ai-docs-guide-use-context-caching-feature-of-kimi-api",
+            "source:moonshot-ai:platform-kimi-ai-docs-guide-use-thinking-models",
+            "source:moonshot-ai:platform-kimi-ai-docs-pricing-chat-k3"
+          ],
+          "source_urls": [
+            "https://platform.kimi.ai/docs/guide/kimi-k3-quickstart",
+            "https://platform.kimi.ai/docs/guide/use-context-caching-feature-of-kimi-api",
+            "https://platform.kimi.ai/docs/guide/use-thinking-models",
+            "https://platform.kimi.ai/docs/pricing/chat-k3"
+          ],
+          "verification_status": "verified"
+        },
+        {
+          "pricing_id": "price:moonshot-ai/kimi-k3:standard:short:current",
+          "charge_id": "price:moonshot-ai/kimi-k3:standard:short:current:input:text:per_1m_tokens",
+          "component": "input",
+          "amount": "3",
+          "unit": "per_1m_tokens",
+          "currency": "USD",
+          "modality": "text",
+          "condition": {
+            "processing_mode": "standard",
+            "context_class": "short",
+            "prompt_token_threshold": null,
+            "tier_selection": null,
+            "region_policy": "global",
+            "effective_from": null,
+            "effective_until": null,
+            "region_selector": {
+              "dataResidencies": [
+                "global"
+              ],
+              "endpointGeographies": [
+                "global"
+              ],
+              "pricingGeography": "global_base"
+            },
+            "default_availability_status": "available",
+            "availability_rules": [],
+            "price_adjustments": []
+          },
+          "calculation_default": true,
+          "source_refs": [
+            "source:moonshot-ai:platform-kimi-ai-docs-guide-kimi-k3-quickstart",
+            "source:moonshot-ai:platform-kimi-ai-docs-guide-use-context-caching-feature-of-kimi-api",
+            "source:moonshot-ai:platform-kimi-ai-docs-guide-use-thinking-models",
+            "source:moonshot-ai:platform-kimi-ai-docs-pricing-chat-k3"
+          ],
+          "source_urls": [
+            "https://platform.kimi.ai/docs/guide/kimi-k3-quickstart",
+            "https://platform.kimi.ai/docs/guide/use-context-caching-feature-of-kimi-api",
+            "https://platform.kimi.ai/docs/guide/use-thinking-models",
+            "https://platform.kimi.ai/docs/pricing/chat-k3"
+          ],
+          "verification_status": "verified"
+        },
+        {
+          "pricing_id": "price:moonshot-ai/kimi-k3:standard:short:current",
+          "charge_id": "price:moonshot-ai/kimi-k3:standard:short:current:output:text:per_1m_tokens",
+          "component": "output",
+          "amount": "15",
+          "unit": "per_1m_tokens",
+          "currency": "USD",
+          "modality": "text",
+          "condition": {
+            "processing_mode": "standard",
+            "context_class": "short",
+            "prompt_token_threshold": null,
+            "tier_selection": null,
+            "region_policy": "global",
+            "effective_from": null,
+            "effective_until": null,
+            "region_selector": {
+              "dataResidencies": [
+                "global"
+              ],
+              "endpointGeographies": [
+                "global"
+              ],
+              "pricingGeography": "global_base"
+            },
+            "default_availability_status": "available",
+            "availability_rules": [],
+            "price_adjustments": []
+          },
+          "calculation_default": true,
+          "source_refs": [
+            "source:moonshot-ai:platform-kimi-ai-docs-guide-kimi-k3-quickstart",
+            "source:moonshot-ai:platform-kimi-ai-docs-guide-use-context-caching-feature-of-kimi-api",
+            "source:moonshot-ai:platform-kimi-ai-docs-guide-use-thinking-models",
+            "source:moonshot-ai:platform-kimi-ai-docs-pricing-chat-k3"
+          ],
+          "source_urls": [
+            "https://platform.kimi.ai/docs/guide/kimi-k3-quickstart",
+            "https://platform.kimi.ai/docs/guide/use-context-caching-feature-of-kimi-api",
+            "https://platform.kimi.ai/docs/guide/use-thinking-models",
+            "https://platform.kimi.ai/docs/pricing/chat-k3"
           ],
           "verification_status": "verified"
         }
