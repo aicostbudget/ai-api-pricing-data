@@ -5,9 +5,10 @@ from decimal import Decimal
 
 from scripts.lib import ROOT, load_models, load_providers
 from scripts.pricing_contract import PricingContractError, calculate_graduated_usage_cost, validate_model_price_records
+from tests.website_source import resolve_website_source
 
 
-WEBSITE = ROOT.parent / "ai-cost-control-tool" / "aicostguard-english"
+WEBSITE = resolve_website_source(ROOT)
 MODEL_KEY = ("azure", "prebuilt-read")
 COMMERCIAL_REGIONS = {
     "australiaeast", "brazilsouth", "canadacentral", "centralindia", "centralus", "eastasia",
