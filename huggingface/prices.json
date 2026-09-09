@@ -2,14 +2,14 @@
   "metadata": {
     "name": "AICostBudget AI API Pricing Dataset",
     "version": "1.0.0",
-    "schema_version": "1.5.0",
+    "schema_version": "1.7.0",
     "page_url": "https://aicostbudget.com/en/datasets/ai-api-pricing",
-    "last_updated": "2026-09-08T07:53:25Z",
-    "last_verified_at": "2026-09-08T07:53:25Z",
-    "generated_at": "2026-09-08T12:39:10Z",
-    "provider_count": 8,
-    "record_count": 63,
-    "official_source_count": 17,
+    "last_updated": "2026-09-09T00:00:00Z",
+    "last_verified_at": "2026-09-09T00:00:00Z",
+    "generated_at": "2026-09-09T10:35:31Z",
+    "provider_count": 11,
+    "record_count": 66,
+    "official_source_count": 20,
     "currency": "USD",
     "pricing_unit": "Multiple billing units",
     "statistics_scope": "public pricing records returned by the public pricing adapter with Pricing V2 enabled",
@@ -22,7 +22,9 @@
       "unit_price": "Primary non-token unit price; null for token-priced rows.",
       "billing_unit": "Machine-readable non-token billing unit.",
       "billing_quantity": "Quantity represented by unit_price.",
-      "pricing_dimension": "Billable non-token dimension."
+      "pricing_dimension": "Billable non-token dimension.",
+      "conditional_usage_allowances": "Eligibility-scoped recurring allowances that remain separate from standard paid tiers.",
+      "conditional_usage_allowances_json": "Compact CSV JSON serialization of conditional_usage_allowances."
     }
   },
   "records": [
@@ -235,7 +237,8 @@
       "unit_price": null,
       "billing_unit": null,
       "billing_quantity": null,
-      "pricing_dimension": null
+      "pricing_dimension": null,
+      "conditional_usage_allowances": []
     },
     {
       "provider_id": "anthropic",
@@ -488,7 +491,8 @@
       "unit_price": null,
       "billing_unit": null,
       "billing_quantity": null,
-      "pricing_dimension": null
+      "pricing_dimension": null,
+      "conditional_usage_allowances": []
     },
     {
       "provider_id": "anthropic",
@@ -673,7 +677,8 @@
       "unit_price": null,
       "billing_unit": null,
       "billing_quantity": null,
-      "pricing_dimension": null
+      "pricing_dimension": null,
+      "conditional_usage_allowances": []
     },
     {
       "provider_id": "anthropic",
@@ -780,7 +785,8 @@
       "unit_price": null,
       "billing_unit": null,
       "billing_quantity": null,
-      "pricing_dimension": null
+      "pricing_dimension": null,
+      "conditional_usage_allowances": []
     },
     {
       "provider_id": "anthropic",
@@ -1019,7 +1025,8 @@
       "unit_price": null,
       "billing_unit": null,
       "billing_quantity": null,
-      "pricing_dimension": null
+      "pricing_dimension": null,
+      "conditional_usage_allowances": []
     },
     {
       "provider_id": "anthropic",
@@ -1126,7 +1133,8 @@
       "unit_price": null,
       "billing_unit": null,
       "billing_quantity": null,
-      "pricing_dimension": null
+      "pricing_dimension": null,
+      "conditional_usage_allowances": []
     },
     {
       "provider_id": "anthropic",
@@ -1311,7 +1319,8 @@
       "unit_price": null,
       "billing_unit": null,
       "billing_quantity": null,
-      "pricing_dimension": null
+      "pricing_dimension": null,
+      "conditional_usage_allowances": []
     },
     {
       "provider_id": "anthropic",
@@ -1522,7 +1531,8 @@
       "unit_price": null,
       "billing_unit": null,
       "billing_quantity": null,
-      "pricing_dimension": null
+      "pricing_dimension": null,
+      "conditional_usage_allowances": []
     },
     {
       "provider_id": "anthropic",
@@ -1550,7 +1560,8 @@
       "unit_price": null,
       "billing_unit": null,
       "billing_quantity": null,
-      "pricing_dimension": null
+      "pricing_dimension": null,
+      "conditional_usage_allowances": []
     },
     {
       "provider_id": "anthropic",
@@ -1735,7 +1746,8 @@
       "unit_price": null,
       "billing_unit": null,
       "billing_quantity": null,
-      "pricing_dimension": null
+      "pricing_dimension": null,
+      "conditional_usage_allowances": []
     },
     {
       "provider_id": "anthropic",
@@ -1960,7 +1972,460 @@
       "unit_price": null,
       "billing_unit": null,
       "billing_quantity": null,
-      "pricing_dimension": null
+      "pricing_dimension": null,
+      "conditional_usage_allowances": []
+    },
+    {
+      "provider_id": "aws",
+      "provider": "Amazon Web Services",
+      "model_id": "DetectDocumentText",
+      "model": "Amazon Textract DetectDocumentText",
+      "input_price_per_1m_tokens": null,
+      "cached_input_price_per_1m_tokens": null,
+      "output_price_per_1m_tokens": null,
+      "currency": "USD",
+      "pricing_unit": null,
+      "status": "latest",
+      "availability": "active",
+      "official_source_url": "https://aws.amazon.com/textract/pricing/",
+      "verification_status": "verified",
+      "last_verified_at": "2026-09-09",
+      "checked_at": "2026-09-09",
+      "effective_from": null,
+      "effective_until": null,
+      "notes": "V2 marks this row as unsafe for default calculations: missing_verified_current_price.",
+      "pricing_tier_count": 0,
+      "pricing_tiers": [],
+      "time_pricing": null,
+      "pricing_components": [
+        {
+          "pricing_id": "price:aws/DetectDocumentText:standard:short:current:usage-0-1000000",
+          "charge_id": "price:aws/DetectDocumentText:standard:short:current:usage-0-1000000:document_page:document:per_1000_pages",
+          "component": "document_page",
+          "amount": "1.5",
+          "unit": "per_1000_pages",
+          "currency": "USD",
+          "modality": "document",
+          "condition": {
+            "processing_mode": "standard",
+            "context_class": "short",
+            "prompt_token_threshold": null,
+            "tier_selection": null,
+            "region_policy": "region_specific",
+            "effective_from": null,
+            "effective_until": null,
+            "usage_tier": {
+              "metric": "document_page",
+              "tier_start": 0,
+              "tier_end": 1000000,
+              "billing_period": "calendar_month",
+              "tier_mode": "graduated",
+              "usage_scope": "unknown",
+              "free_allowance": 0
+            },
+            "region_selector": {
+              "dataResidencies": [
+                "regional"
+              ],
+              "endpointGeographies": [
+                "ap-northeast-2",
+                "ap-south-1",
+                "ap-southeast-1",
+                "ap-southeast-2",
+                "ca-central-1",
+                "eu-central-1",
+                "eu-south-2",
+                "eu-west-1",
+                "eu-west-2",
+                "eu-west-3",
+                "us-east-1",
+                "us-east-2",
+                "us-gov-east-1",
+                "us-gov-west-1",
+                "us-west-1",
+                "us-west-2"
+              ],
+              "pricingGeography": "region_specific"
+            },
+            "default_availability_status": "available",
+            "availability_rules": [],
+            "price_adjustments": [
+              {
+                "factor": "1.4",
+                "operation": "multiply",
+                "priceAdjustmentId": "adjustment:aws/DetectDocumentText:us-west-1",
+                "selector": {
+                  "endpointGeographies": [
+                    "us-west-1"
+                  ]
+                },
+                "sourceRefs": [
+                  "source:aws:pricing-us-east-1-amazonaws-com-offers-v1-0-aws-AmazonTextract-current-index-jso"
+                ]
+              },
+              {
+                "factor": "1.26",
+                "operation": "multiply",
+                "priceAdjustmentId": "adjustment:aws/DetectDocumentText:govcloud",
+                "selector": {
+                  "endpointGeographies": [
+                    "us-gov-east-1",
+                    "us-gov-west-1"
+                  ]
+                },
+                "sourceRefs": [
+                  "source:aws:pricing-us-east-1-amazonaws-com-offers-v1-0-aws-AmazonTextract-current-index-jso"
+                ]
+              }
+            ]
+          },
+          "calculation_default": false,
+          "source_refs": [
+            "source:aws:aws-amazon-com-textract-pricing",
+            "source:aws:pricing-us-east-1-amazonaws-com-offers-v1-0-aws-AmazonTextract-current-index-jso"
+          ],
+          "source_urls": [
+            "https://aws.amazon.com/textract/pricing/",
+            "https://pricing.us-east-1.amazonaws.com/offers/v1.0/aws/AmazonTextract/current/index.json"
+          ],
+          "verification_status": "verified"
+        },
+        {
+          "pricing_id": "price:aws/DetectDocumentText:standard:short:current:usage-1000000-plus",
+          "charge_id": "price:aws/DetectDocumentText:standard:short:current:usage-1000000-plus:document_page:document:per_1000_pages",
+          "component": "document_page",
+          "amount": "0.6",
+          "unit": "per_1000_pages",
+          "currency": "USD",
+          "modality": "document",
+          "condition": {
+            "processing_mode": "standard",
+            "context_class": "short",
+            "prompt_token_threshold": null,
+            "tier_selection": null,
+            "region_policy": "region_specific",
+            "effective_from": null,
+            "effective_until": null,
+            "usage_tier": {
+              "metric": "document_page",
+              "tier_start": 1000000,
+              "tier_end": null,
+              "billing_period": "calendar_month",
+              "tier_mode": "graduated",
+              "usage_scope": "unknown",
+              "free_allowance": 0
+            },
+            "region_selector": {
+              "dataResidencies": [
+                "regional"
+              ],
+              "endpointGeographies": [
+                "ap-northeast-2",
+                "ap-south-1",
+                "ap-southeast-1",
+                "ap-southeast-2",
+                "ca-central-1",
+                "eu-central-1",
+                "eu-south-2",
+                "eu-west-1",
+                "eu-west-2",
+                "eu-west-3",
+                "us-east-1",
+                "us-east-2",
+                "us-gov-east-1",
+                "us-gov-west-1",
+                "us-west-1",
+                "us-west-2"
+              ],
+              "pricingGeography": "region_specific"
+            },
+            "default_availability_status": "available",
+            "availability_rules": [],
+            "price_adjustments": [
+              {
+                "factor": "1.4",
+                "operation": "multiply",
+                "priceAdjustmentId": "adjustment:aws/DetectDocumentText:us-west-1-high-volume",
+                "selector": {
+                  "endpointGeographies": [
+                    "us-west-1"
+                  ]
+                },
+                "sourceRefs": [
+                  "source:aws:pricing-us-east-1-amazonaws-com-offers-v1-0-aws-AmazonTextract-current-index-jso"
+                ]
+              },
+              {
+                "factor": "1.26",
+                "operation": "multiply",
+                "priceAdjustmentId": "adjustment:aws/DetectDocumentText:govcloud-high-volume",
+                "selector": {
+                  "endpointGeographies": [
+                    "us-gov-east-1",
+                    "us-gov-west-1"
+                  ]
+                },
+                "sourceRefs": [
+                  "source:aws:pricing-us-east-1-amazonaws-com-offers-v1-0-aws-AmazonTextract-current-index-jso"
+                ]
+              }
+            ]
+          },
+          "calculation_default": false,
+          "source_refs": [
+            "source:aws:aws-amazon-com-textract-pricing",
+            "source:aws:pricing-us-east-1-amazonaws-com-offers-v1-0-aws-AmazonTextract-current-index-jso"
+          ],
+          "source_urls": [
+            "https://aws.amazon.com/textract/pricing/",
+            "https://pricing.us-east-1.amazonaws.com/offers/v1.0/aws/AmazonTextract/current/index.json"
+          ],
+          "verification_status": "verified"
+        }
+      ],
+      "unit_price": null,
+      "billing_unit": null,
+      "billing_quantity": null,
+      "pricing_dimension": null,
+      "conditional_usage_allowances": [
+        {
+          "allowance_id": "allowance:aws/DetectDocumentText:new-customer-paid-plan-trial",
+          "offer_type": "short_term_trial",
+          "eligibility": {
+            "customer_status": "new_customer",
+            "account_plan": "paid"
+          },
+          "metric": "document_page",
+          "allowance": 1000,
+          "billing_period": "calendar_month",
+          "usage_scope": "provider_account",
+          "duration": {
+            "value": 3,
+            "unit": "month",
+            "starts_on": "offer_activation"
+          },
+          "region_selector": {
+            "endpointGeographies": [
+              "ap-northeast-2",
+              "ap-south-1",
+              "ap-southeast-1",
+              "ap-southeast-2",
+              "ca-central-1",
+              "eu-central-1",
+              "eu-south-2",
+              "eu-west-1",
+              "eu-west-2",
+              "eu-west-3",
+              "us-east-1",
+              "us-east-2",
+              "us-west-1",
+              "us-west-2"
+            ]
+          },
+          "source_refs": [
+            "source:aws:aws-amazon-com-free-ai",
+            "source:aws:aws-amazon-com-textract-pricing",
+            "source:aws:docs-aws-amazon-com-awsaccountbilling-latest-aboutv2-free-tier-html"
+          ],
+          "source_urls": [
+            "https://aws.amazon.com/free/ai/",
+            "https://aws.amazon.com/textract/pricing/",
+            "https://docs.aws.amazon.com/awsaccountbilling/latest/aboutv2/free-tier.html"
+          ],
+          "verification_status": "verified",
+          "checked_at": "2026-09-09T00:00:00Z",
+          "verified_at": "2026-09-09T00:00:00Z",
+          "note": "Conditional short-term trial only: new AWS customers using the Paid plan can receive 1,000 Detect Document Text pages per month for three months. This is not an unconditional recurring free tier and is separate from general AWS promotional credits."
+        }
+      ]
+    },
+    {
+      "provider_id": "azure",
+      "provider": "azure",
+      "model_id": "prebuilt-read",
+      "model": "Azure Document Intelligence Read",
+      "input_price_per_1m_tokens": null,
+      "cached_input_price_per_1m_tokens": null,
+      "output_price_per_1m_tokens": null,
+      "currency": "USD",
+      "pricing_unit": null,
+      "status": "latest",
+      "availability": "active",
+      "official_source_url": "https://prices.azure.com/api/retail/prices",
+      "verification_status": "verified",
+      "last_verified_at": "2026-09-09",
+      "checked_at": "2026-09-09",
+      "effective_from": null,
+      "effective_until": null,
+      "notes": "V2 marks this row as unsafe for default calculations: missing_verified_current_price.",
+      "pricing_tier_count": 0,
+      "pricing_tiers": [],
+      "time_pricing": null,
+      "pricing_components": [
+        {
+          "pricing_id": "price:azure/prebuilt-read:standard:short:current:usage-0-1000000",
+          "charge_id": "price:azure/prebuilt-read:standard:short:current:usage-0-1000000:document_page:document:per_1000_pages",
+          "component": "document_page",
+          "amount": "1.5",
+          "unit": "per_1000_pages",
+          "currency": "USD",
+          "modality": "document",
+          "condition": {
+            "processing_mode": "standard",
+            "context_class": "short",
+            "prompt_token_threshold": null,
+            "tier_selection": null,
+            "region_policy": "region_specific",
+            "effective_from": null,
+            "effective_until": null,
+            "usage_tier": {
+              "metric": "document_page",
+              "tier_start": 0,
+              "tier_end": 1000000,
+              "billing_period": "calendar_month",
+              "tier_mode": "graduated",
+              "usage_scope": "unknown",
+              "free_allowance": 0
+            },
+            "region_selector": {
+              "dataResidencies": [
+                "regional"
+              ],
+              "endpointGeographies": [
+                "australiaeast",
+                "brazilsouth",
+                "canadacentral",
+                "centralindia",
+                "centralus",
+                "eastasia",
+                "eastus",
+                "eastus2",
+                "francecentral",
+                "germanywestcentral",
+                "italynorth",
+                "japaneast",
+                "japanwest",
+                "koreacentral",
+                "northcentralus",
+                "northeurope",
+                "norwayeast",
+                "qatarcentral",
+                "southafricanorth",
+                "southcentralus",
+                "southeastasia",
+                "swedencentral",
+                "switzerlandnorth",
+                "switzerlandwest",
+                "uaenorth",
+                "uksouth",
+                "westcentralus",
+                "westeurope",
+                "westus",
+                "westus2",
+                "westus3"
+              ],
+              "pricingGeography": "region_specific"
+            },
+            "default_availability_status": "available",
+            "availability_rules": [],
+            "price_adjustments": []
+          },
+          "calculation_default": false,
+          "source_refs": [
+            "source:azure:learn-microsoft-com-en-us-rest-api-cost-management-retail-prices-azure-retail-pr",
+            "source:azure:prices-azure-com-api-retail-prices"
+          ],
+          "source_urls": [
+            "https://learn.microsoft.com/en-us/rest/api/cost-management/retail-prices/azure-retail-prices",
+            "https://prices.azure.com/api/retail/prices"
+          ],
+          "verification_status": "verified"
+        },
+        {
+          "pricing_id": "price:azure/prebuilt-read:standard:short:current:usage-1000000-plus",
+          "charge_id": "price:azure/prebuilt-read:standard:short:current:usage-1000000-plus:document_page:document:per_1000_pages",
+          "component": "document_page",
+          "amount": "0.6",
+          "unit": "per_1000_pages",
+          "currency": "USD",
+          "modality": "document",
+          "condition": {
+            "processing_mode": "standard",
+            "context_class": "short",
+            "prompt_token_threshold": null,
+            "tier_selection": null,
+            "region_policy": "region_specific",
+            "effective_from": null,
+            "effective_until": null,
+            "usage_tier": {
+              "metric": "document_page",
+              "tier_start": 1000000,
+              "tier_end": null,
+              "billing_period": "calendar_month",
+              "tier_mode": "graduated",
+              "usage_scope": "unknown",
+              "free_allowance": 0
+            },
+            "region_selector": {
+              "dataResidencies": [
+                "regional"
+              ],
+              "endpointGeographies": [
+                "australiaeast",
+                "brazilsouth",
+                "canadacentral",
+                "centralindia",
+                "centralus",
+                "eastasia",
+                "eastus",
+                "eastus2",
+                "francecentral",
+                "germanywestcentral",
+                "italynorth",
+                "japaneast",
+                "japanwest",
+                "koreacentral",
+                "northcentralus",
+                "northeurope",
+                "norwayeast",
+                "qatarcentral",
+                "southafricanorth",
+                "southcentralus",
+                "southeastasia",
+                "swedencentral",
+                "switzerlandnorth",
+                "switzerlandwest",
+                "uaenorth",
+                "uksouth",
+                "westcentralus",
+                "westeurope",
+                "westus",
+                "westus2",
+                "westus3"
+              ],
+              "pricingGeography": "region_specific"
+            },
+            "default_availability_status": "available",
+            "availability_rules": [],
+            "price_adjustments": []
+          },
+          "calculation_default": false,
+          "source_refs": [
+            "source:azure:learn-microsoft-com-en-us-rest-api-cost-management-retail-prices-azure-retail-pr",
+            "source:azure:prices-azure-com-api-retail-prices"
+          ],
+          "source_urls": [
+            "https://learn.microsoft.com/en-us/rest/api/cost-management/retail-prices/azure-retail-prices",
+            "https://prices.azure.com/api/retail/prices"
+          ],
+          "verification_status": "verified"
+        }
+      ],
+      "unit_price": null,
+      "billing_unit": null,
+      "billing_quantity": null,
+      "pricing_dimension": null,
+      "conditional_usage_allowances": []
     },
     {
       "provider_id": "cohere",
@@ -2041,7 +2506,8 @@
       "unit_price": null,
       "billing_unit": null,
       "billing_quantity": null,
-      "pricing_dimension": null
+      "pricing_dimension": null,
+      "conditional_usage_allowances": []
     },
     {
       "provider_id": "cohere",
@@ -2122,7 +2588,8 @@
       "unit_price": null,
       "billing_unit": null,
       "billing_quantity": null,
-      "pricing_dimension": null
+      "pricing_dimension": null,
+      "conditional_usage_allowances": []
     },
     {
       "provider_id": "cohere",
@@ -2183,7 +2650,8 @@
       "unit_price": 1.5,
       "billing_unit": "per_1000_pages",
       "billing_quantity": 1000,
-      "pricing_dimension": "document_page"
+      "pricing_dimension": "document_page",
+      "conditional_usage_allowances": []
     },
     {
       "provider_id": "deepseek",
@@ -2457,7 +2925,8 @@
       "unit_price": null,
       "billing_unit": null,
       "billing_quantity": null,
-      "pricing_dimension": null
+      "pricing_dimension": null,
+      "conditional_usage_allowances": []
     },
     {
       "provider_id": "deepseek",
@@ -2731,7 +3200,212 @@
       "unit_price": null,
       "billing_unit": null,
       "billing_quantity": null,
-      "pricing_dimension": null
+      "pricing_dimension": null,
+      "conditional_usage_allowances": []
+    },
+    {
+      "provider_id": "google-cloud",
+      "provider": "Google Cloud",
+      "model_id": "OCR_PROCESSOR",
+      "model": "Enterprise Document OCR",
+      "input_price_per_1m_tokens": null,
+      "cached_input_price_per_1m_tokens": null,
+      "output_price_per_1m_tokens": null,
+      "currency": "USD",
+      "pricing_unit": null,
+      "status": "latest",
+      "availability": "active",
+      "official_source_url": "https://cloud.google.com/products/document-ai/pricing",
+      "verification_status": "verified",
+      "last_verified_at": "2026-09-08",
+      "checked_at": "2026-09-08",
+      "effective_from": null,
+      "effective_until": null,
+      "notes": "V2 marks this row as unsafe for default calculations: missing_verified_current_price.",
+      "pricing_tier_count": 0,
+      "pricing_tiers": [],
+      "time_pricing": null,
+      "pricing_components": [
+        {
+          "pricing_id": "price:google-cloud/OCR_PROCESSOR:standard:short:current:usage-0-1000",
+          "charge_id": "price:google-cloud/OCR_PROCESSOR:standard:short:current:usage-0-1000:document_page:document:per_1000_pages",
+          "component": "document_page",
+          "amount": "0",
+          "unit": "per_1000_pages",
+          "currency": "USD",
+          "modality": "document",
+          "condition": {
+            "processing_mode": "standard",
+            "context_class": "short",
+            "prompt_token_threshold": null,
+            "tier_selection": null,
+            "region_policy": "global",
+            "effective_from": null,
+            "effective_until": null,
+            "usage_tier": {
+              "metric": "document_page",
+              "tier_start": 0,
+              "tier_end": 1000,
+              "billing_period": "calendar_month",
+              "tier_mode": "graduated",
+              "usage_scope": "unknown",
+              "free_allowance": 1000
+            },
+            "region_selector": {
+              "dataResidencies": [
+                "regional"
+              ],
+              "endpointGeographies": [
+                "asia-south1",
+                "asia-southeast1",
+                "australia-southeast1",
+                "eu",
+                "europe-west2",
+                "europe-west3",
+                "northamerica-northeast1",
+                "us"
+              ],
+              "pricingGeography": "global_base"
+            },
+            "default_availability_status": "available",
+            "availability_rules": [],
+            "price_adjustments": []
+          },
+          "calculation_default": false,
+          "source_refs": [
+            "source:google-cloud:cloud-google-com-products-document-ai-pricing",
+            "source:google-cloud:docs-cloud-google-com-document-ai-docs-processors-list",
+            "source:google-cloud:docs-cloud-google-com-document-ai-docs-regions"
+          ],
+          "source_urls": [
+            "https://cloud.google.com/products/document-ai/pricing",
+            "https://docs.cloud.google.com/document-ai/docs/processors-list",
+            "https://docs.cloud.google.com/document-ai/docs/regions"
+          ],
+          "verification_status": "verified"
+        },
+        {
+          "pricing_id": "price:google-cloud/OCR_PROCESSOR:standard:short:current:usage-1000-5000000",
+          "charge_id": "price:google-cloud/OCR_PROCESSOR:standard:short:current:usage-1000-5000000:document_page:document:per_1000_pages",
+          "component": "document_page",
+          "amount": "1.5",
+          "unit": "per_1000_pages",
+          "currency": "USD",
+          "modality": "document",
+          "condition": {
+            "processing_mode": "standard",
+            "context_class": "short",
+            "prompt_token_threshold": null,
+            "tier_selection": null,
+            "region_policy": "global",
+            "effective_from": null,
+            "effective_until": null,
+            "usage_tier": {
+              "metric": "document_page",
+              "tier_start": 1000,
+              "tier_end": 5000000,
+              "billing_period": "calendar_month",
+              "tier_mode": "graduated",
+              "usage_scope": "unknown",
+              "free_allowance": 1000
+            },
+            "region_selector": {
+              "dataResidencies": [
+                "regional"
+              ],
+              "endpointGeographies": [
+                "asia-south1",
+                "asia-southeast1",
+                "australia-southeast1",
+                "eu",
+                "europe-west2",
+                "europe-west3",
+                "northamerica-northeast1",
+                "us"
+              ],
+              "pricingGeography": "global_base"
+            },
+            "default_availability_status": "available",
+            "availability_rules": [],
+            "price_adjustments": []
+          },
+          "calculation_default": false,
+          "source_refs": [
+            "source:google-cloud:cloud-google-com-products-document-ai-pricing",
+            "source:google-cloud:docs-cloud-google-com-document-ai-docs-processors-list",
+            "source:google-cloud:docs-cloud-google-com-document-ai-docs-regions"
+          ],
+          "source_urls": [
+            "https://cloud.google.com/products/document-ai/pricing",
+            "https://docs.cloud.google.com/document-ai/docs/processors-list",
+            "https://docs.cloud.google.com/document-ai/docs/regions"
+          ],
+          "verification_status": "verified"
+        },
+        {
+          "pricing_id": "price:google-cloud/OCR_PROCESSOR:standard:short:current:usage-5000000-plus",
+          "charge_id": "price:google-cloud/OCR_PROCESSOR:standard:short:current:usage-5000000-plus:document_page:document:per_1000_pages",
+          "component": "document_page",
+          "amount": "0.6",
+          "unit": "per_1000_pages",
+          "currency": "USD",
+          "modality": "document",
+          "condition": {
+            "processing_mode": "standard",
+            "context_class": "short",
+            "prompt_token_threshold": null,
+            "tier_selection": null,
+            "region_policy": "global",
+            "effective_from": null,
+            "effective_until": null,
+            "usage_tier": {
+              "metric": "document_page",
+              "tier_start": 5000000,
+              "tier_end": null,
+              "billing_period": "calendar_month",
+              "tier_mode": "graduated",
+              "usage_scope": "unknown",
+              "free_allowance": 1000
+            },
+            "region_selector": {
+              "dataResidencies": [
+                "regional"
+              ],
+              "endpointGeographies": [
+                "asia-south1",
+                "asia-southeast1",
+                "australia-southeast1",
+                "eu",
+                "europe-west2",
+                "europe-west3",
+                "northamerica-northeast1",
+                "us"
+              ],
+              "pricingGeography": "global_base"
+            },
+            "default_availability_status": "available",
+            "availability_rules": [],
+            "price_adjustments": []
+          },
+          "calculation_default": false,
+          "source_refs": [
+            "source:google-cloud:cloud-google-com-products-document-ai-pricing",
+            "source:google-cloud:docs-cloud-google-com-document-ai-docs-processors-list",
+            "source:google-cloud:docs-cloud-google-com-document-ai-docs-regions"
+          ],
+          "source_urls": [
+            "https://cloud.google.com/products/document-ai/pricing",
+            "https://docs.cloud.google.com/document-ai/docs/processors-list",
+            "https://docs.cloud.google.com/document-ai/docs/regions"
+          ],
+          "verification_status": "verified"
+        }
+      ],
+      "unit_price": null,
+      "billing_unit": null,
+      "billing_quantity": null,
+      "pricing_dimension": null,
+      "conditional_usage_allowances": []
     },
     {
       "provider_id": "google-gemini",
@@ -2890,7 +3564,8 @@
       "unit_price": null,
       "billing_unit": null,
       "billing_quantity": null,
-      "pricing_dimension": null
+      "pricing_dimension": null,
+      "conditional_usage_allowances": []
     },
     {
       "provider_id": "google-gemini",
@@ -3049,7 +3724,8 @@
       "unit_price": null,
       "billing_unit": null,
       "billing_quantity": null,
-      "pricing_dimension": null
+      "pricing_dimension": null,
+      "conditional_usage_allowances": []
     },
     {
       "provider_id": "google-gemini",
@@ -3156,7 +3832,8 @@
       "unit_price": null,
       "billing_unit": null,
       "billing_quantity": null,
-      "pricing_dimension": null
+      "pricing_dimension": null,
+      "conditional_usage_allowances": []
     },
     {
       "provider_id": "google-gemini",
@@ -3315,7 +3992,8 @@
       "unit_price": null,
       "billing_unit": null,
       "billing_quantity": null,
-      "pricing_dimension": null
+      "pricing_dimension": null,
+      "conditional_usage_allowances": []
     },
     {
       "provider_id": "google-gemini",
@@ -3500,7 +4178,8 @@
       "unit_price": null,
       "billing_unit": null,
       "billing_quantity": null,
-      "pricing_dimension": null
+      "pricing_dimension": null,
+      "conditional_usage_allowances": []
     },
     {
       "provider_id": "google-gemini",
@@ -3659,7 +4338,8 @@
       "unit_price": null,
       "billing_unit": null,
       "billing_quantity": null,
-      "pricing_dimension": null
+      "pricing_dimension": null,
+      "conditional_usage_allowances": []
     },
     {
       "provider_id": "google-gemini",
@@ -3818,7 +4498,8 @@
       "unit_price": null,
       "billing_unit": null,
       "billing_quantity": null,
-      "pricing_dimension": null
+      "pricing_dimension": null,
+      "conditional_usage_allowances": []
     },
     {
       "provider_id": "google-gemini",
@@ -3911,7 +4592,8 @@
       "unit_price": null,
       "billing_unit": null,
       "billing_quantity": null,
-      "pricing_dimension": null
+      "pricing_dimension": null,
+      "conditional_usage_allowances": []
     },
     {
       "provider_id": "google-gemini",
@@ -4004,7 +4686,8 @@
       "unit_price": null,
       "billing_unit": null,
       "billing_quantity": null,
-      "pricing_dimension": null
+      "pricing_dimension": null,
+      "conditional_usage_allowances": []
     },
     {
       "provider_id": "google-gemini",
@@ -4393,7 +5076,8 @@
       "unit_price": null,
       "billing_unit": null,
       "billing_quantity": null,
-      "pricing_dimension": null
+      "pricing_dimension": null,
+      "conditional_usage_allowances": []
     },
     {
       "provider_id": "google-gemini",
@@ -4806,7 +5490,8 @@
       "unit_price": null,
       "billing_unit": null,
       "billing_quantity": null,
-      "pricing_dimension": null
+      "pricing_dimension": null,
+      "conditional_usage_allowances": []
     },
     {
       "provider_id": "google-gemini",
@@ -5219,7 +5904,8 @@
       "unit_price": null,
       "billing_unit": null,
       "billing_quantity": null,
-      "pricing_dimension": null
+      "pricing_dimension": null,
+      "conditional_usage_allowances": []
     },
     {
       "provider_id": "mistral-ai",
@@ -5464,7 +6150,8 @@
       "unit_price": null,
       "billing_unit": null,
       "billing_quantity": null,
-      "pricing_dimension": null
+      "pricing_dimension": null,
+      "conditional_usage_allowances": []
     },
     {
       "provider_id": "mistral-ai",
@@ -5703,7 +6390,8 @@
       "unit_price": null,
       "billing_unit": null,
       "billing_quantity": null,
-      "pricing_dimension": null
+      "pricing_dimension": null,
+      "conditional_usage_allowances": []
     },
     {
       "provider_id": "mistral-ai",
@@ -5942,7 +6630,8 @@
       "unit_price": null,
       "billing_unit": null,
       "billing_quantity": null,
-      "pricing_dimension": null
+      "pricing_dimension": null,
+      "conditional_usage_allowances": []
     },
     {
       "provider_id": "mistral-ai",
@@ -6181,7 +6870,8 @@
       "unit_price": null,
       "billing_unit": null,
       "billing_quantity": null,
-      "pricing_dimension": null
+      "pricing_dimension": null,
+      "conditional_usage_allowances": []
     },
     {
       "provider_id": "mistral-ai",
@@ -6420,7 +7110,8 @@
       "unit_price": null,
       "billing_unit": null,
       "billing_quantity": null,
-      "pricing_dimension": null
+      "pricing_dimension": null,
+      "conditional_usage_allowances": []
     },
     {
       "provider_id": "mistral-ai",
@@ -6659,7 +7350,8 @@
       "unit_price": null,
       "billing_unit": null,
       "billing_quantity": null,
-      "pricing_dimension": null
+      "pricing_dimension": null,
+      "conditional_usage_allowances": []
     },
     {
       "provider_id": "mistral-ai",
@@ -6722,7 +7414,8 @@
       "unit_price": 4.0,
       "billing_unit": "per_1000_pages",
       "billing_quantity": 1000,
-      "pricing_dimension": "document_page"
+      "pricing_dimension": "document_page",
+      "conditional_usage_allowances": []
     },
     {
       "provider_id": "mistral-ai",
@@ -6785,7 +7478,8 @@
       "unit_price": 4.0,
       "billing_unit": "per_1000_pages",
       "billing_quantity": 1000,
-      "pricing_dimension": "document_page"
+      "pricing_dimension": "document_page",
+      "conditional_usage_allowances": []
     },
     {
       "provider_id": "mistral-ai",
@@ -7024,7 +7718,8 @@
       "unit_price": null,
       "billing_unit": null,
       "billing_quantity": null,
-      "pricing_dimension": null
+      "pricing_dimension": null,
+      "conditional_usage_allowances": []
     },
     {
       "provider_id": "moonshot-ai",
@@ -7305,7 +8000,8 @@
       "unit_price": null,
       "billing_unit": null,
       "billing_quantity": null,
-      "pricing_dimension": null
+      "pricing_dimension": null,
+      "conditional_usage_allowances": []
     },
     {
       "provider_id": "moonshot-ai",
@@ -7712,7 +8408,8 @@
       "unit_price": null,
       "billing_unit": null,
       "billing_quantity": null,
-      "pricing_dimension": null
+      "pricing_dimension": null,
+      "conditional_usage_allowances": []
     },
     {
       "provider_id": "moonshot-ai",
@@ -7873,7 +8570,8 @@
       "unit_price": null,
       "billing_unit": null,
       "billing_quantity": null,
-      "pricing_dimension": null
+      "pricing_dimension": null,
+      "conditional_usage_allowances": []
     },
     {
       "provider_id": "openai",
@@ -7980,7 +8678,8 @@
       "unit_price": null,
       "billing_unit": null,
       "billing_quantity": null,
-      "pricing_dimension": null
+      "pricing_dimension": null,
+      "conditional_usage_allowances": []
     },
     {
       "provider_id": "openai",
@@ -8008,7 +8707,8 @@
       "unit_price": null,
       "billing_unit": null,
       "billing_quantity": null,
-      "pricing_dimension": null
+      "pricing_dimension": null,
+      "conditional_usage_allowances": []
     },
     {
       "provider_id": "openai",
@@ -8036,7 +8736,8 @@
       "unit_price": null,
       "billing_unit": null,
       "billing_quantity": null,
-      "pricing_dimension": null
+      "pricing_dimension": null,
+      "conditional_usage_allowances": []
     },
     {
       "provider_id": "openai",
@@ -8064,7 +8765,8 @@
       "unit_price": null,
       "billing_unit": null,
       "billing_quantity": null,
-      "pricing_dimension": null
+      "pricing_dimension": null,
+      "conditional_usage_allowances": []
     },
     {
       "provider_id": "openai",
@@ -8171,7 +8873,8 @@
       "unit_price": null,
       "billing_unit": null,
       "billing_quantity": null,
-      "pricing_dimension": null
+      "pricing_dimension": null,
+      "conditional_usage_allowances": []
     },
     {
       "provider_id": "openai",
@@ -8330,7 +9033,8 @@
       "unit_price": null,
       "billing_unit": null,
       "billing_quantity": null,
-      "pricing_dimension": null
+      "pricing_dimension": null,
+      "conditional_usage_allowances": []
     },
     {
       "provider_id": "openai",
@@ -8499,7 +9203,8 @@
       "unit_price": null,
       "billing_unit": null,
       "billing_quantity": null,
-      "pricing_dimension": null
+      "pricing_dimension": null,
+      "conditional_usage_allowances": []
     },
     {
       "provider_id": "openai",
@@ -8658,7 +9363,8 @@
       "unit_price": null,
       "billing_unit": null,
       "billing_quantity": null,
-      "pricing_dimension": null
+      "pricing_dimension": null,
+      "conditional_usage_allowances": []
     },
     {
       "provider_id": "openai",
@@ -8791,7 +9497,8 @@
       "unit_price": null,
       "billing_unit": null,
       "billing_quantity": null,
-      "pricing_dimension": null
+      "pricing_dimension": null,
+      "conditional_usage_allowances": []
     },
     {
       "provider_id": "openai",
@@ -8960,7 +9667,8 @@
       "unit_price": null,
       "billing_unit": null,
       "billing_quantity": null,
-      "pricing_dimension": null
+      "pricing_dimension": null,
+      "conditional_usage_allowances": []
     },
     {
       "provider_id": "openai",
@@ -9093,7 +9801,8 @@
       "unit_price": null,
       "billing_unit": null,
       "billing_quantity": null,
-      "pricing_dimension": null
+      "pricing_dimension": null,
+      "conditional_usage_allowances": []
     },
     {
       "provider_id": "openai",
@@ -10429,7 +11138,8 @@
       "unit_price": null,
       "billing_unit": null,
       "billing_quantity": null,
-      "pricing_dimension": null
+      "pricing_dimension": null,
+      "conditional_usage_allowances": []
     },
     {
       "provider_id": "openai",
@@ -11354,7 +12064,8 @@
       "unit_price": null,
       "billing_unit": null,
       "billing_quantity": null,
-      "pricing_dimension": null
+      "pricing_dimension": null,
+      "conditional_usage_allowances": []
     },
     {
       "provider_id": "openai",
@@ -12690,7 +13401,8 @@
       "unit_price": null,
       "billing_unit": null,
       "billing_quantity": null,
-      "pricing_dimension": null
+      "pricing_dimension": null,
+      "conditional_usage_allowances": []
     },
     {
       "provider_id": "openai",
@@ -14900,7 +15612,8 @@
       "unit_price": null,
       "billing_unit": null,
       "billing_quantity": null,
-      "pricing_dimension": null
+      "pricing_dimension": null,
+      "conditional_usage_allowances": []
     },
     {
       "provider_id": "xai",
@@ -15215,7 +15928,8 @@
       "unit_price": null,
       "billing_unit": null,
       "billing_quantity": null,
-      "pricing_dimension": null
+      "pricing_dimension": null,
+      "conditional_usage_allowances": []
     },
     {
       "provider_id": "xai",
@@ -15837,7 +16551,8 @@
       "unit_price": null,
       "billing_unit": null,
       "billing_quantity": null,
-      "pricing_dimension": null
+      "pricing_dimension": null,
+      "conditional_usage_allowances": []
     },
     {
       "provider_id": "xai",
@@ -16459,7 +17174,8 @@
       "unit_price": null,
       "billing_unit": null,
       "billing_quantity": null,
-      "pricing_dimension": null
+      "pricing_dimension": null,
+      "conditional_usage_allowances": []
     },
     {
       "provider_id": "xai",
@@ -17081,7 +17797,8 @@
       "unit_price": null,
       "billing_unit": null,
       "billing_quantity": null,
-      "pricing_dimension": null
+      "pricing_dimension": null,
+      "conditional_usage_allowances": []
     },
     {
       "provider_id": "xai",
@@ -17453,7 +18170,8 @@
       "unit_price": null,
       "billing_unit": null,
       "billing_quantity": null,
-      "pricing_dimension": null
+      "pricing_dimension": null,
+      "conditional_usage_allowances": []
     },
     {
       "provider_id": "xai",
@@ -17560,7 +18278,8 @@
       "unit_price": null,
       "billing_unit": null,
       "billing_quantity": null,
-      "pricing_dimension": null
+      "pricing_dimension": null,
+      "conditional_usage_allowances": []
     },
     {
       "provider_id": "xai",
@@ -17868,7 +18587,8 @@
       "unit_price": null,
       "billing_unit": null,
       "billing_quantity": null,
-      "pricing_dimension": null
+      "pricing_dimension": null,
+      "conditional_usage_allowances": []
     },
     {
       "provider_id": "xai",
@@ -18134,7 +18854,8 @@
       "unit_price": null,
       "billing_unit": null,
       "billing_quantity": null,
-      "pricing_dimension": null
+      "pricing_dimension": null,
+      "conditional_usage_allowances": []
     }
   ]
 }

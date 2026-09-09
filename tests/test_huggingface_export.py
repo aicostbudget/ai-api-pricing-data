@@ -43,7 +43,7 @@ class HuggingFaceExportTests(unittest.TestCase):
 
     def test_export_artifacts_are_internally_consistent(self):
         validate_huggingface_artifacts()
-        self.assertEqual(self.metadata["schema_version"], "1.5.0")
+        self.assertEqual(self.metadata["schema_version"], "1.7.0")
         self.assertEqual(self.metadata["last_verified_at"], self.metadata["last_updated"])
 
     def test_viewer_projection_preserves_rows_identities_providers_and_values(self):
@@ -146,6 +146,13 @@ class HuggingFaceExportTests(unittest.TestCase):
                     1000 if component["unit"] == "per_1000_pages" else 1,
                     key,
                 )
+            elif any(
+                item.get("condition", {}).get("usage_tier") is not None
+                for item in record["pricing_components"]
+            ):
+                self.assertIsNone(record["unit_price"], key)
+                self.assertIsNone(record["pricing_unit"], key)
+                self.assertGreater(len(record["pricing_components"]), 1, key)
             else:
                 fallback_count += 1
                 self.assertIn("legacy fallback", record["notes"], key)
@@ -204,10 +211,10 @@ class HuggingFaceExportTests(unittest.TestCase):
             "last_verified_at", "checked_at", "effective_from", "effective_until", "notes",
             "pricing_tier_count", "pricing_tiers_json",
         ]
-        self.assertEqual(headers[:-6], legacy_headers)
+        self.assertEqual(headers[:-7], legacy_headers)
         self.assertEqual(
-            headers[-6:],
-            ["time_pricing_json", "pricing_components_json", "unit_price", "billing_unit", "billing_quantity", "pricing_dimension"],
+            headers[-7:],
+            ["time_pricing_json", "pricing_components_json", "conditional_usage_allowances_json", "unit_price", "billing_unit", "billing_quantity", "pricing_dimension"],
         )
         for record in self.records:
             key = (record["provider_id"], record["model_id"])
@@ -284,6 +291,7 @@ class HuggingFaceExportTests(unittest.TestCase):
             baseline = dict(record)
             for field in (
                 "pricing_components",
+                "conditional_usage_allowances",
                 "unit_price",
                 "billing_unit",
                 "billing_quantity",

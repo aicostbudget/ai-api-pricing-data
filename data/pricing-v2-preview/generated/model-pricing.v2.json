@@ -18,7 +18,7 @@
     "partialJson": "not_written",
     "publicV1Mutation": "forbidden"
   },
-  "generatedAt": "2026-09-08T08:00:00Z",
+  "generatedAt": "2026-09-09T00:00:00Z",
   "generatedAtPolicy": "UTC artifact generation timestamp injected by the generation pipeline",
   "governancePolicy": {
     "classes": [
@@ -2497,6 +2497,555 @@
       "batchInputPrice": null,
       "batchOutputPrice": null,
       "billingModelInternalId": null,
+      "blockedFromDefaultReasons": [
+        "missing_verified_current_price"
+      ],
+      "cachedInputPrice": null,
+      "canonicalInternalId": "aws/DetectDocumentText",
+      "checkedAt": "2026-09-09T00:00:00Z",
+      "checkedSourceRefs": [
+        "source:aws:aws-amazon-com-free-ai",
+        "source:aws:aws-amazon-com-textract-faqs",
+        "source:aws:aws-amazon-com-textract-pricing",
+        "source:aws:docs-aws-amazon-com-awsaccountbilling-latest-aboutv2-free-tier-html",
+        "source:aws:docs-aws-amazon-com-textract-latest-APIReference-API_DetectDocumentText-html",
+        "source:aws:docs-aws-amazon-com-textract-latest-APIReference-API_StartDocumentTextDetection-",
+        "source:aws:pricing-us-east-1-amazonaws-com-offers-v1-0-aws-AmazonTextract-current-index-jso"
+      ],
+      "conditionalUsageAllowances": [
+        {
+          "allowance": 1000,
+          "allowanceId": "allowance:aws/DetectDocumentText:new-customer-paid-plan-trial",
+          "billingPeriod": "calendar_month",
+          "checkedAt": "2026-09-09T00:00:00Z",
+          "duration": {
+            "startsOn": "offer_activation",
+            "unit": "month",
+            "value": 3
+          },
+          "eligibility": {
+            "accountPlan": "paid",
+            "customerStatus": "new_customer"
+          },
+          "metric": "document_page",
+          "note": "Conditional short-term trial only: new AWS customers using the Paid plan can receive 1,000 Detect Document Text pages per month for three months. This is not an unconditional recurring free tier and is separate from general AWS promotional credits.",
+          "offerType": "short_term_trial",
+          "regionSelector": {
+            "endpointGeographies": [
+              "ap-northeast-2",
+              "ap-south-1",
+              "ap-southeast-1",
+              "ap-southeast-2",
+              "ca-central-1",
+              "eu-central-1",
+              "eu-south-2",
+              "eu-west-1",
+              "eu-west-2",
+              "eu-west-3",
+              "us-east-1",
+              "us-east-2",
+              "us-west-1",
+              "us-west-2"
+            ]
+          },
+          "sourceRefs": [
+            "source:aws:aws-amazon-com-free-ai",
+            "source:aws:aws-amazon-com-textract-pricing",
+            "source:aws:docs-aws-amazon-com-awsaccountbilling-latest-aboutv2-free-tier-html"
+          ],
+          "sourceUrls": [
+            "https://aws.amazon.com/free/ai/",
+            "https://aws.amazon.com/textract/pricing/",
+            "https://docs.aws.amazon.com/awsaccountbilling/latest/aboutv2/free-tier.html"
+          ],
+          "usageScope": "provider_account",
+          "verificationStatus": "verified",
+          "verifiedAt": "2026-09-09T00:00:00Z"
+        }
+      ],
+      "contextWindow": null,
+      "contextWindowStatus": "unknown_not_guessed",
+      "defaultPriceSelectionRule": [
+        "current_effective_utc",
+        "verified",
+        "standard",
+        "text",
+        "default_context_class"
+      ],
+      "defaultSafe": false,
+      "governanceClass": "VERIFIED_CANONICAL",
+      "governanceDetails": null,
+      "governanceReason": "canonical_verified_non_token_public_projection",
+      "governanceSourceCandidateIds": [
+        "aws/DetectDocumentText"
+      ],
+      "id": "DetectDocumentText",
+      "identityType": "canonical_model",
+      "inputPrice": null,
+      "lifecycleStatus": "active",
+      "model": "Amazon Textract DetectDocumentText",
+      "officialSourceUrl": "https://aws.amazon.com/textract/pricing/",
+      "outputPrice": null,
+      "pricingComponents": [
+        {
+          "amount": "1.5",
+          "calculationDefault": false,
+          "chargeId": "price:aws/DetectDocumentText:standard:short:current:usage-0-1000000:document_page:document:per_1000_pages",
+          "component": "document_page",
+          "condition": {
+            "availabilityRules": [],
+            "contextClass": "short",
+            "defaultAvailabilityStatus": "available",
+            "effectiveFrom": null,
+            "effectiveUntil": null,
+            "priceAdjustments": [
+              {
+                "factor": "1.4",
+                "operation": "multiply",
+                "priceAdjustmentId": "adjustment:aws/DetectDocumentText:us-west-1",
+                "selector": {
+                  "endpointGeographies": [
+                    "us-west-1"
+                  ]
+                },
+                "sourceRefs": [
+                  "source:aws:pricing-us-east-1-amazonaws-com-offers-v1-0-aws-AmazonTextract-current-index-jso"
+                ]
+              },
+              {
+                "factor": "1.26",
+                "operation": "multiply",
+                "priceAdjustmentId": "adjustment:aws/DetectDocumentText:govcloud",
+                "selector": {
+                  "endpointGeographies": [
+                    "us-gov-east-1",
+                    "us-gov-west-1"
+                  ]
+                },
+                "sourceRefs": [
+                  "source:aws:pricing-us-east-1-amazonaws-com-offers-v1-0-aws-AmazonTextract-current-index-jso"
+                ]
+              }
+            ],
+            "processingMode": "standard",
+            "promptTokenThreshold": null,
+            "regionPolicy": "region_specific",
+            "regionSelector": {
+              "dataResidencies": [
+                "regional"
+              ],
+              "endpointGeographies": [
+                "ap-northeast-2",
+                "ap-south-1",
+                "ap-southeast-1",
+                "ap-southeast-2",
+                "ca-central-1",
+                "eu-central-1",
+                "eu-south-2",
+                "eu-west-1",
+                "eu-west-2",
+                "eu-west-3",
+                "us-east-1",
+                "us-east-2",
+                "us-gov-east-1",
+                "us-gov-west-1",
+                "us-west-1",
+                "us-west-2"
+              ],
+              "pricingGeography": "region_specific"
+            },
+            "tierSelection": null,
+            "usageTier": {
+              "billingPeriod": "calendar_month",
+              "freeAllowance": 0,
+              "metric": "document_page",
+              "tierEnd": 1000000,
+              "tierMode": "graduated",
+              "tierStart": 0,
+              "usageScope": "unknown"
+            }
+          },
+          "currency": "USD",
+          "modality": "document",
+          "pricingId": "price:aws/DetectDocumentText:standard:short:current:usage-0-1000000",
+          "sourceRefs": [
+            "source:aws:aws-amazon-com-textract-pricing",
+            "source:aws:pricing-us-east-1-amazonaws-com-offers-v1-0-aws-AmazonTextract-current-index-jso"
+          ],
+          "unit": "per_1000_pages",
+          "verificationStatus": "verified"
+        },
+        {
+          "amount": "0.6",
+          "calculationDefault": false,
+          "chargeId": "price:aws/DetectDocumentText:standard:short:current:usage-1000000-plus:document_page:document:per_1000_pages",
+          "component": "document_page",
+          "condition": {
+            "availabilityRules": [],
+            "contextClass": "short",
+            "defaultAvailabilityStatus": "available",
+            "effectiveFrom": null,
+            "effectiveUntil": null,
+            "priceAdjustments": [
+              {
+                "factor": "1.4",
+                "operation": "multiply",
+                "priceAdjustmentId": "adjustment:aws/DetectDocumentText:us-west-1-high-volume",
+                "selector": {
+                  "endpointGeographies": [
+                    "us-west-1"
+                  ]
+                },
+                "sourceRefs": [
+                  "source:aws:pricing-us-east-1-amazonaws-com-offers-v1-0-aws-AmazonTextract-current-index-jso"
+                ]
+              },
+              {
+                "factor": "1.26",
+                "operation": "multiply",
+                "priceAdjustmentId": "adjustment:aws/DetectDocumentText:govcloud-high-volume",
+                "selector": {
+                  "endpointGeographies": [
+                    "us-gov-east-1",
+                    "us-gov-west-1"
+                  ]
+                },
+                "sourceRefs": [
+                  "source:aws:pricing-us-east-1-amazonaws-com-offers-v1-0-aws-AmazonTextract-current-index-jso"
+                ]
+              }
+            ],
+            "processingMode": "standard",
+            "promptTokenThreshold": null,
+            "regionPolicy": "region_specific",
+            "regionSelector": {
+              "dataResidencies": [
+                "regional"
+              ],
+              "endpointGeographies": [
+                "ap-northeast-2",
+                "ap-south-1",
+                "ap-southeast-1",
+                "ap-southeast-2",
+                "ca-central-1",
+                "eu-central-1",
+                "eu-south-2",
+                "eu-west-1",
+                "eu-west-2",
+                "eu-west-3",
+                "us-east-1",
+                "us-east-2",
+                "us-gov-east-1",
+                "us-gov-west-1",
+                "us-west-1",
+                "us-west-2"
+              ],
+              "pricingGeography": "region_specific"
+            },
+            "tierSelection": null,
+            "usageTier": {
+              "billingPeriod": "calendar_month",
+              "freeAllowance": 0,
+              "metric": "document_page",
+              "tierEnd": null,
+              "tierMode": "graduated",
+              "tierStart": 1000000,
+              "usageScope": "unknown"
+            }
+          },
+          "currency": "USD",
+          "modality": "document",
+          "pricingId": "price:aws/DetectDocumentText:standard:short:current:usage-1000000-plus",
+          "sourceRefs": [
+            "source:aws:aws-amazon-com-textract-pricing",
+            "source:aws:pricing-us-east-1-amazonaws-com-offers-v1-0-aws-AmazonTextract-current-index-jso"
+          ],
+          "unit": "per_1000_pages",
+          "verificationStatus": "verified"
+        }
+      ],
+      "pricingSourceType": "canonical_verified_structured_price",
+      "provider": "aws",
+      "publicExposure": "public",
+      "redirectTargetInternalId": null,
+      "releaseStage": "stable",
+      "replacementInternalId": null,
+      "routingBehavior": "direct",
+      "routingDetails": {},
+      "selectedBatchPriceRecordId": null,
+      "selectedBillingPriceRecordId": "price:aws/DetectDocumentText:standard:short:current:usage-1000000-plus",
+      "selectedPriceEffectiveFrom": null,
+      "selectedPriceEffectiveUntil": null,
+      "selectedPriceRecordId": null,
+      "sourceRefs": [
+        "source:aws:aws-amazon-com-free-ai",
+        "source:aws:aws-amazon-com-textract-faqs",
+        "source:aws:aws-amazon-com-textract-pricing",
+        "source:aws:docs-aws-amazon-com-awsaccountbilling-latest-aboutv2-free-tier-html",
+        "source:aws:docs-aws-amazon-com-textract-latest-APIReference-API_DetectDocumentText-html",
+        "source:aws:docs-aws-amazon-com-textract-latest-APIReference-API_StartDocumentTextDetection-",
+        "source:aws:pricing-us-east-1-amazonaws-com-offers-v1-0-aws-AmazonTextract-current-index-jso"
+      ],
+      "sourceUrls": [
+        "https://aws.amazon.com/free/ai/",
+        "https://aws.amazon.com/textract/faqs/",
+        "https://aws.amazon.com/textract/pricing/",
+        "https://docs.aws.amazon.com/awsaccountbilling/latest/aboutv2/free-tier.html",
+        "https://docs.aws.amazon.com/textract/latest/APIReference/API_DetectDocumentText.html",
+        "https://docs.aws.amazon.com/textract/latest/APIReference/API_StartDocumentTextDetection.html",
+        "https://pricing.us-east-1.amazonaws.com/offers/v1.0/aws/AmazonTextract/current/index.json"
+      ],
+      "status": "latest",
+      "verificationStatus": "verified",
+      "verifiedAt": "2026-09-09T00:00:00Z",
+      "verifiedSourceRefs": [
+        "source:aws:aws-amazon-com-free-ai",
+        "source:aws:aws-amazon-com-textract-faqs",
+        "source:aws:aws-amazon-com-textract-pricing",
+        "source:aws:docs-aws-amazon-com-awsaccountbilling-latest-aboutv2-free-tier-html",
+        "source:aws:docs-aws-amazon-com-textract-latest-APIReference-API_DetectDocumentText-html",
+        "source:aws:docs-aws-amazon-com-textract-latest-APIReference-API_StartDocumentTextDetection-",
+        "source:aws:pricing-us-east-1-amazonaws-com-offers-v1-0-aws-AmazonTextract-current-index-jso"
+      ]
+    },
+    {
+      "aliasTargetInternalId": null,
+      "availability": "active",
+      "batchInputPrice": null,
+      "batchOutputPrice": null,
+      "billingModelInternalId": null,
+      "blockedFromDefaultReasons": [
+        "missing_verified_current_price"
+      ],
+      "cachedInputPrice": null,
+      "canonicalInternalId": "azure/prebuilt-read",
+      "checkedAt": "2026-09-09T00:00:00Z",
+      "checkedSourceRefs": [
+        "source:azure:azure-microsoft-com-en-us-pricing-details-document-intelligence",
+        "source:azure:learn-microsoft-com-en-us-azure-ai-services-document-intelligence-prebuilt-read?",
+        "source:azure:learn-microsoft-com-en-us-azure-ai-services-document-intelligence-service-limits",
+        "source:azure:learn-microsoft-com-en-us-rest-api-cost-management-retail-prices-azure-retail-pr",
+        "source:azure:prices-azure-com-api-retail-prices"
+      ],
+      "contextWindow": null,
+      "contextWindowStatus": "unknown_not_guessed",
+      "defaultPriceSelectionRule": [
+        "current_effective_utc",
+        "verified",
+        "standard",
+        "text",
+        "default_context_class"
+      ],
+      "defaultSafe": false,
+      "governanceClass": "VERIFIED_CANONICAL",
+      "governanceDetails": null,
+      "governanceReason": "canonical_verified_non_token_public_projection",
+      "governanceSourceCandidateIds": [
+        "azure/prebuilt-read"
+      ],
+      "id": "prebuilt-read",
+      "identityType": "canonical_model",
+      "inputPrice": null,
+      "lifecycleStatus": "active",
+      "model": "Azure Document Intelligence Read",
+      "officialSourceUrl": "https://prices.azure.com/api/retail/prices",
+      "outputPrice": null,
+      "pricingComponents": [
+        {
+          "amount": "1.5",
+          "calculationDefault": false,
+          "chargeId": "price:azure/prebuilt-read:standard:short:current:usage-0-1000000:document_page:document:per_1000_pages",
+          "component": "document_page",
+          "condition": {
+            "availabilityRules": [],
+            "contextClass": "short",
+            "defaultAvailabilityStatus": "available",
+            "effectiveFrom": null,
+            "effectiveUntil": null,
+            "priceAdjustments": [],
+            "processingMode": "standard",
+            "promptTokenThreshold": null,
+            "regionPolicy": "region_specific",
+            "regionSelector": {
+              "dataResidencies": [
+                "regional"
+              ],
+              "endpointGeographies": [
+                "australiaeast",
+                "brazilsouth",
+                "canadacentral",
+                "centralindia",
+                "centralus",
+                "eastasia",
+                "eastus",
+                "eastus2",
+                "francecentral",
+                "germanywestcentral",
+                "italynorth",
+                "japaneast",
+                "japanwest",
+                "koreacentral",
+                "northcentralus",
+                "northeurope",
+                "norwayeast",
+                "qatarcentral",
+                "southafricanorth",
+                "southcentralus",
+                "southeastasia",
+                "swedencentral",
+                "switzerlandnorth",
+                "switzerlandwest",
+                "uaenorth",
+                "uksouth",
+                "westcentralus",
+                "westeurope",
+                "westus",
+                "westus2",
+                "westus3"
+              ],
+              "pricingGeography": "region_specific"
+            },
+            "tierSelection": null,
+            "usageTier": {
+              "billingPeriod": "calendar_month",
+              "freeAllowance": 0,
+              "metric": "document_page",
+              "tierEnd": 1000000,
+              "tierMode": "graduated",
+              "tierStart": 0,
+              "usageScope": "unknown"
+            }
+          },
+          "currency": "USD",
+          "modality": "document",
+          "pricingId": "price:azure/prebuilt-read:standard:short:current:usage-0-1000000",
+          "sourceRefs": [
+            "source:azure:learn-microsoft-com-en-us-rest-api-cost-management-retail-prices-azure-retail-pr",
+            "source:azure:prices-azure-com-api-retail-prices"
+          ],
+          "unit": "per_1000_pages",
+          "verificationStatus": "verified"
+        },
+        {
+          "amount": "0.6",
+          "calculationDefault": false,
+          "chargeId": "price:azure/prebuilt-read:standard:short:current:usage-1000000-plus:document_page:document:per_1000_pages",
+          "component": "document_page",
+          "condition": {
+            "availabilityRules": [],
+            "contextClass": "short",
+            "defaultAvailabilityStatus": "available",
+            "effectiveFrom": null,
+            "effectiveUntil": null,
+            "priceAdjustments": [],
+            "processingMode": "standard",
+            "promptTokenThreshold": null,
+            "regionPolicy": "region_specific",
+            "regionSelector": {
+              "dataResidencies": [
+                "regional"
+              ],
+              "endpointGeographies": [
+                "australiaeast",
+                "brazilsouth",
+                "canadacentral",
+                "centralindia",
+                "centralus",
+                "eastasia",
+                "eastus",
+                "eastus2",
+                "francecentral",
+                "germanywestcentral",
+                "italynorth",
+                "japaneast",
+                "japanwest",
+                "koreacentral",
+                "northcentralus",
+                "northeurope",
+                "norwayeast",
+                "qatarcentral",
+                "southafricanorth",
+                "southcentralus",
+                "southeastasia",
+                "swedencentral",
+                "switzerlandnorth",
+                "switzerlandwest",
+                "uaenorth",
+                "uksouth",
+                "westcentralus",
+                "westeurope",
+                "westus",
+                "westus2",
+                "westus3"
+              ],
+              "pricingGeography": "region_specific"
+            },
+            "tierSelection": null,
+            "usageTier": {
+              "billingPeriod": "calendar_month",
+              "freeAllowance": 0,
+              "metric": "document_page",
+              "tierEnd": null,
+              "tierMode": "graduated",
+              "tierStart": 1000000,
+              "usageScope": "unknown"
+            }
+          },
+          "currency": "USD",
+          "modality": "document",
+          "pricingId": "price:azure/prebuilt-read:standard:short:current:usage-1000000-plus",
+          "sourceRefs": [
+            "source:azure:learn-microsoft-com-en-us-rest-api-cost-management-retail-prices-azure-retail-pr",
+            "source:azure:prices-azure-com-api-retail-prices"
+          ],
+          "unit": "per_1000_pages",
+          "verificationStatus": "verified"
+        }
+      ],
+      "pricingSourceType": "canonical_verified_structured_price",
+      "provider": "azure",
+      "publicExposure": "public",
+      "redirectTargetInternalId": null,
+      "releaseStage": "stable",
+      "replacementInternalId": null,
+      "routingBehavior": "direct",
+      "routingDetails": {},
+      "selectedBatchPriceRecordId": null,
+      "selectedBillingPriceRecordId": "price:azure/prebuilt-read:standard:short:current:usage-1000000-plus",
+      "selectedPriceEffectiveFrom": null,
+      "selectedPriceEffectiveUntil": null,
+      "selectedPriceRecordId": null,
+      "sourceRefs": [
+        "source:azure:azure-microsoft-com-en-us-pricing-details-document-intelligence",
+        "source:azure:learn-microsoft-com-en-us-azure-ai-services-document-intelligence-prebuilt-read?",
+        "source:azure:learn-microsoft-com-en-us-azure-ai-services-document-intelligence-service-limits",
+        "source:azure:learn-microsoft-com-en-us-rest-api-cost-management-retail-prices-azure-retail-pr",
+        "source:azure:prices-azure-com-api-retail-prices"
+      ],
+      "sourceUrls": [
+        "https://azure.microsoft.com/en-us/pricing/details/document-intelligence/",
+        "https://learn.microsoft.com/en-us/azure/ai-services/document-intelligence/prebuilt/read?view=doc-intel-4.0.0",
+        "https://learn.microsoft.com/en-us/azure/ai-services/document-intelligence/service-limits?view=doc-intel-4.0.0",
+        "https://learn.microsoft.com/en-us/rest/api/cost-management/retail-prices/azure-retail-prices",
+        "https://prices.azure.com/api/retail/prices"
+      ],
+      "status": "latest",
+      "verificationStatus": "verified",
+      "verifiedAt": "2026-09-09T00:00:00Z",
+      "verifiedSourceRefs": [
+        "source:azure:azure-microsoft-com-en-us-pricing-details-document-intelligence",
+        "source:azure:learn-microsoft-com-en-us-azure-ai-services-document-intelligence-prebuilt-read?",
+        "source:azure:learn-microsoft-com-en-us-azure-ai-services-document-intelligence-service-limits",
+        "source:azure:learn-microsoft-com-en-us-rest-api-cost-management-retail-prices-azure-retail-pr",
+        "source:azure:prices-azure-com-api-retail-prices"
+      ]
+    },
+    {
+      "aliasTargetInternalId": null,
+      "availability": "active",
+      "batchInputPrice": null,
+      "batchOutputPrice": null,
+      "billingModelInternalId": null,
       "blockedFromDefaultReasons": [],
       "cachedInputPrice": null,
       "canonicalInternalId": "cohere/aya-expanse-32b",
@@ -4468,6 +5017,247 @@
       "verifiedAt": "2026-08-28T19:00:00Z",
       "verifiedSourceRefs": [
         "source:deepseek:api-docs-deepseek-com-quick_start-pricing"
+      ]
+    },
+    {
+      "aliasTargetInternalId": null,
+      "availability": "active",
+      "batchInputPrice": null,
+      "batchOutputPrice": null,
+      "billingModelInternalId": null,
+      "blockedFromDefaultReasons": [
+        "missing_verified_current_price"
+      ],
+      "cachedInputPrice": null,
+      "canonicalInternalId": "google-cloud/OCR_PROCESSOR",
+      "checkedAt": "2026-09-08T00:00:00Z",
+      "checkedSourceRefs": [
+        "source:google-cloud:cloud-google-com-products-document-ai-pricing",
+        "source:google-cloud:docs-cloud-google-com-document-ai-docs-create-processor",
+        "source:google-cloud:docs-cloud-google-com-document-ai-docs-enterprise-document-ocr",
+        "source:google-cloud:docs-cloud-google-com-document-ai-docs-processors-list",
+        "source:google-cloud:docs-cloud-google-com-document-ai-docs-regions"
+      ],
+      "contextWindow": null,
+      "contextWindowStatus": "unknown_not_guessed",
+      "defaultPriceSelectionRule": [
+        "current_effective_utc",
+        "verified",
+        "standard",
+        "text",
+        "default_context_class"
+      ],
+      "defaultSafe": false,
+      "governanceClass": "VERIFIED_CANONICAL",
+      "governanceDetails": null,
+      "governanceReason": "canonical_verified_non_token_public_projection",
+      "governanceSourceCandidateIds": [
+        "google-cloud/OCR_PROCESSOR"
+      ],
+      "id": "OCR_PROCESSOR",
+      "identityType": "canonical_model",
+      "inputPrice": null,
+      "lifecycleStatus": "active",
+      "model": "Enterprise Document OCR",
+      "officialSourceUrl": "https://cloud.google.com/products/document-ai/pricing",
+      "outputPrice": null,
+      "pricingComponents": [
+        {
+          "amount": "0",
+          "calculationDefault": false,
+          "chargeId": "price:google-cloud/OCR_PROCESSOR:standard:short:current:usage-0-1000:document_page:document:per_1000_pages",
+          "component": "document_page",
+          "condition": {
+            "availabilityRules": [],
+            "contextClass": "short",
+            "defaultAvailabilityStatus": "available",
+            "effectiveFrom": null,
+            "effectiveUntil": null,
+            "priceAdjustments": [],
+            "processingMode": "standard",
+            "promptTokenThreshold": null,
+            "regionPolicy": "global",
+            "regionSelector": {
+              "dataResidencies": [
+                "regional"
+              ],
+              "endpointGeographies": [
+                "asia-south1",
+                "asia-southeast1",
+                "australia-southeast1",
+                "eu",
+                "europe-west2",
+                "europe-west3",
+                "northamerica-northeast1",
+                "us"
+              ],
+              "pricingGeography": "global_base"
+            },
+            "tierSelection": null,
+            "usageTier": {
+              "billingPeriod": "calendar_month",
+              "freeAllowance": 1000,
+              "metric": "document_page",
+              "tierEnd": 1000,
+              "tierMode": "graduated",
+              "tierStart": 0,
+              "usageScope": "unknown"
+            }
+          },
+          "currency": "USD",
+          "modality": "document",
+          "pricingId": "price:google-cloud/OCR_PROCESSOR:standard:short:current:usage-0-1000",
+          "sourceRefs": [
+            "source:google-cloud:cloud-google-com-products-document-ai-pricing",
+            "source:google-cloud:docs-cloud-google-com-document-ai-docs-processors-list",
+            "source:google-cloud:docs-cloud-google-com-document-ai-docs-regions"
+          ],
+          "unit": "per_1000_pages",
+          "verificationStatus": "verified"
+        },
+        {
+          "amount": "1.5",
+          "calculationDefault": false,
+          "chargeId": "price:google-cloud/OCR_PROCESSOR:standard:short:current:usage-1000-5000000:document_page:document:per_1000_pages",
+          "component": "document_page",
+          "condition": {
+            "availabilityRules": [],
+            "contextClass": "short",
+            "defaultAvailabilityStatus": "available",
+            "effectiveFrom": null,
+            "effectiveUntil": null,
+            "priceAdjustments": [],
+            "processingMode": "standard",
+            "promptTokenThreshold": null,
+            "regionPolicy": "global",
+            "regionSelector": {
+              "dataResidencies": [
+                "regional"
+              ],
+              "endpointGeographies": [
+                "asia-south1",
+                "asia-southeast1",
+                "australia-southeast1",
+                "eu",
+                "europe-west2",
+                "europe-west3",
+                "northamerica-northeast1",
+                "us"
+              ],
+              "pricingGeography": "global_base"
+            },
+            "tierSelection": null,
+            "usageTier": {
+              "billingPeriod": "calendar_month",
+              "freeAllowance": 1000,
+              "metric": "document_page",
+              "tierEnd": 5000000,
+              "tierMode": "graduated",
+              "tierStart": 1000,
+              "usageScope": "unknown"
+            }
+          },
+          "currency": "USD",
+          "modality": "document",
+          "pricingId": "price:google-cloud/OCR_PROCESSOR:standard:short:current:usage-1000-5000000",
+          "sourceRefs": [
+            "source:google-cloud:cloud-google-com-products-document-ai-pricing",
+            "source:google-cloud:docs-cloud-google-com-document-ai-docs-processors-list",
+            "source:google-cloud:docs-cloud-google-com-document-ai-docs-regions"
+          ],
+          "unit": "per_1000_pages",
+          "verificationStatus": "verified"
+        },
+        {
+          "amount": "0.6",
+          "calculationDefault": false,
+          "chargeId": "price:google-cloud/OCR_PROCESSOR:standard:short:current:usage-5000000-plus:document_page:document:per_1000_pages",
+          "component": "document_page",
+          "condition": {
+            "availabilityRules": [],
+            "contextClass": "short",
+            "defaultAvailabilityStatus": "available",
+            "effectiveFrom": null,
+            "effectiveUntil": null,
+            "priceAdjustments": [],
+            "processingMode": "standard",
+            "promptTokenThreshold": null,
+            "regionPolicy": "global",
+            "regionSelector": {
+              "dataResidencies": [
+                "regional"
+              ],
+              "endpointGeographies": [
+                "asia-south1",
+                "asia-southeast1",
+                "australia-southeast1",
+                "eu",
+                "europe-west2",
+                "europe-west3",
+                "northamerica-northeast1",
+                "us"
+              ],
+              "pricingGeography": "global_base"
+            },
+            "tierSelection": null,
+            "usageTier": {
+              "billingPeriod": "calendar_month",
+              "freeAllowance": 1000,
+              "metric": "document_page",
+              "tierEnd": null,
+              "tierMode": "graduated",
+              "tierStart": 5000000,
+              "usageScope": "unknown"
+            }
+          },
+          "currency": "USD",
+          "modality": "document",
+          "pricingId": "price:google-cloud/OCR_PROCESSOR:standard:short:current:usage-5000000-plus",
+          "sourceRefs": [
+            "source:google-cloud:cloud-google-com-products-document-ai-pricing",
+            "source:google-cloud:docs-cloud-google-com-document-ai-docs-processors-list",
+            "source:google-cloud:docs-cloud-google-com-document-ai-docs-regions"
+          ],
+          "unit": "per_1000_pages",
+          "verificationStatus": "verified"
+        }
+      ],
+      "pricingSourceType": "canonical_verified_structured_price",
+      "provider": "google-cloud",
+      "publicExposure": "public",
+      "redirectTargetInternalId": null,
+      "releaseStage": "stable",
+      "replacementInternalId": null,
+      "routingBehavior": "direct",
+      "routingDetails": {},
+      "selectedBatchPriceRecordId": null,
+      "selectedBillingPriceRecordId": "price:google-cloud/OCR_PROCESSOR:standard:short:current:usage-5000000-plus",
+      "selectedPriceEffectiveFrom": null,
+      "selectedPriceEffectiveUntil": null,
+      "selectedPriceRecordId": null,
+      "sourceRefs": [
+        "source:google-cloud:cloud-google-com-products-document-ai-pricing",
+        "source:google-cloud:docs-cloud-google-com-document-ai-docs-create-processor",
+        "source:google-cloud:docs-cloud-google-com-document-ai-docs-enterprise-document-ocr",
+        "source:google-cloud:docs-cloud-google-com-document-ai-docs-processors-list",
+        "source:google-cloud:docs-cloud-google-com-document-ai-docs-regions"
+      ],
+      "sourceUrls": [
+        "https://cloud.google.com/products/document-ai/pricing",
+        "https://docs.cloud.google.com/document-ai/docs/create-processor",
+        "https://docs.cloud.google.com/document-ai/docs/enterprise-document-ocr",
+        "https://docs.cloud.google.com/document-ai/docs/processors-list",
+        "https://docs.cloud.google.com/document-ai/docs/regions"
+      ],
+      "status": "latest",
+      "verificationStatus": "verified",
+      "verifiedAt": "2026-09-08T00:00:00Z",
+      "verifiedSourceRefs": [
+        "source:google-cloud:cloud-google-com-products-document-ai-pricing",
+        "source:google-cloud:docs-cloud-google-com-document-ai-docs-create-processor",
+        "source:google-cloud:docs-cloud-google-com-document-ai-docs-enterprise-document-ocr",
+        "source:google-cloud:docs-cloud-google-com-document-ai-docs-processors-list",
+        "source:google-cloud:docs-cloud-google-com-document-ai-docs-regions"
       ]
     },
     {

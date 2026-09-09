@@ -286,6 +286,31 @@ def project_cache_eligibility(
     }
 
 
+def project_conditional_usage_allowances(
+    model: dict[str, Any] | None,
+    sources_by_id: dict[str, dict[str, Any]],
+) -> list[dict[str, Any]] | None:
+    allowances = (model or {}).get("conditionalUsageAllowances")
+    if allowances is None:
+        return None
+    if not isinstance(allowances, list) or not allowances:
+        raise ValueError(f"conditionalUsageAllowances must be a non-empty array: {(model or {}).get('internalId')}")
+    projected = []
+    for allowance in allowances:
+        refs = sorted(allowance["sourceRefs"])
+        if not refs or len(refs) != len(set(refs)) or any(ref not in sources_by_id for ref in refs):
+            raise ValueError(f"conditional usage allowance requires known unique source refs: {(model or {}).get('internalId')}")
+        if any(sources_by_id[ref]["providerId"] != (model or {}).get("providerId") for ref in refs):
+            raise ValueError(f"conditional usage allowance source provider mismatch: {(model or {}).get('internalId')}")
+        urls = source_urls(refs, sources_by_id)
+        if any(not url.startswith("https://") for url in urls):
+            raise ValueError(f"conditional usage allowance requires public HTTPS sources: {(model or {}).get('internalId')}")
+        parse_effective_at(allowance["checkedAt"])
+        parse_effective_at(allowance["verifiedAt"])
+        projected.append({**allowance, "sourceRefs": refs, "sourceUrls": urls})
+    return projected
+
+
 def project_cache_lifetime_modes(
     model: dict[str, Any] | None,
     sources_by_id: dict[str, dict[str, Any]],
@@ -454,11 +479,15 @@ def public_dataset_v15_compatible(row: dict[str, Any]) -> bool:
     if any(component.get("condition", {}).get("configuration") is not None for component in components):
         return False
     non_token_components = [component for component in components if component["unit"] != "per_1m_tokens"]
-    return not non_token_components or (
-        len(non_token_components) == 1
-        and non_token_components[0]["component"] == "document_page"
-        and non_token_components[0]["modality"] == "document"
-        and non_token_components[0]["unit"] == "per_1000_pages"
+    return not non_token_components or all(
+        component["component"] == "document_page"
+        and component["modality"] == "document"
+        and component["unit"] == "per_1000_pages"
+        and (
+            len(non_token_components) == 1
+            or component.get("condition", {}).get("usageTier") is not None
+        )
+        for component in non_token_components
     )
 
 
@@ -646,6 +675,8 @@ def project_pricing_component(record: dict[str, Any], charge: dict[str, Any]) ->
     }
     if record.get("temporalCondition") is not None:
         condition["temporalCondition"] = record["temporalCondition"]
+    if record.get("usageTier") is not None:
+        condition["usageTier"] = record["usageTier"]
     if record.get("configuration") is not None:
         condition["configuration"] = record["configuration"]
     for field in (
@@ -957,6 +988,7 @@ def projection_row(
         checked_source_refs = source_refs_at_timestamp(refs, sources_by_id, "checkedAt", checked_at)
     context_window_tokens = (model or {}).get("contextWindowTokens")
     cache_eligibility = project_cache_eligibility(model, sources_by_id)
+    conditional_usage_allowances = project_conditional_usage_allowances(model, sources_by_id)
     cache_lifetime_modes = project_cache_lifetime_modes(
         model,
         sources_by_id,
@@ -1019,6 +1051,8 @@ def projection_row(
         row["contextWindowTokens"] = context_window_tokens
     if cache_eligibility is not None:
         row["cacheEligibility"] = cache_eligibility
+    if conditional_usage_allowances is not None:
+        row["conditionalUsageAllowances"] = conditional_usage_allowances
     if cache_lifetime_modes is not None:
         row["cacheLifetimeModes"] = cache_lifetime_modes
     if identity.get("scheduledTransition") is not None:
@@ -1645,6 +1679,20 @@ def validate_projection(artifact: dict[str, Any], report: dict[str, Any]) -> Non
             for timestamp_field in ("checkedAt", "verifiedAt"):
                 if generated_at < parse_effective_at(cache_eligibility[timestamp_field]):
                     raise ValueError(f"projection generatedAt precedes cacheEligibility {timestamp_field}: {row['id']}")
+        conditional_allowances = row.get("conditionalUsageAllowances")
+        if conditional_allowances is not None:
+            if not isinstance(conditional_allowances, list) or not conditional_allowances:
+                raise ValueError(f"projection conditionalUsageAllowances is invalid: {row['id']}")
+            for allowance in conditional_allowances:
+                if allowance["offerType"] != "short_term_trial" or allowance["metric"] != "document_page":
+                    raise ValueError(f"projection conditional usage allowance contract is invalid: {row['id']}")
+                if allowance["verificationStatus"] != "verified":
+                    raise ValueError(f"projection conditional usage allowance must be verified: {row['id']}")
+                if not allowance["sourceRefs"] or len(allowance["sourceRefs"]) != len(allowance["sourceUrls"]):
+                    raise ValueError(f"projection conditional usage allowance source mapping is invalid: {row['id']}")
+                for timestamp_field in ("checkedAt", "verifiedAt"):
+                    if generated_at < parse_effective_at(allowance[timestamp_field]):
+                        raise ValueError(f"projection generatedAt precedes conditional allowance {timestamp_field}: {row['id']}")
         cache_lifetime_modes = row.get("cacheLifetimeModes")
         if cache_lifetime_modes is not None:
             if not isinstance(cache_lifetime_modes, list) or not cache_lifetime_modes:

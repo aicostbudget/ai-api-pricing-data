@@ -17,6 +17,9 @@ COMPARISONS = {
     "greater_than",
     "greater_than_or_equal",
 }
+USAGE_TIER_MODES = {"graduated", "volume"}
+USAGE_BILLING_PERIODS = {"calendar_month"}
+USAGE_SCOPES = {"unknown", "billing_account", "project", "processor", "region", "provider_account"}
 CHARGE_COMPONENTS = {
     "input",
     "cached_input",
@@ -246,7 +249,7 @@ def validate_canonical_price_records(records: Any, *, production: bool = True) -
         "verified_at",
         "billing_note",
     }
-    allowed_record_fields = required_record_fields | {"tier_selection"}
+    allowed_record_fields = required_record_fields | {"tier_selection", "usage_tier"}
     for record in records:
         _require(isinstance(record, dict), "price record must be an object")
         _require(required_record_fields <= set(record), "price record is missing required fields")
@@ -283,6 +286,26 @@ def validate_canonical_price_records(records: Any, *, production: bool = True) -
         else:
             _require(threshold is None, f"price record {record_id} threshold requires tier_selection")
 
+        usage_tier = record.get("usage_tier")
+        if usage_tier is not None:
+            _require(isinstance(usage_tier, dict), f"price record {record_id} usage_tier must be an object")
+            _require(
+                set(usage_tier) == {"metric", "tier_start", "tier_end", "billing_period", "tier_mode", "usage_scope", "free_allowance"},
+                f"price record {record_id} usage_tier has unsupported fields",
+            )
+            _require(usage_tier.get("metric") in CHARGE_COMPONENTS, f"price record {record_id} usage metric is invalid")
+            start = usage_tier.get("tier_start")
+            end = usage_tier.get("tier_end")
+            _require(isinstance(start, int) and not isinstance(start, bool) and start >= 0, f"price record {record_id} tier_start is invalid")
+            _require(end is None or (isinstance(end, int) and not isinstance(end, bool) and end > start), f"price record {record_id} tier_end is invalid")
+            _require(usage_tier.get("billing_period") in USAGE_BILLING_PERIODS, f"price record {record_id} billing_period is invalid")
+            _require(usage_tier.get("tier_mode") in USAGE_TIER_MODES, f"price record {record_id} tier_mode is invalid")
+            _require(usage_tier.get("usage_scope") in USAGE_SCOPES, f"price record {record_id} usage_scope is invalid")
+            free_allowance = usage_tier.get("free_allowance")
+            _require(isinstance(free_allowance, int) and not isinstance(free_allowance, bool) and free_allowance >= 0, f"price record {record_id} free_allowance is invalid")
+            _require(record.get("tier_selection") is None, f"price record {record_id} cannot combine token and usage tiers")
+            _require(record.get("calculation_default") is False, f"price record {record_id} usage tiers cannot be scalar defaults")
+
         charges = record.get("charges")
         _require(isinstance(charges, list) and charges, f"price record {record_id} charges must be non-empty")
         for charge in charges:
@@ -300,6 +323,10 @@ def validate_canonical_price_records(records: Any, *, production: bool = True) -
             _require(charge.get("unit") in UNITS, f"charge {charge_id} unit is invalid")
             _require(_decimal(charge.get("amount"), f"charge {charge_id} amount") >= 0, f"charge {charge_id} amount must be >= 0")
 
+        if usage_tier is not None:
+            _require(len(charges) == 1, f"price record {record_id} usage tier requires exactly one charge")
+            _require(charges[0]["component"] == usage_tier["metric"], f"price record {record_id} usage metric must match its charge")
+
         _validate_region_policy(record.get("region_policy"), record_id)
         refs = record.get("source_refs")
         _validate_string_list(refs, f"price record {record_id} source_refs")
@@ -310,8 +337,28 @@ def validate_canonical_price_records(records: Any, *, production: bool = True) -
             _validate_timestamp(record.get(field), f"price record {record_id} {field}")
         _require(isinstance(record.get("billing_note"), str), f"price record {record_id} billing_note is required")
 
+    usage_records = [record for record in records if record.get("usage_tier") is not None]
     defaults = [record for record in records if record["calculation_default"]]
-    _require(len(defaults) == 1, "price_records require exactly one calculation_default record")
+    if usage_records:
+        _require(len(usage_records) == len(records), "usage-tier records cannot coexist with scalar-default price records")
+        _require(not defaults, "usage-tier price_records cannot define a scalar calculation default")
+        common_fields = ("metric", "billing_period", "tier_mode", "usage_scope", "free_allowance")
+        first_usage = usage_records[0]["usage_tier"]
+        _require(
+            all(record["usage_tier"][field] == first_usage[field] for record in usage_records for field in common_fields),
+            "usage-tier records must share one contract",
+        )
+        ordered = sorted(usage_records, key=lambda record: record["usage_tier"]["tier_start"])
+        _require(ordered[0]["usage_tier"]["tier_start"] == 0, "usage tiers must start at zero")
+        for left, right in zip(ordered, ordered[1:]):
+            _require(left["usage_tier"]["tier_end"] == right["usage_tier"]["tier_start"], "usage tiers contain a gap or overlap")
+        _require(ordered[-1]["usage_tier"]["tier_end"] is None, "final usage tier must be unbounded")
+        if first_usage["free_allowance"]:
+            free = ordered[0]
+            _require(free["usage_tier"]["tier_end"] == first_usage["free_allowance"], "free allowance must equal the first tier boundary")
+            _require(_decimal(free["charges"][0]["amount"], "free tier amount") == 0, "free allowance tier must have a zero rate")
+    else:
+        _require(len(defaults) == 1, "price_records require exactly one calculation_default record")
 
     for index, left in enumerate(records):
         for right in records[index + 1 :]:
@@ -333,7 +380,8 @@ def validate_canonical_price_records(records: Any, *, production: bool = True) -
                         "data_residencies": right_region["data_residencies"],
                     },
                 ):
-                    raise PricingContractError(f"overlapping active price records {left['id']} and {right['id']}")
+                    if left.get("usage_tier") is None or right.get("usage_tier") is None:
+                        raise PricingContractError(f"overlapping active price records {left['id']} and {right['id']}")
 
     by_mode: dict[str, list[dict[str, Any]]] = {}
     for record in records:
@@ -357,6 +405,20 @@ def project_v1_compatibility(records: list[dict[str, Any]]) -> dict[str, Any]:
     """Project explicit records into the intentionally lossy V1 compatibility shape."""
 
     validate_canonical_price_records(records, production=False)
+    if records and all(record.get("usage_tier") is not None for record in records):
+        return {
+            "currency": records[0]["currency"],
+            "unit": None,
+            "input": None,
+            "output": None,
+            "cached_input": None,
+            "cache_write": None,
+            "cache_write_1h": None,
+            "batch_input": None,
+            "batch_cached_input": None,
+            "batch_output": None,
+        }
+
     standard = next(
         (
             record
@@ -404,6 +466,38 @@ def project_v1_compatibility(records: list[dict[str, Any]]) -> dict[str, Any]:
 
 def validate_model_price_records(model: dict[str, Any]) -> None:
     records = model.get("price_records")
+    allowances = model.get("conditional_usage_allowances", [])
+    if allowances:
+        _require(isinstance(allowances, list), "conditional_usage_allowances must be an array")
+        allowance_ids: set[str] = set()
+        official_urls = set(model.get("official_source_urls") or [model.get("official_source_url")])
+        for allowance in allowances:
+            required = {"id", "offer_type", "eligibility", "metric", "allowance", "billing_period", "usage_scope", "duration", "region_selector", "source_refs", "verification_status", "checked_at", "verified_at", "note"}
+            _require(isinstance(allowance, dict) and set(allowance) == required, "conditional usage allowance has unsupported fields")
+            allowance_id = allowance.get("id")
+            _require(isinstance(allowance_id, str) and allowance_id and allowance_id not in allowance_ids, "conditional usage allowance id is invalid or duplicate")
+            allowance_ids.add(allowance_id)
+            _require(allowance.get("offer_type") == "short_term_trial", f"conditional usage allowance {allowance_id} offer_type is invalid")
+            eligibility = allowance.get("eligibility")
+            _require(isinstance(eligibility, dict) and set(eligibility) == {"customer_status", "account_plan"}, f"conditional usage allowance {allowance_id} eligibility is invalid")
+            _require(eligibility.get("customer_status") in {"new_customer", "existing_customer", "any_customer"}, f"conditional usage allowance {allowance_id} customer_status is invalid")
+            _require(eligibility.get("account_plan") in {"free", "paid", "any"}, f"conditional usage allowance {allowance_id} account_plan is invalid")
+            _require(allowance.get("metric") in CHARGE_COMPONENTS, f"conditional usage allowance {allowance_id} metric is invalid")
+            _require(isinstance(allowance.get("allowance"), int) and not isinstance(allowance.get("allowance"), bool) and allowance["allowance"] > 0, f"conditional usage allowance {allowance_id} quantity is invalid")
+            _require(allowance.get("billing_period") in USAGE_BILLING_PERIODS, f"conditional usage allowance {allowance_id} billing_period is invalid")
+            _require(allowance.get("usage_scope") in USAGE_SCOPES, f"conditional usage allowance {allowance_id} usage_scope is invalid")
+            duration = allowance.get("duration")
+            _require(isinstance(duration, dict) and set(duration) == {"value", "unit", "starts_on"}, f"conditional usage allowance {allowance_id} duration is invalid")
+            _require(isinstance(duration.get("value"), int) and not isinstance(duration.get("value"), bool) and duration["value"] > 0, f"conditional usage allowance {allowance_id} duration value is invalid")
+            _require(duration.get("unit") == "month" and duration.get("starts_on") == "offer_activation", f"conditional usage allowance {allowance_id} duration semantics are invalid")
+            _validate_selector(allowance.get("region_selector"), f"conditional usage allowance {allowance_id} region_selector")
+            refs = allowance.get("source_refs")
+            _validate_string_list(refs, f"conditional usage allowance {allowance_id} source_refs")
+            _require(set(refs) <= official_urls, f"conditional usage allowance {allowance_id} source_refs absent from official_source_urls")
+            _require(allowance.get("verification_status") == "verified", f"conditional usage allowance {allowance_id} must be verified")
+            _validate_timestamp(allowance.get("checked_at"), f"conditional usage allowance {allowance_id} checked_at")
+            _validate_timestamp(allowance.get("verified_at"), f"conditional usage allowance {allowance_id} verified_at")
+            _require(isinstance(allowance.get("note"), str) and allowance["note"], f"conditional usage allowance {allowance_id} note is required")
     if records is None:
         return
     legacy_structures = {
@@ -518,8 +612,140 @@ def normalize_canonical_price_records(
                 "cachedPromptTokensIncluded": tier["cached_prompt_tokens_included"],
                 "wholeRequestPricing": tier["whole_request_pricing"],
             }
+        if record.get("usage_tier") is not None:
+            tier = record["usage_tier"]
+            item["usageTier"] = {
+                "metric": tier["metric"],
+                "tierStart": tier["tier_start"],
+                "tierEnd": tier["tier_end"],
+                "billingPeriod": tier["billing_period"],
+                "tierMode": tier["tier_mode"],
+                "usageScope": tier["usage_scope"],
+                "freeAllowance": tier["free_allowance"],
+            }
         normalized.append(item)
     return normalized
+
+
+def normalize_conditional_usage_allowances(
+    allowances: list[dict[str, Any]],
+    source_ref_resolver: Callable[[str], str] | dict[str, str],
+) -> list[dict[str, Any]]:
+    """Normalize generic conditional allowances without mixing them into paid tiers."""
+
+    def resolve(ref: str) -> str:
+        return source_ref_resolver(ref) if callable(source_ref_resolver) else source_ref_resolver[ref]
+
+    return [
+        {
+            "allowanceId": allowance["id"],
+            "offerType": allowance["offer_type"],
+            "eligibility": {
+                "customerStatus": allowance["eligibility"]["customer_status"],
+                "accountPlan": allowance["eligibility"]["account_plan"],
+            },
+            "metric": allowance["metric"],
+            "allowance": allowance["allowance"],
+            "billingPeriod": allowance["billing_period"],
+            "usageScope": allowance["usage_scope"],
+            "duration": {
+                "value": allowance["duration"]["value"],
+                "unit": allowance["duration"]["unit"],
+                "startsOn": allowance["duration"]["starts_on"],
+            },
+            "regionSelector": _camel_selector(allowance["region_selector"]),
+            "sourceRefs": sorted(resolve(ref) for ref in allowance["source_refs"]),
+            "verificationStatus": allowance["verification_status"],
+            "checkedAt": allowance["checked_at"],
+            "verifiedAt": allowance["verified_at"],
+            "note": allowance["note"],
+        }
+        for allowance in allowances
+    ]
+
+
+def calculate_graduated_usage_cost(
+    records: list[dict[str, Any]],
+    usage_quantity: int,
+    *,
+    endpoint_geography: str | None = None,
+    data_residency: str | None = None,
+) -> Decimal:
+    """Calculate a canonical graduated usage-tier contract without provider-specific logic."""
+
+    validate_canonical_price_records(records, production=False)
+    _require(
+        isinstance(usage_quantity, int) and not isinstance(usage_quantity, bool) and usage_quantity >= 0,
+        "usage_quantity must be a non-negative integer",
+    )
+    _require(
+        all(record["usage_tier"]["tier_mode"] == "graduated" for record in records),
+        "usage cost calculation currently requires graduated tiers",
+    )
+    total = Decimal("0")
+    for record in sorted(records, key=lambda item: item["usage_tier"]["tier_start"]):
+        tier = record["usage_tier"]
+        billable = max(
+            0,
+            min(usage_quantity, tier["tier_end"] if tier["tier_end"] is not None else usage_quantity)
+            - tier["tier_start"],
+        )
+        if billable:
+            rate = _decimal(record["charges"][0]["amount"], f"price record {record['id']} amount")
+            if endpoint_geography is not None:
+                _require(
+                    endpoint_geography in record["region_policy"]["endpoint_geographies"],
+                    f"endpoint_geography {endpoint_geography} is outside price record {record['id']}",
+                )
+                residency = data_residency or record["region_policy"]["data_residencies"][0]
+                _require(
+                    residency in record["region_policy"]["data_residencies"],
+                    f"data_residency {residency} is outside price record {record['id']}",
+                )
+                matches = [
+                    adjustment
+                    for adjustment in record["region_policy"]["price_adjustments"]
+                    if _matches_selector(adjustment["selector"], endpoint_geography, residency)
+                ]
+                _require(len(matches) <= 1, f"multiple price adjustments match price record {record['id']}")
+                if matches:
+                    rate *= _decimal(matches[0]["factor"], f"price adjustment {matches[0]['id']} factor")
+            quantity = Decimal("1000") if record["charges"][0]["unit"] == "per_1000_pages" else Decimal("1")
+            total += Decimal(billable) * rate / quantity
+    return total
+
+
+def calculate_usage_cost_with_allowance(
+    records: list[dict[str, Any]],
+    usage_quantity: int,
+    *,
+    allowance: dict[str, Any] | None = None,
+    eligible: bool = False,
+    endpoint_geography: str | None = None,
+    data_residency: str | None = None,
+) -> Decimal:
+    """Apply an explicitly eligible conditional allowance before paid graduated tiers."""
+
+    billable_usage = usage_quantity
+    if allowance is not None and eligible:
+        _require(
+            allowance["metric"] == records[0]["usage_tier"]["metric"],
+            "conditional allowance metric must match usage tiers",
+        )
+        if endpoint_geography is not None:
+            selector = allowance["region_selector"]
+            residency = data_residency or records[0]["region_policy"]["data_residencies"][0]
+            _require(
+                _matches_selector(selector, endpoint_geography, residency),
+                "conditional allowance does not cover the requested region",
+            )
+        billable_usage = max(0, usage_quantity - allowance["allowance"])
+    return calculate_graduated_usage_cost(
+        records,
+        billable_usage,
+        endpoint_geography=endpoint_geography,
+        data_residency=data_residency,
+    )
 
 
 def validate_normalized_region_contract(

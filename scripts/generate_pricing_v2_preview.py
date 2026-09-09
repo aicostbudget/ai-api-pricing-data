@@ -17,12 +17,14 @@ except ModuleNotFoundError:
 try:
     from pricing_contract import (
         PricingContractError,
+        normalize_conditional_usage_allowances,
         normalize_canonical_price_records,
         validate_model_price_records,
     )
 except ModuleNotFoundError:
     from scripts.pricing_contract import (
         PricingContractError,
+        normalize_conditional_usage_allowances,
         normalize_canonical_price_records,
         validate_model_price_records,
     )
@@ -47,6 +49,9 @@ PROVIDER_DISPLAY = {
     "openai": "OpenAI",
     "anthropic": "Anthropic",
     "google-gemini": "Google",
+    "google-cloud": "Google Cloud",
+    "aws": "Amazon Web Services",
+    "azure": "Microsoft Azure",
     "xai": "xAI",
     "deepseek": "DeepSeek",
     "mistral-ai": "Mistral AI",
@@ -58,6 +63,9 @@ OFFICIAL_DOMAINS = {
     "openai": ("platform.openai.com", "developers.openai.com", "openai.com"),
     "anthropic": ("docs.anthropic.com", "platform.claude.com", "anthropic.com"),
     "google-gemini": ("ai.google.dev",),
+    "google-cloud": ("cloud.google.com", "docs.cloud.google.com", "developers.google.com"),
+    "aws": ("aws.amazon.com", "docs.aws.amazon.com", "pricing.us-east-1.amazonaws.com"),
+    "azure": ("azure.microsoft.com", "learn.microsoft.com", "prices.azure.com"),
     "xai": ("docs.x.ai",),
     "deepseek": ("api-docs.deepseek.com",),
     "mistral-ai": ("mistral.ai",),
@@ -2000,6 +2008,8 @@ def public_source_urls(record: dict[str, Any] | None) -> list[str]:
             urls.extend(rule.get("source_refs", []))
         for adjustment in price_record.get("region_policy", {}).get("price_adjustments", []):
             urls.extend(adjustment.get("source_refs", []))
+    for allowance in record.get("conditional_usage_allowances", []):
+        urls.extend(allowance.get("source_refs", []))
     return sorted(set(urls))
 
 
@@ -2810,6 +2820,11 @@ def main() -> None:
         context_window_tokens = projected_context_window_tokens(public)
         if context_window_tokens is not None:
             model_record["contextWindowTokens"] = context_window_tokens
+        if public and public.get("conditional_usage_allowances"):
+            model_record["conditionalUsageAllowances"] = normalize_conditional_usage_allowances(
+                public["conditional_usage_allowances"],
+                source_by_url,
+            )
         models.append(model_record)
 
     exact_parity: list[str] = []

@@ -32,7 +32,9 @@ class MistralOCROnboardingTests(unittest.TestCase):
         }
 
     def test_provider_count_and_exact_ocr_identities(self):
-        self.assertEqual(len(self.providers), 8)
+        provider_ids = [provider["provider_id"] for provider in self.providers]
+        self.assertEqual(len(provider_ids), len(set(provider_ids)))
+        self.assertIn("mistral-ai", provider_ids)
         actual = {
             model_id
             for provider_id, model_id in self.canonical

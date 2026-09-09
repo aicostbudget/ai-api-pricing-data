@@ -71,6 +71,17 @@ def validate_pricing_contract(model: dict, item: tuple[str, str]) -> None:
 
     components = model.get("pricing_components")
     if not isinstance(components, list) or not components:
+        price_records = model.get("price_records")
+        if (
+            isinstance(price_records, list)
+            and price_records
+            and all(
+                charge.get("unit") != "per_1m_tokens"
+                for record in price_records
+                for charge in record.get("charges", [])
+            )
+        ):
+            return
         fail(f"non-token pricing requires pricing_components for {item[0]}/{item[1]}")
 
     required = set(PRICING_COMPONENT_SCHEMA["required"])

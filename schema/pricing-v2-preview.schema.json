@@ -46,6 +46,44 @@
         "sourceRefs": {"type": "array", "minItems": 1, "uniqueItems": true, "items": {"type": "string"}}
       }
     },
+    "conditionalUsageAllowance": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["allowanceId", "offerType", "eligibility", "metric", "allowance", "billingPeriod", "usageScope", "duration", "regionSelector", "verificationStatus", "checkedAt", "verifiedAt", "sourceRefs", "note"],
+      "properties": {
+        "allowanceId": {"type": "string", "minLength": 1},
+        "offerType": {"type": "string", "enum": ["short_term_trial"]},
+        "eligibility": {
+          "type": "object",
+          "additionalProperties": false,
+          "required": ["customerStatus", "accountPlan"],
+          "properties": {
+            "customerStatus": {"type": "string", "enum": ["new_customer", "existing_customer", "any_customer"]},
+            "accountPlan": {"type": "string", "enum": ["free", "paid", "any"]}
+          }
+        },
+        "metric": {"type": "string", "const": "document_page"},
+        "allowance": {"type": "integer", "minimum": 1},
+        "billingPeriod": {"type": "string", "enum": ["calendar_month"]},
+        "usageScope": {"type": "string", "enum": ["unknown", "billing_account", "project", "processor", "region", "provider_account"]},
+        "duration": {
+          "type": "object",
+          "additionalProperties": false,
+          "required": ["value", "unit", "startsOn"],
+          "properties": {
+            "value": {"type": "integer", "minimum": 1},
+            "unit": {"type": "string", "enum": ["month"]},
+            "startsOn": {"type": "string", "enum": ["offer_activation"]}
+          }
+        },
+        "regionSelector": {"$ref": "#/$defs/regionSelector"},
+        "verificationStatus": {"$ref": "#/$defs/verificationStatus"},
+        "checkedAt": {"type": "string", "format": "date-time"},
+        "verifiedAt": {"type": "string", "format": "date-time"},
+        "sourceRefs": {"type": "array", "minItems": 1, "uniqueItems": true, "items": {"type": "string"}},
+        "note": {"type": "string", "minLength": 1}
+      }
+    },
     "cacheLifetimeMode": {
       "type": "object",
       "additionalProperties": false,
@@ -160,6 +198,7 @@
         "contextWindowTokens": {"type": "integer", "minimum": 1},
         "cacheEligibility": {"$ref": "#/$defs/cacheEligibility"},
         "cacheLifetimeModes": {"type": "array", "minItems": 1, "uniqueItems": true, "items": {"$ref": "#/$defs/cacheLifetimeMode"}},
+        "conditionalUsageAllowances": {"type": "array", "minItems": 1, "items": {"$ref": "#/$defs/conditionalUsageAllowance"}},
         "canonicalOfficialId": {"type": "string"},
         "officialIds": {"type": "array", "items": {"$ref": "#/$defs/officialId"}},
         "lifecycleStatus": {"type": "string", "enum": ["active", "deprecated", "retired", "unknown"]},
@@ -202,6 +241,7 @@
         "priceAdjustments": {"type": "array", "items": {"$ref": "#/$defs/priceAdjustment"}},
         "promptTokenThreshold": {"type": ["integer", "null"], "minimum": 0},
         "tierSelection": {"$ref": "#/$defs/tierSelection"},
+        "usageTier": {"$ref": "#/$defs/usageTier"},
         "temporalCondition": {"$ref": "#/$defs/temporalCondition"},
         "effectiveFrom": {
           "anyOf": [
@@ -269,6 +309,20 @@
         "tokenBasis": {"type": "string", "enum": ["total_prompt_tokens"]},
         "cachedPromptTokensIncluded": {"type": "boolean"},
         "wholeRequestPricing": {"type": "boolean"}
+      }
+    },
+    "usageTier": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["metric", "tierStart", "tierEnd", "billingPeriod", "tierMode", "usageScope", "freeAllowance"],
+      "properties": {
+        "metric": {"type": "string", "const": "document_page"},
+        "tierStart": {"type": "integer", "minimum": 0},
+        "tierEnd": {"type": ["integer", "null"], "minimum": 1},
+        "billingPeriod": {"type": "string", "enum": ["calendar_month"]},
+        "tierMode": {"type": "string", "enum": ["graduated", "volume"]},
+        "usageScope": {"type": "string", "enum": ["unknown", "billing_account", "project", "processor", "region", "provider_account"]},
+        "freeAllowance": {"type": "integer", "minimum": 0}
       }
     },
     "scheduledLifecycleTransition": {

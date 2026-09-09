@@ -468,6 +468,46 @@ def validate_preview() -> dict[str, Any]:
                     fail(f"model {model['internalId']} cacheEligibility source provider mismatch")
                 if cache_eligibility["verificationStatus"] == "verified" and source["verificationStatus"] != "verified":
                     fail(f"model {model['internalId']} verified cacheEligibility uses unverified source")
+        conditional_allowances = model.get("conditionalUsageAllowances")
+        if conditional_allowances is not None:
+            if not isinstance(conditional_allowances, list) or not conditional_allowances:
+                fail(f"invalid conditionalUsageAllowances for {model['internalId']}")
+            allowance_ids = set()
+            required_allowance_fields = {
+                "allowanceId", "offerType", "eligibility", "metric", "allowance",
+                "billingPeriod", "usageScope", "duration", "regionSelector", "sourceRefs",
+                "verificationStatus", "checkedAt", "verifiedAt", "note",
+            }
+            for allowance in conditional_allowances:
+                if set(allowance) != required_allowance_fields:
+                    fail(f"invalid conditional usage allowance fields for {model['internalId']}")
+                allowance_id = allowance["allowanceId"]
+                if not allowance_id or allowance_id in allowance_ids:
+                    fail(f"duplicate conditional usage allowance for {model['internalId']}")
+                allowance_ids.add(allowance_id)
+                if allowance["offerType"] != "short_term_trial":
+                    fail(f"invalid conditional usage allowance offer type for {model['internalId']}")
+                eligibility = allowance["eligibility"]
+                if set(eligibility) != {"customerStatus", "accountPlan"}:
+                    fail(f"invalid conditional usage allowance eligibility for {model['internalId']}")
+                if eligibility["customerStatus"] not in {"new_customer", "existing_customer", "any_customer"}:
+                    fail(f"invalid conditional usage allowance customer status for {model['internalId']}")
+                if eligibility["accountPlan"] not in {"free", "paid", "any"}:
+                    fail(f"invalid conditional usage allowance account plan for {model['internalId']}")
+                if allowance["metric"] != "document_page" or allowance["billingPeriod"] != "calendar_month":
+                    fail(f"invalid conditional usage allowance metric for {model['internalId']}")
+                if isinstance(allowance["allowance"], bool) or not isinstance(allowance["allowance"], int) or allowance["allowance"] <= 0:
+                    fail(f"invalid conditional usage allowance quantity for {model['internalId']}")
+                if allowance["duration"].get("unit") != "month" or allowance["duration"].get("startsOn") != "offer_activation":
+                    fail(f"invalid conditional usage allowance duration for {model['internalId']}")
+                parse_timestamp(allowance["checkedAt"], f"{model['internalId']} conditional allowance checkedAt")
+                parse_timestamp(allowance["verifiedAt"], f"{model['internalId']} conditional allowance verifiedAt")
+                for ref in allowance["sourceRefs"]:
+                    source = source_by_id.get(ref)
+                    if source is None or source["providerId"] != model["providerId"]:
+                        fail(f"invalid conditional usage allowance source for {model['internalId']}")
+                    if allowance["verificationStatus"] == "verified" and source["verificationStatus"] != "verified":
+                        fail(f"verified conditional usage allowance uses unverified source for {model['internalId']}")
         cache_lifetime_modes = model.get("cacheLifetimeModes")
         if cache_lifetime_modes is not None:
             if not isinstance(cache_lifetime_modes, list) or not cache_lifetime_modes:
@@ -661,6 +701,7 @@ def validate_preview() -> dict[str, Any]:
             price["contextClass"],
             price.get("pricingStatus"),
             (price.get("temporalCondition") or {}).get("periodId"),
+            tuple(sorted((price.get("usageTier") or {}).items())),
             tuple(sorted((price.get("configuration") or {}).items())),
             tuple(
                 sorted(
