@@ -3,7 +3,6 @@ import json
 import subprocess
 import unittest
 from decimal import Decimal
-from pathlib import Path
 
 from scripts.lib import ROOT, load_models, load_providers
 from scripts.pricing_contract import (
@@ -12,9 +11,10 @@ from scripts.pricing_contract import (
     calculate_usage_cost_with_allowance,
     validate_model_price_records,
 )
+from tests.website_source import resolve_website_source
 
 
-WEBSITE = Path(r"D:\ai-cost-control-tool\aicostguard-english")
+WEBSITE = resolve_website_source(ROOT)
 MODEL_KEY = ("aws", "DetectDocumentText")
 
 
