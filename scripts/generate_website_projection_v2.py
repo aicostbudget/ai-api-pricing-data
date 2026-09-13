@@ -880,10 +880,10 @@ def projection_row(
         blocked_reasons.append("review_required")
     if identity["identityType"] == "historical_reference" and not identity.get("billingModelInternalId"):
         blocked_reasons.append("historical_only")
-    if identity["identityType"] == "alias" and identity["lifecycleStatus"] in {"deprecated", "retired"}:
-        blocked_reasons.append("inactive_alias")
     if identity["lifecycleStatus"] == "retired" and not identity.get("billingModelInternalId"):
         blocked_reasons.append("retired_non_billing")
+    if identity["identityType"] == "alias" and identity["lifecycleStatus"] in {"deprecated", "retired"}:
+        blocked_reasons.append("inactive_alias")
     if selected_price is None:
         blocked_reasons.append("missing_verified_current_price")
     default_safe = not blocked_reasons
@@ -935,10 +935,6 @@ def projection_row(
                 existing_row
                 and existing_row.get("selectedPriceRecordId") == selected_price["pricingId"]
                 and existing_row.get("verifiedAt")
-                and (
-                    public_verified_at is None
-                    or parse_effective_at(existing_row["verifiedAt"]) >= parse_effective_at(public_verified_at)
-                )
             ):
                 verified_at = existing_row["verifiedAt"]
                 existing_verified_refs = existing_row.get("verifiedSourceRefs", [])
@@ -967,9 +963,31 @@ def projection_row(
         verified_source_refs = source_refs_at_timestamp(
             refs, sources_by_id, "verifiedAt", verified_at
         )
+    selected_pricing_id = (selected_price or {}).get("pricingId")
+    existing_price_matches = (
+        (existing_row or {}).get("selectedPriceRecordId") == selected_pricing_id
+    )
+    inactive_alias_billing_matches = (
+        identity["identityType"] == "alias"
+        and identity["lifecycleStatus"] in {"deprecated", "retired"}
+        and (existing_row or {}).get("selectedBillingPriceRecordId") == selected_pricing_id
+    )
+    both_without_selected_price = (
+        selected_pricing_id is None
+        and (existing_row or {}).get("selectedPriceRecordId") is None
+    )
+    non_default_safe_existing_unselected = (
+        not default_safe
+        and (existing_row or {}).get("selectedPriceRecordId") is None
+    )
     if (
         existing_row
-        and existing_row.get("selectedPriceRecordId") == (selected_price or {}).get("pricingId")
+        and (
+            existing_price_matches
+            or inactive_alias_billing_matches
+            or both_without_selected_price
+            or non_default_safe_existing_unselected
+        )
         and existing_row.get("checkedAt")
     ):
         checked_at = existing_row["checkedAt"]

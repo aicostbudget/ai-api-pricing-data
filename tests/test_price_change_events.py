@@ -475,6 +475,55 @@ class PriceChangeEventTests(unittest.TestCase):
         after["time_pricing"]["schedule_accessed_at"] = "2026-09-13T00:00:00Z"
         self.assertEqual(self.generated(before, after), [])
 
+    def test_redirect_billing_schedule_preserves_native_before_and_target_after(self):
+        native = model(provider_id="provider", model_id="legacy", input_price=2, cached_input=0.2, output_price=4)
+        native["status"] = "active"
+        native["time_pricing"] = {
+            "rate_effective_from": "2026-08-16T16:00:00Z",
+            "periods": [{"id": "peak", "pricing": {"input": 2}}],
+        }
+        retired = copy.deepcopy(native)
+        retired["status"] = "retired"
+        retired["last_verified_at"] = "2026-09-13T00:00:00Z"
+        retired["official_source_urls"] = ["https://example.com/pricing", "https://example.com/updates"]
+        retired["lifecycle"] = {
+            "retirement_date": "2026-09-10",
+            "scheduled_transition": {
+                "effective_from": "2026-09-10",
+                "billing_source": "redirect_target",
+                "billing_model_id": "replacement",
+                "redirect_target_model_id": "replacement",
+            },
+        }
+        replacement = model(
+            provider_id="provider", model_id="replacement", input_price=1, cached_input=0.1, output_price=2,
+        )
+        replacement["status"] = "active"
+        replacement["last_verified_at"] = "2026-09-13T00:00:00Z"
+        replacement["time_pricing"] = {
+            "rate_effective_from": "2026-09-10T04:00:00Z",
+            "periods": [{"id": "peak", "pricing": {"input": 1}}],
+        }
+        with tempfile.TemporaryDirectory() as tmp:
+            root = Path(tmp)
+            before_path = root / "2026-09-09" / "prices.json"
+            after_path = root / "2026-09-13" / "prices.json"
+            snapshot(before_path, [native])
+            snapshot(after_path, [retired, replacement])
+            generated = generate_events(before_path, after_path)
+        legacy_events = [event for event in generated if event["model_id"] == "legacy"]
+        self.assertEqual(
+            {event["change_type"] for event in legacy_events},
+            {"lifecycle_update", "temporal_price_schedule_update"},
+        )
+        pricing_event = next(
+            event for event in legacy_events if event["change_type"] == "temporal_price_schedule_update"
+        )
+        self.assertEqual(pricing_event["old_time_pricing"], native["time_pricing"])
+        self.assertEqual(pricing_event["new_time_pricing"], replacement["time_pricing"])
+        self.assertEqual(pricing_event["effective_from"], "2026-09-10T04:00:00Z")
+        self.assertEqual(pricing_event["new_lifecycle"], retired["lifecycle"])
+
     def test_official_announcement_prefers_current_changelog_over_older_news(self):
         self.assertEqual(
             official_announcement_url({

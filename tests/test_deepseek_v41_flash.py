@@ -2,9 +2,11 @@ import json
 import unittest
 from pathlib import Path
 
+from tests.website_source import resolve_website_source
+
 
 ROOT = Path(__file__).resolve().parents[1]
-WEBSITE = Path(r"D:\ai-cost-control-tool\aicostguard-english")
+WEBSITE = resolve_website_source(ROOT)
 OFFICIAL_PRICING = "https://api-docs.deepseek.com/quick_start/pricing"
 OFFICIAL_CHANGELOG = "https://api-docs.deepseek.com/updates/"
 VISION_EXP_RELEASE_DATE = "2026-08-21"

@@ -300,11 +300,35 @@ class P0P1PricingUpdateTests(unittest.TestCase):
     def test_deepseek_price_change_events_are_temporal(self):
         events = [json.loads(line) for line in (ROOT / "data/price-change-events/events.jsonl").read_text(encoding="utf-8").splitlines()]
         for model_id in ("deepseek-v4-flash", "deepseek-v4-pro"):
-            event = next(row for row in events if row["model_id"] == model_id and row["change_type"] == "temporal_price_schedule_update")
+            event = next(
+                row for row in events
+                if row["model_id"] == model_id
+                and row["change_type"] == "temporal_price_schedule_update"
+                and row["effective_from"] == "2026-08-16T16:00:00Z"
+            )
             self.assertIsNone(event["old_time_pricing"])
             self.assertEqual(event["new_time_pricing"]["recurrence"], "weekly")
             self.assertEqual(event["effective_from"], "2026-08-16T16:00:00Z")
             self.assertIsNone(event["new_time_pricing"]["schedule_effective_from"])
+        redirect_event = next(
+            row for row in events
+            if row["model_id"] == "deepseek-v4-flash"
+            and row["change_type"] == "temporal_price_schedule_update"
+            and row["effective_from"] == "2026-09-10T04:00:00Z"
+        )
+        self.assertEqual(
+            redirect_event["old_time_pricing"]["rate_effective_from"],
+            "2026-08-16T16:00:00Z",
+        )
+        self.assertEqual(
+            redirect_event["new_time_pricing"]["rate_effective_from"],
+            "2026-09-10T04:00:00Z",
+        )
+        self.assertEqual(redirect_event["new_status"], "retired")
+        self.assertEqual(
+            redirect_event["new_lifecycle"]["scheduled_transition"]["billing_model_id"],
+            "deepseek-flash",
+        )
 
 
 if __name__ == "__main__":

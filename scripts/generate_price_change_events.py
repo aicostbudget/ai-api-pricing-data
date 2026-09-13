@@ -322,6 +322,65 @@ def newly_observed_retired_event(
     return event
 
 
+def redirect_billing_schedule_event(
+    before_model: dict[str, Any],
+    after_model: dict[str, Any],
+    billing_model: dict[str, Any],
+    before_rel: str,
+    after_rel: str,
+    detected_at: str,
+) -> dict[str, Any] | None:
+    """Describe an alias billing transition without replacing its native historical schedule."""
+    transition = (after_model.get("lifecycle") or {}).get("scheduled_transition") or {}
+    if transition.get("billing_source") != "redirect_target":
+        return None
+    old_time_pricing = before_model.get("time_pricing")
+    new_time_pricing = billing_model.get("time_pricing")
+    if (
+        old_time_pricing is None
+        or new_time_pricing is None
+        or comparable_time_pricing(old_time_pricing) == comparable_time_pricing(new_time_pricing)
+    ):
+        return None
+    old_prices = normalize_prices(before_model["pricing"], "redirect billing old pricing")
+    new_prices = normalize_prices(billing_model["pricing"], "redirect billing new pricing")
+    event = {
+        "schema_version": SCHEMA_VERSION,
+        "event_id": "",
+        "provider_id": after_model["provider_id"],
+        "model_id": after_model["model_id"],
+        "change_type": "temporal_price_schedule_update",
+        "old_prices": old_prices,
+        "new_prices": new_prices,
+        "old_time_pricing": deepcopy(old_time_pricing),
+        "new_time_pricing": deepcopy(new_time_pricing),
+        "old_status": before_model.get("status"),
+        "new_status": after_model.get("status"),
+        "old_lifecycle": deepcopy(before_model.get("lifecycle")),
+        "new_lifecycle": deepcopy(after_model.get("lifecycle")),
+        "unit": billing_model["pricing"].get("unit"),
+        "currency": billing_model["pricing"].get("currency"),
+        "effective_from": new_time_pricing.get("rate_effective_from") or transition.get("effective_from"),
+        "detected_at": detected_at,
+        "verified_at": timestamp_to_date(after_model["last_verified_at"], "last_verified_at"),
+        "date_basis": "official_changelog",
+        "official_source_url": billing_model["official_source_url"],
+        "announcement_url": official_announcement_url(after_model),
+        "source_snapshot_before": before_rel,
+        "source_snapshot_after": after_rel,
+        "dedupe_key": "",
+        "notes": (
+            "The legacy model name now follows the published pricing schedule of its redirect billing target, "
+            f"{transition['billing_model_id']}, effective at "
+            f"{new_time_pricing.get('rate_effective_from') or transition.get('effective_from')}. "
+            "These are redirected-billing rates, not a new native price release for the retired model."
+        ),
+    }
+    event["dedupe_key"] = build_dedupe_key(event)
+    event["event_id"] = build_event_id(event)
+    return event
+
+
 def generate_events(before: Path, after: Path, provider_id: str | None = None) -> list[dict[str, Any]]:
     before_models = load_snapshot(before)
     after_models = load_snapshot(after)
@@ -370,6 +429,20 @@ def generate_events(before: Path, after: Path, provider_id: str | None = None) -
             events.append(
                 lifecycle_event(before_model, after_model, before_rel, after_rel, detected_at, "lifecycle_update")
             )
+            transition = (after_model.get("lifecycle") or {}).get("scheduled_transition") or {}
+            billing_model_id = transition.get("billing_model_id")
+            billing_model = after_models.get((key[0], billing_model_id)) if billing_model_id else None
+            if billing_model is not None:
+                redirect_event = redirect_billing_schedule_event(
+                    before_model,
+                    after_model,
+                    billing_model,
+                    before_rel,
+                    after_rel,
+                    detected_at,
+                )
+                if redirect_event is not None:
+                    events.append(redirect_event)
             continue
         event = {
             "schema_version": SCHEMA_VERSION,

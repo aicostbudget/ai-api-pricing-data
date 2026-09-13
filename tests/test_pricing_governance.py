@@ -118,9 +118,25 @@ class PricingGovernanceTests(unittest.TestCase):
             self.assertIsNotNone(row, f"UNEXPLAINED_CANONICAL_EXCLUSION: {internal_id}")
             self.assertIn(
                 row["governanceClass"],
-                {"VERIFIED_CANONICAL", "PROJECTED_IDENTITY", "EXCLUDED", "REVIEW_REQUIRED"},
+                {"VERIFIED_CANONICAL", "PROJECTED_IDENTITY", "HISTORICAL_REFERENCE", "EXCLUDED", "REVIEW_REQUIRED"},
                 f"INVALID_CANONICAL_GOVERNANCE: {internal_id}",
             )
+
+    def test_retired_canonical_rows_use_historical_reference_governance(self):
+        retired_rows = [
+            row
+            for row in self.projection.values()
+            if row["identityType"] == "canonical_model"
+            and row["lifecycleStatus"] == "retired"
+        ]
+        self.assertTrue(retired_rows)
+        for row in retired_rows:
+            self.assertEqual(row["governanceClass"], "HISTORICAL_REFERENCE")
+            if row.get("billingModelInternalId"):
+                self.assertEqual(row["pricingSourceType"], "redirected_verified_billing")
+                self.assertFalse(
+                    row["redirectedBilling"]["historicalPriceCurrentCalculationEligible"]
+                )
 
     def test_fallbacks_are_explicit_and_preserve_legacy_values(self):
         fallback_types = {"compatibility_fallback", "legacy_historical_fallback"}
