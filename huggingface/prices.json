@@ -4,11 +4,11 @@
     "version": "1.0.0",
     "schema_version": "1.7.0",
     "page_url": "https://aicostbudget.com/en/datasets/ai-api-pricing",
-    "last_updated": "2026-09-09T00:00:00Z",
-    "last_verified_at": "2026-09-09T00:00:00Z",
-    "generated_at": "2026-09-09T10:35:31Z",
+    "last_updated": "2026-09-13T03:53:37Z",
+    "last_verified_at": "2026-09-13T03:53:37Z",
+    "generated_at": "2026-09-13T04:06:46Z",
     "provider_count": 11,
-    "record_count": 66,
+    "record_count": 68,
     "official_source_count": 20,
     "currency": "USD",
     "pricing_unit": "Multiple billing units",
@@ -2656,22 +2656,22 @@
     {
       "provider_id": "deepseek",
       "provider": "DeepSeek",
-      "model_id": "deepseek-v4-flash",
-      "model": "DeepSeek V4 Flash",
-      "input_price_per_1m_tokens": 0.44,
-      "cached_input_price_per_1m_tokens": 0.014,
-      "output_price_per_1m_tokens": 1.32,
+      "model_id": "deepseek-flash",
+      "model": "DeepSeek V4.1 Flash",
+      "input_price_per_1m_tokens": 0.3,
+      "cached_input_price_per_1m_tokens": 0.006,
+      "output_price_per_1m_tokens": 1.2,
       "currency": "USD",
       "pricing_unit": "1M tokens",
       "status": "latest",
-      "availability": "Standard",
+      "availability": "active",
       "official_source_url": "https://api-docs.deepseek.com/quick_start/pricing",
       "verification_status": "verified",
-      "last_verified_at": "2026-08-28",
-      "checked_at": "2026-08-28",
-      "effective_from": "2026-08-16T16:00:00Z",
+      "last_verified_at": "2026-09-13",
+      "checked_at": "2026-09-13",
+      "effective_from": "2026-09-10T04:00:00Z",
       "effective_until": null,
-      "notes": "Supports non-thinking and thinking mode. Legacy deepseek-chat and deepseek-reasoner aliases map to this model family until deprecation.",
+      "notes": "",
       "pricing_tier_count": 0,
       "pricing_tiers": [],
       "time_pricing": {
@@ -2680,17 +2680,17 @@
           {
             "activeWeekdays": [],
             "allOtherTimes": true,
-            "cachedInputPrice": 0.007,
+            "cachedInputPrice": 0.003,
             "calculationDefault": false,
             "currency": "USD",
             "id": "off_peak",
-            "inputPrice": 0.22,
-            "outputPrice": 0.66,
-            "pricingId": "price:deepseek/deepseek-v4-flash:standard:short:current:off_peak",
+            "inputPrice": 0.15,
+            "outputPrice": 0.6,
+            "pricingId": "price:deepseek/deepseek-flash:standard:short:current:off_peak",
             "sourceRefs": [
-              "source:deepseek:api-docs-deepseek-com-news-news260813",
               "source:deepseek:api-docs-deepseek-com-quick_start-pricing",
-              "source:deepseek:api-docs-deepseek-com-updates"
+              "source:deepseek:api-docs-deepseek-com-updates",
+              "source:deepseek:deepseek-com-en-news-deepseek-v4-1-flash"
             ],
             "timeWindows": [],
             "unit": "per_1m_tokens",
@@ -2705,17 +2705,17 @@
               "friday"
             ],
             "allOtherTimes": false,
-            "cachedInputPrice": 0.014,
+            "cachedInputPrice": 0.006,
             "calculationDefault": true,
             "currency": "USD",
             "id": "peak",
-            "inputPrice": 0.44,
-            "outputPrice": 1.32,
-            "pricingId": "price:deepseek/deepseek-v4-flash:standard:short:current:peak",
+            "inputPrice": 0.3,
+            "outputPrice": 1.2,
+            "pricingId": "price:deepseek/deepseek-flash:standard:short:current:peak",
             "sourceRefs": [
-              "source:deepseek:api-docs-deepseek-com-news-news260813",
               "source:deepseek:api-docs-deepseek-com-quick_start-pricing",
-              "source:deepseek:api-docs-deepseek-com-updates"
+              "source:deepseek:api-docs-deepseek-com-updates",
+              "source:deepseek:deepseek-com-en-news-deepseek-v4-1-flash"
             ],
             "timeWindows": [
               {
@@ -2731,7 +2731,7 @@
             "verificationStatus": "verified"
           }
         ],
-        "rateEffectiveFrom": "2026-08-16T16:00:00Z",
+        "rateEffectiveFrom": "2026-09-10T04:00:00Z",
         "recurrence": "weekly",
         "scheduleEffectiveFrom": null,
         "scheduleSourceRefs": [
@@ -2742,10 +2742,10 @@
       },
       "pricing_components": [
         {
-          "pricing_id": "price:deepseek/deepseek-v4-flash:standard:short:current:off_peak",
-          "charge_id": "price:deepseek/deepseek-v4-flash:standard:short:current:off_peak:cached_input:text:per_1m_tokens",
+          "pricing_id": "price:deepseek/deepseek-flash:standard:short:current:off_peak",
+          "charge_id": "price:deepseek/deepseek-flash:standard:short:current:off_peak:cached_input:text:per_1m_tokens",
           "component": "cached_input",
-          "amount": "0.007",
+          "amount": "0.003",
           "unit": "per_1m_tokens",
           "currency": "USD",
           "modality": "text",
@@ -2755,27 +2755,27 @@
             "prompt_token_threshold": null,
             "tier_selection": null,
             "region_policy": "global",
-            "effective_from": "2026-08-16T16:00:00Z",
+            "effective_from": "2026-09-10T04:00:00Z",
             "effective_until": null
           },
           "calculation_default": false,
           "source_refs": [
-            "source:deepseek:api-docs-deepseek-com-news-news260813",
             "source:deepseek:api-docs-deepseek-com-quick_start-pricing",
-            "source:deepseek:api-docs-deepseek-com-updates"
+            "source:deepseek:api-docs-deepseek-com-updates",
+            "source:deepseek:deepseek-com-en-news-deepseek-v4-1-flash"
           ],
           "source_urls": [
-            "https://api-docs.deepseek.com/news/news260813/",
             "https://api-docs.deepseek.com/quick_start/pricing",
-            "https://api-docs.deepseek.com/updates/"
+            "https://api-docs.deepseek.com/updates/",
+            "https://deepseek.com/en/news/deepseek-v4-1-flash/"
           ],
           "verification_status": "verified"
         },
         {
-          "pricing_id": "price:deepseek/deepseek-v4-flash:standard:short:current:off_peak",
-          "charge_id": "price:deepseek/deepseek-v4-flash:standard:short:current:off_peak:input:text:per_1m_tokens",
+          "pricing_id": "price:deepseek/deepseek-flash:standard:short:current:off_peak",
+          "charge_id": "price:deepseek/deepseek-flash:standard:short:current:off_peak:input:text:per_1m_tokens",
           "component": "input",
-          "amount": "0.22",
+          "amount": "0.15",
           "unit": "per_1m_tokens",
           "currency": "USD",
           "modality": "text",
@@ -2785,27 +2785,27 @@
             "prompt_token_threshold": null,
             "tier_selection": null,
             "region_policy": "global",
-            "effective_from": "2026-08-16T16:00:00Z",
+            "effective_from": "2026-09-10T04:00:00Z",
             "effective_until": null
           },
           "calculation_default": false,
           "source_refs": [
-            "source:deepseek:api-docs-deepseek-com-news-news260813",
             "source:deepseek:api-docs-deepseek-com-quick_start-pricing",
-            "source:deepseek:api-docs-deepseek-com-updates"
+            "source:deepseek:api-docs-deepseek-com-updates",
+            "source:deepseek:deepseek-com-en-news-deepseek-v4-1-flash"
           ],
           "source_urls": [
-            "https://api-docs.deepseek.com/news/news260813/",
             "https://api-docs.deepseek.com/quick_start/pricing",
-            "https://api-docs.deepseek.com/updates/"
+            "https://api-docs.deepseek.com/updates/",
+            "https://deepseek.com/en/news/deepseek-v4-1-flash/"
           ],
           "verification_status": "verified"
         },
         {
-          "pricing_id": "price:deepseek/deepseek-v4-flash:standard:short:current:off_peak",
-          "charge_id": "price:deepseek/deepseek-v4-flash:standard:short:current:off_peak:output:text:per_1m_tokens",
+          "pricing_id": "price:deepseek/deepseek-flash:standard:short:current:off_peak",
+          "charge_id": "price:deepseek/deepseek-flash:standard:short:current:off_peak:output:text:per_1m_tokens",
           "component": "output",
-          "amount": "0.66",
+          "amount": "0.6",
           "unit": "per_1m_tokens",
           "currency": "USD",
           "modality": "text",
@@ -2815,27 +2815,27 @@
             "prompt_token_threshold": null,
             "tier_selection": null,
             "region_policy": "global",
-            "effective_from": "2026-08-16T16:00:00Z",
+            "effective_from": "2026-09-10T04:00:00Z",
             "effective_until": null
           },
           "calculation_default": false,
           "source_refs": [
-            "source:deepseek:api-docs-deepseek-com-news-news260813",
             "source:deepseek:api-docs-deepseek-com-quick_start-pricing",
-            "source:deepseek:api-docs-deepseek-com-updates"
+            "source:deepseek:api-docs-deepseek-com-updates",
+            "source:deepseek:deepseek-com-en-news-deepseek-v4-1-flash"
           ],
           "source_urls": [
-            "https://api-docs.deepseek.com/news/news260813/",
             "https://api-docs.deepseek.com/quick_start/pricing",
-            "https://api-docs.deepseek.com/updates/"
+            "https://api-docs.deepseek.com/updates/",
+            "https://deepseek.com/en/news/deepseek-v4-1-flash/"
           ],
           "verification_status": "verified"
         },
         {
-          "pricing_id": "price:deepseek/deepseek-v4-flash:standard:short:current:peak",
-          "charge_id": "price:deepseek/deepseek-v4-flash:standard:short:current:peak:cached_input:text:per_1m_tokens",
+          "pricing_id": "price:deepseek/deepseek-flash:standard:short:current:peak",
+          "charge_id": "price:deepseek/deepseek-flash:standard:short:current:peak:cached_input:text:per_1m_tokens",
           "component": "cached_input",
-          "amount": "0.014",
+          "amount": "0.006",
           "unit": "per_1m_tokens",
           "currency": "USD",
           "modality": "text",
@@ -2845,27 +2845,27 @@
             "prompt_token_threshold": null,
             "tier_selection": null,
             "region_policy": "global",
-            "effective_from": "2026-08-16T16:00:00Z",
+            "effective_from": "2026-09-10T04:00:00Z",
             "effective_until": null
           },
           "calculation_default": true,
           "source_refs": [
-            "source:deepseek:api-docs-deepseek-com-news-news260813",
             "source:deepseek:api-docs-deepseek-com-quick_start-pricing",
-            "source:deepseek:api-docs-deepseek-com-updates"
+            "source:deepseek:api-docs-deepseek-com-updates",
+            "source:deepseek:deepseek-com-en-news-deepseek-v4-1-flash"
           ],
           "source_urls": [
-            "https://api-docs.deepseek.com/news/news260813/",
             "https://api-docs.deepseek.com/quick_start/pricing",
-            "https://api-docs.deepseek.com/updates/"
+            "https://api-docs.deepseek.com/updates/",
+            "https://deepseek.com/en/news/deepseek-v4-1-flash/"
           ],
           "verification_status": "verified"
         },
         {
-          "pricing_id": "price:deepseek/deepseek-v4-flash:standard:short:current:peak",
-          "charge_id": "price:deepseek/deepseek-v4-flash:standard:short:current:peak:input:text:per_1m_tokens",
+          "pricing_id": "price:deepseek/deepseek-flash:standard:short:current:peak",
+          "charge_id": "price:deepseek/deepseek-flash:standard:short:current:peak:input:text:per_1m_tokens",
           "component": "input",
-          "amount": "0.44",
+          "amount": "0.3",
           "unit": "per_1m_tokens",
           "currency": "USD",
           "modality": "text",
@@ -2875,27 +2875,27 @@
             "prompt_token_threshold": null,
             "tier_selection": null,
             "region_policy": "global",
-            "effective_from": "2026-08-16T16:00:00Z",
+            "effective_from": "2026-09-10T04:00:00Z",
             "effective_until": null
           },
           "calculation_default": true,
           "source_refs": [
-            "source:deepseek:api-docs-deepseek-com-news-news260813",
             "source:deepseek:api-docs-deepseek-com-quick_start-pricing",
-            "source:deepseek:api-docs-deepseek-com-updates"
+            "source:deepseek:api-docs-deepseek-com-updates",
+            "source:deepseek:deepseek-com-en-news-deepseek-v4-1-flash"
           ],
           "source_urls": [
-            "https://api-docs.deepseek.com/news/news260813/",
             "https://api-docs.deepseek.com/quick_start/pricing",
-            "https://api-docs.deepseek.com/updates/"
+            "https://api-docs.deepseek.com/updates/",
+            "https://deepseek.com/en/news/deepseek-v4-1-flash/"
           ],
           "verification_status": "verified"
         },
         {
-          "pricing_id": "price:deepseek/deepseek-v4-flash:standard:short:current:peak",
-          "charge_id": "price:deepseek/deepseek-v4-flash:standard:short:current:peak:output:text:per_1m_tokens",
+          "pricing_id": "price:deepseek/deepseek-flash:standard:short:current:peak",
+          "charge_id": "price:deepseek/deepseek-flash:standard:short:current:peak:output:text:per_1m_tokens",
           "component": "output",
-          "amount": "1.32",
+          "amount": "1.2",
           "unit": "per_1m_tokens",
           "currency": "USD",
           "modality": "text",
@@ -2905,19 +2905,569 @@
             "prompt_token_threshold": null,
             "tier_selection": null,
             "region_policy": "global",
-            "effective_from": "2026-08-16T16:00:00Z",
+            "effective_from": "2026-09-10T04:00:00Z",
             "effective_until": null
           },
           "calculation_default": true,
           "source_refs": [
-            "source:deepseek:api-docs-deepseek-com-news-news260813",
             "source:deepseek:api-docs-deepseek-com-quick_start-pricing",
-            "source:deepseek:api-docs-deepseek-com-updates"
+            "source:deepseek:api-docs-deepseek-com-updates",
+            "source:deepseek:deepseek-com-en-news-deepseek-v4-1-flash"
           ],
           "source_urls": [
-            "https://api-docs.deepseek.com/news/news260813/",
             "https://api-docs.deepseek.com/quick_start/pricing",
-            "https://api-docs.deepseek.com/updates/"
+            "https://api-docs.deepseek.com/updates/",
+            "https://deepseek.com/en/news/deepseek-v4-1-flash/"
+          ],
+          "verification_status": "verified"
+        }
+      ],
+      "unit_price": null,
+      "billing_unit": null,
+      "billing_quantity": null,
+      "pricing_dimension": null,
+      "conditional_usage_allowances": []
+    },
+    {
+      "provider_id": "deepseek",
+      "provider": "DeepSeek",
+      "model_id": "deepseek-v4-flash",
+      "model": "DeepSeek V4 Flash",
+      "input_price_per_1m_tokens": 0.3,
+      "cached_input_price_per_1m_tokens": 0.006,
+      "output_price_per_1m_tokens": 1.2,
+      "currency": "USD",
+      "pricing_unit": "1M tokens",
+      "status": "retired",
+      "availability": "Standard",
+      "official_source_url": "https://api-docs.deepseek.com/quick_start/pricing",
+      "verification_status": "verified",
+      "last_verified_at": "2026-09-13",
+      "checked_at": "2026-09-13",
+      "effective_from": "2026-09-10T04:00:00Z",
+      "effective_until": null,
+      "notes": "Supports non-thinking and thinking mode. Legacy deepseek-chat and deepseek-reasoner aliases map to this model family until deprecation.",
+      "pricing_tier_count": 0,
+      "pricing_tiers": [],
+      "time_pricing": {
+        "defaultPeriodId": "off_peak",
+        "periods": [
+          {
+            "activeWeekdays": [],
+            "allOtherTimes": true,
+            "cachedInputPrice": 0.003,
+            "calculationDefault": false,
+            "currency": "USD",
+            "id": "off_peak",
+            "inputPrice": 0.15,
+            "outputPrice": 0.6,
+            "pricingId": "price:deepseek/deepseek-v4-flash:standard:short:current:off_peak",
+            "sourceRefs": [
+              "source:deepseek:api-docs-deepseek-com-quick_start-pricing",
+              "source:deepseek:api-docs-deepseek-com-updates",
+              "source:deepseek:deepseek-com-en-news-deepseek-v4-1-flash"
+            ],
+            "timeWindows": [],
+            "unit": "per_1m_tokens",
+            "verificationStatus": "verified"
+          },
+          {
+            "activeWeekdays": [
+              "monday",
+              "tuesday",
+              "wednesday",
+              "thursday",
+              "friday"
+            ],
+            "allOtherTimes": false,
+            "cachedInputPrice": 0.006,
+            "calculationDefault": true,
+            "currency": "USD",
+            "id": "peak",
+            "inputPrice": 0.3,
+            "outputPrice": 1.2,
+            "pricingId": "price:deepseek/deepseek-v4-flash:standard:short:current:peak",
+            "sourceRefs": [
+              "source:deepseek:api-docs-deepseek-com-quick_start-pricing",
+              "source:deepseek:api-docs-deepseek-com-updates",
+              "source:deepseek:deepseek-com-en-news-deepseek-v4-1-flash"
+            ],
+            "timeWindows": [
+              {
+                "end": "04:00",
+                "start": "01:00"
+              },
+              {
+                "end": "10:00",
+                "start": "06:00"
+              }
+            ],
+            "unit": "per_1m_tokens",
+            "verificationStatus": "verified"
+          }
+        ],
+        "rateEffectiveFrom": "2026-09-10T04:00:00Z",
+        "recurrence": "weekly",
+        "scheduleEffectiveFrom": null,
+        "scheduleSourceRefs": [
+          "source:deepseek:api-docs-deepseek-com-quick_start-pricing"
+        ],
+        "selectionBasis": "request_time",
+        "timezone": "UTC"
+      },
+      "pricing_components": [
+        {
+          "pricing_id": "price:deepseek/deepseek-flash:standard:short:current:off_peak",
+          "charge_id": "price:deepseek/deepseek-flash:standard:short:current:off_peak:cached_input:text:per_1m_tokens",
+          "component": "cached_input",
+          "amount": "0.003",
+          "unit": "per_1m_tokens",
+          "currency": "USD",
+          "modality": "text",
+          "condition": {
+            "processing_mode": "standard",
+            "context_class": "short",
+            "prompt_token_threshold": null,
+            "tier_selection": null,
+            "region_policy": "global",
+            "effective_from": "2026-09-10T04:00:00Z",
+            "effective_until": null
+          },
+          "calculation_default": false,
+          "source_refs": [
+            "source:deepseek:api-docs-deepseek-com-quick_start-pricing",
+            "source:deepseek:api-docs-deepseek-com-updates",
+            "source:deepseek:deepseek-com-en-news-deepseek-v4-1-flash"
+          ],
+          "source_urls": [
+            "https://api-docs.deepseek.com/quick_start/pricing",
+            "https://api-docs.deepseek.com/updates/",
+            "https://deepseek.com/en/news/deepseek-v4-1-flash/"
+          ],
+          "verification_status": "verified"
+        },
+        {
+          "pricing_id": "price:deepseek/deepseek-flash:standard:short:current:off_peak",
+          "charge_id": "price:deepseek/deepseek-flash:standard:short:current:off_peak:input:text:per_1m_tokens",
+          "component": "input",
+          "amount": "0.15",
+          "unit": "per_1m_tokens",
+          "currency": "USD",
+          "modality": "text",
+          "condition": {
+            "processing_mode": "standard",
+            "context_class": "short",
+            "prompt_token_threshold": null,
+            "tier_selection": null,
+            "region_policy": "global",
+            "effective_from": "2026-09-10T04:00:00Z",
+            "effective_until": null
+          },
+          "calculation_default": false,
+          "source_refs": [
+            "source:deepseek:api-docs-deepseek-com-quick_start-pricing",
+            "source:deepseek:api-docs-deepseek-com-updates",
+            "source:deepseek:deepseek-com-en-news-deepseek-v4-1-flash"
+          ],
+          "source_urls": [
+            "https://api-docs.deepseek.com/quick_start/pricing",
+            "https://api-docs.deepseek.com/updates/",
+            "https://deepseek.com/en/news/deepseek-v4-1-flash/"
+          ],
+          "verification_status": "verified"
+        },
+        {
+          "pricing_id": "price:deepseek/deepseek-flash:standard:short:current:off_peak",
+          "charge_id": "price:deepseek/deepseek-flash:standard:short:current:off_peak:output:text:per_1m_tokens",
+          "component": "output",
+          "amount": "0.6",
+          "unit": "per_1m_tokens",
+          "currency": "USD",
+          "modality": "text",
+          "condition": {
+            "processing_mode": "standard",
+            "context_class": "short",
+            "prompt_token_threshold": null,
+            "tier_selection": null,
+            "region_policy": "global",
+            "effective_from": "2026-09-10T04:00:00Z",
+            "effective_until": null
+          },
+          "calculation_default": false,
+          "source_refs": [
+            "source:deepseek:api-docs-deepseek-com-quick_start-pricing",
+            "source:deepseek:api-docs-deepseek-com-updates",
+            "source:deepseek:deepseek-com-en-news-deepseek-v4-1-flash"
+          ],
+          "source_urls": [
+            "https://api-docs.deepseek.com/quick_start/pricing",
+            "https://api-docs.deepseek.com/updates/",
+            "https://deepseek.com/en/news/deepseek-v4-1-flash/"
+          ],
+          "verification_status": "verified"
+        },
+        {
+          "pricing_id": "price:deepseek/deepseek-flash:standard:short:current:peak",
+          "charge_id": "price:deepseek/deepseek-flash:standard:short:current:peak:cached_input:text:per_1m_tokens",
+          "component": "cached_input",
+          "amount": "0.006",
+          "unit": "per_1m_tokens",
+          "currency": "USD",
+          "modality": "text",
+          "condition": {
+            "processing_mode": "standard",
+            "context_class": "short",
+            "prompt_token_threshold": null,
+            "tier_selection": null,
+            "region_policy": "global",
+            "effective_from": "2026-09-10T04:00:00Z",
+            "effective_until": null
+          },
+          "calculation_default": true,
+          "source_refs": [
+            "source:deepseek:api-docs-deepseek-com-quick_start-pricing",
+            "source:deepseek:api-docs-deepseek-com-updates",
+            "source:deepseek:deepseek-com-en-news-deepseek-v4-1-flash"
+          ],
+          "source_urls": [
+            "https://api-docs.deepseek.com/quick_start/pricing",
+            "https://api-docs.deepseek.com/updates/",
+            "https://deepseek.com/en/news/deepseek-v4-1-flash/"
+          ],
+          "verification_status": "verified"
+        },
+        {
+          "pricing_id": "price:deepseek/deepseek-flash:standard:short:current:peak",
+          "charge_id": "price:deepseek/deepseek-flash:standard:short:current:peak:input:text:per_1m_tokens",
+          "component": "input",
+          "amount": "0.3",
+          "unit": "per_1m_tokens",
+          "currency": "USD",
+          "modality": "text",
+          "condition": {
+            "processing_mode": "standard",
+            "context_class": "short",
+            "prompt_token_threshold": null,
+            "tier_selection": null,
+            "region_policy": "global",
+            "effective_from": "2026-09-10T04:00:00Z",
+            "effective_until": null
+          },
+          "calculation_default": true,
+          "source_refs": [
+            "source:deepseek:api-docs-deepseek-com-quick_start-pricing",
+            "source:deepseek:api-docs-deepseek-com-updates",
+            "source:deepseek:deepseek-com-en-news-deepseek-v4-1-flash"
+          ],
+          "source_urls": [
+            "https://api-docs.deepseek.com/quick_start/pricing",
+            "https://api-docs.deepseek.com/updates/",
+            "https://deepseek.com/en/news/deepseek-v4-1-flash/"
+          ],
+          "verification_status": "verified"
+        },
+        {
+          "pricing_id": "price:deepseek/deepseek-flash:standard:short:current:peak",
+          "charge_id": "price:deepseek/deepseek-flash:standard:short:current:peak:output:text:per_1m_tokens",
+          "component": "output",
+          "amount": "1.2",
+          "unit": "per_1m_tokens",
+          "currency": "USD",
+          "modality": "text",
+          "condition": {
+            "processing_mode": "standard",
+            "context_class": "short",
+            "prompt_token_threshold": null,
+            "tier_selection": null,
+            "region_policy": "global",
+            "effective_from": "2026-09-10T04:00:00Z",
+            "effective_until": null
+          },
+          "calculation_default": true,
+          "source_refs": [
+            "source:deepseek:api-docs-deepseek-com-quick_start-pricing",
+            "source:deepseek:api-docs-deepseek-com-updates",
+            "source:deepseek:deepseek-com-en-news-deepseek-v4-1-flash"
+          ],
+          "source_urls": [
+            "https://api-docs.deepseek.com/quick_start/pricing",
+            "https://api-docs.deepseek.com/updates/",
+            "https://deepseek.com/en/news/deepseek-v4-1-flash/"
+          ],
+          "verification_status": "verified"
+        }
+      ],
+      "unit_price": null,
+      "billing_unit": null,
+      "billing_quantity": null,
+      "pricing_dimension": null,
+      "conditional_usage_allowances": []
+    },
+    {
+      "provider_id": "deepseek",
+      "provider": "DeepSeek",
+      "model_id": "deepseek-v4-flash-vision-exp",
+      "model": "DeepSeek V4 Flash Vision Exp",
+      "input_price_per_1m_tokens": 0.3,
+      "cached_input_price_per_1m_tokens": 0.006,
+      "output_price_per_1m_tokens": 1.2,
+      "currency": "USD",
+      "pricing_unit": "1M tokens",
+      "status": "retired",
+      "availability": "retired",
+      "official_source_url": "https://api-docs.deepseek.com/quick_start/pricing",
+      "verification_status": "verified",
+      "last_verified_at": "2026-09-13",
+      "checked_at": "2026-09-13",
+      "effective_from": "2026-09-10T04:00:00Z",
+      "effective_until": null,
+      "notes": "",
+      "pricing_tier_count": 0,
+      "pricing_tiers": [],
+      "time_pricing": {
+        "defaultPeriodId": "off_peak",
+        "periods": [
+          {
+            "activeWeekdays": [],
+            "allOtherTimes": true,
+            "cachedInputPrice": 0.003,
+            "calculationDefault": false,
+            "currency": "USD",
+            "id": "off_peak",
+            "inputPrice": 0.15,
+            "outputPrice": 0.6,
+            "pricingId": "price:deepseek/deepseek-v4-flash-vision-exp:standard:short:current:off_peak",
+            "sourceRefs": [
+              "source:deepseek:api-docs-deepseek-com-quick_start-pricing",
+              "source:deepseek:api-docs-deepseek-com-updates",
+              "source:deepseek:deepseek-com-en-news-deepseek-v4-1-flash"
+            ],
+            "timeWindows": [],
+            "unit": "per_1m_tokens",
+            "verificationStatus": "verified"
+          },
+          {
+            "activeWeekdays": [
+              "monday",
+              "tuesday",
+              "wednesday",
+              "thursday",
+              "friday"
+            ],
+            "allOtherTimes": false,
+            "cachedInputPrice": 0.006,
+            "calculationDefault": true,
+            "currency": "USD",
+            "id": "peak",
+            "inputPrice": 0.3,
+            "outputPrice": 1.2,
+            "pricingId": "price:deepseek/deepseek-v4-flash-vision-exp:standard:short:current:peak",
+            "sourceRefs": [
+              "source:deepseek:api-docs-deepseek-com-quick_start-pricing",
+              "source:deepseek:api-docs-deepseek-com-updates",
+              "source:deepseek:deepseek-com-en-news-deepseek-v4-1-flash"
+            ],
+            "timeWindows": [
+              {
+                "end": "04:00",
+                "start": "01:00"
+              },
+              {
+                "end": "10:00",
+                "start": "06:00"
+              }
+            ],
+            "unit": "per_1m_tokens",
+            "verificationStatus": "verified"
+          }
+        ],
+        "rateEffectiveFrom": "2026-09-10T04:00:00Z",
+        "recurrence": "weekly",
+        "scheduleEffectiveFrom": null,
+        "scheduleSourceRefs": [
+          "source:deepseek:api-docs-deepseek-com-quick_start-pricing"
+        ],
+        "selectionBasis": "request_time",
+        "timezone": "UTC"
+      },
+      "pricing_components": [
+        {
+          "pricing_id": "price:deepseek/deepseek-flash:standard:short:current:off_peak",
+          "charge_id": "price:deepseek/deepseek-flash:standard:short:current:off_peak:cached_input:text:per_1m_tokens",
+          "component": "cached_input",
+          "amount": "0.003",
+          "unit": "per_1m_tokens",
+          "currency": "USD",
+          "modality": "text",
+          "condition": {
+            "processing_mode": "standard",
+            "context_class": "short",
+            "prompt_token_threshold": null,
+            "tier_selection": null,
+            "region_policy": "global",
+            "effective_from": "2026-09-10T04:00:00Z",
+            "effective_until": null
+          },
+          "calculation_default": false,
+          "source_refs": [
+            "source:deepseek:api-docs-deepseek-com-quick_start-pricing",
+            "source:deepseek:api-docs-deepseek-com-updates",
+            "source:deepseek:deepseek-com-en-news-deepseek-v4-1-flash"
+          ],
+          "source_urls": [
+            "https://api-docs.deepseek.com/quick_start/pricing",
+            "https://api-docs.deepseek.com/updates/",
+            "https://deepseek.com/en/news/deepseek-v4-1-flash/"
+          ],
+          "verification_status": "verified"
+        },
+        {
+          "pricing_id": "price:deepseek/deepseek-flash:standard:short:current:off_peak",
+          "charge_id": "price:deepseek/deepseek-flash:standard:short:current:off_peak:input:text:per_1m_tokens",
+          "component": "input",
+          "amount": "0.15",
+          "unit": "per_1m_tokens",
+          "currency": "USD",
+          "modality": "text",
+          "condition": {
+            "processing_mode": "standard",
+            "context_class": "short",
+            "prompt_token_threshold": null,
+            "tier_selection": null,
+            "region_policy": "global",
+            "effective_from": "2026-09-10T04:00:00Z",
+            "effective_until": null
+          },
+          "calculation_default": false,
+          "source_refs": [
+            "source:deepseek:api-docs-deepseek-com-quick_start-pricing",
+            "source:deepseek:api-docs-deepseek-com-updates",
+            "source:deepseek:deepseek-com-en-news-deepseek-v4-1-flash"
+          ],
+          "source_urls": [
+            "https://api-docs.deepseek.com/quick_start/pricing",
+            "https://api-docs.deepseek.com/updates/",
+            "https://deepseek.com/en/news/deepseek-v4-1-flash/"
+          ],
+          "verification_status": "verified"
+        },
+        {
+          "pricing_id": "price:deepseek/deepseek-flash:standard:short:current:off_peak",
+          "charge_id": "price:deepseek/deepseek-flash:standard:short:current:off_peak:output:text:per_1m_tokens",
+          "component": "output",
+          "amount": "0.6",
+          "unit": "per_1m_tokens",
+          "currency": "USD",
+          "modality": "text",
+          "condition": {
+            "processing_mode": "standard",
+            "context_class": "short",
+            "prompt_token_threshold": null,
+            "tier_selection": null,
+            "region_policy": "global",
+            "effective_from": "2026-09-10T04:00:00Z",
+            "effective_until": null
+          },
+          "calculation_default": false,
+          "source_refs": [
+            "source:deepseek:api-docs-deepseek-com-quick_start-pricing",
+            "source:deepseek:api-docs-deepseek-com-updates",
+            "source:deepseek:deepseek-com-en-news-deepseek-v4-1-flash"
+          ],
+          "source_urls": [
+            "https://api-docs.deepseek.com/quick_start/pricing",
+            "https://api-docs.deepseek.com/updates/",
+            "https://deepseek.com/en/news/deepseek-v4-1-flash/"
+          ],
+          "verification_status": "verified"
+        },
+        {
+          "pricing_id": "price:deepseek/deepseek-flash:standard:short:current:peak",
+          "charge_id": "price:deepseek/deepseek-flash:standard:short:current:peak:cached_input:text:per_1m_tokens",
+          "component": "cached_input",
+          "amount": "0.006",
+          "unit": "per_1m_tokens",
+          "currency": "USD",
+          "modality": "text",
+          "condition": {
+            "processing_mode": "standard",
+            "context_class": "short",
+            "prompt_token_threshold": null,
+            "tier_selection": null,
+            "region_policy": "global",
+            "effective_from": "2026-09-10T04:00:00Z",
+            "effective_until": null
+          },
+          "calculation_default": true,
+          "source_refs": [
+            "source:deepseek:api-docs-deepseek-com-quick_start-pricing",
+            "source:deepseek:api-docs-deepseek-com-updates",
+            "source:deepseek:deepseek-com-en-news-deepseek-v4-1-flash"
+          ],
+          "source_urls": [
+            "https://api-docs.deepseek.com/quick_start/pricing",
+            "https://api-docs.deepseek.com/updates/",
+            "https://deepseek.com/en/news/deepseek-v4-1-flash/"
+          ],
+          "verification_status": "verified"
+        },
+        {
+          "pricing_id": "price:deepseek/deepseek-flash:standard:short:current:peak",
+          "charge_id": "price:deepseek/deepseek-flash:standard:short:current:peak:input:text:per_1m_tokens",
+          "component": "input",
+          "amount": "0.3",
+          "unit": "per_1m_tokens",
+          "currency": "USD",
+          "modality": "text",
+          "condition": {
+            "processing_mode": "standard",
+            "context_class": "short",
+            "prompt_token_threshold": null,
+            "tier_selection": null,
+            "region_policy": "global",
+            "effective_from": "2026-09-10T04:00:00Z",
+            "effective_until": null
+          },
+          "calculation_default": true,
+          "source_refs": [
+            "source:deepseek:api-docs-deepseek-com-quick_start-pricing",
+            "source:deepseek:api-docs-deepseek-com-updates",
+            "source:deepseek:deepseek-com-en-news-deepseek-v4-1-flash"
+          ],
+          "source_urls": [
+            "https://api-docs.deepseek.com/quick_start/pricing",
+            "https://api-docs.deepseek.com/updates/",
+            "https://deepseek.com/en/news/deepseek-v4-1-flash/"
+          ],
+          "verification_status": "verified"
+        },
+        {
+          "pricing_id": "price:deepseek/deepseek-flash:standard:short:current:peak",
+          "charge_id": "price:deepseek/deepseek-flash:standard:short:current:peak:output:text:per_1m_tokens",
+          "component": "output",
+          "amount": "1.2",
+          "unit": "per_1m_tokens",
+          "currency": "USD",
+          "modality": "text",
+          "condition": {
+            "processing_mode": "standard",
+            "context_class": "short",
+            "prompt_token_threshold": null,
+            "tier_selection": null,
+            "region_policy": "global",
+            "effective_from": "2026-09-10T04:00:00Z",
+            "effective_until": null
+          },
+          "calculation_default": true,
+          "source_refs": [
+            "source:deepseek:api-docs-deepseek-com-quick_start-pricing",
+            "source:deepseek:api-docs-deepseek-com-updates",
+            "source:deepseek:deepseek-com-en-news-deepseek-v4-1-flash"
+          ],
+          "source_urls": [
+            "https://api-docs.deepseek.com/quick_start/pricing",
+            "https://api-docs.deepseek.com/updates/",
+            "https://deepseek.com/en/news/deepseek-v4-1-flash/"
           ],
           "verification_status": "verified"
         }
@@ -2963,9 +3513,9 @@
             "outputPrice": 1.98,
             "pricingId": "price:deepseek/deepseek-v4-pro:standard:short:current:off_peak",
             "sourceRefs": [
-              "source:deepseek:api-docs-deepseek-com-news-news260813",
               "source:deepseek:api-docs-deepseek-com-quick_start-pricing",
-              "source:deepseek:api-docs-deepseek-com-updates"
+              "source:deepseek:api-docs-deepseek-com-updates",
+              "source:deepseek:deepseek-com-en-news-deepseek-v4-1-flash"
             ],
             "timeWindows": [],
             "unit": "per_1m_tokens",
@@ -2988,9 +3538,9 @@
             "outputPrice": 3.96,
             "pricingId": "price:deepseek/deepseek-v4-pro:standard:short:current:peak",
             "sourceRefs": [
-              "source:deepseek:api-docs-deepseek-com-news-news260813",
               "source:deepseek:api-docs-deepseek-com-quick_start-pricing",
-              "source:deepseek:api-docs-deepseek-com-updates"
+              "source:deepseek:api-docs-deepseek-com-updates",
+              "source:deepseek:deepseek-com-en-news-deepseek-v4-1-flash"
             ],
             "timeWindows": [
               {
@@ -3035,14 +3585,14 @@
           },
           "calculation_default": false,
           "source_refs": [
-            "source:deepseek:api-docs-deepseek-com-news-news260813",
             "source:deepseek:api-docs-deepseek-com-quick_start-pricing",
-            "source:deepseek:api-docs-deepseek-com-updates"
+            "source:deepseek:api-docs-deepseek-com-updates",
+            "source:deepseek:deepseek-com-en-news-deepseek-v4-1-flash"
           ],
           "source_urls": [
-            "https://api-docs.deepseek.com/news/news260813/",
             "https://api-docs.deepseek.com/quick_start/pricing",
-            "https://api-docs.deepseek.com/updates/"
+            "https://api-docs.deepseek.com/updates/",
+            "https://deepseek.com/en/news/deepseek-v4-1-flash/"
           ],
           "verification_status": "verified"
         },
@@ -3065,14 +3615,14 @@
           },
           "calculation_default": false,
           "source_refs": [
-            "source:deepseek:api-docs-deepseek-com-news-news260813",
             "source:deepseek:api-docs-deepseek-com-quick_start-pricing",
-            "source:deepseek:api-docs-deepseek-com-updates"
+            "source:deepseek:api-docs-deepseek-com-updates",
+            "source:deepseek:deepseek-com-en-news-deepseek-v4-1-flash"
           ],
           "source_urls": [
-            "https://api-docs.deepseek.com/news/news260813/",
             "https://api-docs.deepseek.com/quick_start/pricing",
-            "https://api-docs.deepseek.com/updates/"
+            "https://api-docs.deepseek.com/updates/",
+            "https://deepseek.com/en/news/deepseek-v4-1-flash/"
           ],
           "verification_status": "verified"
         },
@@ -3095,14 +3645,14 @@
           },
           "calculation_default": false,
           "source_refs": [
-            "source:deepseek:api-docs-deepseek-com-news-news260813",
             "source:deepseek:api-docs-deepseek-com-quick_start-pricing",
-            "source:deepseek:api-docs-deepseek-com-updates"
+            "source:deepseek:api-docs-deepseek-com-updates",
+            "source:deepseek:deepseek-com-en-news-deepseek-v4-1-flash"
           ],
           "source_urls": [
-            "https://api-docs.deepseek.com/news/news260813/",
             "https://api-docs.deepseek.com/quick_start/pricing",
-            "https://api-docs.deepseek.com/updates/"
+            "https://api-docs.deepseek.com/updates/",
+            "https://deepseek.com/en/news/deepseek-v4-1-flash/"
           ],
           "verification_status": "verified"
         },
@@ -3125,14 +3675,14 @@
           },
           "calculation_default": true,
           "source_refs": [
-            "source:deepseek:api-docs-deepseek-com-news-news260813",
             "source:deepseek:api-docs-deepseek-com-quick_start-pricing",
-            "source:deepseek:api-docs-deepseek-com-updates"
+            "source:deepseek:api-docs-deepseek-com-updates",
+            "source:deepseek:deepseek-com-en-news-deepseek-v4-1-flash"
           ],
           "source_urls": [
-            "https://api-docs.deepseek.com/news/news260813/",
             "https://api-docs.deepseek.com/quick_start/pricing",
-            "https://api-docs.deepseek.com/updates/"
+            "https://api-docs.deepseek.com/updates/",
+            "https://deepseek.com/en/news/deepseek-v4-1-flash/"
           ],
           "verification_status": "verified"
         },
@@ -3155,14 +3705,14 @@
           },
           "calculation_default": true,
           "source_refs": [
-            "source:deepseek:api-docs-deepseek-com-news-news260813",
             "source:deepseek:api-docs-deepseek-com-quick_start-pricing",
-            "source:deepseek:api-docs-deepseek-com-updates"
+            "source:deepseek:api-docs-deepseek-com-updates",
+            "source:deepseek:deepseek-com-en-news-deepseek-v4-1-flash"
           ],
           "source_urls": [
-            "https://api-docs.deepseek.com/news/news260813/",
             "https://api-docs.deepseek.com/quick_start/pricing",
-            "https://api-docs.deepseek.com/updates/"
+            "https://api-docs.deepseek.com/updates/",
+            "https://deepseek.com/en/news/deepseek-v4-1-flash/"
           ],
           "verification_status": "verified"
         },
@@ -3185,14 +3735,14 @@
           },
           "calculation_default": true,
           "source_refs": [
-            "source:deepseek:api-docs-deepseek-com-news-news260813",
             "source:deepseek:api-docs-deepseek-com-quick_start-pricing",
-            "source:deepseek:api-docs-deepseek-com-updates"
+            "source:deepseek:api-docs-deepseek-com-updates",
+            "source:deepseek:deepseek-com-en-news-deepseek-v4-1-flash"
           ],
           "source_urls": [
-            "https://api-docs.deepseek.com/news/news260813/",
             "https://api-docs.deepseek.com/quick_start/pricing",
-            "https://api-docs.deepseek.com/updates/"
+            "https://api-docs.deepseek.com/updates/",
+            "https://deepseek.com/en/news/deepseek-v4-1-flash/"
           ],
           "verification_status": "verified"
         }

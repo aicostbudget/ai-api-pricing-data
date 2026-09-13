@@ -1376,16 +1376,16 @@
   },
   {
     "provider_id": "deepseek",
-    "model_id": "deepseek-v4-flash",
-    "display_name": "DeepSeek V4 Flash",
-    "model_family": "DeepSeek V4",
+    "model_id": "deepseek-flash",
+    "display_name": "DeepSeek V4.1 Flash",
+    "model_family": "DeepSeek V4.1",
     "status": "active",
     "pricing": {
       "currency": "USD",
       "unit": "1M tokens",
-      "input": 0.44,
-      "output": 1.32,
-      "cached_input": 0.014,
+      "input": 0.3,
+      "output": 1.2,
+      "cached_input": 0.006,
       "cache_write": null,
       "cache_write_1h": null,
       "batch_input": null,
@@ -1394,22 +1394,22 @@
     "official_source_url": "https://api-docs.deepseek.com/quick_start/pricing",
     "official_source_urls": [
       "https://api-docs.deepseek.com/quick_start/pricing",
-      "https://api-docs.deepseek.com/news/news260813/",
-      "https://api-docs.deepseek.com/updates/"
+      "https://api-docs.deepseek.com/updates/",
+      "https://deepseek.com/en/news/deepseek-v4-1-flash/"
     ],
-    "accessed_at": "2026-08-28T19:00:00Z",
-    "last_verified_at": "2026-08-28T19:00:00Z",
-    "effective_from": "2026-08-16",
+    "accessed_at": "2026-09-13T03:53:37Z",
+    "last_verified_at": "2026-09-13T03:53:37Z",
+    "effective_from": "2026-09-10",
     "time_pricing": {
       "timezone": "UTC",
-      "rate_effective_from": "2026-08-16T16:00:00Z",
+      "rate_effective_from": "2026-09-10T04:00:00Z",
       "schedule_effective_from": null,
       "selection_basis": "request_time",
       "recurrence": "weekly",
       "default_period_id": "off_peak",
       "schedule_source_url": "https://api-docs.deepseek.com/quick_start/pricing",
-      "schedule_accessed_at": "2026-08-28T19:00:00Z",
-      "schedule_verified_at": "2026-08-28T19:00:00Z",
+      "schedule_accessed_at": "2026-09-13T03:53:37Z",
+      "schedule_verified_at": "2026-09-13T03:53:37Z",
       "periods": [
         {
           "id": "off_peak",
@@ -1417,7 +1417,7 @@
           "active_weekdays": [],
           "time_windows": [],
           "all_other_times": true,
-          "pricing": {"currency": "USD", "unit": "1M tokens", "input": 0.22, "cached_input": 0.007, "output": 0.66}
+          "pricing": {"currency": "USD", "unit": "1M tokens", "input": 0.15, "cached_input": 0.003, "output": 0.6}
         },
         {
           "id": "peak",
@@ -1428,11 +1428,161 @@
             {"start": "06:00", "end": "10:00"}
           ],
           "all_other_times": false,
-          "pricing": {"currency": "USD", "unit": "1M tokens", "input": 0.44, "cached_input": 0.014, "output": 1.32}
+          "pricing": {"currency": "USD", "unit": "1M tokens", "input": 0.3, "cached_input": 0.006, "output": 1.2}
         }
       ]
     },
-    "notes": "V1 compatibility pricing uses the conservative Peak rate. Actual pricing depends on UTC request time; Off-peak is 50% lower. Current official Peak hours are 01:00-04:00 and 06:00-10:00 UTC, Monday through Friday; all other times, including weekends, are Off-peak. The price rates took effect at 2026-08-16T16:00:00Z. The official sources do not establish when the weekday-only schedule began, so schedule_effective_from is unknown."
+    "notes": "DeepSeek V4.1 Flash was released on 2026-09-10. The official API model name is deepseek-flash and the pricing page identifies the served model version as DeepSeek-V4.1-Flash. V1 compatibility pricing uses the conservative Peak rate. Off-peak is 50% of Peak; Peak hours are 01:00-04:00 and 06:00-10:00 UTC, Monday through Friday. The new rates took effect at 2026-09-10T04:00:00Z."
+  },
+  {
+    "provider_id": "deepseek",
+    "model_id": "deepseek-v4-flash",
+    "display_name": "DeepSeek V4 Flash",
+    "model_family": "DeepSeek V4",
+    "status": "retired",
+    "pricing": {
+      "currency": "USD",
+      "unit": "1M tokens",
+      "input": 0.3,
+      "output": 1.2,
+      "cached_input": 0.006,
+      "cache_write": null,
+      "cache_write_1h": null,
+      "batch_input": null,
+      "batch_output": null
+    },
+    "official_source_url": "https://api-docs.deepseek.com/quick_start/pricing",
+    "official_source_urls": [
+      "https://api-docs.deepseek.com/quick_start/pricing",
+      "https://api-docs.deepseek.com/updates/",
+      "https://deepseek.com/en/news/deepseek-v4-1-flash/"
+    ],
+    "accessed_at": "2026-09-13T03:53:37Z",
+    "last_verified_at": "2026-09-13T03:53:37Z",
+    "effective_from": "2026-09-10",
+    "time_pricing": {
+      "timezone": "UTC",
+      "rate_effective_from": "2026-09-10T04:00:00Z",
+      "schedule_effective_from": null,
+      "selection_basis": "request_time",
+      "recurrence": "weekly",
+      "default_period_id": "off_peak",
+      "schedule_source_url": "https://api-docs.deepseek.com/quick_start/pricing",
+      "schedule_accessed_at": "2026-09-13T03:53:37Z",
+      "schedule_verified_at": "2026-09-13T03:53:37Z",
+      "periods": [
+        {
+          "id": "off_peak",
+          "is_default": true,
+          "active_weekdays": [],
+          "time_windows": [],
+          "all_other_times": true,
+          "pricing": {"currency": "USD", "unit": "1M tokens", "input": 0.15, "cached_input": 0.003, "output": 0.6}
+        },
+        {
+          "id": "peak",
+          "is_default": false,
+          "active_weekdays": ["monday", "tuesday", "wednesday", "thursday", "friday"],
+          "time_windows": [
+            {"start": "01:00", "end": "04:00"},
+            {"start": "06:00", "end": "10:00"}
+          ],
+          "all_other_times": false,
+          "pricing": {"currency": "USD", "unit": "1M tokens", "input": 0.3, "cached_input": 0.006, "output": 1.2}
+        }
+      ]
+    },
+    "lifecycle": {
+      "retirement_notice_date": "2026-09-10",
+      "retirement_date": "2026-09-10",
+      "replacement_model_id": "deepseek-flash",
+      "scheduled_transition": {
+        "kind": "retirement_redirect",
+        "effective_from": "2026-09-10",
+        "source_slug_remains_resolvable": true,
+        "redirect_target_model_id": "deepseek-flash",
+        "target_configuration": {"model": "deepseek-flash"},
+        "billing_source": "redirect_target",
+        "billing_model_id": "deepseek-flash",
+        "billing_configuration": {"model": "deepseek-flash"}
+      }
+    },
+    "notes": "DeepSeek retired V4 Flash on 2026-09-10. The legacy API name deepseek-v4-flash remains temporarily accepted, but requests are served by DeepSeek V4.1 Flash and billed at the Flash price. The projected Peak and Off-peak rates therefore come from the redirect billing target, not from an active V4 Flash model."
+  },
+  {
+    "provider_id": "deepseek",
+    "model_id": "deepseek-v4-flash-vision-exp",
+    "display_name": "DeepSeek V4 Flash Vision Exp",
+    "model_family": "DeepSeek V4",
+    "status": "retired",
+    "pricing": {
+      "currency": "USD",
+      "unit": "1M tokens",
+      "input": 0.3,
+      "output": 1.2,
+      "cached_input": 0.006,
+      "cache_write": null,
+      "cache_write_1h": null,
+      "batch_input": null,
+      "batch_output": null
+    },
+    "official_source_url": "https://api-docs.deepseek.com/quick_start/pricing",
+    "official_source_urls": [
+      "https://api-docs.deepseek.com/quick_start/pricing",
+      "https://api-docs.deepseek.com/updates/",
+      "https://deepseek.com/en/news/deepseek-v4-1-flash/"
+    ],
+    "accessed_at": "2026-09-13T03:53:37Z",
+    "last_verified_at": "2026-09-13T03:53:37Z",
+    "effective_from": "2026-09-10",
+    "time_pricing": {
+      "timezone": "UTC",
+      "rate_effective_from": "2026-09-10T04:00:00Z",
+      "schedule_effective_from": null,
+      "selection_basis": "request_time",
+      "recurrence": "weekly",
+      "default_period_id": "off_peak",
+      "schedule_source_url": "https://api-docs.deepseek.com/quick_start/pricing",
+      "schedule_accessed_at": "2026-09-13T03:53:37Z",
+      "schedule_verified_at": "2026-09-13T03:53:37Z",
+      "periods": [
+        {
+          "id": "off_peak",
+          "is_default": true,
+          "active_weekdays": [],
+          "time_windows": [],
+          "all_other_times": true,
+          "pricing": {"currency": "USD", "unit": "1M tokens", "input": 0.15, "cached_input": 0.003, "output": 0.6}
+        },
+        {
+          "id": "peak",
+          "is_default": false,
+          "active_weekdays": ["monday", "tuesday", "wednesday", "thursday", "friday"],
+          "time_windows": [
+            {"start": "01:00", "end": "04:00"},
+            {"start": "06:00", "end": "10:00"}
+          ],
+          "all_other_times": false,
+          "pricing": {"currency": "USD", "unit": "1M tokens", "input": 0.3, "cached_input": 0.006, "output": 1.2}
+        }
+      ]
+    },
+    "lifecycle": {
+      "retirement_notice_date": "2026-09-10",
+      "retirement_date": "2026-09-10",
+      "replacement_model_id": "deepseek-flash",
+      "scheduled_transition": {
+        "kind": "retirement_redirect",
+        "effective_from": "2026-09-10",
+        "source_slug_remains_resolvable": true,
+        "redirect_target_model_id": "deepseek-flash",
+        "target_configuration": {"model": "deepseek-flash"},
+        "billing_source": "redirect_target",
+        "billing_model_id": "deepseek-flash",
+        "billing_configuration": {"model": "deepseek-flash"}
+      }
+    },
+    "notes": "DeepSeek retired V4 Flash Vision Exp on 2026-09-10. The legacy API name deepseek-v4-flash-vision-exp remains temporarily accepted, but requests are served by DeepSeek V4.1 Flash and billed at the Flash price. The projected Peak and Off-peak rates therefore come from the redirect billing target, not from an active experimental model."
   },
   {
     "provider_id": "deepseek",
@@ -1454,11 +1604,11 @@
     "official_source_url": "https://api-docs.deepseek.com/quick_start/pricing",
     "official_source_urls": [
       "https://api-docs.deepseek.com/quick_start/pricing",
-      "https://api-docs.deepseek.com/news/news260813/",
-      "https://api-docs.deepseek.com/updates/"
+      "https://api-docs.deepseek.com/updates/",
+      "https://deepseek.com/en/news/deepseek-v4-1-flash/"
     ],
-    "accessed_at": "2026-08-28T19:00:00Z",
-    "last_verified_at": "2026-08-28T19:00:00Z",
+    "accessed_at": "2026-09-13T03:53:37Z",
+    "last_verified_at": "2026-09-13T03:53:37Z",
     "effective_from": "2026-08-16",
     "time_pricing": {
       "timezone": "UTC",
@@ -1468,8 +1618,8 @@
       "recurrence": "weekly",
       "default_period_id": "off_peak",
       "schedule_source_url": "https://api-docs.deepseek.com/quick_start/pricing",
-      "schedule_accessed_at": "2026-08-28T19:00:00Z",
-      "schedule_verified_at": "2026-08-28T19:00:00Z",
+      "schedule_accessed_at": "2026-09-13T03:53:37Z",
+      "schedule_verified_at": "2026-09-13T03:53:37Z",
       "periods": [
         {
           "id": "off_peak",
@@ -1492,7 +1642,7 @@
         }
       ]
     },
-    "notes": "V1 compatibility pricing uses the conservative Peak rate. Actual pricing depends on UTC request time; Off-peak is 50% lower. Current official Peak hours are 01:00-04:00 and 06:00-10:00 UTC, Monday through Friday; all other times, including weekends, are Off-peak. The price rates took effect at 2026-08-16T16:00:00Z. The official sources do not establish when the weekday-only schedule began, so schedule_effective_from is unknown."
+    "notes": "DeepSeek's current Pricing page and 2026-09-10 Changelog state that V4 Pro will continue after 2026-09-14 with billing unchanged. The earlier news announcement describing a 2026-09-14 redirect to V4.1 Flash has therefore been superseded and is not represented as a scheduled transition. V1 compatibility pricing uses the conservative Peak rate; Off-peak is 50% of Peak."
   },
   {
     "provider_id": "mistral-ai",

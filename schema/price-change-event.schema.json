@@ -38,6 +38,8 @@
         "cached_price_removed"
         ,"component_price_update"
         ,"temporal_price_schedule_update"
+        ,"model_added"
+        ,"lifecycle_update"
       ]
     },
     "old_prices": {"$ref": "#/$defs/priceTriple"},
@@ -57,6 +59,26 @@
       "anyOf": [
         {"type": "null"},
         {"$ref": "model.schema.json#/$defs/timePricing"}
+      ]
+    },
+    "old_status": {
+      "type": ["string", "null"],
+      "enum": ["active", "preview", "deprecated", "retired", "unknown", null]
+    },
+    "new_status": {
+      "type": ["string", "null"],
+      "enum": ["active", "preview", "deprecated", "retired", "unknown", null]
+    },
+    "old_lifecycle": {
+      "anyOf": [
+        {"type": "null"},
+        {"$ref": "model.schema.json#/$defs/lifecycle"}
+      ]
+    },
+    "new_lifecycle": {
+      "anyOf": [
+        {"type": "null"},
+        {"$ref": "model.schema.json#/$defs/lifecycle"}
       ]
     },
     "unit": {"type": "string", "enum": ["1M tokens"]},

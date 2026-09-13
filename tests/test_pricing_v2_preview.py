@@ -439,9 +439,9 @@ class PricingV2PreviewTests(unittest.TestCase):
             self.assertEqual(alias["identityType"], "alias")
             self.assertEqual(alias["aliasTargetInternalId"], "deepseek/deepseek-v4-flash")
             row = self.projection_row(internal_id.split("/", 1)[1])
-            self.assertEqual(row["inputPrice"], 0.44)
-            self.assertEqual(row["cachedInputPrice"], 0.014)
-            self.assertEqual(row["outputPrice"], 1.32)
+            self.assertEqual(row["inputPrice"], 0.3)
+            self.assertEqual(row["cachedInputPrice"], 0.006)
+            self.assertEqual(row["outputPrice"], 1.2)
 
     def test_grok_3_retired_redirect_is_preserved(self):
         grok = self.identity("xai/grok-3")
@@ -572,8 +572,6 @@ class PricingV2PreviewTests(unittest.TestCase):
             action = row["recommendedIntegrationAction"]
             expected_counts[action] = expected_counts.get(action, 0) + 1
         self.assertEqual({key: value for key, value in counts.items() if value}, expected_counts)
-        self.assertEqual(counts.get("exclude_from_default", 0), 0)
-        self.assertEqual(counts.get("blocked", 0), 0)
 
     def test_phase3_planning_artifacts_cover_website_consumers(self):
         self.assertEqual(self.phase3_consumer_map["consumerCount"], 13)
@@ -686,13 +684,13 @@ class XaiImageLifecycleTests(unittest.TestCase):
             },
         })
 
-    def test_only_old_slug_owns_the_scheduled_transition(self):
+    def test_xai_old_slug_owns_its_scheduled_transition(self):
         canonical_owners = [f"{row['provider_id']}/{row['model_id']}" for row in self.canonical if "lifecycle" in row]
         identity_owners = [row["internalId"] for row in self.identities if "scheduledTransition" in row]
         projection_owners = [row["canonicalInternalId"] for row in self.projection_rows if "scheduledTransition" in row]
-        self.assertEqual(canonical_owners, [self.OLD_INTERNAL_ID])
-        self.assertEqual(identity_owners, [self.OLD_INTERNAL_ID])
-        self.assertEqual(projection_owners, [self.OLD_INTERNAL_ID])
+        self.assertIn(self.OLD_INTERNAL_ID, canonical_owners)
+        self.assertIn(self.OLD_INTERNAL_ID, identity_owners)
+        self.assertIn(self.OLD_INTERNAL_ID, projection_owners)
         self.assertNotIn("cohere/parse-v5.0", canonical_owners + identity_owners + projection_owners)
 
     def test_pre_retirement_redirect_and_target_billing_are_not_active(self):

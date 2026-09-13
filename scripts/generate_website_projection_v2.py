@@ -880,6 +880,8 @@ def projection_row(
         blocked_reasons.append("review_required")
     if identity["identityType"] == "historical_reference" and not identity.get("billingModelInternalId"):
         blocked_reasons.append("historical_only")
+    if identity["identityType"] == "alias" and identity["lifecycleStatus"] in {"deprecated", "retired"}:
+        blocked_reasons.append("inactive_alias")
     if identity["lifecycleStatus"] == "retired" and not identity.get("billingModelInternalId"):
         blocked_reasons.append("retired_non_billing")
     if selected_price is None:
@@ -1057,14 +1059,15 @@ def projection_row(
         row["cacheLifetimeModes"] = cache_lifetime_modes
     if identity.get("scheduledTransition") is not None:
         row["scheduledTransition"] = identity["scheduledTransition"]
-    if identity["internalId"] == "xai/grok-3":
-        row["historicalPrice"] = legacy_grok_history(website_rows)
+    if identity.get("billingModelInternalId"):
         row["redirectedBilling"] = {
             "redirectTargetInternalId": identity.get("redirectTargetInternalId"),
             "billingModelInternalId": identity.get("billingModelInternalId"),
             "currentBillingPriceRecordId": selected_price["pricingId"] if selected_price else None,
             "historicalPriceCurrentCalculationEligible": False,
         }
+    if identity["internalId"] == "xai/grok-3":
+        row["historicalPrice"] = legacy_grok_history(website_rows)
     if pricing_components:
         row["pricingComponents"] = pricing_components
     if identity["identityType"] == "alias":

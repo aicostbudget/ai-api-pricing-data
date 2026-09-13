@@ -15,6 +15,7 @@ from scripts.generate_price_change_events import (
     generate_events,
     load_events,
     merge_events,
+    official_announcement_url,
     validate_event,
     validate_unique_events,
     write_events,
@@ -104,6 +105,66 @@ class PriceChangeEventTests(unittest.TestCase):
         self.assertEqual(len(events), 1)
         self.assertEqual(events[0]["change_type"], change_type)
         return events[0]
+
+    def test_model_added_event_preserves_identity_and_lifecycle(self):
+        added = model(model_id="model-new", input_price=0.3, cached_input=0.006, output_price=1.2)
+        added.update({
+            "status": "active",
+            "effective_from": "2026-09-10",
+            "official_source_urls": ["https://example.com/pricing", "https://example.com/news"],
+        })
+        with tempfile.TemporaryDirectory() as tmp:
+            root = Path(tmp)
+            before = root / "2026-07-26" / "prices.json"
+            after = root / "2026-07-27" / "prices.json"
+            snapshot(before, [])
+            snapshot(after, [added])
+            events = generate_events(before, after)
+        self.assertEqual(len(events), 1)
+        self.assertEqual(events[0]["change_type"], "model_added")
+        self.assertIsNone(events[0]["old_status"])
+        self.assertEqual(events[0]["new_status"], "active")
+        self.assertEqual(events[0]["effective_from"], "2026-09-10")
+
+    def test_newly_observed_retired_model_is_lifecycle_update_not_model_added(self):
+        retired = model(model_id="historical-model")
+        retired.update({
+            "status": "retired",
+            "effective_from": "2026-08-21",
+            "lifecycle": {
+                "retirement_date": "2026-09-10",
+                "scheduled_transition": {
+                    "effective_from": "2026-09-10",
+                    "redirect_target_model_id": "replacement-model",
+                    "billing_model_id": "replacement-model",
+                    "billing_source": "redirect_target",
+                },
+            },
+        })
+        with tempfile.TemporaryDirectory() as tmp:
+            root = Path(tmp)
+            before = root / "2026-07-26" / "prices.json"
+            after = root / "2026-07-27" / "prices.json"
+            snapshot(before, [])
+            snapshot(after, [retired])
+            events = generate_events(before, after)
+        self.assertEqual(len(events), 1)
+        self.assertEqual(events[0]["change_type"], "lifecycle_update")
+        self.assertEqual(events[0]["old_status"], "active")
+        self.assertEqual(events[0]["new_status"], "retired")
+        self.assertEqual(events[0]["effective_from"], "2026-09-10")
+        self.assertNotEqual(events[0]["effective_from"], "2026-08-21")
+
+    def test_lifecycle_update_is_separate_from_pricing(self):
+        before = model()
+        before["status"] = "active"
+        after = copy.deepcopy(before)
+        after["status"] = "retired"
+        after["lifecycle"] = {"retirement_date": "2026-09-10"}
+        event = self.assert_one_change(before, after, "lifecycle_update")
+        self.assertEqual(event["old_prices"], event["new_prices"])
+        self.assertEqual(event["old_status"], "active")
+        self.assertEqual(event["new_status"], "retired")
 
     def test_input_price_decrease_and_increase_generate_price_update(self):
         decrease = self.assert_one_change(model(input_price=2), model(input_price=1), "price_update")
@@ -264,6 +325,16 @@ class PriceChangeEventTests(unittest.TestCase):
         self.assertEqual(kept["announcement_url"], "https://example.com/changelog")
         self.assertEqual(kept["notes"], "Manual announcement backfill.")
 
+    def test_regeneration_replaces_stale_semantics_for_same_snapshot_scope(self):
+        generated = self.generated(model(), model(input_price=2))
+        stale = copy.deepcopy(generated[0])
+        stale["change_type"] = "cached_price_added"
+        stale["dedupe_key"] = build_dedupe_key(stale)
+        stale["event_id"] = build_event_id(stale)
+        merged = merge_events([stale], generated)
+        self.assertEqual(len(merged), 1)
+        self.assertEqual(merged[0]["change_type"], "price_update")
+
     def test_cli_idempotency_and_dry_run_does_not_write(self):
         with tempfile.TemporaryDirectory() as tmp:
             output = Path(tmp) / "events.jsonl"
@@ -310,16 +381,21 @@ class PriceChangeEventTests(unittest.TestCase):
                 "cached_price_removed",
                 "component_price_update",
                 "temporal_price_schedule_update",
+                "model_added",
+                "lifecycle_update",
             },
         )
         before = model(provider_id="new-provider", model_id="new-model")
+        before["status"] = "active"
         with tempfile.TemporaryDirectory() as tmp:
             root = Path(tmp)
             before_path = root / "2026-07-26" / "prices.json"
             after_path = root / "2026-07-27" / "prices.json"
             snapshot(before_path, [])
             snapshot(after_path, [before])
-            self.assertEqual(generate_events(before_path, after_path), [])
+            generated = generate_events(before_path, after_path)
+            self.assertEqual(len(generated), 1)
+            self.assertEqual(generated[0]["change_type"], "model_added")
 
     def test_required_real_events_are_present_with_canonical_semantics(self):
         events = load_events(EVENTS_PATH)
@@ -370,7 +446,46 @@ class PriceChangeEventTests(unittest.TestCase):
         self.assertEqual(len(events), 2)
         changed = {(event["provider_id"], event["model_id"]) for event in events}
         self.assertEqual(changed, {("mistral-ai", "mistral-large"), ("xai", "grok-4.3")})
-        self.assertEqual(generate_events(Path("data/snapshots/2026-07-05/prices.json"), REAL_BEFORE), [])
+        additions = generate_events(Path("data/snapshots/2026-07-05/prices.json"), REAL_BEFORE)
+        self.assertTrue(additions)
+        self.assertTrue(all(event["change_type"] == "model_added" for event in additions))
+
+    def test_provider_filter_avoids_unrelated_snapshot_rows(self):
+        with tempfile.TemporaryDirectory() as tmp:
+            root = Path(tmp)
+            before = root / "2026-07-26" / "prices.json"
+            after = root / "2026-07-27" / "prices.json"
+            snapshot(before, [model(provider_id="other", input_price=1), model(provider_id="deepseek", input_price=1)])
+            snapshot(after, [model(provider_id="other", input_price=2), model(provider_id="deepseek", input_price=3)])
+            events = generate_events(before, after, provider_id="deepseek")
+        self.assertEqual(len(events), 1)
+        self.assertEqual(events[0]["provider_id"], "deepseek")
+        self.assertEqual(events[0]["new_prices"]["input"], 3)
+
+    def test_time_pricing_verification_refresh_is_not_a_price_event(self):
+        before = model(provider_id="deepseek")
+        before["time_pricing"] = {
+            "rate_effective_from": "2026-08-16T16:00:00Z",
+            "schedule_verified_at": "2026-08-28T00:00:00Z",
+            "schedule_accessed_at": "2026-08-28T00:00:00Z",
+            "periods": [{"id": "peak"}],
+        }
+        after = copy.deepcopy(before)
+        after["time_pricing"]["schedule_verified_at"] = "2026-09-13T00:00:00Z"
+        after["time_pricing"]["schedule_accessed_at"] = "2026-09-13T00:00:00Z"
+        self.assertEqual(self.generated(before, after), [])
+
+    def test_official_announcement_prefers_current_changelog_over_older_news(self):
+        self.assertEqual(
+            official_announcement_url({
+                "official_source_urls": [
+                    "https://api-docs.deepseek.com/quick_start/pricing",
+                    "https://api-docs.deepseek.com/updates/",
+                    "https://deepseek.com/en/news/deepseek-v4-1-flash/",
+                ],
+            }),
+            "https://api-docs.deepseek.com/updates/",
+        )
 
 
 if __name__ == "__main__":

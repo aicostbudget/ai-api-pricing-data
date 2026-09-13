@@ -67,7 +67,7 @@ OFFICIAL_DOMAINS = {
     "aws": ("aws.amazon.com", "docs.aws.amazon.com", "pricing.us-east-1.amazonaws.com"),
     "azure": ("azure.microsoft.com", "learn.microsoft.com", "prices.azure.com"),
     "xai": ("docs.x.ai",),
-    "deepseek": ("api-docs.deepseek.com",),
+    "deepseek": ("api-docs.deepseek.com", "deepseek.com"),
     "mistral-ai": ("mistral.ai",),
     "cohere": ("cohere.com", "docs.cohere.com"),
     "moonshot-ai": ("platform.kimi.ai", "kimi.ai", "moonshot.ai"),
@@ -127,6 +127,9 @@ VERIFIED_PUBLIC_ONLY_KEYS = {
     ("cohere", "parse-v5.0"),
     ("google-gemini", "gemini-3.5-transcribe"),
     ("google-gemini", "gemini-3.5-transcribe-live"),
+    ("deepseek", "deepseek-flash"),
+    ("deepseek", "deepseek-v4-flash"),
+    ("deepseek", "deepseek-v4-flash-vision-exp"),
 }
 
 MERGED_DUPLICATES = {}
@@ -1916,9 +1919,9 @@ def status_parts(provider_id: str, model_id: str, public: dict[str, Any] | None,
             "availability": (website or {}).get("availability", "Retired"),
             "verificationStatus": "verified",
         }
-    if website_status == "retired":
+    if website_status == "retired" or public_status == "retired":
         lifecycle = "retired"
-    elif website_status in {"legacy", "deprecated"} or public_status in {"deprecated", "retired"}:
+    elif website_status in {"legacy", "deprecated"} or public_status == "deprecated":
         lifecycle = "deprecated"
     else:
         lifecycle = "active"
@@ -1973,6 +1976,19 @@ def scheduled_lifecycle_transition(
         "billingModelInternalId": internal_id(provider_id, transition["billing_model_id"]),
         "billingConfiguration": dict(sorted(transition["billing_configuration"].items())),
     }
+
+
+def transition_is_effective(transition: dict[str, Any] | None, generated_at: str) -> bool:
+    if transition is None:
+        return False
+    effective_from = transition["effectiveFrom"]
+    effective_at = datetime.fromisoformat(
+        f"{effective_from}T00:00:00+00:00"
+        if "T" not in effective_from
+        else effective_from.replace("Z", "+00:00")
+    )
+    generated = datetime.fromisoformat(generated_at.replace("Z", "+00:00"))
+    return effective_at <= generated
 
 
 def official_ids(provider_id: str, model_id: str, public: dict[str, Any] | None, website: dict[str, Any] | None) -> list[dict[str, str]]:
@@ -2324,6 +2340,7 @@ def main() -> None:
         if identity_type == "canonical_model":
             canonical_keys.append((provider_id, model_id))
         scheduled_transition = scheduled_lifecycle_transition(provider_id, public)
+        effective_transition = transition_is_effective(scheduled_transition, generated_at)
         lifecycle = (public or {}).get("lifecycle")
         identity = {
             "providerId": provider_id,
@@ -2337,11 +2354,20 @@ def main() -> None:
             "lifecycleStatus": parts["lifecycleStatus"],
             "releaseStage": parts["releaseStage"],
             "availability": parts["availability"],
-            "routingBehavior": (collapse or {}).get("routingBehavior", "direct"),
+            "routingBehavior": (
+                (collapse or {}).get("routingBehavior")
+                or ("retired_redirect" if effective_transition else "direct")
+            ),
             "routingDetails": (collapse or {}).get("routingDetails", {}),
             "aliasTargetInternalId": target if identity_type in {"alias", "pinned_id"} else None,
-            "redirectTargetInternalId": (collapse or {}).get("routingDetails", {}).get("redirectTargetInternalId"),
-            "billingModelInternalId": (collapse or {}).get("routingDetails", {}).get("billingModelInternalId"),
+            "redirectTargetInternalId": (
+                (collapse or {}).get("routingDetails", {}).get("redirectTargetInternalId")
+                or (scheduled_transition["redirectTargetInternalId"] if effective_transition else None)
+            ),
+            "billingModelInternalId": (
+                (collapse or {}).get("routingDetails", {}).get("billingModelInternalId")
+                or (scheduled_transition["billingModelInternalId"] if effective_transition else None)
+            ),
             "replacementInternalId": (
                 internal_id(provider_id, lifecycle["replacement_model_id"])
                 if lifecycle

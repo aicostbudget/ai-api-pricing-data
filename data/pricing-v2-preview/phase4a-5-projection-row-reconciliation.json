@@ -1,15 +1,15 @@
 {
   "counts": {
     "alias": 2,
-    "canonical_model": 70,
+    "canonical_model": 72,
     "historical_reference": 0,
     "other": 0,
     "redirecting_identity": 1
   },
-  "formula": "70 canonical_model + 2 alias + 1 redirecting_identity = 73 projection rows",
-  "generatedAt": "2026-09-09T00:00:00Z",
-  "normalizedCanonicalIdentities": 70,
-  "projectionRows": 73,
+  "formula": "72 canonical_model + 2 alias + 1 redirecting_identity = 75 projection rows",
+  "generatedAt": "2026-09-13T03:53:37Z",
+  "normalizedCanonicalIdentities": 72,
+  "projectionRows": 75,
   "rows": [
     {
       "aliasTargetInternalId": null,
@@ -220,20 +220,8 @@
       "billingModelInternalId": null,
       "canonicalInternalId": "deepseek/deepseek-chat",
       "classification": "alias",
-      "defaultSafe": true,
+      "defaultSafe": false,
       "projectionRowId": "deepseek-chat",
-      "reason": "alias or redirect identity retained for compatibility",
-      "redirectTargetInternalId": null,
-      "sourceIdentityType": "alias",
-      "status": "legacy"
-    },
-    {
-      "aliasTargetInternalId": "deepseek/deepseek-v4-flash",
-      "billingModelInternalId": null,
-      "canonicalInternalId": "deepseek/deepseek-reasoner",
-      "classification": "alias",
-      "defaultSafe": true,
-      "projectionRowId": "deepseek-reasoner",
       "reason": "alias or redirect identity retained for compatibility",
       "redirectTargetInternalId": null,
       "sourceIdentityType": "alias",
@@ -242,14 +230,50 @@
     {
       "aliasTargetInternalId": null,
       "billingModelInternalId": null,
+      "canonicalInternalId": "deepseek/deepseek-flash",
+      "classification": "canonical_model",
+      "defaultSafe": true,
+      "projectionRowId": "deepseek-flash",
+      "reason": "canonical model row",
+      "redirectTargetInternalId": null,
+      "sourceIdentityType": "canonical_model",
+      "status": "latest"
+    },
+    {
+      "aliasTargetInternalId": "deepseek/deepseek-v4-flash",
+      "billingModelInternalId": null,
+      "canonicalInternalId": "deepseek/deepseek-reasoner",
+      "classification": "alias",
+      "defaultSafe": false,
+      "projectionRowId": "deepseek-reasoner",
+      "reason": "alias or redirect identity retained for compatibility",
+      "redirectTargetInternalId": null,
+      "sourceIdentityType": "alias",
+      "status": "legacy"
+    },
+    {
+      "aliasTargetInternalId": null,
+      "billingModelInternalId": "deepseek/deepseek-flash",
       "canonicalInternalId": "deepseek/deepseek-v4-flash",
       "classification": "canonical_model",
       "defaultSafe": true,
       "projectionRowId": "deepseek-v4-flash",
       "reason": "canonical model row",
-      "redirectTargetInternalId": null,
+      "redirectTargetInternalId": "deepseek/deepseek-flash",
       "sourceIdentityType": "canonical_model",
-      "status": "latest"
+      "status": "retired"
+    },
+    {
+      "aliasTargetInternalId": null,
+      "billingModelInternalId": "deepseek/deepseek-flash",
+      "canonicalInternalId": "deepseek/deepseek-v4-flash-vision-exp",
+      "classification": "canonical_model",
+      "defaultSafe": true,
+      "projectionRowId": "deepseek-v4-flash-vision-exp",
+      "reason": "canonical model row",
+      "redirectTargetInternalId": "deepseek/deepseek-flash",
+      "sourceIdentityType": "canonical_model",
+      "status": "retired"
     },
     {
       "aliasTargetInternalId": null,

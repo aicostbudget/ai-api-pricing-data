@@ -26,6 +26,8 @@ CHANGE_TYPES = {
     "cached_price_removed",
     "component_price_update",
     "temporal_price_schedule_update",
+    "model_added",
+    "lifecycle_update",
 }
 DATE_BASIS_VALUES = {
     "provider_announced",
@@ -155,6 +157,23 @@ def component_price_changes(before_model: dict[str, Any], after_model: dict[str,
     return changes
 
 
+def comparable_time_pricing(value: dict[str, Any] | None) -> dict[str, Any] | None:
+    if value is None:
+        return None
+    comparable = deepcopy(value)
+    comparable.pop("schedule_accessed_at", None)
+    comparable.pop("schedule_verified_at", None)
+    return comparable
+
+
+def official_announcement_url(model: dict[str, Any]) -> str | None:
+    urls = model.get("official_source_urls") or []
+    return next(
+        (url for url in urls if "/updates/" in url),
+        next((url for url in urls if "/news/" in url), None),
+    )
+
+
 def load_snapshot(path: Path) -> dict[tuple[str, str], dict[str, Any]]:
     data = json.loads(path.read_text(encoding="utf-8"))
     models = {}
@@ -214,6 +233,11 @@ def canonical_dedupe_payload(event: dict[str, Any]) -> dict[str, Any]:
     if "old_time_pricing" in event or "new_time_pricing" in event:
         payload["old_time_pricing"] = event.get("old_time_pricing")
         payload["new_time_pricing"] = event.get("new_time_pricing")
+    if "old_status" in event or "new_status" in event:
+        payload["old_status"] = event.get("old_status")
+        payload["new_status"] = event.get("new_status")
+        payload["old_lifecycle"] = event.get("old_lifecycle")
+        payload["new_lifecycle"] = event.get("new_lifecycle")
     return payload
 
 
@@ -227,17 +251,104 @@ def build_event_id(event: dict[str, Any]) -> str:
     return f"{event['provider_id']}:{event['model_id']}:{event['change_type']}:{short_hash}"
 
 
-def generate_events(before: Path, after: Path) -> list[dict[str, Any]]:
+def lifecycle_event(
+    before_model: dict[str, Any] | None,
+    after_model: dict[str, Any],
+    before_rel: str,
+    after_rel: str,
+    detected_at: str,
+    change_type: str,
+) -> dict[str, Any]:
+    after_pricing = after_model["pricing"]
+    effective_from = after_model.get("effective_from")
+    if change_type == "lifecycle_update":
+        effective_from = (
+            (after_model.get("lifecycle") or {}).get("scheduled_transition", {}).get("effective_from")
+            or effective_from
+        )
+    event = {
+        "schema_version": SCHEMA_VERSION,
+        "event_id": "",
+        "provider_id": after_model["provider_id"],
+        "model_id": after_model["model_id"],
+        "change_type": change_type,
+        "old_prices": (
+            normalize_prices(before_model["pricing"], "old pricing")
+            if before_model
+            else {field: None for field in PRICE_EVENT_FIELDS}
+        ),
+        "new_prices": normalize_prices(after_pricing, "new pricing"),
+        "old_status": before_model.get("status") if before_model else None,
+        "new_status": after_model.get("status"),
+        "old_lifecycle": deepcopy(before_model.get("lifecycle")) if before_model else None,
+        "new_lifecycle": deepcopy(after_model.get("lifecycle")),
+        "unit": after_pricing.get("unit"),
+        "currency": after_pricing.get("currency"),
+        "effective_from": effective_from,
+        "detected_at": detected_at,
+        "verified_at": timestamp_to_date(after_model["last_verified_at"], "last_verified_at"),
+        "date_basis": "provider_announced" if effective_from else "first_observed",
+        "official_source_url": after_model["official_source_url"],
+        "announcement_url": next(
+            (url for url in after_model.get("official_source_urls", []) if url != after_model["official_source_url"]),
+            None,
+        ),
+        "source_snapshot_before": before_rel,
+        "source_snapshot_after": after_rel,
+        "dedupe_key": "",
+        "notes": after_model.get("notes", ""),
+    }
+    event["dedupe_key"] = build_dedupe_key(event)
+    event["event_id"] = build_event_id(event)
+    return event
+
+
+def newly_observed_retired_event(
+    after_model: dict[str, Any],
+    before_rel: str,
+    after_rel: str,
+    detected_at: str,
+) -> dict[str, Any]:
+    """Record lifecycle truth without misclassifying a historical model as newly launched."""
+    event = lifecycle_event(None, after_model, before_rel, after_rel, detected_at, "lifecycle_update")
+    event["old_status"] = "active"
+    event["notes"] = (
+        "This model predates the before snapshot and was already retired when it was first added to the dataset. "
+        "The event records the provider-announced retirement and redirect; no model launch event is inferred from "
+        "the dataset addition date. " + after_model.get("notes", "")
+    ).strip()
+    event["dedupe_key"] = build_dedupe_key(event)
+    event["event_id"] = build_event_id(event)
+    return event
+
+
+def generate_events(before: Path, after: Path, provider_id: str | None = None) -> list[dict[str, Any]]:
     before_models = load_snapshot(before)
     after_models = load_snapshot(after)
+    if provider_id:
+        before_models = {key: value for key, value in before_models.items() if key[0] == provider_id}
+        after_models = {key: value for key, value in after_models.items() if key[0] == provider_id}
     detected_at = snapshot_date(after)
     before_rel = repo_relative(before)
     after_rel = repo_relative(after)
     events: list[dict[str, Any]] = []
 
+    for key in sorted(set(after_models) - set(before_models)):
+        after_model = after_models[key]
+        if after_model.get("status") == "retired" and (after_model.get("lifecycle") or {}).get("retirement_date"):
+            events.append(newly_observed_retired_event(after_model, before_rel, after_rel, detected_at))
+        else:
+            events.append(
+                lifecycle_event(None, after_model, before_rel, after_rel, detected_at, "model_added")
+            )
+
     for key in sorted(set(before_models) & set(after_models)):
         before_model = before_models[key]
         after_model = after_models[key]
+        lifecycle_changed = (
+            before_model.get("status") != after_model.get("status")
+            or before_model.get("lifecycle") != after_model.get("lifecycle")
+        )
         before_pricing = before_model["pricing"]
         after_pricing = after_model["pricing"]
         old_prices = normalize_prices(before_pricing, f"{key[0]}/{key[1]} old")
@@ -245,15 +356,21 @@ def generate_events(before: Path, after: Path) -> list[dict[str, Any]]:
         component_changes = component_price_changes(before_model, after_model, f"{key[0]}/{key[1]}")
         old_time_pricing = before_model.get("time_pricing")
         new_time_pricing = after_model.get("time_pricing")
-        temporal_changed = old_time_pricing != new_time_pricing
+        temporal_changed = comparable_time_pricing(old_time_pricing) != comparable_time_pricing(new_time_pricing)
         unit = after_pricing.get("unit")
         currency = after_pricing.get("currency")
-        if old_prices == new_prices and not component_changes and not temporal_changed:
+        pricing_changed = old_prices != new_prices or bool(component_changes) or temporal_changed
+        if not pricing_changed and not lifecycle_changed:
             continue
         if before_pricing.get("unit") != unit:
             fail(f"{key[0]}/{key[1]} unit changed; add explicit event semantics before generating")
         if before_pricing.get("currency") != currency:
             fail(f"{key[0]}/{key[1]} currency changed; add explicit event semantics before generating")
+        if not pricing_changed:
+            events.append(
+                lifecycle_event(before_model, after_model, before_rel, after_rel, detected_at, "lifecycle_update")
+            )
+            continue
         event = {
             "schema_version": SCHEMA_VERSION,
             "event_id": "",
@@ -282,15 +399,31 @@ def generate_events(before: Path, after: Path) -> list[dict[str, Any]]:
             event["new_time_pricing"] = deepcopy(new_time_pricing)
             event["effective_from"] = (new_time_pricing or {}).get("rate_effective_from")
             event["date_basis"] = "official_changelog"
-            event["announcement_url"] = "https://api-docs.deepseek.com/news/news260813/"
+            event["announcement_url"] = official_announcement_url(after_model)
             event["notes"] = (
                 "The provider announced the new Peak and Off-peak price rates effective at "
                 f"{event['effective_from']}. The weekday-only schedule is verified from the current "
                 "official pricing page, but its original effective date is not specified."
             )
+            if lifecycle_changed:
+                event["old_status"] = before_model.get("status")
+                event["new_status"] = after_model.get("status")
+                event["old_lifecycle"] = deepcopy(before_model.get("lifecycle"))
+                event["new_lifecycle"] = deepcopy(after_model.get("lifecycle"))
+                transition = (after_model.get("lifecycle") or {}).get("scheduled_transition") or {}
+                if transition.get("billing_source") == "redirect_target" and transition.get("billing_model_id"):
+                    event["notes"] = (
+                        "The legacy model name now follows the published pricing schedule of its redirect billing "
+                        f"target, {transition['billing_model_id']}, effective at {event['effective_from']}. "
+                        "These are redirected-billing rates, not a new native price release for the retired model."
+                    )
         event["dedupe_key"] = build_dedupe_key(event)
         event["event_id"] = build_event_id(event)
         events.append(event)
+        if lifecycle_changed:
+            events.append(
+                lifecycle_event(before_model, after_model, before_rel, after_rel, detected_at, "lifecycle_update")
+            )
 
     return sorted(events, key=lambda item: (item["provider_id"], item["model_id"], item["dedupe_key"]))
 
@@ -318,9 +451,30 @@ def merge_event(existing: dict[str, Any], generated: dict[str, Any]) -> dict[str
 
 
 def merge_events(existing: list[dict[str, Any]], generated: list[dict[str, Any]]) -> list[dict[str, Any]]:
-    by_key = {event["dedupe_key"]: event for event in existing}
+    existing_by_key = {event["dedupe_key"]: event for event in existing}
+    regenerated_scopes = {
+        (
+            event["provider_id"],
+            event["model_id"],
+            event["detected_at"],
+            event["source_snapshot_before"],
+            event["source_snapshot_after"],
+        )
+        for event in generated
+    }
+    by_key = {
+        event["dedupe_key"]: event
+        for event in existing
+        if (
+            event["provider_id"],
+            event["model_id"],
+            event["detected_at"],
+            event["source_snapshot_before"],
+            event["source_snapshot_after"],
+        ) not in regenerated_scopes
+    }
     for event in generated:
-        current = by_key.get(event["dedupe_key"])
+        current = existing_by_key.get(event["dedupe_key"])
         by_key[event["dedupe_key"]] = merge_event(current, event) if current else event
     merged = sorted(by_key.values(), key=lambda item: (item["provider_id"], item["model_id"], item["dedupe_key"]))
     validate_unique_events(merged)
@@ -415,11 +569,22 @@ def validate_event(event: dict[str, Any], path: Path | None = None, line_number:
         if new_time_pricing is not None and not isinstance(new_time_pricing, dict):
             fail("new_time_pricing must be an object or null")
         temporal_changed = ("old_time_pricing" in event or "new_time_pricing" in event) and old_time_pricing != new_time_pricing
-        if old_prices == new_prices and not component_changes and not temporal_changed:
-            fail("old_prices/new_prices, component_changes, or temporal pricing must differ")
-        expected_type = expected_change_type(old_prices, new_prices, component_changes, temporal_changed)
-        if event.get("change_type") != expected_type:
-            fail(f"change_type must be {expected_type} for this price delta")
+        lifecycle_changed = (
+            event.get("old_status") != event.get("new_status")
+            or event.get("old_lifecycle") != event.get("new_lifecycle")
+        )
+        if event.get("change_type") == "model_added":
+            if event.get("old_status") is not None or event.get("new_status") is None:
+                fail("model_added requires null old_status and non-null new_status")
+        elif event.get("change_type") == "lifecycle_update":
+            if not lifecycle_changed:
+                fail("lifecycle_update requires a status or lifecycle delta")
+        else:
+            if old_prices == new_prices and not component_changes and not temporal_changed:
+                fail("old_prices/new_prices, component_changes, or temporal pricing must differ")
+            expected_type = expected_change_type(old_prices, new_prices, component_changes, temporal_changed)
+            if event.get("change_type") != expected_type:
+                fail(f"change_type must be {expected_type} for this price delta")
         if event.get("currency") != "USD":
             fail("currency must be USD")
         if event.get("unit") != "1M tokens":
@@ -486,10 +651,11 @@ def main() -> None:
     parser.add_argument("--before", required=True, type=Path, help="Before snapshot prices.json path.")
     parser.add_argument("--after", required=True, type=Path, help="After snapshot prices.json path.")
     parser.add_argument("--output", type=Path, default=EVENTS_PATH, help="Output JSONL path.")
+    parser.add_argument("--provider", help="Limit event generation to one provider_id.")
     parser.add_argument("--dry-run", action="store_true", help="Print generated events without writing.")
     args = parser.parse_args()
 
-    generated = generate_events(args.before, args.after)
+    generated = generate_events(args.before, args.after, provider_id=args.provider)
     if args.dry_run:
         for event in generated:
             print(json.dumps(event, sort_keys=True))

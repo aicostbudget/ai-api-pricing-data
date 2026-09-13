@@ -308,13 +308,17 @@ class WebsiteProjectionV2Tests(unittest.TestCase):
         self.assertEqual(self.by_internal["xai/grok-4.5"]["lifecycleStatus"], "active")
         self.assertEqual(self.by_internal["xai/grok-build-0.1"]["status"], "active")
 
-    def test_redirected_billing_is_owned_only_by_grok_3(self):
+    def test_redirected_billing_is_owned_by_declared_redirect_identities(self):
         owners = [
             row["canonicalInternalId"]
             for row in self.rows
             if "redirectedBilling" in row
         ]
-        self.assertEqual(owners, ["xai/grok-3"])
+        self.assertEqual(owners, [
+            "deepseek/deepseek-v4-flash",
+            "deepseek/deepseek-v4-flash-vision-exp",
+            "xai/grok-3",
+        ])
         self.assertNotIn("redirectedBilling", self.by_internal["cohere/parse-v5.0"])
 
     def test_gpt_4_1_family_and_excluded_defaults_are_null(self):
@@ -338,8 +342,10 @@ class WebsiteProjectionV2Tests(unittest.TestCase):
         self.assertEqual(chat["alias"]["routingDetails"]["mode"], "non_thinking")
         self.assertEqual(reasoner["alias"]["targetInternalId"], "deepseek/deepseek-v4-flash")
         self.assertEqual(reasoner["alias"]["routingDetails"]["mode"], "thinking")
-        self.assertTrue(chat["defaultSafe"])
-        self.assertTrue(reasoner["defaultSafe"])
+        self.assertFalse(chat["defaultSafe"])
+        self.assertFalse(reasoner["defaultSafe"])
+        self.assertIn("inactive_alias", chat["blockedFromDefaultReasons"])
+        self.assertIn("inactive_alias", reasoner["blockedFromDefaultReasons"])
 
     def test_report_counts_and_parity_buckets(self):
         self.assertEqual(self.report["projectionModelCount"], len(self.rows))
@@ -350,7 +356,7 @@ class WebsiteProjectionV2Tests(unittest.TestCase):
         self.assertEqual(self.report["nullPriceCount"], self.report["unsafeIdentityCount"])
         self.assertEqual(self.report["parity"]["websiteModelCount"], 36)
         self.assertEqual(sum(self.report["parity"]["counts"].values()), 36)
-        self.assertEqual(self.report["parity"]["counts"]["unsafe_difference"], 4)
+        self.assertEqual(self.report["parity"]["counts"]["unsafe_difference"], 7)
 
     def test_gpt_5_6_rows_use_standard_short_defaults(self):
         expected = {
@@ -602,8 +608,8 @@ class WebsiteProjectionV2Tests(unittest.TestCase):
         self.assertEqual(sum(rows["counts"].values()), len(self.rows))
         self.assertEqual(rows["counts"]["alias"], 2)
         self.assertEqual(rows["counts"]["redirecting_identity"], 1)
-        self.assertEqual(unsafe["beforePhase4A5UnsafeDifferenceCount"], 5)
-        self.assertEqual(unsafe["currentUnsafeDifferenceCount"], 4)
+        self.assertEqual(unsafe["beforePhase4A5UnsafeDifferenceCount"], 8)
+        self.assertEqual(unsafe["currentUnsafeDifferenceCount"], 7)
         self.assertEqual(len(unsafe["blockerUnsafeDifferences"]), 0)
         self.assertEqual(context["contextWindowRows"], len(self.rows))
         self.assertEqual(
