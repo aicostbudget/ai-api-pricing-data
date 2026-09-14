@@ -1,11 +1,42 @@
 from __future__ import annotations
 
 import argparse
+import os
+import re
 import shutil
+import subprocess
 from collections import defaultdict
 from pathlib import Path
 
-from lib import ROOT, append_history_if_changed, build_dataset, history_entry, load_models, load_providers, utc_now, utc_today, write_csv, write_json
+try:
+    from lib import ROOT, append_history_if_changed, build_dataset, history_entry, load_models, load_providers, utc_now, utc_today, write_csv, write_json
+except ModuleNotFoundError:
+    from scripts.lib import ROOT, append_history_if_changed, build_dataset, history_entry, load_models, load_providers, utc_now, utc_today, write_csv, write_json
+
+SOURCE_COMMIT_SHA_ENV = "SOURCE_COMMIT_SHA"
+FULL_GIT_SHA = re.compile(r"^[0-9a-f]{40}$")
+
+
+def source_commit_sha() -> str:
+    configured = os.environ.get(SOURCE_COMMIT_SHA_ENV)
+    if configured is not None:
+        value = configured.strip()
+    else:
+        try:
+            value = subprocess.run(
+                ["git", "rev-parse", "HEAD"],
+                cwd=ROOT,
+                check=True,
+                capture_output=True,
+                text=True,
+            ).stdout.strip()
+        except (FileNotFoundError, subprocess.CalledProcessError) as exc:
+            raise RuntimeError(
+                f"{SOURCE_COMMIT_SHA_ENV} is not set and git rev-parse HEAD failed"
+            ) from exc
+    if not FULL_GIT_SHA.fullmatch(value):
+        raise ValueError(f"source commit SHA must be 40 lowercase hexadecimal characters: {value!r}")
+    return value
 
 
 def build_outputs(output_root: Path) -> None:
@@ -59,6 +90,7 @@ def build_outputs(output_root: Path) -> None:
             "provider_count": dataset["provider_count"],
             "model_count": dataset["model_count"],
             "official_source_count": dataset["official_source_count"],
+            "source_commit_sha": source_commit_sha(),
             "last_verified_at": dataset["last_verified_at"],
             "homepage": dataset["homepage"],
             "website": "https://aicostbudget.com/en/datasets/ai-api-pricing",

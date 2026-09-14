@@ -23,6 +23,8 @@ jobs:
         with:
           python-version: "3.11"
       - name: Build static dataset
+        env:
+          SOURCE_COMMIT_SHA: ${{ github.sha }}
         run: python scripts/build.py
       - name: Validate static dataset
         run: python scripts/validate.py
@@ -39,5 +41,11 @@ jobs:
     runs-on: ubuntu-latest
     needs: build
     steps:
+      - uses: actions/checkout@v5
+      - uses: actions/setup-python@v6
+        with:
+          python-version: "3.11"
       - id: deployment
         uses: actions/deploy-pages@v5
+      - name: Verify public Pages deployment
+        run: python scripts/verify_pages_deployment.py --expected-sha "${{ github.sha }}"
