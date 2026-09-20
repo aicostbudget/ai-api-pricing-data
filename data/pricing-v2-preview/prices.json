@@ -1639,10 +1639,10 @@
     "contextClass": "short",
     "currency": "USD",
     "effectiveFrom": "2026-08-16T16:00:00Z",
-    "effectiveUntil": null,
+    "effectiveUntil": "2026-09-10T04:00:00Z",
     "modelInternalId": "deepseek/deepseek-v4-flash",
     "pricingId": "price:deepseek/deepseek-v4-flash:standard:short:current:off_peak",
-    "pricingStatus": "current",
+    "pricingStatus": "historical",
     "processingMode": "standard",
     "promptTokenThreshold": null,
     "regionPolicy": "global",
@@ -1678,7 +1678,7 @@
   },
   {
     "billingNote": "Native V4 Flash Peak and Off-peak rates took effect at 2026-08-16T16:00:00Z. DeepSeek retired V4 Flash on 2026-09-10; the legacy API name remains temporarily accepted, but current requests are served and billed as deepseek-flash. The canonical price fields retain the model's native historical schedule, while lifecycle redirect metadata identifies the current billing target.",
-    "calculationDefault": true,
+    "calculationDefault": false,
     "charges": [
       {
         "amount": "0.44",
@@ -1705,10 +1705,10 @@
     "contextClass": "short",
     "currency": "USD",
     "effectiveFrom": "2026-08-16T16:00:00Z",
-    "effectiveUntil": null,
+    "effectiveUntil": "2026-09-10T04:00:00Z",
     "modelInternalId": "deepseek/deepseek-v4-flash",
     "pricingId": "price:deepseek/deepseek-v4-flash:standard:short:current:peak",
-    "pricingStatus": "current",
+    "pricingStatus": "historical",
     "processingMode": "standard",
     "promptTokenThreshold": null,
     "regionPolicy": "global",
@@ -7983,6 +7983,55 @@
     },
     "verificationStatus": "verified",
     "verifiedAt": "2026-09-04T17:34:11Z"
+  },
+  {
+    "availabilityRules": [],
+    "billingNote": "The $0.05 per minute price applies to GPT-Live 1 voice-session duration and is billed per second without rounding up to a whole minute. Backend model and tool usage are billed separately.",
+    "calculationDefault": true,
+    "charges": [
+      {
+        "amount": "0.05",
+        "chargeId": "price:openai/gpt-live-1:standard:short:current:session_duration:audio:per_minute",
+        "component": "session_duration",
+        "modality": "audio",
+        "unit": "per_minute"
+      }
+    ],
+    "checkedAt": "2026-09-14T05:04:26Z",
+    "contextClass": "short",
+    "currency": "USD",
+    "defaultAvailabilityStatus": "available",
+    "effectiveFrom": "2026-09-10",
+    "effectiveUntil": null,
+    "modelInternalId": "openai/gpt-live-1",
+    "priceAdjustments": [],
+    "pricingId": "price:openai/gpt-live-1:standard:short:current",
+    "pricingStatus": "current",
+    "processingMode": "standard",
+    "promptTokenThreshold": null,
+    "regionPolicy": "global",
+    "regionSelector": {
+      "dataResidencies": [
+        "global"
+      ],
+      "endpointGeographies": [
+        "global"
+      ],
+      "pricingGeography": "global_base"
+    },
+    "sourceDatasetIds": {
+      "publicDatasetIds": [
+        "gpt-live-1"
+      ],
+      "websiteIds": []
+    },
+    "sourceRefs": [
+      "source:openai:developers-openai-com-api-docs-changelog",
+      "source:openai:developers-openai-com-api-docs-models-gpt-live-1",
+      "source:openai:developers-openai-com-api-docs-pricing"
+    ],
+    "verificationStatus": "verified",
+    "verifiedAt": "2026-09-14T05:04:26Z"
   },
   {
     "billingNote": "OpenAI lists the o3 alias as Default and continues to publish Chat Completions, Responses, and Batch endpoints for it. Standard pricing is $2 input, $0.50 cached input, and $8 output per 1M tokens; the model page also lists Batch pricing of $1 input, $0.25 cached input, and $4 output. The dated snapshot o3-2025-04-16 is deprecated and scheduled for API shutdown on 2026-12-11; OpenAI recommends gpt-5.6-sol as its replacement. V1 has no batch_cached_input field.",

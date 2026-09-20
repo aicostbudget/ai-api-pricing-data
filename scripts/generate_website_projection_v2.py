@@ -58,6 +58,7 @@ PRICING_COMPONENTS = {
     "tool_call",
     "grounding",
     "document_page",
+    "session_duration",
 }
 
 
@@ -150,11 +151,22 @@ def source_refs_at_timestamp(
 
 
 def current_effective(price: dict[str, Any], effective_at: datetime) -> bool:
-    day = effective_at.date()
-    if price["effectiveFrom"] and day < datetime.fromisoformat(price["effectiveFrom"]).date():
+    if price.get("pricingStatus", "current") != "current":
         return False
-    if price["effectiveUntil"] and day > datetime.fromisoformat(price["effectiveUntil"]).date():
-        return False
+    if price["effectiveFrom"]:
+        start = price["effectiveFrom"]
+        if "T" in start:
+            if effective_at < parse_effective_at(start):
+                return False
+        elif effective_at.date() < datetime.fromisoformat(start).date():
+            return False
+    if price["effectiveUntil"]:
+        end = price["effectiveUntil"]
+        if "T" in end:
+            if effective_at >= parse_effective_at(end):
+                return False
+        elif effective_at.date() > datetime.fromisoformat(end).date():
+            return False
     return True
 
 
@@ -479,7 +491,11 @@ def public_dataset_v15_compatible(row: dict[str, Any]) -> bool:
     if any(component.get("condition", {}).get("configuration") is not None for component in components):
         return False
     non_token_components = [component for component in components if component["unit"] != "per_1m_tokens"]
-    return not non_token_components or all(
+    if not non_token_components:
+        return True
+    if len(non_token_components) == 1 and non_token_components[0].get("condition", {}).get("usageTier") is None:
+        return True
+    return all(
         component["component"] == "document_page"
         and component["modality"] == "document"
         and component["unit"] == "per_1000_pages"
@@ -529,7 +545,7 @@ def governance_metadata(
             reason = "retired_identity_retained_with_legacy_historical_price"
             pricing_source = "legacy_historical_fallback"
         details = identity.get("routingDetails", {}).get("semantics")
-        public_exposure = "public" if row["defaultSafe"] or website_row is not None else "excluded"
+        public_exposure = "public" if identity.get("publicDatasetIds") or website_row is not None else "excluded"
     elif "review_required" in row["blockedFromDefaultReasons"]:
         governance_class = "REVIEW_REQUIRED"
         reason = "verified_price_unresolved_legacy_compatibility_retained"
@@ -856,6 +872,9 @@ def projection_row(
         or identity.get("aliasTargetInternalId")
         or identity["internalId"]
     )
+    inactive_alias = identity["identityType"] == "alias" and identity["lifecycleStatus"] in {"deprecated", "retired"}
+    if inactive_alias:
+        target_internal_id = identity["internalId"]
     selected_price = select_price(prices_by_model, target_internal_id, effective_at, verified_price_by_id)
     selected_batch_price = select_price(
         prices_by_model,
@@ -880,9 +899,9 @@ def projection_row(
         blocked_reasons.append("review_required")
     if identity["identityType"] == "historical_reference" and not identity.get("billingModelInternalId"):
         blocked_reasons.append("historical_only")
-    if identity["lifecycleStatus"] == "retired" and not identity.get("billingModelInternalId"):
-        blocked_reasons.append("retired_non_billing")
-    if identity["identityType"] == "alias" and identity["lifecycleStatus"] in {"deprecated", "retired"}:
+    if identity["lifecycleStatus"] == "retired":
+        blocked_reasons.append("retired_identity")
+    if inactive_alias:
         blocked_reasons.append("inactive_alias")
     if selected_price is None:
         blocked_reasons.append("missing_verified_current_price")
@@ -1088,6 +1107,12 @@ def projection_row(
         row["historicalPrice"] = legacy_grok_history(website_rows)
     if pricing_components:
         row["pricingComponents"] = pricing_components
+    if (
+        selected_billing_price
+        and selected_price is None
+        and any(component["component"] == "session_duration" for component in pricing_components)
+    ):
+        row["billingNote"] = selected_billing_price.get("billingNote")
     if identity["identityType"] == "alias":
         row["alias"] = {
             "targetInternalId": identity.get("aliasTargetInternalId"),
@@ -1102,7 +1127,7 @@ def projection_row(
     if pricing_tiers:
         row["pricingTiers"] = pricing_tiers
 
-    time_pricing = build_time_pricing(prices_by_model.get(identity["internalId"], []))
+    time_pricing = build_time_pricing(prices_by_model.get(target_internal_id, []))
     if time_pricing:
         row["timePricing"] = time_pricing
 

@@ -439,9 +439,10 @@ class PricingV2PreviewTests(unittest.TestCase):
             self.assertEqual(alias["identityType"], "alias")
             self.assertEqual(alias["aliasTargetInternalId"], "deepseek/deepseek-v4-flash")
             row = self.projection_row(internal_id.split("/", 1)[1])
-            self.assertEqual(row["inputPrice"], 0.3)
-            self.assertEqual(row["cachedInputPrice"], 0.006)
-            self.assertEqual(row["outputPrice"], 1.2)
+            self.assertIsNone(row["defaultPriceRecordId"])
+            self.assertIsNone(row["inputPrice"])
+            self.assertIsNone(row["cachedInputPrice"])
+            self.assertIsNone(row["outputPrice"])
 
     def test_grok_3_retired_redirect_is_preserved(self):
         grok = self.identity("xai/grok-3")

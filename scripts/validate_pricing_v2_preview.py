@@ -65,9 +65,10 @@ CHARGE_COMPONENTS = {
     "tool_call",
     "grounding",
     "document_page",
+    "session_duration",
 }
 MODALITIES = {"text", "image", "audio", "video", "document"}
-UNITS = {"per_1m_tokens", "per_1k_calls", "per_1000_pages", "per_hour", "per_image", "per_second"}
+UNITS = {"per_1m_tokens", "per_1k_calls", "per_1000_pages", "per_minute", "per_hour", "per_image", "per_second"}
 DECIMAL_STRING = re.compile(r"^(0|[1-9]\d*)(\.\d+)?$")
 
 

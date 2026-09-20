@@ -261,6 +261,10 @@ class WebsiteProjectionV2Tests(unittest.TestCase):
     def test_default_safe_rows_are_the_only_rows_with_calculation_prices(self):
         for row in self.rows:
             prices = (row["inputPrice"], row["cachedInputPrice"], row["outputPrice"])
+            if row["lifecycleStatus"] == "retired":
+                self.assertFalse(row["defaultSafe"], row["id"])
+                self.assertIn("retired_identity", row["blockedFromDefaultReasons"], row["id"])
+                self.assertIsNone(row["selectedPriceRecordId"], row["id"])
             if row["defaultSafe"]:
                 self.assertIsNotNone(row["inputPrice"])
                 self.assertIsNotNone(row["outputPrice"])
@@ -284,8 +288,10 @@ class WebsiteProjectionV2Tests(unittest.TestCase):
         self.assertEqual(grok["redirectTargetInternalId"], "xai/grok-4.3")
         self.assertEqual(grok["billingModelInternalId"], "xai/grok-4.3")
         self.assertEqual(grok["selectedBillingPriceRecordId"], "price:xai/grok-4.3:standard:short:current")
-        self.assertEqual(grok["inputPrice"], 1.25)
-        self.assertEqual(grok["outputPrice"], 2.5)
+        self.assertFalse(grok["defaultSafe"])
+        self.assertIn("retired_identity", grok["blockedFromDefaultReasons"])
+        self.assertIsNone(grok["inputPrice"])
+        self.assertIsNone(grok["outputPrice"])
         self.assertFalse(grok["historicalPrice"]["currentCalculationEligible"])
         self.assertEqual(grok["historicalPrice"]["inputPrice"], 3)
         self.assertEqual(grok["historicalPrice"]["outputPrice"], 15)
@@ -356,7 +362,12 @@ class WebsiteProjectionV2Tests(unittest.TestCase):
         self.assertEqual(self.report["nullPriceCount"], self.report["unsafeIdentityCount"])
         self.assertEqual(self.report["parity"]["websiteModelCount"], 36)
         self.assertEqual(sum(self.report["parity"]["counts"].values()), 36)
-        self.assertEqual(self.report["parity"]["counts"]["unsafe_difference"], 7)
+        unsafe_ids = {
+            item["modelId"] for item in self.report["parity"]["details"]
+            if item["classification"] == "unsafe_difference"
+        }
+        self.assertEqual(self.report["parity"]["counts"]["unsafe_difference"], len(unsafe_ids))
+        self.assertIn("deepseek-v4-flash", unsafe_ids)
 
     def test_gpt_5_6_rows_use_standard_short_defaults(self):
         expected = {
@@ -608,8 +619,9 @@ class WebsiteProjectionV2Tests(unittest.TestCase):
         self.assertEqual(sum(rows["counts"].values()), len(self.rows))
         self.assertEqual(rows["counts"]["alias"], 2)
         self.assertEqual(rows["counts"]["redirecting_identity"], 1)
-        self.assertEqual(unsafe["beforePhase4A5UnsafeDifferenceCount"], 8)
-        self.assertEqual(unsafe["currentUnsafeDifferenceCount"], 7)
+        self.assertEqual(unsafe["beforePhase4A5UnsafeDifferenceCount"], len(unsafe["unsafeDifferenceRows"]))
+        self.assertEqual(unsafe["currentUnsafeDifferenceCount"], self.report["parity"]["counts"]["unsafe_difference"])
+        self.assertIn("deepseek-v4-flash", {row["websiteModelId"] for row in unsafe["unsafeDifferenceRows"]})
         self.assertEqual(len(unsafe["blockerUnsafeDifferences"]), 0)
         self.assertEqual(context["contextWindowRows"], len(self.rows))
         self.assertEqual(

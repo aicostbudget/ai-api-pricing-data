@@ -860,14 +860,16 @@
     "blocker": [
       "criticality_historical",
       "lifecycle_retired",
-      "not_production_default_candidate"
+      "not_current_effective",
+      "not_production_default_candidate",
+      "unresolved_pricing_conflict"
     ],
     "businessCriticality": "historical",
-    "currentEffective": true,
+    "currentEffective": false,
     "currentPrices": {
-      "cached_input": "0.003",
-      "input": "0.15",
-      "output": "0.6"
+      "cached_input": "0.007",
+      "input": "0.22",
+      "output": "0.66"
     },
     "defaultSafe": false,
     "modelInternalId": "deepseek/deepseek-v4-flash",
@@ -876,7 +878,7 @@
     "pricingId": "price:deepseek/deepseek-v4-flash:standard:short:current:off_peak",
     "priorityClass": "not_partial",
     "provider": "deepseek",
-    "reason": "Default-safe gate blocked by: criticality_historical, lifecycle_retired, not_production_default_candidate",
+    "reason": "Default-safe gate blocked by: criticality_historical, lifecycle_retired, not_current_effective, not_production_default_candidate, unresolved_pricing_conflict",
     "sourceRefs": [
       "source:deepseek:api-docs-deepseek-com-quick_start-pricing",
       "source:deepseek:api-docs-deepseek-com-updates",
@@ -892,14 +894,16 @@
     "blocker": [
       "criticality_historical",
       "lifecycle_retired",
-      "not_production_default_candidate"
+      "not_current_effective",
+      "not_production_default_candidate",
+      "unresolved_pricing_conflict"
     ],
     "businessCriticality": "historical",
-    "currentEffective": true,
+    "currentEffective": false,
     "currentPrices": {
-      "cached_input": "0.006",
-      "input": "0.3",
-      "output": "1.2"
+      "cached_input": "0.014",
+      "input": "0.44",
+      "output": "1.32"
     },
     "defaultSafe": false,
     "modelInternalId": "deepseek/deepseek-v4-flash",
@@ -908,7 +912,7 @@
     "pricingId": "price:deepseek/deepseek-v4-flash:standard:short:current:peak",
     "priorityClass": "not_partial",
     "provider": "deepseek",
-    "reason": "Default-safe gate blocked by: criticality_historical, lifecycle_retired, not_production_default_candidate",
+    "reason": "Default-safe gate blocked by: criticality_historical, lifecycle_retired, not_current_effective, not_production_default_candidate, unresolved_pricing_conflict",
     "sourceRefs": [
       "source:deepseek:api-docs-deepseek-com-quick_start-pricing",
       "source:deepseek:api-docs-deepseek-com-updates",
@@ -4190,6 +4194,37 @@
     "reason": "Default-safe gate blocked by: not_production_default_candidate, not_standard_processing_mode",
     "sourceRefs": [
       "source:openai:developers-openai-com-api-docs-guides-fast-mode",
+      "source:openai:developers-openai-com-api-docs-pricing"
+    ],
+    "verificationDecision": "unchanged"
+  },
+  {
+    "afterEvidenceCompleteness": "complete",
+    "afterVerificationStatus": "verified",
+    "beforeEvidenceCompleteness": "complete",
+    "beforeVerificationStatus": "verified",
+    "blocker": [
+      "missing_text_modality",
+      "not_production_default_candidate"
+    ],
+    "businessCriticality": "production_secondary",
+    "currentEffective": true,
+    "currentPrices": {
+      "cached_input": null,
+      "input": null,
+      "output": null
+    },
+    "defaultSafe": false,
+    "modelInternalId": "openai/gpt-live-1",
+    "officialEvidence": [],
+    "phase25VerifiedAt": null,
+    "pricingId": "price:openai/gpt-live-1:standard:short:current",
+    "priorityClass": "not_partial",
+    "provider": "openai",
+    "reason": "Default-safe gate blocked by: missing_text_modality, not_production_default_candidate",
+    "sourceRefs": [
+      "source:openai:developers-openai-com-api-docs-changelog",
+      "source:openai:developers-openai-com-api-docs-models-gpt-live-1",
       "source:openai:developers-openai-com-api-docs-pricing"
     ],
     "verificationDecision": "unchanged"

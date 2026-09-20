@@ -2,6 +2,7 @@ import json
 import unittest
 from pathlib import Path
 
+from scripts.generate_website_projection_v2 import current_effective, parse_effective_at
 from tests.website_source import resolve_website_source
 
 
@@ -22,6 +23,7 @@ class DeepSeekV41FlashTests(unittest.TestCase):
     def setUpClass(cls):
         cls.canonical = read_json(ROOT / "data/canonical/models.json")
         cls.identities = read_json(ROOT / "data/pricing-v2-preview/model-identity-registry.json")
+        cls.prices = read_json(ROOT / "data/pricing-v2-preview/prices.json")
         cls.v2 = read_json(ROOT / "data/pricing-v2-preview/generated/model-pricing.v2.json")["models"]
         cls.api = read_json(ROOT / "api/v1/providers/deepseek.json")["models"]
         cls.hf = read_json(ROOT / "huggingface/prices.json")["records"]
@@ -122,6 +124,45 @@ class DeepSeekV41FlashTests(unittest.TestCase):
         hf = next(row for row in self.hf if row["provider_id"] == "deepseek" and row["model_id"] == "deepseek-flash")
         self.assertEqual((hf["input_price_per_1m_tokens"], hf["cached_input_price_per_1m_tokens"], hf["output_price_per_1m_tokens"]), expected)
         self.assertEqual(hf["time_pricing"]["rateEffectiveFrom"], "2026-09-10T04:00:00Z")
+
+    def test_v4_flash_public_ids_preserve_native_history_and_current_billing_uses_flash(self):
+        native = {
+            "peak": {"input": "0.44", "cached_input": "0.014", "output": "1.32"},
+            "off_peak": {"input": "0.22", "cached_input": "0.007", "output": "0.66"},
+        }
+        for period, expected in native.items():
+            pricing_id = f"price:deepseek/deepseek-v4-flash:standard:short:current:{period}"
+            record = next(row for row in self.prices if row["pricingId"] == pricing_id)
+            self.assertEqual(record["modelInternalId"], "deepseek/deepseek-v4-flash")
+            self.assertEqual({charge["component"]: charge["amount"] for charge in record["charges"]}, expected)
+            self.assertEqual(record["pricingStatus"], "historical")
+            self.assertEqual(record["effectiveFrom"], "2026-08-16T16:00:00Z")
+            self.assertEqual(record["effectiveUntil"], "2026-09-10T04:00:00Z")
+            self.assertFalse(record["calculationDefault"])
+            for instant in ("2026-09-10T03:59:59Z", "2026-09-10T04:00:00Z"):
+                self.assertFalse(current_effective(record, parse_effective_at(instant)))
+
+        flash_ids = {
+            f"price:deepseek/deepseek-flash:standard:short:current:{period}"
+            for period in ("peak", "off_peak")
+        }
+        for rows in (self.v2, self.website):
+            v4 = self.projected(rows, "deepseek-v4-flash")
+            self.assertEqual(v4["lifecycleStatus"], "retired")
+            self.assertFalse(v4["defaultSafe"])
+            self.assertIn("retired_identity", v4["blockedFromDefaultReasons"])
+            self.assertIsNone(v4["selectedPriceRecordId"])
+            self.assertIsNone(v4["inputPrice"])
+            self.assertIsNone(v4["outputPrice"])
+            self.assertEqual(v4["selectedBillingPriceRecordId"], f"price:deepseek/deepseek-flash:standard:short:current:peak")
+            self.assertEqual({row["pricingId"] for row in v4["timePricing"]["periods"]}, flash_ids)
+            self.assertEqual({row["pricingId"] for row in v4["pricingComponents"]}, flash_ids)
+            for alias in ("deepseek-chat", "deepseek-reasoner"):
+                row = self.projected(rows, alias)
+                self.assertEqual(row["publicExposure"], "alias_only")
+                self.assertIsNone(row["selectedBillingPriceRecordId"])
+                self.assertNotIn("pricingComponents", row)
+                self.assertNotIn("timePricing", row)
 
     def test_launch_retirement_and_pricing_events_are_unique(self):
         current = [event for event in self.monitor if event["providerId"] == "deepseek" and event["detectedAt"] == "2026-09-13"]

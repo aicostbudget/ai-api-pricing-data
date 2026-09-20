@@ -1,22 +1,22 @@
 {
   "artifactPath": "data/pricing-v2-preview/generated/model-pricing.v2.json",
-  "defaultSafeModelCount": 58,
-  "generatedAt": "2026-09-13T03:53:37Z",
+  "defaultSafeModelCount": 55,
+  "generatedAt": "2026-09-14T05:04:26Z",
   "governanceClassCounts": {
     "COMPATIBILITY_FALLBACK": 0,
     "EXCLUDED": 3,
     "HISTORICAL_REFERENCE": 4,
     "PROJECTED_IDENTITY": 4,
     "REVIEW_REQUIRED": 3,
-    "VERIFIED_CANONICAL": 54,
+    "VERIFIED_CANONICAL": 55,
     "VERIFIED_PROJECTION": 7
   },
-  "nullPriceCount": 17,
+  "nullPriceCount": 21,
   "parity": {
     "counts": {
-      "exact_parity": 41,
+      "exact_parity": 39,
       "expected_difference": 2,
-      "unsafe_difference": 6
+      "unsafe_difference": 8
     },
     "details": [
       {
@@ -215,14 +215,14 @@
         }
       },
       {
-        "classification": "exact_parity",
+        "classification": "unsafe_difference",
         "modelId": "deepseek-v4-flash",
         "projection": {
-          "cachedInputPrice": 0.006,
-          "inputPrice": 0.3,
-          "outputPrice": 1.2
+          "cachedInputPrice": null,
+          "inputPrice": null,
+          "outputPrice": null
         },
-        "reason": "Legacy Website values match current projection values.",
+        "reason": "Projection blocks this row from default calculations.",
         "website": {
           "cachedInputPrice": 0.006,
           "inputPrice": 0.3,
@@ -590,14 +590,14 @@
         }
       },
       {
-        "classification": "exact_parity",
+        "classification": "unsafe_difference",
         "modelId": "grok-3",
         "projection": {
-          "cachedInputPrice": 0.2,
-          "inputPrice": 1.25,
-          "outputPrice": 2.5
+          "cachedInputPrice": null,
+          "inputPrice": null,
+          "outputPrice": null
         },
-        "reason": "Legacy Website values match current projection values.",
+        "reason": "Projection blocks this row from default calculations.",
         "website": {
           "cachedInputPrice": 0.2,
           "inputPrice": 1.25,
@@ -755,12 +755,12 @@
         }
       }
     ],
-    "projectionModelCount": 75,
+    "projectionModelCount": 76,
     "websiteModelCount": 49
   },
   "phase": "Phase 4A Production-Ready Website Projection",
   "phase35Readiness": "ready",
-  "projectionModelCount": 75,
+  "projectionModelCount": 76,
   "runtimeNetworkDependency": "none",
-  "unsafeIdentityCount": 17
+  "unsafeIdentityCount": 21
 }

@@ -73,6 +73,8 @@ OFFICIAL_DOMAINS = {
     "moonshot-ai": ("platform.kimi.ai", "kimi.ai", "moonshot.ai"),
 }
 
+DEEPSEEK_V4_FLASH_RETIREMENT_AT = "2026-09-10T04:00:00Z"
+
 IDENTITY_COLLAPSE = {
     ("deepseek", "deepseek-chat"): {
         "identityType": "alias",
@@ -526,6 +528,8 @@ def parse_effective_date(value: str | None) -> date | None:
 
 
 def is_current_effective(price: dict[str, Any], today: date) -> bool:
+    if price.get("pricingStatus", "current") != "current":
+        return False
     effective_from = parse_effective_date(price["effectiveFrom"])
     effective_until = parse_effective_date(price["effectiveUntil"])
     return (effective_from is None or effective_from <= today) and (
@@ -2632,21 +2636,32 @@ def main() -> None:
             if time_pricing:
                 schedule_source_ref = source_by_url[time_pricing["schedule_source_url"]]
                 calculation_default_count = 0
+                historical_v4_flash = (provider_id, model_id) == ("deepseek", "deepseek-v4-flash")
+                if historical_v4_flash:
+                    transition = (public.get("lifecycle") or {}).get("scheduled_transition") or {}
+                    target = public_by_key.get(("deepseek", "deepseek-flash")) or {}
+                    if (
+                        transition.get("billing_model_id") != "deepseek-flash"
+                        or transition.get("effective_from") != "2026-09-10"
+                        or (target.get("time_pricing") or {}).get("rate_effective_from") != DEEPSEEK_V4_FLASH_RETIREMENT_AT
+                    ):
+                        raise ValueError("DeepSeek V4 Flash historical cutoff must match the official billing transition")
                 for period in time_pricing["periods"]:
                     period_id = period["id"]
                     pricing_id = f"price:{model_internal_id}:standard:short:current:{period_id}"
-                    calculation_default = all(
+                    native_default = all(
                         period["pricing"][field] == pricing[field]
                         for field in ("input", "cached_input", "output")
                     )
-                    calculation_default_count += int(calculation_default)
+                    calculation_default = native_default and not historical_v4_flash
+                    calculation_default_count += int(native_default)
                     add_price(
                         model_internal_id,
                         {
                             "pricingId": pricing_id,
                             "modelInternalId": model_internal_id,
                             "processingMode": "standard",
-                            "pricingStatus": "current",
+                            "pricingStatus": "historical" if historical_v4_flash else "current",
                             "contextClass": "short",
                             "regionPolicy": "global",
                             "promptTokenThreshold": None,
@@ -2664,7 +2679,7 @@ def main() -> None:
                                 "scheduleSourceRefs": [schedule_source_ref],
                             },
                             "effectiveFrom": time_pricing["rate_effective_from"],
-                            "effectiveUntil": None,
+                            "effectiveUntil": DEEPSEEK_V4_FLASH_RETIREMENT_AT if historical_v4_flash else None,
                             "currency": period["pricing"]["currency"],
                             "charges": make_charges(pricing_id, period["pricing"], "public"),
                             "sourceRefs": source_refs_for(provider_id, public, None, source_by_url),

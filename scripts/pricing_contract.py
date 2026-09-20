@@ -33,6 +33,7 @@ CHARGE_COMPONENTS = {
     "tool_call",
     "grounding",
     "document_page",
+    "session_duration",
 }
 MODALITIES = {"text", "image", "audio", "video", "document"}
 UNITS = {

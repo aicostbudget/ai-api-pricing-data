@@ -9,7 +9,7 @@
     "review_required": "display only with warning; no default or recommendation placement",
     "unsafe": "exclude from default calculations and show warning only where explicitly allowed"
   },
-  "effectiveAt": "2026-09-13T03:53:37Z",
+  "effectiveAt": "2026-09-13T23:59:59Z",
   "effectiveTimezone": "UTC",
   "failureBehavior": {
     "atomicWrite": true,
@@ -18,7 +18,7 @@
     "partialJson": "not_written",
     "publicV1Mutation": "forbidden"
   },
-  "generatedAt": "2026-09-13T03:53:37Z",
+  "generatedAt": "2026-09-14T05:04:26Z",
   "generatedAtPolicy": "UTC artifact generation timestamp injected by the generation pipeline",
   "governancePolicy": {
     "classes": [
@@ -1919,7 +1919,7 @@
       "billingModelInternalId": null,
       "blockedFromDefaultReasons": [
         "missing_verified_current_price",
-        "retired_non_billing"
+        "retired_identity"
       ],
       "cachedInputPrice": null,
       "canonicalInternalId": "anthropic/claude-sonnet-4",
@@ -3457,14 +3457,14 @@
       "batchOutputPrice": null,
       "billingModelInternalId": null,
       "blockedFromDefaultReasons": [
-        "inactive_alias"
+        "inactive_alias",
+        "missing_verified_current_price"
       ],
       "cachedInputPrice": null,
       "canonicalInternalId": "deepseek/deepseek-chat",
       "checkedAt": "2026-08-28T19:00:00Z",
       "checkedSourceRefs": [
-        "source:deepseek:api-docs-deepseek-com-quick_start-pricing",
-        "source:deepseek:api-docs-deepseek-com-updates"
+        "source:deepseek:api-docs-deepseek-com-quick_start-pricing"
       ],
       "contextWindow": null,
       "contextWindowStatus": "unknown_not_guessed",
@@ -3489,293 +3489,6 @@
       "model": "DeepSeek Chat",
       "officialSourceUrl": "https://api-docs.deepseek.com/quick_start/pricing",
       "outputPrice": null,
-      "pricingComponents": [
-        {
-          "amount": "0.003",
-          "calculationDefault": false,
-          "chargeId": "price:deepseek/deepseek-v4-flash:standard:short:current:off_peak:cached_input:text:per_1m_tokens",
-          "component": "cached_input",
-          "condition": {
-            "contextClass": "short",
-            "effectiveFrom": "2026-09-10T04:00:00Z",
-            "effectiveUntil": null,
-            "processingMode": "standard",
-            "promptTokenThreshold": null,
-            "regionPolicy": "global",
-            "temporalCondition": {
-              "activeWeekdays": [],
-              "allOtherTimes": true,
-              "defaultPeriodId": "off_peak",
-              "periodId": "off_peak",
-              "rateEffectiveFrom": "2026-09-10T04:00:00Z",
-              "recurrence": "weekly",
-              "scheduleEffectiveFrom": null,
-              "scheduleSourceRefs": [
-                "source:deepseek:api-docs-deepseek-com-quick_start-pricing"
-              ],
-              "selectionBasis": "request_time",
-              "timeWindows": [],
-              "timezone": "UTC"
-            },
-            "tierSelection": null
-          },
-          "currency": "USD",
-          "modality": "text",
-          "pricingId": "price:deepseek/deepseek-v4-flash:standard:short:current:off_peak",
-          "sourceRefs": [
-            "source:deepseek:api-docs-deepseek-com-quick_start-pricing",
-            "source:deepseek:api-docs-deepseek-com-updates",
-            "source:deepseek:deepseek-com-en-news-deepseek-v4-1-flash"
-          ],
-          "unit": "per_1m_tokens",
-          "verificationStatus": "verified"
-        },
-        {
-          "amount": "0.15",
-          "calculationDefault": false,
-          "chargeId": "price:deepseek/deepseek-v4-flash:standard:short:current:off_peak:input:text:per_1m_tokens",
-          "component": "input",
-          "condition": {
-            "contextClass": "short",
-            "effectiveFrom": "2026-09-10T04:00:00Z",
-            "effectiveUntil": null,
-            "processingMode": "standard",
-            "promptTokenThreshold": null,
-            "regionPolicy": "global",
-            "temporalCondition": {
-              "activeWeekdays": [],
-              "allOtherTimes": true,
-              "defaultPeriodId": "off_peak",
-              "periodId": "off_peak",
-              "rateEffectiveFrom": "2026-09-10T04:00:00Z",
-              "recurrence": "weekly",
-              "scheduleEffectiveFrom": null,
-              "scheduleSourceRefs": [
-                "source:deepseek:api-docs-deepseek-com-quick_start-pricing"
-              ],
-              "selectionBasis": "request_time",
-              "timeWindows": [],
-              "timezone": "UTC"
-            },
-            "tierSelection": null
-          },
-          "currency": "USD",
-          "modality": "text",
-          "pricingId": "price:deepseek/deepseek-v4-flash:standard:short:current:off_peak",
-          "sourceRefs": [
-            "source:deepseek:api-docs-deepseek-com-quick_start-pricing",
-            "source:deepseek:api-docs-deepseek-com-updates",
-            "source:deepseek:deepseek-com-en-news-deepseek-v4-1-flash"
-          ],
-          "unit": "per_1m_tokens",
-          "verificationStatus": "verified"
-        },
-        {
-          "amount": "0.6",
-          "calculationDefault": false,
-          "chargeId": "price:deepseek/deepseek-v4-flash:standard:short:current:off_peak:output:text:per_1m_tokens",
-          "component": "output",
-          "condition": {
-            "contextClass": "short",
-            "effectiveFrom": "2026-09-10T04:00:00Z",
-            "effectiveUntil": null,
-            "processingMode": "standard",
-            "promptTokenThreshold": null,
-            "regionPolicy": "global",
-            "temporalCondition": {
-              "activeWeekdays": [],
-              "allOtherTimes": true,
-              "defaultPeriodId": "off_peak",
-              "periodId": "off_peak",
-              "rateEffectiveFrom": "2026-09-10T04:00:00Z",
-              "recurrence": "weekly",
-              "scheduleEffectiveFrom": null,
-              "scheduleSourceRefs": [
-                "source:deepseek:api-docs-deepseek-com-quick_start-pricing"
-              ],
-              "selectionBasis": "request_time",
-              "timeWindows": [],
-              "timezone": "UTC"
-            },
-            "tierSelection": null
-          },
-          "currency": "USD",
-          "modality": "text",
-          "pricingId": "price:deepseek/deepseek-v4-flash:standard:short:current:off_peak",
-          "sourceRefs": [
-            "source:deepseek:api-docs-deepseek-com-quick_start-pricing",
-            "source:deepseek:api-docs-deepseek-com-updates",
-            "source:deepseek:deepseek-com-en-news-deepseek-v4-1-flash"
-          ],
-          "unit": "per_1m_tokens",
-          "verificationStatus": "verified"
-        },
-        {
-          "amount": "0.006",
-          "calculationDefault": true,
-          "chargeId": "price:deepseek/deepseek-v4-flash:standard:short:current:peak:cached_input:text:per_1m_tokens",
-          "component": "cached_input",
-          "condition": {
-            "contextClass": "short",
-            "effectiveFrom": "2026-09-10T04:00:00Z",
-            "effectiveUntil": null,
-            "processingMode": "standard",
-            "promptTokenThreshold": null,
-            "regionPolicy": "global",
-            "temporalCondition": {
-              "activeWeekdays": [
-                "monday",
-                "tuesday",
-                "wednesday",
-                "thursday",
-                "friday"
-              ],
-              "allOtherTimes": false,
-              "defaultPeriodId": "off_peak",
-              "periodId": "peak",
-              "rateEffectiveFrom": "2026-09-10T04:00:00Z",
-              "recurrence": "weekly",
-              "scheduleEffectiveFrom": null,
-              "scheduleSourceRefs": [
-                "source:deepseek:api-docs-deepseek-com-quick_start-pricing"
-              ],
-              "selectionBasis": "request_time",
-              "timeWindows": [
-                {
-                  "end": "04:00",
-                  "start": "01:00"
-                },
-                {
-                  "end": "10:00",
-                  "start": "06:00"
-                }
-              ],
-              "timezone": "UTC"
-            },
-            "tierSelection": null
-          },
-          "currency": "USD",
-          "modality": "text",
-          "pricingId": "price:deepseek/deepseek-v4-flash:standard:short:current:peak",
-          "sourceRefs": [
-            "source:deepseek:api-docs-deepseek-com-quick_start-pricing",
-            "source:deepseek:api-docs-deepseek-com-updates",
-            "source:deepseek:deepseek-com-en-news-deepseek-v4-1-flash"
-          ],
-          "unit": "per_1m_tokens",
-          "verificationStatus": "verified"
-        },
-        {
-          "amount": "0.3",
-          "calculationDefault": true,
-          "chargeId": "price:deepseek/deepseek-v4-flash:standard:short:current:peak:input:text:per_1m_tokens",
-          "component": "input",
-          "condition": {
-            "contextClass": "short",
-            "effectiveFrom": "2026-09-10T04:00:00Z",
-            "effectiveUntil": null,
-            "processingMode": "standard",
-            "promptTokenThreshold": null,
-            "regionPolicy": "global",
-            "temporalCondition": {
-              "activeWeekdays": [
-                "monday",
-                "tuesday",
-                "wednesday",
-                "thursday",
-                "friday"
-              ],
-              "allOtherTimes": false,
-              "defaultPeriodId": "off_peak",
-              "periodId": "peak",
-              "rateEffectiveFrom": "2026-09-10T04:00:00Z",
-              "recurrence": "weekly",
-              "scheduleEffectiveFrom": null,
-              "scheduleSourceRefs": [
-                "source:deepseek:api-docs-deepseek-com-quick_start-pricing"
-              ],
-              "selectionBasis": "request_time",
-              "timeWindows": [
-                {
-                  "end": "04:00",
-                  "start": "01:00"
-                },
-                {
-                  "end": "10:00",
-                  "start": "06:00"
-                }
-              ],
-              "timezone": "UTC"
-            },
-            "tierSelection": null
-          },
-          "currency": "USD",
-          "modality": "text",
-          "pricingId": "price:deepseek/deepseek-v4-flash:standard:short:current:peak",
-          "sourceRefs": [
-            "source:deepseek:api-docs-deepseek-com-quick_start-pricing",
-            "source:deepseek:api-docs-deepseek-com-updates",
-            "source:deepseek:deepseek-com-en-news-deepseek-v4-1-flash"
-          ],
-          "unit": "per_1m_tokens",
-          "verificationStatus": "verified"
-        },
-        {
-          "amount": "1.2",
-          "calculationDefault": true,
-          "chargeId": "price:deepseek/deepseek-v4-flash:standard:short:current:peak:output:text:per_1m_tokens",
-          "component": "output",
-          "condition": {
-            "contextClass": "short",
-            "effectiveFrom": "2026-09-10T04:00:00Z",
-            "effectiveUntil": null,
-            "processingMode": "standard",
-            "promptTokenThreshold": null,
-            "regionPolicy": "global",
-            "temporalCondition": {
-              "activeWeekdays": [
-                "monday",
-                "tuesday",
-                "wednesday",
-                "thursday",
-                "friday"
-              ],
-              "allOtherTimes": false,
-              "defaultPeriodId": "off_peak",
-              "periodId": "peak",
-              "rateEffectiveFrom": "2026-09-10T04:00:00Z",
-              "recurrence": "weekly",
-              "scheduleEffectiveFrom": null,
-              "scheduleSourceRefs": [
-                "source:deepseek:api-docs-deepseek-com-quick_start-pricing"
-              ],
-              "selectionBasis": "request_time",
-              "timeWindows": [
-                {
-                  "end": "04:00",
-                  "start": "01:00"
-                },
-                {
-                  "end": "10:00",
-                  "start": "06:00"
-                }
-              ],
-              "timezone": "UTC"
-            },
-            "tierSelection": null
-          },
-          "currency": "USD",
-          "modality": "text",
-          "pricingId": "price:deepseek/deepseek-v4-flash:standard:short:current:peak",
-          "sourceRefs": [
-            "source:deepseek:api-docs-deepseek-com-quick_start-pricing",
-            "source:deepseek:api-docs-deepseek-com-updates",
-            "source:deepseek:deepseek-com-en-news-deepseek-v4-1-flash"
-          ],
-          "unit": "per_1m_tokens",
-          "verificationStatus": "verified"
-        }
-      ],
       "pricingSourceType": "target_projection",
       "provider": "deepseek",
       "publicExposure": "alias_only",
@@ -3789,19 +3502,15 @@
         "semantics": "Compatibility alias for non-thinking mode."
       },
       "selectedBatchPriceRecordId": null,
-      "selectedBillingPriceRecordId": "price:deepseek/deepseek-v4-flash:standard:short:current:peak",
-      "selectedPriceEffectiveFrom": "2026-09-10T04:00:00Z",
+      "selectedBillingPriceRecordId": null,
+      "selectedPriceEffectiveFrom": null,
       "selectedPriceEffectiveUntil": null,
       "selectedPriceRecordId": null,
       "sourceRefs": [
-        "source:deepseek:api-docs-deepseek-com-quick_start-pricing",
-        "source:deepseek:api-docs-deepseek-com-updates",
-        "source:deepseek:deepseek-com-en-news-deepseek-v4-1-flash"
+        "source:deepseek:api-docs-deepseek-com-quick_start-pricing"
       ],
       "sourceUrls": [
-        "https://api-docs.deepseek.com/quick_start/pricing",
-        "https://api-docs.deepseek.com/updates/",
-        "https://deepseek.com/en/news/deepseek-v4-1-flash/"
+        "https://api-docs.deepseek.com/quick_start/pricing"
       ],
       "status": "legacy",
       "verificationStatus": "partially_verified",
@@ -4245,14 +3954,14 @@
       "batchOutputPrice": null,
       "billingModelInternalId": null,
       "blockedFromDefaultReasons": [
-        "inactive_alias"
+        "inactive_alias",
+        "missing_verified_current_price"
       ],
       "cachedInputPrice": null,
       "canonicalInternalId": "deepseek/deepseek-reasoner",
       "checkedAt": "2026-08-28T19:00:00Z",
       "checkedSourceRefs": [
-        "source:deepseek:api-docs-deepseek-com-quick_start-pricing",
-        "source:deepseek:api-docs-deepseek-com-updates"
+        "source:deepseek:api-docs-deepseek-com-quick_start-pricing"
       ],
       "contextWindow": null,
       "contextWindowStatus": "unknown_not_guessed",
@@ -4277,293 +3986,6 @@
       "model": "DeepSeek Reasoner",
       "officialSourceUrl": "https://api-docs.deepseek.com/quick_start/pricing",
       "outputPrice": null,
-      "pricingComponents": [
-        {
-          "amount": "0.003",
-          "calculationDefault": false,
-          "chargeId": "price:deepseek/deepseek-v4-flash:standard:short:current:off_peak:cached_input:text:per_1m_tokens",
-          "component": "cached_input",
-          "condition": {
-            "contextClass": "short",
-            "effectiveFrom": "2026-09-10T04:00:00Z",
-            "effectiveUntil": null,
-            "processingMode": "standard",
-            "promptTokenThreshold": null,
-            "regionPolicy": "global",
-            "temporalCondition": {
-              "activeWeekdays": [],
-              "allOtherTimes": true,
-              "defaultPeriodId": "off_peak",
-              "periodId": "off_peak",
-              "rateEffectiveFrom": "2026-09-10T04:00:00Z",
-              "recurrence": "weekly",
-              "scheduleEffectiveFrom": null,
-              "scheduleSourceRefs": [
-                "source:deepseek:api-docs-deepseek-com-quick_start-pricing"
-              ],
-              "selectionBasis": "request_time",
-              "timeWindows": [],
-              "timezone": "UTC"
-            },
-            "tierSelection": null
-          },
-          "currency": "USD",
-          "modality": "text",
-          "pricingId": "price:deepseek/deepseek-v4-flash:standard:short:current:off_peak",
-          "sourceRefs": [
-            "source:deepseek:api-docs-deepseek-com-quick_start-pricing",
-            "source:deepseek:api-docs-deepseek-com-updates",
-            "source:deepseek:deepseek-com-en-news-deepseek-v4-1-flash"
-          ],
-          "unit": "per_1m_tokens",
-          "verificationStatus": "verified"
-        },
-        {
-          "amount": "0.15",
-          "calculationDefault": false,
-          "chargeId": "price:deepseek/deepseek-v4-flash:standard:short:current:off_peak:input:text:per_1m_tokens",
-          "component": "input",
-          "condition": {
-            "contextClass": "short",
-            "effectiveFrom": "2026-09-10T04:00:00Z",
-            "effectiveUntil": null,
-            "processingMode": "standard",
-            "promptTokenThreshold": null,
-            "regionPolicy": "global",
-            "temporalCondition": {
-              "activeWeekdays": [],
-              "allOtherTimes": true,
-              "defaultPeriodId": "off_peak",
-              "periodId": "off_peak",
-              "rateEffectiveFrom": "2026-09-10T04:00:00Z",
-              "recurrence": "weekly",
-              "scheduleEffectiveFrom": null,
-              "scheduleSourceRefs": [
-                "source:deepseek:api-docs-deepseek-com-quick_start-pricing"
-              ],
-              "selectionBasis": "request_time",
-              "timeWindows": [],
-              "timezone": "UTC"
-            },
-            "tierSelection": null
-          },
-          "currency": "USD",
-          "modality": "text",
-          "pricingId": "price:deepseek/deepseek-v4-flash:standard:short:current:off_peak",
-          "sourceRefs": [
-            "source:deepseek:api-docs-deepseek-com-quick_start-pricing",
-            "source:deepseek:api-docs-deepseek-com-updates",
-            "source:deepseek:deepseek-com-en-news-deepseek-v4-1-flash"
-          ],
-          "unit": "per_1m_tokens",
-          "verificationStatus": "verified"
-        },
-        {
-          "amount": "0.6",
-          "calculationDefault": false,
-          "chargeId": "price:deepseek/deepseek-v4-flash:standard:short:current:off_peak:output:text:per_1m_tokens",
-          "component": "output",
-          "condition": {
-            "contextClass": "short",
-            "effectiveFrom": "2026-09-10T04:00:00Z",
-            "effectiveUntil": null,
-            "processingMode": "standard",
-            "promptTokenThreshold": null,
-            "regionPolicy": "global",
-            "temporalCondition": {
-              "activeWeekdays": [],
-              "allOtherTimes": true,
-              "defaultPeriodId": "off_peak",
-              "periodId": "off_peak",
-              "rateEffectiveFrom": "2026-09-10T04:00:00Z",
-              "recurrence": "weekly",
-              "scheduleEffectiveFrom": null,
-              "scheduleSourceRefs": [
-                "source:deepseek:api-docs-deepseek-com-quick_start-pricing"
-              ],
-              "selectionBasis": "request_time",
-              "timeWindows": [],
-              "timezone": "UTC"
-            },
-            "tierSelection": null
-          },
-          "currency": "USD",
-          "modality": "text",
-          "pricingId": "price:deepseek/deepseek-v4-flash:standard:short:current:off_peak",
-          "sourceRefs": [
-            "source:deepseek:api-docs-deepseek-com-quick_start-pricing",
-            "source:deepseek:api-docs-deepseek-com-updates",
-            "source:deepseek:deepseek-com-en-news-deepseek-v4-1-flash"
-          ],
-          "unit": "per_1m_tokens",
-          "verificationStatus": "verified"
-        },
-        {
-          "amount": "0.006",
-          "calculationDefault": true,
-          "chargeId": "price:deepseek/deepseek-v4-flash:standard:short:current:peak:cached_input:text:per_1m_tokens",
-          "component": "cached_input",
-          "condition": {
-            "contextClass": "short",
-            "effectiveFrom": "2026-09-10T04:00:00Z",
-            "effectiveUntil": null,
-            "processingMode": "standard",
-            "promptTokenThreshold": null,
-            "regionPolicy": "global",
-            "temporalCondition": {
-              "activeWeekdays": [
-                "monday",
-                "tuesday",
-                "wednesday",
-                "thursday",
-                "friday"
-              ],
-              "allOtherTimes": false,
-              "defaultPeriodId": "off_peak",
-              "periodId": "peak",
-              "rateEffectiveFrom": "2026-09-10T04:00:00Z",
-              "recurrence": "weekly",
-              "scheduleEffectiveFrom": null,
-              "scheduleSourceRefs": [
-                "source:deepseek:api-docs-deepseek-com-quick_start-pricing"
-              ],
-              "selectionBasis": "request_time",
-              "timeWindows": [
-                {
-                  "end": "04:00",
-                  "start": "01:00"
-                },
-                {
-                  "end": "10:00",
-                  "start": "06:00"
-                }
-              ],
-              "timezone": "UTC"
-            },
-            "tierSelection": null
-          },
-          "currency": "USD",
-          "modality": "text",
-          "pricingId": "price:deepseek/deepseek-v4-flash:standard:short:current:peak",
-          "sourceRefs": [
-            "source:deepseek:api-docs-deepseek-com-quick_start-pricing",
-            "source:deepseek:api-docs-deepseek-com-updates",
-            "source:deepseek:deepseek-com-en-news-deepseek-v4-1-flash"
-          ],
-          "unit": "per_1m_tokens",
-          "verificationStatus": "verified"
-        },
-        {
-          "amount": "0.3",
-          "calculationDefault": true,
-          "chargeId": "price:deepseek/deepseek-v4-flash:standard:short:current:peak:input:text:per_1m_tokens",
-          "component": "input",
-          "condition": {
-            "contextClass": "short",
-            "effectiveFrom": "2026-09-10T04:00:00Z",
-            "effectiveUntil": null,
-            "processingMode": "standard",
-            "promptTokenThreshold": null,
-            "regionPolicy": "global",
-            "temporalCondition": {
-              "activeWeekdays": [
-                "monday",
-                "tuesday",
-                "wednesday",
-                "thursday",
-                "friday"
-              ],
-              "allOtherTimes": false,
-              "defaultPeriodId": "off_peak",
-              "periodId": "peak",
-              "rateEffectiveFrom": "2026-09-10T04:00:00Z",
-              "recurrence": "weekly",
-              "scheduleEffectiveFrom": null,
-              "scheduleSourceRefs": [
-                "source:deepseek:api-docs-deepseek-com-quick_start-pricing"
-              ],
-              "selectionBasis": "request_time",
-              "timeWindows": [
-                {
-                  "end": "04:00",
-                  "start": "01:00"
-                },
-                {
-                  "end": "10:00",
-                  "start": "06:00"
-                }
-              ],
-              "timezone": "UTC"
-            },
-            "tierSelection": null
-          },
-          "currency": "USD",
-          "modality": "text",
-          "pricingId": "price:deepseek/deepseek-v4-flash:standard:short:current:peak",
-          "sourceRefs": [
-            "source:deepseek:api-docs-deepseek-com-quick_start-pricing",
-            "source:deepseek:api-docs-deepseek-com-updates",
-            "source:deepseek:deepseek-com-en-news-deepseek-v4-1-flash"
-          ],
-          "unit": "per_1m_tokens",
-          "verificationStatus": "verified"
-        },
-        {
-          "amount": "1.2",
-          "calculationDefault": true,
-          "chargeId": "price:deepseek/deepseek-v4-flash:standard:short:current:peak:output:text:per_1m_tokens",
-          "component": "output",
-          "condition": {
-            "contextClass": "short",
-            "effectiveFrom": "2026-09-10T04:00:00Z",
-            "effectiveUntil": null,
-            "processingMode": "standard",
-            "promptTokenThreshold": null,
-            "regionPolicy": "global",
-            "temporalCondition": {
-              "activeWeekdays": [
-                "monday",
-                "tuesday",
-                "wednesday",
-                "thursday",
-                "friday"
-              ],
-              "allOtherTimes": false,
-              "defaultPeriodId": "off_peak",
-              "periodId": "peak",
-              "rateEffectiveFrom": "2026-09-10T04:00:00Z",
-              "recurrence": "weekly",
-              "scheduleEffectiveFrom": null,
-              "scheduleSourceRefs": [
-                "source:deepseek:api-docs-deepseek-com-quick_start-pricing"
-              ],
-              "selectionBasis": "request_time",
-              "timeWindows": [
-                {
-                  "end": "04:00",
-                  "start": "01:00"
-                },
-                {
-                  "end": "10:00",
-                  "start": "06:00"
-                }
-              ],
-              "timezone": "UTC"
-            },
-            "tierSelection": null
-          },
-          "currency": "USD",
-          "modality": "text",
-          "pricingId": "price:deepseek/deepseek-v4-flash:standard:short:current:peak",
-          "sourceRefs": [
-            "source:deepseek:api-docs-deepseek-com-quick_start-pricing",
-            "source:deepseek:api-docs-deepseek-com-updates",
-            "source:deepseek:deepseek-com-en-news-deepseek-v4-1-flash"
-          ],
-          "unit": "per_1m_tokens",
-          "verificationStatus": "verified"
-        }
-      ],
       "pricingSourceType": "target_projection",
       "provider": "deepseek",
       "publicExposure": "alias_only",
@@ -4577,19 +3999,15 @@
         "semantics": "Compatibility alias for thinking mode."
       },
       "selectedBatchPriceRecordId": null,
-      "selectedBillingPriceRecordId": "price:deepseek/deepseek-v4-flash:standard:short:current:peak",
-      "selectedPriceEffectiveFrom": "2026-09-10T04:00:00Z",
+      "selectedBillingPriceRecordId": null,
+      "selectedPriceEffectiveFrom": null,
       "selectedPriceEffectiveUntil": null,
       "selectedPriceRecordId": null,
       "sourceRefs": [
-        "source:deepseek:api-docs-deepseek-com-quick_start-pricing",
-        "source:deepseek:api-docs-deepseek-com-updates",
-        "source:deepseek:deepseek-com-en-news-deepseek-v4-1-flash"
+        "source:deepseek:api-docs-deepseek-com-quick_start-pricing"
       ],
       "sourceUrls": [
-        "https://api-docs.deepseek.com/quick_start/pricing",
-        "https://api-docs.deepseek.com/updates/",
-        "https://deepseek.com/en/news/deepseek-v4-1-flash/"
+        "https://api-docs.deepseek.com/quick_start/pricing"
       ],
       "status": "legacy",
       "verificationStatus": "partially_verified",
@@ -4602,8 +4020,10 @@
       "batchInputPrice": null,
       "batchOutputPrice": null,
       "billingModelInternalId": "deepseek/deepseek-flash",
-      "blockedFromDefaultReasons": [],
-      "cachedInputPrice": 0.006,
+      "blockedFromDefaultReasons": [
+        "retired_identity"
+      ],
+      "cachedInputPrice": null,
       "canonicalInternalId": "deepseek/deepseek-v4-flash",
       "checkedAt": "2026-09-13T03:53:37Z",
       "checkedSourceRefs": [
@@ -4620,7 +4040,7 @@
         "text",
         "default_context_class"
       ],
-      "defaultSafe": true,
+      "defaultSafe": false,
       "governanceClass": "HISTORICAL_REFERENCE",
       "governanceDetails": null,
       "governanceReason": "retired_identity_redirects_to_current_billing",
@@ -4629,11 +4049,11 @@
       ],
       "id": "deepseek-v4-flash",
       "identityType": "canonical_model",
-      "inputPrice": 0.3,
+      "inputPrice": null,
       "lifecycleStatus": "retired",
       "model": "DeepSeek V4 Flash",
       "officialSourceUrl": "https://api-docs.deepseek.com/quick_start/pricing",
-      "outputPrice": 1.2,
+      "outputPrice": null,
       "pricingComponents": [
         {
           "amount": "0.003",
@@ -4953,7 +4373,7 @@
       "selectedBillingPriceRecordId": "price:deepseek/deepseek-flash:standard:short:current:peak",
       "selectedPriceEffectiveFrom": "2026-09-10T04:00:00Z",
       "selectedPriceEffectiveUntil": null,
-      "selectedPriceRecordId": "price:deepseek/deepseek-flash:standard:short:current:peak",
+      "selectedPriceRecordId": null,
       "sourceRefs": [
         "source:deepseek:api-docs-deepseek-com-quick_start-pricing",
         "source:deepseek:api-docs-deepseek-com-updates",
@@ -4977,7 +4397,7 @@
             "id": "off_peak",
             "inputPrice": 0.15,
             "outputPrice": 0.6,
-            "pricingId": "price:deepseek/deepseek-v4-flash:standard:short:current:off_peak",
+            "pricingId": "price:deepseek/deepseek-flash:standard:short:current:off_peak",
             "sourceRefs": [
               "source:deepseek:api-docs-deepseek-com-quick_start-pricing",
               "source:deepseek:api-docs-deepseek-com-updates",
@@ -5002,7 +4422,7 @@
             "id": "peak",
             "inputPrice": 0.3,
             "outputPrice": 1.2,
-            "pricingId": "price:deepseek/deepseek-v4-flash:standard:short:current:peak",
+            "pricingId": "price:deepseek/deepseek-flash:standard:short:current:peak",
             "sourceRefs": [
               "source:deepseek:api-docs-deepseek-com-quick_start-pricing",
               "source:deepseek:api-docs-deepseek-com-updates",
@@ -5032,10 +4452,8 @@
         "timezone": "UTC"
       },
       "verificationStatus": "verified",
-      "verifiedAt": "2026-09-13T03:53:37Z",
-      "verifiedSourceRefs": [
-        "source:deepseek:api-docs-deepseek-com-quick_start-pricing"
-      ]
+      "verifiedAt": null,
+      "verifiedSourceRefs": []
     },
     {
       "aliasTargetInternalId": null,
@@ -5043,8 +4461,10 @@
       "batchInputPrice": null,
       "batchOutputPrice": null,
       "billingModelInternalId": "deepseek/deepseek-flash",
-      "blockedFromDefaultReasons": [],
-      "cachedInputPrice": 0.006,
+      "blockedFromDefaultReasons": [
+        "retired_identity"
+      ],
+      "cachedInputPrice": null,
       "canonicalInternalId": "deepseek/deepseek-v4-flash-vision-exp",
       "checkedAt": "2026-09-13T03:53:37Z",
       "checkedSourceRefs": [
@@ -5061,7 +4481,7 @@
         "text",
         "default_context_class"
       ],
-      "defaultSafe": true,
+      "defaultSafe": false,
       "governanceClass": "HISTORICAL_REFERENCE",
       "governanceDetails": null,
       "governanceReason": "retired_identity_redirects_to_current_billing",
@@ -5070,11 +4490,11 @@
       ],
       "id": "deepseek-v4-flash-vision-exp",
       "identityType": "canonical_model",
-      "inputPrice": 0.3,
+      "inputPrice": null,
       "lifecycleStatus": "retired",
       "model": "DeepSeek V4 Flash Vision Exp",
       "officialSourceUrl": "https://api-docs.deepseek.com/quick_start/pricing",
-      "outputPrice": 1.2,
+      "outputPrice": null,
       "pricingComponents": [
         {
           "amount": "0.003",
@@ -5394,7 +4814,7 @@
       "selectedBillingPriceRecordId": "price:deepseek/deepseek-flash:standard:short:current:peak",
       "selectedPriceEffectiveFrom": "2026-09-10T04:00:00Z",
       "selectedPriceEffectiveUntil": null,
-      "selectedPriceRecordId": "price:deepseek/deepseek-flash:standard:short:current:peak",
+      "selectedPriceRecordId": null,
       "sourceRefs": [
         "source:deepseek:api-docs-deepseek-com-quick_start-pricing",
         "source:deepseek:api-docs-deepseek-com-updates",
@@ -5418,7 +4838,7 @@
             "id": "off_peak",
             "inputPrice": 0.15,
             "outputPrice": 0.6,
-            "pricingId": "price:deepseek/deepseek-v4-flash-vision-exp:standard:short:current:off_peak",
+            "pricingId": "price:deepseek/deepseek-flash:standard:short:current:off_peak",
             "sourceRefs": [
               "source:deepseek:api-docs-deepseek-com-quick_start-pricing",
               "source:deepseek:api-docs-deepseek-com-updates",
@@ -5443,7 +4863,7 @@
             "id": "peak",
             "inputPrice": 0.3,
             "outputPrice": 1.2,
-            "pricingId": "price:deepseek/deepseek-v4-flash-vision-exp:standard:short:current:peak",
+            "pricingId": "price:deepseek/deepseek-flash:standard:short:current:peak",
             "sourceRefs": [
               "source:deepseek:api-docs-deepseek-com-quick_start-pricing",
               "source:deepseek:api-docs-deepseek-com-updates",
@@ -5473,10 +4893,8 @@
         "timezone": "UTC"
       },
       "verificationStatus": "verified",
-      "verifiedAt": "2026-09-13T03:53:37Z",
-      "verifiedSourceRefs": [
-        "source:deepseek:api-docs-deepseek-com-quick_start-pricing"
-      ]
+      "verifiedAt": null,
+      "verifiedSourceRefs": []
     },
     {
       "aliasTargetInternalId": null,
@@ -18710,6 +18128,115 @@
       "batchInputPrice": null,
       "batchOutputPrice": null,
       "billingModelInternalId": null,
+      "billingNote": "The $0.05 per minute price applies to GPT-Live 1 voice-session duration and is billed per second without rounding up to a whole minute. Backend model and tool usage are billed separately.",
+      "blockedFromDefaultReasons": [
+        "missing_verified_current_price"
+      ],
+      "cachedInputPrice": null,
+      "canonicalInternalId": "openai/gpt-live-1",
+      "checkedAt": "2026-09-14T05:04:26Z",
+      "checkedSourceRefs": [
+        "source:openai:developers-openai-com-api-docs-changelog",
+        "source:openai:developers-openai-com-api-docs-models-gpt-live-1"
+      ],
+      "contextWindow": null,
+      "contextWindowStatus": "unknown_not_guessed",
+      "defaultPriceSelectionRule": [
+        "current_effective_utc",
+        "verified",
+        "standard",
+        "text",
+        "default_context_class"
+      ],
+      "defaultSafe": false,
+      "governanceClass": "VERIFIED_CANONICAL",
+      "governanceDetails": null,
+      "governanceReason": "canonical_verified_non_token_public_projection",
+      "governanceSourceCandidateIds": [
+        "openai/gpt-live-1"
+      ],
+      "id": "gpt-live-1",
+      "identityType": "canonical_model",
+      "inputPrice": null,
+      "lifecycleStatus": "active",
+      "model": "GPT-Live 1",
+      "officialSourceUrl": "https://developers.openai.com/api/docs/pricing",
+      "outputPrice": null,
+      "pricingComponents": [
+        {
+          "amount": "0.05",
+          "calculationDefault": true,
+          "chargeId": "price:openai/gpt-live-1:standard:short:current:session_duration:audio:per_minute",
+          "component": "session_duration",
+          "condition": {
+            "availabilityRules": [],
+            "contextClass": "short",
+            "defaultAvailabilityStatus": "available",
+            "effectiveFrom": "2026-09-10",
+            "effectiveUntil": null,
+            "priceAdjustments": [],
+            "processingMode": "standard",
+            "promptTokenThreshold": null,
+            "regionPolicy": "global",
+            "regionSelector": {
+              "dataResidencies": [
+                "global"
+              ],
+              "endpointGeographies": [
+                "global"
+              ],
+              "pricingGeography": "global_base"
+            },
+            "tierSelection": null
+          },
+          "currency": "USD",
+          "modality": "audio",
+          "pricingId": "price:openai/gpt-live-1:standard:short:current",
+          "sourceRefs": [
+            "source:openai:developers-openai-com-api-docs-changelog",
+            "source:openai:developers-openai-com-api-docs-models-gpt-live-1",
+            "source:openai:developers-openai-com-api-docs-pricing"
+          ],
+          "unit": "per_minute",
+          "verificationStatus": "verified"
+        }
+      ],
+      "pricingSourceType": "canonical_verified_structured_price",
+      "provider": "openai",
+      "publicExposure": "public",
+      "redirectTargetInternalId": null,
+      "releaseStage": "stable",
+      "replacementInternalId": null,
+      "routingBehavior": "direct",
+      "routingDetails": {},
+      "selectedBatchPriceRecordId": null,
+      "selectedBillingPriceRecordId": "price:openai/gpt-live-1:standard:short:current",
+      "selectedPriceEffectiveFrom": "2026-09-10",
+      "selectedPriceEffectiveUntil": null,
+      "selectedPriceRecordId": null,
+      "sourceRefs": [
+        "source:openai:developers-openai-com-api-docs-changelog",
+        "source:openai:developers-openai-com-api-docs-models-gpt-live-1",
+        "source:openai:developers-openai-com-api-docs-pricing"
+      ],
+      "sourceUrls": [
+        "https://developers.openai.com/api/docs/changelog",
+        "https://developers.openai.com/api/docs/models/gpt-live-1",
+        "https://developers.openai.com/api/docs/pricing"
+      ],
+      "status": "latest",
+      "verificationStatus": "verified",
+      "verifiedAt": "2026-09-14T05:04:26Z",
+      "verifiedSourceRefs": [
+        "source:openai:developers-openai-com-api-docs-models-gpt-live-1"
+      ]
+    },
+    {
+      "aliasTargetInternalId": null,
+      "availability": "active",
+      "batchInputPrice": null,
+      "batchOutputPrice": null,
+      "billingModelInternalId": null,
       "blockedFromDefaultReasons": [
         "excluded_default_candidate",
         "missing_verified_current_price"
@@ -18779,11 +18306,13 @@
     {
       "aliasTargetInternalId": null,
       "availability": "Retired; requests redirect to Grok 4.3",
-      "batchInputPrice": 1,
-      "batchOutputPrice": 2,
+      "batchInputPrice": null,
+      "batchOutputPrice": null,
       "billingModelInternalId": "xai/grok-4.3",
-      "blockedFromDefaultReasons": [],
-      "cachedInputPrice": 0.2,
+      "blockedFromDefaultReasons": [
+        "retired_identity"
+      ],
+      "cachedInputPrice": null,
       "canonicalInternalId": "xai/grok-3",
       "checkedAt": "2026-08-15T12:25:26Z",
       "checkedSourceRefs": [
@@ -18801,7 +18330,7 @@
         "text",
         "default_context_class"
       ],
-      "defaultSafe": true,
+      "defaultSafe": false,
       "governanceClass": "HISTORICAL_REFERENCE",
       "governanceDetails": "Retired slug is retained for history and redirects to Grok 4.3 for current billing.",
       "governanceReason": "retired_identity_redirects_to_current_billing",
@@ -18819,11 +18348,11 @@
       },
       "id": "grok-3",
       "identityType": "historical_reference",
-      "inputPrice": 1.25,
+      "inputPrice": null,
       "lifecycleStatus": "retired",
       "model": "Grok 3",
       "officialSourceUrl": "https://docs.x.ai/developers/advanced-api-usage/prompt-caching/usage-and-pricing",
-      "outputPrice": 2.5,
+      "outputPrice": null,
       "pricingComponents": [
         {
           "amount": "1",
@@ -19083,11 +18612,11 @@
         "replacementInternalId": null,
         "semantics": "Retired slug is retained for history and redirects to Grok 4.3 for current billing."
       },
-      "selectedBatchPriceRecordId": "price:xai/grok-4.3:batch:short:current",
+      "selectedBatchPriceRecordId": null,
       "selectedBillingPriceRecordId": "price:xai/grok-4.3:standard:short:current",
       "selectedPriceEffectiveFrom": null,
       "selectedPriceEffectiveUntil": null,
-      "selectedPriceRecordId": "price:xai/grok-4.3:standard:short:current",
+      "selectedPriceRecordId": null,
       "sourceRefs": [
         "source:xai:docs-x-ai-developers-advanced-api-usage-prompt-caching-usage-and-pricing",
         "source:xai:docs-x-ai-developers-models-grok-4-3",
@@ -19102,13 +18631,8 @@
       ],
       "status": "retired",
       "verificationStatus": "verified",
-      "verifiedAt": "2026-08-15T12:25:26Z",
-      "verifiedSourceRefs": [
-        "source:xai:docs-x-ai-developers-advanced-api-usage-prompt-caching-usage-and-pricing",
-        "source:xai:docs-x-ai-developers-models-grok-4-3",
-        "source:xai:docs-x-ai-developers-pricing",
-        "source:xai:docs-x-ai-developers-rest-api-reference-inference-models"
-      ]
+      "verifiedAt": null,
+      "verifiedSourceRefs": []
     },
     {
       "aliasTargetInternalId": null,

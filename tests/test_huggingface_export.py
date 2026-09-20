@@ -153,11 +153,24 @@ class HuggingFaceExportTests(unittest.TestCase):
                 self.assertIsNone(record["unit_price"], key)
                 self.assertIsNone(record["pricing_unit"], key)
                 self.assertGreater(len(record["pricing_components"]), 1, key)
+            elif record["pricing_components"] and record["pricing_unit"] == "1M tokens" and projected["lifecycleStatus"] == "retired" and key == ("deepseek", "deepseek-v4-flash-vision-exp"):
+                self.assertIsNone(record["input_price_per_1m_tokens"], key)
+                self.assertIsNone(record["output_price_per_1m_tokens"], key)
+                self.assertIn("retired_identity", projected["blockedFromDefaultReasons"])
             else:
                 fallback_count += 1
                 self.assertIn("legacy fallback", record["notes"], key)
                 self.assertNotIn("excluded_default_candidate", projected["blockedFromDefaultReasons"], key)
-        self.assertEqual(fallback_count, 4)
+        self.assertEqual(fallback_count, 6)
+        fallback_by_id = {
+            record["model_id"]: record
+            for record in self.records if "legacy fallback" in (record.get("notes") or "")
+        }
+        self.assertEqual(set(fallback_by_id), {
+            "claude-sonnet-4", "deepseek-v4-flash", "gpt-4.1",
+            "gpt-4.1-mini", "gpt-4.1-nano", "grok-3",
+        })
+        self.assertEqual(fallback_by_id["deepseek-v4-flash"]["status"], "retired")
 
     def test_all_record_provenance_matches_projection_semantics(self):
         projection_by_key = {
@@ -176,10 +189,16 @@ class HuggingFaceExportTests(unittest.TestCase):
                 non_verified.append(record)
                 self.assertIsNone(record["last_verified_at"], key)
                 self.assertIsNotNone(record["checked_at"], key)
-        self.assertEqual(len(non_verified), 4)
+        self.assertEqual(len(non_verified), sum(
+            row["publicExposure"] == "public" and row.get("verifiedAt") is None
+            for row in self.projection["models"]
+        ))
+        self.assertTrue({"deepseek-v4-flash", "deepseek-v4-flash-vision-exp", "grok-3"}.issubset(
+            {record["model_id"] for record in non_verified}
+        ))
         self.assertEqual(
             {record["verification_status"] for record in non_verified},
-            {"review_required", "partially_verified"},
+            {"verified", "review_required", "partially_verified"},
         )
 
     def test_grok_4_3_tiers_match_public_website_projection(self):

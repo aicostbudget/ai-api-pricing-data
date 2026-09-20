@@ -110,6 +110,11 @@ def csv_rows(models: list[dict[str, Any]]) -> list[dict[str, Any]]:
         price_records = model.get("price_records", [])
         conditional_usage_allowances = model.get("conditional_usage_allowances", [])
         primary_component = components[0] if len(components) == 1 else None
+        if primary_component is None and len(price_records) == 1:
+            record = price_records[0]
+            charges = [charge for charge in record.get("charges", []) if charge.get("unit") != "per_1m_tokens"]
+            if len(charges) == 1 and record.get("usage_tier") is None:
+                primary_component = charges[0]
         rows.append(
             {
                 "provider_id": model["provider_id"],
@@ -133,7 +138,7 @@ def csv_rows(models: list[dict[str, Any]]) -> list[dict[str, Any]]:
                 "notes": " ".join(model.get("notes", "").split()),
                 "unit_price": primary_component["amount"] if primary_component else None,
                 "billing_unit": primary_component["unit"] if primary_component else None,
-                "billing_quantity": 1000 if primary_component and primary_component["unit"] == "per_1000_pages" else None,
+                "billing_quantity": (1000 if primary_component["unit"] == "per_1000_pages" else 1) if primary_component else None,
                 "pricing_dimension": primary_component["component"] if primary_component else None,
                 "pricing_components_json": json.dumps(components, separators=(",", ":")) if components else None,
                 "price_records_json": json.dumps(price_records, separators=(",", ":")) if price_records else None,

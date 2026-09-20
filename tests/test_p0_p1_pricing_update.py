@@ -101,7 +101,13 @@ class P0P1PricingUpdateTests(unittest.TestCase):
             self.assertTrue(all(row["processingMode"] == "standard" for row in prices))
             self.assertTrue(all(row["contextClass"] == "short" for row in prices))
             peak = next(row for row in prices if row["temporalCondition"]["periodId"] == "peak")
-            self.assertEqual(v2_model_by_id[internal_id]["defaultPriceRecordId"], peak["pricingId"])
+            if model_id == "deepseek-v4-flash":
+                self.assertIsNone(v2_model_by_id[internal_id]["defaultPriceRecordId"])
+                self.assertTrue(all(row["pricingStatus"] == "historical" for row in prices))
+                self.assertTrue(all(row["effectiveUntil"] == "2026-09-10T04:00:00Z" for row in prices))
+                self.assertTrue(all(row["calculationDefault"] is False for row in prices))
+            else:
+                self.assertEqual(v2_model_by_id[internal_id]["defaultPriceRecordId"], peak["pricingId"])
             self.assertEqual(peak["effectiveFrom"], "2026-08-16T16:00:00Z")
             self.assertIsNone(peak["temporalCondition"]["scheduleEffectiveFrom"])
             self.assertEqual(
@@ -112,6 +118,11 @@ class P0P1PricingUpdateTests(unittest.TestCase):
             self.assertIn("time_pricing", json.loads(history_lines[-1]))
             website_time_pricing = projection_by_id[model_id]["timePricing"]
             self.assertEqual({period["id"] for period in website_time_pricing["periods"]}, {"peak", "off_peak"})
+            if model_id == "deepseek-v4-flash":
+                self.assertEqual(
+                    {period["pricingId"] for period in website_time_pricing["periods"]},
+                    {f"price:deepseek/deepseek-flash:standard:short:current:{period}" for period in ("peak", "off_peak")},
+                )
 
     def test_gemini_transcribe_exact_prices_modalities_and_unsupported_modes(self):
         expected = {

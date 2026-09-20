@@ -402,7 +402,7 @@ def build_public_records(
                     "cached_input_price_per_1m_tokens": None,
                     "output_price_per_1m_tokens": None,
                     "currency": "USD",
-                    "pricing_unit": None,
+                    "pricing_unit": "1M tokens" if all(component["unit"] == "per_1m_tokens" for component in components) else None,
                     "status": row["status"],
                     "availability": row["availability"],
                     "official_source_url": row["officialSourceUrl"],
@@ -411,7 +411,7 @@ def build_public_records(
                     "checked_at": date_only(row.get("checkedAt")),
                     "effective_from": components[0]["condition"]["effective_from"],
                     "effective_until": components[0]["condition"]["effective_until"],
-                    "notes": projection_warning(row),
+                    "notes": row.get("billingNote") or projection_warning(row),
                     "pricing_tier_count": 0,
                     "pricing_tiers": [],
                     "time_pricing": row.get("timePricing"),
@@ -434,7 +434,7 @@ def build_public_records(
                 "output_price_per_1m_tokens": legacy.get("outputPrice"),
                 "currency": "USD",
                 "pricing_unit": "1M tokens",
-                "status": legacy["status"],
+                "status": row["status"],
                 "availability": legacy["availability"],
                 "official_source_url": row["officialSourceUrl"],
                 "verification_status": row["verificationStatus"],
@@ -560,6 +560,7 @@ def validate_payload(
                 raise ValueError(f"invalid numeric price for {row['provider_id']}/{row['model_id']} {field}")
         if row["currency"] != "USD":
             raise ValueError(f"invalid unit or currency for {row['provider_id']}/{row['model_id']}")
+        expected_components = public_pricing_components(canonical)
         if row["billing_unit"] is None:
             has_usage_tiers = any(
                 component.get("condition", {}).get("usage_tier") is not None
@@ -573,8 +574,9 @@ def validate_payload(
         else:
             if row["pricing_unit"] is not None or not is_number(row["unit_price"]):
                 raise ValueError(f"invalid non-token unit for {row['provider_id']}/{row['model_id']}")
-            if row["billing_quantity"] != 1000 or row["pricing_dimension"] != "document_page":
-                raise ValueError(f"invalid page billing summary for {row['provider_id']}/{row['model_id']}")
+            expected_summary = non_token_summary(expected_components)
+            if any(row[field] != expected_summary[field] for field in ("unit_price", "billing_unit", "billing_quantity", "pricing_dimension")):
+                raise ValueError(f"invalid non-token billing summary for {row['provider_id']}/{row['model_id']}")
         tiers = row.get("pricing_tiers", [])
         if row.get("pricing_tier_count") != len(tiers):
             raise ValueError(f"pricing tier count mismatch for {row['provider_id']}/{row['model_id']}")
@@ -590,7 +592,6 @@ def validate_payload(
             if tier["checked_at"] != expected_checked:
                 raise ValueError(f"tier checkedAt mismatch for {key[0]}/{key[1]}")
         components = row.get("pricing_components", [])
-        expected_components = public_pricing_components(canonical)
         if components != expected_components:
             raise ValueError(f"pricing component mismatch for {key[0]}/{key[1]}")
         if row.get("time_pricing") != canonical.get("timePricing"):
