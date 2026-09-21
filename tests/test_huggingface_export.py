@@ -43,7 +43,7 @@ class HuggingFaceExportTests(unittest.TestCase):
 
     def test_export_artifacts_are_internally_consistent(self):
         validate_huggingface_artifacts()
-        self.assertEqual(self.metadata["schema_version"], "1.7.0")
+        self.assertEqual(self.metadata["schema_version"], "1.8.0")
         self.assertEqual(self.metadata["last_verified_at"], self.metadata["last_updated"])
 
     def test_viewer_projection_preserves_rows_identities_providers_and_values(self):
@@ -102,7 +102,7 @@ class HuggingFaceExportTests(unittest.TestCase):
         }
         self.assertEqual(train_xai, prices_xai)
         self.assertEqual(train_xai, json_xai)
-        self.assertEqual(len(train_xai), 8)
+        self.assertEqual(len(train_xai), 10)
 
     def test_export_matches_full_public_website_key_set(self):
         actual = {(row["provider_id"], row["model_id"]) for row in self.records}
@@ -153,10 +153,21 @@ class HuggingFaceExportTests(unittest.TestCase):
                 self.assertIsNone(record["unit_price"], key)
                 self.assertIsNone(record["pricing_unit"], key)
                 self.assertGreater(len(record["pricing_components"]), 1, key)
-            elif record["pricing_components"] and record["pricing_unit"] == "1M tokens" and projected["lifecycleStatus"] == "retired" and key == ("deepseek", "deepseek-v4-flash-vision-exp"):
+            elif record["pricing_components"] and any(
+                item["unit"] != "per_1m_tokens" for item in record["pricing_components"]
+            ):
+                self.assertIsNone(record["unit_price"], key)
+                self.assertIsNone(record["pricing_unit"], key)
+            elif (
+                record["pricing_components"]
+                and record["pricing_unit"] == "1M tokens"
+                and record["input_price_per_1m_tokens"] is None
+                and record["output_price_per_1m_tokens"] is None
+            ):
                 self.assertIsNone(record["input_price_per_1m_tokens"], key)
                 self.assertIsNone(record["output_price_per_1m_tokens"], key)
-                self.assertIn("retired_identity", projected["blockedFromDefaultReasons"])
+                self.assertTrue(all(item["unit"] == "per_1m_tokens" for item in record["pricing_components"]), key)
+                self.assertTrue(projected["blockedFromDefaultReasons"], key)
             else:
                 fallback_count += 1
                 self.assertIn("legacy fallback", record["notes"], key)
@@ -230,10 +241,10 @@ class HuggingFaceExportTests(unittest.TestCase):
             "last_verified_at", "checked_at", "effective_from", "effective_until", "notes",
             "pricing_tier_count", "pricing_tiers_json",
         ]
-        self.assertEqual(headers[:-7], legacy_headers)
+        self.assertEqual(headers[:-8], legacy_headers)
         self.assertEqual(
-            headers[-7:],
-            ["time_pricing_json", "pricing_components_json", "conditional_usage_allowances_json", "unit_price", "billing_unit", "billing_quantity", "pricing_dimension"],
+            headers[-8:],
+            ["time_pricing_json", "pricing_components_json", "conditional_usage_allowances_json", "model_selection_json", "unit_price", "billing_unit", "billing_quantity", "pricing_dimension"],
         )
         for record in self.records:
             key = (record["provider_id"], record["model_id"])
@@ -324,6 +335,7 @@ class HuggingFaceExportTests(unittest.TestCase):
             for field in (
                 "pricing_components",
                 "conditional_usage_allowances",
+                "model_selection",
                 "unit_price",
                 "billing_unit",
                 "billing_quantity",

@@ -9,7 +9,7 @@
     "review_required": "display only with warning; no default or recommendation placement",
     "unsafe": "exclude from default calculations and show warning only where explicitly allowed"
   },
-  "effectiveAt": "2026-09-13T23:59:59Z",
+  "effectiveAt": "2026-09-21T11:11:23Z",
   "effectiveTimezone": "UTC",
   "failureBehavior": {
     "atomicWrite": true,
@@ -18,7 +18,7 @@
     "partialJson": "not_written",
     "publicV1Mutation": "forbidden"
   },
-  "generatedAt": "2026-09-20T13:28:36Z",
+  "generatedAt": "2026-09-21T11:11:23Z",
   "generatedAtPolicy": "UTC artifact generation timestamp injected by the generation pipeline",
   "governancePolicy": {
     "classes": [
@@ -7784,12 +7784,9 @@
       "blockedFromDefaultReasons": [],
       "cachedInputPrice": null,
       "canonicalInternalId": "google-gemini/gemini-3.5-transcribe",
-      "checkedAt": "2026-08-28T19:00:00Z",
+      "checkedAt": "2026-09-21T10:47:28Z",
       "checkedSourceRefs": [
-        "source:google-gemini:ai-google-dev-gemini-api-docs-changelog",
-        "source:google-gemini:ai-google-dev-gemini-api-docs-models-gemini-3-5-transcribe",
-        "source:google-gemini:ai-google-dev-gemini-api-docs-pricing",
-        "source:google-gemini:ai-google-dev-gemini-api-docs-transcribe"
+        "source:google-gemini:ai-google-dev-gemini-api-docs-pricing"
       ],
       "contextWindow": null,
       "contextWindowStatus": "unknown_not_guessed",
@@ -7909,12 +7906,9 @@
       "blockedFromDefaultReasons": [],
       "cachedInputPrice": null,
       "canonicalInternalId": "google-gemini/gemini-3.5-transcribe-live",
-      "checkedAt": "2026-08-28T19:00:00Z",
+      "checkedAt": "2026-09-21T10:47:28Z",
       "checkedSourceRefs": [
-        "source:google-gemini:ai-google-dev-gemini-api-docs-changelog",
-        "source:google-gemini:ai-google-dev-gemini-api-docs-models-gemini-3-5-transcribe",
-        "source:google-gemini:ai-google-dev-gemini-api-docs-pricing",
-        "source:google-gemini:ai-google-dev-gemini-api-docs-transcribe"
+        "source:google-gemini:ai-google-dev-gemini-api-docs-pricing"
       ],
       "contextWindow": null,
       "contextWindowStatus": "unknown_not_guessed",
@@ -9158,6 +9152,1077 @@
       "status": "latest",
       "verificationStatus": "verified",
       "verifiedAt": "2026-09-03T18:03:16Z",
+      "verifiedSourceRefs": [
+        "source:google-gemini:ai-google-dev-gemini-api-docs-pricing"
+      ]
+    },
+    {
+      "aliasTargetInternalId": null,
+      "availability": "active",
+      "batchInputPrice": null,
+      "batchOutputPrice": null,
+      "billingModelInternalId": null,
+      "blockedFromDefaultReasons": [],
+      "cachedInputPrice": null,
+      "canonicalInternalId": "google-gemini/gemini-3.8-live",
+      "checkedAt": "2026-09-21T10:47:28Z",
+      "checkedSourceRefs": [
+        "source:google-gemini:ai-google-dev-gemini-api-docs-deprecations",
+        "source:google-gemini:ai-google-dev-gemini-api-docs-live-api-best-practices",
+        "source:google-gemini:ai-google-dev-gemini-api-docs-models-gemini-3-8-live",
+        "source:google-gemini:ai-google-dev-gemini-api-docs-pricing"
+      ],
+      "contextWindow": "131,072",
+      "contextWindowStatus": "canonical_verified",
+      "contextWindowTokens": 131072,
+      "defaultPriceSelectionRule": [
+        "current_effective_utc",
+        "verified",
+        "standard",
+        "text",
+        "default_context_class"
+      ],
+      "defaultSafe": true,
+      "governanceClass": "VERIFIED_CANONICAL",
+      "governanceDetails": null,
+      "governanceReason": "canonical_verified_direct_public_projection",
+      "governanceSourceCandidateIds": [
+        "google-gemini/gemini-3.8-live"
+      ],
+      "id": "gemini-3.8-live",
+      "identityType": "canonical_model",
+      "inputPrice": 0.75,
+      "lifecycleStatus": "active",
+      "model": "Gemini 3.8 Live",
+      "officialSourceUrl": "https://ai.google.dev/gemini-api/docs/pricing",
+      "outputPrice": 4.5,
+      "pricingComponents": [
+        {
+          "amount": "4.5",
+          "calculationDefault": true,
+          "chargeId": "charge:gemini-3.8-live:input-audio-transcription:text:tokens",
+          "component": "output",
+          "condition": {
+            "availabilityRules": [],
+            "contextClass": "short",
+            "defaultAvailabilityStatus": "available",
+            "effectiveFrom": "2026-09-15",
+            "effectiveUntil": null,
+            "priceAdjustments": [],
+            "processingMode": "standard",
+            "promptTokenThreshold": null,
+            "regionPolicy": "global",
+            "regionSelector": {
+              "dataResidencies": [
+                "global"
+              ],
+              "endpointGeographies": [
+                "global"
+              ],
+              "pricingGeography": "global_base"
+            },
+            "tierSelection": null
+          },
+          "currency": "USD",
+          "modality": "text",
+          "optionalFeature": "input_audio_transcription",
+          "pricingId": "price:google-gemini/gemini-3.8-live:standard:current",
+          "sourceRefs": [
+            "source:google-gemini:ai-google-dev-gemini-api-docs-live-api-best-practices",
+            "source:google-gemini:ai-google-dev-gemini-api-docs-models-gemini-3-8-live",
+            "source:google-gemini:ai-google-dev-gemini-api-docs-pricing"
+          ],
+          "unit": "per_1m_tokens",
+          "verificationStatus": "verified"
+        },
+        {
+          "alternativeGroup": "audio_input",
+          "amount": "0.005",
+          "calculationDefault": true,
+          "chargeId": "charge:gemini-3.8-live:input:audio:minutes",
+          "component": "input",
+          "condition": {
+            "availabilityRules": [],
+            "contextClass": "short",
+            "defaultAvailabilityStatus": "available",
+            "effectiveFrom": "2026-09-15",
+            "effectiveUntil": null,
+            "priceAdjustments": [],
+            "processingMode": "standard",
+            "promptTokenThreshold": null,
+            "regionPolicy": "global",
+            "regionSelector": {
+              "dataResidencies": [
+                "global"
+              ],
+              "endpointGeographies": [
+                "global"
+              ],
+              "pricingGeography": "global_base"
+            },
+            "tierSelection": null
+          },
+          "currency": "USD",
+          "modality": "audio",
+          "pricingId": "price:google-gemini/gemini-3.8-live:standard:current",
+          "sourceRefs": [
+            "source:google-gemini:ai-google-dev-gemini-api-docs-live-api-best-practices",
+            "source:google-gemini:ai-google-dev-gemini-api-docs-models-gemini-3-8-live",
+            "source:google-gemini:ai-google-dev-gemini-api-docs-pricing"
+          ],
+          "unit": "per_minute",
+          "verificationStatus": "verified"
+        },
+        {
+          "alternativeGroup": "audio_input",
+          "amount": "3",
+          "calculationDefault": true,
+          "chargeId": "charge:gemini-3.8-live:input:audio:tokens",
+          "component": "input",
+          "condition": {
+            "availabilityRules": [],
+            "contextClass": "short",
+            "defaultAvailabilityStatus": "available",
+            "effectiveFrom": "2026-09-15",
+            "effectiveUntil": null,
+            "priceAdjustments": [],
+            "processingMode": "standard",
+            "promptTokenThreshold": null,
+            "regionPolicy": "global",
+            "regionSelector": {
+              "dataResidencies": [
+                "global"
+              ],
+              "endpointGeographies": [
+                "global"
+              ],
+              "pricingGeography": "global_base"
+            },
+            "tierSelection": null
+          },
+          "currency": "USD",
+          "modality": "audio",
+          "pricingId": "price:google-gemini/gemini-3.8-live:standard:current",
+          "sourceRefs": [
+            "source:google-gemini:ai-google-dev-gemini-api-docs-live-api-best-practices",
+            "source:google-gemini:ai-google-dev-gemini-api-docs-models-gemini-3-8-live",
+            "source:google-gemini:ai-google-dev-gemini-api-docs-pricing"
+          ],
+          "unit": "per_1m_tokens",
+          "verificationStatus": "verified"
+        },
+        {
+          "alternativeGroup": "image_input",
+          "amount": "0.002",
+          "calculationDefault": true,
+          "chargeId": "charge:gemini-3.8-live:input:image:minutes",
+          "component": "input",
+          "condition": {
+            "availabilityRules": [],
+            "contextClass": "short",
+            "defaultAvailabilityStatus": "available",
+            "effectiveFrom": "2026-09-15",
+            "effectiveUntil": null,
+            "priceAdjustments": [],
+            "processingMode": "standard",
+            "promptTokenThreshold": null,
+            "regionPolicy": "global",
+            "regionSelector": {
+              "dataResidencies": [
+                "global"
+              ],
+              "endpointGeographies": [
+                "global"
+              ],
+              "pricingGeography": "global_base"
+            },
+            "tierSelection": null
+          },
+          "currency": "USD",
+          "modality": "image",
+          "pricingId": "price:google-gemini/gemini-3.8-live:standard:current",
+          "sourceRefs": [
+            "source:google-gemini:ai-google-dev-gemini-api-docs-live-api-best-practices",
+            "source:google-gemini:ai-google-dev-gemini-api-docs-models-gemini-3-8-live",
+            "source:google-gemini:ai-google-dev-gemini-api-docs-pricing"
+          ],
+          "unit": "per_minute",
+          "verificationStatus": "verified"
+        },
+        {
+          "alternativeGroup": "image_input",
+          "amount": "1",
+          "calculationDefault": true,
+          "chargeId": "charge:gemini-3.8-live:input:image:tokens",
+          "component": "input",
+          "condition": {
+            "availabilityRules": [],
+            "contextClass": "short",
+            "defaultAvailabilityStatus": "available",
+            "effectiveFrom": "2026-09-15",
+            "effectiveUntil": null,
+            "priceAdjustments": [],
+            "processingMode": "standard",
+            "promptTokenThreshold": null,
+            "regionPolicy": "global",
+            "regionSelector": {
+              "dataResidencies": [
+                "global"
+              ],
+              "endpointGeographies": [
+                "global"
+              ],
+              "pricingGeography": "global_base"
+            },
+            "tierSelection": null
+          },
+          "currency": "USD",
+          "modality": "image",
+          "pricingId": "price:google-gemini/gemini-3.8-live:standard:current",
+          "sourceRefs": [
+            "source:google-gemini:ai-google-dev-gemini-api-docs-live-api-best-practices",
+            "source:google-gemini:ai-google-dev-gemini-api-docs-models-gemini-3-8-live",
+            "source:google-gemini:ai-google-dev-gemini-api-docs-pricing"
+          ],
+          "unit": "per_1m_tokens",
+          "verificationStatus": "verified"
+        },
+        {
+          "amount": "0.75",
+          "calculationDefault": true,
+          "chargeId": "charge:gemini-3.8-live:input:text:tokens",
+          "component": "input",
+          "condition": {
+            "availabilityRules": [],
+            "contextClass": "short",
+            "defaultAvailabilityStatus": "available",
+            "effectiveFrom": "2026-09-15",
+            "effectiveUntil": null,
+            "priceAdjustments": [],
+            "processingMode": "standard",
+            "promptTokenThreshold": null,
+            "regionPolicy": "global",
+            "regionSelector": {
+              "dataResidencies": [
+                "global"
+              ],
+              "endpointGeographies": [
+                "global"
+              ],
+              "pricingGeography": "global_base"
+            },
+            "tierSelection": null
+          },
+          "currency": "USD",
+          "modality": "text",
+          "pricingId": "price:google-gemini/gemini-3.8-live:standard:current",
+          "sourceRefs": [
+            "source:google-gemini:ai-google-dev-gemini-api-docs-live-api-best-practices",
+            "source:google-gemini:ai-google-dev-gemini-api-docs-models-gemini-3-8-live",
+            "source:google-gemini:ai-google-dev-gemini-api-docs-pricing"
+          ],
+          "unit": "per_1m_tokens",
+          "verificationStatus": "verified"
+        },
+        {
+          "alternativeGroup": "video_input",
+          "amount": "0.002",
+          "calculationDefault": true,
+          "chargeId": "charge:gemini-3.8-live:input:video:minutes",
+          "component": "input",
+          "condition": {
+            "availabilityRules": [],
+            "contextClass": "short",
+            "defaultAvailabilityStatus": "available",
+            "effectiveFrom": "2026-09-15",
+            "effectiveUntil": null,
+            "priceAdjustments": [],
+            "processingMode": "standard",
+            "promptTokenThreshold": null,
+            "regionPolicy": "global",
+            "regionSelector": {
+              "dataResidencies": [
+                "global"
+              ],
+              "endpointGeographies": [
+                "global"
+              ],
+              "pricingGeography": "global_base"
+            },
+            "tierSelection": null
+          },
+          "currency": "USD",
+          "modality": "video",
+          "pricingId": "price:google-gemini/gemini-3.8-live:standard:current",
+          "sourceRefs": [
+            "source:google-gemini:ai-google-dev-gemini-api-docs-live-api-best-practices",
+            "source:google-gemini:ai-google-dev-gemini-api-docs-models-gemini-3-8-live",
+            "source:google-gemini:ai-google-dev-gemini-api-docs-pricing"
+          ],
+          "unit": "per_minute",
+          "verificationStatus": "verified"
+        },
+        {
+          "alternativeGroup": "video_input",
+          "amount": "1",
+          "calculationDefault": true,
+          "chargeId": "charge:gemini-3.8-live:input:video:tokens",
+          "component": "input",
+          "condition": {
+            "availabilityRules": [],
+            "contextClass": "short",
+            "defaultAvailabilityStatus": "available",
+            "effectiveFrom": "2026-09-15",
+            "effectiveUntil": null,
+            "priceAdjustments": [],
+            "processingMode": "standard",
+            "promptTokenThreshold": null,
+            "regionPolicy": "global",
+            "regionSelector": {
+              "dataResidencies": [
+                "global"
+              ],
+              "endpointGeographies": [
+                "global"
+              ],
+              "pricingGeography": "global_base"
+            },
+            "tierSelection": null
+          },
+          "currency": "USD",
+          "modality": "video",
+          "pricingId": "price:google-gemini/gemini-3.8-live:standard:current",
+          "sourceRefs": [
+            "source:google-gemini:ai-google-dev-gemini-api-docs-live-api-best-practices",
+            "source:google-gemini:ai-google-dev-gemini-api-docs-models-gemini-3-8-live",
+            "source:google-gemini:ai-google-dev-gemini-api-docs-pricing"
+          ],
+          "unit": "per_1m_tokens",
+          "verificationStatus": "verified"
+        },
+        {
+          "amount": "4.5",
+          "calculationDefault": true,
+          "chargeId": "charge:gemini-3.8-live:output-audio-transcription:text:tokens",
+          "component": "output",
+          "condition": {
+            "availabilityRules": [],
+            "contextClass": "short",
+            "defaultAvailabilityStatus": "available",
+            "effectiveFrom": "2026-09-15",
+            "effectiveUntil": null,
+            "priceAdjustments": [],
+            "processingMode": "standard",
+            "promptTokenThreshold": null,
+            "regionPolicy": "global",
+            "regionSelector": {
+              "dataResidencies": [
+                "global"
+              ],
+              "endpointGeographies": [
+                "global"
+              ],
+              "pricingGeography": "global_base"
+            },
+            "tierSelection": null
+          },
+          "currency": "USD",
+          "modality": "text",
+          "optionalFeature": "output_audio_transcription",
+          "pricingId": "price:google-gemini/gemini-3.8-live:standard:current",
+          "sourceRefs": [
+            "source:google-gemini:ai-google-dev-gemini-api-docs-live-api-best-practices",
+            "source:google-gemini:ai-google-dev-gemini-api-docs-models-gemini-3-8-live",
+            "source:google-gemini:ai-google-dev-gemini-api-docs-pricing"
+          ],
+          "unit": "per_1m_tokens",
+          "verificationStatus": "verified"
+        },
+        {
+          "alternativeGroup": "audio_output",
+          "amount": "0.018",
+          "calculationDefault": true,
+          "chargeId": "charge:gemini-3.8-live:output:audio:minutes",
+          "component": "output",
+          "condition": {
+            "availabilityRules": [],
+            "contextClass": "short",
+            "defaultAvailabilityStatus": "available",
+            "effectiveFrom": "2026-09-15",
+            "effectiveUntil": null,
+            "priceAdjustments": [],
+            "processingMode": "standard",
+            "promptTokenThreshold": null,
+            "regionPolicy": "global",
+            "regionSelector": {
+              "dataResidencies": [
+                "global"
+              ],
+              "endpointGeographies": [
+                "global"
+              ],
+              "pricingGeography": "global_base"
+            },
+            "tierSelection": null
+          },
+          "currency": "USD",
+          "modality": "audio",
+          "pricingId": "price:google-gemini/gemini-3.8-live:standard:current",
+          "sourceRefs": [
+            "source:google-gemini:ai-google-dev-gemini-api-docs-live-api-best-practices",
+            "source:google-gemini:ai-google-dev-gemini-api-docs-models-gemini-3-8-live",
+            "source:google-gemini:ai-google-dev-gemini-api-docs-pricing"
+          ],
+          "unit": "per_minute",
+          "verificationStatus": "verified"
+        },
+        {
+          "alternativeGroup": "audio_output",
+          "amount": "12",
+          "calculationDefault": true,
+          "chargeId": "charge:gemini-3.8-live:output:audio:tokens",
+          "component": "output",
+          "condition": {
+            "availabilityRules": [],
+            "contextClass": "short",
+            "defaultAvailabilityStatus": "available",
+            "effectiveFrom": "2026-09-15",
+            "effectiveUntil": null,
+            "priceAdjustments": [],
+            "processingMode": "standard",
+            "promptTokenThreshold": null,
+            "regionPolicy": "global",
+            "regionSelector": {
+              "dataResidencies": [
+                "global"
+              ],
+              "endpointGeographies": [
+                "global"
+              ],
+              "pricingGeography": "global_base"
+            },
+            "tierSelection": null
+          },
+          "currency": "USD",
+          "modality": "audio",
+          "pricingId": "price:google-gemini/gemini-3.8-live:standard:current",
+          "sourceRefs": [
+            "source:google-gemini:ai-google-dev-gemini-api-docs-live-api-best-practices",
+            "source:google-gemini:ai-google-dev-gemini-api-docs-models-gemini-3-8-live",
+            "source:google-gemini:ai-google-dev-gemini-api-docs-pricing"
+          ],
+          "unit": "per_1m_tokens",
+          "verificationStatus": "verified"
+        },
+        {
+          "amount": "4.5",
+          "calculationDefault": true,
+          "chargeId": "charge:gemini-3.8-live:output:text:tokens",
+          "component": "output",
+          "condition": {
+            "availabilityRules": [],
+            "contextClass": "short",
+            "defaultAvailabilityStatus": "available",
+            "effectiveFrom": "2026-09-15",
+            "effectiveUntil": null,
+            "priceAdjustments": [],
+            "processingMode": "standard",
+            "promptTokenThreshold": null,
+            "regionPolicy": "global",
+            "regionSelector": {
+              "dataResidencies": [
+                "global"
+              ],
+              "endpointGeographies": [
+                "global"
+              ],
+              "pricingGeography": "global_base"
+            },
+            "tierSelection": null
+          },
+          "currency": "USD",
+          "modality": "text",
+          "pricingId": "price:google-gemini/gemini-3.8-live:standard:current",
+          "sourceRefs": [
+            "source:google-gemini:ai-google-dev-gemini-api-docs-live-api-best-practices",
+            "source:google-gemini:ai-google-dev-gemini-api-docs-models-gemini-3-8-live",
+            "source:google-gemini:ai-google-dev-gemini-api-docs-pricing"
+          ],
+          "unit": "per_1m_tokens",
+          "verificationStatus": "verified"
+        }
+      ],
+      "pricingSourceType": "canonical_verified_price",
+      "provider": "google-gemini",
+      "publicExposure": "public",
+      "redirectTargetInternalId": null,
+      "releaseStage": "stable",
+      "replacementInternalId": null,
+      "routingBehavior": "direct",
+      "routingDetails": {},
+      "selectedBatchPriceRecordId": null,
+      "selectedBillingPriceRecordId": "price:google-gemini/gemini-3.8-live:standard:current",
+      "selectedPriceEffectiveFrom": "2026-09-15",
+      "selectedPriceEffectiveUntil": null,
+      "selectedPriceRecordId": "price:google-gemini/gemini-3.8-live:standard:current",
+      "sourceRefs": [
+        "source:google-gemini:ai-google-dev-gemini-api-docs-deprecations",
+        "source:google-gemini:ai-google-dev-gemini-api-docs-live-api-best-practices",
+        "source:google-gemini:ai-google-dev-gemini-api-docs-models-gemini-3-8-live",
+        "source:google-gemini:ai-google-dev-gemini-api-docs-pricing"
+      ],
+      "sourceUrls": [
+        "https://ai.google.dev/gemini-api/docs/deprecations",
+        "https://ai.google.dev/gemini-api/docs/live-api/best-practices",
+        "https://ai.google.dev/gemini-api/docs/models/gemini-3.8-live",
+        "https://ai.google.dev/gemini-api/docs/pricing"
+      ],
+      "status": "latest",
+      "verificationStatus": "verified",
+      "verifiedAt": "2026-09-21T10:47:28Z",
+      "verifiedSourceRefs": [
+        "source:google-gemini:ai-google-dev-gemini-api-docs-pricing"
+      ]
+    },
+    {
+      "aliasTargetInternalId": null,
+      "availability": "active",
+      "batchInputPrice": null,
+      "batchOutputPrice": null,
+      "billingModelInternalId": null,
+      "blockedFromDefaultReasons": [],
+      "cachedInputPrice": null,
+      "canonicalInternalId": "google-gemini/gemini-3.8-live-extended-thinking",
+      "checkedAt": "2026-09-21T10:47:28Z",
+      "checkedSourceRefs": [
+        "source:google-gemini:ai-google-dev-gemini-api-docs-deprecations",
+        "source:google-gemini:ai-google-dev-gemini-api-docs-live-api-best-practices",
+        "source:google-gemini:ai-google-dev-gemini-api-docs-live-api-thinking",
+        "source:google-gemini:ai-google-dev-gemini-api-docs-models-gemini-3-8-live-extended-thinking",
+        "source:google-gemini:ai-google-dev-gemini-api-docs-pricing"
+      ],
+      "contextWindow": "131,072",
+      "contextWindowStatus": "canonical_verified",
+      "contextWindowTokens": 131072,
+      "defaultPriceSelectionRule": [
+        "current_effective_utc",
+        "verified",
+        "standard",
+        "text",
+        "default_context_class"
+      ],
+      "defaultSafe": true,
+      "governanceClass": "VERIFIED_CANONICAL",
+      "governanceDetails": null,
+      "governanceReason": "canonical_verified_direct_public_projection",
+      "governanceSourceCandidateIds": [
+        "google-gemini/gemini-3.8-live-extended-thinking"
+      ],
+      "id": "gemini-3.8-live-extended-thinking",
+      "identityType": "canonical_model",
+      "inputPrice": 0.75,
+      "lifecycleStatus": "active",
+      "model": "Gemini 3.8 Live Extended Thinking",
+      "officialSourceUrl": "https://ai.google.dev/gemini-api/docs/pricing",
+      "outputPrice": 4.5,
+      "pricingComponents": [
+        {
+          "amount": "4.5",
+          "calculationDefault": true,
+          "chargeId": "charge:gemini-3.8-live-extended-thinking:input-audio-transcription:text:tokens",
+          "component": "output",
+          "condition": {
+            "availabilityRules": [],
+            "contextClass": "short",
+            "defaultAvailabilityStatus": "available",
+            "effectiveFrom": "2026-09-15",
+            "effectiveUntil": null,
+            "priceAdjustments": [],
+            "processingMode": "standard",
+            "promptTokenThreshold": null,
+            "regionPolicy": "global",
+            "regionSelector": {
+              "dataResidencies": [
+                "global"
+              ],
+              "endpointGeographies": [
+                "global"
+              ],
+              "pricingGeography": "global_base"
+            },
+            "tierSelection": null
+          },
+          "currency": "USD",
+          "modality": "text",
+          "optionalFeature": "input_audio_transcription",
+          "pricingId": "price:google-gemini/gemini-3.8-live-extended-thinking:standard:current",
+          "sourceRefs": [
+            "source:google-gemini:ai-google-dev-gemini-api-docs-live-api-best-practices",
+            "source:google-gemini:ai-google-dev-gemini-api-docs-live-api-thinking",
+            "source:google-gemini:ai-google-dev-gemini-api-docs-models-gemini-3-8-live-extended-thinking",
+            "source:google-gemini:ai-google-dev-gemini-api-docs-pricing"
+          ],
+          "unit": "per_1m_tokens",
+          "verificationStatus": "verified"
+        },
+        {
+          "alternativeGroup": "audio_input",
+          "amount": "0.005",
+          "calculationDefault": true,
+          "chargeId": "charge:gemini-3.8-live-extended-thinking:input:audio:minutes",
+          "component": "input",
+          "condition": {
+            "availabilityRules": [],
+            "contextClass": "short",
+            "defaultAvailabilityStatus": "available",
+            "effectiveFrom": "2026-09-15",
+            "effectiveUntil": null,
+            "priceAdjustments": [],
+            "processingMode": "standard",
+            "promptTokenThreshold": null,
+            "regionPolicy": "global",
+            "regionSelector": {
+              "dataResidencies": [
+                "global"
+              ],
+              "endpointGeographies": [
+                "global"
+              ],
+              "pricingGeography": "global_base"
+            },
+            "tierSelection": null
+          },
+          "currency": "USD",
+          "modality": "audio",
+          "pricingId": "price:google-gemini/gemini-3.8-live-extended-thinking:standard:current",
+          "sourceRefs": [
+            "source:google-gemini:ai-google-dev-gemini-api-docs-live-api-best-practices",
+            "source:google-gemini:ai-google-dev-gemini-api-docs-live-api-thinking",
+            "source:google-gemini:ai-google-dev-gemini-api-docs-models-gemini-3-8-live-extended-thinking",
+            "source:google-gemini:ai-google-dev-gemini-api-docs-pricing"
+          ],
+          "unit": "per_minute",
+          "verificationStatus": "verified"
+        },
+        {
+          "alternativeGroup": "audio_input",
+          "amount": "3",
+          "calculationDefault": true,
+          "chargeId": "charge:gemini-3.8-live-extended-thinking:input:audio:tokens",
+          "component": "input",
+          "condition": {
+            "availabilityRules": [],
+            "contextClass": "short",
+            "defaultAvailabilityStatus": "available",
+            "effectiveFrom": "2026-09-15",
+            "effectiveUntil": null,
+            "priceAdjustments": [],
+            "processingMode": "standard",
+            "promptTokenThreshold": null,
+            "regionPolicy": "global",
+            "regionSelector": {
+              "dataResidencies": [
+                "global"
+              ],
+              "endpointGeographies": [
+                "global"
+              ],
+              "pricingGeography": "global_base"
+            },
+            "tierSelection": null
+          },
+          "currency": "USD",
+          "modality": "audio",
+          "pricingId": "price:google-gemini/gemini-3.8-live-extended-thinking:standard:current",
+          "sourceRefs": [
+            "source:google-gemini:ai-google-dev-gemini-api-docs-live-api-best-practices",
+            "source:google-gemini:ai-google-dev-gemini-api-docs-live-api-thinking",
+            "source:google-gemini:ai-google-dev-gemini-api-docs-models-gemini-3-8-live-extended-thinking",
+            "source:google-gemini:ai-google-dev-gemini-api-docs-pricing"
+          ],
+          "unit": "per_1m_tokens",
+          "verificationStatus": "verified"
+        },
+        {
+          "alternativeGroup": "image_input",
+          "amount": "0.002",
+          "calculationDefault": true,
+          "chargeId": "charge:gemini-3.8-live-extended-thinking:input:image:minutes",
+          "component": "input",
+          "condition": {
+            "availabilityRules": [],
+            "contextClass": "short",
+            "defaultAvailabilityStatus": "available",
+            "effectiveFrom": "2026-09-15",
+            "effectiveUntil": null,
+            "priceAdjustments": [],
+            "processingMode": "standard",
+            "promptTokenThreshold": null,
+            "regionPolicy": "global",
+            "regionSelector": {
+              "dataResidencies": [
+                "global"
+              ],
+              "endpointGeographies": [
+                "global"
+              ],
+              "pricingGeography": "global_base"
+            },
+            "tierSelection": null
+          },
+          "currency": "USD",
+          "modality": "image",
+          "pricingId": "price:google-gemini/gemini-3.8-live-extended-thinking:standard:current",
+          "sourceRefs": [
+            "source:google-gemini:ai-google-dev-gemini-api-docs-live-api-best-practices",
+            "source:google-gemini:ai-google-dev-gemini-api-docs-live-api-thinking",
+            "source:google-gemini:ai-google-dev-gemini-api-docs-models-gemini-3-8-live-extended-thinking",
+            "source:google-gemini:ai-google-dev-gemini-api-docs-pricing"
+          ],
+          "unit": "per_minute",
+          "verificationStatus": "verified"
+        },
+        {
+          "alternativeGroup": "image_input",
+          "amount": "1",
+          "calculationDefault": true,
+          "chargeId": "charge:gemini-3.8-live-extended-thinking:input:image:tokens",
+          "component": "input",
+          "condition": {
+            "availabilityRules": [],
+            "contextClass": "short",
+            "defaultAvailabilityStatus": "available",
+            "effectiveFrom": "2026-09-15",
+            "effectiveUntil": null,
+            "priceAdjustments": [],
+            "processingMode": "standard",
+            "promptTokenThreshold": null,
+            "regionPolicy": "global",
+            "regionSelector": {
+              "dataResidencies": [
+                "global"
+              ],
+              "endpointGeographies": [
+                "global"
+              ],
+              "pricingGeography": "global_base"
+            },
+            "tierSelection": null
+          },
+          "currency": "USD",
+          "modality": "image",
+          "pricingId": "price:google-gemini/gemini-3.8-live-extended-thinking:standard:current",
+          "sourceRefs": [
+            "source:google-gemini:ai-google-dev-gemini-api-docs-live-api-best-practices",
+            "source:google-gemini:ai-google-dev-gemini-api-docs-live-api-thinking",
+            "source:google-gemini:ai-google-dev-gemini-api-docs-models-gemini-3-8-live-extended-thinking",
+            "source:google-gemini:ai-google-dev-gemini-api-docs-pricing"
+          ],
+          "unit": "per_1m_tokens",
+          "verificationStatus": "verified"
+        },
+        {
+          "amount": "0.75",
+          "calculationDefault": true,
+          "chargeId": "charge:gemini-3.8-live-extended-thinking:input:text:tokens",
+          "component": "input",
+          "condition": {
+            "availabilityRules": [],
+            "contextClass": "short",
+            "defaultAvailabilityStatus": "available",
+            "effectiveFrom": "2026-09-15",
+            "effectiveUntil": null,
+            "priceAdjustments": [],
+            "processingMode": "standard",
+            "promptTokenThreshold": null,
+            "regionPolicy": "global",
+            "regionSelector": {
+              "dataResidencies": [
+                "global"
+              ],
+              "endpointGeographies": [
+                "global"
+              ],
+              "pricingGeography": "global_base"
+            },
+            "tierSelection": null
+          },
+          "currency": "USD",
+          "modality": "text",
+          "pricingId": "price:google-gemini/gemini-3.8-live-extended-thinking:standard:current",
+          "sourceRefs": [
+            "source:google-gemini:ai-google-dev-gemini-api-docs-live-api-best-practices",
+            "source:google-gemini:ai-google-dev-gemini-api-docs-live-api-thinking",
+            "source:google-gemini:ai-google-dev-gemini-api-docs-models-gemini-3-8-live-extended-thinking",
+            "source:google-gemini:ai-google-dev-gemini-api-docs-pricing"
+          ],
+          "unit": "per_1m_tokens",
+          "verificationStatus": "verified"
+        },
+        {
+          "alternativeGroup": "video_input",
+          "amount": "0.002",
+          "calculationDefault": true,
+          "chargeId": "charge:gemini-3.8-live-extended-thinking:input:video:minutes",
+          "component": "input",
+          "condition": {
+            "availabilityRules": [],
+            "contextClass": "short",
+            "defaultAvailabilityStatus": "available",
+            "effectiveFrom": "2026-09-15",
+            "effectiveUntil": null,
+            "priceAdjustments": [],
+            "processingMode": "standard",
+            "promptTokenThreshold": null,
+            "regionPolicy": "global",
+            "regionSelector": {
+              "dataResidencies": [
+                "global"
+              ],
+              "endpointGeographies": [
+                "global"
+              ],
+              "pricingGeography": "global_base"
+            },
+            "tierSelection": null
+          },
+          "currency": "USD",
+          "modality": "video",
+          "pricingId": "price:google-gemini/gemini-3.8-live-extended-thinking:standard:current",
+          "sourceRefs": [
+            "source:google-gemini:ai-google-dev-gemini-api-docs-live-api-best-practices",
+            "source:google-gemini:ai-google-dev-gemini-api-docs-live-api-thinking",
+            "source:google-gemini:ai-google-dev-gemini-api-docs-models-gemini-3-8-live-extended-thinking",
+            "source:google-gemini:ai-google-dev-gemini-api-docs-pricing"
+          ],
+          "unit": "per_minute",
+          "verificationStatus": "verified"
+        },
+        {
+          "alternativeGroup": "video_input",
+          "amount": "1",
+          "calculationDefault": true,
+          "chargeId": "charge:gemini-3.8-live-extended-thinking:input:video:tokens",
+          "component": "input",
+          "condition": {
+            "availabilityRules": [],
+            "contextClass": "short",
+            "defaultAvailabilityStatus": "available",
+            "effectiveFrom": "2026-09-15",
+            "effectiveUntil": null,
+            "priceAdjustments": [],
+            "processingMode": "standard",
+            "promptTokenThreshold": null,
+            "regionPolicy": "global",
+            "regionSelector": {
+              "dataResidencies": [
+                "global"
+              ],
+              "endpointGeographies": [
+                "global"
+              ],
+              "pricingGeography": "global_base"
+            },
+            "tierSelection": null
+          },
+          "currency": "USD",
+          "modality": "video",
+          "pricingId": "price:google-gemini/gemini-3.8-live-extended-thinking:standard:current",
+          "sourceRefs": [
+            "source:google-gemini:ai-google-dev-gemini-api-docs-live-api-best-practices",
+            "source:google-gemini:ai-google-dev-gemini-api-docs-live-api-thinking",
+            "source:google-gemini:ai-google-dev-gemini-api-docs-models-gemini-3-8-live-extended-thinking",
+            "source:google-gemini:ai-google-dev-gemini-api-docs-pricing"
+          ],
+          "unit": "per_1m_tokens",
+          "verificationStatus": "verified"
+        },
+        {
+          "amount": "4.5",
+          "calculationDefault": true,
+          "chargeId": "charge:gemini-3.8-live-extended-thinking:output-audio-transcription:text:tokens",
+          "component": "output",
+          "condition": {
+            "availabilityRules": [],
+            "contextClass": "short",
+            "defaultAvailabilityStatus": "available",
+            "effectiveFrom": "2026-09-15",
+            "effectiveUntil": null,
+            "priceAdjustments": [],
+            "processingMode": "standard",
+            "promptTokenThreshold": null,
+            "regionPolicy": "global",
+            "regionSelector": {
+              "dataResidencies": [
+                "global"
+              ],
+              "endpointGeographies": [
+                "global"
+              ],
+              "pricingGeography": "global_base"
+            },
+            "tierSelection": null
+          },
+          "currency": "USD",
+          "modality": "text",
+          "optionalFeature": "output_audio_transcription",
+          "pricingId": "price:google-gemini/gemini-3.8-live-extended-thinking:standard:current",
+          "sourceRefs": [
+            "source:google-gemini:ai-google-dev-gemini-api-docs-live-api-best-practices",
+            "source:google-gemini:ai-google-dev-gemini-api-docs-live-api-thinking",
+            "source:google-gemini:ai-google-dev-gemini-api-docs-models-gemini-3-8-live-extended-thinking",
+            "source:google-gemini:ai-google-dev-gemini-api-docs-pricing"
+          ],
+          "unit": "per_1m_tokens",
+          "verificationStatus": "verified"
+        },
+        {
+          "alternativeGroup": "audio_output",
+          "amount": "0.018",
+          "calculationDefault": true,
+          "chargeId": "charge:gemini-3.8-live-extended-thinking:output:audio:minutes",
+          "component": "output",
+          "condition": {
+            "availabilityRules": [],
+            "contextClass": "short",
+            "defaultAvailabilityStatus": "available",
+            "effectiveFrom": "2026-09-15",
+            "effectiveUntil": null,
+            "priceAdjustments": [],
+            "processingMode": "standard",
+            "promptTokenThreshold": null,
+            "regionPolicy": "global",
+            "regionSelector": {
+              "dataResidencies": [
+                "global"
+              ],
+              "endpointGeographies": [
+                "global"
+              ],
+              "pricingGeography": "global_base"
+            },
+            "tierSelection": null
+          },
+          "currency": "USD",
+          "modality": "audio",
+          "pricingId": "price:google-gemini/gemini-3.8-live-extended-thinking:standard:current",
+          "sourceRefs": [
+            "source:google-gemini:ai-google-dev-gemini-api-docs-live-api-best-practices",
+            "source:google-gemini:ai-google-dev-gemini-api-docs-live-api-thinking",
+            "source:google-gemini:ai-google-dev-gemini-api-docs-models-gemini-3-8-live-extended-thinking",
+            "source:google-gemini:ai-google-dev-gemini-api-docs-pricing"
+          ],
+          "unit": "per_minute",
+          "verificationStatus": "verified"
+        },
+        {
+          "alternativeGroup": "audio_output",
+          "amount": "12",
+          "calculationDefault": true,
+          "chargeId": "charge:gemini-3.8-live-extended-thinking:output:audio:tokens",
+          "component": "output",
+          "condition": {
+            "availabilityRules": [],
+            "contextClass": "short",
+            "defaultAvailabilityStatus": "available",
+            "effectiveFrom": "2026-09-15",
+            "effectiveUntil": null,
+            "priceAdjustments": [],
+            "processingMode": "standard",
+            "promptTokenThreshold": null,
+            "regionPolicy": "global",
+            "regionSelector": {
+              "dataResidencies": [
+                "global"
+              ],
+              "endpointGeographies": [
+                "global"
+              ],
+              "pricingGeography": "global_base"
+            },
+            "tierSelection": null
+          },
+          "currency": "USD",
+          "modality": "audio",
+          "pricingId": "price:google-gemini/gemini-3.8-live-extended-thinking:standard:current",
+          "sourceRefs": [
+            "source:google-gemini:ai-google-dev-gemini-api-docs-live-api-best-practices",
+            "source:google-gemini:ai-google-dev-gemini-api-docs-live-api-thinking",
+            "source:google-gemini:ai-google-dev-gemini-api-docs-models-gemini-3-8-live-extended-thinking",
+            "source:google-gemini:ai-google-dev-gemini-api-docs-pricing"
+          ],
+          "unit": "per_1m_tokens",
+          "verificationStatus": "verified"
+        },
+        {
+          "amount": "4.5",
+          "calculationDefault": true,
+          "chargeId": "charge:gemini-3.8-live-extended-thinking:output:text:tokens",
+          "component": "output",
+          "condition": {
+            "availabilityRules": [],
+            "contextClass": "short",
+            "defaultAvailabilityStatus": "available",
+            "effectiveFrom": "2026-09-15",
+            "effectiveUntil": null,
+            "priceAdjustments": [],
+            "processingMode": "standard",
+            "promptTokenThreshold": null,
+            "regionPolicy": "global",
+            "regionSelector": {
+              "dataResidencies": [
+                "global"
+              ],
+              "endpointGeographies": [
+                "global"
+              ],
+              "pricingGeography": "global_base"
+            },
+            "tierSelection": null
+          },
+          "currency": "USD",
+          "modality": "text",
+          "pricingId": "price:google-gemini/gemini-3.8-live-extended-thinking:standard:current",
+          "sourceRefs": [
+            "source:google-gemini:ai-google-dev-gemini-api-docs-live-api-best-practices",
+            "source:google-gemini:ai-google-dev-gemini-api-docs-live-api-thinking",
+            "source:google-gemini:ai-google-dev-gemini-api-docs-models-gemini-3-8-live-extended-thinking",
+            "source:google-gemini:ai-google-dev-gemini-api-docs-pricing"
+          ],
+          "unit": "per_1m_tokens",
+          "verificationStatus": "verified"
+        }
+      ],
+      "pricingSourceType": "canonical_verified_price",
+      "provider": "google-gemini",
+      "publicExposure": "public",
+      "redirectTargetInternalId": null,
+      "releaseStage": "stable",
+      "replacementInternalId": null,
+      "routingBehavior": "direct",
+      "routingDetails": {},
+      "selectedBatchPriceRecordId": null,
+      "selectedBillingPriceRecordId": "price:google-gemini/gemini-3.8-live-extended-thinking:standard:current",
+      "selectedPriceEffectiveFrom": "2026-09-15",
+      "selectedPriceEffectiveUntil": null,
+      "selectedPriceRecordId": "price:google-gemini/gemini-3.8-live-extended-thinking:standard:current",
+      "sourceRefs": [
+        "source:google-gemini:ai-google-dev-gemini-api-docs-deprecations",
+        "source:google-gemini:ai-google-dev-gemini-api-docs-live-api-best-practices",
+        "source:google-gemini:ai-google-dev-gemini-api-docs-live-api-thinking",
+        "source:google-gemini:ai-google-dev-gemini-api-docs-models-gemini-3-8-live-extended-thinking",
+        "source:google-gemini:ai-google-dev-gemini-api-docs-pricing"
+      ],
+      "sourceUrls": [
+        "https://ai.google.dev/gemini-api/docs/deprecations",
+        "https://ai.google.dev/gemini-api/docs/live-api/best-practices",
+        "https://ai.google.dev/gemini-api/docs/live-api/thinking",
+        "https://ai.google.dev/gemini-api/docs/models/gemini-3.8-live-extended-thinking",
+        "https://ai.google.dev/gemini-api/docs/pricing"
+      ],
+      "status": "latest",
+      "verificationStatus": "verified",
+      "verifiedAt": "2026-09-21T10:47:28Z",
       "verifiedSourceRefs": [
         "source:google-gemini:ai-google-dev-gemini-api-docs-pricing"
       ]
@@ -24869,6 +25934,320 @@
         "source:xai:docs-x-ai-developers-models-grok-imagine-image-pro",
         "source:xai:docs-x-ai-developers-pricing",
         "source:xai:docs-x-ai-developers-release-notes"
+      ]
+    },
+    {
+      "aliasTargetInternalId": null,
+      "availability": "active",
+      "batchInputPrice": null,
+      "batchOutputPrice": null,
+      "billingModelInternalId": null,
+      "billingNote": "Current xAI Speech to Text service rate for real-time streaming; the official rate is service-level and this explicit model ID is supported.",
+      "blockedFromDefaultReasons": [
+        "missing_verified_current_price"
+      ],
+      "cachedInputPrice": null,
+      "canonicalInternalId": "xai/grok-voice-transcribe-1.0",
+      "checkedAt": "2026-09-21T10:47:28Z",
+      "checkedSourceRefs": [
+        "source:xai:docs-x-ai-developers-models-speech-to-text",
+        "source:xai:docs-x-ai-developers-pricing",
+        "source:xai:docs-x-ai-developers-release-notes"
+      ],
+      "contextWindow": null,
+      "contextWindowStatus": "unknown_not_guessed",
+      "defaultPriceSelectionRule": [
+        "current_effective_utc",
+        "verified",
+        "standard",
+        "text",
+        "default_context_class"
+      ],
+      "defaultSafe": false,
+      "governanceClass": "VERIFIED_CANONICAL",
+      "governanceDetails": null,
+      "governanceReason": "canonical_verified_non_token_public_projection",
+      "governanceSourceCandidateIds": [
+        "xai/grok-voice-transcribe-1.0"
+      ],
+      "id": "grok-voice-transcribe-1.0",
+      "identityType": "canonical_model",
+      "inputPrice": null,
+      "lifecycleStatus": "active",
+      "model": "Grok Voice Transcribe 1.0",
+      "modelSelection": {
+        "checkedAt": "2026-09-21T10:47:28Z",
+        "defaultWhenModelOmitted": false,
+        "explicitModelIdSupported": true,
+        "sourceRefs": [
+          "source:xai:docs-x-ai-developers-models-speech-to-text"
+        ],
+        "verifiedAt": "2026-09-21T10:47:28Z"
+      },
+      "officialSourceUrl": "https://docs.x.ai/developers/pricing",
+      "outputPrice": null,
+      "pricingComponents": [
+        {
+          "amount": "0.1",
+          "calculationDefault": true,
+          "chargeId": "charge:xai/grok-voice-transcribe-1.0:rest:session-duration",
+          "component": "session_duration",
+          "condition": {
+            "availabilityRules": [],
+            "contextClass": "short",
+            "defaultAvailabilityStatus": "available",
+            "effectiveFrom": null,
+            "effectiveUntil": null,
+            "priceAdjustments": [],
+            "processingMode": "standard",
+            "promptTokenThreshold": null,
+            "regionPolicy": "global",
+            "regionSelector": {
+              "dataResidencies": [
+                "us-east-1"
+              ],
+              "endpointGeographies": [
+                "us-east-1"
+              ],
+              "pricingGeography": "global_base"
+            },
+            "tierSelection": null,
+            "transport": "rest"
+          },
+          "currency": "USD",
+          "modality": "audio",
+          "pricingId": "price:xai/grok-voice-transcribe-1.0:rest:current",
+          "sourceRefs": [
+            "source:xai:docs-x-ai-developers-models-speech-to-text",
+            "source:xai:docs-x-ai-developers-pricing"
+          ],
+          "unit": "per_hour",
+          "verificationStatus": "verified"
+        },
+        {
+          "amount": "0.2",
+          "calculationDefault": false,
+          "chargeId": "charge:xai/grok-voice-transcribe-1.0:streaming:session-duration",
+          "component": "session_duration",
+          "condition": {
+            "availabilityRules": [],
+            "contextClass": "short",
+            "defaultAvailabilityStatus": "available",
+            "effectiveFrom": null,
+            "effectiveUntil": null,
+            "priceAdjustments": [],
+            "processingMode": "standard",
+            "promptTokenThreshold": null,
+            "regionPolicy": "global",
+            "regionSelector": {
+              "dataResidencies": [
+                "us-east-1"
+              ],
+              "endpointGeographies": [
+                "us-east-1"
+              ],
+              "pricingGeography": "global_base"
+            },
+            "tierSelection": null,
+            "transport": "streaming"
+          },
+          "currency": "USD",
+          "modality": "audio",
+          "pricingId": "price:xai/grok-voice-transcribe-1.0:streaming:current",
+          "sourceRefs": [
+            "source:xai:docs-x-ai-developers-models-speech-to-text",
+            "source:xai:docs-x-ai-developers-pricing"
+          ],
+          "unit": "per_hour",
+          "verificationStatus": "verified"
+        }
+      ],
+      "pricingSourceType": "canonical_verified_structured_price",
+      "provider": "xai",
+      "publicExposure": "public",
+      "redirectTargetInternalId": null,
+      "releaseStage": "stable",
+      "replacementInternalId": null,
+      "routingBehavior": "direct",
+      "routingDetails": {},
+      "selectedBatchPriceRecordId": null,
+      "selectedBillingPriceRecordId": "price:xai/grok-voice-transcribe-1.0:streaming:current",
+      "selectedPriceEffectiveFrom": null,
+      "selectedPriceEffectiveUntil": null,
+      "selectedPriceRecordId": null,
+      "sourceRefs": [
+        "source:xai:docs-x-ai-developers-models-speech-to-text",
+        "source:xai:docs-x-ai-developers-pricing",
+        "source:xai:docs-x-ai-developers-release-notes"
+      ],
+      "sourceUrls": [
+        "https://docs.x.ai/developers/models/speech-to-text",
+        "https://docs.x.ai/developers/pricing",
+        "https://docs.x.ai/developers/release-notes"
+      ],
+      "status": "latest",
+      "verificationStatus": "verified",
+      "verifiedAt": "2026-09-21T10:47:28Z",
+      "verifiedSourceRefs": [
+        "source:xai:docs-x-ai-developers-models-speech-to-text"
+      ]
+    },
+    {
+      "aliasTargetInternalId": null,
+      "availability": "active",
+      "batchInputPrice": null,
+      "batchOutputPrice": null,
+      "billingModelInternalId": null,
+      "billingNote": "Current xAI Speech to Text service rate for real-time streaming; 2.0 became available and the omitted-model default on 2026-09-17.",
+      "blockedFromDefaultReasons": [
+        "missing_verified_current_price"
+      ],
+      "cachedInputPrice": null,
+      "canonicalInternalId": "xai/grok-voice-transcribe-2.0",
+      "checkedAt": "2026-09-21T10:47:28Z",
+      "checkedSourceRefs": [
+        "source:xai:docs-x-ai-developers-models-speech-to-text",
+        "source:xai:docs-x-ai-developers-pricing",
+        "source:xai:docs-x-ai-developers-release-notes"
+      ],
+      "contextWindow": null,
+      "contextWindowStatus": "unknown_not_guessed",
+      "defaultPriceSelectionRule": [
+        "current_effective_utc",
+        "verified",
+        "standard",
+        "text",
+        "default_context_class"
+      ],
+      "defaultSafe": false,
+      "governanceClass": "VERIFIED_CANONICAL",
+      "governanceDetails": null,
+      "governanceReason": "canonical_verified_non_token_public_projection",
+      "governanceSourceCandidateIds": [
+        "xai/grok-voice-transcribe-2.0"
+      ],
+      "id": "grok-voice-transcribe-2.0",
+      "identityType": "canonical_model",
+      "inputPrice": null,
+      "lifecycleStatus": "active",
+      "model": "Grok Voice Transcribe 2.0",
+      "modelSelection": {
+        "checkedAt": "2026-09-21T10:47:28Z",
+        "defaultWhenModelOmitted": true,
+        "explicitModelIdSupported": true,
+        "sourceRefs": [
+          "source:xai:docs-x-ai-developers-models-speech-to-text"
+        ],
+        "verifiedAt": "2026-09-21T10:47:28Z"
+      },
+      "officialSourceUrl": "https://docs.x.ai/developers/pricing",
+      "outputPrice": null,
+      "pricingComponents": [
+        {
+          "amount": "0.1",
+          "calculationDefault": true,
+          "chargeId": "charge:xai/grok-voice-transcribe-2.0:rest:session-duration",
+          "component": "session_duration",
+          "condition": {
+            "availabilityRules": [],
+            "contextClass": "short",
+            "defaultAvailabilityStatus": "available",
+            "effectiveFrom": "2026-09-17",
+            "effectiveUntil": null,
+            "priceAdjustments": [],
+            "processingMode": "standard",
+            "promptTokenThreshold": null,
+            "regionPolicy": "global",
+            "regionSelector": {
+              "dataResidencies": [
+                "us-east-1"
+              ],
+              "endpointGeographies": [
+                "us-east-1"
+              ],
+              "pricingGeography": "global_base"
+            },
+            "tierSelection": null,
+            "transport": "rest"
+          },
+          "currency": "USD",
+          "modality": "audio",
+          "pricingId": "price:xai/grok-voice-transcribe-2.0:rest:current",
+          "sourceRefs": [
+            "source:xai:docs-x-ai-developers-models-speech-to-text",
+            "source:xai:docs-x-ai-developers-pricing",
+            "source:xai:docs-x-ai-developers-release-notes"
+          ],
+          "unit": "per_hour",
+          "verificationStatus": "verified"
+        },
+        {
+          "amount": "0.2",
+          "calculationDefault": false,
+          "chargeId": "charge:xai/grok-voice-transcribe-2.0:streaming:session-duration",
+          "component": "session_duration",
+          "condition": {
+            "availabilityRules": [],
+            "contextClass": "short",
+            "defaultAvailabilityStatus": "available",
+            "effectiveFrom": "2026-09-17",
+            "effectiveUntil": null,
+            "priceAdjustments": [],
+            "processingMode": "standard",
+            "promptTokenThreshold": null,
+            "regionPolicy": "global",
+            "regionSelector": {
+              "dataResidencies": [
+                "us-east-1"
+              ],
+              "endpointGeographies": [
+                "us-east-1"
+              ],
+              "pricingGeography": "global_base"
+            },
+            "tierSelection": null,
+            "transport": "streaming"
+          },
+          "currency": "USD",
+          "modality": "audio",
+          "pricingId": "price:xai/grok-voice-transcribe-2.0:streaming:current",
+          "sourceRefs": [
+            "source:xai:docs-x-ai-developers-models-speech-to-text",
+            "source:xai:docs-x-ai-developers-pricing",
+            "source:xai:docs-x-ai-developers-release-notes"
+          ],
+          "unit": "per_hour",
+          "verificationStatus": "verified"
+        }
+      ],
+      "pricingSourceType": "canonical_verified_structured_price",
+      "provider": "xai",
+      "publicExposure": "public",
+      "redirectTargetInternalId": null,
+      "releaseStage": "stable",
+      "replacementInternalId": null,
+      "routingBehavior": "direct",
+      "routingDetails": {},
+      "selectedBatchPriceRecordId": null,
+      "selectedBillingPriceRecordId": "price:xai/grok-voice-transcribe-2.0:streaming:current",
+      "selectedPriceEffectiveFrom": "2026-09-17",
+      "selectedPriceEffectiveUntil": null,
+      "selectedPriceRecordId": null,
+      "sourceRefs": [
+        "source:xai:docs-x-ai-developers-models-speech-to-text",
+        "source:xai:docs-x-ai-developers-pricing",
+        "source:xai:docs-x-ai-developers-release-notes"
+      ],
+      "sourceUrls": [
+        "https://docs.x.ai/developers/models/speech-to-text",
+        "https://docs.x.ai/developers/pricing",
+        "https://docs.x.ai/developers/release-notes"
+      ],
+      "status": "latest",
+      "verificationStatus": "verified",
+      "verifiedAt": "2026-09-21T10:47:28Z",
+      "verifiedSourceRefs": [
+        "source:xai:docs-x-ai-developers-models-speech-to-text"
       ]
     }
   ],

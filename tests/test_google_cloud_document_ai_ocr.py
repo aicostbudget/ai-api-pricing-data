@@ -100,7 +100,8 @@ class GoogleCloudDocumentAiOcrTests(unittest.TestCase):
             cwd=ROOT, check=True, capture_output=True, text=True, encoding="utf-8",
         ).stdout)
         before = [row for row in baseline if row["provider_id"] == "google-gemini"]
-        after = [row for row in load_models() if row["provider_id"] == "google-gemini"]
+        baseline_ids = {row["model_id"] for row in before}
+        after = [row for row in load_models() if row["provider_id"] == "google-gemini" and row["model_id"] in baseline_ids]
         assert_gemini_facts_and_verification(self, before, after)
 
 

@@ -199,6 +199,7 @@
         "cacheEligibility": {"$ref": "#/$defs/cacheEligibility"},
         "cacheLifetimeModes": {"type": "array", "minItems": 1, "uniqueItems": true, "items": {"$ref": "#/$defs/cacheLifetimeMode"}},
         "conditionalUsageAllowances": {"type": "array", "minItems": 1, "items": {"$ref": "#/$defs/conditionalUsageAllowance"}},
+        "modelSelection": {"$ref": "#/$defs/modelSelection"},
         "canonicalOfficialId": {"type": "string"},
         "officialIds": {"type": "array", "items": {"$ref": "#/$defs/officialId"}},
         "lifecycleStatus": {"type": "string", "enum": ["active", "deprecated", "retired", "unknown"]},
@@ -208,6 +209,18 @@
         "defaultPriceRecordId": {"type": ["string", "null"]},
         "verificationStatus": {"$ref": "#/$defs/verificationStatus"},
         "sourceRefs": {"type": "array", "items": {"type": "string"}}
+      }
+    },
+    "modelSelection": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["defaultWhenModelOmitted", "explicitModelIdSupported", "sourceRefs", "checkedAt", "verifiedAt"],
+      "properties": {
+        "defaultWhenModelOmitted": {"type": "boolean"},
+        "explicitModelIdSupported": {"type": "boolean"},
+        "sourceRefs": {"type": "array", "minItems": 1, "uniqueItems": true, "items": {"type": "string"}},
+        "checkedAt": {"type": "string", "format": "date-time"},
+        "verifiedAt": {"type": "string", "format": "date-time"}
       }
     },
     "priceRecord": {
@@ -232,6 +245,7 @@
         "pricingId": {"type": "string"},
         "modelInternalId": {"type": "string"},
         "processingMode": {"type": "string", "enum": ["standard", "batch", "flex", "priority", "fast"]},
+        "transport": {"type": "string", "enum": ["rest", "streaming"]},
         "pricingStatus": {"type": "string", "enum": ["current", "future", "historical"]},
         "contextClass": {"type": "string", "enum": ["short", "long"]},
         "regionPolicy": {"type": "string"},
@@ -421,7 +435,9 @@
         },
         "modality": {"type": "string", "enum": ["text", "image", "audio", "video", "document"]},
         "unit": {"type": "string", "enum": ["per_1m_tokens", "per_1k_calls", "per_1000_pages", "per_minute", "per_hour", "per_image", "per_second", "per_request"]},
-        "amount": {"type": "string", "pattern": "^(0|[1-9]\\\\d*)(\\\\.\\\\d+)?$"}
+        "amount": {"type": "string", "pattern": "^(0|[1-9]\\\\d*)(\\\\.\\\\d+)?$"},
+        "alternativeGroup": {"type": "string", "pattern": "^[a-z0-9][a-z0-9_]*$"},
+        "optionalFeature": {"type": "string", "pattern": "^[a-z0-9][a-z0-9_]*$"}
       }
     },
     "sourceRecord": {

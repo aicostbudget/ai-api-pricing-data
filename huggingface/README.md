@@ -49,7 +49,7 @@ Use the current pricing dataset to estimate a real AI API workload, compare mode
 - `prices.json`: metadata plus the complete public Website record set
 - `meta.json`: generation time, verification date, and coverage counts for this export
 
-`train.csv` intentionally omits the large serialized `pricing_tiers_json`, `time_pricing_json`, `pricing_components_json`, and `conditional_usage_allowances_json` columns for Dataset Viewer usability. It preserves every exported model and all other CSV fields. Complete tier, time, component, and conditional allowance details remain available in `prices.csv` and `prices.json`. Schema 1.7.0 keeps eligibility-scoped short-term allowances separate from standard paid usage tiers.
+`train.csv` intentionally omits the large serialized `pricing_tiers_json`, `time_pricing_json`, `pricing_components_json`, `conditional_usage_allowances_json`, and `model_selection_json` columns for Dataset Viewer usability. It preserves every exported model and all other CSV fields. Complete tier, time, component, conditional allowance, transport, alternative-measurement, optional-feature, and model-selection details remain available in `prices.csv` and `prices.json`. Schema 1.8.0 keeps eligibility-scoped short-term allowances separate from standard paid usage tiers.
 
 Unknown or unavailable prices are `null` in JSON and empty in CSV; they are never rewritten as zero.
 

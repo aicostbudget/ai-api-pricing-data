@@ -2030,6 +2030,8 @@ def public_source_urls(record: dict[str, Any] | None) -> list[str]:
             urls.extend(adjustment.get("source_refs", []))
     for allowance in record.get("conditional_usage_allowances", []):
         urls.extend(allowance.get("source_refs", []))
+    if record.get("model_selection"):
+        urls.extend(record["model_selection"].get("source_refs", []))
     return sorted(set(urls))
 
 
@@ -2866,6 +2868,15 @@ def main() -> None:
                 public["conditional_usage_allowances"],
                 source_by_url,
             )
+        if public and public.get("model_selection"):
+            selection = public["model_selection"]
+            model_record["modelSelection"] = {
+                "defaultWhenModelOmitted": selection["default_when_model_omitted"],
+                "explicitModelIdSupported": selection["explicit_model_id_supported"],
+                "sourceRefs": sorted(source_by_url[url] for url in selection["source_refs"]),
+                "checkedAt": selection["checked_at"],
+                "verifiedAt": selection["verified_at"],
+            }
         models.append(model_record)
 
     exact_parity: list[str] = []

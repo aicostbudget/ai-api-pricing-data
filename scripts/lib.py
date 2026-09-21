@@ -21,6 +21,7 @@ HISTORY_COMPARE_FIELDS = (
     "pricing_components",
     "price_records",
     "conditional_usage_allowances",
+    "model_selection",
     "lifecycle",
     "official_source_url",
     "effective_from",
@@ -197,6 +198,8 @@ def history_entry(model: dict[str, Any], recorded_at: str) -> dict[str, Any]:
         entry["price_records"] = model["price_records"]
     if "conditional_usage_allowances" in model:
         entry["conditional_usage_allowances"] = model["conditional_usage_allowances"]
+    if "model_selection" in model:
+        entry["model_selection"] = model["model_selection"]
     if "lifecycle" in model:
         entry["lifecycle"] = model["lifecycle"]
     return entry

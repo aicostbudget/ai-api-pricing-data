@@ -9,6 +9,7 @@ from typing import Any, Callable, Iterable
 
 
 PROCESSING_MODES = {"standard", "batch", "flex", "priority", "fast"}
+TRANSPORTS = {"rest", "streaming"}
 CONTEXT_CLASSES = {"short", "long"}
 PRICING_STATUSES = {"current", "future", "historical"}
 COMPARISONS = {
@@ -250,7 +251,7 @@ def validate_canonical_price_records(records: Any, *, production: bool = True) -
         "verified_at",
         "billing_note",
     }
-    allowed_record_fields = required_record_fields | {"tier_selection", "usage_tier"}
+    allowed_record_fields = required_record_fields | {"tier_selection", "usage_tier", "transport"}
     for record in records:
         _require(isinstance(record, dict), "price record must be an object")
         _require(required_record_fields <= set(record), "price record is missing required fields")
@@ -260,6 +261,8 @@ def validate_canonical_price_records(records: Any, *, production: bool = True) -
         _require(record_id not in record_ids, f"duplicate pricing id {record_id}")
         record_ids.add(record_id)
         _require(record.get("processing_mode") in PROCESSING_MODES, f"price record {record_id} processing_mode is invalid")
+        transport = record.get("transport")
+        _require(transport is None or transport in TRANSPORTS, f"price record {record_id} transport is invalid")
         _require(record.get("context_class") in CONTEXT_CLASSES, f"price record {record_id} context_class is invalid")
         _require(record.get("pricing_status") in PRICING_STATUSES, f"price record {record_id} pricing_status is invalid")
         _require(isinstance(record.get("calculation_default"), bool), f"price record {record_id} calculation_default is invalid")
@@ -309,10 +312,12 @@ def validate_canonical_price_records(records: Any, *, production: bool = True) -
 
         charges = record.get("charges")
         _require(isinstance(charges, list) and charges, f"price record {record_id} charges must be non-empty")
+        alternative_groups: dict[str, list[dict[str, Any]]] = {}
         for charge in charges:
             _require(isinstance(charge, dict), f"price record {record_id} charge must be an object")
             _require(
-                set(charge) == {"id", "component", "modality", "unit", "amount"},
+                {"id", "component", "modality", "unit", "amount"} <= set(charge)
+                and not (set(charge) - {"id", "component", "modality", "unit", "amount", "alternative_group", "optional_feature"}),
                 f"price record {record_id} charge has unsupported fields",
             )
             charge_id = charge.get("id")
@@ -323,6 +328,21 @@ def validate_canonical_price_records(records: Any, *, production: bool = True) -
             _require(charge.get("modality") in MODALITIES, f"charge {charge_id} modality is invalid")
             _require(charge.get("unit") in UNITS, f"charge {charge_id} unit is invalid")
             _require(_decimal(charge.get("amount"), f"charge {charge_id} amount") >= 0, f"charge {charge_id} amount must be >= 0")
+            for field in ("alternative_group", "optional_feature"):
+                value = charge.get(field)
+                _require(
+                    value is None or (isinstance(value, str) and value and all(part.isalnum() for part in value.split("_"))),
+                    f"charge {charge_id} {field} is invalid",
+                )
+            if charge.get("alternative_group"):
+                alternative_groups.setdefault(charge["alternative_group"], []).append(charge)
+
+        for group_id, group_charges in alternative_groups.items():
+            _require(len(group_charges) >= 2, f"alternative group {group_id} requires at least two charges")
+            semantic_keys = {(item["component"], item["modality"]) for item in group_charges}
+            _require(len(semantic_keys) == 1, f"alternative group {group_id} must share component and modality")
+            units = [item["unit"] for item in group_charges]
+            _require(len(units) == len(set(units)), f"alternative group {group_id} has duplicate units")
 
         if usage_tier is not None:
             _require(len(charges) == 1, f"price record {record_id} usage tier requires exactly one charge")
@@ -367,6 +387,11 @@ def validate_canonical_price_records(records: Any, *, production: bool = True) -
                 left["processing_mode"] == right["processing_mode"]
                 and left["context_class"] == right["context_class"]
                 and left["pricing_status"] == right["pricing_status"]
+                and (
+                    left.get("transport") is None
+                    or right.get("transport") is None
+                    or left.get("transport") == right.get("transport")
+                )
                 and _periods_overlap(left, right)
             ):
                 left_region = left["region_policy"]
@@ -446,14 +471,21 @@ def project_v1_compatibility(records: list[dict[str, Any]]) -> dict[str, Any]:
     def amounts(record: dict[str, Any] | None) -> dict[str, Any]:
         if record is None:
             return {}
-        return {charge["component"]: charge["amount"] for charge in record["charges"]}
+        return {
+            charge["component"]: charge["amount"]
+            for charge in record["charges"]
+            if charge["modality"] == "text"
+            and charge["unit"] == "per_1m_tokens"
+            and charge.get("alternative_group") is None
+            and charge.get("optional_feature") is None
+        }
 
     standard_amounts = amounts(standard)
     batch_amounts = amounts(batch)
     cache_write = standard_amounts.get("cache_write", standard_amounts.get("cache_write_5m"))
     return {
         "currency": standard["currency"],
-        "unit": "1M tokens" if all(charge["unit"] == "per_1m_tokens" for charge in standard["charges"]) else None,
+        "unit": "1M tokens" if standard_amounts else None,
         "input": _json_number(standard_amounts["input"], "V1 input") if "input" in standard_amounts else None,
         "output": _json_number(standard_amounts["output"], "V1 output") if "output" in standard_amounts else None,
         "cached_input": _json_number(standard_amounts["cached_input"], "V1 cached_input") if "cached_input" in standard_amounts else None,
@@ -466,6 +498,26 @@ def project_v1_compatibility(records: list[dict[str, Any]]) -> dict[str, Any]:
 
 
 def validate_model_price_records(model: dict[str, Any]) -> None:
+    model_selection = model.get("model_selection")
+    if model_selection is not None:
+        required_selection = {
+            "default_when_model_omitted",
+            "explicit_model_id_supported",
+            "source_refs",
+            "checked_at",
+            "verified_at",
+        }
+        _require(
+            isinstance(model_selection, dict) and set(model_selection) == required_selection,
+            "model_selection has unsupported fields",
+        )
+        _require(isinstance(model_selection["default_when_model_omitted"], bool), "model_selection default flag is invalid")
+        _require(isinstance(model_selection["explicit_model_id_supported"], bool), "model_selection explicit selection flag is invalid")
+        _validate_string_list(model_selection["source_refs"], "model_selection source_refs")
+        official_urls = set(model.get("official_source_urls") or [model.get("official_source_url")])
+        _require(set(model_selection["source_refs"]) <= official_urls, "model_selection source_refs absent from official_source_urls")
+        _validate_timestamp(model_selection["checked_at"], "model_selection checked_at")
+        _validate_timestamp(model_selection["verified_at"], "model_selection verified_at")
     records = model.get("price_records")
     allowances = model.get("conditional_usage_allowances", [])
     if allowances:
@@ -595,6 +647,8 @@ def normalize_canonical_price_records(
                     "modality": charge["modality"],
                     "unit": charge["unit"],
                     "amount": _decimal_string(charge["amount"], f"charge {charge['id']} amount"),
+                    **({"alternativeGroup": charge["alternative_group"]} if charge.get("alternative_group") else {}),
+                    **({"optionalFeature": charge["optional_feature"]} if charge.get("optional_feature") else {}),
                 }
                 for charge in record["charges"]
             ],
@@ -605,6 +659,8 @@ def normalize_canonical_price_records(
             "verifiedAt": record["verified_at"],
             "calculationDefault": record["calculation_default"],
         }
+        if record.get("transport") is not None:
+            item["transport"] = record["transport"]
         if record.get("tier_selection") is not None:
             tier = record["tier_selection"]
             item["tierSelection"] = {
@@ -866,11 +922,13 @@ def select_price_record(
     prompt_tokens: int,
     endpoint_geography: str = "global",
     data_residency: str = "global",
+    transport: str | None = None,
     at: str | date | None = None,
 ) -> dict[str, Any]:
     """Select and execute one explicit contract; unavailable requests never fall back."""
 
     _require(processing_mode in PROCESSING_MODES, "requested processing_mode is invalid")
+    _require(transport is None or transport in TRANSPORTS, "requested transport is invalid")
     _require(isinstance(prompt_tokens, int) and not isinstance(prompt_tokens, bool) and prompt_tokens >= 0, "prompt_tokens must be a non-negative integer")
     today = date.today()
     target_date = today if at is None else (at if isinstance(at, date) else _parse_date(at, "at"))
@@ -879,6 +937,8 @@ def select_price_record(
     historical_coverage_unknown = False
     for record in records:
         if record.get("processingMode") != processing_mode:
+            continue
+        if transport is not None and record.get("transport") != transport:
             continue
         pricing_status = record.get("pricingStatus", "current")
         if pricing_status != "current" and not (target_date < today and pricing_status == "historical"):
@@ -900,6 +960,8 @@ def select_price_record(
             continue
         candidates.append(record)
 
+    if transport is None and any(record.get("transport") is not None for record in candidates):
+        raise PricingContractError("transport is required for this pricing contract")
     if not candidates:
         return {
             "selectionStatus": "unavailable",
@@ -953,3 +1015,50 @@ def select_price_record(
         selected["appliedPriceAdjustmentIds"] = []
     selected["selectionStatus"] = "available"
     return selected
+
+
+def calculate_price_record_cost(
+    record: dict[str, Any],
+    *,
+    usage_quantities: dict[str, int | float | Decimal],
+    alternative_selections: dict[str, str] | None = None,
+    enabled_features: set[str] | None = None,
+) -> Decimal:
+    """Calculate selected charges without combining alternatives or disabled features."""
+
+    alternative_selections = alternative_selections or {}
+    enabled_features = enabled_features or set()
+    charges = record.get("charges", [])
+    groups = {
+        charge["alternative_group"]
+        for charge in charges
+        if charge.get("alternative_group") is not None
+    }
+    _require(groups == set(alternative_selections), "every alternative group requires exactly one selection")
+    divisors = {
+        "per_1m_tokens": Decimal("1000000"),
+        "per_1k_calls": Decimal("1000"),
+        "per_1000_pages": Decimal("1000"),
+        "per_minute": Decimal("1"),
+        "per_hour": Decimal("1"),
+        "per_image": Decimal("1"),
+        "per_second": Decimal("1"),
+        "per_request": Decimal("1"),
+    }
+    charge_by_id = {charge["id"]: charge for charge in charges}
+    for group_id, charge_id in alternative_selections.items():
+        selected = charge_by_id.get(charge_id)
+        _require(selected is not None and selected.get("alternative_group") == group_id, f"invalid selection for alternative group {group_id}")
+
+    total = Decimal("0")
+    for charge in charges:
+        feature = charge.get("optional_feature")
+        if feature is not None and feature not in enabled_features:
+            continue
+        group = charge.get("alternative_group")
+        if group is not None and alternative_selections[group] != charge["id"]:
+            continue
+        quantity = _decimal(usage_quantities.get(charge["id"], 0), f"usage quantity for {charge['id']}")
+        _require(quantity >= 0, f"usage quantity for {charge['id']} must be >= 0")
+        total += quantity * _decimal(charge["amount"], f"charge {charge['id']} amount") / divisors[charge["unit"]]
+    return total

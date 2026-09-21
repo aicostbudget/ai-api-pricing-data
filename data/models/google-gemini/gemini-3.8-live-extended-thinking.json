@@ -1,0 +1,167 @@
+{
+  "accessed_at": "2026-09-21T10:47:28Z",
+  "context_window_tokens": 131072,
+  "display_name": "Gemini 3.8 Live Extended Thinking",
+  "effective_from": "2026-09-15",
+  "last_verified_at": "2026-09-21T10:47:28Z",
+  "model_category": "realtime_multimodal_reasoning",
+  "model_family": "Gemini 3.8 Live",
+  "model_id": "gemini-3.8-live-extended-thinking",
+  "notes": "Stable high-reasoning audio-to-audio Live API model with configurable background thinking. Caching and Batch API are not supported. Pricing is modality-aware and transcription is optional.",
+  "official_source_url": "https://ai.google.dev/gemini-api/docs/pricing",
+  "official_source_urls": [
+    "https://ai.google.dev/gemini-api/docs/pricing",
+    "https://ai.google.dev/gemini-api/docs/models/gemini-3.8-live-extended-thinking",
+    "https://ai.google.dev/gemini-api/docs/live-api/thinking",
+    "https://ai.google.dev/gemini-api/docs/live-api/best-practices",
+    "https://ai.google.dev/gemini-api/docs/deprecations"
+  ],
+  "price_records": [
+    {
+      "billing_note": "Standard multimodal Live API rates. Alternative measurement groups are not additive; transcription is optional; text output includes thinking tokens.",
+      "calculation_default": true,
+      "charges": [
+        {
+          "amount": "0.75",
+          "component": "input",
+          "id": "charge:gemini-3.8-live-extended-thinking:input:text:tokens",
+          "modality": "text",
+          "unit": "per_1m_tokens"
+        },
+        {
+          "alternative_group": "audio_input",
+          "amount": "3",
+          "component": "input",
+          "id": "charge:gemini-3.8-live-extended-thinking:input:audio:tokens",
+          "modality": "audio",
+          "unit": "per_1m_tokens"
+        },
+        {
+          "alternative_group": "audio_input",
+          "amount": "0.005",
+          "component": "input",
+          "id": "charge:gemini-3.8-live-extended-thinking:input:audio:minutes",
+          "modality": "audio",
+          "unit": "per_minute"
+        },
+        {
+          "alternative_group": "image_input",
+          "amount": "1",
+          "component": "input",
+          "id": "charge:gemini-3.8-live-extended-thinking:input:image:tokens",
+          "modality": "image",
+          "unit": "per_1m_tokens"
+        },
+        {
+          "alternative_group": "image_input",
+          "amount": "0.002",
+          "component": "input",
+          "id": "charge:gemini-3.8-live-extended-thinking:input:image:minutes",
+          "modality": "image",
+          "unit": "per_minute"
+        },
+        {
+          "alternative_group": "video_input",
+          "amount": "1",
+          "component": "input",
+          "id": "charge:gemini-3.8-live-extended-thinking:input:video:tokens",
+          "modality": "video",
+          "unit": "per_1m_tokens"
+        },
+        {
+          "alternative_group": "video_input",
+          "amount": "0.002",
+          "component": "input",
+          "id": "charge:gemini-3.8-live-extended-thinking:input:video:minutes",
+          "modality": "video",
+          "unit": "per_minute"
+        },
+        {
+          "amount": "4.5",
+          "component": "output",
+          "id": "charge:gemini-3.8-live-extended-thinking:output:text:tokens",
+          "modality": "text",
+          "unit": "per_1m_tokens"
+        },
+        {
+          "alternative_group": "audio_output",
+          "amount": "12",
+          "component": "output",
+          "id": "charge:gemini-3.8-live-extended-thinking:output:audio:tokens",
+          "modality": "audio",
+          "unit": "per_1m_tokens"
+        },
+        {
+          "alternative_group": "audio_output",
+          "amount": "0.018",
+          "component": "output",
+          "id": "charge:gemini-3.8-live-extended-thinking:output:audio:minutes",
+          "modality": "audio",
+          "unit": "per_minute"
+        },
+        {
+          "amount": "4.5",
+          "component": "output",
+          "id": "charge:gemini-3.8-live-extended-thinking:input-audio-transcription:text:tokens",
+          "modality": "text",
+          "optional_feature": "input_audio_transcription",
+          "unit": "per_1m_tokens"
+        },
+        {
+          "amount": "4.5",
+          "component": "output",
+          "id": "charge:gemini-3.8-live-extended-thinking:output-audio-transcription:text:tokens",
+          "modality": "text",
+          "optional_feature": "output_audio_transcription",
+          "unit": "per_1m_tokens"
+        }
+      ],
+      "checked_at": "2026-09-21T10:47:28Z",
+      "context_class": "short",
+      "currency": "USD",
+      "effective_from": "2026-09-15",
+      "effective_until": null,
+      "id": "price:google-gemini/gemini-3.8-live-extended-thinking:standard:current",
+      "pricing_status": "current",
+      "processing_mode": "standard",
+      "prompt_token_threshold": null,
+      "region_policy": {
+        "availability": {
+          "default": "available",
+          "rules": []
+        },
+        "data_residencies": [
+          "global"
+        ],
+        "endpoint_geographies": [
+          "global"
+        ],
+        "price_adjustments": [],
+        "pricing_geography": "global_base"
+      },
+      "source_refs": [
+        "https://ai.google.dev/gemini-api/docs/pricing",
+        "https://ai.google.dev/gemini-api/docs/models/gemini-3.8-live-extended-thinking",
+        "https://ai.google.dev/gemini-api/docs/live-api/thinking",
+        "https://ai.google.dev/gemini-api/docs/live-api/best-practices"
+      ],
+      "verification_status": "verified",
+      "verified_at": "2026-09-21T10:47:28Z"
+    }
+  ],
+  "pricing": {
+    "batch_input": null,
+    "batch_output": null,
+    "cache_write": null,
+    "cache_write_1h": null,
+    "cached_input": null,
+    "currency": "USD",
+    "input": 0.75,
+    "output": 4.5,
+    "unit": "1M tokens"
+  },
+  "project_context_window": true,
+  "provider_id": "google-gemini",
+  "release_stage": "stable",
+  "status": "active"
+}

@@ -1696,6 +1696,266 @@
       "provider_id": "xai",
       "release_stage": "legacy",
       "status": "deprecated"
+    },
+    {
+      "accessed_at": "2026-09-21T10:47:28Z",
+      "display_name": "Grok Voice Transcribe 1.0",
+      "effective_from": null,
+      "input_modality": "audio",
+      "last_verified_at": "2026-09-21T10:47:28Z",
+      "model_category": "speech_to_text",
+      "model_family": "Grok Voice Transcribe",
+      "model_id": "grok-voice-transcribe-1.0",
+      "model_selection": {
+        "checked_at": "2026-09-21T10:47:28Z",
+        "default_when_model_omitted": false,
+        "explicit_model_id_supported": true,
+        "source_refs": [
+          "https://docs.x.ai/developers/models/speech-to-text"
+        ],
+        "verified_at": "2026-09-21T10:47:28Z"
+      },
+      "notes": "Original supported Speech to Text model. It remains explicitly selectable and active, while 2.0 is the independent omitted-model default. REST and Streaming are mutually exclusive transports.",
+      "official_source_url": "https://docs.x.ai/developers/models/speech-to-text",
+      "official_source_urls": [
+        "https://docs.x.ai/developers/models/speech-to-text",
+        "https://docs.x.ai/developers/pricing",
+        "https://docs.x.ai/developers/release-notes"
+      ],
+      "output_modality": "text",
+      "price_records": [
+        {
+          "billing_note": "Current xAI Speech to Text service rate for REST file transcription; the official rate is service-level and this explicit model ID is supported.",
+          "calculation_default": true,
+          "charges": [
+            {
+              "amount": "0.10",
+              "component": "session_duration",
+              "id": "charge:xai/grok-voice-transcribe-1.0:rest:session-duration",
+              "modality": "audio",
+              "unit": "per_hour"
+            }
+          ],
+          "checked_at": "2026-09-21T10:47:28Z",
+          "context_class": "short",
+          "currency": "USD",
+          "effective_from": null,
+          "effective_until": null,
+          "id": "price:xai/grok-voice-transcribe-1.0:rest:current",
+          "pricing_status": "current",
+          "processing_mode": "standard",
+          "prompt_token_threshold": null,
+          "region_policy": {
+            "availability": {
+              "default": "available",
+              "rules": []
+            },
+            "data_residencies": [
+              "us-east-1"
+            ],
+            "endpoint_geographies": [
+              "us-east-1"
+            ],
+            "price_adjustments": [],
+            "pricing_geography": "global_base"
+          },
+          "source_refs": [
+            "https://docs.x.ai/developers/models/speech-to-text",
+            "https://docs.x.ai/developers/pricing"
+          ],
+          "transport": "rest",
+          "verification_status": "verified",
+          "verified_at": "2026-09-21T10:47:28Z"
+        },
+        {
+          "billing_note": "Current xAI Speech to Text service rate for real-time streaming; the official rate is service-level and this explicit model ID is supported.",
+          "calculation_default": false,
+          "charges": [
+            {
+              "amount": "0.20",
+              "component": "session_duration",
+              "id": "charge:xai/grok-voice-transcribe-1.0:streaming:session-duration",
+              "modality": "audio",
+              "unit": "per_hour"
+            }
+          ],
+          "checked_at": "2026-09-21T10:47:28Z",
+          "context_class": "short",
+          "currency": "USD",
+          "effective_from": null,
+          "effective_until": null,
+          "id": "price:xai/grok-voice-transcribe-1.0:streaming:current",
+          "pricing_status": "current",
+          "processing_mode": "standard",
+          "prompt_token_threshold": null,
+          "region_policy": {
+            "availability": {
+              "default": "available",
+              "rules": []
+            },
+            "data_residencies": [
+              "us-east-1"
+            ],
+            "endpoint_geographies": [
+              "us-east-1"
+            ],
+            "price_adjustments": [],
+            "pricing_geography": "global_base"
+          },
+          "source_refs": [
+            "https://docs.x.ai/developers/models/speech-to-text",
+            "https://docs.x.ai/developers/pricing"
+          ],
+          "transport": "streaming",
+          "verification_status": "verified",
+          "verified_at": "2026-09-21T10:47:28Z"
+        }
+      ],
+      "pricing": {
+        "batch_input": null,
+        "batch_output": null,
+        "cache_write": null,
+        "cache_write_1h": null,
+        "cached_input": null,
+        "currency": "USD",
+        "input": null,
+        "output": null,
+        "unit": null
+      },
+      "provider_id": "xai",
+      "release_stage": "stable",
+      "status": "active"
+    },
+    {
+      "accessed_at": "2026-09-21T10:47:28Z",
+      "display_name": "Grok Voice Transcribe 2.0",
+      "effective_from": "2026-09-17",
+      "input_modality": "audio",
+      "last_verified_at": "2026-09-21T10:47:28Z",
+      "model_category": "speech_to_text",
+      "model_family": "Grok Voice Transcribe",
+      "model_id": "grok-voice-transcribe-2.0",
+      "model_selection": {
+        "checked_at": "2026-09-21T10:47:28Z",
+        "default_when_model_omitted": true,
+        "explicit_model_id_supported": true,
+        "source_refs": [
+          "https://docs.x.ai/developers/models/speech-to-text"
+        ],
+        "verified_at": "2026-09-21T10:47:28Z"
+      },
+      "notes": "Current default Speech to Text model when the model ID is omitted. Both 1.0 and 2.0 remain explicitly selectable. REST and Streaming are mutually exclusive transports.",
+      "official_source_url": "https://docs.x.ai/developers/models/speech-to-text",
+      "official_source_urls": [
+        "https://docs.x.ai/developers/models/speech-to-text",
+        "https://docs.x.ai/developers/pricing",
+        "https://docs.x.ai/developers/release-notes"
+      ],
+      "output_modality": "text",
+      "price_records": [
+        {
+          "billing_note": "Current xAI Speech to Text service rate for REST file transcription; 2.0 became available and the omitted-model default on 2026-09-17.",
+          "calculation_default": true,
+          "charges": [
+            {
+              "amount": "0.10",
+              "component": "session_duration",
+              "id": "charge:xai/grok-voice-transcribe-2.0:rest:session-duration",
+              "modality": "audio",
+              "unit": "per_hour"
+            }
+          ],
+          "checked_at": "2026-09-21T10:47:28Z",
+          "context_class": "short",
+          "currency": "USD",
+          "effective_from": "2026-09-17",
+          "effective_until": null,
+          "id": "price:xai/grok-voice-transcribe-2.0:rest:current",
+          "pricing_status": "current",
+          "processing_mode": "standard",
+          "prompt_token_threshold": null,
+          "region_policy": {
+            "availability": {
+              "default": "available",
+              "rules": []
+            },
+            "data_residencies": [
+              "us-east-1"
+            ],
+            "endpoint_geographies": [
+              "us-east-1"
+            ],
+            "price_adjustments": [],
+            "pricing_geography": "global_base"
+          },
+          "source_refs": [
+            "https://docs.x.ai/developers/models/speech-to-text",
+            "https://docs.x.ai/developers/pricing",
+            "https://docs.x.ai/developers/release-notes"
+          ],
+          "transport": "rest",
+          "verification_status": "verified",
+          "verified_at": "2026-09-21T10:47:28Z"
+        },
+        {
+          "billing_note": "Current xAI Speech to Text service rate for real-time streaming; 2.0 became available and the omitted-model default on 2026-09-17.",
+          "calculation_default": false,
+          "charges": [
+            {
+              "amount": "0.20",
+              "component": "session_duration",
+              "id": "charge:xai/grok-voice-transcribe-2.0:streaming:session-duration",
+              "modality": "audio",
+              "unit": "per_hour"
+            }
+          ],
+          "checked_at": "2026-09-21T10:47:28Z",
+          "context_class": "short",
+          "currency": "USD",
+          "effective_from": "2026-09-17",
+          "effective_until": null,
+          "id": "price:xai/grok-voice-transcribe-2.0:streaming:current",
+          "pricing_status": "current",
+          "processing_mode": "standard",
+          "prompt_token_threshold": null,
+          "region_policy": {
+            "availability": {
+              "default": "available",
+              "rules": []
+            },
+            "data_residencies": [
+              "us-east-1"
+            ],
+            "endpoint_geographies": [
+              "us-east-1"
+            ],
+            "price_adjustments": [],
+            "pricing_geography": "global_base"
+          },
+          "source_refs": [
+            "https://docs.x.ai/developers/models/speech-to-text",
+            "https://docs.x.ai/developers/pricing",
+            "https://docs.x.ai/developers/release-notes"
+          ],
+          "transport": "streaming",
+          "verification_status": "verified",
+          "verified_at": "2026-09-21T10:47:28Z"
+        }
+      ],
+      "pricing": {
+        "batch_input": null,
+        "batch_output": null,
+        "cache_write": null,
+        "cache_write_1h": null,
+        "cached_input": null,
+        "currency": "USD",
+        "input": null,
+        "output": null,
+        "unit": null
+      },
+      "provider_id": "xai",
+      "release_stage": "stable",
+      "status": "active"
     }
   ],
   "notes": "Official xAI model documentation.",

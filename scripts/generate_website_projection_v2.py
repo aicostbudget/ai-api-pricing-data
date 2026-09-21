@@ -170,12 +170,26 @@ def current_effective(price: dict[str, Any], effective_at: datetime) -> bool:
     return True
 
 
-def charge_amount(price: dict[str, Any] | None, component: str) -> int | float | None:
+def charge_amount(
+    price: dict[str, Any] | None,
+    component: str,
+    modality: str = "text",
+) -> int | float | None:
     if price is None:
         return None
-    for charge in price["charges"]:
-        if charge["component"] == component and charge["unit"] == "per_1m_tokens":
-            return parse_decimal(charge["amount"])
+    candidates = [
+        charge
+        for charge in price["charges"]
+        if charge["component"] == component
+        and charge["unit"] == "per_1m_tokens"
+        and charge.get("alternativeGroup") is None
+        and charge.get("optionalFeature") is None
+    ]
+    exact = next((charge for charge in candidates if charge["modality"] == modality), None)
+    if exact is not None:
+        return parse_decimal(exact["amount"])
+    if len(candidates) == 1:
+        return parse_decimal(candidates[0]["amount"])
     return None
 
 
@@ -490,21 +504,7 @@ def public_dataset_v15_compatible(row: dict[str, Any]) -> bool:
     components = row.get("pricingComponents", [])
     if any(component.get("condition", {}).get("configuration") is not None for component in components):
         return False
-    non_token_components = [component for component in components if component["unit"] != "per_1m_tokens"]
-    if not non_token_components:
-        return True
-    if len(non_token_components) == 1 and non_token_components[0].get("condition", {}).get("usageTier") is None:
-        return True
-    return all(
-        component["component"] == "document_page"
-        and component["modality"] == "document"
-        and component["unit"] == "per_1000_pages"
-        and (
-            len(non_token_components) == 1
-            or component.get("condition", {}).get("usageTier") is not None
-        )
-        for component in non_token_components
-    )
+    return True
 
 
 def governance_metadata(
@@ -695,6 +695,8 @@ def project_pricing_component(record: dict[str, Any], charge: dict[str, Any]) ->
         condition["usageTier"] = record["usageTier"]
     if record.get("configuration") is not None:
         condition["configuration"] = record["configuration"]
+    if record.get("transport") is not None:
+        condition["transport"] = record["transport"]
     for field in (
         "regionSelector",
         "defaultAvailabilityStatus",
@@ -704,7 +706,7 @@ def project_pricing_component(record: dict[str, Any], charge: dict[str, Any]) ->
         if record.get(field) is not None:
             condition[field] = record[field]
 
-    return {
+    projected = {
         "pricingId": record["pricingId"],
         "chargeId": charge["chargeId"],
         "component": component,
@@ -717,6 +719,11 @@ def project_pricing_component(record: dict[str, Any], charge: dict[str, Any]) ->
         "sourceRefs": sorted(record["sourceRefs"]),
         "verificationStatus": record["verificationStatus"],
     }
+    if charge.get("alternativeGroup") is not None:
+        projected["alternativeGroup"] = charge["alternativeGroup"]
+    if charge.get("optionalFeature") is not None:
+        projected["optionalFeature"] = charge["optionalFeature"]
+    return projected
 
 
 def build_time_pricing(model_prices: list[dict[str, Any]]) -> dict[str, Any] | None:
@@ -785,18 +792,26 @@ def build_pricing_components(
     components: list[dict[str, Any]] = []
     seen_charge_ids: set[str] = set()
     for record in sorted(eligible_records, key=lambda item: item["pricingId"]):
-        record_components: set[str] = set()
+        record_components: set[tuple[str, str, str, str | None, str | None]] = set()
         for charge in sorted(record["charges"], key=lambda item: item["chargeId"]):
             charge_id = charge["chargeId"]
             component = charge["component"]
+            component_key = (
+                component,
+                charge["modality"],
+                charge["unit"],
+                charge.get("alternativeGroup"),
+                charge.get("optionalFeature"),
+            )
             if charge_id in seen_charge_ids:
                 raise ValueError(f"duplicate canonical chargeId in Website projection: {charge_id}")
-            if component in record_components:
+            if component_key in record_components:
                 raise ValueError(
-                    f"canonical price record {record['pricingId']} contains duplicate component {component}"
+                    f"canonical price record {record['pricingId']} contains duplicate component {component} "
+                    f"for selector {component_key[1:]}"
                 )
             seen_charge_ids.add(charge_id)
-            record_components.add(component)
+            record_components.add(component_key)
             projected = project_pricing_component(record, charge)
             if record["verificationStatus"] != "verified":
                 projected["verificationStatus"] = "verified"
@@ -1098,6 +1113,8 @@ def projection_row(
         row["cacheEligibility"] = cache_eligibility
     if conditional_usage_allowances is not None:
         row["conditionalUsageAllowances"] = conditional_usage_allowances
+    if model and model.get("modelSelection") is not None:
+        row["modelSelection"] = model["modelSelection"]
     if cache_lifetime_modes is not None:
         row["cacheLifetimeModes"] = cache_lifetime_modes
     if identity.get("scheduledTransition") is not None:

@@ -681,9 +681,18 @@ def validate_preview() -> dict[str, Any]:
                 domain = source["officialProviderDomain"]
                 if not domain or domain not in urlparse(source["url"]).netloc:
                     fail(f"verified price {price['pricingId']} uses source without official provider domain")
-        charge_components = [charge.get("component") for charge in price["charges"]]
+        charge_components = [
+            (
+                charge.get("component"),
+                charge.get("modality"),
+                charge.get("unit"),
+                charge.get("alternativeGroup"),
+                charge.get("optionalFeature"),
+            )
+            for charge in price["charges"]
+        ]
         if len(charge_components) != len(set(charge_components)):
-            fail(f"duplicate charge component in {price['pricingId']}")
+            fail(f"duplicate charge component selector in {price['pricingId']}")
         for charge in price["charges"]:
             if charge.get("component") not in CHARGE_COMPONENTS:
                 fail(f"invalid charge component in {price['pricingId']}")
@@ -701,12 +710,19 @@ def validate_preview() -> dict[str, Any]:
             price["processingMode"],
             price["contextClass"],
             price.get("pricingStatus"),
+            price.get("transport"),
             (price.get("temporalCondition") or {}).get("periodId"),
             tuple(sorted((price.get("usageTier") or {}).items())),
             tuple(sorted((price.get("configuration") or {}).items())),
             tuple(
                 sorted(
-                    (charge["component"], charge["modality"], charge["unit"])
+                    (
+                        charge["component"],
+                        charge["modality"],
+                        charge["unit"],
+                        charge.get("alternativeGroup") or "",
+                        charge.get("optionalFeature") or "",
+                    )
                     for charge in price["charges"]
                 )
             ),

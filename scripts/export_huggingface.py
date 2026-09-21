@@ -46,6 +46,7 @@ CSV_HEADERS = (
     "time_pricing_json",
     "pricing_components_json",
     "conditional_usage_allowances_json",
+    "model_selection_json",
     "unit_price",
     "billing_unit",
     "billing_quantity",
@@ -57,10 +58,11 @@ VIEWER_OMITTED_FIELDS = frozenset(
         "time_pricing_json",
         "pricing_components_json",
         "conditional_usage_allowances_json",
+        "model_selection_json",
     }
 )
 VIEWER_CSV_HEADERS = tuple(field for field in CSV_HEADERS if field not in VIEWER_OMITTED_FIELDS)
-PUBLIC_SCHEMA_VERSION = "1.7.0"
+PUBLIC_SCHEMA_VERSION = "1.8.0"
 PUBLIC_VERIFICATION_STATUSES = {
     "verified",
     "partially_verified",
@@ -207,6 +209,8 @@ def public_pricing_components(row: dict[str, Any]) -> list[dict[str, Any]]:
             "effective_from": condition.get("effectiveFrom"),
             "effective_until": condition.get("effectiveUntil"),
         }
+        if condition.get("transport") is not None:
+            public_condition["transport"] = condition["transport"]
         usage_tier = condition.get("usageTier")
         if usage_tier is not None:
             public_condition["usage_tier"] = {
@@ -227,8 +231,7 @@ def public_pricing_components(row: dict[str, Any]) -> list[dict[str, Any]]:
         for internal_name, public_name in optional_condition_fields.items():
             if condition.get(internal_name) is not None:
                 public_condition[public_name] = condition[internal_name]
-        public_components.append(
-            {
+        public_component = {
                 "pricing_id": component["pricingId"],
                 "charge_id": component["chargeId"],
                 "component": component["component"],
@@ -242,8 +245,28 @@ def public_pricing_components(row: dict[str, Any]) -> list[dict[str, Any]]:
                 "source_urls": source_urls,
                 "verification_status": status,
             }
-        )
+        if component.get("alternativeGroup") is not None:
+            public_component["alternative_group"] = component["alternativeGroup"]
+        if component.get("optionalFeature") is not None:
+            public_component["optional_feature"] = component["optionalFeature"]
+        public_components.append(public_component)
     return public_components
+
+
+def public_model_selection(row: dict[str, Any]) -> dict[str, Any] | None:
+    selection = row.get("modelSelection")
+    if selection is None:
+        return None
+    source_url_by_ref = dict(zip(row.get("sourceRefs", []), row.get("sourceUrls", []), strict=True))
+    source_refs = sorted(selection["sourceRefs"])
+    return {
+        "default_when_model_omitted": selection["defaultWhenModelOmitted"],
+        "explicit_model_id_supported": selection["explicitModelIdSupported"],
+        "source_refs": source_refs,
+        "source_urls": [source_url_by_ref[source_ref] for source_ref in source_refs],
+        "checked_at": selection["checkedAt"],
+        "verified_at": selection["verifiedAt"],
+    }
 
 
 def public_conditional_usage_allowances(row: dict[str, Any]) -> list[dict[str, Any]]:
@@ -453,9 +476,9 @@ def build_public_records(
 
     projection_by_key = {(row["provider"], row["id"]): row for row in projection["models"]}
     for record in records:
-        record["conditional_usage_allowances"] = public_conditional_usage_allowances(
-            projection_by_key[(record["provider_id"], record["model_id"])]
-        )
+        projection_row = projection_by_key[(record["provider_id"], record["model_id"])]
+        record["conditional_usage_allowances"] = public_conditional_usage_allowances(projection_row)
+        record["model_selection"] = public_model_selection(projection_row)
 
     actual_keys = {(row["provider_id"], row["model_id"]) for row in records}
     expected_keys = expected_public_keys(projection)
@@ -504,6 +527,8 @@ def build_export(
                 "pricing_dimension": "Billable non-token dimension.",
                 "conditional_usage_allowances": "Eligibility-scoped recurring allowances that remain separate from standard paid tiers.",
                 "conditional_usage_allowances_json": "Compact CSV JSON serialization of conditional_usage_allowances.",
+                "model_selection": "Independent model-default and explicit-ID support metadata; null when not published.",
+                "model_selection_json": "Compact CSV JSON serialization of model_selection.",
             },
         },
         "records": records,
@@ -566,9 +591,14 @@ def validate_payload(
                 component.get("condition", {}).get("usage_tier") is not None
                 for component in row.get("pricing_components", [])
             )
-            if has_usage_tiers:
+            has_structured_non_token = any(
+                component["unit"] != "per_1m_tokens"
+                for component in row.get("pricing_components", [])
+            )
+            has_token_summary = any(row[field] is not None for field in NUMERIC_FIELDS)
+            if has_usage_tiers or (has_structured_non_token and not has_token_summary):
                 if row["pricing_unit"] is not None or any(row[field] is not None for field in ("unit_price", "billing_quantity", "pricing_dimension")):
-                    raise ValueError(f"tiered non-token pricing must not be flattened for {row['provider_id']}/{row['model_id']}")
+                    raise ValueError(f"structured non-token pricing must not be flattened for {row['provider_id']}/{row['model_id']}")
             elif row["pricing_unit"] != "1M tokens":
                 raise ValueError(f"invalid token unit for {row['provider_id']}/{row['model_id']}")
         else:
@@ -598,6 +628,8 @@ def validate_payload(
             raise ValueError(f"time pricing mismatch for {key[0]}/{key[1]}")
         if row.get("conditional_usage_allowances") != public_conditional_usage_allowances(canonical):
             raise ValueError(f"conditional usage allowance mismatch for {key[0]}/{key[1]}")
+        if row.get("model_selection") != public_model_selection(canonical):
+            raise ValueError(f"model selection mismatch for {key[0]}/{key[1]}")
         verified = row.get("last_verified_at")
         if verified and parse_date(verified) > now:
             raise ValueError(f"future last_verified_at for {row['provider_id']}/{row['model_id']}")
@@ -622,11 +654,12 @@ def csv_text(
     writer.writeheader()
     for record in records:
         serialized = {
-            **{key: value for key, value in record.items() if key not in {"pricing_tiers", "time_pricing", "pricing_components", "conditional_usage_allowances"}},
+            **{key: value for key, value in record.items() if key not in {"pricing_tiers", "time_pricing", "pricing_components", "conditional_usage_allowances", "model_selection"}},
             "pricing_tiers_json": json.dumps(record["pricing_tiers"], separators=(",", ":"), ensure_ascii=False),
             "time_pricing_json": json.dumps(record["time_pricing"], separators=(",", ":"), ensure_ascii=False),
             "pricing_components_json": json.dumps(record["pricing_components"], separators=(",", ":"), ensure_ascii=False),
             "conditional_usage_allowances_json": json.dumps(record["conditional_usage_allowances"], separators=(",", ":"), ensure_ascii=False),
+            "model_selection_json": json.dumps(record["model_selection"], separators=(",", ":"), ensure_ascii=False),
         }
         writer.writerow({field: serialized.get(field) for field in fieldnames})
     return output.getvalue()
