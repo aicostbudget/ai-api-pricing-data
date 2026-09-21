@@ -879,19 +879,408 @@
       "status": "preview"
     },
     {
-      "accessed_at": "2026-08-15T12:25:26Z",
+      "accessed_at": "2026-09-20T13:28:36Z",
       "display_name": "Grok 4.3",
       "effective_from": null,
-      "last_verified_at": "2026-08-15T12:25:26Z",
+      "last_verified_at": "2026-09-20T13:28:36Z",
       "model_family": "Grok 4",
       "model_id": "grok-4.3",
-      "notes": "V1 pricing remains the short-context compatibility projection. Canonical Pricing V2 tiers model standard short-context prompt tokens < 200K and long-context prompt tokens >= 200K. Total prompt tokens include cached prompt tokens, and the selected tier applies to the whole request. Grok 4.3 Batch API pricing receives a 20% discount and is outside these standard tiers.",
+      "notes": "V1 is the short-context compatibility projection. For Standard, Batch, and Priority, the long-context tier starts at 200000 total prompt tokens including cached input and prices the whole request. Batch discounts all token types by 20%; Priority doubles all token rates when the response confirms priority service. Official price effective date is unstated.",
       "official_source_url": "https://docs.x.ai/developers/pricing",
       "official_source_urls": [
         "https://docs.x.ai/developers/pricing",
         "https://docs.x.ai/developers/advanced-api-usage/prompt-caching/usage-and-pricing",
         "https://docs.x.ai/developers/rest-api-reference/inference/models",
-        "https://docs.x.ai/developers/models/grok-4.3"
+        "https://docs.x.ai/developers/models/grok-4.3",
+        "https://docs.x.ai/developers/advanced-api-usage/priority-processing"
+      ],
+      "price_records": [
+        {
+          "billing_note": "V1 is the short-context compatibility projection. For Standard, Batch, and Priority, the long-context tier starts at 200000 total prompt tokens including cached input and prices the whole request. Batch discounts all token types by 20%; Priority doubles all token rates when the response confirms priority service. Official price effective date is unstated.",
+          "calculation_default": true,
+          "charges": [
+            {
+              "amount": "1.25",
+              "component": "input",
+              "id": "price:xai/grok-4.3:standard:short:current:input:text:per_1m_tokens",
+              "modality": "text",
+              "unit": "per_1m_tokens"
+            },
+            {
+              "amount": "0.2",
+              "component": "cached_input",
+              "id": "price:xai/grok-4.3:standard:short:current:cached_input:text:per_1m_tokens",
+              "modality": "text",
+              "unit": "per_1m_tokens"
+            },
+            {
+              "amount": "2.5",
+              "component": "output",
+              "id": "price:xai/grok-4.3:standard:short:current:output:text:per_1m_tokens",
+              "modality": "text",
+              "unit": "per_1m_tokens"
+            }
+          ],
+          "checked_at": "2026-09-20T13:28:36Z",
+          "context_class": "short",
+          "currency": "USD",
+          "effective_from": null,
+          "effective_until": null,
+          "id": "price:xai/grok-4.3:standard:short:current",
+          "pricing_status": "current",
+          "processing_mode": "standard",
+          "prompt_token_threshold": 200000,
+          "region_policy": {
+            "availability": {
+              "default": "available",
+              "rules": []
+            },
+            "data_residencies": [
+              "global"
+            ],
+            "endpoint_geographies": [
+              "global"
+            ],
+            "price_adjustments": [],
+            "pricing_geography": "global_base"
+          },
+          "source_refs": [
+            "https://docs.x.ai/developers/pricing",
+            "https://docs.x.ai/developers/models/grok-4.3",
+            "https://docs.x.ai/developers/advanced-api-usage/prompt-caching/usage-and-pricing",
+            "https://docs.x.ai/developers/rest-api-reference/inference/models"
+          ],
+          "tier_selection": {
+            "cached_prompt_tokens_included": true,
+            "comparison": "less_than",
+            "token_basis": "total_prompt_tokens",
+            "whole_request_pricing": true
+          },
+          "verification_status": "verified",
+          "verified_at": "2026-09-20T13:28:36Z"
+        },
+        {
+          "billing_note": "V1 is the short-context compatibility projection. For Standard, Batch, and Priority, the long-context tier starts at 200000 total prompt tokens including cached input and prices the whole request. Batch discounts all token types by 20%; Priority doubles all token rates when the response confirms priority service. Official price effective date is unstated.",
+          "calculation_default": false,
+          "charges": [
+            {
+              "amount": "2.5",
+              "component": "input",
+              "id": "price:xai/grok-4.3:standard:long:current:input:text:per_1m_tokens",
+              "modality": "text",
+              "unit": "per_1m_tokens"
+            },
+            {
+              "amount": "0.4",
+              "component": "cached_input",
+              "id": "price:xai/grok-4.3:standard:long:current:cached_input:text:per_1m_tokens",
+              "modality": "text",
+              "unit": "per_1m_tokens"
+            },
+            {
+              "amount": "5",
+              "component": "output",
+              "id": "price:xai/grok-4.3:standard:long:current:output:text:per_1m_tokens",
+              "modality": "text",
+              "unit": "per_1m_tokens"
+            }
+          ],
+          "checked_at": "2026-09-20T13:28:36Z",
+          "context_class": "long",
+          "currency": "USD",
+          "effective_from": null,
+          "effective_until": null,
+          "id": "price:xai/grok-4.3:standard:long:current",
+          "pricing_status": "current",
+          "processing_mode": "standard",
+          "prompt_token_threshold": 200000,
+          "region_policy": {
+            "availability": {
+              "default": "available",
+              "rules": []
+            },
+            "data_residencies": [
+              "global"
+            ],
+            "endpoint_geographies": [
+              "global"
+            ],
+            "price_adjustments": [],
+            "pricing_geography": "global_base"
+          },
+          "source_refs": [
+            "https://docs.x.ai/developers/pricing",
+            "https://docs.x.ai/developers/models/grok-4.3",
+            "https://docs.x.ai/developers/advanced-api-usage/prompt-caching/usage-and-pricing",
+            "https://docs.x.ai/developers/rest-api-reference/inference/models"
+          ],
+          "tier_selection": {
+            "cached_prompt_tokens_included": true,
+            "comparison": "greater_than_or_equal",
+            "token_basis": "total_prompt_tokens",
+            "whole_request_pricing": true
+          },
+          "verification_status": "verified",
+          "verified_at": "2026-09-20T13:28:36Z"
+        },
+        {
+          "billing_note": "V1 is the short-context compatibility projection. For Standard, Batch, and Priority, the long-context tier starts at 200000 total prompt tokens including cached input and prices the whole request. Batch discounts all token types by 20%; Priority doubles all token rates when the response confirms priority service. Official price effective date is unstated.",
+          "calculation_default": false,
+          "charges": [
+            {
+              "amount": "1",
+              "component": "input",
+              "id": "price:xai/grok-4.3:batch:short:current:input:text:per_1m_tokens",
+              "modality": "text",
+              "unit": "per_1m_tokens"
+            },
+            {
+              "amount": "0.16",
+              "component": "cached_input",
+              "id": "price:xai/grok-4.3:batch:short:current:cached_input:text:per_1m_tokens",
+              "modality": "text",
+              "unit": "per_1m_tokens"
+            },
+            {
+              "amount": "2",
+              "component": "output",
+              "id": "price:xai/grok-4.3:batch:short:current:output:text:per_1m_tokens",
+              "modality": "text",
+              "unit": "per_1m_tokens"
+            }
+          ],
+          "checked_at": "2026-09-20T13:28:36Z",
+          "context_class": "short",
+          "currency": "USD",
+          "effective_from": null,
+          "effective_until": null,
+          "id": "price:xai/grok-4.3:batch:short:current",
+          "pricing_status": "current",
+          "processing_mode": "batch",
+          "prompt_token_threshold": 200000,
+          "region_policy": {
+            "availability": {
+              "default": "available",
+              "rules": []
+            },
+            "data_residencies": [
+              "global"
+            ],
+            "endpoint_geographies": [
+              "global"
+            ],
+            "price_adjustments": [],
+            "pricing_geography": "global_base"
+          },
+          "source_refs": [
+            "https://docs.x.ai/developers/pricing",
+            "https://docs.x.ai/developers/models/grok-4.3",
+            "https://docs.x.ai/developers/advanced-api-usage/prompt-caching/usage-and-pricing",
+            "https://docs.x.ai/developers/rest-api-reference/inference/models"
+          ],
+          "tier_selection": {
+            "cached_prompt_tokens_included": true,
+            "comparison": "less_than",
+            "token_basis": "total_prompt_tokens",
+            "whole_request_pricing": true
+          },
+          "verification_status": "verified",
+          "verified_at": "2026-09-20T13:28:36Z"
+        },
+        {
+          "billing_note": "V1 is the short-context compatibility projection. For Standard, Batch, and Priority, the long-context tier starts at 200000 total prompt tokens including cached input and prices the whole request. Batch discounts all token types by 20%; Priority doubles all token rates when the response confirms priority service. Official price effective date is unstated.",
+          "calculation_default": false,
+          "charges": [
+            {
+              "amount": "2",
+              "component": "input",
+              "id": "price:xai/grok-4.3:batch:long:current:input:text:per_1m_tokens",
+              "modality": "text",
+              "unit": "per_1m_tokens"
+            },
+            {
+              "amount": "0.32",
+              "component": "cached_input",
+              "id": "price:xai/grok-4.3:batch:long:current:cached_input:text:per_1m_tokens",
+              "modality": "text",
+              "unit": "per_1m_tokens"
+            },
+            {
+              "amount": "4",
+              "component": "output",
+              "id": "price:xai/grok-4.3:batch:long:current:output:text:per_1m_tokens",
+              "modality": "text",
+              "unit": "per_1m_tokens"
+            }
+          ],
+          "checked_at": "2026-09-20T13:28:36Z",
+          "context_class": "long",
+          "currency": "USD",
+          "effective_from": null,
+          "effective_until": null,
+          "id": "price:xai/grok-4.3:batch:long:current",
+          "pricing_status": "current",
+          "processing_mode": "batch",
+          "prompt_token_threshold": 200000,
+          "region_policy": {
+            "availability": {
+              "default": "available",
+              "rules": []
+            },
+            "data_residencies": [
+              "global"
+            ],
+            "endpoint_geographies": [
+              "global"
+            ],
+            "price_adjustments": [],
+            "pricing_geography": "global_base"
+          },
+          "source_refs": [
+            "https://docs.x.ai/developers/pricing",
+            "https://docs.x.ai/developers/models/grok-4.3",
+            "https://docs.x.ai/developers/advanced-api-usage/prompt-caching/usage-and-pricing",
+            "https://docs.x.ai/developers/rest-api-reference/inference/models"
+          ],
+          "tier_selection": {
+            "cached_prompt_tokens_included": true,
+            "comparison": "greater_than_or_equal",
+            "token_basis": "total_prompt_tokens",
+            "whole_request_pricing": true
+          },
+          "verification_status": "verified",
+          "verified_at": "2026-09-20T13:28:36Z"
+        },
+        {
+          "billing_note": "V1 is the short-context compatibility projection. For Standard, Batch, and Priority, the long-context tier starts at 200000 total prompt tokens including cached input and prices the whole request. Batch discounts all token types by 20%; Priority doubles all token rates when the response confirms priority service. Official price effective date is unstated.",
+          "calculation_default": false,
+          "charges": [
+            {
+              "amount": "2.5",
+              "component": "input",
+              "id": "price:xai/grok-4.3:priority:short:current:input:text:per_1m_tokens",
+              "modality": "text",
+              "unit": "per_1m_tokens"
+            },
+            {
+              "amount": "0.4",
+              "component": "cached_input",
+              "id": "price:xai/grok-4.3:priority:short:current:cached_input:text:per_1m_tokens",
+              "modality": "text",
+              "unit": "per_1m_tokens"
+            },
+            {
+              "amount": "5",
+              "component": "output",
+              "id": "price:xai/grok-4.3:priority:short:current:output:text:per_1m_tokens",
+              "modality": "text",
+              "unit": "per_1m_tokens"
+            }
+          ],
+          "checked_at": "2026-09-20T13:28:36Z",
+          "context_class": "short",
+          "currency": "USD",
+          "effective_from": null,
+          "effective_until": null,
+          "id": "price:xai/grok-4.3:priority:short:current",
+          "pricing_status": "current",
+          "processing_mode": "priority",
+          "prompt_token_threshold": 200000,
+          "region_policy": {
+            "availability": {
+              "default": "available",
+              "rules": []
+            },
+            "data_residencies": [
+              "global"
+            ],
+            "endpoint_geographies": [
+              "global"
+            ],
+            "price_adjustments": [],
+            "pricing_geography": "global_base"
+          },
+          "source_refs": [
+            "https://docs.x.ai/developers/pricing",
+            "https://docs.x.ai/developers/models/grok-4.3",
+            "https://docs.x.ai/developers/advanced-api-usage/prompt-caching/usage-and-pricing",
+            "https://docs.x.ai/developers/advanced-api-usage/priority-processing",
+            "https://docs.x.ai/developers/rest-api-reference/inference/models"
+          ],
+          "tier_selection": {
+            "cached_prompt_tokens_included": true,
+            "comparison": "less_than",
+            "token_basis": "total_prompt_tokens",
+            "whole_request_pricing": true
+          },
+          "verification_status": "verified",
+          "verified_at": "2026-09-20T13:28:36Z"
+        },
+        {
+          "billing_note": "V1 is the short-context compatibility projection. For Standard, Batch, and Priority, the long-context tier starts at 200000 total prompt tokens including cached input and prices the whole request. Batch discounts all token types by 20%; Priority doubles all token rates when the response confirms priority service. Official price effective date is unstated.",
+          "calculation_default": false,
+          "charges": [
+            {
+              "amount": "5",
+              "component": "input",
+              "id": "price:xai/grok-4.3:priority:long:current:input:text:per_1m_tokens",
+              "modality": "text",
+              "unit": "per_1m_tokens"
+            },
+            {
+              "amount": "0.8",
+              "component": "cached_input",
+              "id": "price:xai/grok-4.3:priority:long:current:cached_input:text:per_1m_tokens",
+              "modality": "text",
+              "unit": "per_1m_tokens"
+            },
+            {
+              "amount": "10",
+              "component": "output",
+              "id": "price:xai/grok-4.3:priority:long:current:output:text:per_1m_tokens",
+              "modality": "text",
+              "unit": "per_1m_tokens"
+            }
+          ],
+          "checked_at": "2026-09-20T13:28:36Z",
+          "context_class": "long",
+          "currency": "USD",
+          "effective_from": null,
+          "effective_until": null,
+          "id": "price:xai/grok-4.3:priority:long:current",
+          "pricing_status": "current",
+          "processing_mode": "priority",
+          "prompt_token_threshold": 200000,
+          "region_policy": {
+            "availability": {
+              "default": "available",
+              "rules": []
+            },
+            "data_residencies": [
+              "global"
+            ],
+            "endpoint_geographies": [
+              "global"
+            ],
+            "price_adjustments": [],
+            "pricing_geography": "global_base"
+          },
+          "source_refs": [
+            "https://docs.x.ai/developers/pricing",
+            "https://docs.x.ai/developers/models/grok-4.3",
+            "https://docs.x.ai/developers/advanced-api-usage/prompt-caching/usage-and-pricing",
+            "https://docs.x.ai/developers/advanced-api-usage/priority-processing",
+            "https://docs.x.ai/developers/rest-api-reference/inference/models"
+          ],
+          "tier_selection": {
+            "cached_prompt_tokens_included": true,
+            "comparison": "greater_than_or_equal",
+            "token_basis": "total_prompt_tokens",
+            "whole_request_pricing": true
+          },
+          "verification_status": "verified",
+          "verified_at": "2026-09-20T13:28:36Z"
+        }
       ],
       "pricing": {
         "batch_input": 1.0,
@@ -904,52 +1293,151 @@
         "output": 2.5,
         "unit": "1M tokens"
       },
-      "pricing_tiers": [
-        {
-          "cached_input": 0.2,
-          "cached_prompt_tokens_included": true,
-          "calculation_default": true,
-          "currency": "USD",
-          "id": "short",
-          "input": 1.25,
-          "output": 2.5,
-          "pricing_status": "current",
-          "processing_mode": "standard",
-          "prompt_token_threshold": 200000,
-          "threshold_comparison": "less_than",
-          "threshold_token_basis": "total_prompt_tokens",
-          "unit": "1M tokens",
-          "whole_request_pricing": true
-        },
-        {
-          "cached_input": 0.4,
-          "cached_prompt_tokens_included": true,
-          "calculation_default": false,
-          "currency": "USD",
-          "id": "long",
-          "input": 2.5,
-          "output": 5.0,
-          "pricing_status": "current",
-          "processing_mode": "standard",
-          "prompt_token_threshold": 200000,
-          "threshold_comparison": "greater_than_or_equal",
-          "threshold_token_basis": "total_prompt_tokens",
-          "unit": "1M tokens",
-          "whole_request_pricing": true
-        }
-      ],
       "provider_id": "xai",
       "status": "active"
     },
     {
-      "accessed_at": "2026-08-08T18:00:00Z",
+      "accessed_at": "2026-09-20T11:07:05Z",
       "display_name": "Grok 4.5",
       "effective_from": null,
-      "last_verified_at": "2026-08-08T18:00:00Z",
+      "last_verified_at": "2026-09-20T11:07:05Z",
       "model_family": "Grok 4",
       "model_id": "grok-4.5",
-      "notes": "V1 stores short-context pricing. The long-context threshold is 200K tokens, where xAI lists $4 input, $0.60 cached input, and $12 output per 1M tokens. xAI Batch API documentation explicitly says Grok 4.5 is not supported, so Batch fields remain null. The 2026-07-16 announcement date is not used as effective_from because xAI does not publish a distinct pricing effective date.",
-      "official_source_url": "https://docs.x.ai/developers/pricing",
+      "notes": "Global Standard token rates; total prompt tokens include cached tokens. At 200,000 tokens or more, long rates apply to every input, cached, and output token in the request. The model detail page says Batch API is not supported. No distinct pricing effective date is published.",
+      "official_source_url": "https://docs.x.ai/developers/models/grok-4.5",
+      "official_source_urls": [
+        "https://docs.x.ai/developers/models/grok-4.5",
+        "https://docs.x.ai/developers/pricing",
+        "https://docs.x.ai/developers/advanced-api-usage/prompt-caching/usage-and-pricing"
+      ],
+      "price_records": [
+        {
+          "billing_note": "Global Standard token rates; total prompt tokens include cached tokens. At 200,000 tokens or more, long rates apply to every input, cached, and output token in the request. The model detail page says Batch API is not supported. No distinct pricing effective date is published.",
+          "calculation_default": true,
+          "charges": [
+            {
+              "amount": "2",
+              "component": "input",
+              "id": "price:xai/grok-4.5:standard:short:current:input:text:per_1m_tokens",
+              "modality": "text",
+              "unit": "per_1m_tokens"
+            },
+            {
+              "amount": "0.3",
+              "component": "cached_input",
+              "id": "price:xai/grok-4.5:standard:short:current:cached_input:text:per_1m_tokens",
+              "modality": "text",
+              "unit": "per_1m_tokens"
+            },
+            {
+              "amount": "6",
+              "component": "output",
+              "id": "price:xai/grok-4.5:standard:short:current:output:text:per_1m_tokens",
+              "modality": "text",
+              "unit": "per_1m_tokens"
+            }
+          ],
+          "checked_at": "2026-09-20T11:07:05Z",
+          "context_class": "short",
+          "currency": "USD",
+          "effective_from": null,
+          "effective_until": null,
+          "id": "price:xai/grok-4.5:standard:short:current",
+          "pricing_status": "current",
+          "processing_mode": "standard",
+          "prompt_token_threshold": 200000,
+          "region_policy": {
+            "availability": {
+              "default": "available",
+              "rules": []
+            },
+            "data_residencies": [
+              "global"
+            ],
+            "endpoint_geographies": [
+              "global"
+            ],
+            "price_adjustments": [],
+            "pricing_geography": "global_base"
+          },
+          "source_refs": [
+            "https://docs.x.ai/developers/models/grok-4.5",
+            "https://docs.x.ai/developers/pricing",
+            "https://docs.x.ai/developers/advanced-api-usage/prompt-caching/usage-and-pricing"
+          ],
+          "tier_selection": {
+            "cached_prompt_tokens_included": true,
+            "comparison": "less_than",
+            "token_basis": "total_prompt_tokens",
+            "whole_request_pricing": true
+          },
+          "verification_status": "verified",
+          "verified_at": "2026-09-20T11:07:05Z"
+        },
+        {
+          "billing_note": "Global Standard token rates; total prompt tokens include cached tokens. At 200,000 tokens or more, long rates apply to every input, cached, and output token in the request. The model detail page says Batch API is not supported. No distinct pricing effective date is published.",
+          "calculation_default": false,
+          "charges": [
+            {
+              "amount": "4",
+              "component": "input",
+              "id": "price:xai/grok-4.5:standard:long:current:input:text:per_1m_tokens",
+              "modality": "text",
+              "unit": "per_1m_tokens"
+            },
+            {
+              "amount": "0.6",
+              "component": "cached_input",
+              "id": "price:xai/grok-4.5:standard:long:current:cached_input:text:per_1m_tokens",
+              "modality": "text",
+              "unit": "per_1m_tokens"
+            },
+            {
+              "amount": "12",
+              "component": "output",
+              "id": "price:xai/grok-4.5:standard:long:current:output:text:per_1m_tokens",
+              "modality": "text",
+              "unit": "per_1m_tokens"
+            }
+          ],
+          "checked_at": "2026-09-20T11:07:05Z",
+          "context_class": "long",
+          "currency": "USD",
+          "effective_from": null,
+          "effective_until": null,
+          "id": "price:xai/grok-4.5:standard:long:current",
+          "pricing_status": "current",
+          "processing_mode": "standard",
+          "prompt_token_threshold": 200000,
+          "region_policy": {
+            "availability": {
+              "default": "available",
+              "rules": []
+            },
+            "data_residencies": [
+              "global"
+            ],
+            "endpoint_geographies": [
+              "global"
+            ],
+            "price_adjustments": [],
+            "pricing_geography": "global_base"
+          },
+          "source_refs": [
+            "https://docs.x.ai/developers/models/grok-4.5",
+            "https://docs.x.ai/developers/pricing",
+            "https://docs.x.ai/developers/advanced-api-usage/prompt-caching/usage-and-pricing"
+          ],
+          "tier_selection": {
+            "cached_prompt_tokens_included": true,
+            "comparison": "greater_than_or_equal",
+            "token_basis": "total_prompt_tokens",
+            "whole_request_pricing": true
+          },
+          "verification_status": "verified",
+          "verified_at": "2026-09-20T11:07:05Z"
+        }
+      ],
       "pricing": {
         "batch_input": null,
         "batch_output": null,

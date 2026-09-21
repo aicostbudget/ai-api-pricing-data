@@ -452,7 +452,7 @@ class DeclarativePricingContractTests(unittest.TestCase):
                     normalized,
                     processing_mode=mode,
                     prompt_tokens=prompt_tokens,
-                    at="2026-09-05",
+                    at=None,
                 )
                 expected_context = "short" if prompt_tokens == THRESHOLD else "long"
                 expected = next(
@@ -461,6 +461,12 @@ class DeclarativePricingContractTests(unittest.TestCase):
                 )
                 self.assertEqual(selected["pricingId"], expected["pricingId"])
                 self.assertEqual(selected["charges"], expected["charges"])
+
+        historical_unknown = select_price_record(
+            normalized, processing_mode="standard", prompt_tokens=THRESHOLD, at="2026-09-05"
+        )
+        self.assertEqual(historical_unknown["selectionStatus"], "unavailable")
+        self.assertIn("Historical price coverage is unknown", historical_unknown["reason"])
 
         canonical_model = next(
             model

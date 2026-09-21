@@ -872,11 +872,16 @@ def select_price_record(
 
     _require(processing_mode in PROCESSING_MODES, "requested processing_mode is invalid")
     _require(isinstance(prompt_tokens, int) and not isinstance(prompt_tokens, bool) and prompt_tokens >= 0, "prompt_tokens must be a non-negative integer")
-    target_date = date.today() if at is None else (at if isinstance(at, date) else _parse_date(at, "at"))
+    today = date.today()
+    target_date = today if at is None else (at if isinstance(at, date) else _parse_date(at, "at"))
     assert target_date is not None
     candidates: list[dict[str, Any]] = []
+    historical_coverage_unknown = False
     for record in records:
-        if record.get("processingMode") != processing_mode or record.get("pricingStatus", "current") != "current":
+        if record.get("processingMode") != processing_mode:
+            continue
+        pricing_status = record.get("pricingStatus", "current")
+        if pricing_status != "current" and not (target_date < today and pricing_status == "historical"):
             continue
         start = _parse_date(record.get("effectiveFrom"), "effectiveFrom") or date.min
         end = _parse_date(record.get("effectiveUntil"), "effectiveUntil") or date.max
@@ -888,12 +893,21 @@ def select_price_record(
         region = record.get("regionSelector", {})
         if not _v2_selector_matches(region, endpoint_geography, data_residency):
             continue
+        # An unknown effectiveFrom proves today's verified rate, not an
+        # unbounded historical period. Explicit dated records may still match.
+        if target_date < today and record.get("effectiveFrom") is None:
+            historical_coverage_unknown = True
+            continue
         candidates.append(record)
 
     if not candidates:
         return {
             "selectionStatus": "unavailable",
-            "reason": "No explicit price record matches the requested contract.",
+            "reason": (
+                "Historical price coverage is unknown for a record without effectiveFrom."
+                if historical_coverage_unknown
+                else "No explicit price record matches the requested contract."
+            ),
             "requestedProcessingMode": processing_mode,
             "endpointGeography": endpoint_geography,
             "dataResidency": data_residency,

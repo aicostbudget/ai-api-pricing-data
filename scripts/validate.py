@@ -310,29 +310,38 @@ def validate_models(now: datetime | None = None) -> None:
                     fail(f"{item[0]}/{item[1]} V1 pricing must match Peak")
 
         if item == ("xai", "grok-4.3"):
-            tiers_by_id = {tier["id"]: tier for tier in tiers}
-            if set(tiers_by_id) != {"short", "long"}:
-                fail("xai/grok-4.3 must have exactly short and long canonical pricing tiers")
-            short = tiers_by_id["short"]
-            long = tiers_by_id["long"]
-            if short["prompt_token_threshold"] != 200000 or short["threshold_comparison"] != "less_than":
-                fail("xai/grok-4.3 short tier must apply below 200000 prompt tokens")
-            if long["prompt_token_threshold"] != 200000 or long["threshold_comparison"] != "greater_than_or_equal":
-                fail("xai/grok-4.3 long tier must apply at or above 200000 prompt tokens")
-            if not short["calculation_default"] or long["calculation_default"]:
-                fail("xai/grok-4.3 short tier must be the only calculation default")
-            expected_prices = {
-                "short": {"input": 1.25, "cached_input": 0.2, "output": 2.5},
-                "long": {"input": 2.5, "cached_input": 0.4, "output": 5.0},
+            records = model.get("price_records") or []
+            expected = {
+                ("standard", "short"): ("1.25", "0.2", "2.5"),
+                ("standard", "long"): ("2.5", "0.4", "5"),
+                ("batch", "short"): ("1", "0.16", "2"),
+                ("batch", "long"): ("2", "0.32", "4"),
+                ("priority", "short"): ("2.5", "0.4", "5"),
+                ("priority", "long"): ("5", "0.8", "10"),
             }
-            for tier_id, expected in expected_prices.items():
-                actual = {field: tiers_by_id[tier_id][field] for field in expected}
-                if actual != expected:
-                    fail(f"xai/grok-4.3 {tier_id} tier price mismatch")
-            short_projection = {field: short[field] for field in ("input", "cached_input", "output")}
-            v1_projection = {field: pricing[field] for field in ("input", "cached_input", "output")}
-            if short_projection != v1_projection:
-                fail("xai/grok-4.3 V1 pricing must match its canonical short tier")
+            by_mode_context = {(record["processing_mode"], record["context_class"]): record for record in records}
+            if set(by_mode_context) != set(expected) or len(records) != len(expected):
+                fail("xai/grok-4.3 must declare Standard, Batch, and Priority short/long prices")
+            for key, amounts in expected.items():
+                record = by_mode_context[key]
+                selection = record.get("tier_selection") or {}
+                if (
+                    record["prompt_token_threshold"] != 200000
+                    or selection.get("comparison") != ("less_than" if key[1] == "short" else "greater_than_or_equal")
+                    or selection.get("token_basis") != "total_prompt_tokens"
+                    or selection.get("cached_prompt_tokens_included") is not True
+                    or selection.get("whole_request_pricing") is not True
+                ):
+                    fail(f"xai/grok-4.3 {key} tier selection mismatch")
+                if tuple(charge["amount"] for charge in record["charges"]) != amounts:
+                    fail(f"xai/grok-4.3 {key} charge mismatch")
+                if record["calculation_default"] is not (key == ("standard", "short")):
+                    fail(f"xai/grok-4.3 {key} default mismatch")
+            short = by_mode_context[("standard", "short")]
+            short_charges = {charge["component"]: float(charge["amount"]) for charge in short["charges"]}
+            if any(pricing[field] != short_charges[field] for field in ("input", "cached_input", "output")):
+                fail("xai/grok-4.3 V1 pricing must match Standard short charges")
+
 
 
 def validate_outputs() -> None:

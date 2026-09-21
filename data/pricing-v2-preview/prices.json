@@ -237,6 +237,13 @@
         "unit": "per_1m_tokens"
       },
       {
+        "amount": "2",
+        "chargeId": "price:anthropic/claude-haiku-4.5:standard:short:current:cache_write_1h:text:per_1m_tokens",
+        "component": "cache_write_1h",
+        "modality": "text",
+        "unit": "per_1m_tokens"
+      },
+      {
         "amount": "5",
         "chargeId": "price:anthropic/claude-haiku-4.5:standard:short:current:output:text:per_1m_tokens",
         "component": "output",
@@ -532,6 +539,13 @@
         "unit": "per_1m_tokens"
       },
       {
+        "amount": "10",
+        "chargeId": "price:anthropic/claude-opus-4.8:standard:short:current:cache_write_1h:text:per_1m_tokens",
+        "component": "cache_write_1h",
+        "modality": "text",
+        "unit": "per_1m_tokens"
+      },
+      {
         "amount": "25",
         "chargeId": "price:anthropic/claude-opus-4.8:standard:short:current:output:text:per_1m_tokens",
         "component": "output",
@@ -769,6 +783,13 @@
         "amount": "3.75",
         "chargeId": "price:anthropic/claude-sonnet-4.6:standard:short:current:cache_write_5m:text:per_1m_tokens",
         "component": "cache_write_5m",
+        "modality": "text",
+        "unit": "per_1m_tokens"
+      },
+      {
+        "amount": "6",
+        "chargeId": "price:anthropic/claude-sonnet-4.6:standard:short:current:cache_write_1h:text:per_1m_tokens",
+        "component": "cache_write_1h",
         "modality": "text",
         "unit": "per_1m_tokens"
       },
@@ -1413,7 +1434,7 @@
     ],
     "contextClass": "short",
     "currency": "USD",
-    "effectiveFrom": "2024-08-01",
+    "effectiveFrom": null,
     "effectiveUntil": null,
     "modelInternalId": "cohere/command-r-plus-08-2024",
     "pricingId": "price:cohere/command-r-plus-08-2024:standard:short:current",
@@ -2332,7 +2353,8 @@
     "verificationStatus": "verified"
   },
   {
-    "billingNote": "Rates are for prompts up to 200k tokens. Google lists higher rates above 200k tokens in the official pricing table.",
+    "availabilityRules": [],
+    "billingNote": "Paid token rates depend on the full prompt length, including cached prefix: at most 200,000 tokens uses short rates, above 200,000 uses long rates for input, cached input and output. Batch and Flex cache-read rates equal Standard; Priority has its own rates. Cached-content storage per token-hour is a separate time charge and not included in token inference estimates; no pricing effective date is stated.",
     "calculationDefault": true,
     "charges": [
       {
@@ -2357,15 +2379,28 @@
         "unit": "per_1m_tokens"
       }
     ],
+    "checkedAt": "2026-09-20T11:05:13Z",
     "contextClass": "short",
     "currency": "USD",
+    "defaultAvailabilityStatus": "available",
     "effectiveFrom": null,
     "effectiveUntil": null,
     "modelInternalId": "google-gemini/gemini-2.5-pro",
+    "priceAdjustments": [],
     "pricingId": "price:google-gemini/gemini-2.5-pro:standard:short:current",
+    "pricingStatus": "current",
     "processingMode": "standard",
-    "promptTokenThreshold": null,
+    "promptTokenThreshold": 200000,
     "regionPolicy": "global",
+    "regionSelector": {
+      "dataResidencies": [
+        "global"
+      ],
+      "endpointGeographies": [
+        "global"
+      ],
+      "pricingGeography": "global_base"
+    },
     "sourceDatasetIds": {
       "publicDatasetIds": [
         "gemini-2.5-pro"
@@ -2375,18 +2410,104 @@
       ]
     },
     "sourceRefs": [
+      "source:google-gemini:ai-google-dev-gemini-api-docs-generate-content-caching",
       "source:google-gemini:ai-google-dev-gemini-api-docs-pricing"
     ],
-    "verificationStatus": "verified"
+    "tierSelection": {
+      "cachedPromptTokensIncluded": true,
+      "comparison": "less_than_or_equal",
+      "tokenBasis": "total_prompt_tokens",
+      "wholeRequestPricing": true
+    },
+    "verificationStatus": "verified",
+    "verifiedAt": "2026-09-20T11:05:13Z"
   },
   {
-    "billingNote": "Batch projection derived from explicit Public V1 batch fields for google-gemini/gemini-2.5-pro.",
+    "availabilityRules": [],
+    "billingNote": "Paid token rates depend on the full prompt length, including cached prefix: at most 200,000 tokens uses short rates, above 200,000 uses long rates for input, cached input and output. Batch and Flex cache-read rates equal Standard; Priority has its own rates. Cached-content storage per token-hour is a separate time charge and not included in token inference estimates; no pricing effective date is stated.",
+    "calculationDefault": false,
+    "charges": [
+      {
+        "amount": "2.5",
+        "chargeId": "price:google-gemini/gemini-2.5-pro:standard:long:current:input:text:per_1m_tokens",
+        "component": "input",
+        "modality": "text",
+        "unit": "per_1m_tokens"
+      },
+      {
+        "amount": "0.25",
+        "chargeId": "price:google-gemini/gemini-2.5-pro:standard:long:current:cached_input:text:per_1m_tokens",
+        "component": "cached_input",
+        "modality": "text",
+        "unit": "per_1m_tokens"
+      },
+      {
+        "amount": "15",
+        "chargeId": "price:google-gemini/gemini-2.5-pro:standard:long:current:output:text:per_1m_tokens",
+        "component": "output",
+        "modality": "text",
+        "unit": "per_1m_tokens"
+      }
+    ],
+    "checkedAt": "2026-09-20T11:05:13Z",
+    "contextClass": "long",
+    "currency": "USD",
+    "defaultAvailabilityStatus": "available",
+    "effectiveFrom": null,
+    "effectiveUntil": null,
+    "modelInternalId": "google-gemini/gemini-2.5-pro",
+    "priceAdjustments": [],
+    "pricingId": "price:google-gemini/gemini-2.5-pro:standard:long:current",
+    "pricingStatus": "current",
+    "processingMode": "standard",
+    "promptTokenThreshold": 200000,
+    "regionPolicy": "global",
+    "regionSelector": {
+      "dataResidencies": [
+        "global"
+      ],
+      "endpointGeographies": [
+        "global"
+      ],
+      "pricingGeography": "global_base"
+    },
+    "sourceDatasetIds": {
+      "publicDatasetIds": [
+        "gemini-2.5-pro"
+      ],
+      "websiteIds": [
+        "gemini-2.5-pro"
+      ]
+    },
+    "sourceRefs": [
+      "source:google-gemini:ai-google-dev-gemini-api-docs-generate-content-caching",
+      "source:google-gemini:ai-google-dev-gemini-api-docs-pricing"
+    ],
+    "tierSelection": {
+      "cachedPromptTokensIncluded": true,
+      "comparison": "greater_than",
+      "tokenBasis": "total_prompt_tokens",
+      "wholeRequestPricing": true
+    },
+    "verificationStatus": "verified",
+    "verifiedAt": "2026-09-20T11:05:13Z"
+  },
+  {
+    "availabilityRules": [],
+    "billingNote": "Paid token rates depend on the full prompt length, including cached prefix: at most 200,000 tokens uses short rates, above 200,000 uses long rates for input, cached input and output. Batch and Flex cache-read rates equal Standard; Priority has its own rates. Cached-content storage per token-hour is a separate time charge and not included in token inference estimates; no pricing effective date is stated.",
     "calculationDefault": false,
     "charges": [
       {
         "amount": "0.625",
         "chargeId": "price:google-gemini/gemini-2.5-pro:batch:short:current:input:text:per_1m_tokens",
         "component": "input",
+        "modality": "text",
+        "unit": "per_1m_tokens"
+      },
+      {
+        "amount": "0.125",
+        "chargeId": "price:google-gemini/gemini-2.5-pro:batch:short:current:cached_input:text:per_1m_tokens",
+        "component": "cached_input",
         "modality": "text",
         "unit": "per_1m_tokens"
       },
@@ -2398,15 +2519,28 @@
         "unit": "per_1m_tokens"
       }
     ],
+    "checkedAt": "2026-09-20T11:05:13Z",
     "contextClass": "short",
     "currency": "USD",
+    "defaultAvailabilityStatus": "available",
     "effectiveFrom": null,
     "effectiveUntil": null,
     "modelInternalId": "google-gemini/gemini-2.5-pro",
+    "priceAdjustments": [],
     "pricingId": "price:google-gemini/gemini-2.5-pro:batch:short:current",
+    "pricingStatus": "current",
     "processingMode": "batch",
-    "promptTokenThreshold": null,
+    "promptTokenThreshold": 200000,
     "regionPolicy": "global",
+    "regionSelector": {
+      "dataResidencies": [
+        "global"
+      ],
+      "endpointGeographies": [
+        "global"
+      ],
+      "pricingGeography": "global_base"
+    },
     "sourceDatasetIds": {
       "publicDatasetIds": [
         "gemini-2.5-pro"
@@ -2416,9 +2550,367 @@
       ]
     },
     "sourceRefs": [
+      "source:google-gemini:ai-google-dev-gemini-api-docs-generate-content-caching",
       "source:google-gemini:ai-google-dev-gemini-api-docs-pricing"
     ],
-    "verificationStatus": "verified"
+    "tierSelection": {
+      "cachedPromptTokensIncluded": true,
+      "comparison": "less_than_or_equal",
+      "tokenBasis": "total_prompt_tokens",
+      "wholeRequestPricing": true
+    },
+    "verificationStatus": "verified",
+    "verifiedAt": "2026-09-20T11:05:13Z"
+  },
+  {
+    "availabilityRules": [],
+    "billingNote": "Paid token rates depend on the full prompt length, including cached prefix: at most 200,000 tokens uses short rates, above 200,000 uses long rates for input, cached input and output. Batch and Flex cache-read rates equal Standard; Priority has its own rates. Cached-content storage per token-hour is a separate time charge and not included in token inference estimates; no pricing effective date is stated.",
+    "calculationDefault": false,
+    "charges": [
+      {
+        "amount": "1.25",
+        "chargeId": "price:google-gemini/gemini-2.5-pro:batch:long:current:input:text:per_1m_tokens",
+        "component": "input",
+        "modality": "text",
+        "unit": "per_1m_tokens"
+      },
+      {
+        "amount": "0.25",
+        "chargeId": "price:google-gemini/gemini-2.5-pro:batch:long:current:cached_input:text:per_1m_tokens",
+        "component": "cached_input",
+        "modality": "text",
+        "unit": "per_1m_tokens"
+      },
+      {
+        "amount": "7.5",
+        "chargeId": "price:google-gemini/gemini-2.5-pro:batch:long:current:output:text:per_1m_tokens",
+        "component": "output",
+        "modality": "text",
+        "unit": "per_1m_tokens"
+      }
+    ],
+    "checkedAt": "2026-09-20T11:05:13Z",
+    "contextClass": "long",
+    "currency": "USD",
+    "defaultAvailabilityStatus": "available",
+    "effectiveFrom": null,
+    "effectiveUntil": null,
+    "modelInternalId": "google-gemini/gemini-2.5-pro",
+    "priceAdjustments": [],
+    "pricingId": "price:google-gemini/gemini-2.5-pro:batch:long:current",
+    "pricingStatus": "current",
+    "processingMode": "batch",
+    "promptTokenThreshold": 200000,
+    "regionPolicy": "global",
+    "regionSelector": {
+      "dataResidencies": [
+        "global"
+      ],
+      "endpointGeographies": [
+        "global"
+      ],
+      "pricingGeography": "global_base"
+    },
+    "sourceDatasetIds": {
+      "publicDatasetIds": [
+        "gemini-2.5-pro"
+      ],
+      "websiteIds": [
+        "gemini-2.5-pro"
+      ]
+    },
+    "sourceRefs": [
+      "source:google-gemini:ai-google-dev-gemini-api-docs-generate-content-caching",
+      "source:google-gemini:ai-google-dev-gemini-api-docs-pricing"
+    ],
+    "tierSelection": {
+      "cachedPromptTokensIncluded": true,
+      "comparison": "greater_than",
+      "tokenBasis": "total_prompt_tokens",
+      "wholeRequestPricing": true
+    },
+    "verificationStatus": "verified",
+    "verifiedAt": "2026-09-20T11:05:13Z"
+  },
+  {
+    "availabilityRules": [],
+    "billingNote": "Paid token rates depend on the full prompt length, including cached prefix: at most 200,000 tokens uses short rates, above 200,000 uses long rates for input, cached input and output. Batch and Flex cache-read rates equal Standard; Priority has its own rates. Cached-content storage per token-hour is a separate time charge and not included in token inference estimates; no pricing effective date is stated.",
+    "calculationDefault": false,
+    "charges": [
+      {
+        "amount": "0.625",
+        "chargeId": "price:google-gemini/gemini-2.5-pro:flex:short:current:input:text:per_1m_tokens",
+        "component": "input",
+        "modality": "text",
+        "unit": "per_1m_tokens"
+      },
+      {
+        "amount": "0.125",
+        "chargeId": "price:google-gemini/gemini-2.5-pro:flex:short:current:cached_input:text:per_1m_tokens",
+        "component": "cached_input",
+        "modality": "text",
+        "unit": "per_1m_tokens"
+      },
+      {
+        "amount": "5",
+        "chargeId": "price:google-gemini/gemini-2.5-pro:flex:short:current:output:text:per_1m_tokens",
+        "component": "output",
+        "modality": "text",
+        "unit": "per_1m_tokens"
+      }
+    ],
+    "checkedAt": "2026-09-20T11:05:13Z",
+    "contextClass": "short",
+    "currency": "USD",
+    "defaultAvailabilityStatus": "available",
+    "effectiveFrom": null,
+    "effectiveUntil": null,
+    "modelInternalId": "google-gemini/gemini-2.5-pro",
+    "priceAdjustments": [],
+    "pricingId": "price:google-gemini/gemini-2.5-pro:flex:short:current",
+    "pricingStatus": "current",
+    "processingMode": "flex",
+    "promptTokenThreshold": 200000,
+    "regionPolicy": "global",
+    "regionSelector": {
+      "dataResidencies": [
+        "global"
+      ],
+      "endpointGeographies": [
+        "global"
+      ],
+      "pricingGeography": "global_base"
+    },
+    "sourceDatasetIds": {
+      "publicDatasetIds": [
+        "gemini-2.5-pro"
+      ],
+      "websiteIds": [
+        "gemini-2.5-pro"
+      ]
+    },
+    "sourceRefs": [
+      "source:google-gemini:ai-google-dev-gemini-api-docs-generate-content-caching",
+      "source:google-gemini:ai-google-dev-gemini-api-docs-pricing"
+    ],
+    "tierSelection": {
+      "cachedPromptTokensIncluded": true,
+      "comparison": "less_than_or_equal",
+      "tokenBasis": "total_prompt_tokens",
+      "wholeRequestPricing": true
+    },
+    "verificationStatus": "verified",
+    "verifiedAt": "2026-09-20T11:05:13Z"
+  },
+  {
+    "availabilityRules": [],
+    "billingNote": "Paid token rates depend on the full prompt length, including cached prefix: at most 200,000 tokens uses short rates, above 200,000 uses long rates for input, cached input and output. Batch and Flex cache-read rates equal Standard; Priority has its own rates. Cached-content storage per token-hour is a separate time charge and not included in token inference estimates; no pricing effective date is stated.",
+    "calculationDefault": false,
+    "charges": [
+      {
+        "amount": "1.25",
+        "chargeId": "price:google-gemini/gemini-2.5-pro:flex:long:current:input:text:per_1m_tokens",
+        "component": "input",
+        "modality": "text",
+        "unit": "per_1m_tokens"
+      },
+      {
+        "amount": "0.25",
+        "chargeId": "price:google-gemini/gemini-2.5-pro:flex:long:current:cached_input:text:per_1m_tokens",
+        "component": "cached_input",
+        "modality": "text",
+        "unit": "per_1m_tokens"
+      },
+      {
+        "amount": "7.5",
+        "chargeId": "price:google-gemini/gemini-2.5-pro:flex:long:current:output:text:per_1m_tokens",
+        "component": "output",
+        "modality": "text",
+        "unit": "per_1m_tokens"
+      }
+    ],
+    "checkedAt": "2026-09-20T11:05:13Z",
+    "contextClass": "long",
+    "currency": "USD",
+    "defaultAvailabilityStatus": "available",
+    "effectiveFrom": null,
+    "effectiveUntil": null,
+    "modelInternalId": "google-gemini/gemini-2.5-pro",
+    "priceAdjustments": [],
+    "pricingId": "price:google-gemini/gemini-2.5-pro:flex:long:current",
+    "pricingStatus": "current",
+    "processingMode": "flex",
+    "promptTokenThreshold": 200000,
+    "regionPolicy": "global",
+    "regionSelector": {
+      "dataResidencies": [
+        "global"
+      ],
+      "endpointGeographies": [
+        "global"
+      ],
+      "pricingGeography": "global_base"
+    },
+    "sourceDatasetIds": {
+      "publicDatasetIds": [
+        "gemini-2.5-pro"
+      ],
+      "websiteIds": [
+        "gemini-2.5-pro"
+      ]
+    },
+    "sourceRefs": [
+      "source:google-gemini:ai-google-dev-gemini-api-docs-generate-content-caching",
+      "source:google-gemini:ai-google-dev-gemini-api-docs-pricing"
+    ],
+    "tierSelection": {
+      "cachedPromptTokensIncluded": true,
+      "comparison": "greater_than",
+      "tokenBasis": "total_prompt_tokens",
+      "wholeRequestPricing": true
+    },
+    "verificationStatus": "verified",
+    "verifiedAt": "2026-09-20T11:05:13Z"
+  },
+  {
+    "availabilityRules": [],
+    "billingNote": "Paid token rates depend on the full prompt length, including cached prefix: at most 200,000 tokens uses short rates, above 200,000 uses long rates for input, cached input and output. Batch and Flex cache-read rates equal Standard; Priority has its own rates. Cached-content storage per token-hour is a separate time charge and not included in token inference estimates; no pricing effective date is stated.",
+    "calculationDefault": false,
+    "charges": [
+      {
+        "amount": "2.25",
+        "chargeId": "price:google-gemini/gemini-2.5-pro:priority:short:current:input:text:per_1m_tokens",
+        "component": "input",
+        "modality": "text",
+        "unit": "per_1m_tokens"
+      },
+      {
+        "amount": "0.225",
+        "chargeId": "price:google-gemini/gemini-2.5-pro:priority:short:current:cached_input:text:per_1m_tokens",
+        "component": "cached_input",
+        "modality": "text",
+        "unit": "per_1m_tokens"
+      },
+      {
+        "amount": "18",
+        "chargeId": "price:google-gemini/gemini-2.5-pro:priority:short:current:output:text:per_1m_tokens",
+        "component": "output",
+        "modality": "text",
+        "unit": "per_1m_tokens"
+      }
+    ],
+    "checkedAt": "2026-09-20T11:05:13Z",
+    "contextClass": "short",
+    "currency": "USD",
+    "defaultAvailabilityStatus": "available",
+    "effectiveFrom": null,
+    "effectiveUntil": null,
+    "modelInternalId": "google-gemini/gemini-2.5-pro",
+    "priceAdjustments": [],
+    "pricingId": "price:google-gemini/gemini-2.5-pro:priority:short:current",
+    "pricingStatus": "current",
+    "processingMode": "priority",
+    "promptTokenThreshold": 200000,
+    "regionPolicy": "global",
+    "regionSelector": {
+      "dataResidencies": [
+        "global"
+      ],
+      "endpointGeographies": [
+        "global"
+      ],
+      "pricingGeography": "global_base"
+    },
+    "sourceDatasetIds": {
+      "publicDatasetIds": [
+        "gemini-2.5-pro"
+      ],
+      "websiteIds": [
+        "gemini-2.5-pro"
+      ]
+    },
+    "sourceRefs": [
+      "source:google-gemini:ai-google-dev-gemini-api-docs-generate-content-caching",
+      "source:google-gemini:ai-google-dev-gemini-api-docs-pricing"
+    ],
+    "tierSelection": {
+      "cachedPromptTokensIncluded": true,
+      "comparison": "less_than_or_equal",
+      "tokenBasis": "total_prompt_tokens",
+      "wholeRequestPricing": true
+    },
+    "verificationStatus": "verified",
+    "verifiedAt": "2026-09-20T11:05:13Z"
+  },
+  {
+    "availabilityRules": [],
+    "billingNote": "Paid token rates depend on the full prompt length, including cached prefix: at most 200,000 tokens uses short rates, above 200,000 uses long rates for input, cached input and output. Batch and Flex cache-read rates equal Standard; Priority has its own rates. Cached-content storage per token-hour is a separate time charge and not included in token inference estimates; no pricing effective date is stated.",
+    "calculationDefault": false,
+    "charges": [
+      {
+        "amount": "4.5",
+        "chargeId": "price:google-gemini/gemini-2.5-pro:priority:long:current:input:text:per_1m_tokens",
+        "component": "input",
+        "modality": "text",
+        "unit": "per_1m_tokens"
+      },
+      {
+        "amount": "0.45",
+        "chargeId": "price:google-gemini/gemini-2.5-pro:priority:long:current:cached_input:text:per_1m_tokens",
+        "component": "cached_input",
+        "modality": "text",
+        "unit": "per_1m_tokens"
+      },
+      {
+        "amount": "27",
+        "chargeId": "price:google-gemini/gemini-2.5-pro:priority:long:current:output:text:per_1m_tokens",
+        "component": "output",
+        "modality": "text",
+        "unit": "per_1m_tokens"
+      }
+    ],
+    "checkedAt": "2026-09-20T11:05:13Z",
+    "contextClass": "long",
+    "currency": "USD",
+    "defaultAvailabilityStatus": "available",
+    "effectiveFrom": null,
+    "effectiveUntil": null,
+    "modelInternalId": "google-gemini/gemini-2.5-pro",
+    "priceAdjustments": [],
+    "pricingId": "price:google-gemini/gemini-2.5-pro:priority:long:current",
+    "pricingStatus": "current",
+    "processingMode": "priority",
+    "promptTokenThreshold": 200000,
+    "regionPolicy": "global",
+    "regionSelector": {
+      "dataResidencies": [
+        "global"
+      ],
+      "endpointGeographies": [
+        "global"
+      ],
+      "pricingGeography": "global_base"
+    },
+    "sourceDatasetIds": {
+      "publicDatasetIds": [
+        "gemini-2.5-pro"
+      ],
+      "websiteIds": [
+        "gemini-2.5-pro"
+      ]
+    },
+    "sourceRefs": [
+      "source:google-gemini:ai-google-dev-gemini-api-docs-generate-content-caching",
+      "source:google-gemini:ai-google-dev-gemini-api-docs-pricing"
+    ],
+    "tierSelection": {
+      "cachedPromptTokensIncluded": true,
+      "comparison": "greater_than",
+      "tokenBasis": "total_prompt_tokens",
+      "wholeRequestPricing": true
+    },
+    "verificationStatus": "verified",
+    "verifiedAt": "2026-09-20T11:05:13Z"
   },
   {
     "billingNote": "Preview model pricing may change before stable release.",
@@ -5536,7 +6028,8 @@
     "verificationStatus": "verified"
   },
   {
-    "billingNote": "OpenAI official pricing page lists standard and batch rates per 1M tokens. Batch prices are 50% of the listed standard price where shown.",
+    "availabilityRules": [],
+    "billingNote": "Global token rates. More than 272,000 total input tokens, including cached input, price the full session at 2x input and 1.5x output in Standard, Batch, and Flex. Batch and Flex token rates are half Standard. An official pricing effective date is not stated.",
     "calculationDefault": true,
     "charges": [
       {
@@ -5561,15 +6054,28 @@
         "unit": "per_1m_tokens"
       }
     ],
+    "checkedAt": "2026-09-20T11:03:36Z",
     "contextClass": "short",
     "currency": "USD",
+    "defaultAvailabilityStatus": "available",
     "effectiveFrom": null,
     "effectiveUntil": null,
     "modelInternalId": "openai/gpt-5.5",
+    "priceAdjustments": [],
     "pricingId": "price:openai/gpt-5.5:standard:short:current",
+    "pricingStatus": "current",
     "processingMode": "standard",
-    "promptTokenThreshold": null,
+    "promptTokenThreshold": 272000,
     "regionPolicy": "global",
+    "regionSelector": {
+      "dataResidencies": [
+        "global"
+      ],
+      "endpointGeographies": [
+        "global"
+      ],
+      "pricingGeography": "global_base"
+    },
     "sourceDatasetIds": {
       "publicDatasetIds": [
         "gpt-5.5"
@@ -5579,19 +6085,104 @@
       ]
     },
     "sourceRefs": [
-      "source:openai:developers-openai-com-api-docs-pricing",
-      "source:openai:platform-openai-com-docs-pricing"
+      "source:openai:developers-openai-com-api-docs-guides-prompt-caching",
+      "source:openai:developers-openai-com-api-docs-models-gpt-5-5"
     ],
-    "verificationStatus": "verified"
+    "tierSelection": {
+      "cachedPromptTokensIncluded": true,
+      "comparison": "less_than_or_equal",
+      "tokenBasis": "total_prompt_tokens",
+      "wholeRequestPricing": true
+    },
+    "verificationStatus": "verified",
+    "verifiedAt": "2026-09-20T11:03:36Z"
   },
   {
-    "billingNote": "Batch projection derived from explicit Public V1 batch fields for openai/gpt-5.5.",
+    "availabilityRules": [],
+    "billingNote": "Global token rates. More than 272,000 total input tokens, including cached input, price the full session at 2x input and 1.5x output in Standard, Batch, and Flex. Batch and Flex token rates are half Standard. An official pricing effective date is not stated.",
+    "calculationDefault": false,
+    "charges": [
+      {
+        "amount": "10",
+        "chargeId": "price:openai/gpt-5.5:standard:long:current:input:text:per_1m_tokens",
+        "component": "input",
+        "modality": "text",
+        "unit": "per_1m_tokens"
+      },
+      {
+        "amount": "1",
+        "chargeId": "price:openai/gpt-5.5:standard:long:current:cached_input:text:per_1m_tokens",
+        "component": "cached_input",
+        "modality": "text",
+        "unit": "per_1m_tokens"
+      },
+      {
+        "amount": "45",
+        "chargeId": "price:openai/gpt-5.5:standard:long:current:output:text:per_1m_tokens",
+        "component": "output",
+        "modality": "text",
+        "unit": "per_1m_tokens"
+      }
+    ],
+    "checkedAt": "2026-09-20T11:03:36Z",
+    "contextClass": "long",
+    "currency": "USD",
+    "defaultAvailabilityStatus": "available",
+    "effectiveFrom": null,
+    "effectiveUntil": null,
+    "modelInternalId": "openai/gpt-5.5",
+    "priceAdjustments": [],
+    "pricingId": "price:openai/gpt-5.5:standard:long:current",
+    "pricingStatus": "current",
+    "processingMode": "standard",
+    "promptTokenThreshold": 272000,
+    "regionPolicy": "global",
+    "regionSelector": {
+      "dataResidencies": [
+        "global"
+      ],
+      "endpointGeographies": [
+        "global"
+      ],
+      "pricingGeography": "global_base"
+    },
+    "sourceDatasetIds": {
+      "publicDatasetIds": [
+        "gpt-5.5"
+      ],
+      "websiteIds": [
+        "gpt-5.5"
+      ]
+    },
+    "sourceRefs": [
+      "source:openai:developers-openai-com-api-docs-guides-prompt-caching",
+      "source:openai:developers-openai-com-api-docs-models-gpt-5-5"
+    ],
+    "tierSelection": {
+      "cachedPromptTokensIncluded": true,
+      "comparison": "greater_than",
+      "tokenBasis": "total_prompt_tokens",
+      "wholeRequestPricing": true
+    },
+    "verificationStatus": "verified",
+    "verifiedAt": "2026-09-20T11:03:36Z"
+  },
+  {
+    "availabilityRules": [],
+    "billingNote": "Global token rates. More than 272,000 total input tokens, including cached input, price the full session at 2x input and 1.5x output in Standard, Batch, and Flex. Batch and Flex token rates are half Standard. An official pricing effective date is not stated.",
     "calculationDefault": false,
     "charges": [
       {
         "amount": "2.5",
         "chargeId": "price:openai/gpt-5.5:batch:short:current:input:text:per_1m_tokens",
         "component": "input",
+        "modality": "text",
+        "unit": "per_1m_tokens"
+      },
+      {
+        "amount": "0.25",
+        "chargeId": "price:openai/gpt-5.5:batch:short:current:cached_input:text:per_1m_tokens",
+        "component": "cached_input",
         "modality": "text",
         "unit": "per_1m_tokens"
       },
@@ -5603,15 +6194,28 @@
         "unit": "per_1m_tokens"
       }
     ],
+    "checkedAt": "2026-09-20T11:03:36Z",
     "contextClass": "short",
     "currency": "USD",
+    "defaultAvailabilityStatus": "available",
     "effectiveFrom": null,
     "effectiveUntil": null,
     "modelInternalId": "openai/gpt-5.5",
+    "priceAdjustments": [],
     "pricingId": "price:openai/gpt-5.5:batch:short:current",
+    "pricingStatus": "current",
     "processingMode": "batch",
-    "promptTokenThreshold": null,
+    "promptTokenThreshold": 272000,
     "regionPolicy": "global",
+    "regionSelector": {
+      "dataResidencies": [
+        "global"
+      ],
+      "endpointGeographies": [
+        "global"
+      ],
+      "pricingGeography": "global_base"
+    },
     "sourceDatasetIds": {
       "publicDatasetIds": [
         "gpt-5.5"
@@ -5621,10 +6225,231 @@
       ]
     },
     "sourceRefs": [
-      "source:openai:developers-openai-com-api-docs-pricing",
-      "source:openai:platform-openai-com-docs-pricing"
+      "source:openai:developers-openai-com-api-docs-guides-batch",
+      "source:openai:developers-openai-com-api-docs-guides-prompt-caching",
+      "source:openai:developers-openai-com-api-docs-models-gpt-5-5"
     ],
-    "verificationStatus": "verified"
+    "tierSelection": {
+      "cachedPromptTokensIncluded": true,
+      "comparison": "less_than_or_equal",
+      "tokenBasis": "total_prompt_tokens",
+      "wholeRequestPricing": true
+    },
+    "verificationStatus": "verified",
+    "verifiedAt": "2026-09-20T11:03:36Z"
+  },
+  {
+    "availabilityRules": [],
+    "billingNote": "Global token rates. More than 272,000 total input tokens, including cached input, price the full session at 2x input and 1.5x output in Standard, Batch, and Flex. Batch and Flex token rates are half Standard. An official pricing effective date is not stated.",
+    "calculationDefault": false,
+    "charges": [
+      {
+        "amount": "5",
+        "chargeId": "price:openai/gpt-5.5:batch:long:current:input:text:per_1m_tokens",
+        "component": "input",
+        "modality": "text",
+        "unit": "per_1m_tokens"
+      },
+      {
+        "amount": "0.5",
+        "chargeId": "price:openai/gpt-5.5:batch:long:current:cached_input:text:per_1m_tokens",
+        "component": "cached_input",
+        "modality": "text",
+        "unit": "per_1m_tokens"
+      },
+      {
+        "amount": "22.5",
+        "chargeId": "price:openai/gpt-5.5:batch:long:current:output:text:per_1m_tokens",
+        "component": "output",
+        "modality": "text",
+        "unit": "per_1m_tokens"
+      }
+    ],
+    "checkedAt": "2026-09-20T11:03:36Z",
+    "contextClass": "long",
+    "currency": "USD",
+    "defaultAvailabilityStatus": "available",
+    "effectiveFrom": null,
+    "effectiveUntil": null,
+    "modelInternalId": "openai/gpt-5.5",
+    "priceAdjustments": [],
+    "pricingId": "price:openai/gpt-5.5:batch:long:current",
+    "pricingStatus": "current",
+    "processingMode": "batch",
+    "promptTokenThreshold": 272000,
+    "regionPolicy": "global",
+    "regionSelector": {
+      "dataResidencies": [
+        "global"
+      ],
+      "endpointGeographies": [
+        "global"
+      ],
+      "pricingGeography": "global_base"
+    },
+    "sourceDatasetIds": {
+      "publicDatasetIds": [
+        "gpt-5.5"
+      ],
+      "websiteIds": [
+        "gpt-5.5"
+      ]
+    },
+    "sourceRefs": [
+      "source:openai:developers-openai-com-api-docs-guides-batch",
+      "source:openai:developers-openai-com-api-docs-guides-prompt-caching",
+      "source:openai:developers-openai-com-api-docs-models-gpt-5-5"
+    ],
+    "tierSelection": {
+      "cachedPromptTokensIncluded": true,
+      "comparison": "greater_than",
+      "tokenBasis": "total_prompt_tokens",
+      "wholeRequestPricing": true
+    },
+    "verificationStatus": "verified",
+    "verifiedAt": "2026-09-20T11:03:36Z"
+  },
+  {
+    "availabilityRules": [],
+    "billingNote": "Global token rates. More than 272,000 total input tokens, including cached input, price the full session at 2x input and 1.5x output in Standard, Batch, and Flex. Batch and Flex token rates are half Standard. An official pricing effective date is not stated.",
+    "calculationDefault": false,
+    "charges": [
+      {
+        "amount": "2.5",
+        "chargeId": "price:openai/gpt-5.5:flex:short:current:input:text:per_1m_tokens",
+        "component": "input",
+        "modality": "text",
+        "unit": "per_1m_tokens"
+      },
+      {
+        "amount": "0.25",
+        "chargeId": "price:openai/gpt-5.5:flex:short:current:cached_input:text:per_1m_tokens",
+        "component": "cached_input",
+        "modality": "text",
+        "unit": "per_1m_tokens"
+      },
+      {
+        "amount": "15",
+        "chargeId": "price:openai/gpt-5.5:flex:short:current:output:text:per_1m_tokens",
+        "component": "output",
+        "modality": "text",
+        "unit": "per_1m_tokens"
+      }
+    ],
+    "checkedAt": "2026-09-20T11:03:36Z",
+    "contextClass": "short",
+    "currency": "USD",
+    "defaultAvailabilityStatus": "available",
+    "effectiveFrom": null,
+    "effectiveUntil": null,
+    "modelInternalId": "openai/gpt-5.5",
+    "priceAdjustments": [],
+    "pricingId": "price:openai/gpt-5.5:flex:short:current",
+    "pricingStatus": "current",
+    "processingMode": "flex",
+    "promptTokenThreshold": 272000,
+    "regionPolicy": "global",
+    "regionSelector": {
+      "dataResidencies": [
+        "global"
+      ],
+      "endpointGeographies": [
+        "global"
+      ],
+      "pricingGeography": "global_base"
+    },
+    "sourceDatasetIds": {
+      "publicDatasetIds": [
+        "gpt-5.5"
+      ],
+      "websiteIds": [
+        "gpt-5.5"
+      ]
+    },
+    "sourceRefs": [
+      "source:openai:developers-openai-com-api-docs-guides-flex-processing",
+      "source:openai:developers-openai-com-api-docs-guides-prompt-caching",
+      "source:openai:developers-openai-com-api-docs-models-gpt-5-5"
+    ],
+    "tierSelection": {
+      "cachedPromptTokensIncluded": true,
+      "comparison": "less_than_or_equal",
+      "tokenBasis": "total_prompt_tokens",
+      "wholeRequestPricing": true
+    },
+    "verificationStatus": "verified",
+    "verifiedAt": "2026-09-20T11:03:36Z"
+  },
+  {
+    "availabilityRules": [],
+    "billingNote": "Global token rates. More than 272,000 total input tokens, including cached input, price the full session at 2x input and 1.5x output in Standard, Batch, and Flex. Batch and Flex token rates are half Standard. An official pricing effective date is not stated.",
+    "calculationDefault": false,
+    "charges": [
+      {
+        "amount": "5",
+        "chargeId": "price:openai/gpt-5.5:flex:long:current:input:text:per_1m_tokens",
+        "component": "input",
+        "modality": "text",
+        "unit": "per_1m_tokens"
+      },
+      {
+        "amount": "0.5",
+        "chargeId": "price:openai/gpt-5.5:flex:long:current:cached_input:text:per_1m_tokens",
+        "component": "cached_input",
+        "modality": "text",
+        "unit": "per_1m_tokens"
+      },
+      {
+        "amount": "22.5",
+        "chargeId": "price:openai/gpt-5.5:flex:long:current:output:text:per_1m_tokens",
+        "component": "output",
+        "modality": "text",
+        "unit": "per_1m_tokens"
+      }
+    ],
+    "checkedAt": "2026-09-20T11:03:36Z",
+    "contextClass": "long",
+    "currency": "USD",
+    "defaultAvailabilityStatus": "available",
+    "effectiveFrom": null,
+    "effectiveUntil": null,
+    "modelInternalId": "openai/gpt-5.5",
+    "priceAdjustments": [],
+    "pricingId": "price:openai/gpt-5.5:flex:long:current",
+    "pricingStatus": "current",
+    "processingMode": "flex",
+    "promptTokenThreshold": 272000,
+    "regionPolicy": "global",
+    "regionSelector": {
+      "dataResidencies": [
+        "global"
+      ],
+      "endpointGeographies": [
+        "global"
+      ],
+      "pricingGeography": "global_base"
+    },
+    "sourceDatasetIds": {
+      "publicDatasetIds": [
+        "gpt-5.5"
+      ],
+      "websiteIds": [
+        "gpt-5.5"
+      ]
+    },
+    "sourceRefs": [
+      "source:openai:developers-openai-com-api-docs-guides-flex-processing",
+      "source:openai:developers-openai-com-api-docs-guides-prompt-caching",
+      "source:openai:developers-openai-com-api-docs-models-gpt-5-5"
+    ],
+    "tierSelection": {
+      "cachedPromptTokensIncluded": true,
+      "comparison": "greater_than",
+      "tokenBasis": "total_prompt_tokens",
+      "wholeRequestPricing": true
+    },
+    "verificationStatus": "verified",
+    "verifiedAt": "2026-09-20T11:03:36Z"
   },
   {
     "billingNote": "V1 stores Standard short-context input and output prices plus Batch short-context input and output prices. GPT-5.5 Pro does not offer a cached-input discount, so cached_input is null rather than zero. Long-context Standard pricing is $60 input and $270 output per 1M tokens; the current official pricing page does not list long-context Batch rates for GPT-5.5 Pro.",
@@ -8965,7 +9790,8 @@
     "verifiedAt": "2026-09-06T05:12:08Z"
   },
   {
-    "billingNote": "V1 pricing remains the short-context compatibility projection. Canonical Pricing V2 tiers model standard short-context prompt tokens < 200K and long-context prompt tokens >= 200K. Total prompt tokens include cached prompt tokens, and the selected tier applies to the whole request. Grok 4.3 Batch API pricing receives a 20% discount and is outside these standard tiers.",
+    "availabilityRules": [],
+    "billingNote": "V1 is the short-context compatibility projection. For Standard, Batch, and Priority, the long-context tier starts at 200000 total prompt tokens including cached input and prices the whole request. Batch discounts all token types by 20%; Priority doubles all token rates when the response confirms priority service. Official price effective date is unstated.",
     "calculationDefault": true,
     "charges": [
       {
@@ -8990,21 +9816,35 @@
         "unit": "per_1m_tokens"
       }
     ],
+    "checkedAt": "2026-09-20T13:28:36Z",
     "contextClass": "short",
     "currency": "USD",
+    "defaultAvailabilityStatus": "available",
     "effectiveFrom": null,
     "effectiveUntil": null,
     "modelInternalId": "xai/grok-4.3",
+    "priceAdjustments": [],
     "pricingId": "price:xai/grok-4.3:standard:short:current",
     "pricingStatus": "current",
     "processingMode": "standard",
     "promptTokenThreshold": 200000,
     "regionPolicy": "global",
+    "regionSelector": {
+      "dataResidencies": [
+        "global"
+      ],
+      "endpointGeographies": [
+        "global"
+      ],
+      "pricingGeography": "global_base"
+    },
     "sourceDatasetIds": {
       "publicDatasetIds": [
         "grok-4.3"
       ],
-      "websiteIds": []
+      "websiteIds": [
+        "grok-4.3"
+      ]
     },
     "sourceRefs": [
       "source:xai:docs-x-ai-developers-advanced-api-usage-prompt-caching-usage-and-pricing",
@@ -9018,10 +9858,12 @@
       "tokenBasis": "total_prompt_tokens",
       "wholeRequestPricing": true
     },
-    "verificationStatus": "verified"
+    "verificationStatus": "verified",
+    "verifiedAt": "2026-09-20T13:28:36Z"
   },
   {
-    "billingNote": "V1 pricing remains the short-context compatibility projection. Canonical Pricing V2 tiers model standard short-context prompt tokens < 200K and long-context prompt tokens >= 200K. Total prompt tokens include cached prompt tokens, and the selected tier applies to the whole request. Grok 4.3 Batch API pricing receives a 20% discount and is outside these standard tiers.",
+    "availabilityRules": [],
+    "billingNote": "V1 is the short-context compatibility projection. For Standard, Batch, and Priority, the long-context tier starts at 200000 total prompt tokens including cached input and prices the whole request. Batch discounts all token types by 20%; Priority doubles all token rates when the response confirms priority service. Official price effective date is unstated.",
     "calculationDefault": false,
     "charges": [
       {
@@ -9046,21 +9888,35 @@
         "unit": "per_1m_tokens"
       }
     ],
+    "checkedAt": "2026-09-20T13:28:36Z",
     "contextClass": "long",
     "currency": "USD",
+    "defaultAvailabilityStatus": "available",
     "effectiveFrom": null,
     "effectiveUntil": null,
     "modelInternalId": "xai/grok-4.3",
+    "priceAdjustments": [],
     "pricingId": "price:xai/grok-4.3:standard:long:current",
     "pricingStatus": "current",
     "processingMode": "standard",
     "promptTokenThreshold": 200000,
     "regionPolicy": "global",
+    "regionSelector": {
+      "dataResidencies": [
+        "global"
+      ],
+      "endpointGeographies": [
+        "global"
+      ],
+      "pricingGeography": "global_base"
+    },
     "sourceDatasetIds": {
       "publicDatasetIds": [
         "grok-4.3"
       ],
-      "websiteIds": []
+      "websiteIds": [
+        "grok-4.3"
+      ]
     },
     "sourceRefs": [
       "source:xai:docs-x-ai-developers-advanced-api-usage-prompt-caching-usage-and-pricing",
@@ -9074,16 +9930,25 @@
       "tokenBasis": "total_prompt_tokens",
       "wholeRequestPricing": true
     },
-    "verificationStatus": "verified"
+    "verificationStatus": "verified",
+    "verifiedAt": "2026-09-20T13:28:36Z"
   },
   {
-    "billingNote": "Batch projection derived from explicit Public V1 batch fields for xai/grok-4.3.",
+    "availabilityRules": [],
+    "billingNote": "V1 is the short-context compatibility projection. For Standard, Batch, and Priority, the long-context tier starts at 200000 total prompt tokens including cached input and prices the whole request. Batch discounts all token types by 20%; Priority doubles all token rates when the response confirms priority service. Official price effective date is unstated.",
     "calculationDefault": false,
     "charges": [
       {
         "amount": "1",
         "chargeId": "price:xai/grok-4.3:batch:short:current:input:text:per_1m_tokens",
         "component": "input",
+        "modality": "text",
+        "unit": "per_1m_tokens"
+      },
+      {
+        "amount": "0.16",
+        "chargeId": "price:xai/grok-4.3:batch:short:current:cached_input:text:per_1m_tokens",
+        "component": "cached_input",
         "modality": "text",
         "unit": "per_1m_tokens"
       },
@@ -9095,21 +9960,35 @@
         "unit": "per_1m_tokens"
       }
     ],
+    "checkedAt": "2026-09-20T13:28:36Z",
     "contextClass": "short",
     "currency": "USD",
+    "defaultAvailabilityStatus": "available",
     "effectiveFrom": null,
     "effectiveUntil": null,
     "modelInternalId": "xai/grok-4.3",
+    "priceAdjustments": [],
     "pricingId": "price:xai/grok-4.3:batch:short:current",
     "pricingStatus": "current",
     "processingMode": "batch",
-    "promptTokenThreshold": null,
+    "promptTokenThreshold": 200000,
     "regionPolicy": "global",
+    "regionSelector": {
+      "dataResidencies": [
+        "global"
+      ],
+      "endpointGeographies": [
+        "global"
+      ],
+      "pricingGeography": "global_base"
+    },
     "sourceDatasetIds": {
       "publicDatasetIds": [
         "grok-4.3"
       ],
-      "websiteIds": []
+      "websiteIds": [
+        "grok-4.3"
+      ]
     },
     "sourceRefs": [
       "source:xai:docs-x-ai-developers-advanced-api-usage-prompt-caching-usage-and-pricing",
@@ -9117,10 +9996,236 @@
       "source:xai:docs-x-ai-developers-pricing",
       "source:xai:docs-x-ai-developers-rest-api-reference-inference-models"
     ],
-    "verificationStatus": "verified"
+    "tierSelection": {
+      "cachedPromptTokensIncluded": true,
+      "comparison": "less_than",
+      "tokenBasis": "total_prompt_tokens",
+      "wholeRequestPricing": true
+    },
+    "verificationStatus": "verified",
+    "verifiedAt": "2026-09-20T13:28:36Z"
   },
   {
-    "billingNote": "V1 stores short-context pricing. The long-context threshold is 200K tokens, where xAI lists $4 input, $0.60 cached input, and $12 output per 1M tokens. xAI Batch API documentation explicitly says Grok 4.5 is not supported, so Batch fields remain null. The 2026-07-16 announcement date is not used as effective_from because xAI does not publish a distinct pricing effective date.",
+    "availabilityRules": [],
+    "billingNote": "V1 is the short-context compatibility projection. For Standard, Batch, and Priority, the long-context tier starts at 200000 total prompt tokens including cached input and prices the whole request. Batch discounts all token types by 20%; Priority doubles all token rates when the response confirms priority service. Official price effective date is unstated.",
+    "calculationDefault": false,
+    "charges": [
+      {
+        "amount": "2",
+        "chargeId": "price:xai/grok-4.3:batch:long:current:input:text:per_1m_tokens",
+        "component": "input",
+        "modality": "text",
+        "unit": "per_1m_tokens"
+      },
+      {
+        "amount": "0.32",
+        "chargeId": "price:xai/grok-4.3:batch:long:current:cached_input:text:per_1m_tokens",
+        "component": "cached_input",
+        "modality": "text",
+        "unit": "per_1m_tokens"
+      },
+      {
+        "amount": "4",
+        "chargeId": "price:xai/grok-4.3:batch:long:current:output:text:per_1m_tokens",
+        "component": "output",
+        "modality": "text",
+        "unit": "per_1m_tokens"
+      }
+    ],
+    "checkedAt": "2026-09-20T13:28:36Z",
+    "contextClass": "long",
+    "currency": "USD",
+    "defaultAvailabilityStatus": "available",
+    "effectiveFrom": null,
+    "effectiveUntil": null,
+    "modelInternalId": "xai/grok-4.3",
+    "priceAdjustments": [],
+    "pricingId": "price:xai/grok-4.3:batch:long:current",
+    "pricingStatus": "current",
+    "processingMode": "batch",
+    "promptTokenThreshold": 200000,
+    "regionPolicy": "global",
+    "regionSelector": {
+      "dataResidencies": [
+        "global"
+      ],
+      "endpointGeographies": [
+        "global"
+      ],
+      "pricingGeography": "global_base"
+    },
+    "sourceDatasetIds": {
+      "publicDatasetIds": [
+        "grok-4.3"
+      ],
+      "websiteIds": [
+        "grok-4.3"
+      ]
+    },
+    "sourceRefs": [
+      "source:xai:docs-x-ai-developers-advanced-api-usage-prompt-caching-usage-and-pricing",
+      "source:xai:docs-x-ai-developers-models-grok-4-3",
+      "source:xai:docs-x-ai-developers-pricing",
+      "source:xai:docs-x-ai-developers-rest-api-reference-inference-models"
+    ],
+    "tierSelection": {
+      "cachedPromptTokensIncluded": true,
+      "comparison": "greater_than_or_equal",
+      "tokenBasis": "total_prompt_tokens",
+      "wholeRequestPricing": true
+    },
+    "verificationStatus": "verified",
+    "verifiedAt": "2026-09-20T13:28:36Z"
+  },
+  {
+    "availabilityRules": [],
+    "billingNote": "V1 is the short-context compatibility projection. For Standard, Batch, and Priority, the long-context tier starts at 200000 total prompt tokens including cached input and prices the whole request. Batch discounts all token types by 20%; Priority doubles all token rates when the response confirms priority service. Official price effective date is unstated.",
+    "calculationDefault": false,
+    "charges": [
+      {
+        "amount": "2.5",
+        "chargeId": "price:xai/grok-4.3:priority:short:current:input:text:per_1m_tokens",
+        "component": "input",
+        "modality": "text",
+        "unit": "per_1m_tokens"
+      },
+      {
+        "amount": "0.4",
+        "chargeId": "price:xai/grok-4.3:priority:short:current:cached_input:text:per_1m_tokens",
+        "component": "cached_input",
+        "modality": "text",
+        "unit": "per_1m_tokens"
+      },
+      {
+        "amount": "5",
+        "chargeId": "price:xai/grok-4.3:priority:short:current:output:text:per_1m_tokens",
+        "component": "output",
+        "modality": "text",
+        "unit": "per_1m_tokens"
+      }
+    ],
+    "checkedAt": "2026-09-20T13:28:36Z",
+    "contextClass": "short",
+    "currency": "USD",
+    "defaultAvailabilityStatus": "available",
+    "effectiveFrom": null,
+    "effectiveUntil": null,
+    "modelInternalId": "xai/grok-4.3",
+    "priceAdjustments": [],
+    "pricingId": "price:xai/grok-4.3:priority:short:current",
+    "pricingStatus": "current",
+    "processingMode": "priority",
+    "promptTokenThreshold": 200000,
+    "regionPolicy": "global",
+    "regionSelector": {
+      "dataResidencies": [
+        "global"
+      ],
+      "endpointGeographies": [
+        "global"
+      ],
+      "pricingGeography": "global_base"
+    },
+    "sourceDatasetIds": {
+      "publicDatasetIds": [
+        "grok-4.3"
+      ],
+      "websiteIds": [
+        "grok-4.3"
+      ]
+    },
+    "sourceRefs": [
+      "source:xai:docs-x-ai-developers-advanced-api-usage-priority-processing",
+      "source:xai:docs-x-ai-developers-advanced-api-usage-prompt-caching-usage-and-pricing",
+      "source:xai:docs-x-ai-developers-models-grok-4-3",
+      "source:xai:docs-x-ai-developers-pricing",
+      "source:xai:docs-x-ai-developers-rest-api-reference-inference-models"
+    ],
+    "tierSelection": {
+      "cachedPromptTokensIncluded": true,
+      "comparison": "less_than",
+      "tokenBasis": "total_prompt_tokens",
+      "wholeRequestPricing": true
+    },
+    "verificationStatus": "verified",
+    "verifiedAt": "2026-09-20T13:28:36Z"
+  },
+  {
+    "availabilityRules": [],
+    "billingNote": "V1 is the short-context compatibility projection. For Standard, Batch, and Priority, the long-context tier starts at 200000 total prompt tokens including cached input and prices the whole request. Batch discounts all token types by 20%; Priority doubles all token rates when the response confirms priority service. Official price effective date is unstated.",
+    "calculationDefault": false,
+    "charges": [
+      {
+        "amount": "5",
+        "chargeId": "price:xai/grok-4.3:priority:long:current:input:text:per_1m_tokens",
+        "component": "input",
+        "modality": "text",
+        "unit": "per_1m_tokens"
+      },
+      {
+        "amount": "0.8",
+        "chargeId": "price:xai/grok-4.3:priority:long:current:cached_input:text:per_1m_tokens",
+        "component": "cached_input",
+        "modality": "text",
+        "unit": "per_1m_tokens"
+      },
+      {
+        "amount": "10",
+        "chargeId": "price:xai/grok-4.3:priority:long:current:output:text:per_1m_tokens",
+        "component": "output",
+        "modality": "text",
+        "unit": "per_1m_tokens"
+      }
+    ],
+    "checkedAt": "2026-09-20T13:28:36Z",
+    "contextClass": "long",
+    "currency": "USD",
+    "defaultAvailabilityStatus": "available",
+    "effectiveFrom": null,
+    "effectiveUntil": null,
+    "modelInternalId": "xai/grok-4.3",
+    "priceAdjustments": [],
+    "pricingId": "price:xai/grok-4.3:priority:long:current",
+    "pricingStatus": "current",
+    "processingMode": "priority",
+    "promptTokenThreshold": 200000,
+    "regionPolicy": "global",
+    "regionSelector": {
+      "dataResidencies": [
+        "global"
+      ],
+      "endpointGeographies": [
+        "global"
+      ],
+      "pricingGeography": "global_base"
+    },
+    "sourceDatasetIds": {
+      "publicDatasetIds": [
+        "grok-4.3"
+      ],
+      "websiteIds": [
+        "grok-4.3"
+      ]
+    },
+    "sourceRefs": [
+      "source:xai:docs-x-ai-developers-advanced-api-usage-priority-processing",
+      "source:xai:docs-x-ai-developers-advanced-api-usage-prompt-caching-usage-and-pricing",
+      "source:xai:docs-x-ai-developers-models-grok-4-3",
+      "source:xai:docs-x-ai-developers-pricing",
+      "source:xai:docs-x-ai-developers-rest-api-reference-inference-models"
+    ],
+    "tierSelection": {
+      "cachedPromptTokensIncluded": true,
+      "comparison": "greater_than_or_equal",
+      "tokenBasis": "total_prompt_tokens",
+      "wholeRequestPricing": true
+    },
+    "verificationStatus": "verified",
+    "verifiedAt": "2026-09-20T13:28:36Z"
+  },
+  {
+    "availabilityRules": [],
+    "billingNote": "Global Standard token rates; total prompt tokens include cached tokens. At 200,000 tokens or more, long rates apply to every input, cached, and output token in the request. The model detail page says Batch API is not supported. No distinct pricing effective date is published.",
     "calculationDefault": true,
     "charges": [
       {
@@ -9145,15 +10250,28 @@
         "unit": "per_1m_tokens"
       }
     ],
+    "checkedAt": "2026-09-20T11:07:05Z",
     "contextClass": "short",
     "currency": "USD",
+    "defaultAvailabilityStatus": "available",
     "effectiveFrom": null,
     "effectiveUntil": null,
     "modelInternalId": "xai/grok-4.5",
+    "priceAdjustments": [],
     "pricingId": "price:xai/grok-4.5:standard:short:current",
+    "pricingStatus": "current",
     "processingMode": "standard",
-    "promptTokenThreshold": null,
+    "promptTokenThreshold": 200000,
     "regionPolicy": "global",
+    "regionSelector": {
+      "dataResidencies": [
+        "global"
+      ],
+      "endpointGeographies": [
+        "global"
+      ],
+      "pricingGeography": "global_base"
+    },
     "sourceDatasetIds": {
       "publicDatasetIds": [
         "grok-4.5"
@@ -9163,9 +10281,89 @@
       ]
     },
     "sourceRefs": [
+      "source:xai:docs-x-ai-developers-advanced-api-usage-prompt-caching-usage-and-pricing",
+      "source:xai:docs-x-ai-developers-models-grok-4-5",
       "source:xai:docs-x-ai-developers-pricing"
     ],
-    "verificationStatus": "verified"
+    "tierSelection": {
+      "cachedPromptTokensIncluded": true,
+      "comparison": "less_than",
+      "tokenBasis": "total_prompt_tokens",
+      "wholeRequestPricing": true
+    },
+    "verificationStatus": "verified",
+    "verifiedAt": "2026-09-20T11:07:05Z"
+  },
+  {
+    "availabilityRules": [],
+    "billingNote": "Global Standard token rates; total prompt tokens include cached tokens. At 200,000 tokens or more, long rates apply to every input, cached, and output token in the request. The model detail page says Batch API is not supported. No distinct pricing effective date is published.",
+    "calculationDefault": false,
+    "charges": [
+      {
+        "amount": "4",
+        "chargeId": "price:xai/grok-4.5:standard:long:current:input:text:per_1m_tokens",
+        "component": "input",
+        "modality": "text",
+        "unit": "per_1m_tokens"
+      },
+      {
+        "amount": "0.6",
+        "chargeId": "price:xai/grok-4.5:standard:long:current:cached_input:text:per_1m_tokens",
+        "component": "cached_input",
+        "modality": "text",
+        "unit": "per_1m_tokens"
+      },
+      {
+        "amount": "12",
+        "chargeId": "price:xai/grok-4.5:standard:long:current:output:text:per_1m_tokens",
+        "component": "output",
+        "modality": "text",
+        "unit": "per_1m_tokens"
+      }
+    ],
+    "checkedAt": "2026-09-20T11:07:05Z",
+    "contextClass": "long",
+    "currency": "USD",
+    "defaultAvailabilityStatus": "available",
+    "effectiveFrom": null,
+    "effectiveUntil": null,
+    "modelInternalId": "xai/grok-4.5",
+    "priceAdjustments": [],
+    "pricingId": "price:xai/grok-4.5:standard:long:current",
+    "pricingStatus": "current",
+    "processingMode": "standard",
+    "promptTokenThreshold": 200000,
+    "regionPolicy": "global",
+    "regionSelector": {
+      "dataResidencies": [
+        "global"
+      ],
+      "endpointGeographies": [
+        "global"
+      ],
+      "pricingGeography": "global_base"
+    },
+    "sourceDatasetIds": {
+      "publicDatasetIds": [
+        "grok-4.5"
+      ],
+      "websiteIds": [
+        "grok-4.5"
+      ]
+    },
+    "sourceRefs": [
+      "source:xai:docs-x-ai-developers-advanced-api-usage-prompt-caching-usage-and-pricing",
+      "source:xai:docs-x-ai-developers-models-grok-4-5",
+      "source:xai:docs-x-ai-developers-pricing"
+    ],
+    "tierSelection": {
+      "cachedPromptTokensIncluded": true,
+      "comparison": "greater_than_or_equal",
+      "tokenBasis": "total_prompt_tokens",
+      "wholeRequestPricing": true
+    },
+    "verificationStatus": "verified",
+    "verifiedAt": "2026-09-20T11:07:05Z"
   },
   {
     "billingNote": "Available on the xAI API since 2026-08-12. V1 stores short-context pricing. Canonical Pricing V2 tiers model standard prompt tokens < 200K and long-context prompt tokens >= 200K. Total prompt tokens include cached and non-cached prompt tokens, and the selected tier applies to the whole request. The xAI model page marks Batch API as not supported, so Batch fields remain null.",

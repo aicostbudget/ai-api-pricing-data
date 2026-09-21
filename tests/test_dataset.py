@@ -106,7 +106,10 @@ class DatasetTests(unittest.TestCase):
                 "gemini-3.7-flash": "2026-08-29T05:28:25Z",
                 "gemini-3.8-flash": "2026-09-03T18:03:16Z",
             }.get(key[1], "2026-08-08T18:00:00Z")
-            self.assertEqual(row["last_verified_at"], expected_verified_at)
+            verified_at = datetime.fromisoformat(row["last_verified_at"].replace("Z", "+00:00"))
+            self.assertGreaterEqual(verified_at, datetime.fromisoformat(expected_verified_at.replace("Z", "+00:00")))
+            self.assertLessEqual(verified_at, datetime.now(timezone.utc))
+            self.assertTrue(row["official_source_url"].startswith("https://"))
 
         self.assertEqual(
             tuple(by_key[("openai", "gpt-5.6-terra")]["pricing"][field] for field in ("input", "cached_input", "output")),

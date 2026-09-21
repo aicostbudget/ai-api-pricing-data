@@ -61,52 +61,34 @@ class PricingV2PreviewTests(unittest.TestCase):
         return next(item for item in self.prices if item["pricingId"] == pricing_id)
 
     def test_grok_4_3_canonical_short_and_long_tiers_are_complete(self):
-        model = next(
-            item
-            for item in self.canonical_models
-            if item["provider_id"] == "xai" and item["model_id"] == "grok-4.3"
-        )
-        tiers = {tier["id"]: tier for tier in model["pricing_tiers"]}
-        self.assertEqual(set(tiers), {"short", "long"})
-        self.assertEqual(
-            {
-                key: tiers["short"][key]
-                for key in ("input", "cached_input", "output")
-            },
-            {"input": 1.25, "cached_input": 0.2, "output": 2.5},
-        )
-        self.assertEqual(
-            {
-                key: tiers["long"][key]
-                for key in ("input", "cached_input", "output")
-            },
-            {"input": 2.5, "cached_input": 0.4, "output": 5.0},
-        )
-        self.assertEqual(tiers["short"]["prompt_token_threshold"], 200000)
-        self.assertEqual(tiers["short"]["threshold_comparison"], "less_than")
-        self.assertTrue(tiers["short"]["calculation_default"])
-        self.assertEqual(tiers["long"]["prompt_token_threshold"], 200000)
-        self.assertEqual(tiers["long"]["threshold_comparison"], "greater_than_or_equal")
-        self.assertFalse(tiers["long"]["calculation_default"])
-        for tier in tiers.values():
-            self.assertEqual(tier["pricing_status"], "current")
-            self.assertEqual(tier["processing_mode"], "standard")
-            self.assertEqual(tier["threshold_token_basis"], "total_prompt_tokens")
-            self.assertTrue(tier["cached_prompt_tokens_included"])
-            self.assertTrue(tier["whole_request_pricing"])
-            self.assertEqual(tier["currency"], "USD")
-            self.assertEqual(tier["unit"], "1M tokens")
-        self.assertEqual(model["accessed_at"], "2026-08-15T12:25:26Z")
-        self.assertEqual(model["last_verified_at"], "2026-08-15T12:25:26Z")
-        self.assertEqual(
-            set(model["official_source_urls"]),
-            {
-                "https://docs.x.ai/developers/pricing",
-                "https://docs.x.ai/developers/advanced-api-usage/prompt-caching/usage-and-pricing",
-                "https://docs.x.ai/developers/rest-api-reference/inference/models",
-                "https://docs.x.ai/developers/models/grok-4.3",
-            },
-        )
+        model = next(item for item in self.canonical_models if (item["provider_id"], item["model_id"]) == ("xai", "grok-4.3"))
+        self.assertEqual(model["status"], "active")
+        self.assertIsNone(model["effective_from"])
+        self.assertNotIn("pricing_tiers", model)
+        expected = {
+            ("standard", "short"): ("1.25", "0.2", "2.5"),
+            ("standard", "long"): ("2.5", "0.4", "5"),
+            ("batch", "short"): ("1", "0.16", "2"),
+            ("batch", "long"): ("2", "0.32", "4"),
+            ("priority", "short"): ("2.5", "0.4", "5"),
+            ("priority", "long"): ("5", "0.8", "10"),
+        }
+        records = {(r["processing_mode"], r["context_class"]): r for r in model["price_records"]}
+        self.assertEqual(set(records), set(expected))
+        for key, amounts in expected.items():
+            record = records[key]
+            self.assertEqual(tuple(c["amount"] for c in record["charges"]), amounts)
+            self.assertEqual(record["prompt_token_threshold"], 200000)
+            self.assertEqual(record["tier_selection"]["comparison"], "less_than" if key[1] == "short" else "greater_than_or_equal")
+            self.assertEqual(record["tier_selection"]["token_basis"], "total_prompt_tokens")
+            self.assertTrue(record["tier_selection"]["cached_prompt_tokens_included"])
+            self.assertTrue(record["tier_selection"]["whole_request_pricing"])
+            self.assertEqual(record["calculation_default"], key == ("standard", "short"))
+            self.assertTrue(all(c["unit"] == "per_1m_tokens" for c in record["charges"]))
+            self.assertIsNone(record["effective_from"])
+        self.assertEqual(model["accessed_at"], "2026-09-20T13:28:36Z")
+        self.assertEqual(model["last_verified_at"], "2026-09-20T13:28:36Z")
+        self.assertIn("https://docs.x.ai/developers/advanced-api-usage/priority-processing", model["official_source_urls"])
 
     def test_grok_4_3_generated_v2_tiers_and_boundaries(self):
         records = [
@@ -152,7 +134,7 @@ class PricingV2PreviewTests(unittest.TestCase):
             )
             self.assertEqual(
                 record["sourceDatasetIds"],
-                {"publicDatasetIds": ["grok-4.3"], "websiteIds": []},
+                {"publicDatasetIds": ["grok-4.3"], "websiteIds": ["grok-4.3"]},
             )
             for ref in record["sourceRefs"]:
                 self.assertGreaterEqual(source_by_id[ref]["checkedAt"], "2026-08-15T12:25:26Z")

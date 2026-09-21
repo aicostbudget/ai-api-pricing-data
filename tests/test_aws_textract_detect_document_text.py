@@ -11,6 +11,7 @@ from scripts.pricing_contract import (
     calculate_usage_cost_with_allowance,
     validate_model_price_records,
 )
+from tests.gemini_verification import assert_gemini_facts_and_verification
 from tests.website_source import resolve_website_source
 
 
@@ -133,7 +134,7 @@ class AwsTextractDetectDocumentTextTests(unittest.TestCase):
         ).stdout)
         before = [row for row in baseline if row["provider_id"] == "google-gemini"]
         after = [row for row in load_models() if row["provider_id"] == "google-gemini"]
-        self.assertEqual(after, before)
+        assert_gemini_facts_and_verification(self, before, after)
 
 
 if __name__ == "__main__":

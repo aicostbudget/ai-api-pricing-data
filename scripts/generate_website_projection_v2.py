@@ -907,6 +907,12 @@ def projection_row(
         blocked_reasons.append("missing_verified_current_price")
     default_safe = not blocked_reasons
     refs = price_source_refs(identity, selected_price or selected_billing_price)
+    if identity.get("billingModelInternalId"):
+        # Redirected identities expose every billing component of the target.
+        # Their row-level provenance must include every component source ref.
+        refs = sorted(set(refs) | {
+            ref for component in (pricing_components or []) for ref in (component.get("sourceRefs") or [])
+        })
     urls = source_urls(refs, sources_by_id)
     selected_evidence = selected_price or selected_billing_price or {}
     selected_price_source_refs = selected_evidence.get("sourceRefs", [])

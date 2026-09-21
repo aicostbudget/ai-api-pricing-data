@@ -445,10 +445,10 @@ class WebsiteProjectionV2Tests(unittest.TestCase):
             "openai/gpt-5.6-terra": 8,
             "openai/gpt-5.6-luna": 8,
             "anthropic/claude-fable-5": 2,
-            "anthropic/claude-haiku-4.5": 1,
-            "anthropic/claude-opus-4.8": 1,
+            "anthropic/claude-haiku-4.5": 2,
+            "anthropic/claude-opus-4.8": 2,
             "anthropic/claude-opus-5": 2,
-            "anthropic/claude-sonnet-4.6": 1,
+            "anthropic/claude-sonnet-4.6": 2,
             "anthropic/claude-sonnet-5": 2,
         }
         for internal_id, expected_count in expected_write_counts.items():
@@ -470,6 +470,16 @@ class WebsiteProjectionV2Tests(unittest.TestCase):
                 self.assertEqual(item["condition"]["effectiveUntil"], record["effectiveUntil"])
                 self.assertEqual(item["sourceRefs"], sorted(record["sourceRefs"]))
 
+        for internal_id, rates in {
+            "anthropic/claude-opus-4.8": {"cache_write_5m": "6.25", "cache_write_1h": "10"},
+            "anthropic/claude-sonnet-4.6": {"cache_write_5m": "3.75", "cache_write_1h": "6"},
+            "anthropic/claude-haiku-4.5": {"cache_write_5m": "1.25", "cache_write_1h": "2"},
+        }.items():
+            writes = [item for item in self.by_internal[internal_id]["pricingComponents"] if item["component"].startswith("cache_write")]
+            self.assertEqual({item["component"]: item["amount"] for item in writes}, rates)
+            self.assertEqual(len(writes), len(rates), internal_id)
+            self.assertTrue(all(item["unit"] == "per_1m_tokens" and item["condition"]["processingMode"] == "standard" for item in writes))
+
         for internal_id in (
             "openai/gpt-5.6-sol",
             "openai/gpt-5.6-terra",
@@ -486,7 +496,10 @@ class WebsiteProjectionV2Tests(unittest.TestCase):
 
         for internal_id in (
             "anthropic/claude-fable-5",
+            "anthropic/claude-haiku-4.5",
+            "anthropic/claude-opus-4.8",
             "anthropic/claude-opus-5",
+            "anthropic/claude-sonnet-4.6",
             "anthropic/claude-sonnet-5",
         ):
             variants = {

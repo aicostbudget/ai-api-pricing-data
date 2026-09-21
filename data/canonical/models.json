@@ -38,19 +38,71 @@
         "effective_until": null,
         "currency": "USD",
         "charges": [
-          {"id": "price:openai/gpt-6-astra:standard:short:current:input:text:per_1m_tokens", "component": "input", "modality": "text", "unit": "per_1m_tokens", "amount": "10"},
-          {"id": "price:openai/gpt-6-astra:standard:short:current:cached_input:text:per_1m_tokens", "component": "cached_input", "modality": "text", "unit": "per_1m_tokens", "amount": "1"},
-          {"id": "price:openai/gpt-6-astra:standard:short:current:cache_write:text:per_1m_tokens", "component": "cache_write", "modality": "text", "unit": "per_1m_tokens", "amount": "12.5"},
-          {"id": "price:openai/gpt-6-astra:standard:short:current:output:text:per_1m_tokens", "component": "output", "modality": "text", "unit": "per_1m_tokens", "amount": "50"}
+          {
+            "id": "price:openai/gpt-6-astra:standard:short:current:input:text:per_1m_tokens",
+            "component": "input",
+            "modality": "text",
+            "unit": "per_1m_tokens",
+            "amount": "10"
+          },
+          {
+            "id": "price:openai/gpt-6-astra:standard:short:current:cached_input:text:per_1m_tokens",
+            "component": "cached_input",
+            "modality": "text",
+            "unit": "per_1m_tokens",
+            "amount": "1"
+          },
+          {
+            "id": "price:openai/gpt-6-astra:standard:short:current:cache_write:text:per_1m_tokens",
+            "component": "cache_write",
+            "modality": "text",
+            "unit": "per_1m_tokens",
+            "amount": "12.5"
+          },
+          {
+            "id": "price:openai/gpt-6-astra:standard:short:current:output:text:per_1m_tokens",
+            "component": "output",
+            "modality": "text",
+            "unit": "per_1m_tokens",
+            "amount": "50"
+          }
         ],
         "region_policy": {
           "pricing_geography": "global_base",
-          "endpoint_geographies": ["global", "regional"],
-          "data_residencies": ["global", "us", "eu"],
-          "availability": {"default": "available", "rules": []},
-          "price_adjustments": [{"id": "regional-data-residency-uplift", "selector": {"endpoint_geographies": ["regional"]}, "operation": "multiply", "factor": "1.10", "source_refs": ["https://developers.openai.com/api/docs/pricing", "https://developers.openai.com/api/docs/guides/your-data"]}]
+          "endpoint_geographies": [
+            "global",
+            "regional"
+          ],
+          "data_residencies": [
+            "global",
+            "us",
+            "eu"
+          ],
+          "availability": {
+            "default": "available",
+            "rules": []
+          },
+          "price_adjustments": [
+            {
+              "id": "regional-data-residency-uplift",
+              "selector": {
+                "endpoint_geographies": [
+                  "regional"
+                ]
+              },
+              "operation": "multiply",
+              "factor": "1.10",
+              "source_refs": [
+                "https://developers.openai.com/api/docs/pricing",
+                "https://developers.openai.com/api/docs/guides/your-data"
+              ]
+            }
+          ]
         },
-        "source_refs": ["https://developers.openai.com/api/docs/models/gpt-6-astra", "https://developers.openai.com/api/docs/pricing"],
+        "source_refs": [
+          "https://developers.openai.com/api/docs/models/gpt-6-astra",
+          "https://developers.openai.com/api/docs/pricing"
+        ],
         "verification_status": "verified",
         "checked_at": "2026-09-04T17:34:11Z",
         "verified_at": "2026-09-04T17:34:11Z",
@@ -73,19 +125,71 @@
         "effective_until": null,
         "currency": "USD",
         "charges": [
-          {"id": "price:openai/gpt-6-astra:standard:long:current:input:text:per_1m_tokens", "component": "input", "modality": "text", "unit": "per_1m_tokens", "amount": "20"},
-          {"id": "price:openai/gpt-6-astra:standard:long:current:cached_input:text:per_1m_tokens", "component": "cached_input", "modality": "text", "unit": "per_1m_tokens", "amount": "2"},
-          {"id": "price:openai/gpt-6-astra:standard:long:current:cache_write:text:per_1m_tokens", "component": "cache_write", "modality": "text", "unit": "per_1m_tokens", "amount": "25"},
-          {"id": "price:openai/gpt-6-astra:standard:long:current:output:text:per_1m_tokens", "component": "output", "modality": "text", "unit": "per_1m_tokens", "amount": "75"}
+          {
+            "id": "price:openai/gpt-6-astra:standard:long:current:input:text:per_1m_tokens",
+            "component": "input",
+            "modality": "text",
+            "unit": "per_1m_tokens",
+            "amount": "20"
+          },
+          {
+            "id": "price:openai/gpt-6-astra:standard:long:current:cached_input:text:per_1m_tokens",
+            "component": "cached_input",
+            "modality": "text",
+            "unit": "per_1m_tokens",
+            "amount": "2"
+          },
+          {
+            "id": "price:openai/gpt-6-astra:standard:long:current:cache_write:text:per_1m_tokens",
+            "component": "cache_write",
+            "modality": "text",
+            "unit": "per_1m_tokens",
+            "amount": "25"
+          },
+          {
+            "id": "price:openai/gpt-6-astra:standard:long:current:output:text:per_1m_tokens",
+            "component": "output",
+            "modality": "text",
+            "unit": "per_1m_tokens",
+            "amount": "75"
+          }
         ],
         "region_policy": {
           "pricing_geography": "global_base",
-          "endpoint_geographies": ["global", "regional"],
-          "data_residencies": ["global", "us", "eu"],
-          "availability": {"default": "available", "rules": []},
-          "price_adjustments": [{"id": "regional-data-residency-uplift", "selector": {"endpoint_geographies": ["regional"]}, "operation": "multiply", "factor": "1.10", "source_refs": ["https://developers.openai.com/api/docs/pricing", "https://developers.openai.com/api/docs/guides/your-data"]}]
+          "endpoint_geographies": [
+            "global",
+            "regional"
+          ],
+          "data_residencies": [
+            "global",
+            "us",
+            "eu"
+          ],
+          "availability": {
+            "default": "available",
+            "rules": []
+          },
+          "price_adjustments": [
+            {
+              "id": "regional-data-residency-uplift",
+              "selector": {
+                "endpoint_geographies": [
+                  "regional"
+                ]
+              },
+              "operation": "multiply",
+              "factor": "1.10",
+              "source_refs": [
+                "https://developers.openai.com/api/docs/pricing",
+                "https://developers.openai.com/api/docs/guides/your-data"
+              ]
+            }
+          ]
         },
-        "source_refs": ["https://developers.openai.com/api/docs/models/gpt-6-astra", "https://developers.openai.com/api/docs/pricing"],
+        "source_refs": [
+          "https://developers.openai.com/api/docs/models/gpt-6-astra",
+          "https://developers.openai.com/api/docs/pricing"
+        ],
         "verification_status": "verified",
         "checked_at": "2026-09-04T17:34:11Z",
         "verified_at": "2026-09-04T17:34:11Z",
@@ -108,19 +212,71 @@
         "effective_until": null,
         "currency": "USD",
         "charges": [
-          {"id": "price:openai/gpt-6-astra:batch:short:current:input:text:per_1m_tokens", "component": "input", "modality": "text", "unit": "per_1m_tokens", "amount": "5"},
-          {"id": "price:openai/gpt-6-astra:batch:short:current:cached_input:text:per_1m_tokens", "component": "cached_input", "modality": "text", "unit": "per_1m_tokens", "amount": "0.5"},
-          {"id": "price:openai/gpt-6-astra:batch:short:current:cache_write:text:per_1m_tokens", "component": "cache_write", "modality": "text", "unit": "per_1m_tokens", "amount": "6.25"},
-          {"id": "price:openai/gpt-6-astra:batch:short:current:output:text:per_1m_tokens", "component": "output", "modality": "text", "unit": "per_1m_tokens", "amount": "25"}
+          {
+            "id": "price:openai/gpt-6-astra:batch:short:current:input:text:per_1m_tokens",
+            "component": "input",
+            "modality": "text",
+            "unit": "per_1m_tokens",
+            "amount": "5"
+          },
+          {
+            "id": "price:openai/gpt-6-astra:batch:short:current:cached_input:text:per_1m_tokens",
+            "component": "cached_input",
+            "modality": "text",
+            "unit": "per_1m_tokens",
+            "amount": "0.5"
+          },
+          {
+            "id": "price:openai/gpt-6-astra:batch:short:current:cache_write:text:per_1m_tokens",
+            "component": "cache_write",
+            "modality": "text",
+            "unit": "per_1m_tokens",
+            "amount": "6.25"
+          },
+          {
+            "id": "price:openai/gpt-6-astra:batch:short:current:output:text:per_1m_tokens",
+            "component": "output",
+            "modality": "text",
+            "unit": "per_1m_tokens",
+            "amount": "25"
+          }
         ],
         "region_policy": {
           "pricing_geography": "global_base",
-          "endpoint_geographies": ["global", "regional"],
-          "data_residencies": ["global", "us", "eu"],
-          "availability": {"default": "available", "rules": []},
-          "price_adjustments": [{"id": "regional-data-residency-uplift", "selector": {"endpoint_geographies": ["regional"]}, "operation": "multiply", "factor": "1.10", "source_refs": ["https://developers.openai.com/api/docs/pricing", "https://developers.openai.com/api/docs/guides/your-data"]}]
+          "endpoint_geographies": [
+            "global",
+            "regional"
+          ],
+          "data_residencies": [
+            "global",
+            "us",
+            "eu"
+          ],
+          "availability": {
+            "default": "available",
+            "rules": []
+          },
+          "price_adjustments": [
+            {
+              "id": "regional-data-residency-uplift",
+              "selector": {
+                "endpoint_geographies": [
+                  "regional"
+                ]
+              },
+              "operation": "multiply",
+              "factor": "1.10",
+              "source_refs": [
+                "https://developers.openai.com/api/docs/pricing",
+                "https://developers.openai.com/api/docs/guides/your-data"
+              ]
+            }
+          ]
         },
-        "source_refs": ["https://developers.openai.com/api/docs/pricing", "https://developers.openai.com/api/docs/guides/batch"],
+        "source_refs": [
+          "https://developers.openai.com/api/docs/pricing",
+          "https://developers.openai.com/api/docs/guides/batch"
+        ],
         "verification_status": "verified",
         "checked_at": "2026-09-04T17:34:11Z",
         "verified_at": "2026-09-04T17:34:11Z",
@@ -143,19 +299,71 @@
         "effective_until": null,
         "currency": "USD",
         "charges": [
-          {"id": "price:openai/gpt-6-astra:batch:long:current:input:text:per_1m_tokens", "component": "input", "modality": "text", "unit": "per_1m_tokens", "amount": "10"},
-          {"id": "price:openai/gpt-6-astra:batch:long:current:cached_input:text:per_1m_tokens", "component": "cached_input", "modality": "text", "unit": "per_1m_tokens", "amount": "1"},
-          {"id": "price:openai/gpt-6-astra:batch:long:current:cache_write:text:per_1m_tokens", "component": "cache_write", "modality": "text", "unit": "per_1m_tokens", "amount": "12.5"},
-          {"id": "price:openai/gpt-6-astra:batch:long:current:output:text:per_1m_tokens", "component": "output", "modality": "text", "unit": "per_1m_tokens", "amount": "37.5"}
+          {
+            "id": "price:openai/gpt-6-astra:batch:long:current:input:text:per_1m_tokens",
+            "component": "input",
+            "modality": "text",
+            "unit": "per_1m_tokens",
+            "amount": "10"
+          },
+          {
+            "id": "price:openai/gpt-6-astra:batch:long:current:cached_input:text:per_1m_tokens",
+            "component": "cached_input",
+            "modality": "text",
+            "unit": "per_1m_tokens",
+            "amount": "1"
+          },
+          {
+            "id": "price:openai/gpt-6-astra:batch:long:current:cache_write:text:per_1m_tokens",
+            "component": "cache_write",
+            "modality": "text",
+            "unit": "per_1m_tokens",
+            "amount": "12.5"
+          },
+          {
+            "id": "price:openai/gpt-6-astra:batch:long:current:output:text:per_1m_tokens",
+            "component": "output",
+            "modality": "text",
+            "unit": "per_1m_tokens",
+            "amount": "37.5"
+          }
         ],
         "region_policy": {
           "pricing_geography": "global_base",
-          "endpoint_geographies": ["global", "regional"],
-          "data_residencies": ["global", "us", "eu"],
-          "availability": {"default": "available", "rules": []},
-          "price_adjustments": [{"id": "regional-data-residency-uplift", "selector": {"endpoint_geographies": ["regional"]}, "operation": "multiply", "factor": "1.10", "source_refs": ["https://developers.openai.com/api/docs/pricing", "https://developers.openai.com/api/docs/guides/your-data"]}]
+          "endpoint_geographies": [
+            "global",
+            "regional"
+          ],
+          "data_residencies": [
+            "global",
+            "us",
+            "eu"
+          ],
+          "availability": {
+            "default": "available",
+            "rules": []
+          },
+          "price_adjustments": [
+            {
+              "id": "regional-data-residency-uplift",
+              "selector": {
+                "endpoint_geographies": [
+                  "regional"
+                ]
+              },
+              "operation": "multiply",
+              "factor": "1.10",
+              "source_refs": [
+                "https://developers.openai.com/api/docs/pricing",
+                "https://developers.openai.com/api/docs/guides/your-data"
+              ]
+            }
+          ]
         },
-        "source_refs": ["https://developers.openai.com/api/docs/pricing", "https://developers.openai.com/api/docs/guides/batch"],
+        "source_refs": [
+          "https://developers.openai.com/api/docs/pricing",
+          "https://developers.openai.com/api/docs/guides/batch"
+        ],
         "verification_status": "verified",
         "checked_at": "2026-09-04T17:34:11Z",
         "verified_at": "2026-09-04T17:34:11Z",
@@ -178,19 +386,71 @@
         "effective_until": null,
         "currency": "USD",
         "charges": [
-          {"id": "price:openai/gpt-6-astra:flex:short:current:input:text:per_1m_tokens", "component": "input", "modality": "text", "unit": "per_1m_tokens", "amount": "5"},
-          {"id": "price:openai/gpt-6-astra:flex:short:current:cached_input:text:per_1m_tokens", "component": "cached_input", "modality": "text", "unit": "per_1m_tokens", "amount": "0.5"},
-          {"id": "price:openai/gpt-6-astra:flex:short:current:cache_write:text:per_1m_tokens", "component": "cache_write", "modality": "text", "unit": "per_1m_tokens", "amount": "6.25"},
-          {"id": "price:openai/gpt-6-astra:flex:short:current:output:text:per_1m_tokens", "component": "output", "modality": "text", "unit": "per_1m_tokens", "amount": "25"}
+          {
+            "id": "price:openai/gpt-6-astra:flex:short:current:input:text:per_1m_tokens",
+            "component": "input",
+            "modality": "text",
+            "unit": "per_1m_tokens",
+            "amount": "5"
+          },
+          {
+            "id": "price:openai/gpt-6-astra:flex:short:current:cached_input:text:per_1m_tokens",
+            "component": "cached_input",
+            "modality": "text",
+            "unit": "per_1m_tokens",
+            "amount": "0.5"
+          },
+          {
+            "id": "price:openai/gpt-6-astra:flex:short:current:cache_write:text:per_1m_tokens",
+            "component": "cache_write",
+            "modality": "text",
+            "unit": "per_1m_tokens",
+            "amount": "6.25"
+          },
+          {
+            "id": "price:openai/gpt-6-astra:flex:short:current:output:text:per_1m_tokens",
+            "component": "output",
+            "modality": "text",
+            "unit": "per_1m_tokens",
+            "amount": "25"
+          }
         ],
         "region_policy": {
           "pricing_geography": "global_base",
-          "endpoint_geographies": ["global", "regional"],
-          "data_residencies": ["global", "us", "eu"],
-          "availability": {"default": "available", "rules": []},
-          "price_adjustments": [{"id": "regional-data-residency-uplift", "selector": {"endpoint_geographies": ["regional"]}, "operation": "multiply", "factor": "1.10", "source_refs": ["https://developers.openai.com/api/docs/pricing", "https://developers.openai.com/api/docs/guides/your-data"]}]
+          "endpoint_geographies": [
+            "global",
+            "regional"
+          ],
+          "data_residencies": [
+            "global",
+            "us",
+            "eu"
+          ],
+          "availability": {
+            "default": "available",
+            "rules": []
+          },
+          "price_adjustments": [
+            {
+              "id": "regional-data-residency-uplift",
+              "selector": {
+                "endpoint_geographies": [
+                  "regional"
+                ]
+              },
+              "operation": "multiply",
+              "factor": "1.10",
+              "source_refs": [
+                "https://developers.openai.com/api/docs/pricing",
+                "https://developers.openai.com/api/docs/guides/your-data"
+              ]
+            }
+          ]
         },
-        "source_refs": ["https://developers.openai.com/api/docs/pricing", "https://developers.openai.com/api/docs/guides/flex-processing"],
+        "source_refs": [
+          "https://developers.openai.com/api/docs/pricing",
+          "https://developers.openai.com/api/docs/guides/flex-processing"
+        ],
         "verification_status": "verified",
         "checked_at": "2026-09-04T17:34:11Z",
         "verified_at": "2026-09-04T17:34:11Z",
@@ -213,19 +473,71 @@
         "effective_until": null,
         "currency": "USD",
         "charges": [
-          {"id": "price:openai/gpt-6-astra:flex:long:current:input:text:per_1m_tokens", "component": "input", "modality": "text", "unit": "per_1m_tokens", "amount": "10"},
-          {"id": "price:openai/gpt-6-astra:flex:long:current:cached_input:text:per_1m_tokens", "component": "cached_input", "modality": "text", "unit": "per_1m_tokens", "amount": "1"},
-          {"id": "price:openai/gpt-6-astra:flex:long:current:cache_write:text:per_1m_tokens", "component": "cache_write", "modality": "text", "unit": "per_1m_tokens", "amount": "12.5"},
-          {"id": "price:openai/gpt-6-astra:flex:long:current:output:text:per_1m_tokens", "component": "output", "modality": "text", "unit": "per_1m_tokens", "amount": "37.5"}
+          {
+            "id": "price:openai/gpt-6-astra:flex:long:current:input:text:per_1m_tokens",
+            "component": "input",
+            "modality": "text",
+            "unit": "per_1m_tokens",
+            "amount": "10"
+          },
+          {
+            "id": "price:openai/gpt-6-astra:flex:long:current:cached_input:text:per_1m_tokens",
+            "component": "cached_input",
+            "modality": "text",
+            "unit": "per_1m_tokens",
+            "amount": "1"
+          },
+          {
+            "id": "price:openai/gpt-6-astra:flex:long:current:cache_write:text:per_1m_tokens",
+            "component": "cache_write",
+            "modality": "text",
+            "unit": "per_1m_tokens",
+            "amount": "12.5"
+          },
+          {
+            "id": "price:openai/gpt-6-astra:flex:long:current:output:text:per_1m_tokens",
+            "component": "output",
+            "modality": "text",
+            "unit": "per_1m_tokens",
+            "amount": "37.5"
+          }
         ],
         "region_policy": {
           "pricing_geography": "global_base",
-          "endpoint_geographies": ["global", "regional"],
-          "data_residencies": ["global", "us", "eu"],
-          "availability": {"default": "available", "rules": []},
-          "price_adjustments": [{"id": "regional-data-residency-uplift", "selector": {"endpoint_geographies": ["regional"]}, "operation": "multiply", "factor": "1.10", "source_refs": ["https://developers.openai.com/api/docs/pricing", "https://developers.openai.com/api/docs/guides/your-data"]}]
+          "endpoint_geographies": [
+            "global",
+            "regional"
+          ],
+          "data_residencies": [
+            "global",
+            "us",
+            "eu"
+          ],
+          "availability": {
+            "default": "available",
+            "rules": []
+          },
+          "price_adjustments": [
+            {
+              "id": "regional-data-residency-uplift",
+              "selector": {
+                "endpoint_geographies": [
+                  "regional"
+                ]
+              },
+              "operation": "multiply",
+              "factor": "1.10",
+              "source_refs": [
+                "https://developers.openai.com/api/docs/pricing",
+                "https://developers.openai.com/api/docs/guides/your-data"
+              ]
+            }
+          ]
         },
-        "source_refs": ["https://developers.openai.com/api/docs/pricing", "https://developers.openai.com/api/docs/guides/flex-processing"],
+        "source_refs": [
+          "https://developers.openai.com/api/docs/pricing",
+          "https://developers.openai.com/api/docs/guides/flex-processing"
+        ],
         "verification_status": "verified",
         "checked_at": "2026-09-04T17:34:11Z",
         "verified_at": "2026-09-04T17:34:11Z",
@@ -248,19 +560,85 @@
         "effective_until": null,
         "currency": "USD",
         "charges": [
-          {"id": "price:openai/gpt-6-astra:fast:short:current:input:text:per_1m_tokens", "component": "input", "modality": "text", "unit": "per_1m_tokens", "amount": "20"},
-          {"id": "price:openai/gpt-6-astra:fast:short:current:cached_input:text:per_1m_tokens", "component": "cached_input", "modality": "text", "unit": "per_1m_tokens", "amount": "2"},
-          {"id": "price:openai/gpt-6-astra:fast:short:current:cache_write:text:per_1m_tokens", "component": "cache_write", "modality": "text", "unit": "per_1m_tokens", "amount": "25"},
-          {"id": "price:openai/gpt-6-astra:fast:short:current:output:text:per_1m_tokens", "component": "output", "modality": "text", "unit": "per_1m_tokens", "amount": "100"}
+          {
+            "id": "price:openai/gpt-6-astra:fast:short:current:input:text:per_1m_tokens",
+            "component": "input",
+            "modality": "text",
+            "unit": "per_1m_tokens",
+            "amount": "20"
+          },
+          {
+            "id": "price:openai/gpt-6-astra:fast:short:current:cached_input:text:per_1m_tokens",
+            "component": "cached_input",
+            "modality": "text",
+            "unit": "per_1m_tokens",
+            "amount": "2"
+          },
+          {
+            "id": "price:openai/gpt-6-astra:fast:short:current:cache_write:text:per_1m_tokens",
+            "component": "cache_write",
+            "modality": "text",
+            "unit": "per_1m_tokens",
+            "amount": "25"
+          },
+          {
+            "id": "price:openai/gpt-6-astra:fast:short:current:output:text:per_1m_tokens",
+            "component": "output",
+            "modality": "text",
+            "unit": "per_1m_tokens",
+            "amount": "100"
+          }
         ],
         "region_policy": {
           "pricing_geography": "global_base",
-          "endpoint_geographies": ["global", "regional"],
-          "data_residencies": ["global", "us", "eu"],
-          "availability": {"default": "available", "rules": [{"id": "fast-eu-data-residency-unavailable", "selector": {"data_residencies": ["eu"]}, "status": "unavailable", "reason": "GPT-6 Astra Fast mode is unavailable with EU data residency.", "source_refs": ["https://developers.openai.com/api/docs/guides/fast-mode"]}]},
-          "price_adjustments": [{"id": "regional-data-residency-uplift", "selector": {"endpoint_geographies": ["regional"]}, "operation": "multiply", "factor": "1.10", "source_refs": ["https://developers.openai.com/api/docs/pricing", "https://developers.openai.com/api/docs/guides/your-data"]}]
+          "endpoint_geographies": [
+            "global",
+            "regional"
+          ],
+          "data_residencies": [
+            "global",
+            "us",
+            "eu"
+          ],
+          "availability": {
+            "default": "available",
+            "rules": [
+              {
+                "id": "fast-eu-data-residency-unavailable",
+                "selector": {
+                  "data_residencies": [
+                    "eu"
+                  ]
+                },
+                "status": "unavailable",
+                "reason": "GPT-6 Astra Fast mode is unavailable with EU data residency.",
+                "source_refs": [
+                  "https://developers.openai.com/api/docs/guides/fast-mode"
+                ]
+              }
+            ]
+          },
+          "price_adjustments": [
+            {
+              "id": "regional-data-residency-uplift",
+              "selector": {
+                "endpoint_geographies": [
+                  "regional"
+                ]
+              },
+              "operation": "multiply",
+              "factor": "1.10",
+              "source_refs": [
+                "https://developers.openai.com/api/docs/pricing",
+                "https://developers.openai.com/api/docs/guides/your-data"
+              ]
+            }
+          ]
         },
-        "source_refs": ["https://developers.openai.com/api/docs/pricing", "https://developers.openai.com/api/docs/guides/fast-mode"],
+        "source_refs": [
+          "https://developers.openai.com/api/docs/pricing",
+          "https://developers.openai.com/api/docs/guides/fast-mode"
+        ],
         "verification_status": "verified",
         "checked_at": "2026-09-04T17:34:11Z",
         "verified_at": "2026-09-04T17:34:11Z",
@@ -283,19 +661,85 @@
         "effective_until": null,
         "currency": "USD",
         "charges": [
-          {"id": "price:openai/gpt-6-astra:fast:long:current:input:text:per_1m_tokens", "component": "input", "modality": "text", "unit": "per_1m_tokens", "amount": "40"},
-          {"id": "price:openai/gpt-6-astra:fast:long:current:cached_input:text:per_1m_tokens", "component": "cached_input", "modality": "text", "unit": "per_1m_tokens", "amount": "4"},
-          {"id": "price:openai/gpt-6-astra:fast:long:current:cache_write:text:per_1m_tokens", "component": "cache_write", "modality": "text", "unit": "per_1m_tokens", "amount": "50"},
-          {"id": "price:openai/gpt-6-astra:fast:long:current:output:text:per_1m_tokens", "component": "output", "modality": "text", "unit": "per_1m_tokens", "amount": "150"}
+          {
+            "id": "price:openai/gpt-6-astra:fast:long:current:input:text:per_1m_tokens",
+            "component": "input",
+            "modality": "text",
+            "unit": "per_1m_tokens",
+            "amount": "40"
+          },
+          {
+            "id": "price:openai/gpt-6-astra:fast:long:current:cached_input:text:per_1m_tokens",
+            "component": "cached_input",
+            "modality": "text",
+            "unit": "per_1m_tokens",
+            "amount": "4"
+          },
+          {
+            "id": "price:openai/gpt-6-astra:fast:long:current:cache_write:text:per_1m_tokens",
+            "component": "cache_write",
+            "modality": "text",
+            "unit": "per_1m_tokens",
+            "amount": "50"
+          },
+          {
+            "id": "price:openai/gpt-6-astra:fast:long:current:output:text:per_1m_tokens",
+            "component": "output",
+            "modality": "text",
+            "unit": "per_1m_tokens",
+            "amount": "150"
+          }
         ],
         "region_policy": {
           "pricing_geography": "global_base",
-          "endpoint_geographies": ["global", "regional"],
-          "data_residencies": ["global", "us", "eu"],
-          "availability": {"default": "available", "rules": [{"id": "fast-eu-data-residency-unavailable", "selector": {"data_residencies": ["eu"]}, "status": "unavailable", "reason": "GPT-6 Astra Fast mode is unavailable with EU data residency.", "source_refs": ["https://developers.openai.com/api/docs/guides/fast-mode"]}]},
-          "price_adjustments": [{"id": "regional-data-residency-uplift", "selector": {"endpoint_geographies": ["regional"]}, "operation": "multiply", "factor": "1.10", "source_refs": ["https://developers.openai.com/api/docs/pricing", "https://developers.openai.com/api/docs/guides/your-data"]}]
+          "endpoint_geographies": [
+            "global",
+            "regional"
+          ],
+          "data_residencies": [
+            "global",
+            "us",
+            "eu"
+          ],
+          "availability": {
+            "default": "available",
+            "rules": [
+              {
+                "id": "fast-eu-data-residency-unavailable",
+                "selector": {
+                  "data_residencies": [
+                    "eu"
+                  ]
+                },
+                "status": "unavailable",
+                "reason": "GPT-6 Astra Fast mode is unavailable with EU data residency.",
+                "source_refs": [
+                  "https://developers.openai.com/api/docs/guides/fast-mode"
+                ]
+              }
+            ]
+          },
+          "price_adjustments": [
+            {
+              "id": "regional-data-residency-uplift",
+              "selector": {
+                "endpoint_geographies": [
+                  "regional"
+                ]
+              },
+              "operation": "multiply",
+              "factor": "1.10",
+              "source_refs": [
+                "https://developers.openai.com/api/docs/pricing",
+                "https://developers.openai.com/api/docs/guides/your-data"
+              ]
+            }
+          ]
         },
-        "source_refs": ["https://developers.openai.com/api/docs/pricing", "https://developers.openai.com/api/docs/guides/fast-mode"],
+        "source_refs": [
+          "https://developers.openai.com/api/docs/pricing",
+          "https://developers.openai.com/api/docs/guides/fast-mode"
+        ],
         "verification_status": "verified",
         "checked_at": "2026-09-04T17:34:11Z",
         "verified_at": "2026-09-04T17:34:11Z",
@@ -361,9 +805,16 @@
         ],
         "region_policy": {
           "pricing_geography": "global_base",
-          "endpoint_geographies": ["global"],
-          "data_residencies": ["global"],
-          "availability": {"default": "available", "rules": []},
+          "endpoint_geographies": [
+            "global"
+          ],
+          "data_residencies": [
+            "global"
+          ],
+          "availability": {
+            "default": "available",
+            "rules": []
+          },
           "price_adjustments": []
         },
         "source_refs": [
@@ -515,11 +966,395 @@
       "batch_input": 2.5,
       "batch_output": 15.0
     },
-    "official_source_url": "https://platform.openai.com/docs/pricing",
-    "accessed_at": "2026-08-08T18:00:00Z",
-    "last_verified_at": "2026-08-08T18:00:00Z",
+    "official_source_url": "https://developers.openai.com/api/docs/models/gpt-5.5",
+    "accessed_at": "2026-09-20T11:03:36Z",
+    "last_verified_at": "2026-09-20T11:03:36Z",
     "effective_from": null,
-    "notes": "OpenAI official pricing page lists standard and batch rates per 1M tokens. Batch prices are 50% of the listed standard price where shown."
+    "notes": "Global token rates. More than 272,000 total input tokens, including cached input, price the full session at 2x input and 1.5x output in Standard, Batch, and Flex. Batch and Flex token rates are half Standard. An official pricing effective date is not stated.",
+    "official_source_urls": [
+      "https://developers.openai.com/api/docs/models/gpt-5.5",
+      "https://developers.openai.com/api/docs/guides/prompt-caching",
+      "https://developers.openai.com/api/docs/guides/batch",
+      "https://developers.openai.com/api/docs/guides/flex-processing"
+    ],
+    "price_records": [
+      {
+        "billing_note": "Global token rates. More than 272,000 total input tokens, including cached input, price the full session at 2x input and 1.5x output in Standard, Batch, and Flex. Batch and Flex token rates are half Standard. An official pricing effective date is not stated.",
+        "calculation_default": true,
+        "charges": [
+          {
+            "amount": "5",
+            "component": "input",
+            "id": "price:openai/gpt-5.5:standard:short:current:input:text:per_1m_tokens",
+            "modality": "text",
+            "unit": "per_1m_tokens"
+          },
+          {
+            "amount": "0.5",
+            "component": "cached_input",
+            "id": "price:openai/gpt-5.5:standard:short:current:cached_input:text:per_1m_tokens",
+            "modality": "text",
+            "unit": "per_1m_tokens"
+          },
+          {
+            "amount": "30",
+            "component": "output",
+            "id": "price:openai/gpt-5.5:standard:short:current:output:text:per_1m_tokens",
+            "modality": "text",
+            "unit": "per_1m_tokens"
+          }
+        ],
+        "checked_at": "2026-09-20T11:03:36Z",
+        "context_class": "short",
+        "currency": "USD",
+        "effective_from": null,
+        "effective_until": null,
+        "id": "price:openai/gpt-5.5:standard:short:current",
+        "pricing_status": "current",
+        "processing_mode": "standard",
+        "prompt_token_threshold": 272000,
+        "region_policy": {
+          "availability": {
+            "default": "available",
+            "rules": []
+          },
+          "data_residencies": [
+            "global"
+          ],
+          "endpoint_geographies": [
+            "global"
+          ],
+          "price_adjustments": [],
+          "pricing_geography": "global_base"
+        },
+        "source_refs": [
+          "https://developers.openai.com/api/docs/models/gpt-5.5",
+          "https://developers.openai.com/api/docs/guides/prompt-caching"
+        ],
+        "tier_selection": {
+          "cached_prompt_tokens_included": true,
+          "comparison": "less_than_or_equal",
+          "token_basis": "total_prompt_tokens",
+          "whole_request_pricing": true
+        },
+        "verification_status": "verified",
+        "verified_at": "2026-09-20T11:03:36Z"
+      },
+      {
+        "billing_note": "Global token rates. More than 272,000 total input tokens, including cached input, price the full session at 2x input and 1.5x output in Standard, Batch, and Flex. Batch and Flex token rates are half Standard. An official pricing effective date is not stated.",
+        "calculation_default": false,
+        "charges": [
+          {
+            "amount": "10",
+            "component": "input",
+            "id": "price:openai/gpt-5.5:standard:long:current:input:text:per_1m_tokens",
+            "modality": "text",
+            "unit": "per_1m_tokens"
+          },
+          {
+            "amount": "1",
+            "component": "cached_input",
+            "id": "price:openai/gpt-5.5:standard:long:current:cached_input:text:per_1m_tokens",
+            "modality": "text",
+            "unit": "per_1m_tokens"
+          },
+          {
+            "amount": "45",
+            "component": "output",
+            "id": "price:openai/gpt-5.5:standard:long:current:output:text:per_1m_tokens",
+            "modality": "text",
+            "unit": "per_1m_tokens"
+          }
+        ],
+        "checked_at": "2026-09-20T11:03:36Z",
+        "context_class": "long",
+        "currency": "USD",
+        "effective_from": null,
+        "effective_until": null,
+        "id": "price:openai/gpt-5.5:standard:long:current",
+        "pricing_status": "current",
+        "processing_mode": "standard",
+        "prompt_token_threshold": 272000,
+        "region_policy": {
+          "availability": {
+            "default": "available",
+            "rules": []
+          },
+          "data_residencies": [
+            "global"
+          ],
+          "endpoint_geographies": [
+            "global"
+          ],
+          "price_adjustments": [],
+          "pricing_geography": "global_base"
+        },
+        "source_refs": [
+          "https://developers.openai.com/api/docs/models/gpt-5.5",
+          "https://developers.openai.com/api/docs/guides/prompt-caching"
+        ],
+        "tier_selection": {
+          "cached_prompt_tokens_included": true,
+          "comparison": "greater_than",
+          "token_basis": "total_prompt_tokens",
+          "whole_request_pricing": true
+        },
+        "verification_status": "verified",
+        "verified_at": "2026-09-20T11:03:36Z"
+      },
+      {
+        "billing_note": "Global token rates. More than 272,000 total input tokens, including cached input, price the full session at 2x input and 1.5x output in Standard, Batch, and Flex. Batch and Flex token rates are half Standard. An official pricing effective date is not stated.",
+        "calculation_default": false,
+        "charges": [
+          {
+            "amount": "2.5",
+            "component": "input",
+            "id": "price:openai/gpt-5.5:batch:short:current:input:text:per_1m_tokens",
+            "modality": "text",
+            "unit": "per_1m_tokens"
+          },
+          {
+            "amount": "0.25",
+            "component": "cached_input",
+            "id": "price:openai/gpt-5.5:batch:short:current:cached_input:text:per_1m_tokens",
+            "modality": "text",
+            "unit": "per_1m_tokens"
+          },
+          {
+            "amount": "15",
+            "component": "output",
+            "id": "price:openai/gpt-5.5:batch:short:current:output:text:per_1m_tokens",
+            "modality": "text",
+            "unit": "per_1m_tokens"
+          }
+        ],
+        "checked_at": "2026-09-20T11:03:36Z",
+        "context_class": "short",
+        "currency": "USD",
+        "effective_from": null,
+        "effective_until": null,
+        "id": "price:openai/gpt-5.5:batch:short:current",
+        "pricing_status": "current",
+        "processing_mode": "batch",
+        "prompt_token_threshold": 272000,
+        "region_policy": {
+          "availability": {
+            "default": "available",
+            "rules": []
+          },
+          "data_residencies": [
+            "global"
+          ],
+          "endpoint_geographies": [
+            "global"
+          ],
+          "price_adjustments": [],
+          "pricing_geography": "global_base"
+        },
+        "source_refs": [
+          "https://developers.openai.com/api/docs/models/gpt-5.5",
+          "https://developers.openai.com/api/docs/guides/prompt-caching",
+          "https://developers.openai.com/api/docs/guides/batch"
+        ],
+        "tier_selection": {
+          "cached_prompt_tokens_included": true,
+          "comparison": "less_than_or_equal",
+          "token_basis": "total_prompt_tokens",
+          "whole_request_pricing": true
+        },
+        "verification_status": "verified",
+        "verified_at": "2026-09-20T11:03:36Z"
+      },
+      {
+        "billing_note": "Global token rates. More than 272,000 total input tokens, including cached input, price the full session at 2x input and 1.5x output in Standard, Batch, and Flex. Batch and Flex token rates are half Standard. An official pricing effective date is not stated.",
+        "calculation_default": false,
+        "charges": [
+          {
+            "amount": "5",
+            "component": "input",
+            "id": "price:openai/gpt-5.5:batch:long:current:input:text:per_1m_tokens",
+            "modality": "text",
+            "unit": "per_1m_tokens"
+          },
+          {
+            "amount": "0.5",
+            "component": "cached_input",
+            "id": "price:openai/gpt-5.5:batch:long:current:cached_input:text:per_1m_tokens",
+            "modality": "text",
+            "unit": "per_1m_tokens"
+          },
+          {
+            "amount": "22.5",
+            "component": "output",
+            "id": "price:openai/gpt-5.5:batch:long:current:output:text:per_1m_tokens",
+            "modality": "text",
+            "unit": "per_1m_tokens"
+          }
+        ],
+        "checked_at": "2026-09-20T11:03:36Z",
+        "context_class": "long",
+        "currency": "USD",
+        "effective_from": null,
+        "effective_until": null,
+        "id": "price:openai/gpt-5.5:batch:long:current",
+        "pricing_status": "current",
+        "processing_mode": "batch",
+        "prompt_token_threshold": 272000,
+        "region_policy": {
+          "availability": {
+            "default": "available",
+            "rules": []
+          },
+          "data_residencies": [
+            "global"
+          ],
+          "endpoint_geographies": [
+            "global"
+          ],
+          "price_adjustments": [],
+          "pricing_geography": "global_base"
+        },
+        "source_refs": [
+          "https://developers.openai.com/api/docs/models/gpt-5.5",
+          "https://developers.openai.com/api/docs/guides/prompt-caching",
+          "https://developers.openai.com/api/docs/guides/batch"
+        ],
+        "tier_selection": {
+          "cached_prompt_tokens_included": true,
+          "comparison": "greater_than",
+          "token_basis": "total_prompt_tokens",
+          "whole_request_pricing": true
+        },
+        "verification_status": "verified",
+        "verified_at": "2026-09-20T11:03:36Z"
+      },
+      {
+        "billing_note": "Global token rates. More than 272,000 total input tokens, including cached input, price the full session at 2x input and 1.5x output in Standard, Batch, and Flex. Batch and Flex token rates are half Standard. An official pricing effective date is not stated.",
+        "calculation_default": false,
+        "charges": [
+          {
+            "amount": "2.5",
+            "component": "input",
+            "id": "price:openai/gpt-5.5:flex:short:current:input:text:per_1m_tokens",
+            "modality": "text",
+            "unit": "per_1m_tokens"
+          },
+          {
+            "amount": "0.25",
+            "component": "cached_input",
+            "id": "price:openai/gpt-5.5:flex:short:current:cached_input:text:per_1m_tokens",
+            "modality": "text",
+            "unit": "per_1m_tokens"
+          },
+          {
+            "amount": "15",
+            "component": "output",
+            "id": "price:openai/gpt-5.5:flex:short:current:output:text:per_1m_tokens",
+            "modality": "text",
+            "unit": "per_1m_tokens"
+          }
+        ],
+        "checked_at": "2026-09-20T11:03:36Z",
+        "context_class": "short",
+        "currency": "USD",
+        "effective_from": null,
+        "effective_until": null,
+        "id": "price:openai/gpt-5.5:flex:short:current",
+        "pricing_status": "current",
+        "processing_mode": "flex",
+        "prompt_token_threshold": 272000,
+        "region_policy": {
+          "availability": {
+            "default": "available",
+            "rules": []
+          },
+          "data_residencies": [
+            "global"
+          ],
+          "endpoint_geographies": [
+            "global"
+          ],
+          "price_adjustments": [],
+          "pricing_geography": "global_base"
+        },
+        "source_refs": [
+          "https://developers.openai.com/api/docs/models/gpt-5.5",
+          "https://developers.openai.com/api/docs/guides/prompt-caching",
+          "https://developers.openai.com/api/docs/guides/flex-processing"
+        ],
+        "tier_selection": {
+          "cached_prompt_tokens_included": true,
+          "comparison": "less_than_or_equal",
+          "token_basis": "total_prompt_tokens",
+          "whole_request_pricing": true
+        },
+        "verification_status": "verified",
+        "verified_at": "2026-09-20T11:03:36Z"
+      },
+      {
+        "billing_note": "Global token rates. More than 272,000 total input tokens, including cached input, price the full session at 2x input and 1.5x output in Standard, Batch, and Flex. Batch and Flex token rates are half Standard. An official pricing effective date is not stated.",
+        "calculation_default": false,
+        "charges": [
+          {
+            "amount": "5",
+            "component": "input",
+            "id": "price:openai/gpt-5.5:flex:long:current:input:text:per_1m_tokens",
+            "modality": "text",
+            "unit": "per_1m_tokens"
+          },
+          {
+            "amount": "0.5",
+            "component": "cached_input",
+            "id": "price:openai/gpt-5.5:flex:long:current:cached_input:text:per_1m_tokens",
+            "modality": "text",
+            "unit": "per_1m_tokens"
+          },
+          {
+            "amount": "22.5",
+            "component": "output",
+            "id": "price:openai/gpt-5.5:flex:long:current:output:text:per_1m_tokens",
+            "modality": "text",
+            "unit": "per_1m_tokens"
+          }
+        ],
+        "checked_at": "2026-09-20T11:03:36Z",
+        "context_class": "long",
+        "currency": "USD",
+        "effective_from": null,
+        "effective_until": null,
+        "id": "price:openai/gpt-5.5:flex:long:current",
+        "pricing_status": "current",
+        "processing_mode": "flex",
+        "prompt_token_threshold": 272000,
+        "region_policy": {
+          "availability": {
+            "default": "available",
+            "rules": []
+          },
+          "data_residencies": [
+            "global"
+          ],
+          "endpoint_geographies": [
+            "global"
+          ],
+          "price_adjustments": [],
+          "pricing_geography": "global_base"
+        },
+        "source_refs": [
+          "https://developers.openai.com/api/docs/models/gpt-5.5",
+          "https://developers.openai.com/api/docs/guides/prompt-caching",
+          "https://developers.openai.com/api/docs/guides/flex-processing"
+        ],
+        "tier_selection": {
+          "cached_prompt_tokens_included": true,
+          "comparison": "greater_than",
+          "token_basis": "total_prompt_tokens",
+          "whole_request_pricing": true
+        },
+        "verification_status": "verified",
+        "verified_at": "2026-09-20T11:03:36Z"
+      }
+    ]
   },
   {
     "provider_id": "openai",
@@ -585,8 +1420,8 @@
       "batch_output": 2.25
     },
     "official_source_url": "https://platform.openai.com/docs/pricing",
-    "accessed_at": "2026-08-08T18:00:00Z",
-    "last_verified_at": "2026-08-08T18:00:00Z",
+    "accessed_at": "2026-09-20T10:16:13Z",
+    "last_verified_at": "2026-09-20T10:16:13Z",
     "effective_from": null,
     "notes": "OpenAI official pricing page lists standard and batch rates per 1M tokens."
   },
@@ -795,13 +1630,13 @@
       "output": 25.0,
       "cached_input": 0.5,
       "cache_write": 6.25,
-      "cache_write_1h": null,
+      "cache_write_1h": 10.0,
       "batch_input": 2.5,
       "batch_output": 12.5
     },
     "official_source_url": "https://docs.anthropic.com/en/docs/about-claude/pricing",
-    "accessed_at": "2026-08-08T18:00:00Z",
-    "last_verified_at": "2026-08-08T18:00:00Z",
+    "accessed_at": "2026-09-20T10:16:13Z",
+    "last_verified_at": "2026-09-20T10:16:13Z",
     "effective_from": null,
     "notes": "Anthropic table columns are input, 5-minute cache write, 1-hour cache write, cache read, and output. cache_write stores the 5-minute write rate."
   },
@@ -823,8 +1658,8 @@
       "batch_output": 12.5
     },
     "official_source_url": "https://platform.claude.com/docs/en/about-claude/pricing",
-    "accessed_at": "2026-08-08T18:00:00Z",
-    "last_verified_at": "2026-08-08T18:00:00Z",
+    "accessed_at": "2026-09-20T10:16:13Z",
+    "last_verified_at": "2026-09-20T10:16:13Z",
     "effective_from": "2026-07-24",
     "notes": "Released 2026-07-24. Anthropic table columns are input, 5-minute cache write, 1-hour cache write, cache read, and output. cache_write stores the 5-minute write rate; cache_write_1h stores the 1-hour write rate. Batch pricing is 50% of standard input and output per Anthropic Batch Processing."
   },
@@ -868,13 +1703,13 @@
       "output": 15.0,
       "cached_input": 0.3,
       "cache_write": 3.75,
-      "cache_write_1h": null,
+      "cache_write_1h": 6.0,
       "batch_input": 1.5,
       "batch_output": 7.5
     },
     "official_source_url": "https://docs.anthropic.com/en/docs/about-claude/pricing",
-    "accessed_at": "2026-08-08T18:00:00Z",
-    "last_verified_at": "2026-08-08T18:00:00Z",
+    "accessed_at": "2026-09-20T10:16:13Z",
+    "last_verified_at": "2026-09-20T10:16:13Z",
     "effective_from": null,
     "notes": "cache_write stores the 5-minute write rate."
   },
@@ -891,13 +1726,13 @@
       "output": 5.0,
       "cached_input": 0.1,
       "cache_write": 1.25,
-      "cache_write_1h": null,
+      "cache_write_1h": 2.0,
       "batch_input": 0.5,
       "batch_output": 2.5
     },
     "official_source_url": "https://docs.anthropic.com/en/docs/about-claude/pricing",
-    "accessed_at": "2026-08-08T18:00:00Z",
-    "last_verified_at": "2026-08-08T18:00:00Z",
+    "accessed_at": "2026-09-20T10:16:13Z",
+    "last_verified_at": "2026-09-20T10:16:13Z",
     "effective_from": null,
     "notes": "cache_write stores the 5-minute write rate."
   },
@@ -919,10 +1754,512 @@
       "batch_output": 5.0
     },
     "official_source_url": "https://ai.google.dev/gemini-api/docs/pricing",
-    "accessed_at": "2026-08-08T18:00:00Z",
-    "last_verified_at": "2026-08-08T18:00:00Z",
+    "accessed_at": "2026-09-20T11:05:13Z",
+    "last_verified_at": "2026-09-20T11:05:13Z",
     "effective_from": null,
-    "notes": "Rates are for prompts up to 200k tokens. Google lists higher rates above 200k tokens in the official pricing table."
+    "notes": "Paid token rates depend on the full prompt length, including cached prefix: at most 200,000 tokens uses short rates, above 200,000 uses long rates for input, cached input and output. Batch and Flex cache-read rates equal Standard; Priority has its own rates. Cached-content storage per token-hour is a separate time charge and not included in token inference estimates; no pricing effective date is stated.",
+    "official_source_urls": [
+      "https://ai.google.dev/gemini-api/docs/pricing",
+      "https://ai.google.dev/gemini-api/docs/generate-content/caching"
+    ],
+    "price_records": [
+      {
+        "billing_note": "Paid token rates depend on the full prompt length, including cached prefix: at most 200,000 tokens uses short rates, above 200,000 uses long rates for input, cached input and output. Batch and Flex cache-read rates equal Standard; Priority has its own rates. Cached-content storage per token-hour is a separate time charge and not included in token inference estimates; no pricing effective date is stated.",
+        "calculation_default": true,
+        "charges": [
+          {
+            "amount": "1.25",
+            "component": "input",
+            "id": "price:google-gemini/gemini-2.5-pro:standard:short:current:input:text:per_1m_tokens",
+            "modality": "text",
+            "unit": "per_1m_tokens"
+          },
+          {
+            "amount": "0.125",
+            "component": "cached_input",
+            "id": "price:google-gemini/gemini-2.5-pro:standard:short:current:cached_input:text:per_1m_tokens",
+            "modality": "text",
+            "unit": "per_1m_tokens"
+          },
+          {
+            "amount": "10",
+            "component": "output",
+            "id": "price:google-gemini/gemini-2.5-pro:standard:short:current:output:text:per_1m_tokens",
+            "modality": "text",
+            "unit": "per_1m_tokens"
+          }
+        ],
+        "checked_at": "2026-09-20T11:05:13Z",
+        "context_class": "short",
+        "currency": "USD",
+        "effective_from": null,
+        "effective_until": null,
+        "id": "price:google-gemini/gemini-2.5-pro:standard:short:current",
+        "pricing_status": "current",
+        "processing_mode": "standard",
+        "prompt_token_threshold": 200000,
+        "region_policy": {
+          "availability": {
+            "default": "available",
+            "rules": []
+          },
+          "data_residencies": [
+            "global"
+          ],
+          "endpoint_geographies": [
+            "global"
+          ],
+          "price_adjustments": [],
+          "pricing_geography": "global_base"
+        },
+        "source_refs": [
+          "https://ai.google.dev/gemini-api/docs/pricing",
+          "https://ai.google.dev/gemini-api/docs/generate-content/caching"
+        ],
+        "tier_selection": {
+          "cached_prompt_tokens_included": true,
+          "comparison": "less_than_or_equal",
+          "token_basis": "total_prompt_tokens",
+          "whole_request_pricing": true
+        },
+        "verification_status": "verified",
+        "verified_at": "2026-09-20T11:05:13Z"
+      },
+      {
+        "billing_note": "Paid token rates depend on the full prompt length, including cached prefix: at most 200,000 tokens uses short rates, above 200,000 uses long rates for input, cached input and output. Batch and Flex cache-read rates equal Standard; Priority has its own rates. Cached-content storage per token-hour is a separate time charge and not included in token inference estimates; no pricing effective date is stated.",
+        "calculation_default": false,
+        "charges": [
+          {
+            "amount": "2.5",
+            "component": "input",
+            "id": "price:google-gemini/gemini-2.5-pro:standard:long:current:input:text:per_1m_tokens",
+            "modality": "text",
+            "unit": "per_1m_tokens"
+          },
+          {
+            "amount": "0.25",
+            "component": "cached_input",
+            "id": "price:google-gemini/gemini-2.5-pro:standard:long:current:cached_input:text:per_1m_tokens",
+            "modality": "text",
+            "unit": "per_1m_tokens"
+          },
+          {
+            "amount": "15",
+            "component": "output",
+            "id": "price:google-gemini/gemini-2.5-pro:standard:long:current:output:text:per_1m_tokens",
+            "modality": "text",
+            "unit": "per_1m_tokens"
+          }
+        ],
+        "checked_at": "2026-09-20T11:05:13Z",
+        "context_class": "long",
+        "currency": "USD",
+        "effective_from": null,
+        "effective_until": null,
+        "id": "price:google-gemini/gemini-2.5-pro:standard:long:current",
+        "pricing_status": "current",
+        "processing_mode": "standard",
+        "prompt_token_threshold": 200000,
+        "region_policy": {
+          "availability": {
+            "default": "available",
+            "rules": []
+          },
+          "data_residencies": [
+            "global"
+          ],
+          "endpoint_geographies": [
+            "global"
+          ],
+          "price_adjustments": [],
+          "pricing_geography": "global_base"
+        },
+        "source_refs": [
+          "https://ai.google.dev/gemini-api/docs/pricing",
+          "https://ai.google.dev/gemini-api/docs/generate-content/caching"
+        ],
+        "tier_selection": {
+          "cached_prompt_tokens_included": true,
+          "comparison": "greater_than",
+          "token_basis": "total_prompt_tokens",
+          "whole_request_pricing": true
+        },
+        "verification_status": "verified",
+        "verified_at": "2026-09-20T11:05:13Z"
+      },
+      {
+        "billing_note": "Paid token rates depend on the full prompt length, including cached prefix: at most 200,000 tokens uses short rates, above 200,000 uses long rates for input, cached input and output. Batch and Flex cache-read rates equal Standard; Priority has its own rates. Cached-content storage per token-hour is a separate time charge and not included in token inference estimates; no pricing effective date is stated.",
+        "calculation_default": false,
+        "charges": [
+          {
+            "amount": "0.625",
+            "component": "input",
+            "id": "price:google-gemini/gemini-2.5-pro:batch:short:current:input:text:per_1m_tokens",
+            "modality": "text",
+            "unit": "per_1m_tokens"
+          },
+          {
+            "amount": "0.125",
+            "component": "cached_input",
+            "id": "price:google-gemini/gemini-2.5-pro:batch:short:current:cached_input:text:per_1m_tokens",
+            "modality": "text",
+            "unit": "per_1m_tokens"
+          },
+          {
+            "amount": "5",
+            "component": "output",
+            "id": "price:google-gemini/gemini-2.5-pro:batch:short:current:output:text:per_1m_tokens",
+            "modality": "text",
+            "unit": "per_1m_tokens"
+          }
+        ],
+        "checked_at": "2026-09-20T11:05:13Z",
+        "context_class": "short",
+        "currency": "USD",
+        "effective_from": null,
+        "effective_until": null,
+        "id": "price:google-gemini/gemini-2.5-pro:batch:short:current",
+        "pricing_status": "current",
+        "processing_mode": "batch",
+        "prompt_token_threshold": 200000,
+        "region_policy": {
+          "availability": {
+            "default": "available",
+            "rules": []
+          },
+          "data_residencies": [
+            "global"
+          ],
+          "endpoint_geographies": [
+            "global"
+          ],
+          "price_adjustments": [],
+          "pricing_geography": "global_base"
+        },
+        "source_refs": [
+          "https://ai.google.dev/gemini-api/docs/pricing",
+          "https://ai.google.dev/gemini-api/docs/generate-content/caching"
+        ],
+        "tier_selection": {
+          "cached_prompt_tokens_included": true,
+          "comparison": "less_than_or_equal",
+          "token_basis": "total_prompt_tokens",
+          "whole_request_pricing": true
+        },
+        "verification_status": "verified",
+        "verified_at": "2026-09-20T11:05:13Z"
+      },
+      {
+        "billing_note": "Paid token rates depend on the full prompt length, including cached prefix: at most 200,000 tokens uses short rates, above 200,000 uses long rates for input, cached input and output. Batch and Flex cache-read rates equal Standard; Priority has its own rates. Cached-content storage per token-hour is a separate time charge and not included in token inference estimates; no pricing effective date is stated.",
+        "calculation_default": false,
+        "charges": [
+          {
+            "amount": "1.25",
+            "component": "input",
+            "id": "price:google-gemini/gemini-2.5-pro:batch:long:current:input:text:per_1m_tokens",
+            "modality": "text",
+            "unit": "per_1m_tokens"
+          },
+          {
+            "amount": "0.25",
+            "component": "cached_input",
+            "id": "price:google-gemini/gemini-2.5-pro:batch:long:current:cached_input:text:per_1m_tokens",
+            "modality": "text",
+            "unit": "per_1m_tokens"
+          },
+          {
+            "amount": "7.5",
+            "component": "output",
+            "id": "price:google-gemini/gemini-2.5-pro:batch:long:current:output:text:per_1m_tokens",
+            "modality": "text",
+            "unit": "per_1m_tokens"
+          }
+        ],
+        "checked_at": "2026-09-20T11:05:13Z",
+        "context_class": "long",
+        "currency": "USD",
+        "effective_from": null,
+        "effective_until": null,
+        "id": "price:google-gemini/gemini-2.5-pro:batch:long:current",
+        "pricing_status": "current",
+        "processing_mode": "batch",
+        "prompt_token_threshold": 200000,
+        "region_policy": {
+          "availability": {
+            "default": "available",
+            "rules": []
+          },
+          "data_residencies": [
+            "global"
+          ],
+          "endpoint_geographies": [
+            "global"
+          ],
+          "price_adjustments": [],
+          "pricing_geography": "global_base"
+        },
+        "source_refs": [
+          "https://ai.google.dev/gemini-api/docs/pricing",
+          "https://ai.google.dev/gemini-api/docs/generate-content/caching"
+        ],
+        "tier_selection": {
+          "cached_prompt_tokens_included": true,
+          "comparison": "greater_than",
+          "token_basis": "total_prompt_tokens",
+          "whole_request_pricing": true
+        },
+        "verification_status": "verified",
+        "verified_at": "2026-09-20T11:05:13Z"
+      },
+      {
+        "billing_note": "Paid token rates depend on the full prompt length, including cached prefix: at most 200,000 tokens uses short rates, above 200,000 uses long rates for input, cached input and output. Batch and Flex cache-read rates equal Standard; Priority has its own rates. Cached-content storage per token-hour is a separate time charge and not included in token inference estimates; no pricing effective date is stated.",
+        "calculation_default": false,
+        "charges": [
+          {
+            "amount": "0.625",
+            "component": "input",
+            "id": "price:google-gemini/gemini-2.5-pro:flex:short:current:input:text:per_1m_tokens",
+            "modality": "text",
+            "unit": "per_1m_tokens"
+          },
+          {
+            "amount": "0.125",
+            "component": "cached_input",
+            "id": "price:google-gemini/gemini-2.5-pro:flex:short:current:cached_input:text:per_1m_tokens",
+            "modality": "text",
+            "unit": "per_1m_tokens"
+          },
+          {
+            "amount": "5",
+            "component": "output",
+            "id": "price:google-gemini/gemini-2.5-pro:flex:short:current:output:text:per_1m_tokens",
+            "modality": "text",
+            "unit": "per_1m_tokens"
+          }
+        ],
+        "checked_at": "2026-09-20T11:05:13Z",
+        "context_class": "short",
+        "currency": "USD",
+        "effective_from": null,
+        "effective_until": null,
+        "id": "price:google-gemini/gemini-2.5-pro:flex:short:current",
+        "pricing_status": "current",
+        "processing_mode": "flex",
+        "prompt_token_threshold": 200000,
+        "region_policy": {
+          "availability": {
+            "default": "available",
+            "rules": []
+          },
+          "data_residencies": [
+            "global"
+          ],
+          "endpoint_geographies": [
+            "global"
+          ],
+          "price_adjustments": [],
+          "pricing_geography": "global_base"
+        },
+        "source_refs": [
+          "https://ai.google.dev/gemini-api/docs/pricing",
+          "https://ai.google.dev/gemini-api/docs/generate-content/caching"
+        ],
+        "tier_selection": {
+          "cached_prompt_tokens_included": true,
+          "comparison": "less_than_or_equal",
+          "token_basis": "total_prompt_tokens",
+          "whole_request_pricing": true
+        },
+        "verification_status": "verified",
+        "verified_at": "2026-09-20T11:05:13Z"
+      },
+      {
+        "billing_note": "Paid token rates depend on the full prompt length, including cached prefix: at most 200,000 tokens uses short rates, above 200,000 uses long rates for input, cached input and output. Batch and Flex cache-read rates equal Standard; Priority has its own rates. Cached-content storage per token-hour is a separate time charge and not included in token inference estimates; no pricing effective date is stated.",
+        "calculation_default": false,
+        "charges": [
+          {
+            "amount": "1.25",
+            "component": "input",
+            "id": "price:google-gemini/gemini-2.5-pro:flex:long:current:input:text:per_1m_tokens",
+            "modality": "text",
+            "unit": "per_1m_tokens"
+          },
+          {
+            "amount": "0.25",
+            "component": "cached_input",
+            "id": "price:google-gemini/gemini-2.5-pro:flex:long:current:cached_input:text:per_1m_tokens",
+            "modality": "text",
+            "unit": "per_1m_tokens"
+          },
+          {
+            "amount": "7.5",
+            "component": "output",
+            "id": "price:google-gemini/gemini-2.5-pro:flex:long:current:output:text:per_1m_tokens",
+            "modality": "text",
+            "unit": "per_1m_tokens"
+          }
+        ],
+        "checked_at": "2026-09-20T11:05:13Z",
+        "context_class": "long",
+        "currency": "USD",
+        "effective_from": null,
+        "effective_until": null,
+        "id": "price:google-gemini/gemini-2.5-pro:flex:long:current",
+        "pricing_status": "current",
+        "processing_mode": "flex",
+        "prompt_token_threshold": 200000,
+        "region_policy": {
+          "availability": {
+            "default": "available",
+            "rules": []
+          },
+          "data_residencies": [
+            "global"
+          ],
+          "endpoint_geographies": [
+            "global"
+          ],
+          "price_adjustments": [],
+          "pricing_geography": "global_base"
+        },
+        "source_refs": [
+          "https://ai.google.dev/gemini-api/docs/pricing",
+          "https://ai.google.dev/gemini-api/docs/generate-content/caching"
+        ],
+        "tier_selection": {
+          "cached_prompt_tokens_included": true,
+          "comparison": "greater_than",
+          "token_basis": "total_prompt_tokens",
+          "whole_request_pricing": true
+        },
+        "verification_status": "verified",
+        "verified_at": "2026-09-20T11:05:13Z"
+      },
+      {
+        "billing_note": "Paid token rates depend on the full prompt length, including cached prefix: at most 200,000 tokens uses short rates, above 200,000 uses long rates for input, cached input and output. Batch and Flex cache-read rates equal Standard; Priority has its own rates. Cached-content storage per token-hour is a separate time charge and not included in token inference estimates; no pricing effective date is stated.",
+        "calculation_default": false,
+        "charges": [
+          {
+            "amount": "2.25",
+            "component": "input",
+            "id": "price:google-gemini/gemini-2.5-pro:priority:short:current:input:text:per_1m_tokens",
+            "modality": "text",
+            "unit": "per_1m_tokens"
+          },
+          {
+            "amount": "0.225",
+            "component": "cached_input",
+            "id": "price:google-gemini/gemini-2.5-pro:priority:short:current:cached_input:text:per_1m_tokens",
+            "modality": "text",
+            "unit": "per_1m_tokens"
+          },
+          {
+            "amount": "18",
+            "component": "output",
+            "id": "price:google-gemini/gemini-2.5-pro:priority:short:current:output:text:per_1m_tokens",
+            "modality": "text",
+            "unit": "per_1m_tokens"
+          }
+        ],
+        "checked_at": "2026-09-20T11:05:13Z",
+        "context_class": "short",
+        "currency": "USD",
+        "effective_from": null,
+        "effective_until": null,
+        "id": "price:google-gemini/gemini-2.5-pro:priority:short:current",
+        "pricing_status": "current",
+        "processing_mode": "priority",
+        "prompt_token_threshold": 200000,
+        "region_policy": {
+          "availability": {
+            "default": "available",
+            "rules": []
+          },
+          "data_residencies": [
+            "global"
+          ],
+          "endpoint_geographies": [
+            "global"
+          ],
+          "price_adjustments": [],
+          "pricing_geography": "global_base"
+        },
+        "source_refs": [
+          "https://ai.google.dev/gemini-api/docs/pricing",
+          "https://ai.google.dev/gemini-api/docs/generate-content/caching"
+        ],
+        "tier_selection": {
+          "cached_prompt_tokens_included": true,
+          "comparison": "less_than_or_equal",
+          "token_basis": "total_prompt_tokens",
+          "whole_request_pricing": true
+        },
+        "verification_status": "verified",
+        "verified_at": "2026-09-20T11:05:13Z"
+      },
+      {
+        "billing_note": "Paid token rates depend on the full prompt length, including cached prefix: at most 200,000 tokens uses short rates, above 200,000 uses long rates for input, cached input and output. Batch and Flex cache-read rates equal Standard; Priority has its own rates. Cached-content storage per token-hour is a separate time charge and not included in token inference estimates; no pricing effective date is stated.",
+        "calculation_default": false,
+        "charges": [
+          {
+            "amount": "4.5",
+            "component": "input",
+            "id": "price:google-gemini/gemini-2.5-pro:priority:long:current:input:text:per_1m_tokens",
+            "modality": "text",
+            "unit": "per_1m_tokens"
+          },
+          {
+            "amount": "0.45",
+            "component": "cached_input",
+            "id": "price:google-gemini/gemini-2.5-pro:priority:long:current:cached_input:text:per_1m_tokens",
+            "modality": "text",
+            "unit": "per_1m_tokens"
+          },
+          {
+            "amount": "27",
+            "component": "output",
+            "id": "price:google-gemini/gemini-2.5-pro:priority:long:current:output:text:per_1m_tokens",
+            "modality": "text",
+            "unit": "per_1m_tokens"
+          }
+        ],
+        "checked_at": "2026-09-20T11:05:13Z",
+        "context_class": "long",
+        "currency": "USD",
+        "effective_from": null,
+        "effective_until": null,
+        "id": "price:google-gemini/gemini-2.5-pro:priority:long:current",
+        "pricing_status": "current",
+        "processing_mode": "priority",
+        "prompt_token_threshold": 200000,
+        "region_policy": {
+          "availability": {
+            "default": "available",
+            "rules": []
+          },
+          "data_residencies": [
+            "global"
+          ],
+          "endpoint_geographies": [
+            "global"
+          ],
+          "price_adjustments": [],
+          "pricing_geography": "global_base"
+        },
+        "source_refs": [
+          "https://ai.google.dev/gemini-api/docs/pricing",
+          "https://ai.google.dev/gemini-api/docs/generate-content/caching"
+        ],
+        "tier_selection": {
+          "cached_prompt_tokens_included": true,
+          "comparison": "greater_than",
+          "token_basis": "total_prompt_tokens",
+          "whole_request_pricing": true
+        },
+        "verification_status": "verified",
+        "verified_at": "2026-09-20T11:05:13Z"
+      }
+    ]
   },
   {
     "provider_id": "google-gemini",
@@ -942,8 +2279,8 @@
       "batch_output": 1.25
     },
     "official_source_url": "https://ai.google.dev/gemini-api/docs/pricing",
-    "accessed_at": "2026-08-08T18:00:00Z",
-    "last_verified_at": "2026-08-08T18:00:00Z",
+    "accessed_at": "2026-09-20T10:16:13Z",
+    "last_verified_at": "2026-09-20T10:16:13Z",
     "effective_from": null,
     "notes": "Rates are for text/image/video input; Google lists separate audio rates in the official pricing table."
   },
@@ -1265,8 +2602,8 @@
       "batch_output": 1.25
     },
     "official_source_url": "https://ai.google.dev/gemini-api/docs/pricing",
-    "accessed_at": "2026-08-08T18:00:00Z",
-    "last_verified_at": "2026-08-08T18:00:00Z",
+    "accessed_at": "2026-09-20T10:16:13Z",
+    "last_verified_at": "2026-09-20T10:16:13Z",
     "effective_from": null,
     "notes": "Google released Gemini 3.5 Flash-Lite generally available on 2026-07-21. V1 stores standard text/image/video rates and explicit Batch rates from the official pricing table. Separate audio rates are not represented. effective_from remains null because the official sources do not publish a distinct pricing effective date."
   },
@@ -1310,51 +2647,406 @@
       "batch_input": 1.0,
       "batch_output": 2.0
     },
-    "pricing_tiers": [
-      {
-        "id": "short",
-        "processing_mode": "standard",
-        "pricing_status": "current",
-        "calculation_default": true,
-        "prompt_token_threshold": 200000,
-        "threshold_comparison": "less_than",
-        "threshold_token_basis": "total_prompt_tokens",
-        "cached_prompt_tokens_included": true,
-        "whole_request_pricing": true,
-        "currency": "USD",
-        "unit": "1M tokens",
-        "input": 1.25,
-        "cached_input": 0.2,
-        "output": 2.5
-      },
-      {
-        "id": "long",
-        "processing_mode": "standard",
-        "pricing_status": "current",
-        "calculation_default": false,
-        "prompt_token_threshold": 200000,
-        "threshold_comparison": "greater_than_or_equal",
-        "threshold_token_basis": "total_prompt_tokens",
-        "cached_prompt_tokens_included": true,
-        "whole_request_pricing": true,
-        "currency": "USD",
-        "unit": "1M tokens",
-        "input": 2.5,
-        "cached_input": 0.4,
-        "output": 5.0
-      }
-    ],
     "official_source_url": "https://docs.x.ai/developers/pricing",
     "official_source_urls": [
       "https://docs.x.ai/developers/pricing",
       "https://docs.x.ai/developers/advanced-api-usage/prompt-caching/usage-and-pricing",
       "https://docs.x.ai/developers/rest-api-reference/inference/models",
-      "https://docs.x.ai/developers/models/grok-4.3"
+      "https://docs.x.ai/developers/models/grok-4.3",
+      "https://docs.x.ai/developers/advanced-api-usage/priority-processing"
     ],
-    "accessed_at": "2026-08-15T12:25:26Z",
-    "last_verified_at": "2026-08-15T12:25:26Z",
+    "accessed_at": "2026-09-20T13:28:36Z",
+    "last_verified_at": "2026-09-20T13:28:36Z",
     "effective_from": null,
-    "notes": "V1 pricing remains the short-context compatibility projection. Canonical Pricing V2 tiers model standard short-context prompt tokens < 200K and long-context prompt tokens >= 200K. Total prompt tokens include cached prompt tokens, and the selected tier applies to the whole request. Grok 4.3 Batch API pricing receives a 20% discount and is outside these standard tiers."
+    "notes": "V1 is the short-context compatibility projection. For Standard, Batch, and Priority, the long-context tier starts at 200000 total prompt tokens including cached input and prices the whole request. Batch discounts all token types by 20%; Priority doubles all token rates when the response confirms priority service. Official price effective date is unstated.",
+    "price_records": [
+      {
+        "id": "price:xai/grok-4.3:standard:short:current",
+        "processing_mode": "standard",
+        "context_class": "short",
+        "pricing_status": "current",
+        "calculation_default": true,
+        "prompt_token_threshold": 200000,
+        "tier_selection": {
+          "comparison": "less_than",
+          "token_basis": "total_prompt_tokens",
+          "cached_prompt_tokens_included": true,
+          "whole_request_pricing": true
+        },
+        "effective_from": null,
+        "effective_until": null,
+        "currency": "USD",
+        "charges": [
+          {
+            "id": "price:xai/grok-4.3:standard:short:current:input:text:per_1m_tokens",
+            "component": "input",
+            "modality": "text",
+            "unit": "per_1m_tokens",
+            "amount": "1.25"
+          },
+          {
+            "id": "price:xai/grok-4.3:standard:short:current:cached_input:text:per_1m_tokens",
+            "component": "cached_input",
+            "modality": "text",
+            "unit": "per_1m_tokens",
+            "amount": "0.2"
+          },
+          {
+            "id": "price:xai/grok-4.3:standard:short:current:output:text:per_1m_tokens",
+            "component": "output",
+            "modality": "text",
+            "unit": "per_1m_tokens",
+            "amount": "2.5"
+          }
+        ],
+        "region_policy": {
+          "pricing_geography": "global_base",
+          "endpoint_geographies": [
+            "global"
+          ],
+          "data_residencies": [
+            "global"
+          ],
+          "availability": {
+            "default": "available",
+            "rules": []
+          },
+          "price_adjustments": []
+        },
+        "source_refs": [
+          "https://docs.x.ai/developers/pricing",
+          "https://docs.x.ai/developers/models/grok-4.3",
+          "https://docs.x.ai/developers/advanced-api-usage/prompt-caching/usage-and-pricing",
+          "https://docs.x.ai/developers/rest-api-reference/inference/models"
+        ],
+        "verification_status": "verified",
+        "checked_at": "2026-09-20T13:28:36Z",
+        "verified_at": "2026-09-20T13:28:36Z",
+        "billing_note": "V1 is the short-context compatibility projection. For Standard, Batch, and Priority, the long-context tier starts at 200000 total prompt tokens including cached input and prices the whole request. Batch discounts all token types by 20%; Priority doubles all token rates when the response confirms priority service. Official price effective date is unstated."
+      },
+      {
+        "id": "price:xai/grok-4.3:standard:long:current",
+        "processing_mode": "standard",
+        "context_class": "long",
+        "pricing_status": "current",
+        "calculation_default": false,
+        "prompt_token_threshold": 200000,
+        "tier_selection": {
+          "comparison": "greater_than_or_equal",
+          "token_basis": "total_prompt_tokens",
+          "cached_prompt_tokens_included": true,
+          "whole_request_pricing": true
+        },
+        "effective_from": null,
+        "effective_until": null,
+        "currency": "USD",
+        "charges": [
+          {
+            "id": "price:xai/grok-4.3:standard:long:current:input:text:per_1m_tokens",
+            "component": "input",
+            "modality": "text",
+            "unit": "per_1m_tokens",
+            "amount": "2.5"
+          },
+          {
+            "id": "price:xai/grok-4.3:standard:long:current:cached_input:text:per_1m_tokens",
+            "component": "cached_input",
+            "modality": "text",
+            "unit": "per_1m_tokens",
+            "amount": "0.4"
+          },
+          {
+            "id": "price:xai/grok-4.3:standard:long:current:output:text:per_1m_tokens",
+            "component": "output",
+            "modality": "text",
+            "unit": "per_1m_tokens",
+            "amount": "5"
+          }
+        ],
+        "region_policy": {
+          "pricing_geography": "global_base",
+          "endpoint_geographies": [
+            "global"
+          ],
+          "data_residencies": [
+            "global"
+          ],
+          "availability": {
+            "default": "available",
+            "rules": []
+          },
+          "price_adjustments": []
+        },
+        "source_refs": [
+          "https://docs.x.ai/developers/pricing",
+          "https://docs.x.ai/developers/models/grok-4.3",
+          "https://docs.x.ai/developers/advanced-api-usage/prompt-caching/usage-and-pricing",
+          "https://docs.x.ai/developers/rest-api-reference/inference/models"
+        ],
+        "verification_status": "verified",
+        "checked_at": "2026-09-20T13:28:36Z",
+        "verified_at": "2026-09-20T13:28:36Z",
+        "billing_note": "V1 is the short-context compatibility projection. For Standard, Batch, and Priority, the long-context tier starts at 200000 total prompt tokens including cached input and prices the whole request. Batch discounts all token types by 20%; Priority doubles all token rates when the response confirms priority service. Official price effective date is unstated."
+      },
+      {
+        "id": "price:xai/grok-4.3:batch:short:current",
+        "processing_mode": "batch",
+        "context_class": "short",
+        "pricing_status": "current",
+        "calculation_default": false,
+        "prompt_token_threshold": 200000,
+        "tier_selection": {
+          "comparison": "less_than",
+          "token_basis": "total_prompt_tokens",
+          "cached_prompt_tokens_included": true,
+          "whole_request_pricing": true
+        },
+        "effective_from": null,
+        "effective_until": null,
+        "currency": "USD",
+        "charges": [
+          {
+            "id": "price:xai/grok-4.3:batch:short:current:input:text:per_1m_tokens",
+            "component": "input",
+            "modality": "text",
+            "unit": "per_1m_tokens",
+            "amount": "1"
+          },
+          {
+            "id": "price:xai/grok-4.3:batch:short:current:cached_input:text:per_1m_tokens",
+            "component": "cached_input",
+            "modality": "text",
+            "unit": "per_1m_tokens",
+            "amount": "0.16"
+          },
+          {
+            "id": "price:xai/grok-4.3:batch:short:current:output:text:per_1m_tokens",
+            "component": "output",
+            "modality": "text",
+            "unit": "per_1m_tokens",
+            "amount": "2"
+          }
+        ],
+        "region_policy": {
+          "pricing_geography": "global_base",
+          "endpoint_geographies": [
+            "global"
+          ],
+          "data_residencies": [
+            "global"
+          ],
+          "availability": {
+            "default": "available",
+            "rules": []
+          },
+          "price_adjustments": []
+        },
+        "source_refs": [
+          "https://docs.x.ai/developers/pricing",
+          "https://docs.x.ai/developers/models/grok-4.3",
+          "https://docs.x.ai/developers/advanced-api-usage/prompt-caching/usage-and-pricing",
+          "https://docs.x.ai/developers/rest-api-reference/inference/models"
+        ],
+        "verification_status": "verified",
+        "checked_at": "2026-09-20T13:28:36Z",
+        "verified_at": "2026-09-20T13:28:36Z",
+        "billing_note": "V1 is the short-context compatibility projection. For Standard, Batch, and Priority, the long-context tier starts at 200000 total prompt tokens including cached input and prices the whole request. Batch discounts all token types by 20%; Priority doubles all token rates when the response confirms priority service. Official price effective date is unstated."
+      },
+      {
+        "id": "price:xai/grok-4.3:batch:long:current",
+        "processing_mode": "batch",
+        "context_class": "long",
+        "pricing_status": "current",
+        "calculation_default": false,
+        "prompt_token_threshold": 200000,
+        "tier_selection": {
+          "comparison": "greater_than_or_equal",
+          "token_basis": "total_prompt_tokens",
+          "cached_prompt_tokens_included": true,
+          "whole_request_pricing": true
+        },
+        "effective_from": null,
+        "effective_until": null,
+        "currency": "USD",
+        "charges": [
+          {
+            "id": "price:xai/grok-4.3:batch:long:current:input:text:per_1m_tokens",
+            "component": "input",
+            "modality": "text",
+            "unit": "per_1m_tokens",
+            "amount": "2"
+          },
+          {
+            "id": "price:xai/grok-4.3:batch:long:current:cached_input:text:per_1m_tokens",
+            "component": "cached_input",
+            "modality": "text",
+            "unit": "per_1m_tokens",
+            "amount": "0.32"
+          },
+          {
+            "id": "price:xai/grok-4.3:batch:long:current:output:text:per_1m_tokens",
+            "component": "output",
+            "modality": "text",
+            "unit": "per_1m_tokens",
+            "amount": "4"
+          }
+        ],
+        "region_policy": {
+          "pricing_geography": "global_base",
+          "endpoint_geographies": [
+            "global"
+          ],
+          "data_residencies": [
+            "global"
+          ],
+          "availability": {
+            "default": "available",
+            "rules": []
+          },
+          "price_adjustments": []
+        },
+        "source_refs": [
+          "https://docs.x.ai/developers/pricing",
+          "https://docs.x.ai/developers/models/grok-4.3",
+          "https://docs.x.ai/developers/advanced-api-usage/prompt-caching/usage-and-pricing",
+          "https://docs.x.ai/developers/rest-api-reference/inference/models"
+        ],
+        "verification_status": "verified",
+        "checked_at": "2026-09-20T13:28:36Z",
+        "verified_at": "2026-09-20T13:28:36Z",
+        "billing_note": "V1 is the short-context compatibility projection. For Standard, Batch, and Priority, the long-context tier starts at 200000 total prompt tokens including cached input and prices the whole request. Batch discounts all token types by 20%; Priority doubles all token rates when the response confirms priority service. Official price effective date is unstated."
+      },
+      {
+        "id": "price:xai/grok-4.3:priority:short:current",
+        "processing_mode": "priority",
+        "context_class": "short",
+        "pricing_status": "current",
+        "calculation_default": false,
+        "prompt_token_threshold": 200000,
+        "tier_selection": {
+          "comparison": "less_than",
+          "token_basis": "total_prompt_tokens",
+          "cached_prompt_tokens_included": true,
+          "whole_request_pricing": true
+        },
+        "effective_from": null,
+        "effective_until": null,
+        "currency": "USD",
+        "charges": [
+          {
+            "id": "price:xai/grok-4.3:priority:short:current:input:text:per_1m_tokens",
+            "component": "input",
+            "modality": "text",
+            "unit": "per_1m_tokens",
+            "amount": "2.5"
+          },
+          {
+            "id": "price:xai/grok-4.3:priority:short:current:cached_input:text:per_1m_tokens",
+            "component": "cached_input",
+            "modality": "text",
+            "unit": "per_1m_tokens",
+            "amount": "0.4"
+          },
+          {
+            "id": "price:xai/grok-4.3:priority:short:current:output:text:per_1m_tokens",
+            "component": "output",
+            "modality": "text",
+            "unit": "per_1m_tokens",
+            "amount": "5"
+          }
+        ],
+        "region_policy": {
+          "pricing_geography": "global_base",
+          "endpoint_geographies": [
+            "global"
+          ],
+          "data_residencies": [
+            "global"
+          ],
+          "availability": {
+            "default": "available",
+            "rules": []
+          },
+          "price_adjustments": []
+        },
+        "source_refs": [
+          "https://docs.x.ai/developers/pricing",
+          "https://docs.x.ai/developers/models/grok-4.3",
+          "https://docs.x.ai/developers/advanced-api-usage/prompt-caching/usage-and-pricing",
+          "https://docs.x.ai/developers/advanced-api-usage/priority-processing",
+          "https://docs.x.ai/developers/rest-api-reference/inference/models"
+        ],
+        "verification_status": "verified",
+        "checked_at": "2026-09-20T13:28:36Z",
+        "verified_at": "2026-09-20T13:28:36Z",
+        "billing_note": "V1 is the short-context compatibility projection. For Standard, Batch, and Priority, the long-context tier starts at 200000 total prompt tokens including cached input and prices the whole request. Batch discounts all token types by 20%; Priority doubles all token rates when the response confirms priority service. Official price effective date is unstated."
+      },
+      {
+        "id": "price:xai/grok-4.3:priority:long:current",
+        "processing_mode": "priority",
+        "context_class": "long",
+        "pricing_status": "current",
+        "calculation_default": false,
+        "prompt_token_threshold": 200000,
+        "tier_selection": {
+          "comparison": "greater_than_or_equal",
+          "token_basis": "total_prompt_tokens",
+          "cached_prompt_tokens_included": true,
+          "whole_request_pricing": true
+        },
+        "effective_from": null,
+        "effective_until": null,
+        "currency": "USD",
+        "charges": [
+          {
+            "id": "price:xai/grok-4.3:priority:long:current:input:text:per_1m_tokens",
+            "component": "input",
+            "modality": "text",
+            "unit": "per_1m_tokens",
+            "amount": "5"
+          },
+          {
+            "id": "price:xai/grok-4.3:priority:long:current:cached_input:text:per_1m_tokens",
+            "component": "cached_input",
+            "modality": "text",
+            "unit": "per_1m_tokens",
+            "amount": "0.8"
+          },
+          {
+            "id": "price:xai/grok-4.3:priority:long:current:output:text:per_1m_tokens",
+            "component": "output",
+            "modality": "text",
+            "unit": "per_1m_tokens",
+            "amount": "10"
+          }
+        ],
+        "region_policy": {
+          "pricing_geography": "global_base",
+          "endpoint_geographies": [
+            "global"
+          ],
+          "data_residencies": [
+            "global"
+          ],
+          "availability": {
+            "default": "available",
+            "rules": []
+          },
+          "price_adjustments": []
+        },
+        "source_refs": [
+          "https://docs.x.ai/developers/pricing",
+          "https://docs.x.ai/developers/models/grok-4.3",
+          "https://docs.x.ai/developers/advanced-api-usage/prompt-caching/usage-and-pricing",
+          "https://docs.x.ai/developers/advanced-api-usage/priority-processing",
+          "https://docs.x.ai/developers/rest-api-reference/inference/models"
+        ],
+        "verification_status": "verified",
+        "checked_at": "2026-09-20T13:28:36Z",
+        "verified_at": "2026-09-20T13:28:36Z",
+        "billing_note": "V1 is the short-context compatibility projection. For Standard, Batch, and Priority, the long-context tier starts at 200000 total prompt tokens including cached input and prices the whole request. Batch discounts all token types by 20%; Priority doubles all token rates when the response confirms priority service. Official price effective date is unstated."
+      }
+    ]
   },
   {
     "provider_id": "xai",
@@ -1373,11 +3065,144 @@
       "batch_input": null,
       "batch_output": null
     },
-    "official_source_url": "https://docs.x.ai/developers/pricing",
-    "accessed_at": "2026-08-08T18:00:00Z",
-    "last_verified_at": "2026-08-08T18:00:00Z",
+    "official_source_url": "https://docs.x.ai/developers/models/grok-4.5",
+    "accessed_at": "2026-09-20T11:07:05Z",
+    "last_verified_at": "2026-09-20T11:07:05Z",
     "effective_from": null,
-    "notes": "V1 stores short-context pricing. The long-context threshold is 200K tokens, where xAI lists $4 input, $0.60 cached input, and $12 output per 1M tokens. xAI Batch API documentation explicitly says Grok 4.5 is not supported, so Batch fields remain null. The 2026-07-16 announcement date is not used as effective_from because xAI does not publish a distinct pricing effective date."
+    "notes": "Global Standard token rates; total prompt tokens include cached tokens. At 200,000 tokens or more, long rates apply to every input, cached, and output token in the request. The model detail page says Batch API is not supported. No distinct pricing effective date is published.",
+    "official_source_urls": [
+      "https://docs.x.ai/developers/models/grok-4.5",
+      "https://docs.x.ai/developers/pricing",
+      "https://docs.x.ai/developers/advanced-api-usage/prompt-caching/usage-and-pricing"
+    ],
+    "price_records": [
+      {
+        "billing_note": "Global Standard token rates; total prompt tokens include cached tokens. At 200,000 tokens or more, long rates apply to every input, cached, and output token in the request. The model detail page says Batch API is not supported. No distinct pricing effective date is published.",
+        "calculation_default": true,
+        "charges": [
+          {
+            "amount": "2",
+            "component": "input",
+            "id": "price:xai/grok-4.5:standard:short:current:input:text:per_1m_tokens",
+            "modality": "text",
+            "unit": "per_1m_tokens"
+          },
+          {
+            "amount": "0.3",
+            "component": "cached_input",
+            "id": "price:xai/grok-4.5:standard:short:current:cached_input:text:per_1m_tokens",
+            "modality": "text",
+            "unit": "per_1m_tokens"
+          },
+          {
+            "amount": "6",
+            "component": "output",
+            "id": "price:xai/grok-4.5:standard:short:current:output:text:per_1m_tokens",
+            "modality": "text",
+            "unit": "per_1m_tokens"
+          }
+        ],
+        "checked_at": "2026-09-20T11:07:05Z",
+        "context_class": "short",
+        "currency": "USD",
+        "effective_from": null,
+        "effective_until": null,
+        "id": "price:xai/grok-4.5:standard:short:current",
+        "pricing_status": "current",
+        "processing_mode": "standard",
+        "prompt_token_threshold": 200000,
+        "region_policy": {
+          "availability": {
+            "default": "available",
+            "rules": []
+          },
+          "data_residencies": [
+            "global"
+          ],
+          "endpoint_geographies": [
+            "global"
+          ],
+          "price_adjustments": [],
+          "pricing_geography": "global_base"
+        },
+        "source_refs": [
+          "https://docs.x.ai/developers/models/grok-4.5",
+          "https://docs.x.ai/developers/pricing",
+          "https://docs.x.ai/developers/advanced-api-usage/prompt-caching/usage-and-pricing"
+        ],
+        "tier_selection": {
+          "cached_prompt_tokens_included": true,
+          "comparison": "less_than",
+          "token_basis": "total_prompt_tokens",
+          "whole_request_pricing": true
+        },
+        "verification_status": "verified",
+        "verified_at": "2026-09-20T11:07:05Z"
+      },
+      {
+        "billing_note": "Global Standard token rates; total prompt tokens include cached tokens. At 200,000 tokens or more, long rates apply to every input, cached, and output token in the request. The model detail page says Batch API is not supported. No distinct pricing effective date is published.",
+        "calculation_default": false,
+        "charges": [
+          {
+            "amount": "4",
+            "component": "input",
+            "id": "price:xai/grok-4.5:standard:long:current:input:text:per_1m_tokens",
+            "modality": "text",
+            "unit": "per_1m_tokens"
+          },
+          {
+            "amount": "0.6",
+            "component": "cached_input",
+            "id": "price:xai/grok-4.5:standard:long:current:cached_input:text:per_1m_tokens",
+            "modality": "text",
+            "unit": "per_1m_tokens"
+          },
+          {
+            "amount": "12",
+            "component": "output",
+            "id": "price:xai/grok-4.5:standard:long:current:output:text:per_1m_tokens",
+            "modality": "text",
+            "unit": "per_1m_tokens"
+          }
+        ],
+        "checked_at": "2026-09-20T11:07:05Z",
+        "context_class": "long",
+        "currency": "USD",
+        "effective_from": null,
+        "effective_until": null,
+        "id": "price:xai/grok-4.5:standard:long:current",
+        "pricing_status": "current",
+        "processing_mode": "standard",
+        "prompt_token_threshold": 200000,
+        "region_policy": {
+          "availability": {
+            "default": "available",
+            "rules": []
+          },
+          "data_residencies": [
+            "global"
+          ],
+          "endpoint_geographies": [
+            "global"
+          ],
+          "price_adjustments": [],
+          "pricing_geography": "global_base"
+        },
+        "source_refs": [
+          "https://docs.x.ai/developers/models/grok-4.5",
+          "https://docs.x.ai/developers/pricing",
+          "https://docs.x.ai/developers/advanced-api-usage/prompt-caching/usage-and-pricing"
+        ],
+        "tier_selection": {
+          "cached_prompt_tokens_included": true,
+          "comparison": "greater_than_or_equal",
+          "token_basis": "total_prompt_tokens",
+          "whole_request_pricing": true
+        },
+        "verification_status": "verified",
+        "verified_at": "2026-09-20T11:07:05Z"
+      }
+    ]
   },
   {
     "provider_id": "xai",
@@ -1487,18 +3312,42 @@
           "active_weekdays": [],
           "time_windows": [],
           "all_other_times": true,
-          "pricing": {"currency": "USD", "unit": "1M tokens", "input": 0.15, "cached_input": 0.003, "output": 0.6}
+          "pricing": {
+            "currency": "USD",
+            "unit": "1M tokens",
+            "input": 0.15,
+            "cached_input": 0.003,
+            "output": 0.6
+          }
         },
         {
           "id": "peak",
           "is_default": false,
-          "active_weekdays": ["monday", "tuesday", "wednesday", "thursday", "friday"],
+          "active_weekdays": [
+            "monday",
+            "tuesday",
+            "wednesday",
+            "thursday",
+            "friday"
+          ],
           "time_windows": [
-            {"start": "01:00", "end": "04:00"},
-            {"start": "06:00", "end": "10:00"}
+            {
+              "start": "01:00",
+              "end": "04:00"
+            },
+            {
+              "start": "06:00",
+              "end": "10:00"
+            }
           ],
           "all_other_times": false,
-          "pricing": {"currency": "USD", "unit": "1M tokens", "input": 0.3, "cached_input": 0.006, "output": 1.2}
+          "pricing": {
+            "currency": "USD",
+            "unit": "1M tokens",
+            "input": 0.3,
+            "cached_input": 0.006,
+            "output": 1.2
+          }
         }
       ]
     },
@@ -1547,18 +3396,42 @@
           "active_weekdays": [],
           "time_windows": [],
           "all_other_times": true,
-          "pricing": {"currency": "USD", "unit": "1M tokens", "input": 0.22, "cached_input": 0.007, "output": 0.66}
+          "pricing": {
+            "currency": "USD",
+            "unit": "1M tokens",
+            "input": 0.22,
+            "cached_input": 0.007,
+            "output": 0.66
+          }
         },
         {
           "id": "peak",
           "is_default": false,
-          "active_weekdays": ["monday", "tuesday", "wednesday", "thursday", "friday"],
+          "active_weekdays": [
+            "monday",
+            "tuesday",
+            "wednesday",
+            "thursday",
+            "friday"
+          ],
           "time_windows": [
-            {"start": "01:00", "end": "04:00"},
-            {"start": "06:00", "end": "10:00"}
+            {
+              "start": "01:00",
+              "end": "04:00"
+            },
+            {
+              "start": "06:00",
+              "end": "10:00"
+            }
           ],
           "all_other_times": false,
-          "pricing": {"currency": "USD", "unit": "1M tokens", "input": 0.44, "cached_input": 0.014, "output": 1.32}
+          "pricing": {
+            "currency": "USD",
+            "unit": "1M tokens",
+            "input": 0.44,
+            "cached_input": 0.014,
+            "output": 1.32
+          }
         }
       ]
     },
@@ -1571,10 +3444,14 @@
         "effective_from": "2026-09-10",
         "source_slug_remains_resolvable": true,
         "redirect_target_model_id": "deepseek-flash",
-        "target_configuration": {"model": "deepseek-flash"},
+        "target_configuration": {
+          "model": "deepseek-flash"
+        },
         "billing_source": "redirect_target",
         "billing_model_id": "deepseek-flash",
-        "billing_configuration": {"model": "deepseek-flash"}
+        "billing_configuration": {
+          "model": "deepseek-flash"
+        }
       }
     },
     "notes": "Native V4 Flash Peak and Off-peak rates took effect at 2026-08-16T16:00:00Z. DeepSeek retired V4 Flash on 2026-09-10; the legacy API name remains temporarily accepted, but current requests are served and billed as deepseek-flash. The canonical price fields retain the model's native historical schedule, while lifecycle redirect metadata identifies the current billing target."
@@ -1622,18 +3499,42 @@
           "active_weekdays": [],
           "time_windows": [],
           "all_other_times": true,
-          "pricing": {"currency": "USD", "unit": "1M tokens", "input": 0.15, "cached_input": 0.003, "output": 0.6}
+          "pricing": {
+            "currency": "USD",
+            "unit": "1M tokens",
+            "input": 0.15,
+            "cached_input": 0.003,
+            "output": 0.6
+          }
         },
         {
           "id": "peak",
           "is_default": false,
-          "active_weekdays": ["monday", "tuesday", "wednesday", "thursday", "friday"],
+          "active_weekdays": [
+            "monday",
+            "tuesday",
+            "wednesday",
+            "thursday",
+            "friday"
+          ],
           "time_windows": [
-            {"start": "01:00", "end": "04:00"},
-            {"start": "06:00", "end": "10:00"}
+            {
+              "start": "01:00",
+              "end": "04:00"
+            },
+            {
+              "start": "06:00",
+              "end": "10:00"
+            }
           ],
           "all_other_times": false,
-          "pricing": {"currency": "USD", "unit": "1M tokens", "input": 0.3, "cached_input": 0.006, "output": 1.2}
+          "pricing": {
+            "currency": "USD",
+            "unit": "1M tokens",
+            "input": 0.3,
+            "cached_input": 0.006,
+            "output": 1.2
+          }
         }
       ]
     },
@@ -1646,10 +3547,14 @@
         "effective_from": "2026-09-10",
         "source_slug_remains_resolvable": true,
         "redirect_target_model_id": "deepseek-flash",
-        "target_configuration": {"model": "deepseek-flash"},
+        "target_configuration": {
+          "model": "deepseek-flash"
+        },
         "billing_source": "redirect_target",
         "billing_model_id": "deepseek-flash",
-        "billing_configuration": {"model": "deepseek-flash"}
+        "billing_configuration": {
+          "model": "deepseek-flash"
+        }
       }
     },
     "notes": "DeepSeek retired V4 Flash Vision Exp on 2026-09-10. The legacy API name deepseek-v4-flash-vision-exp remains temporarily accepted, but requests are served by DeepSeek V4.1 Flash and billed at the Flash price. The projected Peak and Off-peak rates therefore come from the redirect billing target, not from an active experimental model."
@@ -1697,18 +3602,42 @@
           "active_weekdays": [],
           "time_windows": [],
           "all_other_times": true,
-          "pricing": {"currency": "USD", "unit": "1M tokens", "input": 0.66, "cached_input": 0.022, "output": 1.98}
+          "pricing": {
+            "currency": "USD",
+            "unit": "1M tokens",
+            "input": 0.66,
+            "cached_input": 0.022,
+            "output": 1.98
+          }
         },
         {
           "id": "peak",
           "is_default": false,
-          "active_weekdays": ["monday", "tuesday", "wednesday", "thursday", "friday"],
+          "active_weekdays": [
+            "monday",
+            "tuesday",
+            "wednesday",
+            "thursday",
+            "friday"
+          ],
           "time_windows": [
-            {"start": "01:00", "end": "04:00"},
-            {"start": "06:00", "end": "10:00"}
+            {
+              "start": "01:00",
+              "end": "04:00"
+            },
+            {
+              "start": "06:00",
+              "end": "10:00"
+            }
           ],
           "all_other_times": false,
-          "pricing": {"currency": "USD", "unit": "1M tokens", "input": 1.32, "cached_input": 0.044, "output": 3.96}
+          "pricing": {
+            "currency": "USD",
+            "unit": "1M tokens",
+            "input": 1.32,
+            "cached_input": 0.044,
+            "output": 3.96
+          }
         }
       ]
     },
@@ -1734,29 +3663,109 @@
     "price_records": [
       {
         "id": "price:mistral-ai/mistral-large:standard:short:current",
-        "processing_mode": "standard", "context_class": "short", "pricing_status": "current", "calculation_default": true,
-        "prompt_token_threshold": null, "effective_from": null, "effective_until": null, "currency": "USD",
+        "processing_mode": "standard",
+        "context_class": "short",
+        "pricing_status": "current",
+        "calculation_default": true,
+        "prompt_token_threshold": null,
+        "effective_from": null,
+        "effective_until": null,
+        "currency": "USD",
         "charges": [
-          {"id": "price:mistral-ai/mistral-large:standard:short:current:input:text:per_1m_tokens", "component": "input", "modality": "text", "unit": "per_1m_tokens", "amount": "0.5"},
-          {"id": "price:mistral-ai/mistral-large:standard:short:current:cached_input:text:per_1m_tokens", "component": "cached_input", "modality": "text", "unit": "per_1m_tokens", "amount": "0.05"},
-          {"id": "price:mistral-ai/mistral-large:standard:short:current:output:text:per_1m_tokens", "component": "output", "modality": "text", "unit": "per_1m_tokens", "amount": "1.5"}
+          {
+            "id": "price:mistral-ai/mistral-large:standard:short:current:input:text:per_1m_tokens",
+            "component": "input",
+            "modality": "text",
+            "unit": "per_1m_tokens",
+            "amount": "0.5"
+          },
+          {
+            "id": "price:mistral-ai/mistral-large:standard:short:current:cached_input:text:per_1m_tokens",
+            "component": "cached_input",
+            "modality": "text",
+            "unit": "per_1m_tokens",
+            "amount": "0.05"
+          },
+          {
+            "id": "price:mistral-ai/mistral-large:standard:short:current:output:text:per_1m_tokens",
+            "component": "output",
+            "modality": "text",
+            "unit": "per_1m_tokens",
+            "amount": "1.5"
+          }
         ],
-        "region_policy": {"pricing_geography": "global_base", "endpoint_geographies": ["global"], "data_residencies": ["global"], "availability": {"default": "available", "rules": []}, "price_adjustments": []},
-        "source_refs": ["https://docs.mistral.ai/inference/pricing", "https://docs.mistral.ai/models/mistral-large-3-25-12", "https://docs.mistral.ai/studio/conversations/advanced/prompt-caching"],
-        "verification_status": "verified", "checked_at": "2026-09-02T11:29:12Z", "verified_at": "2026-09-02T11:29:12Z",
+        "region_policy": {
+          "pricing_geography": "global_base",
+          "endpoint_geographies": [
+            "global"
+          ],
+          "data_residencies": [
+            "global"
+          ],
+          "availability": {
+            "default": "available",
+            "rules": []
+          },
+          "price_adjustments": []
+        },
+        "source_refs": [
+          "https://docs.mistral.ai/inference/pricing",
+          "https://docs.mistral.ai/models/mistral-large-3-25-12",
+          "https://docs.mistral.ai/studio/conversations/advanced/prompt-caching"
+        ],
+        "verification_status": "verified",
+        "checked_at": "2026-09-02T11:29:12Z",
+        "verified_at": "2026-09-02T11:29:12Z",
         "billing_note": "Standard direct API token pricing with cached prompt tokens billed at 10% of standard input."
       },
       {
         "id": "price:mistral-ai/mistral-large:batch:short:current",
-        "processing_mode": "batch", "context_class": "short", "pricing_status": "current", "calculation_default": false,
-        "prompt_token_threshold": null, "effective_from": null, "effective_until": null, "currency": "USD",
+        "processing_mode": "batch",
+        "context_class": "short",
+        "pricing_status": "current",
+        "calculation_default": false,
+        "prompt_token_threshold": null,
+        "effective_from": null,
+        "effective_until": null,
+        "currency": "USD",
         "charges": [
-          {"id": "price:mistral-ai/mistral-large:batch:short:current:input:text:per_1m_tokens", "component": "input", "modality": "text", "unit": "per_1m_tokens", "amount": "0.25"},
-          {"id": "price:mistral-ai/mistral-large:batch:short:current:output:text:per_1m_tokens", "component": "output", "modality": "text", "unit": "per_1m_tokens", "amount": "0.75"}
+          {
+            "id": "price:mistral-ai/mistral-large:batch:short:current:input:text:per_1m_tokens",
+            "component": "input",
+            "modality": "text",
+            "unit": "per_1m_tokens",
+            "amount": "0.25"
+          },
+          {
+            "id": "price:mistral-ai/mistral-large:batch:short:current:output:text:per_1m_tokens",
+            "component": "output",
+            "modality": "text",
+            "unit": "per_1m_tokens",
+            "amount": "0.75"
+          }
         ],
-        "region_policy": {"pricing_geography": "global_base", "endpoint_geographies": ["global"], "data_residencies": ["global"], "availability": {"default": "available", "rules": []}, "price_adjustments": []},
-        "source_refs": ["https://docs.mistral.ai/inference/pricing", "https://docs.mistral.ai/models/mistral-large-3-25-12", "https://docs.mistral.ai/studio/batch-processing"],
-        "verification_status": "verified", "checked_at": "2026-09-02T11:29:12Z", "verified_at": "2026-09-02T11:29:12Z",
+        "region_policy": {
+          "pricing_geography": "global_base",
+          "endpoint_geographies": [
+            "global"
+          ],
+          "data_residencies": [
+            "global"
+          ],
+          "availability": {
+            "default": "available",
+            "rules": []
+          },
+          "price_adjustments": []
+        },
+        "source_refs": [
+          "https://docs.mistral.ai/inference/pricing",
+          "https://docs.mistral.ai/models/mistral-large-3-25-12",
+          "https://docs.mistral.ai/studio/batch-processing"
+        ],
+        "verification_status": "verified",
+        "checked_at": "2026-09-02T11:29:12Z",
+        "verified_at": "2026-09-02T11:29:12Z",
         "billing_note": "Asynchronous Batch pricing at the official 50% discount; no Batch-plus-cache price is asserted."
       }
     ],
@@ -1782,7 +3791,9 @@
     "release_stage": "stable",
     "context_window_tokens": 262144,
     "project_context_window": true,
-    "aliases": ["mistral-medium-latest"],
+    "aliases": [
+      "mistral-medium-latest"
+    ],
     "pricing": {
       "currency": "USD",
       "unit": "1M tokens",
@@ -1797,29 +3808,109 @@
     "price_records": [
       {
         "id": "price:mistral-ai/mistral-medium-3-5:standard:short:current",
-        "processing_mode": "standard", "context_class": "short", "pricing_status": "current", "calculation_default": true,
-        "prompt_token_threshold": null, "effective_from": null, "effective_until": null, "currency": "USD",
+        "processing_mode": "standard",
+        "context_class": "short",
+        "pricing_status": "current",
+        "calculation_default": true,
+        "prompt_token_threshold": null,
+        "effective_from": null,
+        "effective_until": null,
+        "currency": "USD",
         "charges": [
-          {"id": "price:mistral-ai/mistral-medium-3-5:standard:short:current:input:text:per_1m_tokens", "component": "input", "modality": "text", "unit": "per_1m_tokens", "amount": "1.5"},
-          {"id": "price:mistral-ai/mistral-medium-3-5:standard:short:current:cached_input:text:per_1m_tokens", "component": "cached_input", "modality": "text", "unit": "per_1m_tokens", "amount": "0.15"},
-          {"id": "price:mistral-ai/mistral-medium-3-5:standard:short:current:output:text:per_1m_tokens", "component": "output", "modality": "text", "unit": "per_1m_tokens", "amount": "7.5"}
+          {
+            "id": "price:mistral-ai/mistral-medium-3-5:standard:short:current:input:text:per_1m_tokens",
+            "component": "input",
+            "modality": "text",
+            "unit": "per_1m_tokens",
+            "amount": "1.5"
+          },
+          {
+            "id": "price:mistral-ai/mistral-medium-3-5:standard:short:current:cached_input:text:per_1m_tokens",
+            "component": "cached_input",
+            "modality": "text",
+            "unit": "per_1m_tokens",
+            "amount": "0.15"
+          },
+          {
+            "id": "price:mistral-ai/mistral-medium-3-5:standard:short:current:output:text:per_1m_tokens",
+            "component": "output",
+            "modality": "text",
+            "unit": "per_1m_tokens",
+            "amount": "7.5"
+          }
         ],
-        "region_policy": {"pricing_geography": "global_base", "endpoint_geographies": ["global"], "data_residencies": ["global"], "availability": {"default": "available", "rules": []}, "price_adjustments": []},
-        "source_refs": ["https://docs.mistral.ai/inference/pricing", "https://docs.mistral.ai/models/mistral-medium-3-5-26-04", "https://docs.mistral.ai/studio/conversations/advanced/prompt-caching"],
-        "verification_status": "verified", "checked_at": "2026-09-08T07:53:25Z", "verified_at": "2026-09-08T07:53:25Z",
+        "region_policy": {
+          "pricing_geography": "global_base",
+          "endpoint_geographies": [
+            "global"
+          ],
+          "data_residencies": [
+            "global"
+          ],
+          "availability": {
+            "default": "available",
+            "rules": []
+          },
+          "price_adjustments": []
+        },
+        "source_refs": [
+          "https://docs.mistral.ai/inference/pricing",
+          "https://docs.mistral.ai/models/mistral-medium-3-5-26-04",
+          "https://docs.mistral.ai/studio/conversations/advanced/prompt-caching"
+        ],
+        "verification_status": "verified",
+        "checked_at": "2026-09-08T07:53:25Z",
+        "verified_at": "2026-09-08T07:53:25Z",
         "billing_note": "Standard direct API token pricing with cached prompt tokens billed at 10% of standard input."
       },
       {
         "id": "price:mistral-ai/mistral-medium-3-5:batch:short:current",
-        "processing_mode": "batch", "context_class": "short", "pricing_status": "current", "calculation_default": false,
-        "prompt_token_threshold": null, "effective_from": null, "effective_until": null, "currency": "USD",
+        "processing_mode": "batch",
+        "context_class": "short",
+        "pricing_status": "current",
+        "calculation_default": false,
+        "prompt_token_threshold": null,
+        "effective_from": null,
+        "effective_until": null,
+        "currency": "USD",
         "charges": [
-          {"id": "price:mistral-ai/mistral-medium-3-5:batch:short:current:input:text:per_1m_tokens", "component": "input", "modality": "text", "unit": "per_1m_tokens", "amount": "0.75"},
-          {"id": "price:mistral-ai/mistral-medium-3-5:batch:short:current:output:text:per_1m_tokens", "component": "output", "modality": "text", "unit": "per_1m_tokens", "amount": "3.75"}
+          {
+            "id": "price:mistral-ai/mistral-medium-3-5:batch:short:current:input:text:per_1m_tokens",
+            "component": "input",
+            "modality": "text",
+            "unit": "per_1m_tokens",
+            "amount": "0.75"
+          },
+          {
+            "id": "price:mistral-ai/mistral-medium-3-5:batch:short:current:output:text:per_1m_tokens",
+            "component": "output",
+            "modality": "text",
+            "unit": "per_1m_tokens",
+            "amount": "3.75"
+          }
         ],
-        "region_policy": {"pricing_geography": "global_base", "endpoint_geographies": ["global"], "data_residencies": ["global"], "availability": {"default": "available", "rules": []}, "price_adjustments": []},
-        "source_refs": ["https://docs.mistral.ai/inference/pricing", "https://docs.mistral.ai/models/mistral-medium-3-5-26-04", "https://docs.mistral.ai/studio/batch-processing"],
-        "verification_status": "verified", "checked_at": "2026-09-08T07:53:25Z", "verified_at": "2026-09-08T07:53:25Z",
+        "region_policy": {
+          "pricing_geography": "global_base",
+          "endpoint_geographies": [
+            "global"
+          ],
+          "data_residencies": [
+            "global"
+          ],
+          "availability": {
+            "default": "available",
+            "rules": []
+          },
+          "price_adjustments": []
+        },
+        "source_refs": [
+          "https://docs.mistral.ai/inference/pricing",
+          "https://docs.mistral.ai/models/mistral-medium-3-5-26-04",
+          "https://docs.mistral.ai/studio/batch-processing"
+        ],
+        "verification_status": "verified",
+        "checked_at": "2026-09-08T07:53:25Z",
+        "verified_at": "2026-09-08T07:53:25Z",
         "billing_note": "Asynchronous Batch pricing at the official 50% discount; no Batch-plus-cache price is asserted."
       }
     ],
@@ -1845,7 +3936,9 @@
     "release_stage": "stable",
     "context_window_tokens": 262144,
     "project_context_window": true,
-    "aliases": ["mistral-small-latest"],
+    "aliases": [
+      "mistral-small-latest"
+    ],
     "pricing": {
       "currency": "USD",
       "unit": "1M tokens",
@@ -1860,29 +3953,109 @@
     "price_records": [
       {
         "id": "price:mistral-ai/mistral-small-2603:standard:short:current",
-        "processing_mode": "standard", "context_class": "short", "pricing_status": "current", "calculation_default": true,
-        "prompt_token_threshold": null, "effective_from": null, "effective_until": null, "currency": "USD",
+        "processing_mode": "standard",
+        "context_class": "short",
+        "pricing_status": "current",
+        "calculation_default": true,
+        "prompt_token_threshold": null,
+        "effective_from": null,
+        "effective_until": null,
+        "currency": "USD",
         "charges": [
-          {"id": "price:mistral-ai/mistral-small-2603:standard:short:current:input:text:per_1m_tokens", "component": "input", "modality": "text", "unit": "per_1m_tokens", "amount": "0.15"},
-          {"id": "price:mistral-ai/mistral-small-2603:standard:short:current:cached_input:text:per_1m_tokens", "component": "cached_input", "modality": "text", "unit": "per_1m_tokens", "amount": "0.015"},
-          {"id": "price:mistral-ai/mistral-small-2603:standard:short:current:output:text:per_1m_tokens", "component": "output", "modality": "text", "unit": "per_1m_tokens", "amount": "0.6"}
+          {
+            "id": "price:mistral-ai/mistral-small-2603:standard:short:current:input:text:per_1m_tokens",
+            "component": "input",
+            "modality": "text",
+            "unit": "per_1m_tokens",
+            "amount": "0.15"
+          },
+          {
+            "id": "price:mistral-ai/mistral-small-2603:standard:short:current:cached_input:text:per_1m_tokens",
+            "component": "cached_input",
+            "modality": "text",
+            "unit": "per_1m_tokens",
+            "amount": "0.015"
+          },
+          {
+            "id": "price:mistral-ai/mistral-small-2603:standard:short:current:output:text:per_1m_tokens",
+            "component": "output",
+            "modality": "text",
+            "unit": "per_1m_tokens",
+            "amount": "0.6"
+          }
         ],
-        "region_policy": {"pricing_geography": "global_base", "endpoint_geographies": ["global"], "data_residencies": ["global"], "availability": {"default": "available", "rules": []}, "price_adjustments": []},
-        "source_refs": ["https://docs.mistral.ai/inference/pricing", "https://docs.mistral.ai/models/mistral-small-4-0-26-03", "https://docs.mistral.ai/studio/conversations/advanced/prompt-caching"],
-        "verification_status": "verified", "checked_at": "2026-09-08T07:53:25Z", "verified_at": "2026-09-08T07:53:25Z",
+        "region_policy": {
+          "pricing_geography": "global_base",
+          "endpoint_geographies": [
+            "global"
+          ],
+          "data_residencies": [
+            "global"
+          ],
+          "availability": {
+            "default": "available",
+            "rules": []
+          },
+          "price_adjustments": []
+        },
+        "source_refs": [
+          "https://docs.mistral.ai/inference/pricing",
+          "https://docs.mistral.ai/models/mistral-small-4-0-26-03",
+          "https://docs.mistral.ai/studio/conversations/advanced/prompt-caching"
+        ],
+        "verification_status": "verified",
+        "checked_at": "2026-09-08T07:53:25Z",
+        "verified_at": "2026-09-08T07:53:25Z",
         "billing_note": "Standard direct API token pricing with cached prompt tokens billed at 10% of standard input."
       },
       {
         "id": "price:mistral-ai/mistral-small-2603:batch:short:current",
-        "processing_mode": "batch", "context_class": "short", "pricing_status": "current", "calculation_default": false,
-        "prompt_token_threshold": null, "effective_from": null, "effective_until": null, "currency": "USD",
+        "processing_mode": "batch",
+        "context_class": "short",
+        "pricing_status": "current",
+        "calculation_default": false,
+        "prompt_token_threshold": null,
+        "effective_from": null,
+        "effective_until": null,
+        "currency": "USD",
         "charges": [
-          {"id": "price:mistral-ai/mistral-small-2603:batch:short:current:input:text:per_1m_tokens", "component": "input", "modality": "text", "unit": "per_1m_tokens", "amount": "0.075"},
-          {"id": "price:mistral-ai/mistral-small-2603:batch:short:current:output:text:per_1m_tokens", "component": "output", "modality": "text", "unit": "per_1m_tokens", "amount": "0.3"}
+          {
+            "id": "price:mistral-ai/mistral-small-2603:batch:short:current:input:text:per_1m_tokens",
+            "component": "input",
+            "modality": "text",
+            "unit": "per_1m_tokens",
+            "amount": "0.075"
+          },
+          {
+            "id": "price:mistral-ai/mistral-small-2603:batch:short:current:output:text:per_1m_tokens",
+            "component": "output",
+            "modality": "text",
+            "unit": "per_1m_tokens",
+            "amount": "0.3"
+          }
         ],
-        "region_policy": {"pricing_geography": "global_base", "endpoint_geographies": ["global"], "data_residencies": ["global"], "availability": {"default": "available", "rules": []}, "price_adjustments": []},
-        "source_refs": ["https://docs.mistral.ai/inference/pricing", "https://docs.mistral.ai/models/mistral-small-4-0-26-03", "https://docs.mistral.ai/studio/batch-processing"],
-        "verification_status": "verified", "checked_at": "2026-09-08T07:53:25Z", "verified_at": "2026-09-08T07:53:25Z",
+        "region_policy": {
+          "pricing_geography": "global_base",
+          "endpoint_geographies": [
+            "global"
+          ],
+          "data_residencies": [
+            "global"
+          ],
+          "availability": {
+            "default": "available",
+            "rules": []
+          },
+          "price_adjustments": []
+        },
+        "source_refs": [
+          "https://docs.mistral.ai/inference/pricing",
+          "https://docs.mistral.ai/models/mistral-small-4-0-26-03",
+          "https://docs.mistral.ai/studio/batch-processing"
+        ],
+        "verification_status": "verified",
+        "checked_at": "2026-09-08T07:53:25Z",
+        "verified_at": "2026-09-08T07:53:25Z",
         "billing_note": "Asynchronous Batch pricing at the official 50% discount; no Batch-plus-cache price is asserted."
       }
     ],
@@ -1908,7 +4081,9 @@
     "release_stage": "stable",
     "context_window_tokens": 262144,
     "project_context_window": true,
-    "aliases": ["ministral-14b-latest"],
+    "aliases": [
+      "ministral-14b-latest"
+    ],
     "pricing": {
       "currency": "USD",
       "unit": "1M tokens",
@@ -1923,29 +4098,109 @@
     "price_records": [
       {
         "id": "price:mistral-ai/ministral-14b-2512:standard:short:current",
-        "processing_mode": "standard", "context_class": "short", "pricing_status": "current", "calculation_default": true,
-        "prompt_token_threshold": null, "effective_from": null, "effective_until": null, "currency": "USD",
+        "processing_mode": "standard",
+        "context_class": "short",
+        "pricing_status": "current",
+        "calculation_default": true,
+        "prompt_token_threshold": null,
+        "effective_from": null,
+        "effective_until": null,
+        "currency": "USD",
         "charges": [
-          {"id": "price:mistral-ai/ministral-14b-2512:standard:short:current:input:text:per_1m_tokens", "component": "input", "modality": "text", "unit": "per_1m_tokens", "amount": "0.2"},
-          {"id": "price:mistral-ai/ministral-14b-2512:standard:short:current:cached_input:text:per_1m_tokens", "component": "cached_input", "modality": "text", "unit": "per_1m_tokens", "amount": "0.02"},
-          {"id": "price:mistral-ai/ministral-14b-2512:standard:short:current:output:text:per_1m_tokens", "component": "output", "modality": "text", "unit": "per_1m_tokens", "amount": "0.2"}
+          {
+            "id": "price:mistral-ai/ministral-14b-2512:standard:short:current:input:text:per_1m_tokens",
+            "component": "input",
+            "modality": "text",
+            "unit": "per_1m_tokens",
+            "amount": "0.2"
+          },
+          {
+            "id": "price:mistral-ai/ministral-14b-2512:standard:short:current:cached_input:text:per_1m_tokens",
+            "component": "cached_input",
+            "modality": "text",
+            "unit": "per_1m_tokens",
+            "amount": "0.02"
+          },
+          {
+            "id": "price:mistral-ai/ministral-14b-2512:standard:short:current:output:text:per_1m_tokens",
+            "component": "output",
+            "modality": "text",
+            "unit": "per_1m_tokens",
+            "amount": "0.2"
+          }
         ],
-        "region_policy": {"pricing_geography": "global_base", "endpoint_geographies": ["global"], "data_residencies": ["global"], "availability": {"default": "available", "rules": []}, "price_adjustments": []},
-        "source_refs": ["https://docs.mistral.ai/inference/pricing", "https://docs.mistral.ai/models/ministral-3-14b-25-12", "https://docs.mistral.ai/studio/conversations/advanced/prompt-caching"],
-        "verification_status": "verified", "checked_at": "2026-09-08T07:53:25Z", "verified_at": "2026-09-08T07:53:25Z",
+        "region_policy": {
+          "pricing_geography": "global_base",
+          "endpoint_geographies": [
+            "global"
+          ],
+          "data_residencies": [
+            "global"
+          ],
+          "availability": {
+            "default": "available",
+            "rules": []
+          },
+          "price_adjustments": []
+        },
+        "source_refs": [
+          "https://docs.mistral.ai/inference/pricing",
+          "https://docs.mistral.ai/models/ministral-3-14b-25-12",
+          "https://docs.mistral.ai/studio/conversations/advanced/prompt-caching"
+        ],
+        "verification_status": "verified",
+        "checked_at": "2026-09-08T07:53:25Z",
+        "verified_at": "2026-09-08T07:53:25Z",
         "billing_note": "Standard direct API token pricing with cached prompt tokens billed at 10% of standard input."
       },
       {
         "id": "price:mistral-ai/ministral-14b-2512:batch:short:current",
-        "processing_mode": "batch", "context_class": "short", "pricing_status": "current", "calculation_default": false,
-        "prompt_token_threshold": null, "effective_from": null, "effective_until": null, "currency": "USD",
+        "processing_mode": "batch",
+        "context_class": "short",
+        "pricing_status": "current",
+        "calculation_default": false,
+        "prompt_token_threshold": null,
+        "effective_from": null,
+        "effective_until": null,
+        "currency": "USD",
         "charges": [
-          {"id": "price:mistral-ai/ministral-14b-2512:batch:short:current:input:text:per_1m_tokens", "component": "input", "modality": "text", "unit": "per_1m_tokens", "amount": "0.1"},
-          {"id": "price:mistral-ai/ministral-14b-2512:batch:short:current:output:text:per_1m_tokens", "component": "output", "modality": "text", "unit": "per_1m_tokens", "amount": "0.1"}
+          {
+            "id": "price:mistral-ai/ministral-14b-2512:batch:short:current:input:text:per_1m_tokens",
+            "component": "input",
+            "modality": "text",
+            "unit": "per_1m_tokens",
+            "amount": "0.1"
+          },
+          {
+            "id": "price:mistral-ai/ministral-14b-2512:batch:short:current:output:text:per_1m_tokens",
+            "component": "output",
+            "modality": "text",
+            "unit": "per_1m_tokens",
+            "amount": "0.1"
+          }
         ],
-        "region_policy": {"pricing_geography": "global_base", "endpoint_geographies": ["global"], "data_residencies": ["global"], "availability": {"default": "available", "rules": []}, "price_adjustments": []},
-        "source_refs": ["https://docs.mistral.ai/inference/pricing", "https://docs.mistral.ai/models/ministral-3-14b-25-12", "https://docs.mistral.ai/studio/batch-processing"],
-        "verification_status": "verified", "checked_at": "2026-09-08T07:53:25Z", "verified_at": "2026-09-08T07:53:25Z",
+        "region_policy": {
+          "pricing_geography": "global_base",
+          "endpoint_geographies": [
+            "global"
+          ],
+          "data_residencies": [
+            "global"
+          ],
+          "availability": {
+            "default": "available",
+            "rules": []
+          },
+          "price_adjustments": []
+        },
+        "source_refs": [
+          "https://docs.mistral.ai/inference/pricing",
+          "https://docs.mistral.ai/models/ministral-3-14b-25-12",
+          "https://docs.mistral.ai/studio/batch-processing"
+        ],
+        "verification_status": "verified",
+        "checked_at": "2026-09-08T07:53:25Z",
+        "verified_at": "2026-09-08T07:53:25Z",
         "billing_note": "Asynchronous Batch pricing at the official 50% discount; no Batch-plus-cache price is asserted."
       }
     ],
@@ -1970,7 +4225,9 @@
     "release_stage": "stable",
     "context_window_tokens": 262144,
     "project_context_window": true,
-    "aliases": ["ministral-8b-latest"],
+    "aliases": [
+      "ministral-8b-latest"
+    ],
     "pricing": {
       "currency": "USD",
       "unit": "1M tokens",
@@ -1985,29 +4242,109 @@
     "price_records": [
       {
         "id": "price:mistral-ai/ministral-8b-2512:standard:short:current",
-        "processing_mode": "standard", "context_class": "short", "pricing_status": "current", "calculation_default": true,
-        "prompt_token_threshold": null, "effective_from": null, "effective_until": null, "currency": "USD",
+        "processing_mode": "standard",
+        "context_class": "short",
+        "pricing_status": "current",
+        "calculation_default": true,
+        "prompt_token_threshold": null,
+        "effective_from": null,
+        "effective_until": null,
+        "currency": "USD",
         "charges": [
-          {"id": "price:mistral-ai/ministral-8b-2512:standard:short:current:input:text:per_1m_tokens", "component": "input", "modality": "text", "unit": "per_1m_tokens", "amount": "0.15"},
-          {"id": "price:mistral-ai/ministral-8b-2512:standard:short:current:cached_input:text:per_1m_tokens", "component": "cached_input", "modality": "text", "unit": "per_1m_tokens", "amount": "0.015"},
-          {"id": "price:mistral-ai/ministral-8b-2512:standard:short:current:output:text:per_1m_tokens", "component": "output", "modality": "text", "unit": "per_1m_tokens", "amount": "0.15"}
+          {
+            "id": "price:mistral-ai/ministral-8b-2512:standard:short:current:input:text:per_1m_tokens",
+            "component": "input",
+            "modality": "text",
+            "unit": "per_1m_tokens",
+            "amount": "0.15"
+          },
+          {
+            "id": "price:mistral-ai/ministral-8b-2512:standard:short:current:cached_input:text:per_1m_tokens",
+            "component": "cached_input",
+            "modality": "text",
+            "unit": "per_1m_tokens",
+            "amount": "0.015"
+          },
+          {
+            "id": "price:mistral-ai/ministral-8b-2512:standard:short:current:output:text:per_1m_tokens",
+            "component": "output",
+            "modality": "text",
+            "unit": "per_1m_tokens",
+            "amount": "0.15"
+          }
         ],
-        "region_policy": {"pricing_geography": "global_base", "endpoint_geographies": ["global"], "data_residencies": ["global"], "availability": {"default": "available", "rules": []}, "price_adjustments": []},
-        "source_refs": ["https://docs.mistral.ai/inference/pricing", "https://docs.mistral.ai/models/ministral-3-8b-25-12", "https://docs.mistral.ai/studio/conversations/advanced/prompt-caching"],
-        "verification_status": "verified", "checked_at": "2026-09-08T07:53:25Z", "verified_at": "2026-09-08T07:53:25Z",
+        "region_policy": {
+          "pricing_geography": "global_base",
+          "endpoint_geographies": [
+            "global"
+          ],
+          "data_residencies": [
+            "global"
+          ],
+          "availability": {
+            "default": "available",
+            "rules": []
+          },
+          "price_adjustments": []
+        },
+        "source_refs": [
+          "https://docs.mistral.ai/inference/pricing",
+          "https://docs.mistral.ai/models/ministral-3-8b-25-12",
+          "https://docs.mistral.ai/studio/conversations/advanced/prompt-caching"
+        ],
+        "verification_status": "verified",
+        "checked_at": "2026-09-08T07:53:25Z",
+        "verified_at": "2026-09-08T07:53:25Z",
         "billing_note": "Standard direct API token pricing with cached prompt tokens billed at 10% of standard input."
       },
       {
         "id": "price:mistral-ai/ministral-8b-2512:batch:short:current",
-        "processing_mode": "batch", "context_class": "short", "pricing_status": "current", "calculation_default": false,
-        "prompt_token_threshold": null, "effective_from": null, "effective_until": null, "currency": "USD",
+        "processing_mode": "batch",
+        "context_class": "short",
+        "pricing_status": "current",
+        "calculation_default": false,
+        "prompt_token_threshold": null,
+        "effective_from": null,
+        "effective_until": null,
+        "currency": "USD",
         "charges": [
-          {"id": "price:mistral-ai/ministral-8b-2512:batch:short:current:input:text:per_1m_tokens", "component": "input", "modality": "text", "unit": "per_1m_tokens", "amount": "0.075"},
-          {"id": "price:mistral-ai/ministral-8b-2512:batch:short:current:output:text:per_1m_tokens", "component": "output", "modality": "text", "unit": "per_1m_tokens", "amount": "0.075"}
+          {
+            "id": "price:mistral-ai/ministral-8b-2512:batch:short:current:input:text:per_1m_tokens",
+            "component": "input",
+            "modality": "text",
+            "unit": "per_1m_tokens",
+            "amount": "0.075"
+          },
+          {
+            "id": "price:mistral-ai/ministral-8b-2512:batch:short:current:output:text:per_1m_tokens",
+            "component": "output",
+            "modality": "text",
+            "unit": "per_1m_tokens",
+            "amount": "0.075"
+          }
         ],
-        "region_policy": {"pricing_geography": "global_base", "endpoint_geographies": ["global"], "data_residencies": ["global"], "availability": {"default": "available", "rules": []}, "price_adjustments": []},
-        "source_refs": ["https://docs.mistral.ai/inference/pricing", "https://docs.mistral.ai/models/ministral-3-8b-25-12", "https://docs.mistral.ai/studio/batch-processing"],
-        "verification_status": "verified", "checked_at": "2026-09-08T07:53:25Z", "verified_at": "2026-09-08T07:53:25Z",
+        "region_policy": {
+          "pricing_geography": "global_base",
+          "endpoint_geographies": [
+            "global"
+          ],
+          "data_residencies": [
+            "global"
+          ],
+          "availability": {
+            "default": "available",
+            "rules": []
+          },
+          "price_adjustments": []
+        },
+        "source_refs": [
+          "https://docs.mistral.ai/inference/pricing",
+          "https://docs.mistral.ai/models/ministral-3-8b-25-12",
+          "https://docs.mistral.ai/studio/batch-processing"
+        ],
+        "verification_status": "verified",
+        "checked_at": "2026-09-08T07:53:25Z",
+        "verified_at": "2026-09-08T07:53:25Z",
         "billing_note": "Asynchronous Batch pricing at the official 50% discount; no Batch-plus-cache price is asserted."
       }
     ],
@@ -2032,7 +4369,9 @@
     "release_stage": "stable",
     "context_window_tokens": 262144,
     "project_context_window": true,
-    "aliases": ["ministral-3b-latest"],
+    "aliases": [
+      "ministral-3b-latest"
+    ],
     "pricing": {
       "currency": "USD",
       "unit": "1M tokens",
@@ -2047,29 +4386,109 @@
     "price_records": [
       {
         "id": "price:mistral-ai/ministral-3b-2512:standard:short:current",
-        "processing_mode": "standard", "context_class": "short", "pricing_status": "current", "calculation_default": true,
-        "prompt_token_threshold": null, "effective_from": null, "effective_until": null, "currency": "USD",
+        "processing_mode": "standard",
+        "context_class": "short",
+        "pricing_status": "current",
+        "calculation_default": true,
+        "prompt_token_threshold": null,
+        "effective_from": null,
+        "effective_until": null,
+        "currency": "USD",
         "charges": [
-          {"id": "price:mistral-ai/ministral-3b-2512:standard:short:current:input:text:per_1m_tokens", "component": "input", "modality": "text", "unit": "per_1m_tokens", "amount": "0.1"},
-          {"id": "price:mistral-ai/ministral-3b-2512:standard:short:current:cached_input:text:per_1m_tokens", "component": "cached_input", "modality": "text", "unit": "per_1m_tokens", "amount": "0.01"},
-          {"id": "price:mistral-ai/ministral-3b-2512:standard:short:current:output:text:per_1m_tokens", "component": "output", "modality": "text", "unit": "per_1m_tokens", "amount": "0.1"}
+          {
+            "id": "price:mistral-ai/ministral-3b-2512:standard:short:current:input:text:per_1m_tokens",
+            "component": "input",
+            "modality": "text",
+            "unit": "per_1m_tokens",
+            "amount": "0.1"
+          },
+          {
+            "id": "price:mistral-ai/ministral-3b-2512:standard:short:current:cached_input:text:per_1m_tokens",
+            "component": "cached_input",
+            "modality": "text",
+            "unit": "per_1m_tokens",
+            "amount": "0.01"
+          },
+          {
+            "id": "price:mistral-ai/ministral-3b-2512:standard:short:current:output:text:per_1m_tokens",
+            "component": "output",
+            "modality": "text",
+            "unit": "per_1m_tokens",
+            "amount": "0.1"
+          }
         ],
-        "region_policy": {"pricing_geography": "global_base", "endpoint_geographies": ["global"], "data_residencies": ["global"], "availability": {"default": "available", "rules": []}, "price_adjustments": []},
-        "source_refs": ["https://docs.mistral.ai/inference/pricing", "https://docs.mistral.ai/models/ministral-3-3b-25-12", "https://docs.mistral.ai/studio/conversations/advanced/prompt-caching"],
-        "verification_status": "verified", "checked_at": "2026-09-08T07:53:25Z", "verified_at": "2026-09-08T07:53:25Z",
+        "region_policy": {
+          "pricing_geography": "global_base",
+          "endpoint_geographies": [
+            "global"
+          ],
+          "data_residencies": [
+            "global"
+          ],
+          "availability": {
+            "default": "available",
+            "rules": []
+          },
+          "price_adjustments": []
+        },
+        "source_refs": [
+          "https://docs.mistral.ai/inference/pricing",
+          "https://docs.mistral.ai/models/ministral-3-3b-25-12",
+          "https://docs.mistral.ai/studio/conversations/advanced/prompt-caching"
+        ],
+        "verification_status": "verified",
+        "checked_at": "2026-09-08T07:53:25Z",
+        "verified_at": "2026-09-08T07:53:25Z",
         "billing_note": "Standard direct API token pricing with cached prompt tokens billed at 10% of standard input."
       },
       {
         "id": "price:mistral-ai/ministral-3b-2512:batch:short:current",
-        "processing_mode": "batch", "context_class": "short", "pricing_status": "current", "calculation_default": false,
-        "prompt_token_threshold": null, "effective_from": null, "effective_until": null, "currency": "USD",
+        "processing_mode": "batch",
+        "context_class": "short",
+        "pricing_status": "current",
+        "calculation_default": false,
+        "prompt_token_threshold": null,
+        "effective_from": null,
+        "effective_until": null,
+        "currency": "USD",
         "charges": [
-          {"id": "price:mistral-ai/ministral-3b-2512:batch:short:current:input:text:per_1m_tokens", "component": "input", "modality": "text", "unit": "per_1m_tokens", "amount": "0.05"},
-          {"id": "price:mistral-ai/ministral-3b-2512:batch:short:current:output:text:per_1m_tokens", "component": "output", "modality": "text", "unit": "per_1m_tokens", "amount": "0.05"}
+          {
+            "id": "price:mistral-ai/ministral-3b-2512:batch:short:current:input:text:per_1m_tokens",
+            "component": "input",
+            "modality": "text",
+            "unit": "per_1m_tokens",
+            "amount": "0.05"
+          },
+          {
+            "id": "price:mistral-ai/ministral-3b-2512:batch:short:current:output:text:per_1m_tokens",
+            "component": "output",
+            "modality": "text",
+            "unit": "per_1m_tokens",
+            "amount": "0.05"
+          }
         ],
-        "region_policy": {"pricing_geography": "global_base", "endpoint_geographies": ["global"], "data_residencies": ["global"], "availability": {"default": "available", "rules": []}, "price_adjustments": []},
-        "source_refs": ["https://docs.mistral.ai/inference/pricing", "https://docs.mistral.ai/models/ministral-3-3b-25-12", "https://docs.mistral.ai/studio/batch-processing"],
-        "verification_status": "verified", "checked_at": "2026-09-08T07:53:25Z", "verified_at": "2026-09-08T07:53:25Z",
+        "region_policy": {
+          "pricing_geography": "global_base",
+          "endpoint_geographies": [
+            "global"
+          ],
+          "data_residencies": [
+            "global"
+          ],
+          "availability": {
+            "default": "available",
+            "rules": []
+          },
+          "price_adjustments": []
+        },
+        "source_refs": [
+          "https://docs.mistral.ai/inference/pricing",
+          "https://docs.mistral.ai/models/ministral-3-3b-25-12",
+          "https://docs.mistral.ai/studio/batch-processing"
+        ],
+        "verification_status": "verified",
+        "checked_at": "2026-09-08T07:53:25Z",
+        "verified_at": "2026-09-08T07:53:25Z",
         "billing_note": "Asynchronous Batch pricing at the official 50% discount; no Batch-plus-cache price is asserted."
       }
     ],
@@ -2095,7 +4514,9 @@
     "release_stage": "stable",
     "context_window_tokens": 131072,
     "project_context_window": true,
-    "aliases": ["codestral-latest"],
+    "aliases": [
+      "codestral-latest"
+    ],
     "pricing": {
       "currency": "USD",
       "unit": "1M tokens",
@@ -2110,29 +4531,110 @@
     "price_records": [
       {
         "id": "price:mistral-ai/codestral-2508:standard:short:current",
-        "processing_mode": "standard", "context_class": "short", "pricing_status": "current", "calculation_default": true,
-        "prompt_token_threshold": null, "effective_from": null, "effective_until": null, "currency": "USD",
+        "processing_mode": "standard",
+        "context_class": "short",
+        "pricing_status": "current",
+        "calculation_default": true,
+        "prompt_token_threshold": null,
+        "effective_from": null,
+        "effective_until": null,
+        "currency": "USD",
         "charges": [
-          {"id": "price:mistral-ai/codestral-2508:standard:short:current:input:text:per_1m_tokens", "component": "input", "modality": "text", "unit": "per_1m_tokens", "amount": "0.3"},
-          {"id": "price:mistral-ai/codestral-2508:standard:short:current:cached_input:text:per_1m_tokens", "component": "cached_input", "modality": "text", "unit": "per_1m_tokens", "amount": "0.03"},
-          {"id": "price:mistral-ai/codestral-2508:standard:short:current:output:text:per_1m_tokens", "component": "output", "modality": "text", "unit": "per_1m_tokens", "amount": "0.9"}
+          {
+            "id": "price:mistral-ai/codestral-2508:standard:short:current:input:text:per_1m_tokens",
+            "component": "input",
+            "modality": "text",
+            "unit": "per_1m_tokens",
+            "amount": "0.3"
+          },
+          {
+            "id": "price:mistral-ai/codestral-2508:standard:short:current:cached_input:text:per_1m_tokens",
+            "component": "cached_input",
+            "modality": "text",
+            "unit": "per_1m_tokens",
+            "amount": "0.03"
+          },
+          {
+            "id": "price:mistral-ai/codestral-2508:standard:short:current:output:text:per_1m_tokens",
+            "component": "output",
+            "modality": "text",
+            "unit": "per_1m_tokens",
+            "amount": "0.9"
+          }
         ],
-        "region_policy": {"pricing_geography": "global_base", "endpoint_geographies": ["global"], "data_residencies": ["global"], "availability": {"default": "available", "rules": []}, "price_adjustments": []},
-        "source_refs": ["https://docs.mistral.ai/inference/pricing", "https://docs.mistral.ai/models/codestral-25-08", "https://docs.mistral.ai/api/endpoint/fim", "https://docs.mistral.ai/studio/conversations/advanced/prompt-caching"],
-        "verification_status": "verified", "checked_at": "2026-09-08T07:53:25Z", "verified_at": "2026-09-08T07:53:25Z",
+        "region_policy": {
+          "pricing_geography": "global_base",
+          "endpoint_geographies": [
+            "global"
+          ],
+          "data_residencies": [
+            "global"
+          ],
+          "availability": {
+            "default": "available",
+            "rules": []
+          },
+          "price_adjustments": []
+        },
+        "source_refs": [
+          "https://docs.mistral.ai/inference/pricing",
+          "https://docs.mistral.ai/models/codestral-25-08",
+          "https://docs.mistral.ai/api/endpoint/fim",
+          "https://docs.mistral.ai/studio/conversations/advanced/prompt-caching"
+        ],
+        "verification_status": "verified",
+        "checked_at": "2026-09-08T07:53:25Z",
+        "verified_at": "2026-09-08T07:53:25Z",
         "billing_note": "Standard direct API token pricing with cached prompt tokens billed at 10% of standard input."
       },
       {
         "id": "price:mistral-ai/codestral-2508:batch:short:current",
-        "processing_mode": "batch", "context_class": "short", "pricing_status": "current", "calculation_default": false,
-        "prompt_token_threshold": null, "effective_from": null, "effective_until": null, "currency": "USD",
+        "processing_mode": "batch",
+        "context_class": "short",
+        "pricing_status": "current",
+        "calculation_default": false,
+        "prompt_token_threshold": null,
+        "effective_from": null,
+        "effective_until": null,
+        "currency": "USD",
         "charges": [
-          {"id": "price:mistral-ai/codestral-2508:batch:short:current:input:text:per_1m_tokens", "component": "input", "modality": "text", "unit": "per_1m_tokens", "amount": "0.15"},
-          {"id": "price:mistral-ai/codestral-2508:batch:short:current:output:text:per_1m_tokens", "component": "output", "modality": "text", "unit": "per_1m_tokens", "amount": "0.45"}
+          {
+            "id": "price:mistral-ai/codestral-2508:batch:short:current:input:text:per_1m_tokens",
+            "component": "input",
+            "modality": "text",
+            "unit": "per_1m_tokens",
+            "amount": "0.15"
+          },
+          {
+            "id": "price:mistral-ai/codestral-2508:batch:short:current:output:text:per_1m_tokens",
+            "component": "output",
+            "modality": "text",
+            "unit": "per_1m_tokens",
+            "amount": "0.45"
+          }
         ],
-        "region_policy": {"pricing_geography": "global_base", "endpoint_geographies": ["global"], "data_residencies": ["global"], "availability": {"default": "available", "rules": []}, "price_adjustments": []},
-        "source_refs": ["https://docs.mistral.ai/inference/pricing", "https://docs.mistral.ai/models/codestral-25-08", "https://docs.mistral.ai/studio/batch-processing"],
-        "verification_status": "verified", "checked_at": "2026-09-08T07:53:25Z", "verified_at": "2026-09-08T07:53:25Z",
+        "region_policy": {
+          "pricing_geography": "global_base",
+          "endpoint_geographies": [
+            "global"
+          ],
+          "data_residencies": [
+            "global"
+          ],
+          "availability": {
+            "default": "available",
+            "rules": []
+          },
+          "price_adjustments": []
+        },
+        "source_refs": [
+          "https://docs.mistral.ai/inference/pricing",
+          "https://docs.mistral.ai/models/codestral-25-08",
+          "https://docs.mistral.ai/studio/batch-processing"
+        ],
+        "verification_status": "verified",
+        "checked_at": "2026-09-08T07:53:25Z",
+        "verified_at": "2026-09-08T07:53:25Z",
         "billing_note": "Asynchronous Batch pricing at the official 50% discount; no Batch-plus-cache price is asserted."
       }
     ],
@@ -2204,7 +4706,10 @@
     "model_category": "document_parsing",
     "status": "active",
     "release_stage": "stable",
-    "aliases": ["mistral-ocr-latest", "mistral-ocr-4"],
+    "aliases": [
+      "mistral-ocr-latest",
+      "mistral-ocr-4"
+    ],
     "pricing": {
       "currency": "USD",
       "unit": null,
@@ -2295,9 +4800,9 @@
       "batch_output": null
     },
     "official_source_url": "https://cohere.com/pricing",
-    "accessed_at": "2026-08-08T18:00:00Z",
-    "last_verified_at": "2026-08-08T18:00:00Z",
-    "effective_from": "2024-08-01",
+    "accessed_at": "2026-09-20T10:16:13Z",
+    "last_verified_at": "2026-09-20T10:16:13Z",
+    "effective_from": null,
     "notes": "Cohere official pricing page lists Command R+ 08-2024 at $2.50/1M input tokens and $10.00/1M output tokens."
   },
   {
@@ -2318,8 +4823,8 @@
       "batch_output": null
     },
     "official_source_url": "https://cohere.com/pricing",
-    "accessed_at": "2026-08-08T18:00:00Z",
-    "last_verified_at": "2026-08-08T18:00:00Z",
+    "accessed_at": "2026-09-20T10:16:13Z",
+    "last_verified_at": "2026-09-20T10:16:13Z",
     "effective_from": null,
     "notes": "Cohere official pricing page states Aya Expanse 8B and 32B API pricing is $0.50/1M input and $1.50/1M output."
   },
@@ -2379,11 +4884,63 @@
     "release_stage": "legacy",
     "input_modality": "image",
     "output_modality": "image",
-    "pricing": {"currency": "USD", "unit": null, "input": null, "output": null, "cached_input": null, "cache_write": null, "cache_write_1h": null, "batch_input": null, "batch_output": null},
+    "pricing": {
+      "currency": "USD",
+      "unit": null,
+      "input": null,
+      "output": null,
+      "cached_input": null,
+      "cache_write": null,
+      "cache_write_1h": null,
+      "batch_input": null,
+      "batch_output": null
+    },
     "pricing_components": [
-      {"id": "media_input_image", "component": "input", "modality": "image", "unit": "per_image", "amount": 0.01, "currency": "USD", "processing_mode": "standard", "pricing_status": "current", "calculation_default": false, "effective_from": null, "effective_until": null},
-      {"id": "output_image_1k", "component": "output", "modality": "image", "unit": "per_image", "amount": 0.05, "currency": "USD", "processing_mode": "standard", "pricing_status": "current", "calculation_default": true, "effective_from": null, "effective_until": null, "configuration": {"resolution": "1k"}},
-      {"id": "output_image_2k", "component": "output", "modality": "image", "unit": "per_image", "amount": 0.07, "currency": "USD", "processing_mode": "standard", "pricing_status": "current", "calculation_default": false, "effective_from": null, "effective_until": null, "configuration": {"resolution": "2k"}}
+      {
+        "id": "media_input_image",
+        "component": "input",
+        "modality": "image",
+        "unit": "per_image",
+        "amount": 0.01,
+        "currency": "USD",
+        "processing_mode": "standard",
+        "pricing_status": "current",
+        "calculation_default": false,
+        "effective_from": null,
+        "effective_until": null
+      },
+      {
+        "id": "output_image_1k",
+        "component": "output",
+        "modality": "image",
+        "unit": "per_image",
+        "amount": 0.05,
+        "currency": "USD",
+        "processing_mode": "standard",
+        "pricing_status": "current",
+        "calculation_default": true,
+        "effective_from": null,
+        "effective_until": null,
+        "configuration": {
+          "resolution": "1k"
+        }
+      },
+      {
+        "id": "output_image_2k",
+        "component": "output",
+        "modality": "image",
+        "unit": "per_image",
+        "amount": 0.07,
+        "currency": "USD",
+        "processing_mode": "standard",
+        "pricing_status": "current",
+        "calculation_default": false,
+        "effective_from": null,
+        "effective_until": null,
+        "configuration": {
+          "resolution": "2k"
+        }
+      }
     ],
     "lifecycle": {
       "retirement_notice_date": "2026-09-02",
@@ -2394,14 +4951,23 @@
         "effective_from": "2026-11-02",
         "source_slug_remains_resolvable": true,
         "redirect_target_model_id": "grok-imagine-image-2.0",
-        "target_configuration": {"quality": "low"},
+        "target_configuration": {
+          "quality": "low"
+        },
         "billing_source": "redirect_target",
         "billing_model_id": "grok-imagine-image-2.0",
-        "billing_configuration": {"quality": "low"}
+        "billing_configuration": {
+          "quality": "low"
+        }
       }
     },
     "official_source_url": "https://docs.x.ai/developers/pricing",
-    "official_source_urls": ["https://docs.x.ai/developers/pricing", "https://docs.x.ai/developers/models/grok-imagine-image-pro", "https://docs.x.ai/developers/migration/imagine-image-quality-nov-2", "https://docs.x.ai/developers/release-notes"],
+    "official_source_urls": [
+      "https://docs.x.ai/developers/pricing",
+      "https://docs.x.ai/developers/models/grok-imagine-image-pro",
+      "https://docs.x.ai/developers/migration/imagine-image-quality-nov-2",
+      "https://docs.x.ai/developers/release-notes"
+    ],
     "accessed_at": "2026-09-05T15:40:04Z",
     "last_verified_at": "2026-09-05T15:40:04Z",
     "effective_from": null,
@@ -2417,20 +4983,77 @@
     "release_stage": "stable",
     "input_modality": "image",
     "output_modality": "image",
-    "pricing": {"currency": "USD", "unit": null, "input": null, "output": null, "cached_input": null, "cache_write": null, "cache_write_1h": null, "batch_input": null, "batch_output": null},
+    "pricing": {
+      "currency": "USD",
+      "unit": null,
+      "input": null,
+      "output": null,
+      "cached_input": null,
+      "cache_write": null,
+      "cache_write_1h": null,
+      "batch_input": null,
+      "batch_output": null
+    },
     "pricing_components": [
-      {"id": "media_input_image", "component": "input", "modality": "image", "unit": "per_image", "amount": 0.01, "currency": "USD", "processing_mode": "standard", "pricing_status": "current", "calculation_default": false, "effective_from": null, "effective_until": null},
-      {"id": "output_image_1k_low", "component": "output", "modality": "image", "unit": "per_image", "amount": 0.04, "currency": "USD", "processing_mode": "standard", "pricing_status": "current", "calculation_default": true, "effective_from": null, "effective_until": null, "configuration": {"quality": "low", "resolution": "1k"}},
-      {"id": "output_image_2k_low", "component": "output", "modality": "image", "unit": "per_image", "amount": 0.06, "currency": "USD", "processing_mode": "standard", "pricing_status": "current", "calculation_default": false, "effective_from": null, "effective_until": null, "configuration": {"quality": "low", "resolution": "2k"}}
+      {
+        "id": "media_input_image",
+        "component": "input",
+        "modality": "image",
+        "unit": "per_image",
+        "amount": 0.01,
+        "currency": "USD",
+        "processing_mode": "standard",
+        "pricing_status": "current",
+        "calculation_default": false,
+        "effective_from": null,
+        "effective_until": null
+      },
+      {
+        "id": "output_image_1k_low",
+        "component": "output",
+        "modality": "image",
+        "unit": "per_image",
+        "amount": 0.04,
+        "currency": "USD",
+        "processing_mode": "standard",
+        "pricing_status": "current",
+        "calculation_default": true,
+        "effective_from": null,
+        "effective_until": null,
+        "configuration": {
+          "quality": "low",
+          "resolution": "1k"
+        }
+      },
+      {
+        "id": "output_image_2k_low",
+        "component": "output",
+        "modality": "image",
+        "unit": "per_image",
+        "amount": 0.06,
+        "currency": "USD",
+        "processing_mode": "standard",
+        "pricing_status": "current",
+        "calculation_default": false,
+        "effective_from": null,
+        "effective_until": null,
+        "configuration": {
+          "quality": "low",
+          "resolution": "2k"
+        }
+      }
     ],
     "official_source_url": "https://docs.x.ai/developers/models/grok-imagine-image-2.0",
-    "official_source_urls": ["https://docs.x.ai/developers/models/grok-imagine-image-2.0", "https://docs.x.ai/developers/pricing", "https://docs.x.ai/developers/model-capabilities/images/generation"],
+    "official_source_urls": [
+      "https://docs.x.ai/developers/models/grok-imagine-image-2.0",
+      "https://docs.x.ai/developers/pricing",
+      "https://docs.x.ai/developers/model-capabilities/images/generation"
+    ],
     "accessed_at": "2026-09-05T15:40:04Z",
     "last_verified_at": "2026-09-05T15:40:04Z",
     "effective_from": null,
     "notes": "Low quality billing is $0.01 per input image, $0.04 per 1K output image, and $0.06 per 2K output image. The quality selector is explicit because redirected requests from grok-imagine-image-quality are scheduled to use quality=low."
   },
-
   {
     "provider_id": "xai",
     "model_id": "grok-4.20-0309-reasoning",
@@ -3364,9 +5987,16 @@
         ],
         "region_policy": {
           "pricing_geography": "global_base",
-          "endpoint_geographies": ["global"],
-          "data_residencies": ["global"],
-          "availability": {"default": "available", "rules": []},
+          "endpoint_geographies": [
+            "global"
+          ],
+          "data_residencies": [
+            "global"
+          ],
+          "availability": {
+            "default": "available",
+            "rules": []
+          },
           "price_adjustments": []
         },
         "source_refs": [
@@ -3405,7 +6035,9 @@
     "release_stage": "stable",
     "context_window_tokens": 262144,
     "project_context_window": true,
-    "aliases": ["kimi-k2.7-code-highspeed"],
+    "aliases": [
+      "kimi-k2.7-code-highspeed"
+    ],
     "pricing": {
       "currency": "USD",
       "unit": "1M tokens",
@@ -3430,15 +6062,40 @@
         "effective_until": null,
         "currency": "USD",
         "charges": [
-          {"id": "price:moonshot-ai/kimi-k2.7-code:standard:short:current:input:text:per_1m_tokens", "component": "input", "modality": "text", "unit": "per_1m_tokens", "amount": "0.95"},
-          {"id": "price:moonshot-ai/kimi-k2.7-code:standard:short:current:cached_input:text:per_1m_tokens", "component": "cached_input", "modality": "text", "unit": "per_1m_tokens", "amount": "0.19"},
-          {"id": "price:moonshot-ai/kimi-k2.7-code:standard:short:current:output:text:per_1m_tokens", "component": "output", "modality": "text", "unit": "per_1m_tokens", "amount": "4"}
+          {
+            "id": "price:moonshot-ai/kimi-k2.7-code:standard:short:current:input:text:per_1m_tokens",
+            "component": "input",
+            "modality": "text",
+            "unit": "per_1m_tokens",
+            "amount": "0.95"
+          },
+          {
+            "id": "price:moonshot-ai/kimi-k2.7-code:standard:short:current:cached_input:text:per_1m_tokens",
+            "component": "cached_input",
+            "modality": "text",
+            "unit": "per_1m_tokens",
+            "amount": "0.19"
+          },
+          {
+            "id": "price:moonshot-ai/kimi-k2.7-code:standard:short:current:output:text:per_1m_tokens",
+            "component": "output",
+            "modality": "text",
+            "unit": "per_1m_tokens",
+            "amount": "4"
+          }
         ],
         "region_policy": {
           "pricing_geography": "global_base",
-          "endpoint_geographies": ["global"],
-          "data_residencies": ["global"],
-          "availability": {"default": "available", "rules": []},
+          "endpoint_geographies": [
+            "global"
+          ],
+          "data_residencies": [
+            "global"
+          ],
+          "availability": {
+            "default": "available",
+            "rules": []
+          },
           "price_adjustments": []
         },
         "source_refs": [
@@ -3463,15 +6120,40 @@
         "effective_until": null,
         "currency": "USD",
         "charges": [
-          {"id": "price:moonshot-ai/kimi-k2.7-code:fast:short:current:input:text:per_1m_tokens", "component": "input", "modality": "text", "unit": "per_1m_tokens", "amount": "1.9"},
-          {"id": "price:moonshot-ai/kimi-k2.7-code:fast:short:current:cached_input:text:per_1m_tokens", "component": "cached_input", "modality": "text", "unit": "per_1m_tokens", "amount": "0.38"},
-          {"id": "price:moonshot-ai/kimi-k2.7-code:fast:short:current:output:text:per_1m_tokens", "component": "output", "modality": "text", "unit": "per_1m_tokens", "amount": "8"}
+          {
+            "id": "price:moonshot-ai/kimi-k2.7-code:fast:short:current:input:text:per_1m_tokens",
+            "component": "input",
+            "modality": "text",
+            "unit": "per_1m_tokens",
+            "amount": "1.9"
+          },
+          {
+            "id": "price:moonshot-ai/kimi-k2.7-code:fast:short:current:cached_input:text:per_1m_tokens",
+            "component": "cached_input",
+            "modality": "text",
+            "unit": "per_1m_tokens",
+            "amount": "0.38"
+          },
+          {
+            "id": "price:moonshot-ai/kimi-k2.7-code:fast:short:current:output:text:per_1m_tokens",
+            "component": "output",
+            "modality": "text",
+            "unit": "per_1m_tokens",
+            "amount": "8"
+          }
         ],
         "region_policy": {
           "pricing_geography": "global_base",
-          "endpoint_geographies": ["global"],
-          "data_residencies": ["global"],
-          "availability": {"default": "available", "rules": []},
+          "endpoint_geographies": [
+            "global"
+          ],
+          "data_residencies": [
+            "global"
+          ],
+          "availability": {
+            "default": "available",
+            "rules": []
+          },
           "price_adjustments": []
         },
         "source_refs": [
@@ -3495,15 +6177,40 @@
         "effective_until": null,
         "currency": "USD",
         "charges": [
-          {"id": "price:moonshot-ai/kimi-k2.7-code:batch:short:current:input:text:per_1m_tokens", "component": "input", "modality": "text", "unit": "per_1m_tokens", "amount": "0.57"},
-          {"id": "price:moonshot-ai/kimi-k2.7-code:batch:short:current:cached_input:text:per_1m_tokens", "component": "cached_input", "modality": "text", "unit": "per_1m_tokens", "amount": "0.114"},
-          {"id": "price:moonshot-ai/kimi-k2.7-code:batch:short:current:output:text:per_1m_tokens", "component": "output", "modality": "text", "unit": "per_1m_tokens", "amount": "2.4"}
+          {
+            "id": "price:moonshot-ai/kimi-k2.7-code:batch:short:current:input:text:per_1m_tokens",
+            "component": "input",
+            "modality": "text",
+            "unit": "per_1m_tokens",
+            "amount": "0.57"
+          },
+          {
+            "id": "price:moonshot-ai/kimi-k2.7-code:batch:short:current:cached_input:text:per_1m_tokens",
+            "component": "cached_input",
+            "modality": "text",
+            "unit": "per_1m_tokens",
+            "amount": "0.114"
+          },
+          {
+            "id": "price:moonshot-ai/kimi-k2.7-code:batch:short:current:output:text:per_1m_tokens",
+            "component": "output",
+            "modality": "text",
+            "unit": "per_1m_tokens",
+            "amount": "2.4"
+          }
         ],
         "region_policy": {
           "pricing_geography": "global_base",
-          "endpoint_geographies": ["global"],
-          "data_residencies": ["global"],
-          "availability": {"default": "available", "rules": []},
+          "endpoint_geographies": [
+            "global"
+          ],
+          "data_residencies": [
+            "global"
+          ],
+          "availability": {
+            "default": "available",
+            "rules": []
+          },
           "price_adjustments": []
         },
         "source_refs": [
@@ -3565,15 +6272,40 @@
         "effective_until": null,
         "currency": "USD",
         "charges": [
-          {"id": "price:moonshot-ai/kimi-k2.6:standard:short:current:input:text:per_1m_tokens", "component": "input", "modality": "text", "unit": "per_1m_tokens", "amount": "0.95"},
-          {"id": "price:moonshot-ai/kimi-k2.6:standard:short:current:cached_input:text:per_1m_tokens", "component": "cached_input", "modality": "text", "unit": "per_1m_tokens", "amount": "0.16"},
-          {"id": "price:moonshot-ai/kimi-k2.6:standard:short:current:output:text:per_1m_tokens", "component": "output", "modality": "text", "unit": "per_1m_tokens", "amount": "4"}
+          {
+            "id": "price:moonshot-ai/kimi-k2.6:standard:short:current:input:text:per_1m_tokens",
+            "component": "input",
+            "modality": "text",
+            "unit": "per_1m_tokens",
+            "amount": "0.95"
+          },
+          {
+            "id": "price:moonshot-ai/kimi-k2.6:standard:short:current:cached_input:text:per_1m_tokens",
+            "component": "cached_input",
+            "modality": "text",
+            "unit": "per_1m_tokens",
+            "amount": "0.16"
+          },
+          {
+            "id": "price:moonshot-ai/kimi-k2.6:standard:short:current:output:text:per_1m_tokens",
+            "component": "output",
+            "modality": "text",
+            "unit": "per_1m_tokens",
+            "amount": "4"
+          }
         ],
         "region_policy": {
           "pricing_geography": "global_base",
-          "endpoint_geographies": ["global"],
-          "data_residencies": ["global"],
-          "availability": {"default": "available", "rules": []},
+          "endpoint_geographies": [
+            "global"
+          ],
+          "data_residencies": [
+            "global"
+          ],
+          "availability": {
+            "default": "available",
+            "rules": []
+          },
           "price_adjustments": []
         },
         "source_refs": [
@@ -3598,15 +6330,40 @@
         "effective_until": null,
         "currency": "USD",
         "charges": [
-          {"id": "price:moonshot-ai/kimi-k2.6:batch:short:current:input:text:per_1m_tokens", "component": "input", "modality": "text", "unit": "per_1m_tokens", "amount": "0.57"},
-          {"id": "price:moonshot-ai/kimi-k2.6:batch:short:current:cached_input:text:per_1m_tokens", "component": "cached_input", "modality": "text", "unit": "per_1m_tokens", "amount": "0.096"},
-          {"id": "price:moonshot-ai/kimi-k2.6:batch:short:current:output:text:per_1m_tokens", "component": "output", "modality": "text", "unit": "per_1m_tokens", "amount": "2.4"}
+          {
+            "id": "price:moonshot-ai/kimi-k2.6:batch:short:current:input:text:per_1m_tokens",
+            "component": "input",
+            "modality": "text",
+            "unit": "per_1m_tokens",
+            "amount": "0.57"
+          },
+          {
+            "id": "price:moonshot-ai/kimi-k2.6:batch:short:current:cached_input:text:per_1m_tokens",
+            "component": "cached_input",
+            "modality": "text",
+            "unit": "per_1m_tokens",
+            "amount": "0.096"
+          },
+          {
+            "id": "price:moonshot-ai/kimi-k2.6:batch:short:current:output:text:per_1m_tokens",
+            "component": "output",
+            "modality": "text",
+            "unit": "per_1m_tokens",
+            "amount": "2.4"
+          }
         ],
         "region_policy": {
           "pricing_geography": "global_base",
-          "endpoint_geographies": ["global"],
-          "data_residencies": ["global"],
-          "availability": {"default": "available", "rules": []},
+          "endpoint_geographies": [
+            "global"
+          ],
+          "data_residencies": [
+            "global"
+          ],
+          "availability": {
+            "default": "available",
+            "rules": []
+          },
           "price_adjustments": []
         },
         "source_refs": [
@@ -3686,12 +6443,30 @@
         ],
         "region_policy": {
           "pricing_geography": "global_base",
-          "endpoint_geographies": ["asia-south1", "asia-southeast1", "australia-southeast1", "eu", "europe-west2", "europe-west3", "northamerica-northeast1", "us"],
-          "data_residencies": ["regional"],
-          "availability": {"default": "available", "rules": []},
+          "endpoint_geographies": [
+            "asia-south1",
+            "asia-southeast1",
+            "australia-southeast1",
+            "eu",
+            "europe-west2",
+            "europe-west3",
+            "northamerica-northeast1",
+            "us"
+          ],
+          "data_residencies": [
+            "regional"
+          ],
+          "availability": {
+            "default": "available",
+            "rules": []
+          },
           "price_adjustments": []
         },
-        "source_refs": ["https://cloud.google.com/products/document-ai/pricing", "https://docs.cloud.google.com/document-ai/docs/processors-list", "https://docs.cloud.google.com/document-ai/docs/regions"],
+        "source_refs": [
+          "https://cloud.google.com/products/document-ai/pricing",
+          "https://docs.cloud.google.com/document-ai/docs/processors-list",
+          "https://docs.cloud.google.com/document-ai/docs/regions"
+        ],
         "verification_status": "verified",
         "checked_at": "2026-09-08T00:00:00Z",
         "verified_at": "2026-09-08T00:00:00Z",
@@ -3727,12 +6502,30 @@
         ],
         "region_policy": {
           "pricing_geography": "global_base",
-          "endpoint_geographies": ["asia-south1", "asia-southeast1", "australia-southeast1", "eu", "europe-west2", "europe-west3", "northamerica-northeast1", "us"],
-          "data_residencies": ["regional"],
-          "availability": {"default": "available", "rules": []},
+          "endpoint_geographies": [
+            "asia-south1",
+            "asia-southeast1",
+            "australia-southeast1",
+            "eu",
+            "europe-west2",
+            "europe-west3",
+            "northamerica-northeast1",
+            "us"
+          ],
+          "data_residencies": [
+            "regional"
+          ],
+          "availability": {
+            "default": "available",
+            "rules": []
+          },
           "price_adjustments": []
         },
-        "source_refs": ["https://cloud.google.com/products/document-ai/pricing", "https://docs.cloud.google.com/document-ai/docs/processors-list", "https://docs.cloud.google.com/document-ai/docs/regions"],
+        "source_refs": [
+          "https://cloud.google.com/products/document-ai/pricing",
+          "https://docs.cloud.google.com/document-ai/docs/processors-list",
+          "https://docs.cloud.google.com/document-ai/docs/regions"
+        ],
         "verification_status": "verified",
         "checked_at": "2026-09-08T00:00:00Z",
         "verified_at": "2026-09-08T00:00:00Z",
@@ -3768,12 +6561,30 @@
         ],
         "region_policy": {
           "pricing_geography": "global_base",
-          "endpoint_geographies": ["asia-south1", "asia-southeast1", "australia-southeast1", "eu", "europe-west2", "europe-west3", "northamerica-northeast1", "us"],
-          "data_residencies": ["regional"],
-          "availability": {"default": "available", "rules": []},
+          "endpoint_geographies": [
+            "asia-south1",
+            "asia-southeast1",
+            "australia-southeast1",
+            "eu",
+            "europe-west2",
+            "europe-west3",
+            "northamerica-northeast1",
+            "us"
+          ],
+          "data_residencies": [
+            "regional"
+          ],
+          "availability": {
+            "default": "available",
+            "rules": []
+          },
           "price_adjustments": []
         },
-        "source_refs": ["https://cloud.google.com/products/document-ai/pricing", "https://docs.cloud.google.com/document-ai/docs/processors-list", "https://docs.cloud.google.com/document-ai/docs/regions"],
+        "source_refs": [
+          "https://cloud.google.com/products/document-ai/pricing",
+          "https://docs.cloud.google.com/document-ai/docs/processors-list",
+          "https://docs.cloud.google.com/document-ai/docs/regions"
+        ],
         "verification_status": "verified",
         "checked_at": "2026-09-08T00:00:00Z",
         "verified_at": "2026-09-08T00:00:00Z",
@@ -3845,27 +6656,65 @@
         ],
         "region_policy": {
           "pricing_geography": "region_specific",
-          "endpoint_geographies": ["ap-northeast-2", "ap-south-1", "ap-southeast-1", "ap-southeast-2", "ca-central-1", "eu-central-1", "eu-south-2", "eu-west-1", "eu-west-2", "eu-west-3", "us-east-1", "us-east-2", "us-gov-east-1", "us-gov-west-1", "us-west-1", "us-west-2"],
-          "data_residencies": ["regional"],
-          "availability": {"default": "available", "rules": []},
+          "endpoint_geographies": [
+            "ap-northeast-2",
+            "ap-south-1",
+            "ap-southeast-1",
+            "ap-southeast-2",
+            "ca-central-1",
+            "eu-central-1",
+            "eu-south-2",
+            "eu-west-1",
+            "eu-west-2",
+            "eu-west-3",
+            "us-east-1",
+            "us-east-2",
+            "us-gov-east-1",
+            "us-gov-west-1",
+            "us-west-1",
+            "us-west-2"
+          ],
+          "data_residencies": [
+            "regional"
+          ],
+          "availability": {
+            "default": "available",
+            "rules": []
+          },
           "price_adjustments": [
             {
               "id": "adjustment:aws/DetectDocumentText:us-west-1",
-              "selector": {"endpoint_geographies": ["us-west-1"]},
+              "selector": {
+                "endpoint_geographies": [
+                  "us-west-1"
+                ]
+              },
               "operation": "multiply",
               "factor": "1.4",
-              "source_refs": ["https://pricing.us-east-1.amazonaws.com/offers/v1.0/aws/AmazonTextract/current/index.json"]
+              "source_refs": [
+                "https://pricing.us-east-1.amazonaws.com/offers/v1.0/aws/AmazonTextract/current/index.json"
+              ]
             },
             {
               "id": "adjustment:aws/DetectDocumentText:govcloud",
-              "selector": {"endpoint_geographies": ["us-gov-east-1", "us-gov-west-1"]},
+              "selector": {
+                "endpoint_geographies": [
+                  "us-gov-east-1",
+                  "us-gov-west-1"
+                ]
+              },
               "operation": "multiply",
               "factor": "1.26",
-              "source_refs": ["https://pricing.us-east-1.amazonaws.com/offers/v1.0/aws/AmazonTextract/current/index.json"]
+              "source_refs": [
+                "https://pricing.us-east-1.amazonaws.com/offers/v1.0/aws/AmazonTextract/current/index.json"
+              ]
             }
           ]
         },
-        "source_refs": ["https://aws.amazon.com/textract/pricing/", "https://pricing.us-east-1.amazonaws.com/offers/v1.0/aws/AmazonTextract/current/index.json"],
+        "source_refs": [
+          "https://aws.amazon.com/textract/pricing/",
+          "https://pricing.us-east-1.amazonaws.com/offers/v1.0/aws/AmazonTextract/current/index.json"
+        ],
         "verification_status": "verified",
         "checked_at": "2026-09-09T00:00:00Z",
         "verified_at": "2026-09-09T00:00:00Z",
@@ -3901,27 +6750,65 @@
         ],
         "region_policy": {
           "pricing_geography": "region_specific",
-          "endpoint_geographies": ["ap-northeast-2", "ap-south-1", "ap-southeast-1", "ap-southeast-2", "ca-central-1", "eu-central-1", "eu-south-2", "eu-west-1", "eu-west-2", "eu-west-3", "us-east-1", "us-east-2", "us-gov-east-1", "us-gov-west-1", "us-west-1", "us-west-2"],
-          "data_residencies": ["regional"],
-          "availability": {"default": "available", "rules": []},
+          "endpoint_geographies": [
+            "ap-northeast-2",
+            "ap-south-1",
+            "ap-southeast-1",
+            "ap-southeast-2",
+            "ca-central-1",
+            "eu-central-1",
+            "eu-south-2",
+            "eu-west-1",
+            "eu-west-2",
+            "eu-west-3",
+            "us-east-1",
+            "us-east-2",
+            "us-gov-east-1",
+            "us-gov-west-1",
+            "us-west-1",
+            "us-west-2"
+          ],
+          "data_residencies": [
+            "regional"
+          ],
+          "availability": {
+            "default": "available",
+            "rules": []
+          },
           "price_adjustments": [
             {
               "id": "adjustment:aws/DetectDocumentText:us-west-1-high-volume",
-              "selector": {"endpoint_geographies": ["us-west-1"]},
+              "selector": {
+                "endpoint_geographies": [
+                  "us-west-1"
+                ]
+              },
               "operation": "multiply",
               "factor": "1.4",
-              "source_refs": ["https://pricing.us-east-1.amazonaws.com/offers/v1.0/aws/AmazonTextract/current/index.json"]
+              "source_refs": [
+                "https://pricing.us-east-1.amazonaws.com/offers/v1.0/aws/AmazonTextract/current/index.json"
+              ]
             },
             {
               "id": "adjustment:aws/DetectDocumentText:govcloud-high-volume",
-              "selector": {"endpoint_geographies": ["us-gov-east-1", "us-gov-west-1"]},
+              "selector": {
+                "endpoint_geographies": [
+                  "us-gov-east-1",
+                  "us-gov-west-1"
+                ]
+              },
               "operation": "multiply",
               "factor": "1.26",
-              "source_refs": ["https://pricing.us-east-1.amazonaws.com/offers/v1.0/aws/AmazonTextract/current/index.json"]
+              "source_refs": [
+                "https://pricing.us-east-1.amazonaws.com/offers/v1.0/aws/AmazonTextract/current/index.json"
+              ]
             }
           ]
         },
-        "source_refs": ["https://aws.amazon.com/textract/pricing/", "https://pricing.us-east-1.amazonaws.com/offers/v1.0/aws/AmazonTextract/current/index.json"],
+        "source_refs": [
+          "https://aws.amazon.com/textract/pricing/",
+          "https://pricing.us-east-1.amazonaws.com/offers/v1.0/aws/AmazonTextract/current/index.json"
+        ],
         "verification_status": "verified",
         "checked_at": "2026-09-09T00:00:00Z",
         "verified_at": "2026-09-09T00:00:00Z",
@@ -3932,14 +6819,42 @@
       {
         "id": "allowance:aws/DetectDocumentText:new-customer-paid-plan-trial",
         "offer_type": "short_term_trial",
-        "eligibility": {"customer_status": "new_customer", "account_plan": "paid"},
+        "eligibility": {
+          "customer_status": "new_customer",
+          "account_plan": "paid"
+        },
         "metric": "document_page",
         "allowance": 1000,
         "billing_period": "calendar_month",
         "usage_scope": "provider_account",
-        "duration": {"value": 3, "unit": "month", "starts_on": "offer_activation"},
-        "region_selector": {"endpoint_geographies": ["ap-northeast-2", "ap-south-1", "ap-southeast-1", "ap-southeast-2", "ca-central-1", "eu-central-1", "eu-south-2", "eu-west-1", "eu-west-2", "eu-west-3", "us-east-1", "us-east-2", "us-west-1", "us-west-2"]},
-        "source_refs": ["https://aws.amazon.com/free/ai/", "https://aws.amazon.com/textract/pricing/", "https://docs.aws.amazon.com/awsaccountbilling/latest/aboutv2/free-tier.html"],
+        "duration": {
+          "value": 3,
+          "unit": "month",
+          "starts_on": "offer_activation"
+        },
+        "region_selector": {
+          "endpoint_geographies": [
+            "ap-northeast-2",
+            "ap-south-1",
+            "ap-southeast-1",
+            "ap-southeast-2",
+            "ca-central-1",
+            "eu-central-1",
+            "eu-south-2",
+            "eu-west-1",
+            "eu-west-2",
+            "eu-west-3",
+            "us-east-1",
+            "us-east-2",
+            "us-west-1",
+            "us-west-2"
+          ]
+        },
+        "source_refs": [
+          "https://aws.amazon.com/free/ai/",
+          "https://aws.amazon.com/textract/pricing/",
+          "https://docs.aws.amazon.com/awsaccountbilling/latest/aboutv2/free-tier.html"
+        ],
         "verification_status": "verified",
         "checked_at": "2026-09-09T00:00:00Z",
         "verified_at": "2026-09-09T00:00:00Z",
@@ -4013,12 +6928,52 @@
         ],
         "region_policy": {
           "pricing_geography": "region_specific",
-          "endpoint_geographies": ["australiaeast", "brazilsouth", "canadacentral", "centralindia", "centralus", "eastasia", "eastus", "eastus2", "francecentral", "germanywestcentral", "italynorth", "japaneast", "japanwest", "koreacentral", "northcentralus", "northeurope", "norwayeast", "qatarcentral", "southafricanorth", "southcentralus", "southeastasia", "swedencentral", "switzerlandnorth", "switzerlandwest", "uaenorth", "uksouth", "westcentralus", "westeurope", "westus", "westus2", "westus3"],
-          "data_residencies": ["regional"],
-          "availability": {"default": "available", "rules": []},
+          "endpoint_geographies": [
+            "australiaeast",
+            "brazilsouth",
+            "canadacentral",
+            "centralindia",
+            "centralus",
+            "eastasia",
+            "eastus",
+            "eastus2",
+            "francecentral",
+            "germanywestcentral",
+            "italynorth",
+            "japaneast",
+            "japanwest",
+            "koreacentral",
+            "northcentralus",
+            "northeurope",
+            "norwayeast",
+            "qatarcentral",
+            "southafricanorth",
+            "southcentralus",
+            "southeastasia",
+            "swedencentral",
+            "switzerlandnorth",
+            "switzerlandwest",
+            "uaenorth",
+            "uksouth",
+            "westcentralus",
+            "westeurope",
+            "westus",
+            "westus2",
+            "westus3"
+          ],
+          "data_residencies": [
+            "regional"
+          ],
+          "availability": {
+            "default": "available",
+            "rules": []
+          },
           "price_adjustments": []
         },
-        "source_refs": ["https://prices.azure.com/api/retail/prices", "https://learn.microsoft.com/en-us/rest/api/cost-management/retail-prices/azure-retail-prices"],
+        "source_refs": [
+          "https://prices.azure.com/api/retail/prices",
+          "https://learn.microsoft.com/en-us/rest/api/cost-management/retail-prices/azure-retail-prices"
+        ],
         "verification_status": "verified",
         "checked_at": "2026-09-09T00:00:00Z",
         "verified_at": "2026-09-09T00:00:00Z",
@@ -4054,12 +7009,52 @@
         ],
         "region_policy": {
           "pricing_geography": "region_specific",
-          "endpoint_geographies": ["australiaeast", "brazilsouth", "canadacentral", "centralindia", "centralus", "eastasia", "eastus", "eastus2", "francecentral", "germanywestcentral", "italynorth", "japaneast", "japanwest", "koreacentral", "northcentralus", "northeurope", "norwayeast", "qatarcentral", "southafricanorth", "southcentralus", "southeastasia", "swedencentral", "switzerlandnorth", "switzerlandwest", "uaenorth", "uksouth", "westcentralus", "westeurope", "westus", "westus2", "westus3"],
-          "data_residencies": ["regional"],
-          "availability": {"default": "available", "rules": []},
+          "endpoint_geographies": [
+            "australiaeast",
+            "brazilsouth",
+            "canadacentral",
+            "centralindia",
+            "centralus",
+            "eastasia",
+            "eastus",
+            "eastus2",
+            "francecentral",
+            "germanywestcentral",
+            "italynorth",
+            "japaneast",
+            "japanwest",
+            "koreacentral",
+            "northcentralus",
+            "northeurope",
+            "norwayeast",
+            "qatarcentral",
+            "southafricanorth",
+            "southcentralus",
+            "southeastasia",
+            "swedencentral",
+            "switzerlandnorth",
+            "switzerlandwest",
+            "uaenorth",
+            "uksouth",
+            "westcentralus",
+            "westeurope",
+            "westus",
+            "westus2",
+            "westus3"
+          ],
+          "data_residencies": [
+            "regional"
+          ],
+          "availability": {
+            "default": "available",
+            "rules": []
+          },
           "price_adjustments": []
         },
-        "source_refs": ["https://prices.azure.com/api/retail/prices", "https://learn.microsoft.com/en-us/rest/api/cost-management/retail-prices/azure-retail-prices"],
+        "source_refs": [
+          "https://prices.azure.com/api/retail/prices",
+          "https://learn.microsoft.com/en-us/rest/api/cost-management/retail-prices/azure-retail-prices"
+        ],
         "verification_status": "verified",
         "checked_at": "2026-09-09T00:00:00Z",
         "verified_at": "2026-09-09T00:00:00Z",

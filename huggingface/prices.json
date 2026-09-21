@@ -4,9 +4,9 @@
     "version": "1.0.0",
     "schema_version": "1.7.0",
     "page_url": "https://aicostbudget.com/en/datasets/ai-api-pricing",
-    "last_updated": "2026-09-14T05:04:26Z",
-    "last_verified_at": "2026-09-14T05:04:26Z",
-    "generated_at": "2026-09-14T05:10:56Z",
+    "last_updated": "2026-09-20T13:28:36Z",
+    "last_verified_at": "2026-09-20T13:28:36Z",
+    "generated_at": "2026-09-20T13:45:33Z",
     "provider_count": 11,
     "record_count": 69,
     "official_source_count": 20,
@@ -561,6 +561,32 @@
             "effective_until": null
           },
           "calculation_default": false,
+          "source_refs": [
+            "source:anthropic:docs-anthropic-com-en-docs-about-claude-pricing"
+          ],
+          "source_urls": [
+            "https://docs.anthropic.com/en/docs/about-claude/pricing"
+          ],
+          "verification_status": "verified"
+        },
+        {
+          "pricing_id": "price:anthropic/claude-haiku-4.5:standard:short:current",
+          "charge_id": "price:anthropic/claude-haiku-4.5:standard:short:current:cache_write_1h:text:per_1m_tokens",
+          "component": "cache_write_1h",
+          "amount": "2",
+          "unit": "per_1m_tokens",
+          "currency": "USD",
+          "modality": "text",
+          "condition": {
+            "processing_mode": "standard",
+            "context_class": "short",
+            "prompt_token_threshold": null,
+            "tier_selection": null,
+            "region_policy": "global",
+            "effective_from": null,
+            "effective_until": null
+          },
+          "calculation_default": true,
           "source_refs": [
             "source:anthropic:docs-anthropic-com-en-docs-about-claude-pricing"
           ],
@@ -1213,6 +1239,32 @@
         },
         {
           "pricing_id": "price:anthropic/claude-opus-4.8:standard:short:current",
+          "charge_id": "price:anthropic/claude-opus-4.8:standard:short:current:cache_write_1h:text:per_1m_tokens",
+          "component": "cache_write_1h",
+          "amount": "10",
+          "unit": "per_1m_tokens",
+          "currency": "USD",
+          "modality": "text",
+          "condition": {
+            "processing_mode": "standard",
+            "context_class": "short",
+            "prompt_token_threshold": null,
+            "tier_selection": null,
+            "region_policy": "global",
+            "effective_from": null,
+            "effective_until": null
+          },
+          "calculation_default": true,
+          "source_refs": [
+            "source:anthropic:docs-anthropic-com-en-docs-about-claude-pricing"
+          ],
+          "source_urls": [
+            "https://docs.anthropic.com/en/docs/about-claude/pricing"
+          ],
+          "verification_status": "verified"
+        },
+        {
+          "pricing_id": "price:anthropic/claude-opus-4.8:standard:short:current",
           "charge_id": "price:anthropic/claude-opus-4.8:standard:short:current:cache_write_5m:text:per_1m_tokens",
           "component": "cache_write_5m",
           "amount": "6.25",
@@ -1630,6 +1682,32 @@
             "effective_until": null
           },
           "calculation_default": false,
+          "source_refs": [
+            "source:anthropic:docs-anthropic-com-en-docs-about-claude-pricing"
+          ],
+          "source_urls": [
+            "https://docs.anthropic.com/en/docs/about-claude/pricing"
+          ],
+          "verification_status": "verified"
+        },
+        {
+          "pricing_id": "price:anthropic/claude-sonnet-4.6:standard:short:current",
+          "charge_id": "price:anthropic/claude-sonnet-4.6:standard:short:current:cache_write_1h:text:per_1m_tokens",
+          "component": "cache_write_1h",
+          "amount": "6",
+          "unit": "per_1m_tokens",
+          "currency": "USD",
+          "modality": "text",
+          "condition": {
+            "processing_mode": "standard",
+            "context_class": "short",
+            "prompt_token_threshold": null,
+            "tier_selection": null,
+            "region_policy": "global",
+            "effective_from": null,
+            "effective_until": null
+          },
+          "calculation_default": true,
           "source_refs": [
             "source:anthropic:docs-anthropic-com-en-docs-about-claude-pricing"
           ],
@@ -2525,7 +2603,7 @@
       "verification_status": "verified",
       "last_verified_at": "2026-08-08",
       "checked_at": "2026-08-08",
-      "effective_from": "2024-08-01",
+      "effective_from": null,
       "effective_until": null,
       "notes": "",
       "pricing_tier_count": 0,
@@ -2546,7 +2624,7 @@
             "prompt_token_threshold": null,
             "tier_selection": null,
             "region_policy": "global",
-            "effective_from": "2024-08-01",
+            "effective_from": null,
             "effective_until": null
           },
           "calculation_default": true,
@@ -2572,7 +2650,7 @@
             "prompt_token_threshold": null,
             "tier_selection": null,
             "region_policy": "global",
-            "effective_from": "2024-08-01",
+            "effective_from": null,
             "effective_until": null
           },
           "calculation_default": true,
@@ -4136,10 +4214,243 @@
       "effective_from": null,
       "effective_until": null,
       "notes": "Kept for teams comparing older Gemini 2.5 forecasts with current Gemini 3.x models.",
-      "pricing_tier_count": 0,
-      "pricing_tiers": [],
+      "pricing_tier_count": 2,
+      "pricing_tiers": [
+        {
+          "id": "price:google-gemini/gemini-2.5-pro:standard:long:current",
+          "pricing_id": "price:google-gemini/gemini-2.5-pro:standard:long:current",
+          "label": "Long context",
+          "context_class": "long",
+          "calculation_default": false,
+          "prompt_token_threshold": 200000,
+          "comparison": "greater_than",
+          "token_basis": "total_prompt_tokens",
+          "cached_prompt_tokens_included": true,
+          "whole_request_pricing": true,
+          "processing_mode": "standard",
+          "input_price_per_1m_tokens": 2.5,
+          "cached_input_price_per_1m_tokens": 0.25,
+          "output_price_per_1m_tokens": 15,
+          "currency": "USD",
+          "pricing_unit": "1M tokens",
+          "official_source_url": "https://ai.google.dev/gemini-api/docs/pricing",
+          "source_refs": [
+            "source:google-gemini:ai-google-dev-gemini-api-docs-generate-content-caching",
+            "source:google-gemini:ai-google-dev-gemini-api-docs-pricing"
+          ],
+          "last_verified_at": "2026-08-08",
+          "checked_at": "2026-08-24",
+          "verification_status": "verified"
+        },
+        {
+          "id": "price:google-gemini/gemini-2.5-pro:standard:short:current",
+          "pricing_id": "price:google-gemini/gemini-2.5-pro:standard:short:current",
+          "label": "Short context",
+          "context_class": "short",
+          "calculation_default": true,
+          "prompt_token_threshold": 200000,
+          "comparison": "less_than_or_equal",
+          "token_basis": "total_prompt_tokens",
+          "cached_prompt_tokens_included": true,
+          "whole_request_pricing": true,
+          "processing_mode": "standard",
+          "input_price_per_1m_tokens": 1.25,
+          "cached_input_price_per_1m_tokens": 0.125,
+          "output_price_per_1m_tokens": 10,
+          "currency": "USD",
+          "pricing_unit": "1M tokens",
+          "official_source_url": "https://ai.google.dev/gemini-api/docs/pricing",
+          "source_refs": [
+            "source:google-gemini:ai-google-dev-gemini-api-docs-generate-content-caching",
+            "source:google-gemini:ai-google-dev-gemini-api-docs-pricing"
+          ],
+          "last_verified_at": "2026-08-08",
+          "checked_at": "2026-08-24",
+          "verification_status": "verified"
+        }
+      ],
       "time_pricing": null,
       "pricing_components": [
+        {
+          "pricing_id": "price:google-gemini/gemini-2.5-pro:batch:long:current",
+          "charge_id": "price:google-gemini/gemini-2.5-pro:batch:long:current:cached_input:text:per_1m_tokens",
+          "component": "cached_input",
+          "amount": "0.25",
+          "unit": "per_1m_tokens",
+          "currency": "USD",
+          "modality": "text",
+          "condition": {
+            "processing_mode": "batch",
+            "context_class": "long",
+            "prompt_token_threshold": 200000,
+            "tier_selection": {
+              "comparison": "greater_than",
+              "token_basis": "total_prompt_tokens",
+              "cached_prompt_tokens_included": true,
+              "whole_request_pricing": true
+            },
+            "region_policy": "global",
+            "effective_from": null,
+            "effective_until": null,
+            "region_selector": {
+              "dataResidencies": [
+                "global"
+              ],
+              "endpointGeographies": [
+                "global"
+              ],
+              "pricingGeography": "global_base"
+            },
+            "default_availability_status": "available",
+            "availability_rules": [],
+            "price_adjustments": []
+          },
+          "calculation_default": false,
+          "source_refs": [
+            "source:google-gemini:ai-google-dev-gemini-api-docs-generate-content-caching",
+            "source:google-gemini:ai-google-dev-gemini-api-docs-pricing"
+          ],
+          "source_urls": [
+            "https://ai.google.dev/gemini-api/docs/generate-content/caching",
+            "https://ai.google.dev/gemini-api/docs/pricing"
+          ],
+          "verification_status": "verified"
+        },
+        {
+          "pricing_id": "price:google-gemini/gemini-2.5-pro:batch:long:current",
+          "charge_id": "price:google-gemini/gemini-2.5-pro:batch:long:current:input:text:per_1m_tokens",
+          "component": "input",
+          "amount": "1.25",
+          "unit": "per_1m_tokens",
+          "currency": "USD",
+          "modality": "text",
+          "condition": {
+            "processing_mode": "batch",
+            "context_class": "long",
+            "prompt_token_threshold": 200000,
+            "tier_selection": {
+              "comparison": "greater_than",
+              "token_basis": "total_prompt_tokens",
+              "cached_prompt_tokens_included": true,
+              "whole_request_pricing": true
+            },
+            "region_policy": "global",
+            "effective_from": null,
+            "effective_until": null,
+            "region_selector": {
+              "dataResidencies": [
+                "global"
+              ],
+              "endpointGeographies": [
+                "global"
+              ],
+              "pricingGeography": "global_base"
+            },
+            "default_availability_status": "available",
+            "availability_rules": [],
+            "price_adjustments": []
+          },
+          "calculation_default": false,
+          "source_refs": [
+            "source:google-gemini:ai-google-dev-gemini-api-docs-generate-content-caching",
+            "source:google-gemini:ai-google-dev-gemini-api-docs-pricing"
+          ],
+          "source_urls": [
+            "https://ai.google.dev/gemini-api/docs/generate-content/caching",
+            "https://ai.google.dev/gemini-api/docs/pricing"
+          ],
+          "verification_status": "verified"
+        },
+        {
+          "pricing_id": "price:google-gemini/gemini-2.5-pro:batch:long:current",
+          "charge_id": "price:google-gemini/gemini-2.5-pro:batch:long:current:output:text:per_1m_tokens",
+          "component": "output",
+          "amount": "7.5",
+          "unit": "per_1m_tokens",
+          "currency": "USD",
+          "modality": "text",
+          "condition": {
+            "processing_mode": "batch",
+            "context_class": "long",
+            "prompt_token_threshold": 200000,
+            "tier_selection": {
+              "comparison": "greater_than",
+              "token_basis": "total_prompt_tokens",
+              "cached_prompt_tokens_included": true,
+              "whole_request_pricing": true
+            },
+            "region_policy": "global",
+            "effective_from": null,
+            "effective_until": null,
+            "region_selector": {
+              "dataResidencies": [
+                "global"
+              ],
+              "endpointGeographies": [
+                "global"
+              ],
+              "pricingGeography": "global_base"
+            },
+            "default_availability_status": "available",
+            "availability_rules": [],
+            "price_adjustments": []
+          },
+          "calculation_default": false,
+          "source_refs": [
+            "source:google-gemini:ai-google-dev-gemini-api-docs-generate-content-caching",
+            "source:google-gemini:ai-google-dev-gemini-api-docs-pricing"
+          ],
+          "source_urls": [
+            "https://ai.google.dev/gemini-api/docs/generate-content/caching",
+            "https://ai.google.dev/gemini-api/docs/pricing"
+          ],
+          "verification_status": "verified"
+        },
+        {
+          "pricing_id": "price:google-gemini/gemini-2.5-pro:batch:short:current",
+          "charge_id": "price:google-gemini/gemini-2.5-pro:batch:short:current:cached_input:text:per_1m_tokens",
+          "component": "cached_input",
+          "amount": "0.125",
+          "unit": "per_1m_tokens",
+          "currency": "USD",
+          "modality": "text",
+          "condition": {
+            "processing_mode": "batch",
+            "context_class": "short",
+            "prompt_token_threshold": 200000,
+            "tier_selection": {
+              "comparison": "less_than_or_equal",
+              "token_basis": "total_prompt_tokens",
+              "cached_prompt_tokens_included": true,
+              "whole_request_pricing": true
+            },
+            "region_policy": "global",
+            "effective_from": null,
+            "effective_until": null,
+            "region_selector": {
+              "dataResidencies": [
+                "global"
+              ],
+              "endpointGeographies": [
+                "global"
+              ],
+              "pricingGeography": "global_base"
+            },
+            "default_availability_status": "available",
+            "availability_rules": [],
+            "price_adjustments": []
+          },
+          "calculation_default": false,
+          "source_refs": [
+            "source:google-gemini:ai-google-dev-gemini-api-docs-generate-content-caching",
+            "source:google-gemini:ai-google-dev-gemini-api-docs-pricing"
+          ],
+          "source_urls": [
+            "https://ai.google.dev/gemini-api/docs/generate-content/caching",
+            "https://ai.google.dev/gemini-api/docs/pricing"
+          ],
+          "verification_status": "verified"
+        },
         {
           "pricing_id": "price:google-gemini/gemini-2.5-pro:batch:short:current",
           "charge_id": "price:google-gemini/gemini-2.5-pro:batch:short:current:input:text:per_1m_tokens",
@@ -4151,17 +4462,36 @@
           "condition": {
             "processing_mode": "batch",
             "context_class": "short",
-            "prompt_token_threshold": null,
-            "tier_selection": null,
+            "prompt_token_threshold": 200000,
+            "tier_selection": {
+              "comparison": "less_than_or_equal",
+              "token_basis": "total_prompt_tokens",
+              "cached_prompt_tokens_included": true,
+              "whole_request_pricing": true
+            },
             "region_policy": "global",
             "effective_from": null,
-            "effective_until": null
+            "effective_until": null,
+            "region_selector": {
+              "dataResidencies": [
+                "global"
+              ],
+              "endpointGeographies": [
+                "global"
+              ],
+              "pricingGeography": "global_base"
+            },
+            "default_availability_status": "available",
+            "availability_rules": [],
+            "price_adjustments": []
           },
           "calculation_default": false,
           "source_refs": [
+            "source:google-gemini:ai-google-dev-gemini-api-docs-generate-content-caching",
             "source:google-gemini:ai-google-dev-gemini-api-docs-pricing"
           ],
           "source_urls": [
+            "https://ai.google.dev/gemini-api/docs/generate-content/caching",
             "https://ai.google.dev/gemini-api/docs/pricing"
           ],
           "verification_status": "verified"
@@ -4177,17 +4507,711 @@
           "condition": {
             "processing_mode": "batch",
             "context_class": "short",
-            "prompt_token_threshold": null,
-            "tier_selection": null,
+            "prompt_token_threshold": 200000,
+            "tier_selection": {
+              "comparison": "less_than_or_equal",
+              "token_basis": "total_prompt_tokens",
+              "cached_prompt_tokens_included": true,
+              "whole_request_pricing": true
+            },
             "region_policy": "global",
             "effective_from": null,
-            "effective_until": null
+            "effective_until": null,
+            "region_selector": {
+              "dataResidencies": [
+                "global"
+              ],
+              "endpointGeographies": [
+                "global"
+              ],
+              "pricingGeography": "global_base"
+            },
+            "default_availability_status": "available",
+            "availability_rules": [],
+            "price_adjustments": []
           },
           "calculation_default": false,
           "source_refs": [
+            "source:google-gemini:ai-google-dev-gemini-api-docs-generate-content-caching",
             "source:google-gemini:ai-google-dev-gemini-api-docs-pricing"
           ],
           "source_urls": [
+            "https://ai.google.dev/gemini-api/docs/generate-content/caching",
+            "https://ai.google.dev/gemini-api/docs/pricing"
+          ],
+          "verification_status": "verified"
+        },
+        {
+          "pricing_id": "price:google-gemini/gemini-2.5-pro:flex:long:current",
+          "charge_id": "price:google-gemini/gemini-2.5-pro:flex:long:current:cached_input:text:per_1m_tokens",
+          "component": "cached_input",
+          "amount": "0.25",
+          "unit": "per_1m_tokens",
+          "currency": "USD",
+          "modality": "text",
+          "condition": {
+            "processing_mode": "flex",
+            "context_class": "long",
+            "prompt_token_threshold": 200000,
+            "tier_selection": {
+              "comparison": "greater_than",
+              "token_basis": "total_prompt_tokens",
+              "cached_prompt_tokens_included": true,
+              "whole_request_pricing": true
+            },
+            "region_policy": "global",
+            "effective_from": null,
+            "effective_until": null,
+            "region_selector": {
+              "dataResidencies": [
+                "global"
+              ],
+              "endpointGeographies": [
+                "global"
+              ],
+              "pricingGeography": "global_base"
+            },
+            "default_availability_status": "available",
+            "availability_rules": [],
+            "price_adjustments": []
+          },
+          "calculation_default": false,
+          "source_refs": [
+            "source:google-gemini:ai-google-dev-gemini-api-docs-generate-content-caching",
+            "source:google-gemini:ai-google-dev-gemini-api-docs-pricing"
+          ],
+          "source_urls": [
+            "https://ai.google.dev/gemini-api/docs/generate-content/caching",
+            "https://ai.google.dev/gemini-api/docs/pricing"
+          ],
+          "verification_status": "verified"
+        },
+        {
+          "pricing_id": "price:google-gemini/gemini-2.5-pro:flex:long:current",
+          "charge_id": "price:google-gemini/gemini-2.5-pro:flex:long:current:input:text:per_1m_tokens",
+          "component": "input",
+          "amount": "1.25",
+          "unit": "per_1m_tokens",
+          "currency": "USD",
+          "modality": "text",
+          "condition": {
+            "processing_mode": "flex",
+            "context_class": "long",
+            "prompt_token_threshold": 200000,
+            "tier_selection": {
+              "comparison": "greater_than",
+              "token_basis": "total_prompt_tokens",
+              "cached_prompt_tokens_included": true,
+              "whole_request_pricing": true
+            },
+            "region_policy": "global",
+            "effective_from": null,
+            "effective_until": null,
+            "region_selector": {
+              "dataResidencies": [
+                "global"
+              ],
+              "endpointGeographies": [
+                "global"
+              ],
+              "pricingGeography": "global_base"
+            },
+            "default_availability_status": "available",
+            "availability_rules": [],
+            "price_adjustments": []
+          },
+          "calculation_default": false,
+          "source_refs": [
+            "source:google-gemini:ai-google-dev-gemini-api-docs-generate-content-caching",
+            "source:google-gemini:ai-google-dev-gemini-api-docs-pricing"
+          ],
+          "source_urls": [
+            "https://ai.google.dev/gemini-api/docs/generate-content/caching",
+            "https://ai.google.dev/gemini-api/docs/pricing"
+          ],
+          "verification_status": "verified"
+        },
+        {
+          "pricing_id": "price:google-gemini/gemini-2.5-pro:flex:long:current",
+          "charge_id": "price:google-gemini/gemini-2.5-pro:flex:long:current:output:text:per_1m_tokens",
+          "component": "output",
+          "amount": "7.5",
+          "unit": "per_1m_tokens",
+          "currency": "USD",
+          "modality": "text",
+          "condition": {
+            "processing_mode": "flex",
+            "context_class": "long",
+            "prompt_token_threshold": 200000,
+            "tier_selection": {
+              "comparison": "greater_than",
+              "token_basis": "total_prompt_tokens",
+              "cached_prompt_tokens_included": true,
+              "whole_request_pricing": true
+            },
+            "region_policy": "global",
+            "effective_from": null,
+            "effective_until": null,
+            "region_selector": {
+              "dataResidencies": [
+                "global"
+              ],
+              "endpointGeographies": [
+                "global"
+              ],
+              "pricingGeography": "global_base"
+            },
+            "default_availability_status": "available",
+            "availability_rules": [],
+            "price_adjustments": []
+          },
+          "calculation_default": false,
+          "source_refs": [
+            "source:google-gemini:ai-google-dev-gemini-api-docs-generate-content-caching",
+            "source:google-gemini:ai-google-dev-gemini-api-docs-pricing"
+          ],
+          "source_urls": [
+            "https://ai.google.dev/gemini-api/docs/generate-content/caching",
+            "https://ai.google.dev/gemini-api/docs/pricing"
+          ],
+          "verification_status": "verified"
+        },
+        {
+          "pricing_id": "price:google-gemini/gemini-2.5-pro:flex:short:current",
+          "charge_id": "price:google-gemini/gemini-2.5-pro:flex:short:current:cached_input:text:per_1m_tokens",
+          "component": "cached_input",
+          "amount": "0.125",
+          "unit": "per_1m_tokens",
+          "currency": "USD",
+          "modality": "text",
+          "condition": {
+            "processing_mode": "flex",
+            "context_class": "short",
+            "prompt_token_threshold": 200000,
+            "tier_selection": {
+              "comparison": "less_than_or_equal",
+              "token_basis": "total_prompt_tokens",
+              "cached_prompt_tokens_included": true,
+              "whole_request_pricing": true
+            },
+            "region_policy": "global",
+            "effective_from": null,
+            "effective_until": null,
+            "region_selector": {
+              "dataResidencies": [
+                "global"
+              ],
+              "endpointGeographies": [
+                "global"
+              ],
+              "pricingGeography": "global_base"
+            },
+            "default_availability_status": "available",
+            "availability_rules": [],
+            "price_adjustments": []
+          },
+          "calculation_default": false,
+          "source_refs": [
+            "source:google-gemini:ai-google-dev-gemini-api-docs-generate-content-caching",
+            "source:google-gemini:ai-google-dev-gemini-api-docs-pricing"
+          ],
+          "source_urls": [
+            "https://ai.google.dev/gemini-api/docs/generate-content/caching",
+            "https://ai.google.dev/gemini-api/docs/pricing"
+          ],
+          "verification_status": "verified"
+        },
+        {
+          "pricing_id": "price:google-gemini/gemini-2.5-pro:flex:short:current",
+          "charge_id": "price:google-gemini/gemini-2.5-pro:flex:short:current:input:text:per_1m_tokens",
+          "component": "input",
+          "amount": "0.625",
+          "unit": "per_1m_tokens",
+          "currency": "USD",
+          "modality": "text",
+          "condition": {
+            "processing_mode": "flex",
+            "context_class": "short",
+            "prompt_token_threshold": 200000,
+            "tier_selection": {
+              "comparison": "less_than_or_equal",
+              "token_basis": "total_prompt_tokens",
+              "cached_prompt_tokens_included": true,
+              "whole_request_pricing": true
+            },
+            "region_policy": "global",
+            "effective_from": null,
+            "effective_until": null,
+            "region_selector": {
+              "dataResidencies": [
+                "global"
+              ],
+              "endpointGeographies": [
+                "global"
+              ],
+              "pricingGeography": "global_base"
+            },
+            "default_availability_status": "available",
+            "availability_rules": [],
+            "price_adjustments": []
+          },
+          "calculation_default": false,
+          "source_refs": [
+            "source:google-gemini:ai-google-dev-gemini-api-docs-generate-content-caching",
+            "source:google-gemini:ai-google-dev-gemini-api-docs-pricing"
+          ],
+          "source_urls": [
+            "https://ai.google.dev/gemini-api/docs/generate-content/caching",
+            "https://ai.google.dev/gemini-api/docs/pricing"
+          ],
+          "verification_status": "verified"
+        },
+        {
+          "pricing_id": "price:google-gemini/gemini-2.5-pro:flex:short:current",
+          "charge_id": "price:google-gemini/gemini-2.5-pro:flex:short:current:output:text:per_1m_tokens",
+          "component": "output",
+          "amount": "5",
+          "unit": "per_1m_tokens",
+          "currency": "USD",
+          "modality": "text",
+          "condition": {
+            "processing_mode": "flex",
+            "context_class": "short",
+            "prompt_token_threshold": 200000,
+            "tier_selection": {
+              "comparison": "less_than_or_equal",
+              "token_basis": "total_prompt_tokens",
+              "cached_prompt_tokens_included": true,
+              "whole_request_pricing": true
+            },
+            "region_policy": "global",
+            "effective_from": null,
+            "effective_until": null,
+            "region_selector": {
+              "dataResidencies": [
+                "global"
+              ],
+              "endpointGeographies": [
+                "global"
+              ],
+              "pricingGeography": "global_base"
+            },
+            "default_availability_status": "available",
+            "availability_rules": [],
+            "price_adjustments": []
+          },
+          "calculation_default": false,
+          "source_refs": [
+            "source:google-gemini:ai-google-dev-gemini-api-docs-generate-content-caching",
+            "source:google-gemini:ai-google-dev-gemini-api-docs-pricing"
+          ],
+          "source_urls": [
+            "https://ai.google.dev/gemini-api/docs/generate-content/caching",
+            "https://ai.google.dev/gemini-api/docs/pricing"
+          ],
+          "verification_status": "verified"
+        },
+        {
+          "pricing_id": "price:google-gemini/gemini-2.5-pro:priority:long:current",
+          "charge_id": "price:google-gemini/gemini-2.5-pro:priority:long:current:cached_input:text:per_1m_tokens",
+          "component": "cached_input",
+          "amount": "0.45",
+          "unit": "per_1m_tokens",
+          "currency": "USD",
+          "modality": "text",
+          "condition": {
+            "processing_mode": "priority",
+            "context_class": "long",
+            "prompt_token_threshold": 200000,
+            "tier_selection": {
+              "comparison": "greater_than",
+              "token_basis": "total_prompt_tokens",
+              "cached_prompt_tokens_included": true,
+              "whole_request_pricing": true
+            },
+            "region_policy": "global",
+            "effective_from": null,
+            "effective_until": null,
+            "region_selector": {
+              "dataResidencies": [
+                "global"
+              ],
+              "endpointGeographies": [
+                "global"
+              ],
+              "pricingGeography": "global_base"
+            },
+            "default_availability_status": "available",
+            "availability_rules": [],
+            "price_adjustments": []
+          },
+          "calculation_default": false,
+          "source_refs": [
+            "source:google-gemini:ai-google-dev-gemini-api-docs-generate-content-caching",
+            "source:google-gemini:ai-google-dev-gemini-api-docs-pricing"
+          ],
+          "source_urls": [
+            "https://ai.google.dev/gemini-api/docs/generate-content/caching",
+            "https://ai.google.dev/gemini-api/docs/pricing"
+          ],
+          "verification_status": "verified"
+        },
+        {
+          "pricing_id": "price:google-gemini/gemini-2.5-pro:priority:long:current",
+          "charge_id": "price:google-gemini/gemini-2.5-pro:priority:long:current:input:text:per_1m_tokens",
+          "component": "input",
+          "amount": "4.5",
+          "unit": "per_1m_tokens",
+          "currency": "USD",
+          "modality": "text",
+          "condition": {
+            "processing_mode": "priority",
+            "context_class": "long",
+            "prompt_token_threshold": 200000,
+            "tier_selection": {
+              "comparison": "greater_than",
+              "token_basis": "total_prompt_tokens",
+              "cached_prompt_tokens_included": true,
+              "whole_request_pricing": true
+            },
+            "region_policy": "global",
+            "effective_from": null,
+            "effective_until": null,
+            "region_selector": {
+              "dataResidencies": [
+                "global"
+              ],
+              "endpointGeographies": [
+                "global"
+              ],
+              "pricingGeography": "global_base"
+            },
+            "default_availability_status": "available",
+            "availability_rules": [],
+            "price_adjustments": []
+          },
+          "calculation_default": false,
+          "source_refs": [
+            "source:google-gemini:ai-google-dev-gemini-api-docs-generate-content-caching",
+            "source:google-gemini:ai-google-dev-gemini-api-docs-pricing"
+          ],
+          "source_urls": [
+            "https://ai.google.dev/gemini-api/docs/generate-content/caching",
+            "https://ai.google.dev/gemini-api/docs/pricing"
+          ],
+          "verification_status": "verified"
+        },
+        {
+          "pricing_id": "price:google-gemini/gemini-2.5-pro:priority:long:current",
+          "charge_id": "price:google-gemini/gemini-2.5-pro:priority:long:current:output:text:per_1m_tokens",
+          "component": "output",
+          "amount": "27",
+          "unit": "per_1m_tokens",
+          "currency": "USD",
+          "modality": "text",
+          "condition": {
+            "processing_mode": "priority",
+            "context_class": "long",
+            "prompt_token_threshold": 200000,
+            "tier_selection": {
+              "comparison": "greater_than",
+              "token_basis": "total_prompt_tokens",
+              "cached_prompt_tokens_included": true,
+              "whole_request_pricing": true
+            },
+            "region_policy": "global",
+            "effective_from": null,
+            "effective_until": null,
+            "region_selector": {
+              "dataResidencies": [
+                "global"
+              ],
+              "endpointGeographies": [
+                "global"
+              ],
+              "pricingGeography": "global_base"
+            },
+            "default_availability_status": "available",
+            "availability_rules": [],
+            "price_adjustments": []
+          },
+          "calculation_default": false,
+          "source_refs": [
+            "source:google-gemini:ai-google-dev-gemini-api-docs-generate-content-caching",
+            "source:google-gemini:ai-google-dev-gemini-api-docs-pricing"
+          ],
+          "source_urls": [
+            "https://ai.google.dev/gemini-api/docs/generate-content/caching",
+            "https://ai.google.dev/gemini-api/docs/pricing"
+          ],
+          "verification_status": "verified"
+        },
+        {
+          "pricing_id": "price:google-gemini/gemini-2.5-pro:priority:short:current",
+          "charge_id": "price:google-gemini/gemini-2.5-pro:priority:short:current:cached_input:text:per_1m_tokens",
+          "component": "cached_input",
+          "amount": "0.225",
+          "unit": "per_1m_tokens",
+          "currency": "USD",
+          "modality": "text",
+          "condition": {
+            "processing_mode": "priority",
+            "context_class": "short",
+            "prompt_token_threshold": 200000,
+            "tier_selection": {
+              "comparison": "less_than_or_equal",
+              "token_basis": "total_prompt_tokens",
+              "cached_prompt_tokens_included": true,
+              "whole_request_pricing": true
+            },
+            "region_policy": "global",
+            "effective_from": null,
+            "effective_until": null,
+            "region_selector": {
+              "dataResidencies": [
+                "global"
+              ],
+              "endpointGeographies": [
+                "global"
+              ],
+              "pricingGeography": "global_base"
+            },
+            "default_availability_status": "available",
+            "availability_rules": [],
+            "price_adjustments": []
+          },
+          "calculation_default": false,
+          "source_refs": [
+            "source:google-gemini:ai-google-dev-gemini-api-docs-generate-content-caching",
+            "source:google-gemini:ai-google-dev-gemini-api-docs-pricing"
+          ],
+          "source_urls": [
+            "https://ai.google.dev/gemini-api/docs/generate-content/caching",
+            "https://ai.google.dev/gemini-api/docs/pricing"
+          ],
+          "verification_status": "verified"
+        },
+        {
+          "pricing_id": "price:google-gemini/gemini-2.5-pro:priority:short:current",
+          "charge_id": "price:google-gemini/gemini-2.5-pro:priority:short:current:input:text:per_1m_tokens",
+          "component": "input",
+          "amount": "2.25",
+          "unit": "per_1m_tokens",
+          "currency": "USD",
+          "modality": "text",
+          "condition": {
+            "processing_mode": "priority",
+            "context_class": "short",
+            "prompt_token_threshold": 200000,
+            "tier_selection": {
+              "comparison": "less_than_or_equal",
+              "token_basis": "total_prompt_tokens",
+              "cached_prompt_tokens_included": true,
+              "whole_request_pricing": true
+            },
+            "region_policy": "global",
+            "effective_from": null,
+            "effective_until": null,
+            "region_selector": {
+              "dataResidencies": [
+                "global"
+              ],
+              "endpointGeographies": [
+                "global"
+              ],
+              "pricingGeography": "global_base"
+            },
+            "default_availability_status": "available",
+            "availability_rules": [],
+            "price_adjustments": []
+          },
+          "calculation_default": false,
+          "source_refs": [
+            "source:google-gemini:ai-google-dev-gemini-api-docs-generate-content-caching",
+            "source:google-gemini:ai-google-dev-gemini-api-docs-pricing"
+          ],
+          "source_urls": [
+            "https://ai.google.dev/gemini-api/docs/generate-content/caching",
+            "https://ai.google.dev/gemini-api/docs/pricing"
+          ],
+          "verification_status": "verified"
+        },
+        {
+          "pricing_id": "price:google-gemini/gemini-2.5-pro:priority:short:current",
+          "charge_id": "price:google-gemini/gemini-2.5-pro:priority:short:current:output:text:per_1m_tokens",
+          "component": "output",
+          "amount": "18",
+          "unit": "per_1m_tokens",
+          "currency": "USD",
+          "modality": "text",
+          "condition": {
+            "processing_mode": "priority",
+            "context_class": "short",
+            "prompt_token_threshold": 200000,
+            "tier_selection": {
+              "comparison": "less_than_or_equal",
+              "token_basis": "total_prompt_tokens",
+              "cached_prompt_tokens_included": true,
+              "whole_request_pricing": true
+            },
+            "region_policy": "global",
+            "effective_from": null,
+            "effective_until": null,
+            "region_selector": {
+              "dataResidencies": [
+                "global"
+              ],
+              "endpointGeographies": [
+                "global"
+              ],
+              "pricingGeography": "global_base"
+            },
+            "default_availability_status": "available",
+            "availability_rules": [],
+            "price_adjustments": []
+          },
+          "calculation_default": false,
+          "source_refs": [
+            "source:google-gemini:ai-google-dev-gemini-api-docs-generate-content-caching",
+            "source:google-gemini:ai-google-dev-gemini-api-docs-pricing"
+          ],
+          "source_urls": [
+            "https://ai.google.dev/gemini-api/docs/generate-content/caching",
+            "https://ai.google.dev/gemini-api/docs/pricing"
+          ],
+          "verification_status": "verified"
+        },
+        {
+          "pricing_id": "price:google-gemini/gemini-2.5-pro:standard:long:current",
+          "charge_id": "price:google-gemini/gemini-2.5-pro:standard:long:current:cached_input:text:per_1m_tokens",
+          "component": "cached_input",
+          "amount": "0.25",
+          "unit": "per_1m_tokens",
+          "currency": "USD",
+          "modality": "text",
+          "condition": {
+            "processing_mode": "standard",
+            "context_class": "long",
+            "prompt_token_threshold": 200000,
+            "tier_selection": {
+              "comparison": "greater_than",
+              "token_basis": "total_prompt_tokens",
+              "cached_prompt_tokens_included": true,
+              "whole_request_pricing": true
+            },
+            "region_policy": "global",
+            "effective_from": null,
+            "effective_until": null,
+            "region_selector": {
+              "dataResidencies": [
+                "global"
+              ],
+              "endpointGeographies": [
+                "global"
+              ],
+              "pricingGeography": "global_base"
+            },
+            "default_availability_status": "available",
+            "availability_rules": [],
+            "price_adjustments": []
+          },
+          "calculation_default": false,
+          "source_refs": [
+            "source:google-gemini:ai-google-dev-gemini-api-docs-generate-content-caching",
+            "source:google-gemini:ai-google-dev-gemini-api-docs-pricing"
+          ],
+          "source_urls": [
+            "https://ai.google.dev/gemini-api/docs/generate-content/caching",
+            "https://ai.google.dev/gemini-api/docs/pricing"
+          ],
+          "verification_status": "verified"
+        },
+        {
+          "pricing_id": "price:google-gemini/gemini-2.5-pro:standard:long:current",
+          "charge_id": "price:google-gemini/gemini-2.5-pro:standard:long:current:input:text:per_1m_tokens",
+          "component": "input",
+          "amount": "2.5",
+          "unit": "per_1m_tokens",
+          "currency": "USD",
+          "modality": "text",
+          "condition": {
+            "processing_mode": "standard",
+            "context_class": "long",
+            "prompt_token_threshold": 200000,
+            "tier_selection": {
+              "comparison": "greater_than",
+              "token_basis": "total_prompt_tokens",
+              "cached_prompt_tokens_included": true,
+              "whole_request_pricing": true
+            },
+            "region_policy": "global",
+            "effective_from": null,
+            "effective_until": null,
+            "region_selector": {
+              "dataResidencies": [
+                "global"
+              ],
+              "endpointGeographies": [
+                "global"
+              ],
+              "pricingGeography": "global_base"
+            },
+            "default_availability_status": "available",
+            "availability_rules": [],
+            "price_adjustments": []
+          },
+          "calculation_default": false,
+          "source_refs": [
+            "source:google-gemini:ai-google-dev-gemini-api-docs-generate-content-caching",
+            "source:google-gemini:ai-google-dev-gemini-api-docs-pricing"
+          ],
+          "source_urls": [
+            "https://ai.google.dev/gemini-api/docs/generate-content/caching",
+            "https://ai.google.dev/gemini-api/docs/pricing"
+          ],
+          "verification_status": "verified"
+        },
+        {
+          "pricing_id": "price:google-gemini/gemini-2.5-pro:standard:long:current",
+          "charge_id": "price:google-gemini/gemini-2.5-pro:standard:long:current:output:text:per_1m_tokens",
+          "component": "output",
+          "amount": "15",
+          "unit": "per_1m_tokens",
+          "currency": "USD",
+          "modality": "text",
+          "condition": {
+            "processing_mode": "standard",
+            "context_class": "long",
+            "prompt_token_threshold": 200000,
+            "tier_selection": {
+              "comparison": "greater_than",
+              "token_basis": "total_prompt_tokens",
+              "cached_prompt_tokens_included": true,
+              "whole_request_pricing": true
+            },
+            "region_policy": "global",
+            "effective_from": null,
+            "effective_until": null,
+            "region_selector": {
+              "dataResidencies": [
+                "global"
+              ],
+              "endpointGeographies": [
+                "global"
+              ],
+              "pricingGeography": "global_base"
+            },
+            "default_availability_status": "available",
+            "availability_rules": [],
+            "price_adjustments": []
+          },
+          "calculation_default": false,
+          "source_refs": [
+            "source:google-gemini:ai-google-dev-gemini-api-docs-generate-content-caching",
+            "source:google-gemini:ai-google-dev-gemini-api-docs-pricing"
+          ],
+          "source_urls": [
+            "https://ai.google.dev/gemini-api/docs/generate-content/caching",
             "https://ai.google.dev/gemini-api/docs/pricing"
           ],
           "verification_status": "verified"
@@ -4203,17 +5227,36 @@
           "condition": {
             "processing_mode": "standard",
             "context_class": "short",
-            "prompt_token_threshold": null,
-            "tier_selection": null,
+            "prompt_token_threshold": 200000,
+            "tier_selection": {
+              "comparison": "less_than_or_equal",
+              "token_basis": "total_prompt_tokens",
+              "cached_prompt_tokens_included": true,
+              "whole_request_pricing": true
+            },
             "region_policy": "global",
             "effective_from": null,
-            "effective_until": null
+            "effective_until": null,
+            "region_selector": {
+              "dataResidencies": [
+                "global"
+              ],
+              "endpointGeographies": [
+                "global"
+              ],
+              "pricingGeography": "global_base"
+            },
+            "default_availability_status": "available",
+            "availability_rules": [],
+            "price_adjustments": []
           },
           "calculation_default": true,
           "source_refs": [
+            "source:google-gemini:ai-google-dev-gemini-api-docs-generate-content-caching",
             "source:google-gemini:ai-google-dev-gemini-api-docs-pricing"
           ],
           "source_urls": [
+            "https://ai.google.dev/gemini-api/docs/generate-content/caching",
             "https://ai.google.dev/gemini-api/docs/pricing"
           ],
           "verification_status": "verified"
@@ -4229,17 +5272,36 @@
           "condition": {
             "processing_mode": "standard",
             "context_class": "short",
-            "prompt_token_threshold": null,
-            "tier_selection": null,
+            "prompt_token_threshold": 200000,
+            "tier_selection": {
+              "comparison": "less_than_or_equal",
+              "token_basis": "total_prompt_tokens",
+              "cached_prompt_tokens_included": true,
+              "whole_request_pricing": true
+            },
             "region_policy": "global",
             "effective_from": null,
-            "effective_until": null
+            "effective_until": null,
+            "region_selector": {
+              "dataResidencies": [
+                "global"
+              ],
+              "endpointGeographies": [
+                "global"
+              ],
+              "pricingGeography": "global_base"
+            },
+            "default_availability_status": "available",
+            "availability_rules": [],
+            "price_adjustments": []
           },
           "calculation_default": true,
           "source_refs": [
+            "source:google-gemini:ai-google-dev-gemini-api-docs-generate-content-caching",
             "source:google-gemini:ai-google-dev-gemini-api-docs-pricing"
           ],
           "source_urls": [
+            "https://ai.google.dev/gemini-api/docs/generate-content/caching",
             "https://ai.google.dev/gemini-api/docs/pricing"
           ],
           "verification_status": "verified"
@@ -4255,17 +5317,36 @@
           "condition": {
             "processing_mode": "standard",
             "context_class": "short",
-            "prompt_token_threshold": null,
-            "tier_selection": null,
+            "prompt_token_threshold": 200000,
+            "tier_selection": {
+              "comparison": "less_than_or_equal",
+              "token_basis": "total_prompt_tokens",
+              "cached_prompt_tokens_included": true,
+              "whole_request_pricing": true
+            },
             "region_policy": "global",
             "effective_from": null,
-            "effective_until": null
+            "effective_until": null,
+            "region_selector": {
+              "dataResidencies": [
+                "global"
+              ],
+              "endpointGeographies": [
+                "global"
+              ],
+              "pricingGeography": "global_base"
+            },
+            "default_availability_status": "available",
+            "availability_rules": [],
+            "price_adjustments": []
           },
           "calculation_default": true,
           "source_refs": [
+            "source:google-gemini:ai-google-dev-gemini-api-docs-generate-content-caching",
             "source:google-gemini:ai-google-dev-gemini-api-docs-pricing"
           ],
           "source_urls": [
+            "https://ai.google.dev/gemini-api/docs/generate-content/caching",
             "https://ai.google.dev/gemini-api/docs/pricing"
           ],
           "verification_status": "verified"
@@ -10069,10 +11150,251 @@
       "effective_from": null,
       "effective_until": null,
       "notes": "Long-context standard pricing is higher: $10 input, $1 cached input, $45 output per 1M tokens.",
-      "pricing_tier_count": 0,
-      "pricing_tiers": [],
+      "pricing_tier_count": 2,
+      "pricing_tiers": [
+        {
+          "id": "price:openai/gpt-5.5:standard:long:current",
+          "pricing_id": "price:openai/gpt-5.5:standard:long:current",
+          "label": "Long context",
+          "context_class": "long",
+          "calculation_default": false,
+          "prompt_token_threshold": 272000,
+          "comparison": "greater_than",
+          "token_basis": "total_prompt_tokens",
+          "cached_prompt_tokens_included": true,
+          "whole_request_pricing": true,
+          "processing_mode": "standard",
+          "input_price_per_1m_tokens": 10,
+          "cached_input_price_per_1m_tokens": 1,
+          "output_price_per_1m_tokens": 45,
+          "currency": "USD",
+          "pricing_unit": "1M tokens",
+          "official_source_url": "https://developers.openai.com/api/docs/pricing",
+          "source_refs": [
+            "source:openai:developers-openai-com-api-docs-guides-prompt-caching",
+            "source:openai:developers-openai-com-api-docs-models-gpt-5-5"
+          ],
+          "last_verified_at": "2026-08-08",
+          "checked_at": "2026-08-08",
+          "verification_status": "verified"
+        },
+        {
+          "id": "price:openai/gpt-5.5:standard:short:current",
+          "pricing_id": "price:openai/gpt-5.5:standard:short:current",
+          "label": "Short context",
+          "context_class": "short",
+          "calculation_default": true,
+          "prompt_token_threshold": 272000,
+          "comparison": "less_than_or_equal",
+          "token_basis": "total_prompt_tokens",
+          "cached_prompt_tokens_included": true,
+          "whole_request_pricing": true,
+          "processing_mode": "standard",
+          "input_price_per_1m_tokens": 5,
+          "cached_input_price_per_1m_tokens": 0.5,
+          "output_price_per_1m_tokens": 30,
+          "currency": "USD",
+          "pricing_unit": "1M tokens",
+          "official_source_url": "https://developers.openai.com/api/docs/pricing",
+          "source_refs": [
+            "source:openai:developers-openai-com-api-docs-guides-prompt-caching",
+            "source:openai:developers-openai-com-api-docs-models-gpt-5-5"
+          ],
+          "last_verified_at": "2026-08-08",
+          "checked_at": "2026-08-08",
+          "verification_status": "verified"
+        }
+      ],
       "time_pricing": null,
       "pricing_components": [
+        {
+          "pricing_id": "price:openai/gpt-5.5:batch:long:current",
+          "charge_id": "price:openai/gpt-5.5:batch:long:current:cached_input:text:per_1m_tokens",
+          "component": "cached_input",
+          "amount": "0.5",
+          "unit": "per_1m_tokens",
+          "currency": "USD",
+          "modality": "text",
+          "condition": {
+            "processing_mode": "batch",
+            "context_class": "long",
+            "prompt_token_threshold": 272000,
+            "tier_selection": {
+              "comparison": "greater_than",
+              "token_basis": "total_prompt_tokens",
+              "cached_prompt_tokens_included": true,
+              "whole_request_pricing": true
+            },
+            "region_policy": "global",
+            "effective_from": null,
+            "effective_until": null,
+            "region_selector": {
+              "dataResidencies": [
+                "global"
+              ],
+              "endpointGeographies": [
+                "global"
+              ],
+              "pricingGeography": "global_base"
+            },
+            "default_availability_status": "available",
+            "availability_rules": [],
+            "price_adjustments": []
+          },
+          "calculation_default": false,
+          "source_refs": [
+            "source:openai:developers-openai-com-api-docs-guides-batch",
+            "source:openai:developers-openai-com-api-docs-guides-prompt-caching",
+            "source:openai:developers-openai-com-api-docs-models-gpt-5-5"
+          ],
+          "source_urls": [
+            "https://developers.openai.com/api/docs/guides/batch",
+            "https://developers.openai.com/api/docs/guides/prompt-caching",
+            "https://developers.openai.com/api/docs/models/gpt-5.5"
+          ],
+          "verification_status": "verified"
+        },
+        {
+          "pricing_id": "price:openai/gpt-5.5:batch:long:current",
+          "charge_id": "price:openai/gpt-5.5:batch:long:current:input:text:per_1m_tokens",
+          "component": "input",
+          "amount": "5",
+          "unit": "per_1m_tokens",
+          "currency": "USD",
+          "modality": "text",
+          "condition": {
+            "processing_mode": "batch",
+            "context_class": "long",
+            "prompt_token_threshold": 272000,
+            "tier_selection": {
+              "comparison": "greater_than",
+              "token_basis": "total_prompt_tokens",
+              "cached_prompt_tokens_included": true,
+              "whole_request_pricing": true
+            },
+            "region_policy": "global",
+            "effective_from": null,
+            "effective_until": null,
+            "region_selector": {
+              "dataResidencies": [
+                "global"
+              ],
+              "endpointGeographies": [
+                "global"
+              ],
+              "pricingGeography": "global_base"
+            },
+            "default_availability_status": "available",
+            "availability_rules": [],
+            "price_adjustments": []
+          },
+          "calculation_default": false,
+          "source_refs": [
+            "source:openai:developers-openai-com-api-docs-guides-batch",
+            "source:openai:developers-openai-com-api-docs-guides-prompt-caching",
+            "source:openai:developers-openai-com-api-docs-models-gpt-5-5"
+          ],
+          "source_urls": [
+            "https://developers.openai.com/api/docs/guides/batch",
+            "https://developers.openai.com/api/docs/guides/prompt-caching",
+            "https://developers.openai.com/api/docs/models/gpt-5.5"
+          ],
+          "verification_status": "verified"
+        },
+        {
+          "pricing_id": "price:openai/gpt-5.5:batch:long:current",
+          "charge_id": "price:openai/gpt-5.5:batch:long:current:output:text:per_1m_tokens",
+          "component": "output",
+          "amount": "22.5",
+          "unit": "per_1m_tokens",
+          "currency": "USD",
+          "modality": "text",
+          "condition": {
+            "processing_mode": "batch",
+            "context_class": "long",
+            "prompt_token_threshold": 272000,
+            "tier_selection": {
+              "comparison": "greater_than",
+              "token_basis": "total_prompt_tokens",
+              "cached_prompt_tokens_included": true,
+              "whole_request_pricing": true
+            },
+            "region_policy": "global",
+            "effective_from": null,
+            "effective_until": null,
+            "region_selector": {
+              "dataResidencies": [
+                "global"
+              ],
+              "endpointGeographies": [
+                "global"
+              ],
+              "pricingGeography": "global_base"
+            },
+            "default_availability_status": "available",
+            "availability_rules": [],
+            "price_adjustments": []
+          },
+          "calculation_default": false,
+          "source_refs": [
+            "source:openai:developers-openai-com-api-docs-guides-batch",
+            "source:openai:developers-openai-com-api-docs-guides-prompt-caching",
+            "source:openai:developers-openai-com-api-docs-models-gpt-5-5"
+          ],
+          "source_urls": [
+            "https://developers.openai.com/api/docs/guides/batch",
+            "https://developers.openai.com/api/docs/guides/prompt-caching",
+            "https://developers.openai.com/api/docs/models/gpt-5.5"
+          ],
+          "verification_status": "verified"
+        },
+        {
+          "pricing_id": "price:openai/gpt-5.5:batch:short:current",
+          "charge_id": "price:openai/gpt-5.5:batch:short:current:cached_input:text:per_1m_tokens",
+          "component": "cached_input",
+          "amount": "0.25",
+          "unit": "per_1m_tokens",
+          "currency": "USD",
+          "modality": "text",
+          "condition": {
+            "processing_mode": "batch",
+            "context_class": "short",
+            "prompt_token_threshold": 272000,
+            "tier_selection": {
+              "comparison": "less_than_or_equal",
+              "token_basis": "total_prompt_tokens",
+              "cached_prompt_tokens_included": true,
+              "whole_request_pricing": true
+            },
+            "region_policy": "global",
+            "effective_from": null,
+            "effective_until": null,
+            "region_selector": {
+              "dataResidencies": [
+                "global"
+              ],
+              "endpointGeographies": [
+                "global"
+              ],
+              "pricingGeography": "global_base"
+            },
+            "default_availability_status": "available",
+            "availability_rules": [],
+            "price_adjustments": []
+          },
+          "calculation_default": false,
+          "source_refs": [
+            "source:openai:developers-openai-com-api-docs-guides-batch",
+            "source:openai:developers-openai-com-api-docs-guides-prompt-caching",
+            "source:openai:developers-openai-com-api-docs-models-gpt-5-5"
+          ],
+          "source_urls": [
+            "https://developers.openai.com/api/docs/guides/batch",
+            "https://developers.openai.com/api/docs/guides/prompt-caching",
+            "https://developers.openai.com/api/docs/models/gpt-5.5"
+          ],
+          "verification_status": "verified"
+        },
         {
           "pricing_id": "price:openai/gpt-5.5:batch:short:current",
           "charge_id": "price:openai/gpt-5.5:batch:short:current:input:text:per_1m_tokens",
@@ -10084,20 +11406,39 @@
           "condition": {
             "processing_mode": "batch",
             "context_class": "short",
-            "prompt_token_threshold": null,
-            "tier_selection": null,
+            "prompt_token_threshold": 272000,
+            "tier_selection": {
+              "comparison": "less_than_or_equal",
+              "token_basis": "total_prompt_tokens",
+              "cached_prompt_tokens_included": true,
+              "whole_request_pricing": true
+            },
             "region_policy": "global",
             "effective_from": null,
-            "effective_until": null
+            "effective_until": null,
+            "region_selector": {
+              "dataResidencies": [
+                "global"
+              ],
+              "endpointGeographies": [
+                "global"
+              ],
+              "pricingGeography": "global_base"
+            },
+            "default_availability_status": "available",
+            "availability_rules": [],
+            "price_adjustments": []
           },
           "calculation_default": false,
           "source_refs": [
-            "source:openai:developers-openai-com-api-docs-pricing",
-            "source:openai:platform-openai-com-docs-pricing"
+            "source:openai:developers-openai-com-api-docs-guides-batch",
+            "source:openai:developers-openai-com-api-docs-guides-prompt-caching",
+            "source:openai:developers-openai-com-api-docs-models-gpt-5-5"
           ],
           "source_urls": [
-            "https://developers.openai.com/api/docs/pricing",
-            "https://platform.openai.com/docs/pricing"
+            "https://developers.openai.com/api/docs/guides/batch",
+            "https://developers.openai.com/api/docs/guides/prompt-caching",
+            "https://developers.openai.com/api/docs/models/gpt-5.5"
           ],
           "verification_status": "verified"
         },
@@ -10112,20 +11453,456 @@
           "condition": {
             "processing_mode": "batch",
             "context_class": "short",
-            "prompt_token_threshold": null,
-            "tier_selection": null,
+            "prompt_token_threshold": 272000,
+            "tier_selection": {
+              "comparison": "less_than_or_equal",
+              "token_basis": "total_prompt_tokens",
+              "cached_prompt_tokens_included": true,
+              "whole_request_pricing": true
+            },
             "region_policy": "global",
             "effective_from": null,
-            "effective_until": null
+            "effective_until": null,
+            "region_selector": {
+              "dataResidencies": [
+                "global"
+              ],
+              "endpointGeographies": [
+                "global"
+              ],
+              "pricingGeography": "global_base"
+            },
+            "default_availability_status": "available",
+            "availability_rules": [],
+            "price_adjustments": []
           },
           "calculation_default": false,
           "source_refs": [
-            "source:openai:developers-openai-com-api-docs-pricing",
-            "source:openai:platform-openai-com-docs-pricing"
+            "source:openai:developers-openai-com-api-docs-guides-batch",
+            "source:openai:developers-openai-com-api-docs-guides-prompt-caching",
+            "source:openai:developers-openai-com-api-docs-models-gpt-5-5"
           ],
           "source_urls": [
-            "https://developers.openai.com/api/docs/pricing",
-            "https://platform.openai.com/docs/pricing"
+            "https://developers.openai.com/api/docs/guides/batch",
+            "https://developers.openai.com/api/docs/guides/prompt-caching",
+            "https://developers.openai.com/api/docs/models/gpt-5.5"
+          ],
+          "verification_status": "verified"
+        },
+        {
+          "pricing_id": "price:openai/gpt-5.5:flex:long:current",
+          "charge_id": "price:openai/gpt-5.5:flex:long:current:cached_input:text:per_1m_tokens",
+          "component": "cached_input",
+          "amount": "0.5",
+          "unit": "per_1m_tokens",
+          "currency": "USD",
+          "modality": "text",
+          "condition": {
+            "processing_mode": "flex",
+            "context_class": "long",
+            "prompt_token_threshold": 272000,
+            "tier_selection": {
+              "comparison": "greater_than",
+              "token_basis": "total_prompt_tokens",
+              "cached_prompt_tokens_included": true,
+              "whole_request_pricing": true
+            },
+            "region_policy": "global",
+            "effective_from": null,
+            "effective_until": null,
+            "region_selector": {
+              "dataResidencies": [
+                "global"
+              ],
+              "endpointGeographies": [
+                "global"
+              ],
+              "pricingGeography": "global_base"
+            },
+            "default_availability_status": "available",
+            "availability_rules": [],
+            "price_adjustments": []
+          },
+          "calculation_default": false,
+          "source_refs": [
+            "source:openai:developers-openai-com-api-docs-guides-flex-processing",
+            "source:openai:developers-openai-com-api-docs-guides-prompt-caching",
+            "source:openai:developers-openai-com-api-docs-models-gpt-5-5"
+          ],
+          "source_urls": [
+            "https://developers.openai.com/api/docs/guides/flex-processing",
+            "https://developers.openai.com/api/docs/guides/prompt-caching",
+            "https://developers.openai.com/api/docs/models/gpt-5.5"
+          ],
+          "verification_status": "verified"
+        },
+        {
+          "pricing_id": "price:openai/gpt-5.5:flex:long:current",
+          "charge_id": "price:openai/gpt-5.5:flex:long:current:input:text:per_1m_tokens",
+          "component": "input",
+          "amount": "5",
+          "unit": "per_1m_tokens",
+          "currency": "USD",
+          "modality": "text",
+          "condition": {
+            "processing_mode": "flex",
+            "context_class": "long",
+            "prompt_token_threshold": 272000,
+            "tier_selection": {
+              "comparison": "greater_than",
+              "token_basis": "total_prompt_tokens",
+              "cached_prompt_tokens_included": true,
+              "whole_request_pricing": true
+            },
+            "region_policy": "global",
+            "effective_from": null,
+            "effective_until": null,
+            "region_selector": {
+              "dataResidencies": [
+                "global"
+              ],
+              "endpointGeographies": [
+                "global"
+              ],
+              "pricingGeography": "global_base"
+            },
+            "default_availability_status": "available",
+            "availability_rules": [],
+            "price_adjustments": []
+          },
+          "calculation_default": false,
+          "source_refs": [
+            "source:openai:developers-openai-com-api-docs-guides-flex-processing",
+            "source:openai:developers-openai-com-api-docs-guides-prompt-caching",
+            "source:openai:developers-openai-com-api-docs-models-gpt-5-5"
+          ],
+          "source_urls": [
+            "https://developers.openai.com/api/docs/guides/flex-processing",
+            "https://developers.openai.com/api/docs/guides/prompt-caching",
+            "https://developers.openai.com/api/docs/models/gpt-5.5"
+          ],
+          "verification_status": "verified"
+        },
+        {
+          "pricing_id": "price:openai/gpt-5.5:flex:long:current",
+          "charge_id": "price:openai/gpt-5.5:flex:long:current:output:text:per_1m_tokens",
+          "component": "output",
+          "amount": "22.5",
+          "unit": "per_1m_tokens",
+          "currency": "USD",
+          "modality": "text",
+          "condition": {
+            "processing_mode": "flex",
+            "context_class": "long",
+            "prompt_token_threshold": 272000,
+            "tier_selection": {
+              "comparison": "greater_than",
+              "token_basis": "total_prompt_tokens",
+              "cached_prompt_tokens_included": true,
+              "whole_request_pricing": true
+            },
+            "region_policy": "global",
+            "effective_from": null,
+            "effective_until": null,
+            "region_selector": {
+              "dataResidencies": [
+                "global"
+              ],
+              "endpointGeographies": [
+                "global"
+              ],
+              "pricingGeography": "global_base"
+            },
+            "default_availability_status": "available",
+            "availability_rules": [],
+            "price_adjustments": []
+          },
+          "calculation_default": false,
+          "source_refs": [
+            "source:openai:developers-openai-com-api-docs-guides-flex-processing",
+            "source:openai:developers-openai-com-api-docs-guides-prompt-caching",
+            "source:openai:developers-openai-com-api-docs-models-gpt-5-5"
+          ],
+          "source_urls": [
+            "https://developers.openai.com/api/docs/guides/flex-processing",
+            "https://developers.openai.com/api/docs/guides/prompt-caching",
+            "https://developers.openai.com/api/docs/models/gpt-5.5"
+          ],
+          "verification_status": "verified"
+        },
+        {
+          "pricing_id": "price:openai/gpt-5.5:flex:short:current",
+          "charge_id": "price:openai/gpt-5.5:flex:short:current:cached_input:text:per_1m_tokens",
+          "component": "cached_input",
+          "amount": "0.25",
+          "unit": "per_1m_tokens",
+          "currency": "USD",
+          "modality": "text",
+          "condition": {
+            "processing_mode": "flex",
+            "context_class": "short",
+            "prompt_token_threshold": 272000,
+            "tier_selection": {
+              "comparison": "less_than_or_equal",
+              "token_basis": "total_prompt_tokens",
+              "cached_prompt_tokens_included": true,
+              "whole_request_pricing": true
+            },
+            "region_policy": "global",
+            "effective_from": null,
+            "effective_until": null,
+            "region_selector": {
+              "dataResidencies": [
+                "global"
+              ],
+              "endpointGeographies": [
+                "global"
+              ],
+              "pricingGeography": "global_base"
+            },
+            "default_availability_status": "available",
+            "availability_rules": [],
+            "price_adjustments": []
+          },
+          "calculation_default": false,
+          "source_refs": [
+            "source:openai:developers-openai-com-api-docs-guides-flex-processing",
+            "source:openai:developers-openai-com-api-docs-guides-prompt-caching",
+            "source:openai:developers-openai-com-api-docs-models-gpt-5-5"
+          ],
+          "source_urls": [
+            "https://developers.openai.com/api/docs/guides/flex-processing",
+            "https://developers.openai.com/api/docs/guides/prompt-caching",
+            "https://developers.openai.com/api/docs/models/gpt-5.5"
+          ],
+          "verification_status": "verified"
+        },
+        {
+          "pricing_id": "price:openai/gpt-5.5:flex:short:current",
+          "charge_id": "price:openai/gpt-5.5:flex:short:current:input:text:per_1m_tokens",
+          "component": "input",
+          "amount": "2.5",
+          "unit": "per_1m_tokens",
+          "currency": "USD",
+          "modality": "text",
+          "condition": {
+            "processing_mode": "flex",
+            "context_class": "short",
+            "prompt_token_threshold": 272000,
+            "tier_selection": {
+              "comparison": "less_than_or_equal",
+              "token_basis": "total_prompt_tokens",
+              "cached_prompt_tokens_included": true,
+              "whole_request_pricing": true
+            },
+            "region_policy": "global",
+            "effective_from": null,
+            "effective_until": null,
+            "region_selector": {
+              "dataResidencies": [
+                "global"
+              ],
+              "endpointGeographies": [
+                "global"
+              ],
+              "pricingGeography": "global_base"
+            },
+            "default_availability_status": "available",
+            "availability_rules": [],
+            "price_adjustments": []
+          },
+          "calculation_default": false,
+          "source_refs": [
+            "source:openai:developers-openai-com-api-docs-guides-flex-processing",
+            "source:openai:developers-openai-com-api-docs-guides-prompt-caching",
+            "source:openai:developers-openai-com-api-docs-models-gpt-5-5"
+          ],
+          "source_urls": [
+            "https://developers.openai.com/api/docs/guides/flex-processing",
+            "https://developers.openai.com/api/docs/guides/prompt-caching",
+            "https://developers.openai.com/api/docs/models/gpt-5.5"
+          ],
+          "verification_status": "verified"
+        },
+        {
+          "pricing_id": "price:openai/gpt-5.5:flex:short:current",
+          "charge_id": "price:openai/gpt-5.5:flex:short:current:output:text:per_1m_tokens",
+          "component": "output",
+          "amount": "15",
+          "unit": "per_1m_tokens",
+          "currency": "USD",
+          "modality": "text",
+          "condition": {
+            "processing_mode": "flex",
+            "context_class": "short",
+            "prompt_token_threshold": 272000,
+            "tier_selection": {
+              "comparison": "less_than_or_equal",
+              "token_basis": "total_prompt_tokens",
+              "cached_prompt_tokens_included": true,
+              "whole_request_pricing": true
+            },
+            "region_policy": "global",
+            "effective_from": null,
+            "effective_until": null,
+            "region_selector": {
+              "dataResidencies": [
+                "global"
+              ],
+              "endpointGeographies": [
+                "global"
+              ],
+              "pricingGeography": "global_base"
+            },
+            "default_availability_status": "available",
+            "availability_rules": [],
+            "price_adjustments": []
+          },
+          "calculation_default": false,
+          "source_refs": [
+            "source:openai:developers-openai-com-api-docs-guides-flex-processing",
+            "source:openai:developers-openai-com-api-docs-guides-prompt-caching",
+            "source:openai:developers-openai-com-api-docs-models-gpt-5-5"
+          ],
+          "source_urls": [
+            "https://developers.openai.com/api/docs/guides/flex-processing",
+            "https://developers.openai.com/api/docs/guides/prompt-caching",
+            "https://developers.openai.com/api/docs/models/gpt-5.5"
+          ],
+          "verification_status": "verified"
+        },
+        {
+          "pricing_id": "price:openai/gpt-5.5:standard:long:current",
+          "charge_id": "price:openai/gpt-5.5:standard:long:current:cached_input:text:per_1m_tokens",
+          "component": "cached_input",
+          "amount": "1",
+          "unit": "per_1m_tokens",
+          "currency": "USD",
+          "modality": "text",
+          "condition": {
+            "processing_mode": "standard",
+            "context_class": "long",
+            "prompt_token_threshold": 272000,
+            "tier_selection": {
+              "comparison": "greater_than",
+              "token_basis": "total_prompt_tokens",
+              "cached_prompt_tokens_included": true,
+              "whole_request_pricing": true
+            },
+            "region_policy": "global",
+            "effective_from": null,
+            "effective_until": null,
+            "region_selector": {
+              "dataResidencies": [
+                "global"
+              ],
+              "endpointGeographies": [
+                "global"
+              ],
+              "pricingGeography": "global_base"
+            },
+            "default_availability_status": "available",
+            "availability_rules": [],
+            "price_adjustments": []
+          },
+          "calculation_default": false,
+          "source_refs": [
+            "source:openai:developers-openai-com-api-docs-guides-prompt-caching",
+            "source:openai:developers-openai-com-api-docs-models-gpt-5-5"
+          ],
+          "source_urls": [
+            "https://developers.openai.com/api/docs/guides/prompt-caching",
+            "https://developers.openai.com/api/docs/models/gpt-5.5"
+          ],
+          "verification_status": "verified"
+        },
+        {
+          "pricing_id": "price:openai/gpt-5.5:standard:long:current",
+          "charge_id": "price:openai/gpt-5.5:standard:long:current:input:text:per_1m_tokens",
+          "component": "input",
+          "amount": "10",
+          "unit": "per_1m_tokens",
+          "currency": "USD",
+          "modality": "text",
+          "condition": {
+            "processing_mode": "standard",
+            "context_class": "long",
+            "prompt_token_threshold": 272000,
+            "tier_selection": {
+              "comparison": "greater_than",
+              "token_basis": "total_prompt_tokens",
+              "cached_prompt_tokens_included": true,
+              "whole_request_pricing": true
+            },
+            "region_policy": "global",
+            "effective_from": null,
+            "effective_until": null,
+            "region_selector": {
+              "dataResidencies": [
+                "global"
+              ],
+              "endpointGeographies": [
+                "global"
+              ],
+              "pricingGeography": "global_base"
+            },
+            "default_availability_status": "available",
+            "availability_rules": [],
+            "price_adjustments": []
+          },
+          "calculation_default": false,
+          "source_refs": [
+            "source:openai:developers-openai-com-api-docs-guides-prompt-caching",
+            "source:openai:developers-openai-com-api-docs-models-gpt-5-5"
+          ],
+          "source_urls": [
+            "https://developers.openai.com/api/docs/guides/prompt-caching",
+            "https://developers.openai.com/api/docs/models/gpt-5.5"
+          ],
+          "verification_status": "verified"
+        },
+        {
+          "pricing_id": "price:openai/gpt-5.5:standard:long:current",
+          "charge_id": "price:openai/gpt-5.5:standard:long:current:output:text:per_1m_tokens",
+          "component": "output",
+          "amount": "45",
+          "unit": "per_1m_tokens",
+          "currency": "USD",
+          "modality": "text",
+          "condition": {
+            "processing_mode": "standard",
+            "context_class": "long",
+            "prompt_token_threshold": 272000,
+            "tier_selection": {
+              "comparison": "greater_than",
+              "token_basis": "total_prompt_tokens",
+              "cached_prompt_tokens_included": true,
+              "whole_request_pricing": true
+            },
+            "region_policy": "global",
+            "effective_from": null,
+            "effective_until": null,
+            "region_selector": {
+              "dataResidencies": [
+                "global"
+              ],
+              "endpointGeographies": [
+                "global"
+              ],
+              "pricingGeography": "global_base"
+            },
+            "default_availability_status": "available",
+            "availability_rules": [],
+            "price_adjustments": []
+          },
+          "calculation_default": false,
+          "source_refs": [
+            "source:openai:developers-openai-com-api-docs-guides-prompt-caching",
+            "source:openai:developers-openai-com-api-docs-models-gpt-5-5"
+          ],
+          "source_urls": [
+            "https://developers.openai.com/api/docs/guides/prompt-caching",
+            "https://developers.openai.com/api/docs/models/gpt-5.5"
           ],
           "verification_status": "verified"
         },
@@ -10140,20 +11917,37 @@
           "condition": {
             "processing_mode": "standard",
             "context_class": "short",
-            "prompt_token_threshold": null,
-            "tier_selection": null,
+            "prompt_token_threshold": 272000,
+            "tier_selection": {
+              "comparison": "less_than_or_equal",
+              "token_basis": "total_prompt_tokens",
+              "cached_prompt_tokens_included": true,
+              "whole_request_pricing": true
+            },
             "region_policy": "global",
             "effective_from": null,
-            "effective_until": null
+            "effective_until": null,
+            "region_selector": {
+              "dataResidencies": [
+                "global"
+              ],
+              "endpointGeographies": [
+                "global"
+              ],
+              "pricingGeography": "global_base"
+            },
+            "default_availability_status": "available",
+            "availability_rules": [],
+            "price_adjustments": []
           },
           "calculation_default": true,
           "source_refs": [
-            "source:openai:developers-openai-com-api-docs-pricing",
-            "source:openai:platform-openai-com-docs-pricing"
+            "source:openai:developers-openai-com-api-docs-guides-prompt-caching",
+            "source:openai:developers-openai-com-api-docs-models-gpt-5-5"
           ],
           "source_urls": [
-            "https://developers.openai.com/api/docs/pricing",
-            "https://platform.openai.com/docs/pricing"
+            "https://developers.openai.com/api/docs/guides/prompt-caching",
+            "https://developers.openai.com/api/docs/models/gpt-5.5"
           ],
           "verification_status": "verified"
         },
@@ -10168,20 +11962,37 @@
           "condition": {
             "processing_mode": "standard",
             "context_class": "short",
-            "prompt_token_threshold": null,
-            "tier_selection": null,
+            "prompt_token_threshold": 272000,
+            "tier_selection": {
+              "comparison": "less_than_or_equal",
+              "token_basis": "total_prompt_tokens",
+              "cached_prompt_tokens_included": true,
+              "whole_request_pricing": true
+            },
             "region_policy": "global",
             "effective_from": null,
-            "effective_until": null
+            "effective_until": null,
+            "region_selector": {
+              "dataResidencies": [
+                "global"
+              ],
+              "endpointGeographies": [
+                "global"
+              ],
+              "pricingGeography": "global_base"
+            },
+            "default_availability_status": "available",
+            "availability_rules": [],
+            "price_adjustments": []
           },
           "calculation_default": true,
           "source_refs": [
-            "source:openai:developers-openai-com-api-docs-pricing",
-            "source:openai:platform-openai-com-docs-pricing"
+            "source:openai:developers-openai-com-api-docs-guides-prompt-caching",
+            "source:openai:developers-openai-com-api-docs-models-gpt-5-5"
           ],
           "source_urls": [
-            "https://developers.openai.com/api/docs/pricing",
-            "https://platform.openai.com/docs/pricing"
+            "https://developers.openai.com/api/docs/guides/prompt-caching",
+            "https://developers.openai.com/api/docs/models/gpt-5.5"
           ],
           "verification_status": "verified"
         },
@@ -10196,20 +12007,37 @@
           "condition": {
             "processing_mode": "standard",
             "context_class": "short",
-            "prompt_token_threshold": null,
-            "tier_selection": null,
+            "prompt_token_threshold": 272000,
+            "tier_selection": {
+              "comparison": "less_than_or_equal",
+              "token_basis": "total_prompt_tokens",
+              "cached_prompt_tokens_included": true,
+              "whole_request_pricing": true
+            },
             "region_policy": "global",
             "effective_from": null,
-            "effective_until": null
+            "effective_until": null,
+            "region_selector": {
+              "dataResidencies": [
+                "global"
+              ],
+              "endpointGeographies": [
+                "global"
+              ],
+              "pricingGeography": "global_base"
+            },
+            "default_availability_status": "available",
+            "availability_rules": [],
+            "price_adjustments": []
           },
           "calculation_default": true,
           "source_refs": [
-            "source:openai:developers-openai-com-api-docs-pricing",
-            "source:openai:platform-openai-com-docs-pricing"
+            "source:openai:developers-openai-com-api-docs-guides-prompt-caching",
+            "source:openai:developers-openai-com-api-docs-models-gpt-5-5"
           ],
           "source_urls": [
-            "https://developers.openai.com/api/docs/pricing",
-            "https://platform.openai.com/docs/pricing"
+            "https://developers.openai.com/api/docs/guides/prompt-caching",
+            "https://developers.openai.com/api/docs/models/gpt-5.5"
           ],
           "verification_status": "verified"
         }
@@ -13969,7 +15797,7 @@
       "official_source_url": "https://developers.openai.com/api/docs/pricing",
       "verification_status": "verified",
       "last_verified_at": "2026-09-04",
-      "checked_at": "2026-09-04",
+      "checked_at": "2026-09-14",
       "effective_from": "2026-09-03",
       "effective_until": null,
       "notes": "",
@@ -13998,7 +15826,7 @@
             "source:openai:developers-openai-com-api-docs-pricing"
           ],
           "last_verified_at": "2026-09-04",
-          "checked_at": "2026-09-04",
+          "checked_at": "2026-09-14",
           "verification_status": "verified"
         },
         {
@@ -14024,7 +15852,7 @@
             "source:openai:developers-openai-com-api-docs-pricing"
           ],
           "last_verified_at": "2026-09-04",
-          "checked_at": "2026-09-04",
+          "checked_at": "2026-09-14",
           "verification_status": "verified"
         }
       ],
@@ -16261,6 +18089,202 @@
       "time_pricing": null,
       "pricing_components": [
         {
+          "pricing_id": "price:xai/grok-4.3:batch:long:current",
+          "charge_id": "price:xai/grok-4.3:batch:long:current:cached_input:text:per_1m_tokens",
+          "component": "cached_input",
+          "amount": "0.32",
+          "unit": "per_1m_tokens",
+          "currency": "USD",
+          "modality": "text",
+          "condition": {
+            "processing_mode": "batch",
+            "context_class": "long",
+            "prompt_token_threshold": 200000,
+            "tier_selection": {
+              "comparison": "greater_than_or_equal",
+              "token_basis": "total_prompt_tokens",
+              "cached_prompt_tokens_included": true,
+              "whole_request_pricing": true
+            },
+            "region_policy": "global",
+            "effective_from": null,
+            "effective_until": null,
+            "region_selector": {
+              "dataResidencies": [
+                "global"
+              ],
+              "endpointGeographies": [
+                "global"
+              ],
+              "pricingGeography": "global_base"
+            },
+            "default_availability_status": "available",
+            "availability_rules": [],
+            "price_adjustments": []
+          },
+          "calculation_default": false,
+          "source_refs": [
+            "source:xai:docs-x-ai-developers-advanced-api-usage-prompt-caching-usage-and-pricing",
+            "source:xai:docs-x-ai-developers-models-grok-4-3",
+            "source:xai:docs-x-ai-developers-pricing",
+            "source:xai:docs-x-ai-developers-rest-api-reference-inference-models"
+          ],
+          "source_urls": [
+            "https://docs.x.ai/developers/advanced-api-usage/prompt-caching/usage-and-pricing",
+            "https://docs.x.ai/developers/models/grok-4.3",
+            "https://docs.x.ai/developers/pricing",
+            "https://docs.x.ai/developers/rest-api-reference/inference/models"
+          ],
+          "verification_status": "verified"
+        },
+        {
+          "pricing_id": "price:xai/grok-4.3:batch:long:current",
+          "charge_id": "price:xai/grok-4.3:batch:long:current:input:text:per_1m_tokens",
+          "component": "input",
+          "amount": "2",
+          "unit": "per_1m_tokens",
+          "currency": "USD",
+          "modality": "text",
+          "condition": {
+            "processing_mode": "batch",
+            "context_class": "long",
+            "prompt_token_threshold": 200000,
+            "tier_selection": {
+              "comparison": "greater_than_or_equal",
+              "token_basis": "total_prompt_tokens",
+              "cached_prompt_tokens_included": true,
+              "whole_request_pricing": true
+            },
+            "region_policy": "global",
+            "effective_from": null,
+            "effective_until": null,
+            "region_selector": {
+              "dataResidencies": [
+                "global"
+              ],
+              "endpointGeographies": [
+                "global"
+              ],
+              "pricingGeography": "global_base"
+            },
+            "default_availability_status": "available",
+            "availability_rules": [],
+            "price_adjustments": []
+          },
+          "calculation_default": false,
+          "source_refs": [
+            "source:xai:docs-x-ai-developers-advanced-api-usage-prompt-caching-usage-and-pricing",
+            "source:xai:docs-x-ai-developers-models-grok-4-3",
+            "source:xai:docs-x-ai-developers-pricing",
+            "source:xai:docs-x-ai-developers-rest-api-reference-inference-models"
+          ],
+          "source_urls": [
+            "https://docs.x.ai/developers/advanced-api-usage/prompt-caching/usage-and-pricing",
+            "https://docs.x.ai/developers/models/grok-4.3",
+            "https://docs.x.ai/developers/pricing",
+            "https://docs.x.ai/developers/rest-api-reference/inference/models"
+          ],
+          "verification_status": "verified"
+        },
+        {
+          "pricing_id": "price:xai/grok-4.3:batch:long:current",
+          "charge_id": "price:xai/grok-4.3:batch:long:current:output:text:per_1m_tokens",
+          "component": "output",
+          "amount": "4",
+          "unit": "per_1m_tokens",
+          "currency": "USD",
+          "modality": "text",
+          "condition": {
+            "processing_mode": "batch",
+            "context_class": "long",
+            "prompt_token_threshold": 200000,
+            "tier_selection": {
+              "comparison": "greater_than_or_equal",
+              "token_basis": "total_prompt_tokens",
+              "cached_prompt_tokens_included": true,
+              "whole_request_pricing": true
+            },
+            "region_policy": "global",
+            "effective_from": null,
+            "effective_until": null,
+            "region_selector": {
+              "dataResidencies": [
+                "global"
+              ],
+              "endpointGeographies": [
+                "global"
+              ],
+              "pricingGeography": "global_base"
+            },
+            "default_availability_status": "available",
+            "availability_rules": [],
+            "price_adjustments": []
+          },
+          "calculation_default": false,
+          "source_refs": [
+            "source:xai:docs-x-ai-developers-advanced-api-usage-prompt-caching-usage-and-pricing",
+            "source:xai:docs-x-ai-developers-models-grok-4-3",
+            "source:xai:docs-x-ai-developers-pricing",
+            "source:xai:docs-x-ai-developers-rest-api-reference-inference-models"
+          ],
+          "source_urls": [
+            "https://docs.x.ai/developers/advanced-api-usage/prompt-caching/usage-and-pricing",
+            "https://docs.x.ai/developers/models/grok-4.3",
+            "https://docs.x.ai/developers/pricing",
+            "https://docs.x.ai/developers/rest-api-reference/inference/models"
+          ],
+          "verification_status": "verified"
+        },
+        {
+          "pricing_id": "price:xai/grok-4.3:batch:short:current",
+          "charge_id": "price:xai/grok-4.3:batch:short:current:cached_input:text:per_1m_tokens",
+          "component": "cached_input",
+          "amount": "0.16",
+          "unit": "per_1m_tokens",
+          "currency": "USD",
+          "modality": "text",
+          "condition": {
+            "processing_mode": "batch",
+            "context_class": "short",
+            "prompt_token_threshold": 200000,
+            "tier_selection": {
+              "comparison": "less_than",
+              "token_basis": "total_prompt_tokens",
+              "cached_prompt_tokens_included": true,
+              "whole_request_pricing": true
+            },
+            "region_policy": "global",
+            "effective_from": null,
+            "effective_until": null,
+            "region_selector": {
+              "dataResidencies": [
+                "global"
+              ],
+              "endpointGeographies": [
+                "global"
+              ],
+              "pricingGeography": "global_base"
+            },
+            "default_availability_status": "available",
+            "availability_rules": [],
+            "price_adjustments": []
+          },
+          "calculation_default": false,
+          "source_refs": [
+            "source:xai:docs-x-ai-developers-advanced-api-usage-prompt-caching-usage-and-pricing",
+            "source:xai:docs-x-ai-developers-models-grok-4-3",
+            "source:xai:docs-x-ai-developers-pricing",
+            "source:xai:docs-x-ai-developers-rest-api-reference-inference-models"
+          ],
+          "source_urls": [
+            "https://docs.x.ai/developers/advanced-api-usage/prompt-caching/usage-and-pricing",
+            "https://docs.x.ai/developers/models/grok-4.3",
+            "https://docs.x.ai/developers/pricing",
+            "https://docs.x.ai/developers/rest-api-reference/inference/models"
+          ],
+          "verification_status": "verified"
+        },
+        {
           "pricing_id": "price:xai/grok-4.3:batch:short:current",
           "charge_id": "price:xai/grok-4.3:batch:short:current:input:text:per_1m_tokens",
           "component": "input",
@@ -16271,11 +18295,28 @@
           "condition": {
             "processing_mode": "batch",
             "context_class": "short",
-            "prompt_token_threshold": null,
-            "tier_selection": null,
+            "prompt_token_threshold": 200000,
+            "tier_selection": {
+              "comparison": "less_than",
+              "token_basis": "total_prompt_tokens",
+              "cached_prompt_tokens_included": true,
+              "whole_request_pricing": true
+            },
             "region_policy": "global",
             "effective_from": null,
-            "effective_until": null
+            "effective_until": null,
+            "region_selector": {
+              "dataResidencies": [
+                "global"
+              ],
+              "endpointGeographies": [
+                "global"
+              ],
+              "pricingGeography": "global_base"
+            },
+            "default_availability_status": "available",
+            "availability_rules": [],
+            "price_adjustments": []
           },
           "calculation_default": false,
           "source_refs": [
@@ -16303,11 +18344,28 @@
           "condition": {
             "processing_mode": "batch",
             "context_class": "short",
-            "prompt_token_threshold": null,
-            "tier_selection": null,
+            "prompt_token_threshold": 200000,
+            "tier_selection": {
+              "comparison": "less_than",
+              "token_basis": "total_prompt_tokens",
+              "cached_prompt_tokens_included": true,
+              "whole_request_pricing": true
+            },
             "region_policy": "global",
             "effective_from": null,
-            "effective_until": null
+            "effective_until": null,
+            "region_selector": {
+              "dataResidencies": [
+                "global"
+              ],
+              "endpointGeographies": [
+                "global"
+              ],
+              "pricingGeography": "global_base"
+            },
+            "default_availability_status": "available",
+            "availability_rules": [],
+            "price_adjustments": []
           },
           "calculation_default": false,
           "source_refs": [
@@ -16317,6 +18375,312 @@
             "source:xai:docs-x-ai-developers-rest-api-reference-inference-models"
           ],
           "source_urls": [
+            "https://docs.x.ai/developers/advanced-api-usage/prompt-caching/usage-and-pricing",
+            "https://docs.x.ai/developers/models/grok-4.3",
+            "https://docs.x.ai/developers/pricing",
+            "https://docs.x.ai/developers/rest-api-reference/inference/models"
+          ],
+          "verification_status": "verified"
+        },
+        {
+          "pricing_id": "price:xai/grok-4.3:priority:long:current",
+          "charge_id": "price:xai/grok-4.3:priority:long:current:cached_input:text:per_1m_tokens",
+          "component": "cached_input",
+          "amount": "0.8",
+          "unit": "per_1m_tokens",
+          "currency": "USD",
+          "modality": "text",
+          "condition": {
+            "processing_mode": "priority",
+            "context_class": "long",
+            "prompt_token_threshold": 200000,
+            "tier_selection": {
+              "comparison": "greater_than_or_equal",
+              "token_basis": "total_prompt_tokens",
+              "cached_prompt_tokens_included": true,
+              "whole_request_pricing": true
+            },
+            "region_policy": "global",
+            "effective_from": null,
+            "effective_until": null,
+            "region_selector": {
+              "dataResidencies": [
+                "global"
+              ],
+              "endpointGeographies": [
+                "global"
+              ],
+              "pricingGeography": "global_base"
+            },
+            "default_availability_status": "available",
+            "availability_rules": [],
+            "price_adjustments": []
+          },
+          "calculation_default": false,
+          "source_refs": [
+            "source:xai:docs-x-ai-developers-advanced-api-usage-priority-processing",
+            "source:xai:docs-x-ai-developers-advanced-api-usage-prompt-caching-usage-and-pricing",
+            "source:xai:docs-x-ai-developers-models-grok-4-3",
+            "source:xai:docs-x-ai-developers-pricing",
+            "source:xai:docs-x-ai-developers-rest-api-reference-inference-models"
+          ],
+          "source_urls": [
+            "https://docs.x.ai/developers/advanced-api-usage/priority-processing",
+            "https://docs.x.ai/developers/advanced-api-usage/prompt-caching/usage-and-pricing",
+            "https://docs.x.ai/developers/models/grok-4.3",
+            "https://docs.x.ai/developers/pricing",
+            "https://docs.x.ai/developers/rest-api-reference/inference/models"
+          ],
+          "verification_status": "verified"
+        },
+        {
+          "pricing_id": "price:xai/grok-4.3:priority:long:current",
+          "charge_id": "price:xai/grok-4.3:priority:long:current:input:text:per_1m_tokens",
+          "component": "input",
+          "amount": "5",
+          "unit": "per_1m_tokens",
+          "currency": "USD",
+          "modality": "text",
+          "condition": {
+            "processing_mode": "priority",
+            "context_class": "long",
+            "prompt_token_threshold": 200000,
+            "tier_selection": {
+              "comparison": "greater_than_or_equal",
+              "token_basis": "total_prompt_tokens",
+              "cached_prompt_tokens_included": true,
+              "whole_request_pricing": true
+            },
+            "region_policy": "global",
+            "effective_from": null,
+            "effective_until": null,
+            "region_selector": {
+              "dataResidencies": [
+                "global"
+              ],
+              "endpointGeographies": [
+                "global"
+              ],
+              "pricingGeography": "global_base"
+            },
+            "default_availability_status": "available",
+            "availability_rules": [],
+            "price_adjustments": []
+          },
+          "calculation_default": false,
+          "source_refs": [
+            "source:xai:docs-x-ai-developers-advanced-api-usage-priority-processing",
+            "source:xai:docs-x-ai-developers-advanced-api-usage-prompt-caching-usage-and-pricing",
+            "source:xai:docs-x-ai-developers-models-grok-4-3",
+            "source:xai:docs-x-ai-developers-pricing",
+            "source:xai:docs-x-ai-developers-rest-api-reference-inference-models"
+          ],
+          "source_urls": [
+            "https://docs.x.ai/developers/advanced-api-usage/priority-processing",
+            "https://docs.x.ai/developers/advanced-api-usage/prompt-caching/usage-and-pricing",
+            "https://docs.x.ai/developers/models/grok-4.3",
+            "https://docs.x.ai/developers/pricing",
+            "https://docs.x.ai/developers/rest-api-reference/inference/models"
+          ],
+          "verification_status": "verified"
+        },
+        {
+          "pricing_id": "price:xai/grok-4.3:priority:long:current",
+          "charge_id": "price:xai/grok-4.3:priority:long:current:output:text:per_1m_tokens",
+          "component": "output",
+          "amount": "10",
+          "unit": "per_1m_tokens",
+          "currency": "USD",
+          "modality": "text",
+          "condition": {
+            "processing_mode": "priority",
+            "context_class": "long",
+            "prompt_token_threshold": 200000,
+            "tier_selection": {
+              "comparison": "greater_than_or_equal",
+              "token_basis": "total_prompt_tokens",
+              "cached_prompt_tokens_included": true,
+              "whole_request_pricing": true
+            },
+            "region_policy": "global",
+            "effective_from": null,
+            "effective_until": null,
+            "region_selector": {
+              "dataResidencies": [
+                "global"
+              ],
+              "endpointGeographies": [
+                "global"
+              ],
+              "pricingGeography": "global_base"
+            },
+            "default_availability_status": "available",
+            "availability_rules": [],
+            "price_adjustments": []
+          },
+          "calculation_default": false,
+          "source_refs": [
+            "source:xai:docs-x-ai-developers-advanced-api-usage-priority-processing",
+            "source:xai:docs-x-ai-developers-advanced-api-usage-prompt-caching-usage-and-pricing",
+            "source:xai:docs-x-ai-developers-models-grok-4-3",
+            "source:xai:docs-x-ai-developers-pricing",
+            "source:xai:docs-x-ai-developers-rest-api-reference-inference-models"
+          ],
+          "source_urls": [
+            "https://docs.x.ai/developers/advanced-api-usage/priority-processing",
+            "https://docs.x.ai/developers/advanced-api-usage/prompt-caching/usage-and-pricing",
+            "https://docs.x.ai/developers/models/grok-4.3",
+            "https://docs.x.ai/developers/pricing",
+            "https://docs.x.ai/developers/rest-api-reference/inference/models"
+          ],
+          "verification_status": "verified"
+        },
+        {
+          "pricing_id": "price:xai/grok-4.3:priority:short:current",
+          "charge_id": "price:xai/grok-4.3:priority:short:current:cached_input:text:per_1m_tokens",
+          "component": "cached_input",
+          "amount": "0.4",
+          "unit": "per_1m_tokens",
+          "currency": "USD",
+          "modality": "text",
+          "condition": {
+            "processing_mode": "priority",
+            "context_class": "short",
+            "prompt_token_threshold": 200000,
+            "tier_selection": {
+              "comparison": "less_than",
+              "token_basis": "total_prompt_tokens",
+              "cached_prompt_tokens_included": true,
+              "whole_request_pricing": true
+            },
+            "region_policy": "global",
+            "effective_from": null,
+            "effective_until": null,
+            "region_selector": {
+              "dataResidencies": [
+                "global"
+              ],
+              "endpointGeographies": [
+                "global"
+              ],
+              "pricingGeography": "global_base"
+            },
+            "default_availability_status": "available",
+            "availability_rules": [],
+            "price_adjustments": []
+          },
+          "calculation_default": false,
+          "source_refs": [
+            "source:xai:docs-x-ai-developers-advanced-api-usage-priority-processing",
+            "source:xai:docs-x-ai-developers-advanced-api-usage-prompt-caching-usage-and-pricing",
+            "source:xai:docs-x-ai-developers-models-grok-4-3",
+            "source:xai:docs-x-ai-developers-pricing",
+            "source:xai:docs-x-ai-developers-rest-api-reference-inference-models"
+          ],
+          "source_urls": [
+            "https://docs.x.ai/developers/advanced-api-usage/priority-processing",
+            "https://docs.x.ai/developers/advanced-api-usage/prompt-caching/usage-and-pricing",
+            "https://docs.x.ai/developers/models/grok-4.3",
+            "https://docs.x.ai/developers/pricing",
+            "https://docs.x.ai/developers/rest-api-reference/inference/models"
+          ],
+          "verification_status": "verified"
+        },
+        {
+          "pricing_id": "price:xai/grok-4.3:priority:short:current",
+          "charge_id": "price:xai/grok-4.3:priority:short:current:input:text:per_1m_tokens",
+          "component": "input",
+          "amount": "2.5",
+          "unit": "per_1m_tokens",
+          "currency": "USD",
+          "modality": "text",
+          "condition": {
+            "processing_mode": "priority",
+            "context_class": "short",
+            "prompt_token_threshold": 200000,
+            "tier_selection": {
+              "comparison": "less_than",
+              "token_basis": "total_prompt_tokens",
+              "cached_prompt_tokens_included": true,
+              "whole_request_pricing": true
+            },
+            "region_policy": "global",
+            "effective_from": null,
+            "effective_until": null,
+            "region_selector": {
+              "dataResidencies": [
+                "global"
+              ],
+              "endpointGeographies": [
+                "global"
+              ],
+              "pricingGeography": "global_base"
+            },
+            "default_availability_status": "available",
+            "availability_rules": [],
+            "price_adjustments": []
+          },
+          "calculation_default": false,
+          "source_refs": [
+            "source:xai:docs-x-ai-developers-advanced-api-usage-priority-processing",
+            "source:xai:docs-x-ai-developers-advanced-api-usage-prompt-caching-usage-and-pricing",
+            "source:xai:docs-x-ai-developers-models-grok-4-3",
+            "source:xai:docs-x-ai-developers-pricing",
+            "source:xai:docs-x-ai-developers-rest-api-reference-inference-models"
+          ],
+          "source_urls": [
+            "https://docs.x.ai/developers/advanced-api-usage/priority-processing",
+            "https://docs.x.ai/developers/advanced-api-usage/prompt-caching/usage-and-pricing",
+            "https://docs.x.ai/developers/models/grok-4.3",
+            "https://docs.x.ai/developers/pricing",
+            "https://docs.x.ai/developers/rest-api-reference/inference/models"
+          ],
+          "verification_status": "verified"
+        },
+        {
+          "pricing_id": "price:xai/grok-4.3:priority:short:current",
+          "charge_id": "price:xai/grok-4.3:priority:short:current:output:text:per_1m_tokens",
+          "component": "output",
+          "amount": "5",
+          "unit": "per_1m_tokens",
+          "currency": "USD",
+          "modality": "text",
+          "condition": {
+            "processing_mode": "priority",
+            "context_class": "short",
+            "prompt_token_threshold": 200000,
+            "tier_selection": {
+              "comparison": "less_than",
+              "token_basis": "total_prompt_tokens",
+              "cached_prompt_tokens_included": true,
+              "whole_request_pricing": true
+            },
+            "region_policy": "global",
+            "effective_from": null,
+            "effective_until": null,
+            "region_selector": {
+              "dataResidencies": [
+                "global"
+              ],
+              "endpointGeographies": [
+                "global"
+              ],
+              "pricingGeography": "global_base"
+            },
+            "default_availability_status": "available",
+            "availability_rules": [],
+            "price_adjustments": []
+          },
+          "calculation_default": false,
+          "source_refs": [
+            "source:xai:docs-x-ai-developers-advanced-api-usage-priority-processing",
+            "source:xai:docs-x-ai-developers-advanced-api-usage-prompt-caching-usage-and-pricing",
+            "source:xai:docs-x-ai-developers-models-grok-4-3",
+            "source:xai:docs-x-ai-developers-pricing",
+            "source:xai:docs-x-ai-developers-rest-api-reference-inference-models"
+          ],
+          "source_urls": [
+            "https://docs.x.ai/developers/advanced-api-usage/priority-processing",
             "https://docs.x.ai/developers/advanced-api-usage/prompt-caching/usage-and-pricing",
             "https://docs.x.ai/developers/models/grok-4.3",
             "https://docs.x.ai/developers/pricing",
@@ -16344,7 +18708,19 @@
             },
             "region_policy": "global",
             "effective_from": null,
-            "effective_until": null
+            "effective_until": null,
+            "region_selector": {
+              "dataResidencies": [
+                "global"
+              ],
+              "endpointGeographies": [
+                "global"
+              ],
+              "pricingGeography": "global_base"
+            },
+            "default_availability_status": "available",
+            "availability_rules": [],
+            "price_adjustments": []
           },
           "calculation_default": false,
           "source_refs": [
@@ -16381,7 +18757,19 @@
             },
             "region_policy": "global",
             "effective_from": null,
-            "effective_until": null
+            "effective_until": null,
+            "region_selector": {
+              "dataResidencies": [
+                "global"
+              ],
+              "endpointGeographies": [
+                "global"
+              ],
+              "pricingGeography": "global_base"
+            },
+            "default_availability_status": "available",
+            "availability_rules": [],
+            "price_adjustments": []
           },
           "calculation_default": false,
           "source_refs": [
@@ -16418,7 +18806,19 @@
             },
             "region_policy": "global",
             "effective_from": null,
-            "effective_until": null
+            "effective_until": null,
+            "region_selector": {
+              "dataResidencies": [
+                "global"
+              ],
+              "endpointGeographies": [
+                "global"
+              ],
+              "pricingGeography": "global_base"
+            },
+            "default_availability_status": "available",
+            "availability_rules": [],
+            "price_adjustments": []
           },
           "calculation_default": false,
           "source_refs": [
@@ -16455,7 +18855,19 @@
             },
             "region_policy": "global",
             "effective_from": null,
-            "effective_until": null
+            "effective_until": null,
+            "region_selector": {
+              "dataResidencies": [
+                "global"
+              ],
+              "endpointGeographies": [
+                "global"
+              ],
+              "pricingGeography": "global_base"
+            },
+            "default_availability_status": "available",
+            "availability_rules": [],
+            "price_adjustments": []
           },
           "calculation_default": true,
           "source_refs": [
@@ -16492,7 +18904,19 @@
             },
             "region_policy": "global",
             "effective_from": null,
-            "effective_until": null
+            "effective_until": null,
+            "region_selector": {
+              "dataResidencies": [
+                "global"
+              ],
+              "endpointGeographies": [
+                "global"
+              ],
+              "pricingGeography": "global_base"
+            },
+            "default_availability_status": "available",
+            "availability_rules": [],
+            "price_adjustments": []
           },
           "calculation_default": true,
           "source_refs": [
@@ -16529,7 +18953,19 @@
             },
             "region_policy": "global",
             "effective_from": null,
-            "effective_until": null
+            "effective_until": null,
+            "region_selector": {
+              "dataResidencies": [
+                "global"
+              ],
+              "endpointGeographies": [
+                "global"
+              ],
+              "pricingGeography": "global_base"
+            },
+            "default_availability_status": "available",
+            "availability_rules": [],
+            "price_adjustments": []
           },
           "calculation_default": true,
           "source_refs": [
@@ -18503,6 +20939,202 @@
       "time_pricing": null,
       "pricing_components": [
         {
+          "pricing_id": "price:xai/grok-4.3:batch:long:current",
+          "charge_id": "price:xai/grok-4.3:batch:long:current:cached_input:text:per_1m_tokens",
+          "component": "cached_input",
+          "amount": "0.32",
+          "unit": "per_1m_tokens",
+          "currency": "USD",
+          "modality": "text",
+          "condition": {
+            "processing_mode": "batch",
+            "context_class": "long",
+            "prompt_token_threshold": 200000,
+            "tier_selection": {
+              "comparison": "greater_than_or_equal",
+              "token_basis": "total_prompt_tokens",
+              "cached_prompt_tokens_included": true,
+              "whole_request_pricing": true
+            },
+            "region_policy": "global",
+            "effective_from": null,
+            "effective_until": null,
+            "region_selector": {
+              "dataResidencies": [
+                "global"
+              ],
+              "endpointGeographies": [
+                "global"
+              ],
+              "pricingGeography": "global_base"
+            },
+            "default_availability_status": "available",
+            "availability_rules": [],
+            "price_adjustments": []
+          },
+          "calculation_default": false,
+          "source_refs": [
+            "source:xai:docs-x-ai-developers-advanced-api-usage-prompt-caching-usage-and-pricing",
+            "source:xai:docs-x-ai-developers-models-grok-4-3",
+            "source:xai:docs-x-ai-developers-pricing",
+            "source:xai:docs-x-ai-developers-rest-api-reference-inference-models"
+          ],
+          "source_urls": [
+            "https://docs.x.ai/developers/advanced-api-usage/prompt-caching/usage-and-pricing",
+            "https://docs.x.ai/developers/models/grok-4.3",
+            "https://docs.x.ai/developers/pricing",
+            "https://docs.x.ai/developers/rest-api-reference/inference/models"
+          ],
+          "verification_status": "verified"
+        },
+        {
+          "pricing_id": "price:xai/grok-4.3:batch:long:current",
+          "charge_id": "price:xai/grok-4.3:batch:long:current:input:text:per_1m_tokens",
+          "component": "input",
+          "amount": "2",
+          "unit": "per_1m_tokens",
+          "currency": "USD",
+          "modality": "text",
+          "condition": {
+            "processing_mode": "batch",
+            "context_class": "long",
+            "prompt_token_threshold": 200000,
+            "tier_selection": {
+              "comparison": "greater_than_or_equal",
+              "token_basis": "total_prompt_tokens",
+              "cached_prompt_tokens_included": true,
+              "whole_request_pricing": true
+            },
+            "region_policy": "global",
+            "effective_from": null,
+            "effective_until": null,
+            "region_selector": {
+              "dataResidencies": [
+                "global"
+              ],
+              "endpointGeographies": [
+                "global"
+              ],
+              "pricingGeography": "global_base"
+            },
+            "default_availability_status": "available",
+            "availability_rules": [],
+            "price_adjustments": []
+          },
+          "calculation_default": false,
+          "source_refs": [
+            "source:xai:docs-x-ai-developers-advanced-api-usage-prompt-caching-usage-and-pricing",
+            "source:xai:docs-x-ai-developers-models-grok-4-3",
+            "source:xai:docs-x-ai-developers-pricing",
+            "source:xai:docs-x-ai-developers-rest-api-reference-inference-models"
+          ],
+          "source_urls": [
+            "https://docs.x.ai/developers/advanced-api-usage/prompt-caching/usage-and-pricing",
+            "https://docs.x.ai/developers/models/grok-4.3",
+            "https://docs.x.ai/developers/pricing",
+            "https://docs.x.ai/developers/rest-api-reference/inference/models"
+          ],
+          "verification_status": "verified"
+        },
+        {
+          "pricing_id": "price:xai/grok-4.3:batch:long:current",
+          "charge_id": "price:xai/grok-4.3:batch:long:current:output:text:per_1m_tokens",
+          "component": "output",
+          "amount": "4",
+          "unit": "per_1m_tokens",
+          "currency": "USD",
+          "modality": "text",
+          "condition": {
+            "processing_mode": "batch",
+            "context_class": "long",
+            "prompt_token_threshold": 200000,
+            "tier_selection": {
+              "comparison": "greater_than_or_equal",
+              "token_basis": "total_prompt_tokens",
+              "cached_prompt_tokens_included": true,
+              "whole_request_pricing": true
+            },
+            "region_policy": "global",
+            "effective_from": null,
+            "effective_until": null,
+            "region_selector": {
+              "dataResidencies": [
+                "global"
+              ],
+              "endpointGeographies": [
+                "global"
+              ],
+              "pricingGeography": "global_base"
+            },
+            "default_availability_status": "available",
+            "availability_rules": [],
+            "price_adjustments": []
+          },
+          "calculation_default": false,
+          "source_refs": [
+            "source:xai:docs-x-ai-developers-advanced-api-usage-prompt-caching-usage-and-pricing",
+            "source:xai:docs-x-ai-developers-models-grok-4-3",
+            "source:xai:docs-x-ai-developers-pricing",
+            "source:xai:docs-x-ai-developers-rest-api-reference-inference-models"
+          ],
+          "source_urls": [
+            "https://docs.x.ai/developers/advanced-api-usage/prompt-caching/usage-and-pricing",
+            "https://docs.x.ai/developers/models/grok-4.3",
+            "https://docs.x.ai/developers/pricing",
+            "https://docs.x.ai/developers/rest-api-reference/inference/models"
+          ],
+          "verification_status": "verified"
+        },
+        {
+          "pricing_id": "price:xai/grok-4.3:batch:short:current",
+          "charge_id": "price:xai/grok-4.3:batch:short:current:cached_input:text:per_1m_tokens",
+          "component": "cached_input",
+          "amount": "0.16",
+          "unit": "per_1m_tokens",
+          "currency": "USD",
+          "modality": "text",
+          "condition": {
+            "processing_mode": "batch",
+            "context_class": "short",
+            "prompt_token_threshold": 200000,
+            "tier_selection": {
+              "comparison": "less_than",
+              "token_basis": "total_prompt_tokens",
+              "cached_prompt_tokens_included": true,
+              "whole_request_pricing": true
+            },
+            "region_policy": "global",
+            "effective_from": null,
+            "effective_until": null,
+            "region_selector": {
+              "dataResidencies": [
+                "global"
+              ],
+              "endpointGeographies": [
+                "global"
+              ],
+              "pricingGeography": "global_base"
+            },
+            "default_availability_status": "available",
+            "availability_rules": [],
+            "price_adjustments": []
+          },
+          "calculation_default": false,
+          "source_refs": [
+            "source:xai:docs-x-ai-developers-advanced-api-usage-prompt-caching-usage-and-pricing",
+            "source:xai:docs-x-ai-developers-models-grok-4-3",
+            "source:xai:docs-x-ai-developers-pricing",
+            "source:xai:docs-x-ai-developers-rest-api-reference-inference-models"
+          ],
+          "source_urls": [
+            "https://docs.x.ai/developers/advanced-api-usage/prompt-caching/usage-and-pricing",
+            "https://docs.x.ai/developers/models/grok-4.3",
+            "https://docs.x.ai/developers/pricing",
+            "https://docs.x.ai/developers/rest-api-reference/inference/models"
+          ],
+          "verification_status": "verified"
+        },
+        {
           "pricing_id": "price:xai/grok-4.3:batch:short:current",
           "charge_id": "price:xai/grok-4.3:batch:short:current:input:text:per_1m_tokens",
           "component": "input",
@@ -18513,11 +21145,28 @@
           "condition": {
             "processing_mode": "batch",
             "context_class": "short",
-            "prompt_token_threshold": null,
-            "tier_selection": null,
+            "prompt_token_threshold": 200000,
+            "tier_selection": {
+              "comparison": "less_than",
+              "token_basis": "total_prompt_tokens",
+              "cached_prompt_tokens_included": true,
+              "whole_request_pricing": true
+            },
             "region_policy": "global",
             "effective_from": null,
-            "effective_until": null
+            "effective_until": null,
+            "region_selector": {
+              "dataResidencies": [
+                "global"
+              ],
+              "endpointGeographies": [
+                "global"
+              ],
+              "pricingGeography": "global_base"
+            },
+            "default_availability_status": "available",
+            "availability_rules": [],
+            "price_adjustments": []
           },
           "calculation_default": false,
           "source_refs": [
@@ -18545,11 +21194,28 @@
           "condition": {
             "processing_mode": "batch",
             "context_class": "short",
-            "prompt_token_threshold": null,
-            "tier_selection": null,
+            "prompt_token_threshold": 200000,
+            "tier_selection": {
+              "comparison": "less_than",
+              "token_basis": "total_prompt_tokens",
+              "cached_prompt_tokens_included": true,
+              "whole_request_pricing": true
+            },
             "region_policy": "global",
             "effective_from": null,
-            "effective_until": null
+            "effective_until": null,
+            "region_selector": {
+              "dataResidencies": [
+                "global"
+              ],
+              "endpointGeographies": [
+                "global"
+              ],
+              "pricingGeography": "global_base"
+            },
+            "default_availability_status": "available",
+            "availability_rules": [],
+            "price_adjustments": []
           },
           "calculation_default": false,
           "source_refs": [
@@ -18559,6 +21225,312 @@
             "source:xai:docs-x-ai-developers-rest-api-reference-inference-models"
           ],
           "source_urls": [
+            "https://docs.x.ai/developers/advanced-api-usage/prompt-caching/usage-and-pricing",
+            "https://docs.x.ai/developers/models/grok-4.3",
+            "https://docs.x.ai/developers/pricing",
+            "https://docs.x.ai/developers/rest-api-reference/inference/models"
+          ],
+          "verification_status": "verified"
+        },
+        {
+          "pricing_id": "price:xai/grok-4.3:priority:long:current",
+          "charge_id": "price:xai/grok-4.3:priority:long:current:cached_input:text:per_1m_tokens",
+          "component": "cached_input",
+          "amount": "0.8",
+          "unit": "per_1m_tokens",
+          "currency": "USD",
+          "modality": "text",
+          "condition": {
+            "processing_mode": "priority",
+            "context_class": "long",
+            "prompt_token_threshold": 200000,
+            "tier_selection": {
+              "comparison": "greater_than_or_equal",
+              "token_basis": "total_prompt_tokens",
+              "cached_prompt_tokens_included": true,
+              "whole_request_pricing": true
+            },
+            "region_policy": "global",
+            "effective_from": null,
+            "effective_until": null,
+            "region_selector": {
+              "dataResidencies": [
+                "global"
+              ],
+              "endpointGeographies": [
+                "global"
+              ],
+              "pricingGeography": "global_base"
+            },
+            "default_availability_status": "available",
+            "availability_rules": [],
+            "price_adjustments": []
+          },
+          "calculation_default": false,
+          "source_refs": [
+            "source:xai:docs-x-ai-developers-advanced-api-usage-priority-processing",
+            "source:xai:docs-x-ai-developers-advanced-api-usage-prompt-caching-usage-and-pricing",
+            "source:xai:docs-x-ai-developers-models-grok-4-3",
+            "source:xai:docs-x-ai-developers-pricing",
+            "source:xai:docs-x-ai-developers-rest-api-reference-inference-models"
+          ],
+          "source_urls": [
+            "https://docs.x.ai/developers/advanced-api-usage/priority-processing",
+            "https://docs.x.ai/developers/advanced-api-usage/prompt-caching/usage-and-pricing",
+            "https://docs.x.ai/developers/models/grok-4.3",
+            "https://docs.x.ai/developers/pricing",
+            "https://docs.x.ai/developers/rest-api-reference/inference/models"
+          ],
+          "verification_status": "verified"
+        },
+        {
+          "pricing_id": "price:xai/grok-4.3:priority:long:current",
+          "charge_id": "price:xai/grok-4.3:priority:long:current:input:text:per_1m_tokens",
+          "component": "input",
+          "amount": "5",
+          "unit": "per_1m_tokens",
+          "currency": "USD",
+          "modality": "text",
+          "condition": {
+            "processing_mode": "priority",
+            "context_class": "long",
+            "prompt_token_threshold": 200000,
+            "tier_selection": {
+              "comparison": "greater_than_or_equal",
+              "token_basis": "total_prompt_tokens",
+              "cached_prompt_tokens_included": true,
+              "whole_request_pricing": true
+            },
+            "region_policy": "global",
+            "effective_from": null,
+            "effective_until": null,
+            "region_selector": {
+              "dataResidencies": [
+                "global"
+              ],
+              "endpointGeographies": [
+                "global"
+              ],
+              "pricingGeography": "global_base"
+            },
+            "default_availability_status": "available",
+            "availability_rules": [],
+            "price_adjustments": []
+          },
+          "calculation_default": false,
+          "source_refs": [
+            "source:xai:docs-x-ai-developers-advanced-api-usage-priority-processing",
+            "source:xai:docs-x-ai-developers-advanced-api-usage-prompt-caching-usage-and-pricing",
+            "source:xai:docs-x-ai-developers-models-grok-4-3",
+            "source:xai:docs-x-ai-developers-pricing",
+            "source:xai:docs-x-ai-developers-rest-api-reference-inference-models"
+          ],
+          "source_urls": [
+            "https://docs.x.ai/developers/advanced-api-usage/priority-processing",
+            "https://docs.x.ai/developers/advanced-api-usage/prompt-caching/usage-and-pricing",
+            "https://docs.x.ai/developers/models/grok-4.3",
+            "https://docs.x.ai/developers/pricing",
+            "https://docs.x.ai/developers/rest-api-reference/inference/models"
+          ],
+          "verification_status": "verified"
+        },
+        {
+          "pricing_id": "price:xai/grok-4.3:priority:long:current",
+          "charge_id": "price:xai/grok-4.3:priority:long:current:output:text:per_1m_tokens",
+          "component": "output",
+          "amount": "10",
+          "unit": "per_1m_tokens",
+          "currency": "USD",
+          "modality": "text",
+          "condition": {
+            "processing_mode": "priority",
+            "context_class": "long",
+            "prompt_token_threshold": 200000,
+            "tier_selection": {
+              "comparison": "greater_than_or_equal",
+              "token_basis": "total_prompt_tokens",
+              "cached_prompt_tokens_included": true,
+              "whole_request_pricing": true
+            },
+            "region_policy": "global",
+            "effective_from": null,
+            "effective_until": null,
+            "region_selector": {
+              "dataResidencies": [
+                "global"
+              ],
+              "endpointGeographies": [
+                "global"
+              ],
+              "pricingGeography": "global_base"
+            },
+            "default_availability_status": "available",
+            "availability_rules": [],
+            "price_adjustments": []
+          },
+          "calculation_default": false,
+          "source_refs": [
+            "source:xai:docs-x-ai-developers-advanced-api-usage-priority-processing",
+            "source:xai:docs-x-ai-developers-advanced-api-usage-prompt-caching-usage-and-pricing",
+            "source:xai:docs-x-ai-developers-models-grok-4-3",
+            "source:xai:docs-x-ai-developers-pricing",
+            "source:xai:docs-x-ai-developers-rest-api-reference-inference-models"
+          ],
+          "source_urls": [
+            "https://docs.x.ai/developers/advanced-api-usage/priority-processing",
+            "https://docs.x.ai/developers/advanced-api-usage/prompt-caching/usage-and-pricing",
+            "https://docs.x.ai/developers/models/grok-4.3",
+            "https://docs.x.ai/developers/pricing",
+            "https://docs.x.ai/developers/rest-api-reference/inference/models"
+          ],
+          "verification_status": "verified"
+        },
+        {
+          "pricing_id": "price:xai/grok-4.3:priority:short:current",
+          "charge_id": "price:xai/grok-4.3:priority:short:current:cached_input:text:per_1m_tokens",
+          "component": "cached_input",
+          "amount": "0.4",
+          "unit": "per_1m_tokens",
+          "currency": "USD",
+          "modality": "text",
+          "condition": {
+            "processing_mode": "priority",
+            "context_class": "short",
+            "prompt_token_threshold": 200000,
+            "tier_selection": {
+              "comparison": "less_than",
+              "token_basis": "total_prompt_tokens",
+              "cached_prompt_tokens_included": true,
+              "whole_request_pricing": true
+            },
+            "region_policy": "global",
+            "effective_from": null,
+            "effective_until": null,
+            "region_selector": {
+              "dataResidencies": [
+                "global"
+              ],
+              "endpointGeographies": [
+                "global"
+              ],
+              "pricingGeography": "global_base"
+            },
+            "default_availability_status": "available",
+            "availability_rules": [],
+            "price_adjustments": []
+          },
+          "calculation_default": false,
+          "source_refs": [
+            "source:xai:docs-x-ai-developers-advanced-api-usage-priority-processing",
+            "source:xai:docs-x-ai-developers-advanced-api-usage-prompt-caching-usage-and-pricing",
+            "source:xai:docs-x-ai-developers-models-grok-4-3",
+            "source:xai:docs-x-ai-developers-pricing",
+            "source:xai:docs-x-ai-developers-rest-api-reference-inference-models"
+          ],
+          "source_urls": [
+            "https://docs.x.ai/developers/advanced-api-usage/priority-processing",
+            "https://docs.x.ai/developers/advanced-api-usage/prompt-caching/usage-and-pricing",
+            "https://docs.x.ai/developers/models/grok-4.3",
+            "https://docs.x.ai/developers/pricing",
+            "https://docs.x.ai/developers/rest-api-reference/inference/models"
+          ],
+          "verification_status": "verified"
+        },
+        {
+          "pricing_id": "price:xai/grok-4.3:priority:short:current",
+          "charge_id": "price:xai/grok-4.3:priority:short:current:input:text:per_1m_tokens",
+          "component": "input",
+          "amount": "2.5",
+          "unit": "per_1m_tokens",
+          "currency": "USD",
+          "modality": "text",
+          "condition": {
+            "processing_mode": "priority",
+            "context_class": "short",
+            "prompt_token_threshold": 200000,
+            "tier_selection": {
+              "comparison": "less_than",
+              "token_basis": "total_prompt_tokens",
+              "cached_prompt_tokens_included": true,
+              "whole_request_pricing": true
+            },
+            "region_policy": "global",
+            "effective_from": null,
+            "effective_until": null,
+            "region_selector": {
+              "dataResidencies": [
+                "global"
+              ],
+              "endpointGeographies": [
+                "global"
+              ],
+              "pricingGeography": "global_base"
+            },
+            "default_availability_status": "available",
+            "availability_rules": [],
+            "price_adjustments": []
+          },
+          "calculation_default": false,
+          "source_refs": [
+            "source:xai:docs-x-ai-developers-advanced-api-usage-priority-processing",
+            "source:xai:docs-x-ai-developers-advanced-api-usage-prompt-caching-usage-and-pricing",
+            "source:xai:docs-x-ai-developers-models-grok-4-3",
+            "source:xai:docs-x-ai-developers-pricing",
+            "source:xai:docs-x-ai-developers-rest-api-reference-inference-models"
+          ],
+          "source_urls": [
+            "https://docs.x.ai/developers/advanced-api-usage/priority-processing",
+            "https://docs.x.ai/developers/advanced-api-usage/prompt-caching/usage-and-pricing",
+            "https://docs.x.ai/developers/models/grok-4.3",
+            "https://docs.x.ai/developers/pricing",
+            "https://docs.x.ai/developers/rest-api-reference/inference/models"
+          ],
+          "verification_status": "verified"
+        },
+        {
+          "pricing_id": "price:xai/grok-4.3:priority:short:current",
+          "charge_id": "price:xai/grok-4.3:priority:short:current:output:text:per_1m_tokens",
+          "component": "output",
+          "amount": "5",
+          "unit": "per_1m_tokens",
+          "currency": "USD",
+          "modality": "text",
+          "condition": {
+            "processing_mode": "priority",
+            "context_class": "short",
+            "prompt_token_threshold": 200000,
+            "tier_selection": {
+              "comparison": "less_than",
+              "token_basis": "total_prompt_tokens",
+              "cached_prompt_tokens_included": true,
+              "whole_request_pricing": true
+            },
+            "region_policy": "global",
+            "effective_from": null,
+            "effective_until": null,
+            "region_selector": {
+              "dataResidencies": [
+                "global"
+              ],
+              "endpointGeographies": [
+                "global"
+              ],
+              "pricingGeography": "global_base"
+            },
+            "default_availability_status": "available",
+            "availability_rules": [],
+            "price_adjustments": []
+          },
+          "calculation_default": false,
+          "source_refs": [
+            "source:xai:docs-x-ai-developers-advanced-api-usage-priority-processing",
+            "source:xai:docs-x-ai-developers-advanced-api-usage-prompt-caching-usage-and-pricing",
+            "source:xai:docs-x-ai-developers-models-grok-4-3",
+            "source:xai:docs-x-ai-developers-pricing",
+            "source:xai:docs-x-ai-developers-rest-api-reference-inference-models"
+          ],
+          "source_urls": [
+            "https://docs.x.ai/developers/advanced-api-usage/priority-processing",
             "https://docs.x.ai/developers/advanced-api-usage/prompt-caching/usage-and-pricing",
             "https://docs.x.ai/developers/models/grok-4.3",
             "https://docs.x.ai/developers/pricing",
@@ -18586,7 +21558,19 @@
             },
             "region_policy": "global",
             "effective_from": null,
-            "effective_until": null
+            "effective_until": null,
+            "region_selector": {
+              "dataResidencies": [
+                "global"
+              ],
+              "endpointGeographies": [
+                "global"
+              ],
+              "pricingGeography": "global_base"
+            },
+            "default_availability_status": "available",
+            "availability_rules": [],
+            "price_adjustments": []
           },
           "calculation_default": false,
           "source_refs": [
@@ -18623,7 +21607,19 @@
             },
             "region_policy": "global",
             "effective_from": null,
-            "effective_until": null
+            "effective_until": null,
+            "region_selector": {
+              "dataResidencies": [
+                "global"
+              ],
+              "endpointGeographies": [
+                "global"
+              ],
+              "pricingGeography": "global_base"
+            },
+            "default_availability_status": "available",
+            "availability_rules": [],
+            "price_adjustments": []
           },
           "calculation_default": false,
           "source_refs": [
@@ -18660,7 +21656,19 @@
             },
             "region_policy": "global",
             "effective_from": null,
-            "effective_until": null
+            "effective_until": null,
+            "region_selector": {
+              "dataResidencies": [
+                "global"
+              ],
+              "endpointGeographies": [
+                "global"
+              ],
+              "pricingGeography": "global_base"
+            },
+            "default_availability_status": "available",
+            "availability_rules": [],
+            "price_adjustments": []
           },
           "calculation_default": false,
           "source_refs": [
@@ -18697,7 +21705,19 @@
             },
             "region_policy": "global",
             "effective_from": null,
-            "effective_until": null
+            "effective_until": null,
+            "region_selector": {
+              "dataResidencies": [
+                "global"
+              ],
+              "endpointGeographies": [
+                "global"
+              ],
+              "pricingGeography": "global_base"
+            },
+            "default_availability_status": "available",
+            "availability_rules": [],
+            "price_adjustments": []
           },
           "calculation_default": true,
           "source_refs": [
@@ -18734,7 +21754,19 @@
             },
             "region_policy": "global",
             "effective_from": null,
-            "effective_until": null
+            "effective_until": null,
+            "region_selector": {
+              "dataResidencies": [
+                "global"
+              ],
+              "endpointGeographies": [
+                "global"
+              ],
+              "pricingGeography": "global_base"
+            },
+            "default_availability_status": "available",
+            "availability_rules": [],
+            "price_adjustments": []
           },
           "calculation_default": true,
           "source_refs": [
@@ -18771,7 +21803,19 @@
             },
             "region_policy": "global",
             "effective_from": null,
-            "effective_until": null
+            "effective_until": null,
+            "region_selector": {
+              "dataResidencies": [
+                "global"
+              ],
+              "endpointGeographies": [
+                "global"
+              ],
+              "pricingGeography": "global_base"
+            },
+            "default_availability_status": "available",
+            "availability_rules": [],
+            "price_adjustments": []
           },
           "calculation_default": true,
           "source_refs": [
@@ -18814,10 +21858,206 @@
       "effective_from": null,
       "effective_until": null,
       "notes": "Available since 2026-07-16. Above 200K tokens, xAI lists $4 input, $0.60 cached input, and $12 output per 1M tokens. Grok 4.5 is not supported by the Batch API.",
-      "pricing_tier_count": 0,
-      "pricing_tiers": [],
+      "pricing_tier_count": 2,
+      "pricing_tiers": [
+        {
+          "id": "price:xai/grok-4.5:standard:long:current",
+          "pricing_id": "price:xai/grok-4.5:standard:long:current",
+          "label": "Long context",
+          "context_class": "long",
+          "calculation_default": false,
+          "prompt_token_threshold": 200000,
+          "comparison": "greater_than_or_equal",
+          "token_basis": "total_prompt_tokens",
+          "cached_prompt_tokens_included": true,
+          "whole_request_pricing": true,
+          "processing_mode": "standard",
+          "input_price_per_1m_tokens": 4,
+          "cached_input_price_per_1m_tokens": 0.6,
+          "output_price_per_1m_tokens": 12,
+          "currency": "USD",
+          "pricing_unit": "1M tokens",
+          "official_source_url": "https://docs.x.ai/developers/pricing",
+          "source_refs": [
+            "source:xai:docs-x-ai-developers-advanced-api-usage-prompt-caching-usage-and-pricing",
+            "source:xai:docs-x-ai-developers-models-grok-4-5",
+            "source:xai:docs-x-ai-developers-pricing"
+          ],
+          "last_verified_at": "2026-08-15",
+          "checked_at": "2026-08-15",
+          "verification_status": "verified"
+        },
+        {
+          "id": "price:xai/grok-4.5:standard:short:current",
+          "pricing_id": "price:xai/grok-4.5:standard:short:current",
+          "label": "Short context",
+          "context_class": "short",
+          "calculation_default": true,
+          "prompt_token_threshold": 200000,
+          "comparison": "less_than",
+          "token_basis": "total_prompt_tokens",
+          "cached_prompt_tokens_included": true,
+          "whole_request_pricing": true,
+          "processing_mode": "standard",
+          "input_price_per_1m_tokens": 2,
+          "cached_input_price_per_1m_tokens": 0.3,
+          "output_price_per_1m_tokens": 6,
+          "currency": "USD",
+          "pricing_unit": "1M tokens",
+          "official_source_url": "https://docs.x.ai/developers/pricing",
+          "source_refs": [
+            "source:xai:docs-x-ai-developers-advanced-api-usage-prompt-caching-usage-and-pricing",
+            "source:xai:docs-x-ai-developers-models-grok-4-5",
+            "source:xai:docs-x-ai-developers-pricing"
+          ],
+          "last_verified_at": "2026-08-15",
+          "checked_at": "2026-08-15",
+          "verification_status": "verified"
+        }
+      ],
       "time_pricing": null,
       "pricing_components": [
+        {
+          "pricing_id": "price:xai/grok-4.5:standard:long:current",
+          "charge_id": "price:xai/grok-4.5:standard:long:current:cached_input:text:per_1m_tokens",
+          "component": "cached_input",
+          "amount": "0.6",
+          "unit": "per_1m_tokens",
+          "currency": "USD",
+          "modality": "text",
+          "condition": {
+            "processing_mode": "standard",
+            "context_class": "long",
+            "prompt_token_threshold": 200000,
+            "tier_selection": {
+              "comparison": "greater_than_or_equal",
+              "token_basis": "total_prompt_tokens",
+              "cached_prompt_tokens_included": true,
+              "whole_request_pricing": true
+            },
+            "region_policy": "global",
+            "effective_from": null,
+            "effective_until": null,
+            "region_selector": {
+              "dataResidencies": [
+                "global"
+              ],
+              "endpointGeographies": [
+                "global"
+              ],
+              "pricingGeography": "global_base"
+            },
+            "default_availability_status": "available",
+            "availability_rules": [],
+            "price_adjustments": []
+          },
+          "calculation_default": false,
+          "source_refs": [
+            "source:xai:docs-x-ai-developers-advanced-api-usage-prompt-caching-usage-and-pricing",
+            "source:xai:docs-x-ai-developers-models-grok-4-5",
+            "source:xai:docs-x-ai-developers-pricing"
+          ],
+          "source_urls": [
+            "https://docs.x.ai/developers/advanced-api-usage/prompt-caching/usage-and-pricing",
+            "https://docs.x.ai/developers/models/grok-4.5",
+            "https://docs.x.ai/developers/pricing"
+          ],
+          "verification_status": "verified"
+        },
+        {
+          "pricing_id": "price:xai/grok-4.5:standard:long:current",
+          "charge_id": "price:xai/grok-4.5:standard:long:current:input:text:per_1m_tokens",
+          "component": "input",
+          "amount": "4",
+          "unit": "per_1m_tokens",
+          "currency": "USD",
+          "modality": "text",
+          "condition": {
+            "processing_mode": "standard",
+            "context_class": "long",
+            "prompt_token_threshold": 200000,
+            "tier_selection": {
+              "comparison": "greater_than_or_equal",
+              "token_basis": "total_prompt_tokens",
+              "cached_prompt_tokens_included": true,
+              "whole_request_pricing": true
+            },
+            "region_policy": "global",
+            "effective_from": null,
+            "effective_until": null,
+            "region_selector": {
+              "dataResidencies": [
+                "global"
+              ],
+              "endpointGeographies": [
+                "global"
+              ],
+              "pricingGeography": "global_base"
+            },
+            "default_availability_status": "available",
+            "availability_rules": [],
+            "price_adjustments": []
+          },
+          "calculation_default": false,
+          "source_refs": [
+            "source:xai:docs-x-ai-developers-advanced-api-usage-prompt-caching-usage-and-pricing",
+            "source:xai:docs-x-ai-developers-models-grok-4-5",
+            "source:xai:docs-x-ai-developers-pricing"
+          ],
+          "source_urls": [
+            "https://docs.x.ai/developers/advanced-api-usage/prompt-caching/usage-and-pricing",
+            "https://docs.x.ai/developers/models/grok-4.5",
+            "https://docs.x.ai/developers/pricing"
+          ],
+          "verification_status": "verified"
+        },
+        {
+          "pricing_id": "price:xai/grok-4.5:standard:long:current",
+          "charge_id": "price:xai/grok-4.5:standard:long:current:output:text:per_1m_tokens",
+          "component": "output",
+          "amount": "12",
+          "unit": "per_1m_tokens",
+          "currency": "USD",
+          "modality": "text",
+          "condition": {
+            "processing_mode": "standard",
+            "context_class": "long",
+            "prompt_token_threshold": 200000,
+            "tier_selection": {
+              "comparison": "greater_than_or_equal",
+              "token_basis": "total_prompt_tokens",
+              "cached_prompt_tokens_included": true,
+              "whole_request_pricing": true
+            },
+            "region_policy": "global",
+            "effective_from": null,
+            "effective_until": null,
+            "region_selector": {
+              "dataResidencies": [
+                "global"
+              ],
+              "endpointGeographies": [
+                "global"
+              ],
+              "pricingGeography": "global_base"
+            },
+            "default_availability_status": "available",
+            "availability_rules": [],
+            "price_adjustments": []
+          },
+          "calculation_default": false,
+          "source_refs": [
+            "source:xai:docs-x-ai-developers-advanced-api-usage-prompt-caching-usage-and-pricing",
+            "source:xai:docs-x-ai-developers-models-grok-4-5",
+            "source:xai:docs-x-ai-developers-pricing"
+          ],
+          "source_urls": [
+            "https://docs.x.ai/developers/advanced-api-usage/prompt-caching/usage-and-pricing",
+            "https://docs.x.ai/developers/models/grok-4.5",
+            "https://docs.x.ai/developers/pricing"
+          ],
+          "verification_status": "verified"
+        },
         {
           "pricing_id": "price:xai/grok-4.5:standard:short:current",
           "charge_id": "price:xai/grok-4.5:standard:short:current:cached_input:text:per_1m_tokens",
@@ -18829,17 +22069,38 @@
           "condition": {
             "processing_mode": "standard",
             "context_class": "short",
-            "prompt_token_threshold": null,
-            "tier_selection": null,
+            "prompt_token_threshold": 200000,
+            "tier_selection": {
+              "comparison": "less_than",
+              "token_basis": "total_prompt_tokens",
+              "cached_prompt_tokens_included": true,
+              "whole_request_pricing": true
+            },
             "region_policy": "global",
             "effective_from": null,
-            "effective_until": null
+            "effective_until": null,
+            "region_selector": {
+              "dataResidencies": [
+                "global"
+              ],
+              "endpointGeographies": [
+                "global"
+              ],
+              "pricingGeography": "global_base"
+            },
+            "default_availability_status": "available",
+            "availability_rules": [],
+            "price_adjustments": []
           },
           "calculation_default": true,
           "source_refs": [
+            "source:xai:docs-x-ai-developers-advanced-api-usage-prompt-caching-usage-and-pricing",
+            "source:xai:docs-x-ai-developers-models-grok-4-5",
             "source:xai:docs-x-ai-developers-pricing"
           ],
           "source_urls": [
+            "https://docs.x.ai/developers/advanced-api-usage/prompt-caching/usage-and-pricing",
+            "https://docs.x.ai/developers/models/grok-4.5",
             "https://docs.x.ai/developers/pricing"
           ],
           "verification_status": "verified"
@@ -18855,17 +22116,38 @@
           "condition": {
             "processing_mode": "standard",
             "context_class": "short",
-            "prompt_token_threshold": null,
-            "tier_selection": null,
+            "prompt_token_threshold": 200000,
+            "tier_selection": {
+              "comparison": "less_than",
+              "token_basis": "total_prompt_tokens",
+              "cached_prompt_tokens_included": true,
+              "whole_request_pricing": true
+            },
             "region_policy": "global",
             "effective_from": null,
-            "effective_until": null
+            "effective_until": null,
+            "region_selector": {
+              "dataResidencies": [
+                "global"
+              ],
+              "endpointGeographies": [
+                "global"
+              ],
+              "pricingGeography": "global_base"
+            },
+            "default_availability_status": "available",
+            "availability_rules": [],
+            "price_adjustments": []
           },
           "calculation_default": true,
           "source_refs": [
+            "source:xai:docs-x-ai-developers-advanced-api-usage-prompt-caching-usage-and-pricing",
+            "source:xai:docs-x-ai-developers-models-grok-4-5",
             "source:xai:docs-x-ai-developers-pricing"
           ],
           "source_urls": [
+            "https://docs.x.ai/developers/advanced-api-usage/prompt-caching/usage-and-pricing",
+            "https://docs.x.ai/developers/models/grok-4.5",
             "https://docs.x.ai/developers/pricing"
           ],
           "verification_status": "verified"
@@ -18881,17 +22163,38 @@
           "condition": {
             "processing_mode": "standard",
             "context_class": "short",
-            "prompt_token_threshold": null,
-            "tier_selection": null,
+            "prompt_token_threshold": 200000,
+            "tier_selection": {
+              "comparison": "less_than",
+              "token_basis": "total_prompt_tokens",
+              "cached_prompt_tokens_included": true,
+              "whole_request_pricing": true
+            },
             "region_policy": "global",
             "effective_from": null,
-            "effective_until": null
+            "effective_until": null,
+            "region_selector": {
+              "dataResidencies": [
+                "global"
+              ],
+              "endpointGeographies": [
+                "global"
+              ],
+              "pricingGeography": "global_base"
+            },
+            "default_availability_status": "available",
+            "availability_rules": [],
+            "price_adjustments": []
           },
           "calculation_default": true,
           "source_refs": [
+            "source:xai:docs-x-ai-developers-advanced-api-usage-prompt-caching-usage-and-pricing",
+            "source:xai:docs-x-ai-developers-models-grok-4-5",
             "source:xai:docs-x-ai-developers-pricing"
           ],
           "source_urls": [
+            "https://docs.x.ai/developers/advanced-api-usage/prompt-caching/usage-and-pricing",
+            "https://docs.x.ai/developers/models/grok-4.5",
             "https://docs.x.ai/developers/pricing"
           ],
           "verification_status": "verified"

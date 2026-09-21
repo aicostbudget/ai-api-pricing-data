@@ -3,10 +3,10 @@
   "docs_url": "https://ai.google.dev/gemini-api/docs",
   "models": [
     {
-      "accessed_at": "2026-08-08T18:00:00Z",
+      "accessed_at": "2026-09-20T10:16:13Z",
       "display_name": "Gemini 2.5 Flash",
       "effective_from": null,
-      "last_verified_at": "2026-08-08T18:00:00Z",
+      "last_verified_at": "2026-09-20T10:16:13Z",
       "model_family": "Gemini 2.5",
       "model_id": "gemini-2.5-flash",
       "notes": "Rates are for text/image/video input; Google lists separate audio rates in the official pricing table.",
@@ -26,14 +26,516 @@
       "status": "active"
     },
     {
-      "accessed_at": "2026-08-08T18:00:00Z",
+      "accessed_at": "2026-09-20T11:05:13Z",
       "display_name": "Gemini 2.5 Pro",
       "effective_from": null,
-      "last_verified_at": "2026-08-08T18:00:00Z",
+      "last_verified_at": "2026-09-20T11:05:13Z",
       "model_family": "Gemini 2.5",
       "model_id": "gemini-2.5-pro",
-      "notes": "Rates are for prompts up to 200k tokens. Google lists higher rates above 200k tokens in the official pricing table.",
+      "notes": "Paid token rates depend on the full prompt length, including cached prefix: at most 200,000 tokens uses short rates, above 200,000 uses long rates for input, cached input and output. Batch and Flex cache-read rates equal Standard; Priority has its own rates. Cached-content storage per token-hour is a separate time charge and not included in token inference estimates; no pricing effective date is stated.",
       "official_source_url": "https://ai.google.dev/gemini-api/docs/pricing",
+      "official_source_urls": [
+        "https://ai.google.dev/gemini-api/docs/pricing",
+        "https://ai.google.dev/gemini-api/docs/generate-content/caching"
+      ],
+      "price_records": [
+        {
+          "billing_note": "Paid token rates depend on the full prompt length, including cached prefix: at most 200,000 tokens uses short rates, above 200,000 uses long rates for input, cached input and output. Batch and Flex cache-read rates equal Standard; Priority has its own rates. Cached-content storage per token-hour is a separate time charge and not included in token inference estimates; no pricing effective date is stated.",
+          "calculation_default": true,
+          "charges": [
+            {
+              "amount": "1.25",
+              "component": "input",
+              "id": "price:google-gemini/gemini-2.5-pro:standard:short:current:input:text:per_1m_tokens",
+              "modality": "text",
+              "unit": "per_1m_tokens"
+            },
+            {
+              "amount": "0.125",
+              "component": "cached_input",
+              "id": "price:google-gemini/gemini-2.5-pro:standard:short:current:cached_input:text:per_1m_tokens",
+              "modality": "text",
+              "unit": "per_1m_tokens"
+            },
+            {
+              "amount": "10",
+              "component": "output",
+              "id": "price:google-gemini/gemini-2.5-pro:standard:short:current:output:text:per_1m_tokens",
+              "modality": "text",
+              "unit": "per_1m_tokens"
+            }
+          ],
+          "checked_at": "2026-09-20T11:05:13Z",
+          "context_class": "short",
+          "currency": "USD",
+          "effective_from": null,
+          "effective_until": null,
+          "id": "price:google-gemini/gemini-2.5-pro:standard:short:current",
+          "pricing_status": "current",
+          "processing_mode": "standard",
+          "prompt_token_threshold": 200000,
+          "region_policy": {
+            "availability": {
+              "default": "available",
+              "rules": []
+            },
+            "data_residencies": [
+              "global"
+            ],
+            "endpoint_geographies": [
+              "global"
+            ],
+            "price_adjustments": [],
+            "pricing_geography": "global_base"
+          },
+          "source_refs": [
+            "https://ai.google.dev/gemini-api/docs/pricing",
+            "https://ai.google.dev/gemini-api/docs/generate-content/caching"
+          ],
+          "tier_selection": {
+            "cached_prompt_tokens_included": true,
+            "comparison": "less_than_or_equal",
+            "token_basis": "total_prompt_tokens",
+            "whole_request_pricing": true
+          },
+          "verification_status": "verified",
+          "verified_at": "2026-09-20T11:05:13Z"
+        },
+        {
+          "billing_note": "Paid token rates depend on the full prompt length, including cached prefix: at most 200,000 tokens uses short rates, above 200,000 uses long rates for input, cached input and output. Batch and Flex cache-read rates equal Standard; Priority has its own rates. Cached-content storage per token-hour is a separate time charge and not included in token inference estimates; no pricing effective date is stated.",
+          "calculation_default": false,
+          "charges": [
+            {
+              "amount": "2.5",
+              "component": "input",
+              "id": "price:google-gemini/gemini-2.5-pro:standard:long:current:input:text:per_1m_tokens",
+              "modality": "text",
+              "unit": "per_1m_tokens"
+            },
+            {
+              "amount": "0.25",
+              "component": "cached_input",
+              "id": "price:google-gemini/gemini-2.5-pro:standard:long:current:cached_input:text:per_1m_tokens",
+              "modality": "text",
+              "unit": "per_1m_tokens"
+            },
+            {
+              "amount": "15",
+              "component": "output",
+              "id": "price:google-gemini/gemini-2.5-pro:standard:long:current:output:text:per_1m_tokens",
+              "modality": "text",
+              "unit": "per_1m_tokens"
+            }
+          ],
+          "checked_at": "2026-09-20T11:05:13Z",
+          "context_class": "long",
+          "currency": "USD",
+          "effective_from": null,
+          "effective_until": null,
+          "id": "price:google-gemini/gemini-2.5-pro:standard:long:current",
+          "pricing_status": "current",
+          "processing_mode": "standard",
+          "prompt_token_threshold": 200000,
+          "region_policy": {
+            "availability": {
+              "default": "available",
+              "rules": []
+            },
+            "data_residencies": [
+              "global"
+            ],
+            "endpoint_geographies": [
+              "global"
+            ],
+            "price_adjustments": [],
+            "pricing_geography": "global_base"
+          },
+          "source_refs": [
+            "https://ai.google.dev/gemini-api/docs/pricing",
+            "https://ai.google.dev/gemini-api/docs/generate-content/caching"
+          ],
+          "tier_selection": {
+            "cached_prompt_tokens_included": true,
+            "comparison": "greater_than",
+            "token_basis": "total_prompt_tokens",
+            "whole_request_pricing": true
+          },
+          "verification_status": "verified",
+          "verified_at": "2026-09-20T11:05:13Z"
+        },
+        {
+          "billing_note": "Paid token rates depend on the full prompt length, including cached prefix: at most 200,000 tokens uses short rates, above 200,000 uses long rates for input, cached input and output. Batch and Flex cache-read rates equal Standard; Priority has its own rates. Cached-content storage per token-hour is a separate time charge and not included in token inference estimates; no pricing effective date is stated.",
+          "calculation_default": false,
+          "charges": [
+            {
+              "amount": "0.625",
+              "component": "input",
+              "id": "price:google-gemini/gemini-2.5-pro:batch:short:current:input:text:per_1m_tokens",
+              "modality": "text",
+              "unit": "per_1m_tokens"
+            },
+            {
+              "amount": "0.125",
+              "component": "cached_input",
+              "id": "price:google-gemini/gemini-2.5-pro:batch:short:current:cached_input:text:per_1m_tokens",
+              "modality": "text",
+              "unit": "per_1m_tokens"
+            },
+            {
+              "amount": "5",
+              "component": "output",
+              "id": "price:google-gemini/gemini-2.5-pro:batch:short:current:output:text:per_1m_tokens",
+              "modality": "text",
+              "unit": "per_1m_tokens"
+            }
+          ],
+          "checked_at": "2026-09-20T11:05:13Z",
+          "context_class": "short",
+          "currency": "USD",
+          "effective_from": null,
+          "effective_until": null,
+          "id": "price:google-gemini/gemini-2.5-pro:batch:short:current",
+          "pricing_status": "current",
+          "processing_mode": "batch",
+          "prompt_token_threshold": 200000,
+          "region_policy": {
+            "availability": {
+              "default": "available",
+              "rules": []
+            },
+            "data_residencies": [
+              "global"
+            ],
+            "endpoint_geographies": [
+              "global"
+            ],
+            "price_adjustments": [],
+            "pricing_geography": "global_base"
+          },
+          "source_refs": [
+            "https://ai.google.dev/gemini-api/docs/pricing",
+            "https://ai.google.dev/gemini-api/docs/generate-content/caching"
+          ],
+          "tier_selection": {
+            "cached_prompt_tokens_included": true,
+            "comparison": "less_than_or_equal",
+            "token_basis": "total_prompt_tokens",
+            "whole_request_pricing": true
+          },
+          "verification_status": "verified",
+          "verified_at": "2026-09-20T11:05:13Z"
+        },
+        {
+          "billing_note": "Paid token rates depend on the full prompt length, including cached prefix: at most 200,000 tokens uses short rates, above 200,000 uses long rates for input, cached input and output. Batch and Flex cache-read rates equal Standard; Priority has its own rates. Cached-content storage per token-hour is a separate time charge and not included in token inference estimates; no pricing effective date is stated.",
+          "calculation_default": false,
+          "charges": [
+            {
+              "amount": "1.25",
+              "component": "input",
+              "id": "price:google-gemini/gemini-2.5-pro:batch:long:current:input:text:per_1m_tokens",
+              "modality": "text",
+              "unit": "per_1m_tokens"
+            },
+            {
+              "amount": "0.25",
+              "component": "cached_input",
+              "id": "price:google-gemini/gemini-2.5-pro:batch:long:current:cached_input:text:per_1m_tokens",
+              "modality": "text",
+              "unit": "per_1m_tokens"
+            },
+            {
+              "amount": "7.5",
+              "component": "output",
+              "id": "price:google-gemini/gemini-2.5-pro:batch:long:current:output:text:per_1m_tokens",
+              "modality": "text",
+              "unit": "per_1m_tokens"
+            }
+          ],
+          "checked_at": "2026-09-20T11:05:13Z",
+          "context_class": "long",
+          "currency": "USD",
+          "effective_from": null,
+          "effective_until": null,
+          "id": "price:google-gemini/gemini-2.5-pro:batch:long:current",
+          "pricing_status": "current",
+          "processing_mode": "batch",
+          "prompt_token_threshold": 200000,
+          "region_policy": {
+            "availability": {
+              "default": "available",
+              "rules": []
+            },
+            "data_residencies": [
+              "global"
+            ],
+            "endpoint_geographies": [
+              "global"
+            ],
+            "price_adjustments": [],
+            "pricing_geography": "global_base"
+          },
+          "source_refs": [
+            "https://ai.google.dev/gemini-api/docs/pricing",
+            "https://ai.google.dev/gemini-api/docs/generate-content/caching"
+          ],
+          "tier_selection": {
+            "cached_prompt_tokens_included": true,
+            "comparison": "greater_than",
+            "token_basis": "total_prompt_tokens",
+            "whole_request_pricing": true
+          },
+          "verification_status": "verified",
+          "verified_at": "2026-09-20T11:05:13Z"
+        },
+        {
+          "billing_note": "Paid token rates depend on the full prompt length, including cached prefix: at most 200,000 tokens uses short rates, above 200,000 uses long rates for input, cached input and output. Batch and Flex cache-read rates equal Standard; Priority has its own rates. Cached-content storage per token-hour is a separate time charge and not included in token inference estimates; no pricing effective date is stated.",
+          "calculation_default": false,
+          "charges": [
+            {
+              "amount": "0.625",
+              "component": "input",
+              "id": "price:google-gemini/gemini-2.5-pro:flex:short:current:input:text:per_1m_tokens",
+              "modality": "text",
+              "unit": "per_1m_tokens"
+            },
+            {
+              "amount": "0.125",
+              "component": "cached_input",
+              "id": "price:google-gemini/gemini-2.5-pro:flex:short:current:cached_input:text:per_1m_tokens",
+              "modality": "text",
+              "unit": "per_1m_tokens"
+            },
+            {
+              "amount": "5",
+              "component": "output",
+              "id": "price:google-gemini/gemini-2.5-pro:flex:short:current:output:text:per_1m_tokens",
+              "modality": "text",
+              "unit": "per_1m_tokens"
+            }
+          ],
+          "checked_at": "2026-09-20T11:05:13Z",
+          "context_class": "short",
+          "currency": "USD",
+          "effective_from": null,
+          "effective_until": null,
+          "id": "price:google-gemini/gemini-2.5-pro:flex:short:current",
+          "pricing_status": "current",
+          "processing_mode": "flex",
+          "prompt_token_threshold": 200000,
+          "region_policy": {
+            "availability": {
+              "default": "available",
+              "rules": []
+            },
+            "data_residencies": [
+              "global"
+            ],
+            "endpoint_geographies": [
+              "global"
+            ],
+            "price_adjustments": [],
+            "pricing_geography": "global_base"
+          },
+          "source_refs": [
+            "https://ai.google.dev/gemini-api/docs/pricing",
+            "https://ai.google.dev/gemini-api/docs/generate-content/caching"
+          ],
+          "tier_selection": {
+            "cached_prompt_tokens_included": true,
+            "comparison": "less_than_or_equal",
+            "token_basis": "total_prompt_tokens",
+            "whole_request_pricing": true
+          },
+          "verification_status": "verified",
+          "verified_at": "2026-09-20T11:05:13Z"
+        },
+        {
+          "billing_note": "Paid token rates depend on the full prompt length, including cached prefix: at most 200,000 tokens uses short rates, above 200,000 uses long rates for input, cached input and output. Batch and Flex cache-read rates equal Standard; Priority has its own rates. Cached-content storage per token-hour is a separate time charge and not included in token inference estimates; no pricing effective date is stated.",
+          "calculation_default": false,
+          "charges": [
+            {
+              "amount": "1.25",
+              "component": "input",
+              "id": "price:google-gemini/gemini-2.5-pro:flex:long:current:input:text:per_1m_tokens",
+              "modality": "text",
+              "unit": "per_1m_tokens"
+            },
+            {
+              "amount": "0.25",
+              "component": "cached_input",
+              "id": "price:google-gemini/gemini-2.5-pro:flex:long:current:cached_input:text:per_1m_tokens",
+              "modality": "text",
+              "unit": "per_1m_tokens"
+            },
+            {
+              "amount": "7.5",
+              "component": "output",
+              "id": "price:google-gemini/gemini-2.5-pro:flex:long:current:output:text:per_1m_tokens",
+              "modality": "text",
+              "unit": "per_1m_tokens"
+            }
+          ],
+          "checked_at": "2026-09-20T11:05:13Z",
+          "context_class": "long",
+          "currency": "USD",
+          "effective_from": null,
+          "effective_until": null,
+          "id": "price:google-gemini/gemini-2.5-pro:flex:long:current",
+          "pricing_status": "current",
+          "processing_mode": "flex",
+          "prompt_token_threshold": 200000,
+          "region_policy": {
+            "availability": {
+              "default": "available",
+              "rules": []
+            },
+            "data_residencies": [
+              "global"
+            ],
+            "endpoint_geographies": [
+              "global"
+            ],
+            "price_adjustments": [],
+            "pricing_geography": "global_base"
+          },
+          "source_refs": [
+            "https://ai.google.dev/gemini-api/docs/pricing",
+            "https://ai.google.dev/gemini-api/docs/generate-content/caching"
+          ],
+          "tier_selection": {
+            "cached_prompt_tokens_included": true,
+            "comparison": "greater_than",
+            "token_basis": "total_prompt_tokens",
+            "whole_request_pricing": true
+          },
+          "verification_status": "verified",
+          "verified_at": "2026-09-20T11:05:13Z"
+        },
+        {
+          "billing_note": "Paid token rates depend on the full prompt length, including cached prefix: at most 200,000 tokens uses short rates, above 200,000 uses long rates for input, cached input and output. Batch and Flex cache-read rates equal Standard; Priority has its own rates. Cached-content storage per token-hour is a separate time charge and not included in token inference estimates; no pricing effective date is stated.",
+          "calculation_default": false,
+          "charges": [
+            {
+              "amount": "2.25",
+              "component": "input",
+              "id": "price:google-gemini/gemini-2.5-pro:priority:short:current:input:text:per_1m_tokens",
+              "modality": "text",
+              "unit": "per_1m_tokens"
+            },
+            {
+              "amount": "0.225",
+              "component": "cached_input",
+              "id": "price:google-gemini/gemini-2.5-pro:priority:short:current:cached_input:text:per_1m_tokens",
+              "modality": "text",
+              "unit": "per_1m_tokens"
+            },
+            {
+              "amount": "18",
+              "component": "output",
+              "id": "price:google-gemini/gemini-2.5-pro:priority:short:current:output:text:per_1m_tokens",
+              "modality": "text",
+              "unit": "per_1m_tokens"
+            }
+          ],
+          "checked_at": "2026-09-20T11:05:13Z",
+          "context_class": "short",
+          "currency": "USD",
+          "effective_from": null,
+          "effective_until": null,
+          "id": "price:google-gemini/gemini-2.5-pro:priority:short:current",
+          "pricing_status": "current",
+          "processing_mode": "priority",
+          "prompt_token_threshold": 200000,
+          "region_policy": {
+            "availability": {
+              "default": "available",
+              "rules": []
+            },
+            "data_residencies": [
+              "global"
+            ],
+            "endpoint_geographies": [
+              "global"
+            ],
+            "price_adjustments": [],
+            "pricing_geography": "global_base"
+          },
+          "source_refs": [
+            "https://ai.google.dev/gemini-api/docs/pricing",
+            "https://ai.google.dev/gemini-api/docs/generate-content/caching"
+          ],
+          "tier_selection": {
+            "cached_prompt_tokens_included": true,
+            "comparison": "less_than_or_equal",
+            "token_basis": "total_prompt_tokens",
+            "whole_request_pricing": true
+          },
+          "verification_status": "verified",
+          "verified_at": "2026-09-20T11:05:13Z"
+        },
+        {
+          "billing_note": "Paid token rates depend on the full prompt length, including cached prefix: at most 200,000 tokens uses short rates, above 200,000 uses long rates for input, cached input and output. Batch and Flex cache-read rates equal Standard; Priority has its own rates. Cached-content storage per token-hour is a separate time charge and not included in token inference estimates; no pricing effective date is stated.",
+          "calculation_default": false,
+          "charges": [
+            {
+              "amount": "4.5",
+              "component": "input",
+              "id": "price:google-gemini/gemini-2.5-pro:priority:long:current:input:text:per_1m_tokens",
+              "modality": "text",
+              "unit": "per_1m_tokens"
+            },
+            {
+              "amount": "0.45",
+              "component": "cached_input",
+              "id": "price:google-gemini/gemini-2.5-pro:priority:long:current:cached_input:text:per_1m_tokens",
+              "modality": "text",
+              "unit": "per_1m_tokens"
+            },
+            {
+              "amount": "27",
+              "component": "output",
+              "id": "price:google-gemini/gemini-2.5-pro:priority:long:current:output:text:per_1m_tokens",
+              "modality": "text",
+              "unit": "per_1m_tokens"
+            }
+          ],
+          "checked_at": "2026-09-20T11:05:13Z",
+          "context_class": "long",
+          "currency": "USD",
+          "effective_from": null,
+          "effective_until": null,
+          "id": "price:google-gemini/gemini-2.5-pro:priority:long:current",
+          "pricing_status": "current",
+          "processing_mode": "priority",
+          "prompt_token_threshold": 200000,
+          "region_policy": {
+            "availability": {
+              "default": "available",
+              "rules": []
+            },
+            "data_residencies": [
+              "global"
+            ],
+            "endpoint_geographies": [
+              "global"
+            ],
+            "price_adjustments": [],
+            "pricing_geography": "global_base"
+          },
+          "source_refs": [
+            "https://ai.google.dev/gemini-api/docs/pricing",
+            "https://ai.google.dev/gemini-api/docs/generate-content/caching"
+          ],
+          "tier_selection": {
+            "cached_prompt_tokens_included": true,
+            "comparison": "greater_than",
+            "token_basis": "total_prompt_tokens",
+            "whole_request_pricing": true
+          },
+          "verification_status": "verified",
+          "verified_at": "2026-09-20T11:05:13Z"
+        }
+      ],
       "pricing": {
         "batch_input": 0.625,
         "batch_output": 5.0,
@@ -95,10 +597,10 @@
       "status": "active"
     },
     {
-      "accessed_at": "2026-08-08T18:00:00Z",
+      "accessed_at": "2026-09-20T10:16:13Z",
       "display_name": "Gemini 3.5 Flash-Lite",
       "effective_from": null,
-      "last_verified_at": "2026-08-08T18:00:00Z",
+      "last_verified_at": "2026-09-20T10:16:13Z",
       "model_family": "Gemini 3.5",
       "model_id": "gemini-3.5-flash-lite",
       "notes": "Google released Gemini 3.5 Flash-Lite generally available on 2026-07-21. V1 stores standard text/image/video rates and explicit Batch rates from the official pricing table. Separate audio rates are not represented. effective_from remains null because the official sources do not publish a distinct pricing effective date.",

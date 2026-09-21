@@ -247,7 +247,20 @@ class HuggingFaceExportTests(unittest.TestCase):
                 self.assertEqual(len(component["source_refs"]), len(component["source_urls"]), key)
                 self.assertTrue(all(url.startswith("https://") for url in component["source_urls"]), key)
         self.assertGreater(component_count, 0)
-        self.assertEqual(cache_write_count, 45)
+        expected_new_writes = {
+            "claude-opus-4.8": ("10", "6.25"),
+            "claude-sonnet-4.6": ("6", "3.75"),
+            "claude-haiku-4.5": ("2", "1.25"),
+        }
+        for model_id, (one_hour, five_minutes) in expected_new_writes.items():
+            record = next(row for row in self.records if row["model_id"] == model_id)
+            writes = [item for item in record["pricing_components"] if item["component"].startswith("cache_write")]
+            self.assertEqual({item["component"]: item["amount"] for item in writes}, {
+                "cache_write_5m": five_minutes, "cache_write_1h": one_hour,
+            })
+            self.assertEqual(len(writes), 2, model_id)
+            self.assertTrue(all(item["unit"] == "per_1m_tokens" for item in writes))
+        self.assertEqual(cache_write_count, 45 + len(expected_new_writes))
         self.assertTrue(any(not record["pricing_components"] for record in self.records))
 
     def test_eleven_cache_pricing_targets_have_component_contract(self):

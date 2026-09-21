@@ -815,7 +815,7 @@ def validate_preview() -> dict[str, Any]:
             fail(f"xai/grok-4.3 {context_class} provenance must be canonical-only")
         if price.get("sourceDatasetIds") != {
             "publicDatasetIds": ["grok-4.3"],
-            "websiteIds": [],
+            "websiteIds": ["grok-4.3"],
         }:
             fail(f"xai/grok-4.3 {context_class} source dataset provenance mismatch")
         for ref in price["sourceRefs"]:
