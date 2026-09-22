@@ -1403,27 +1403,138 @@
     "notes": "V1 stores Standard short-context prices and Batch short-context input/output prices. Batch cached input is $0.125 per 1M tokens. Above 272K input tokens, Standard pricing is $5 input, $0.50 cached input, and $22.50 output per 1M tokens; Batch pricing is $2.50 input, $0.25 cached input, and $11.25 output per 1M tokens."
   },
   {
-    "provider_id": "openai",
-    "model_id": "gpt-5.4-mini",
+    "accessed_at": "2026-09-20T10:16:13Z",
     "display_name": "GPT-5.4 mini",
+    "effective_from": null,
+    "last_verified_at": "2026-09-20T10:16:13Z",
     "model_family": "GPT-5.4",
-    "status": "active",
+    "model_id": "gpt-5.4-mini",
+    "notes": "OpenAI official pricing page lists standard and batch rates per 1M tokens.",
+    "official_source_url": "https://platform.openai.com/docs/pricing",
+    "official_source_urls": [
+      "https://platform.openai.com/docs/pricing",
+      "https://developers.openai.com/api/docs/models/gpt-5.4-mini",
+      "https://developers.openai.com/api/docs/guides/batch"
+    ],
+    "price_records": [
+      {
+        "billing_note": "Standard text token rates per 1M tokens. The official model page does not state a pricing effective date.",
+        "calculation_default": true,
+        "charges": [
+          {
+            "amount": "0.75",
+            "component": "input",
+            "id": "price:openai/gpt-5.4-mini:standard:short:current:input:text:per_1m_tokens",
+            "modality": "text",
+            "unit": "per_1m_tokens"
+          },
+          {
+            "amount": "0.075",
+            "component": "cached_input",
+            "id": "price:openai/gpt-5.4-mini:standard:short:current:cached_input:text:per_1m_tokens",
+            "modality": "text",
+            "unit": "per_1m_tokens"
+          },
+          {
+            "amount": "4.5",
+            "component": "output",
+            "id": "price:openai/gpt-5.4-mini:standard:short:current:output:text:per_1m_tokens",
+            "modality": "text",
+            "unit": "per_1m_tokens"
+          }
+        ],
+        "checked_at": "2026-09-22T04:23:19Z",
+        "context_class": "short",
+        "currency": "USD",
+        "effective_from": null,
+        "effective_until": null,
+        "id": "price:openai/gpt-5.4-mini:standard:short:current",
+        "pricing_status": "current",
+        "processing_mode": "standard",
+        "prompt_token_threshold": null,
+        "region_policy": {
+          "availability": {
+            "default": "available",
+            "rules": []
+          },
+          "data_residencies": [
+            "global"
+          ],
+          "endpoint_geographies": [
+            "global"
+          ],
+          "price_adjustments": [],
+          "pricing_geography": "global_base"
+        },
+        "source_refs": [
+          "https://developers.openai.com/api/docs/models/gpt-5.4-mini"
+        ],
+        "verification_status": "verified",
+        "verified_at": "2026-09-22T04:23:19Z"
+      },
+      {
+        "billing_note": "Batch API applies the official 50% discount to the verified Standard input and output rates; the model page lists Batch as supported. The official pages do not state a pricing effective date.",
+        "calculation_default": false,
+        "charges": [
+          {
+            "amount": "0.375",
+            "component": "input",
+            "id": "price:openai/gpt-5.4-mini:batch:short:current:input:text:per_1m_tokens",
+            "modality": "text",
+            "unit": "per_1m_tokens"
+          },
+          {
+            "amount": "2.25",
+            "component": "output",
+            "id": "price:openai/gpt-5.4-mini:batch:short:current:output:text:per_1m_tokens",
+            "modality": "text",
+            "unit": "per_1m_tokens"
+          }
+        ],
+        "checked_at": "2026-09-22T04:23:19Z",
+        "context_class": "short",
+        "currency": "USD",
+        "effective_from": null,
+        "effective_until": null,
+        "id": "price:openai/gpt-5.4-mini:batch:short:current",
+        "pricing_status": "current",
+        "processing_mode": "batch",
+        "prompt_token_threshold": null,
+        "region_policy": {
+          "availability": {
+            "default": "available",
+            "rules": []
+          },
+          "data_residencies": [
+            "global"
+          ],
+          "endpoint_geographies": [
+            "global"
+          ],
+          "price_adjustments": [],
+          "pricing_geography": "global_base"
+        },
+        "source_refs": [
+          "https://developers.openai.com/api/docs/models/gpt-5.4-mini",
+          "https://developers.openai.com/api/docs/guides/batch"
+        ],
+        "verification_status": "verified",
+        "verified_at": "2026-09-22T04:23:19Z"
+      }
+    ],
     "pricing": {
-      "currency": "USD",
-      "unit": "1M tokens",
-      "input": 0.75,
-      "output": 4.5,
-      "cached_input": 0.075,
+      "batch_input": 0.375,
+      "batch_output": 2.25,
       "cache_write": null,
       "cache_write_1h": null,
-      "batch_input": 0.375,
-      "batch_output": 2.25
+      "cached_input": 0.075,
+      "currency": "USD",
+      "input": 0.75,
+      "output": 4.5,
+      "unit": "1M tokens"
     },
-    "official_source_url": "https://platform.openai.com/docs/pricing",
-    "accessed_at": "2026-09-20T10:16:13Z",
-    "last_verified_at": "2026-09-20T10:16:13Z",
-    "effective_from": null,
-    "notes": "OpenAI official pricing page lists standard and batch rates per 1M tokens."
+    "provider_id": "openai",
+    "status": "active"
   },
   {
     "provider_id": "openai",
@@ -1714,27 +1825,151 @@
     "notes": "cache_write stores the 5-minute write rate."
   },
   {
-    "provider_id": "anthropic",
-    "model_id": "claude-haiku-4.5",
+    "accessed_at": "2026-09-20T10:16:13Z",
     "display_name": "Claude Haiku 4.5",
+    "effective_from": null,
+    "last_verified_at": "2026-09-20T10:16:13Z",
     "model_family": "Claude Haiku",
-    "status": "active",
+    "model_id": "claude-haiku-4.5",
+    "notes": "cache_write stores the 5-minute write rate.",
+    "official_source_url": "https://docs.anthropic.com/en/docs/about-claude/pricing",
+    "official_source_urls": [
+      "https://docs.anthropic.com/en/docs/about-claude/pricing",
+      "https://platform.claude.com/docs/en/about-claude/pricing",
+      "https://platform.claude.com/docs/en/models/overview"
+    ],
+    "price_records": [
+      {
+        "billing_note": "Standard Claude API rates per 1M tokens. Cache-write prices are explicit 5-minute and 1-hour alternatives; no pricing effective date is stated.",
+        "calculation_default": true,
+        "charges": [
+          {
+            "amount": "1",
+            "component": "input",
+            "id": "price:anthropic/claude-haiku-4.5:standard:short:current:input:text:per_1m_tokens",
+            "modality": "text",
+            "unit": "per_1m_tokens"
+          },
+          {
+            "amount": "0.1",
+            "component": "cached_input",
+            "id": "price:anthropic/claude-haiku-4.5:standard:short:current:cached_input:text:per_1m_tokens",
+            "modality": "text",
+            "unit": "per_1m_tokens"
+          },
+          {
+            "amount": "1.25",
+            "component": "cache_write_5m",
+            "id": "price:anthropic/claude-haiku-4.5:standard:short:current:cache_write_5m:text:per_1m_tokens",
+            "modality": "text",
+            "unit": "per_1m_tokens"
+          },
+          {
+            "amount": "2",
+            "component": "cache_write_1h",
+            "id": "price:anthropic/claude-haiku-4.5:standard:short:current:cache_write_1h:text:per_1m_tokens",
+            "modality": "text",
+            "unit": "per_1m_tokens"
+          },
+          {
+            "amount": "5",
+            "component": "output",
+            "id": "price:anthropic/claude-haiku-4.5:standard:short:current:output:text:per_1m_tokens",
+            "modality": "text",
+            "unit": "per_1m_tokens"
+          }
+        ],
+        "checked_at": "2026-09-22T04:23:19Z",
+        "context_class": "short",
+        "currency": "USD",
+        "effective_from": null,
+        "effective_until": null,
+        "id": "price:anthropic/claude-haiku-4.5:standard:short:current",
+        "pricing_status": "current",
+        "processing_mode": "standard",
+        "prompt_token_threshold": null,
+        "region_policy": {
+          "availability": {
+            "default": "available",
+            "rules": []
+          },
+          "data_residencies": [
+            "global"
+          ],
+          "endpoint_geographies": [
+            "global"
+          ],
+          "price_adjustments": [],
+          "pricing_geography": "global_base"
+        },
+        "source_refs": [
+          "https://platform.claude.com/docs/en/about-claude/pricing"
+        ],
+        "verification_status": "verified",
+        "verified_at": "2026-09-22T04:23:19Z"
+      },
+      {
+        "billing_note": "Batch input and output rates are the official 50% discount for Claude Haiku 4.5; no pricing effective date is stated.",
+        "calculation_default": false,
+        "charges": [
+          {
+            "amount": "0.5",
+            "component": "input",
+            "id": "price:anthropic/claude-haiku-4.5:batch:short:current:input:text:per_1m_tokens",
+            "modality": "text",
+            "unit": "per_1m_tokens"
+          },
+          {
+            "amount": "2.5",
+            "component": "output",
+            "id": "price:anthropic/claude-haiku-4.5:batch:short:current:output:text:per_1m_tokens",
+            "modality": "text",
+            "unit": "per_1m_tokens"
+          }
+        ],
+        "checked_at": "2026-09-22T04:23:19Z",
+        "context_class": "short",
+        "currency": "USD",
+        "effective_from": null,
+        "effective_until": null,
+        "id": "price:anthropic/claude-haiku-4.5:batch:short:current",
+        "pricing_status": "current",
+        "processing_mode": "batch",
+        "prompt_token_threshold": null,
+        "region_policy": {
+          "availability": {
+            "default": "available",
+            "rules": []
+          },
+          "data_residencies": [
+            "global"
+          ],
+          "endpoint_geographies": [
+            "global"
+          ],
+          "price_adjustments": [],
+          "pricing_geography": "global_base"
+        },
+        "source_refs": [
+          "https://platform.claude.com/docs/en/about-claude/pricing"
+        ],
+        "verification_status": "verified",
+        "verified_at": "2026-09-22T04:23:19Z"
+      }
+    ],
     "pricing": {
-      "currency": "USD",
-      "unit": "1M tokens",
-      "input": 1.0,
-      "output": 5.0,
-      "cached_input": 0.1,
+      "batch_input": 0.5,
+      "batch_output": 2.5,
       "cache_write": 1.25,
       "cache_write_1h": 2.0,
-      "batch_input": 0.5,
-      "batch_output": 2.5
+      "cached_input": 0.1,
+      "currency": "USD",
+      "input": 1.0,
+      "output": 5.0,
+      "unit": "1M tokens"
     },
-    "official_source_url": "https://docs.anthropic.com/en/docs/about-claude/pricing",
-    "accessed_at": "2026-09-20T10:16:13Z",
-    "last_verified_at": "2026-09-20T10:16:13Z",
-    "effective_from": null,
-    "notes": "cache_write stores the 5-minute write rate."
+    "provider_id": "anthropic",
+    "status": "active"
   },
   {
     "provider_id": "google-gemini",
