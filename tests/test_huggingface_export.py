@@ -204,9 +204,11 @@ class HuggingFaceExportTests(unittest.TestCase):
             row["publicExposure"] == "public" and row.get("verifiedAt") is None
             for row in self.projection["models"]
         ))
-        self.assertTrue({"deepseek-v4-flash", "deepseek-v4-flash-vision-exp", "grok-3"}.issubset(
-            {record["model_id"] for record in non_verified}
-        ))
+        non_verified_ids = {record["model_id"] for record in non_verified}
+        self.assertTrue({"deepseek-v4-flash", "deepseek-v4-flash-vision-exp"}.issubset(non_verified_ids))
+        grok3_projection = projection_by_key[("xai", "grok-3")]
+        self.assertIsNotNone(grok3_projection.get("verifiedAt"))
+        self.assertNotIn("grok-3", non_verified_ids)
         self.assertEqual(
             {record["verification_status"] for record in non_verified},
             {"verified", "review_required", "partially_verified"},

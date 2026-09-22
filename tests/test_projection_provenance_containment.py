@@ -67,7 +67,13 @@ class ProjectionProvenanceContainmentTests(unittest.TestCase):
                 existing_artifact=path,
             )
         actual = next(item for item in generated["models"] if item["id"] == "grok-4.5")
-        self.assertEqual(actual["verifiedAt"], "2026-08-30T00:00:00Z")
+        selected = next(
+            record
+            for record in actual["priceRecords"]
+            if record["pricingId"] == actual["selectedPriceRecordId"]
+        )
+        self.assertEqual(actual["verifiedAt"], selected["verifiedAt"])
+        self.assertNotEqual(actual["verifiedAt"], "2026-08-30T00:00:00Z")
         self.assertEqual(generated["generatedAt"], existing["generatedAt"])
 
     def test_missing_baseline_is_deterministic_and_not_wall_clock_stamped(self):

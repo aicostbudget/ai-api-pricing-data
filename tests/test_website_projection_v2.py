@@ -398,6 +398,31 @@ class WebsiteProjectionV2Tests(unittest.TestCase):
             self.assertIn("cache_write", components)
             self.assertNotIn("cache_write_5m", components)
 
+    def test_price_record_evidence_survives_projection_and_uniquely_owns_components(self):
+        preview_prices = {
+            item["pricingId"]: item
+            for item in json.loads((PREVIEW / "prices.json").read_text(encoding="utf-8"))
+        }
+        for internal_id in (
+            "openai/gpt-5.4-mini",
+            "anthropic/claude-haiku-4.5",
+            "xai/grok-4.3",
+            "google-gemini/gemini-2.5-pro",
+        ):
+            row = self.by_internal[internal_id]
+            records = {record["pricingId"]: record for record in row["priceRecords"]}
+            self.assertEqual(len(records), len(row["priceRecords"]))
+            self.assertIn(row["selectedPriceRecordId"], records)
+            selected = records[row["selectedPriceRecordId"]]
+            canonical = preview_prices[row["selectedPriceRecordId"]]
+            self.assertEqual(selected["checkedAt"], canonical["checkedAt"])
+            self.assertEqual(selected["verifiedAt"], canonical["verifiedAt"])
+            self.assertEqual(row["checkedAt"], selected["checkedAt"])
+            self.assertEqual(row["verifiedAt"], selected["verifiedAt"])
+            self.assertTrue(selected["sourceRefs"])
+            for component in row["pricingComponents"]:
+                self.assertIn(component["pricingId"], records)
+
     def test_pricing_component_projection_preserves_supported_cache_variants(self):
         record = {
             "pricingId": "price:test/model:standard:short:current",

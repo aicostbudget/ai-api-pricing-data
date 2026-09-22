@@ -820,6 +820,40 @@ def build_pricing_components(
     return components or None
 
 
+def build_price_records(
+    model_prices: list[dict[str, Any]],
+    effective_at: datetime,
+    verified_price_by_id: dict[str, dict[str, Any]],
+) -> list[dict[str, Any]] | None:
+    eligible_records = [
+        record
+        for record in model_prices
+        if record.get("pricingStatus") != "historical"
+        and (
+            record.get("verificationStatus") == "verified"
+            or record.get("pricingId") in verified_price_by_id
+        )
+        and (record.get("pricingStatus") == "future" or current_effective(record, effective_at))
+    ]
+    records = [
+        {
+            "pricingId": record["pricingId"],
+            "processingMode": record.get("processingMode"),
+            "contextClass": record.get("contextClass"),
+            "pricingStatus": record.get("pricingStatus"),
+            "calculationDefault": record.get("calculationDefault") is True,
+            "effectiveFrom": record.get("effectiveFrom"),
+            "effectiveUntil": record.get("effectiveUntil"),
+            "sourceRefs": sorted(record["sourceRefs"]),
+            "verificationStatus": record["verificationStatus"],
+            "checkedAt": record.get("checkedAt"),
+            "verifiedAt": record.get("verifiedAt"),
+        }
+        for record in sorted(eligible_records, key=lambda item: item["pricingId"])
+    ]
+    return records or None
+
+
 def website_price_matches(
     website_row: dict[str, Any] | None,
     selected_price: dict[str, Any] | None,
@@ -905,6 +939,9 @@ def projection_row(
         verified_price_by_id,
     )
     pricing_components = build_pricing_components(
+        prices_by_model.get(target_internal_id, []), effective_at, verified_price_by_id
+    )
+    price_records = build_price_records(
         prices_by_model.get(target_internal_id, []), effective_at, verified_price_by_id
     )
     blocked_reasons: list[str] = []
@@ -1046,6 +1083,13 @@ def projection_row(
             [source_timestamp(sources_by_id[ref], "checkedAt") for ref in refs if ref in sources_by_id]
         )
         checked_source_refs = source_refs_at_timestamp(refs, sources_by_id, "checkedAt", checked_at)
+    if selected_price and selected_price.get("verificationStatus") == "verified":
+        if selected_price.get("verifiedAt"):
+            verified_at = selected_price["verifiedAt"]
+            verified_source_refs = sorted(selected_price["sourceRefs"])
+        if selected_price.get("checkedAt"):
+            checked_at = selected_price["checkedAt"]
+            checked_source_refs = sorted(selected_price["sourceRefs"])
     context_window_tokens = (model or {}).get("contextWindowTokens")
     cache_eligibility = project_cache_eligibility(model, sources_by_id)
     conditional_usage_allowances = project_conditional_usage_allowances(model, sources_by_id)
@@ -1130,6 +1174,8 @@ def projection_row(
         row["historicalPrice"] = legacy_grok_history(website_rows)
     if pricing_components:
         row["pricingComponents"] = pricing_components
+    if price_records:
+        row["priceRecords"] = price_records
     if (
         selected_billing_price
         and selected_price is None
@@ -1840,6 +1886,8 @@ def validate_projection(artifact: dict[str, Any], report: dict[str, Any]) -> Non
             raise ValueError(f"excluded row cannot be default-safe: {row['id']}")
         if row["publicExposure"] == "alias_only" and row["identityType"] != "alias":
             raise ValueError(f"alias-only exposure requires alias identity: {row['id']}")
+        if "priceRecords" in row:
+            validate_price_records(row, generated_at)
         if "pricingComponents" in row:
             validate_pricing_components(row)
     by_internal_id = {row["canonicalInternalId"]: row for row in artifact["models"]}
@@ -1854,6 +1902,39 @@ def validate_projection(artifact: dict[str, Any], report: dict[str, Any]) -> Non
         raise ValueError("projection must not require runtime network dependency")
     if report["projectionModelCount"] != len(artifact["models"]):
         raise ValueError("projection report count mismatch")
+
+
+def validate_price_records(row: dict[str, Any], generated_at: datetime) -> None:
+    records = row["priceRecords"]
+    if not isinstance(records, list) or not records:
+        raise ValueError(f"projection row {row['id']} has invalid priceRecords")
+    required = {
+        "pricingId", "processingMode", "contextClass", "pricingStatus",
+        "calculationDefault", "effectiveFrom", "effectiveUntil", "sourceRefs",
+        "verificationStatus", "checkedAt", "verifiedAt",
+    }
+    pricing_ids = [record.get("pricingId") for record in records]
+    if len(pricing_ids) != len(set(pricing_ids)):
+        raise ValueError(f"projection row {row['id']} has duplicate priceRecords")
+    for record in records:
+        if set(record) != required:
+            raise ValueError(f"projection row {row['id']} priceRecord has unsupported fields")
+        if not record["sourceRefs"]:
+            raise ValueError(f"projection row {row['id']} priceRecord has no sourceRefs")
+        for timestamp_field in ("checkedAt", "verifiedAt"):
+            timestamp = record[timestamp_field]
+            if timestamp is not None and generated_at < parse_effective_at(timestamp):
+                raise ValueError(
+                    f"projection generatedAt precedes priceRecord {timestamp_field}: {row['id']}"
+                )
+    selected_id = row.get("selectedPriceRecordId")
+    if selected_id is not None and pricing_ids.count(selected_id) != 1:
+        raise ValueError(f"projection row {row['id']} selected priceRecord is not unique")
+    for component in row.get("pricingComponents", []):
+        if pricing_ids.count(component["pricingId"]) != 1:
+            raise ValueError(
+                f"projection row {row['id']} component lacks one priceRecord: {component['chargeId']}"
+            )
 
 
 def validate_pricing_components(row: dict[str, Any]) -> None:
