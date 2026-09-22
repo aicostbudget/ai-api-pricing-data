@@ -7,6 +7,117 @@
   "model_id": "gpt-5.4-mini",
   "notes": "OpenAI official pricing page lists standard and batch rates per 1M tokens.",
   "official_source_url": "https://platform.openai.com/docs/pricing",
+  "official_source_urls": [
+    "https://platform.openai.com/docs/pricing",
+    "https://developers.openai.com/api/docs/models/gpt-5.4-mini",
+    "https://developers.openai.com/api/docs/guides/batch"
+  ],
+  "price_records": [
+    {
+      "billing_note": "Standard text token rates per 1M tokens. The official model page does not state a pricing effective date.",
+      "calculation_default": true,
+      "charges": [
+        {
+          "amount": "0.75",
+          "component": "input",
+          "id": "price:openai/gpt-5.4-mini:standard:short:current:input:text:per_1m_tokens",
+          "modality": "text",
+          "unit": "per_1m_tokens"
+        },
+        {
+          "amount": "0.075",
+          "component": "cached_input",
+          "id": "price:openai/gpt-5.4-mini:standard:short:current:cached_input:text:per_1m_tokens",
+          "modality": "text",
+          "unit": "per_1m_tokens"
+        },
+        {
+          "amount": "4.5",
+          "component": "output",
+          "id": "price:openai/gpt-5.4-mini:standard:short:current:output:text:per_1m_tokens",
+          "modality": "text",
+          "unit": "per_1m_tokens"
+        }
+      ],
+      "checked_at": "2026-09-22T04:23:19Z",
+      "context_class": "short",
+      "currency": "USD",
+      "effective_from": null,
+      "effective_until": null,
+      "id": "price:openai/gpt-5.4-mini:standard:short:current",
+      "pricing_status": "current",
+      "processing_mode": "standard",
+      "prompt_token_threshold": null,
+      "region_policy": {
+        "availability": {
+          "default": "available",
+          "rules": []
+        },
+        "data_residencies": [
+          "global"
+        ],
+        "endpoint_geographies": [
+          "global"
+        ],
+        "price_adjustments": [],
+        "pricing_geography": "global_base"
+      },
+      "source_refs": [
+        "https://developers.openai.com/api/docs/models/gpt-5.4-mini"
+      ],
+      "verification_status": "verified",
+      "verified_at": "2026-09-22T04:23:19Z"
+    },
+    {
+      "billing_note": "Batch API applies the official 50% discount to the verified Standard input and output rates; the model page lists Batch as supported. The official pages do not state a pricing effective date.",
+      "calculation_default": false,
+      "charges": [
+        {
+          "amount": "0.375",
+          "component": "input",
+          "id": "price:openai/gpt-5.4-mini:batch:short:current:input:text:per_1m_tokens",
+          "modality": "text",
+          "unit": "per_1m_tokens"
+        },
+        {
+          "amount": "2.25",
+          "component": "output",
+          "id": "price:openai/gpt-5.4-mini:batch:short:current:output:text:per_1m_tokens",
+          "modality": "text",
+          "unit": "per_1m_tokens"
+        }
+      ],
+      "checked_at": "2026-09-22T04:23:19Z",
+      "context_class": "short",
+      "currency": "USD",
+      "effective_from": null,
+      "effective_until": null,
+      "id": "price:openai/gpt-5.4-mini:batch:short:current",
+      "pricing_status": "current",
+      "processing_mode": "batch",
+      "prompt_token_threshold": null,
+      "region_policy": {
+        "availability": {
+          "default": "available",
+          "rules": []
+        },
+        "data_residencies": [
+          "global"
+        ],
+        "endpoint_geographies": [
+          "global"
+        ],
+        "price_adjustments": [],
+        "pricing_geography": "global_base"
+      },
+      "source_refs": [
+        "https://developers.openai.com/api/docs/models/gpt-5.4-mini",
+        "https://developers.openai.com/api/docs/guides/batch"
+      ],
+      "verification_status": "verified",
+      "verified_at": "2026-09-22T04:23:19Z"
+    }
+  ],
   "pricing": {
     "batch_input": 0.375,
     "batch_output": 2.25,
