@@ -2179,7 +2179,7 @@ def price_lookup(record: dict[str, Any]) -> dict[str, str | None]:
     values = {charge["component"]: charge["amount"] for charge in record["charges"]}
     return {
         "input": values.get("input"),
-        "cached_input": values.get("cached_input"),
+        "cached_input": values.get("cached_input", values.get("cache_read")),
         "output": values.get("output"),
     }
 
@@ -2877,6 +2877,31 @@ def main() -> None:
                 "checkedAt": selection["checked_at"],
                 "verifiedAt": selection["verified_at"],
             }
+        if public and public.get("cache_eligibility"):
+            eligibility = public["cache_eligibility"]
+            model_record["cacheEligibility"] = {
+                "minimumCacheablePrefixTokens": eligibility["minimum_cacheable_prefix_tokens"],
+                "sourceRefs": sorted(source_by_url[url] for url in eligibility["source_refs"]),
+                "verificationStatus": eligibility["verification_status"],
+                "checkedAt": eligibility["checked_at"],
+                "verifiedAt": eligibility["verified_at"],
+            }
+        if public and public.get("cache_lifetime_modes"):
+            model_record["cacheLifetimeModes"] = [
+                {
+                    "activationBehavior": mode["activation_behavior"],
+                    "cacheWriteComponent": mode["cache_write_component"],
+                    "isDefault": mode["is_default"],
+                    "minimumLifetimeSeconds": mode["minimum_lifetime_seconds"],
+                    "renewalBehavior": mode["renewal_behavior"],
+                    "userSelectable": mode["user_selectable"],
+                    "sourceRefs": sorted(source_by_url[url] for url in mode["source_refs"]),
+                    "verificationStatus": mode["verification_status"],
+                    "checkedAt": mode["checked_at"],
+                    "verifiedAt": mode["verified_at"],
+                }
+                for mode in public["cache_lifetime_modes"]
+            ]
         models.append(model_record)
 
     exact_parity: list[str] = []

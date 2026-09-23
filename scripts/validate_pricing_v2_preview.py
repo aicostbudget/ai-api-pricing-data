@@ -610,7 +610,7 @@ def validate_preview() -> dict[str, Any]:
                 "greater_than_or_equal",
             }:
                 fail(f"invalid tier comparison {price['pricingId']}")
-            if tier_selection["tokenBasis"] != "total_prompt_tokens":
+            if tier_selection["tokenBasis"] not in {"total_prompt_tokens", "input_tokens"}:
                 fail(f"invalid tier token basis {price['pricingId']}")
             if not isinstance(tier_selection["cachedPromptTokensIncluded"], bool):
                 fail(f"invalid cached prompt token inclusion {price['pricingId']}")

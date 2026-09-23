@@ -85,7 +85,7 @@ class Gpt6AstraProductionTests(unittest.TestCase):
             amounts = {charge["component"]: str(charge["amount"]) for charge in row["charges"]}
             self.assertEqual(tuple(amounts[name] for name in COMPONENTS), EXPECTED_MATRIX[key])
             self.assertEqual(row["prompt_token_threshold"], THRESHOLD)
-            self.assertEqual(row["tier_selection"]["token_basis"], "total_prompt_tokens")
+            self.assertEqual(row["tier_selection"]["token_basis"], "input_tokens")
             self.assertTrue(row["tier_selection"]["cached_prompt_tokens_included"])
             self.assertTrue(row["tier_selection"]["whole_request_pricing"])
 

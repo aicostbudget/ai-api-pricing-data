@@ -40,6 +40,7 @@
         ,"temporal_price_schedule_update"
         ,"model_added"
         ,"lifecycle_update"
+        ,"successor_transition"
       ]
     },
     "old_prices": {"$ref": "#/$defs/priceTriple"},
@@ -49,6 +50,11 @@
       "minItems": 1,
       "items": {"$ref": "#/$defs/componentChange"}
     },
+    "predecessor_model_id": {"type": "string", "minLength": 1},
+    "successor_model_id": {"type": "string", "minLength": 1},
+    "source_refs": {"type": "array", "minItems": 1, "uniqueItems": true, "items": {"type": "string", "format": "uri", "pattern": "^https://"}},
+    "component_comparisons": {"type": "array", "minItems": 1, "items": {"$ref": "#/$defs/componentComparison"}},
+    "claims": {"type": "array", "minItems": 1, "items": {"$ref": "#/$defs/sourcedClaim"}},
     "old_time_pricing": {
       "anyOf": [
         {"type": "null"},
@@ -108,7 +114,38 @@
     "dedupe_key": {"type": "string", "minLength": 1},
     "notes": {"type": "string"}
   },
+  "allOf": [
+    {
+      "if": {"properties": {"change_type": {"const": "successor_transition"}}, "required": ["change_type"]},
+      "then": {"required": ["predecessor_model_id", "successor_model_id", "source_refs", "component_comparisons"]}
+    }
+  ],
   "$defs": {
+    "componentComparison": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["component", "processing_mode", "context_class", "relation", "old_amount", "new_amount", "unit", "currency"],
+      "properties": {
+        "component": {"type": "string", "enum": ["input", "cached_input", "cache_read", "cache_write", "cache_write_5m", "cache_write_1h", "output"]},
+        "processing_mode": {"type": "string", "enum": ["standard", "batch", "flex", "priority", "fast"]},
+        "context_class": {"type": "string", "enum": ["short", "long"]},
+        "relation": {"type": "string", "enum": ["changed", "introduced", "removed"]},
+        "old_amount": {"type": ["string", "null"], "pattern": "^(0|[1-9][0-9]*)(\\.[0-9]+)?$"},
+        "new_amount": {"type": ["string", "null"], "pattern": "^(0|[1-9][0-9]*)(\\.[0-9]+)?$"},
+        "unit": {"type": "string", "const": "per_1m_tokens"},
+        "currency": {"type": "string", "const": "USD"}
+      }
+    },
+    "sourcedClaim": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["kind", "text", "source_url"],
+      "properties": {
+        "kind": {"type": "string", "enum": ["official_provider_pricing_claim", "official_workload_level_claim"]},
+        "text": {"type": "string", "minLength": 1},
+        "source_url": {"type": "string", "format": "uri", "pattern": "^https://"}
+      }
+    },
     "componentChange": {
       "type": "object",
       "required": ["pricing_id", "charge_id", "component", "old_amount", "new_amount", "condition"],

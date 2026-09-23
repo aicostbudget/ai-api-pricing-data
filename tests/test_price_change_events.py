@@ -455,6 +455,7 @@ class PriceChangeEventTests(unittest.TestCase):
                 "temporal_price_schedule_update",
                 "model_added",
                 "lifecycle_update",
+                "successor_transition",
             },
         )
         before = model(provider_id="new-provider", model_id="new-model")

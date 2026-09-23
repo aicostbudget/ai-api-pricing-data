@@ -278,6 +278,200 @@
       "status": "active"
     },
     {
+      "accessed_at": "2026-09-23T00:00:00Z",
+      "cache_eligibility": {
+        "checked_at": "2026-09-23T00:00:00Z",
+        "minimum_cacheable_prefix_tokens": 512,
+        "source_refs": [
+          "https://platform.claude.com/docs/en/build-with-claude/prompt-caching"
+        ],
+        "verification_status": "verified",
+        "verified_at": "2026-09-23T00:00:00Z"
+      },
+      "cache_lifetime_modes": [
+        {
+          "activation_behavior": "request_configured",
+          "cache_write_component": "cache_write_5m",
+          "checked_at": "2026-09-23T00:00:00Z",
+          "is_default": true,
+          "minimum_lifetime_seconds": 300,
+          "renewal_behavior": "refresh_on_reuse",
+          "source_refs": [
+            "https://platform.claude.com/docs/en/build-with-claude/prompt-caching"
+          ],
+          "user_selectable": true,
+          "verification_status": "verified",
+          "verified_at": "2026-09-23T00:00:00Z"
+        },
+        {
+          "activation_behavior": "request_configured",
+          "cache_write_component": "cache_write_1h",
+          "checked_at": "2026-09-23T00:00:00Z",
+          "is_default": false,
+          "minimum_lifetime_seconds": 3600,
+          "renewal_behavior": "refresh_on_reuse",
+          "source_refs": [
+            "https://platform.claude.com/docs/en/build-with-claude/prompt-caching"
+          ],
+          "user_selectable": true,
+          "verification_status": "verified",
+          "verified_at": "2026-09-23T00:00:00Z"
+        }
+      ],
+      "context_window_tokens": 1000000,
+      "display_name": "Claude Opus 5.5",
+      "effective_from": "2026-09-22",
+      "input_modality": "text",
+      "last_verified_at": "2026-09-23T00:00:00Z",
+      "model_family": "Claude Opus",
+      "model_id": "claude-opus-5-5",
+      "notes": "Released 2026-09-22. Standard prices preserve distinct cache-read, 5-minute cache-write, and 1-hour cache-write charges. Fast is an independently published processing mode with input/output prices; it is not inferred for Claude Opus 5.",
+      "official_source_url": "https://platform.claude.com/docs/en/models/opus-5-5/overview",
+      "official_source_urls": [
+        "https://platform.claude.com/docs/en/models/opus-5-5/overview",
+        "https://platform.claude.com/docs/en/about-claude/pricing",
+        "https://platform.claude.com/docs/en/build-with-claude/prompt-caching",
+        "https://www.anthropic.com/claude-opus-5-5"
+      ],
+      "output_modality": "text",
+      "price_records": [
+        {
+          "billing_note": "Standard token and prompt-cache pricing; 5-minute and 1-hour cache writes are distinct charge semantics.",
+          "calculation_default": true,
+          "charges": [
+            {
+              "amount": "4",
+              "component": "input",
+              "id": "price:anthropic/claude-opus-5-5:standard:short:current:input:text:per_1m_tokens",
+              "modality": "text",
+              "unit": "per_1m_tokens"
+            },
+            {
+              "amount": "0.2",
+              "component": "cache_read",
+              "id": "price:anthropic/claude-opus-5-5:standard:short:current:cache_read:text:per_1m_tokens",
+              "modality": "text",
+              "unit": "per_1m_tokens"
+            },
+            {
+              "amount": "5",
+              "component": "cache_write_5m",
+              "id": "price:anthropic/claude-opus-5-5:standard:short:current:cache_write_5m:text:per_1m_tokens",
+              "modality": "text",
+              "unit": "per_1m_tokens"
+            },
+            {
+              "amount": "8",
+              "component": "cache_write_1h",
+              "id": "price:anthropic/claude-opus-5-5:standard:short:current:cache_write_1h:text:per_1m_tokens",
+              "modality": "text",
+              "unit": "per_1m_tokens"
+            },
+            {
+              "amount": "20",
+              "component": "output",
+              "id": "price:anthropic/claude-opus-5-5:standard:short:current:output:text:per_1m_tokens",
+              "modality": "text",
+              "unit": "per_1m_tokens"
+            }
+          ],
+          "checked_at": "2026-09-23T00:00:00Z",
+          "context_class": "short",
+          "currency": "USD",
+          "effective_from": "2026-09-22",
+          "effective_until": null,
+          "id": "price:anthropic/claude-opus-5-5:standard:short:current",
+          "pricing_status": "current",
+          "processing_mode": "standard",
+          "prompt_token_threshold": null,
+          "region_policy": {
+            "availability": {
+              "default": "available",
+              "rules": []
+            },
+            "data_residencies": [
+              "global"
+            ],
+            "endpoint_geographies": [
+              "global"
+            ],
+            "price_adjustments": [],
+            "pricing_geography": "global_base"
+          },
+          "source_refs": [
+            "https://platform.claude.com/docs/en/models/opus-5-5/overview",
+            "https://platform.claude.com/docs/en/about-claude/pricing"
+          ],
+          "verification_status": "verified",
+          "verified_at": "2026-09-23T00:00:00Z"
+        },
+        {
+          "billing_note": "Fast-mode input and output pricing. No absent predecessor Fast price is inferred.",
+          "calculation_default": false,
+          "charges": [
+            {
+              "amount": "8",
+              "component": "input",
+              "id": "price:anthropic/claude-opus-5-5:fast:short:current:input:text:per_1m_tokens",
+              "modality": "text",
+              "unit": "per_1m_tokens"
+            },
+            {
+              "amount": "40",
+              "component": "output",
+              "id": "price:anthropic/claude-opus-5-5:fast:short:current:output:text:per_1m_tokens",
+              "modality": "text",
+              "unit": "per_1m_tokens"
+            }
+          ],
+          "checked_at": "2026-09-23T00:00:00Z",
+          "context_class": "short",
+          "currency": "USD",
+          "effective_from": "2026-09-22",
+          "effective_until": null,
+          "id": "price:anthropic/claude-opus-5-5:fast:short:current",
+          "pricing_status": "current",
+          "processing_mode": "fast",
+          "prompt_token_threshold": null,
+          "region_policy": {
+            "availability": {
+              "default": "available",
+              "rules": []
+            },
+            "data_residencies": [
+              "global"
+            ],
+            "endpoint_geographies": [
+              "global"
+            ],
+            "price_adjustments": [],
+            "pricing_geography": "global_base"
+          },
+          "source_refs": [
+            "https://platform.claude.com/docs/en/models/opus-5-5/overview",
+            "https://platform.claude.com/docs/en/about-claude/pricing"
+          ],
+          "verification_status": "verified",
+          "verified_at": "2026-09-23T00:00:00Z"
+        }
+      ],
+      "pricing": {
+        "batch_input": null,
+        "batch_output": null,
+        "cache_write": 5,
+        "cache_write_1h": 8,
+        "cached_input": 0.2,
+        "currency": "USD",
+        "input": 4,
+        "output": 20,
+        "unit": "1M tokens"
+      },
+      "project_context_window": true,
+      "provider_id": "anthropic",
+      "release_stage": "stable",
+      "status": "active"
+    },
+    {
       "accessed_at": "2026-09-20T10:16:13Z",
       "display_name": "Claude Sonnet 4.6",
       "effective_from": null,

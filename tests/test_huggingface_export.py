@@ -102,7 +102,19 @@ class HuggingFaceExportTests(unittest.TestCase):
         }
         self.assertEqual(train_xai, prices_xai)
         self.assertEqual(train_xai, json_xai)
-        self.assertEqual(len(train_xai), 10)
+        self.assertEqual(train_xai, {
+            "grok-3",
+            "grok-4.20-0309-non-reasoning",
+            "grok-4.20-0309-reasoning",
+            "grok-4.20-multi-agent-0309",
+            "grok-4.3",
+            "grok-4.5",
+            "grok-4.6",
+            "grok-4.7",
+            "grok-build-0.1",
+            "grok-voice-transcribe-1.0",
+            "grok-voice-transcribe-2.0",
+        })
 
     def test_export_matches_full_public_website_key_set(self):
         actual = {(row["provider_id"], row["model_id"]) for row in self.records}
@@ -273,7 +285,63 @@ class HuggingFaceExportTests(unittest.TestCase):
             })
             self.assertEqual(len(writes), 2, model_id)
             self.assertTrue(all(item["unit"] == "per_1m_tokens" for item in writes))
-        self.assertEqual(cache_write_count, 45 + len(expected_new_writes))
+        expected_phase_b_openai_writes = {
+            (processing_mode, context_class)
+            for processing_mode in ("standard", "batch", "flex", "fast")
+            for context_class in ("short", "long")
+        }
+        phase_b_cache_write_count = 0
+        for model_id in ("gpt-6-sol", "gpt-6-luna"):
+            record = next(row for row in self.records if row["model_id"] == model_id)
+            writes = [
+                item
+                for item in record["pricing_components"]
+                if item["component"].startswith("cache_write")
+            ]
+            self.assertEqual(
+                {
+                    (
+                        item["condition"]["processing_mode"],
+                        item["condition"]["context_class"],
+                    )
+                    for item in writes
+                },
+                expected_phase_b_openai_writes,
+                model_id,
+            )
+            self.assertEqual(len(writes), 8, model_id)
+            self.assertEqual(len({item["charge_id"] for item in writes}), 8, model_id)
+            phase_b_cache_write_count += len(writes)
+        opus_record = next(
+            row for row in self.records if row["model_id"] == "claude-opus-5-5"
+        )
+        opus_writes = [
+            item
+            for item in opus_record["pricing_components"]
+            if item["component"].startswith("cache_write")
+        ]
+        self.assertEqual(
+            {item["component"]: item["amount"] for item in opus_writes},
+            {"cache_write_5m": "5", "cache_write_1h": "8"},
+        )
+        self.assertEqual(len(opus_writes), 2)
+        self.assertTrue(
+            all(
+                item["condition"]["processing_mode"] == "standard"
+                and item["condition"]["context_class"] == "short"
+                for item in opus_writes
+            )
+        )
+        phase_b_cache_write_count += len(opus_writes)
+        self.assertEqual(phase_b_cache_write_count, 18)
+        self.assertEqual(
+            cache_write_count - phase_b_cache_write_count,
+            45 + len(expected_new_writes),
+        )
+        self.assertEqual(
+            cache_write_count,
+            45 + len(expected_new_writes) + phase_b_cache_write_count,
+        )
         self.assertTrue(any(not record["pricing_components"] for record in self.records))
 
     def test_eleven_cache_pricing_targets_have_component_contract(self):

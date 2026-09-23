@@ -243,7 +243,7 @@ def validate_models(now: datetime | None = None) -> None:
                 threshold = tier["prompt_token_threshold"]
                 if isinstance(threshold, bool) or not isinstance(threshold, int) or threshold < 0:
                     fail(f"invalid prompt token threshold for {item[0]}/{item[1]} tier {tier['id']}")
-                if tier["threshold_token_basis"] != "total_prompt_tokens":
+                if tier["threshold_token_basis"] not in {"total_prompt_tokens", "input_tokens"}:
                     fail(f"invalid threshold token basis for {item[0]}/{item[1]} tier {tier['id']}")
                 if tier["cached_prompt_tokens_included"] is not True:
                     fail(f"cached prompt token semantics missing for {item[0]}/{item[1]} tier {tier['id']}")
@@ -328,7 +328,7 @@ def validate_models(now: datetime | None = None) -> None:
                 if (
                     record["prompt_token_threshold"] != 200000
                     or selection.get("comparison") != ("less_than" if key[1] == "short" else "greater_than_or_equal")
-                    or selection.get("token_basis") != "total_prompt_tokens"
+                    or selection.get("token_basis") not in {"total_prompt_tokens", "input_tokens"}
                     or selection.get("cached_prompt_tokens_included") is not True
                     or selection.get("whole_request_pricing") is not True
                 ):

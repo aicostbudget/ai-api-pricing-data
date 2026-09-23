@@ -746,6 +746,137 @@
     "verificationStatus": "partially_verified"
   },
   {
+    "availabilityRules": [],
+    "billingNote": "Standard token and prompt-cache pricing; 5-minute and 1-hour cache writes are distinct charge semantics.",
+    "calculationDefault": true,
+    "charges": [
+      {
+        "amount": "4",
+        "chargeId": "price:anthropic/claude-opus-5-5:standard:short:current:input:text:per_1m_tokens",
+        "component": "input",
+        "modality": "text",
+        "unit": "per_1m_tokens"
+      },
+      {
+        "amount": "0.2",
+        "chargeId": "price:anthropic/claude-opus-5-5:standard:short:current:cache_read:text:per_1m_tokens",
+        "component": "cache_read",
+        "modality": "text",
+        "unit": "per_1m_tokens"
+      },
+      {
+        "amount": "5",
+        "chargeId": "price:anthropic/claude-opus-5-5:standard:short:current:cache_write_5m:text:per_1m_tokens",
+        "component": "cache_write_5m",
+        "modality": "text",
+        "unit": "per_1m_tokens"
+      },
+      {
+        "amount": "8",
+        "chargeId": "price:anthropic/claude-opus-5-5:standard:short:current:cache_write_1h:text:per_1m_tokens",
+        "component": "cache_write_1h",
+        "modality": "text",
+        "unit": "per_1m_tokens"
+      },
+      {
+        "amount": "20",
+        "chargeId": "price:anthropic/claude-opus-5-5:standard:short:current:output:text:per_1m_tokens",
+        "component": "output",
+        "modality": "text",
+        "unit": "per_1m_tokens"
+      }
+    ],
+    "checkedAt": "2026-09-23T00:00:00Z",
+    "contextClass": "short",
+    "currency": "USD",
+    "defaultAvailabilityStatus": "available",
+    "effectiveFrom": "2026-09-22",
+    "effectiveUntil": null,
+    "modelInternalId": "anthropic/claude-opus-5-5",
+    "priceAdjustments": [],
+    "pricingId": "price:anthropic/claude-opus-5-5:standard:short:current",
+    "pricingStatus": "current",
+    "processingMode": "standard",
+    "promptTokenThreshold": null,
+    "regionPolicy": "global",
+    "regionSelector": {
+      "dataResidencies": [
+        "global"
+      ],
+      "endpointGeographies": [
+        "global"
+      ],
+      "pricingGeography": "global_base"
+    },
+    "sourceDatasetIds": {
+      "publicDatasetIds": [
+        "claude-opus-5-5"
+      ],
+      "websiteIds": []
+    },
+    "sourceRefs": [
+      "source:anthropic:platform-claude-com-docs-en-about-claude-pricing",
+      "source:anthropic:platform-claude-com-docs-en-models-opus-5-5-overview"
+    ],
+    "verificationStatus": "verified",
+    "verifiedAt": "2026-09-23T00:00:00Z"
+  },
+  {
+    "availabilityRules": [],
+    "billingNote": "Fast-mode input and output pricing. No absent predecessor Fast price is inferred.",
+    "calculationDefault": false,
+    "charges": [
+      {
+        "amount": "8",
+        "chargeId": "price:anthropic/claude-opus-5-5:fast:short:current:input:text:per_1m_tokens",
+        "component": "input",
+        "modality": "text",
+        "unit": "per_1m_tokens"
+      },
+      {
+        "amount": "40",
+        "chargeId": "price:anthropic/claude-opus-5-5:fast:short:current:output:text:per_1m_tokens",
+        "component": "output",
+        "modality": "text",
+        "unit": "per_1m_tokens"
+      }
+    ],
+    "checkedAt": "2026-09-23T00:00:00Z",
+    "contextClass": "short",
+    "currency": "USD",
+    "defaultAvailabilityStatus": "available",
+    "effectiveFrom": "2026-09-22",
+    "effectiveUntil": null,
+    "modelInternalId": "anthropic/claude-opus-5-5",
+    "priceAdjustments": [],
+    "pricingId": "price:anthropic/claude-opus-5-5:fast:short:current",
+    "pricingStatus": "current",
+    "processingMode": "fast",
+    "promptTokenThreshold": null,
+    "regionPolicy": "global",
+    "regionSelector": {
+      "dataResidencies": [
+        "global"
+      ],
+      "endpointGeographies": [
+        "global"
+      ],
+      "pricingGeography": "global_base"
+    },
+    "sourceDatasetIds": {
+      "publicDatasetIds": [
+        "claude-opus-5-5"
+      ],
+      "websiteIds": []
+    },
+    "sourceRefs": [
+      "source:anthropic:platform-claude-com-docs-en-about-claude-pricing",
+      "source:anthropic:platform-claude-com-docs-en-models-opus-5-5-overview"
+    ],
+    "verificationStatus": "verified",
+    "verifiedAt": "2026-09-23T00:00:00Z"
+  },
+  {
     "billingNote": "Anthropic marks Sonnet 4 as retired except on Bedrock and Vertex AI.",
     "calculationDefault": true,
     "charges": [
@@ -8456,7 +8587,7 @@
     "tierSelection": {
       "cachedPromptTokensIncluded": true,
       "comparison": "less_than_or_equal",
-      "tokenBasis": "total_prompt_tokens",
+      "tokenBasis": "input_tokens",
       "wholeRequestPricing": true
     },
     "verificationStatus": "verified",
@@ -8549,7 +8680,7 @@
     "tierSelection": {
       "cachedPromptTokensIncluded": true,
       "comparison": "greater_than",
-      "tokenBasis": "total_prompt_tokens",
+      "tokenBasis": "input_tokens",
       "wholeRequestPricing": true
     },
     "verificationStatus": "verified",
@@ -8642,7 +8773,7 @@
     "tierSelection": {
       "cachedPromptTokensIncluded": true,
       "comparison": "less_than_or_equal",
-      "tokenBasis": "total_prompt_tokens",
+      "tokenBasis": "input_tokens",
       "wholeRequestPricing": true
     },
     "verificationStatus": "verified",
@@ -8735,7 +8866,7 @@
     "tierSelection": {
       "cachedPromptTokensIncluded": true,
       "comparison": "greater_than",
-      "tokenBasis": "total_prompt_tokens",
+      "tokenBasis": "input_tokens",
       "wholeRequestPricing": true
     },
     "verificationStatus": "verified",
@@ -8828,7 +8959,7 @@
     "tierSelection": {
       "cachedPromptTokensIncluded": true,
       "comparison": "less_than_or_equal",
-      "tokenBasis": "total_prompt_tokens",
+      "tokenBasis": "input_tokens",
       "wholeRequestPricing": true
     },
     "verificationStatus": "verified",
@@ -8921,7 +9052,7 @@
     "tierSelection": {
       "cachedPromptTokensIncluded": true,
       "comparison": "greater_than",
-      "tokenBasis": "total_prompt_tokens",
+      "tokenBasis": "input_tokens",
       "wholeRequestPricing": true
     },
     "verificationStatus": "verified",
@@ -9028,7 +9159,7 @@
     "tierSelection": {
       "cachedPromptTokensIncluded": true,
       "comparison": "less_than_or_equal",
-      "tokenBasis": "total_prompt_tokens",
+      "tokenBasis": "input_tokens",
       "wholeRequestPricing": true
     },
     "verificationStatus": "verified",
@@ -9135,11 +9266,1651 @@
     "tierSelection": {
       "cachedPromptTokensIncluded": true,
       "comparison": "greater_than",
-      "tokenBasis": "total_prompt_tokens",
+      "tokenBasis": "input_tokens",
       "wholeRequestPricing": true
     },
     "verificationStatus": "verified",
     "verifiedAt": "2026-09-04T17:34:11Z"
+  },
+  {
+    "availabilityRules": [],
+    "billingNote": "standard short-context pricing; the 272,000 threshold is based on input tokens, includes cached input tokens, and applies the selected tier to the full request.",
+    "calculationDefault": true,
+    "charges": [
+      {
+        "amount": "0.1",
+        "chargeId": "price:openai/gpt-6-luna:standard:short:current:input:text:per_1m_tokens",
+        "component": "input",
+        "modality": "text",
+        "unit": "per_1m_tokens"
+      },
+      {
+        "amount": "0.01",
+        "chargeId": "price:openai/gpt-6-luna:standard:short:current:cached_input:text:per_1m_tokens",
+        "component": "cached_input",
+        "modality": "text",
+        "unit": "per_1m_tokens"
+      },
+      {
+        "amount": "0.125",
+        "chargeId": "price:openai/gpt-6-luna:standard:short:current:cache_write:text:per_1m_tokens",
+        "component": "cache_write",
+        "modality": "text",
+        "unit": "per_1m_tokens"
+      },
+      {
+        "amount": "0.5",
+        "chargeId": "price:openai/gpt-6-luna:standard:short:current:output:text:per_1m_tokens",
+        "component": "output",
+        "modality": "text",
+        "unit": "per_1m_tokens"
+      }
+    ],
+    "checkedAt": "2026-09-23T00:00:00Z",
+    "contextClass": "short",
+    "currency": "USD",
+    "defaultAvailabilityStatus": "available",
+    "effectiveFrom": "2026-09-22",
+    "effectiveUntil": null,
+    "modelInternalId": "openai/gpt-6-luna",
+    "priceAdjustments": [
+      {
+        "factor": "1.1",
+        "operation": "multiply",
+        "priceAdjustmentId": "regional-processing-uplift",
+        "selector": {
+          "endpointGeographies": [
+            "regional"
+          ]
+        },
+        "sourceRefs": [
+          "source:openai:developers-openai-com-api-docs-pricing"
+        ]
+      }
+    ],
+    "pricingId": "price:openai/gpt-6-luna:standard:short:current",
+    "pricingStatus": "current",
+    "processingMode": "standard",
+    "promptTokenThreshold": 272000,
+    "regionPolicy": "global",
+    "regionSelector": {
+      "dataResidencies": [
+        "global",
+        "us",
+        "eu"
+      ],
+      "endpointGeographies": [
+        "global",
+        "regional"
+      ],
+      "pricingGeography": "global_base"
+    },
+    "sourceDatasetIds": {
+      "publicDatasetIds": [
+        "gpt-6-luna"
+      ],
+      "websiteIds": []
+    },
+    "sourceRefs": [
+      "source:openai:developers-openai-com-api-docs-models-gpt-6-luna",
+      "source:openai:developers-openai-com-api-docs-pricing"
+    ],
+    "tierSelection": {
+      "cachedPromptTokensIncluded": true,
+      "comparison": "less_than_or_equal",
+      "tokenBasis": "input_tokens",
+      "wholeRequestPricing": true
+    },
+    "verificationStatus": "verified",
+    "verifiedAt": "2026-09-23T00:00:00Z"
+  },
+  {
+    "availabilityRules": [],
+    "billingNote": "standard long-context pricing; the 272,000 threshold is based on input tokens, includes cached input tokens, and applies the selected tier to the full request.",
+    "calculationDefault": false,
+    "charges": [
+      {
+        "amount": "0.2",
+        "chargeId": "price:openai/gpt-6-luna:standard:long:current:input:text:per_1m_tokens",
+        "component": "input",
+        "modality": "text",
+        "unit": "per_1m_tokens"
+      },
+      {
+        "amount": "0.02",
+        "chargeId": "price:openai/gpt-6-luna:standard:long:current:cached_input:text:per_1m_tokens",
+        "component": "cached_input",
+        "modality": "text",
+        "unit": "per_1m_tokens"
+      },
+      {
+        "amount": "0.25",
+        "chargeId": "price:openai/gpt-6-luna:standard:long:current:cache_write:text:per_1m_tokens",
+        "component": "cache_write",
+        "modality": "text",
+        "unit": "per_1m_tokens"
+      },
+      {
+        "amount": "0.75",
+        "chargeId": "price:openai/gpt-6-luna:standard:long:current:output:text:per_1m_tokens",
+        "component": "output",
+        "modality": "text",
+        "unit": "per_1m_tokens"
+      }
+    ],
+    "checkedAt": "2026-09-23T00:00:00Z",
+    "contextClass": "long",
+    "currency": "USD",
+    "defaultAvailabilityStatus": "available",
+    "effectiveFrom": "2026-09-22",
+    "effectiveUntil": null,
+    "modelInternalId": "openai/gpt-6-luna",
+    "priceAdjustments": [
+      {
+        "factor": "1.1",
+        "operation": "multiply",
+        "priceAdjustmentId": "regional-processing-uplift",
+        "selector": {
+          "endpointGeographies": [
+            "regional"
+          ]
+        },
+        "sourceRefs": [
+          "source:openai:developers-openai-com-api-docs-pricing"
+        ]
+      }
+    ],
+    "pricingId": "price:openai/gpt-6-luna:standard:long:current",
+    "pricingStatus": "current",
+    "processingMode": "standard",
+    "promptTokenThreshold": 272000,
+    "regionPolicy": "global",
+    "regionSelector": {
+      "dataResidencies": [
+        "global",
+        "us",
+        "eu"
+      ],
+      "endpointGeographies": [
+        "global",
+        "regional"
+      ],
+      "pricingGeography": "global_base"
+    },
+    "sourceDatasetIds": {
+      "publicDatasetIds": [
+        "gpt-6-luna"
+      ],
+      "websiteIds": []
+    },
+    "sourceRefs": [
+      "source:openai:developers-openai-com-api-docs-models-gpt-6-luna",
+      "source:openai:developers-openai-com-api-docs-pricing"
+    ],
+    "tierSelection": {
+      "cachedPromptTokensIncluded": true,
+      "comparison": "greater_than",
+      "tokenBasis": "input_tokens",
+      "wholeRequestPricing": true
+    },
+    "verificationStatus": "verified",
+    "verifiedAt": "2026-09-23T00:00:00Z"
+  },
+  {
+    "availabilityRules": [
+      {
+        "availabilityRuleId": "batch-eu-data-residency-unavailable",
+        "availabilityStatus": "unavailable",
+        "reason": "EU data residency and regional processing are available only with Standard processing.",
+        "selector": {
+          "dataResidencies": [
+            "eu"
+          ]
+        },
+        "sourceRefs": [
+          "source:openai:developers-openai-com-api-docs-pricing"
+        ]
+      }
+    ],
+    "billingNote": "batch short-context pricing; the 272,000 threshold is based on input tokens, includes cached input tokens, and applies the selected tier to the full request.",
+    "calculationDefault": false,
+    "charges": [
+      {
+        "amount": "0.05",
+        "chargeId": "price:openai/gpt-6-luna:batch:short:current:input:text:per_1m_tokens",
+        "component": "input",
+        "modality": "text",
+        "unit": "per_1m_tokens"
+      },
+      {
+        "amount": "0.005",
+        "chargeId": "price:openai/gpt-6-luna:batch:short:current:cached_input:text:per_1m_tokens",
+        "component": "cached_input",
+        "modality": "text",
+        "unit": "per_1m_tokens"
+      },
+      {
+        "amount": "0.0625",
+        "chargeId": "price:openai/gpt-6-luna:batch:short:current:cache_write:text:per_1m_tokens",
+        "component": "cache_write",
+        "modality": "text",
+        "unit": "per_1m_tokens"
+      },
+      {
+        "amount": "0.25",
+        "chargeId": "price:openai/gpt-6-luna:batch:short:current:output:text:per_1m_tokens",
+        "component": "output",
+        "modality": "text",
+        "unit": "per_1m_tokens"
+      }
+    ],
+    "checkedAt": "2026-09-23T00:00:00Z",
+    "contextClass": "short",
+    "currency": "USD",
+    "defaultAvailabilityStatus": "available",
+    "effectiveFrom": "2026-09-22",
+    "effectiveUntil": null,
+    "modelInternalId": "openai/gpt-6-luna",
+    "priceAdjustments": [
+      {
+        "factor": "1.1",
+        "operation": "multiply",
+        "priceAdjustmentId": "regional-processing-uplift",
+        "selector": {
+          "endpointGeographies": [
+            "regional"
+          ]
+        },
+        "sourceRefs": [
+          "source:openai:developers-openai-com-api-docs-pricing"
+        ]
+      }
+    ],
+    "pricingId": "price:openai/gpt-6-luna:batch:short:current",
+    "pricingStatus": "current",
+    "processingMode": "batch",
+    "promptTokenThreshold": 272000,
+    "regionPolicy": "global",
+    "regionSelector": {
+      "dataResidencies": [
+        "global",
+        "us",
+        "eu"
+      ],
+      "endpointGeographies": [
+        "global",
+        "regional"
+      ],
+      "pricingGeography": "global_base"
+    },
+    "sourceDatasetIds": {
+      "publicDatasetIds": [
+        "gpt-6-luna"
+      ],
+      "websiteIds": []
+    },
+    "sourceRefs": [
+      "source:openai:developers-openai-com-api-docs-models-gpt-6-luna",
+      "source:openai:developers-openai-com-api-docs-pricing"
+    ],
+    "tierSelection": {
+      "cachedPromptTokensIncluded": true,
+      "comparison": "less_than_or_equal",
+      "tokenBasis": "input_tokens",
+      "wholeRequestPricing": true
+    },
+    "verificationStatus": "verified",
+    "verifiedAt": "2026-09-23T00:00:00Z"
+  },
+  {
+    "availabilityRules": [
+      {
+        "availabilityRuleId": "batch-eu-data-residency-unavailable",
+        "availabilityStatus": "unavailable",
+        "reason": "EU data residency and regional processing are available only with Standard processing.",
+        "selector": {
+          "dataResidencies": [
+            "eu"
+          ]
+        },
+        "sourceRefs": [
+          "source:openai:developers-openai-com-api-docs-pricing"
+        ]
+      }
+    ],
+    "billingNote": "batch long-context pricing; the 272,000 threshold is based on input tokens, includes cached input tokens, and applies the selected tier to the full request.",
+    "calculationDefault": false,
+    "charges": [
+      {
+        "amount": "0.1",
+        "chargeId": "price:openai/gpt-6-luna:batch:long:current:input:text:per_1m_tokens",
+        "component": "input",
+        "modality": "text",
+        "unit": "per_1m_tokens"
+      },
+      {
+        "amount": "0.01",
+        "chargeId": "price:openai/gpt-6-luna:batch:long:current:cached_input:text:per_1m_tokens",
+        "component": "cached_input",
+        "modality": "text",
+        "unit": "per_1m_tokens"
+      },
+      {
+        "amount": "0.125",
+        "chargeId": "price:openai/gpt-6-luna:batch:long:current:cache_write:text:per_1m_tokens",
+        "component": "cache_write",
+        "modality": "text",
+        "unit": "per_1m_tokens"
+      },
+      {
+        "amount": "0.375",
+        "chargeId": "price:openai/gpt-6-luna:batch:long:current:output:text:per_1m_tokens",
+        "component": "output",
+        "modality": "text",
+        "unit": "per_1m_tokens"
+      }
+    ],
+    "checkedAt": "2026-09-23T00:00:00Z",
+    "contextClass": "long",
+    "currency": "USD",
+    "defaultAvailabilityStatus": "available",
+    "effectiveFrom": "2026-09-22",
+    "effectiveUntil": null,
+    "modelInternalId": "openai/gpt-6-luna",
+    "priceAdjustments": [
+      {
+        "factor": "1.1",
+        "operation": "multiply",
+        "priceAdjustmentId": "regional-processing-uplift",
+        "selector": {
+          "endpointGeographies": [
+            "regional"
+          ]
+        },
+        "sourceRefs": [
+          "source:openai:developers-openai-com-api-docs-pricing"
+        ]
+      }
+    ],
+    "pricingId": "price:openai/gpt-6-luna:batch:long:current",
+    "pricingStatus": "current",
+    "processingMode": "batch",
+    "promptTokenThreshold": 272000,
+    "regionPolicy": "global",
+    "regionSelector": {
+      "dataResidencies": [
+        "global",
+        "us",
+        "eu"
+      ],
+      "endpointGeographies": [
+        "global",
+        "regional"
+      ],
+      "pricingGeography": "global_base"
+    },
+    "sourceDatasetIds": {
+      "publicDatasetIds": [
+        "gpt-6-luna"
+      ],
+      "websiteIds": []
+    },
+    "sourceRefs": [
+      "source:openai:developers-openai-com-api-docs-models-gpt-6-luna",
+      "source:openai:developers-openai-com-api-docs-pricing"
+    ],
+    "tierSelection": {
+      "cachedPromptTokensIncluded": true,
+      "comparison": "greater_than",
+      "tokenBasis": "input_tokens",
+      "wholeRequestPricing": true
+    },
+    "verificationStatus": "verified",
+    "verifiedAt": "2026-09-23T00:00:00Z"
+  },
+  {
+    "availabilityRules": [
+      {
+        "availabilityRuleId": "flex-eu-data-residency-unavailable",
+        "availabilityStatus": "unavailable",
+        "reason": "EU data residency and regional processing are available only with Standard processing.",
+        "selector": {
+          "dataResidencies": [
+            "eu"
+          ]
+        },
+        "sourceRefs": [
+          "source:openai:developers-openai-com-api-docs-pricing"
+        ]
+      }
+    ],
+    "billingNote": "flex short-context pricing; the 272,000 threshold is based on input tokens, includes cached input tokens, and applies the selected tier to the full request.",
+    "calculationDefault": false,
+    "charges": [
+      {
+        "amount": "0.05",
+        "chargeId": "price:openai/gpt-6-luna:flex:short:current:input:text:per_1m_tokens",
+        "component": "input",
+        "modality": "text",
+        "unit": "per_1m_tokens"
+      },
+      {
+        "amount": "0.005",
+        "chargeId": "price:openai/gpt-6-luna:flex:short:current:cached_input:text:per_1m_tokens",
+        "component": "cached_input",
+        "modality": "text",
+        "unit": "per_1m_tokens"
+      },
+      {
+        "amount": "0.0625",
+        "chargeId": "price:openai/gpt-6-luna:flex:short:current:cache_write:text:per_1m_tokens",
+        "component": "cache_write",
+        "modality": "text",
+        "unit": "per_1m_tokens"
+      },
+      {
+        "amount": "0.25",
+        "chargeId": "price:openai/gpt-6-luna:flex:short:current:output:text:per_1m_tokens",
+        "component": "output",
+        "modality": "text",
+        "unit": "per_1m_tokens"
+      }
+    ],
+    "checkedAt": "2026-09-23T00:00:00Z",
+    "contextClass": "short",
+    "currency": "USD",
+    "defaultAvailabilityStatus": "available",
+    "effectiveFrom": "2026-09-22",
+    "effectiveUntil": null,
+    "modelInternalId": "openai/gpt-6-luna",
+    "priceAdjustments": [
+      {
+        "factor": "1.1",
+        "operation": "multiply",
+        "priceAdjustmentId": "regional-processing-uplift",
+        "selector": {
+          "endpointGeographies": [
+            "regional"
+          ]
+        },
+        "sourceRefs": [
+          "source:openai:developers-openai-com-api-docs-pricing"
+        ]
+      }
+    ],
+    "pricingId": "price:openai/gpt-6-luna:flex:short:current",
+    "pricingStatus": "current",
+    "processingMode": "flex",
+    "promptTokenThreshold": 272000,
+    "regionPolicy": "global",
+    "regionSelector": {
+      "dataResidencies": [
+        "global",
+        "us",
+        "eu"
+      ],
+      "endpointGeographies": [
+        "global",
+        "regional"
+      ],
+      "pricingGeography": "global_base"
+    },
+    "sourceDatasetIds": {
+      "publicDatasetIds": [
+        "gpt-6-luna"
+      ],
+      "websiteIds": []
+    },
+    "sourceRefs": [
+      "source:openai:developers-openai-com-api-docs-models-gpt-6-luna",
+      "source:openai:developers-openai-com-api-docs-pricing"
+    ],
+    "tierSelection": {
+      "cachedPromptTokensIncluded": true,
+      "comparison": "less_than_or_equal",
+      "tokenBasis": "input_tokens",
+      "wholeRequestPricing": true
+    },
+    "verificationStatus": "verified",
+    "verifiedAt": "2026-09-23T00:00:00Z"
+  },
+  {
+    "availabilityRules": [
+      {
+        "availabilityRuleId": "flex-eu-data-residency-unavailable",
+        "availabilityStatus": "unavailable",
+        "reason": "EU data residency and regional processing are available only with Standard processing.",
+        "selector": {
+          "dataResidencies": [
+            "eu"
+          ]
+        },
+        "sourceRefs": [
+          "source:openai:developers-openai-com-api-docs-pricing"
+        ]
+      }
+    ],
+    "billingNote": "flex long-context pricing; the 272,000 threshold is based on input tokens, includes cached input tokens, and applies the selected tier to the full request.",
+    "calculationDefault": false,
+    "charges": [
+      {
+        "amount": "0.1",
+        "chargeId": "price:openai/gpt-6-luna:flex:long:current:input:text:per_1m_tokens",
+        "component": "input",
+        "modality": "text",
+        "unit": "per_1m_tokens"
+      },
+      {
+        "amount": "0.01",
+        "chargeId": "price:openai/gpt-6-luna:flex:long:current:cached_input:text:per_1m_tokens",
+        "component": "cached_input",
+        "modality": "text",
+        "unit": "per_1m_tokens"
+      },
+      {
+        "amount": "0.125",
+        "chargeId": "price:openai/gpt-6-luna:flex:long:current:cache_write:text:per_1m_tokens",
+        "component": "cache_write",
+        "modality": "text",
+        "unit": "per_1m_tokens"
+      },
+      {
+        "amount": "0.375",
+        "chargeId": "price:openai/gpt-6-luna:flex:long:current:output:text:per_1m_tokens",
+        "component": "output",
+        "modality": "text",
+        "unit": "per_1m_tokens"
+      }
+    ],
+    "checkedAt": "2026-09-23T00:00:00Z",
+    "contextClass": "long",
+    "currency": "USD",
+    "defaultAvailabilityStatus": "available",
+    "effectiveFrom": "2026-09-22",
+    "effectiveUntil": null,
+    "modelInternalId": "openai/gpt-6-luna",
+    "priceAdjustments": [
+      {
+        "factor": "1.1",
+        "operation": "multiply",
+        "priceAdjustmentId": "regional-processing-uplift",
+        "selector": {
+          "endpointGeographies": [
+            "regional"
+          ]
+        },
+        "sourceRefs": [
+          "source:openai:developers-openai-com-api-docs-pricing"
+        ]
+      }
+    ],
+    "pricingId": "price:openai/gpt-6-luna:flex:long:current",
+    "pricingStatus": "current",
+    "processingMode": "flex",
+    "promptTokenThreshold": 272000,
+    "regionPolicy": "global",
+    "regionSelector": {
+      "dataResidencies": [
+        "global",
+        "us",
+        "eu"
+      ],
+      "endpointGeographies": [
+        "global",
+        "regional"
+      ],
+      "pricingGeography": "global_base"
+    },
+    "sourceDatasetIds": {
+      "publicDatasetIds": [
+        "gpt-6-luna"
+      ],
+      "websiteIds": []
+    },
+    "sourceRefs": [
+      "source:openai:developers-openai-com-api-docs-models-gpt-6-luna",
+      "source:openai:developers-openai-com-api-docs-pricing"
+    ],
+    "tierSelection": {
+      "cachedPromptTokensIncluded": true,
+      "comparison": "greater_than",
+      "tokenBasis": "input_tokens",
+      "wholeRequestPricing": true
+    },
+    "verificationStatus": "verified",
+    "verifiedAt": "2026-09-23T00:00:00Z"
+  },
+  {
+    "availabilityRules": [
+      {
+        "availabilityRuleId": "fast-eu-data-residency-unavailable",
+        "availabilityStatus": "unavailable",
+        "reason": "EU data residency and regional processing are available only with Standard processing.",
+        "selector": {
+          "dataResidencies": [
+            "eu"
+          ]
+        },
+        "sourceRefs": [
+          "source:openai:developers-openai-com-api-docs-pricing"
+        ]
+      }
+    ],
+    "billingNote": "fast short-context pricing; the 272,000 threshold is based on input tokens, includes cached input tokens, and applies the selected tier to the full request.",
+    "calculationDefault": false,
+    "charges": [
+      {
+        "amount": "0.2",
+        "chargeId": "price:openai/gpt-6-luna:fast:short:current:input:text:per_1m_tokens",
+        "component": "input",
+        "modality": "text",
+        "unit": "per_1m_tokens"
+      },
+      {
+        "amount": "0.02",
+        "chargeId": "price:openai/gpt-6-luna:fast:short:current:cached_input:text:per_1m_tokens",
+        "component": "cached_input",
+        "modality": "text",
+        "unit": "per_1m_tokens"
+      },
+      {
+        "amount": "0.25",
+        "chargeId": "price:openai/gpt-6-luna:fast:short:current:cache_write:text:per_1m_tokens",
+        "component": "cache_write",
+        "modality": "text",
+        "unit": "per_1m_tokens"
+      },
+      {
+        "amount": "1",
+        "chargeId": "price:openai/gpt-6-luna:fast:short:current:output:text:per_1m_tokens",
+        "component": "output",
+        "modality": "text",
+        "unit": "per_1m_tokens"
+      }
+    ],
+    "checkedAt": "2026-09-23T00:00:00Z",
+    "contextClass": "short",
+    "currency": "USD",
+    "defaultAvailabilityStatus": "available",
+    "effectiveFrom": "2026-09-22",
+    "effectiveUntil": null,
+    "modelInternalId": "openai/gpt-6-luna",
+    "priceAdjustments": [
+      {
+        "factor": "1.1",
+        "operation": "multiply",
+        "priceAdjustmentId": "regional-processing-uplift",
+        "selector": {
+          "endpointGeographies": [
+            "regional"
+          ]
+        },
+        "sourceRefs": [
+          "source:openai:developers-openai-com-api-docs-pricing"
+        ]
+      }
+    ],
+    "pricingId": "price:openai/gpt-6-luna:fast:short:current",
+    "pricingStatus": "current",
+    "processingMode": "fast",
+    "promptTokenThreshold": 272000,
+    "regionPolicy": "global",
+    "regionSelector": {
+      "dataResidencies": [
+        "global",
+        "us",
+        "eu"
+      ],
+      "endpointGeographies": [
+        "global",
+        "regional"
+      ],
+      "pricingGeography": "global_base"
+    },
+    "sourceDatasetIds": {
+      "publicDatasetIds": [
+        "gpt-6-luna"
+      ],
+      "websiteIds": []
+    },
+    "sourceRefs": [
+      "source:openai:developers-openai-com-api-docs-models-gpt-6-luna",
+      "source:openai:developers-openai-com-api-docs-pricing"
+    ],
+    "tierSelection": {
+      "cachedPromptTokensIncluded": true,
+      "comparison": "less_than_or_equal",
+      "tokenBasis": "input_tokens",
+      "wholeRequestPricing": true
+    },
+    "verificationStatus": "verified",
+    "verifiedAt": "2026-09-23T00:00:00Z"
+  },
+  {
+    "availabilityRules": [
+      {
+        "availabilityRuleId": "fast-eu-data-residency-unavailable",
+        "availabilityStatus": "unavailable",
+        "reason": "EU data residency and regional processing are available only with Standard processing.",
+        "selector": {
+          "dataResidencies": [
+            "eu"
+          ]
+        },
+        "sourceRefs": [
+          "source:openai:developers-openai-com-api-docs-pricing"
+        ]
+      }
+    ],
+    "billingNote": "fast long-context pricing; the 272,000 threshold is based on input tokens, includes cached input tokens, and applies the selected tier to the full request.",
+    "calculationDefault": false,
+    "charges": [
+      {
+        "amount": "0.4",
+        "chargeId": "price:openai/gpt-6-luna:fast:long:current:input:text:per_1m_tokens",
+        "component": "input",
+        "modality": "text",
+        "unit": "per_1m_tokens"
+      },
+      {
+        "amount": "0.04",
+        "chargeId": "price:openai/gpt-6-luna:fast:long:current:cached_input:text:per_1m_tokens",
+        "component": "cached_input",
+        "modality": "text",
+        "unit": "per_1m_tokens"
+      },
+      {
+        "amount": "0.5",
+        "chargeId": "price:openai/gpt-6-luna:fast:long:current:cache_write:text:per_1m_tokens",
+        "component": "cache_write",
+        "modality": "text",
+        "unit": "per_1m_tokens"
+      },
+      {
+        "amount": "1.5",
+        "chargeId": "price:openai/gpt-6-luna:fast:long:current:output:text:per_1m_tokens",
+        "component": "output",
+        "modality": "text",
+        "unit": "per_1m_tokens"
+      }
+    ],
+    "checkedAt": "2026-09-23T00:00:00Z",
+    "contextClass": "long",
+    "currency": "USD",
+    "defaultAvailabilityStatus": "available",
+    "effectiveFrom": "2026-09-22",
+    "effectiveUntil": null,
+    "modelInternalId": "openai/gpt-6-luna",
+    "priceAdjustments": [
+      {
+        "factor": "1.1",
+        "operation": "multiply",
+        "priceAdjustmentId": "regional-processing-uplift",
+        "selector": {
+          "endpointGeographies": [
+            "regional"
+          ]
+        },
+        "sourceRefs": [
+          "source:openai:developers-openai-com-api-docs-pricing"
+        ]
+      }
+    ],
+    "pricingId": "price:openai/gpt-6-luna:fast:long:current",
+    "pricingStatus": "current",
+    "processingMode": "fast",
+    "promptTokenThreshold": 272000,
+    "regionPolicy": "global",
+    "regionSelector": {
+      "dataResidencies": [
+        "global",
+        "us",
+        "eu"
+      ],
+      "endpointGeographies": [
+        "global",
+        "regional"
+      ],
+      "pricingGeography": "global_base"
+    },
+    "sourceDatasetIds": {
+      "publicDatasetIds": [
+        "gpt-6-luna"
+      ],
+      "websiteIds": []
+    },
+    "sourceRefs": [
+      "source:openai:developers-openai-com-api-docs-models-gpt-6-luna",
+      "source:openai:developers-openai-com-api-docs-pricing"
+    ],
+    "tierSelection": {
+      "cachedPromptTokensIncluded": true,
+      "comparison": "greater_than",
+      "tokenBasis": "input_tokens",
+      "wholeRequestPricing": true
+    },
+    "verificationStatus": "verified",
+    "verifiedAt": "2026-09-23T00:00:00Z"
+  },
+  {
+    "availabilityRules": [],
+    "billingNote": "standard short-context pricing; the 272,000 threshold is based on input tokens, includes cached input tokens, and applies the selected tier to the full request.",
+    "calculationDefault": true,
+    "charges": [
+      {
+        "amount": "2",
+        "chargeId": "price:openai/gpt-6-sol:standard:short:current:input:text:per_1m_tokens",
+        "component": "input",
+        "modality": "text",
+        "unit": "per_1m_tokens"
+      },
+      {
+        "amount": "0.2",
+        "chargeId": "price:openai/gpt-6-sol:standard:short:current:cached_input:text:per_1m_tokens",
+        "component": "cached_input",
+        "modality": "text",
+        "unit": "per_1m_tokens"
+      },
+      {
+        "amount": "2.5",
+        "chargeId": "price:openai/gpt-6-sol:standard:short:current:cache_write:text:per_1m_tokens",
+        "component": "cache_write",
+        "modality": "text",
+        "unit": "per_1m_tokens"
+      },
+      {
+        "amount": "10",
+        "chargeId": "price:openai/gpt-6-sol:standard:short:current:output:text:per_1m_tokens",
+        "component": "output",
+        "modality": "text",
+        "unit": "per_1m_tokens"
+      }
+    ],
+    "checkedAt": "2026-09-23T00:00:00Z",
+    "contextClass": "short",
+    "currency": "USD",
+    "defaultAvailabilityStatus": "available",
+    "effectiveFrom": "2026-09-22",
+    "effectiveUntil": null,
+    "modelInternalId": "openai/gpt-6-sol",
+    "priceAdjustments": [
+      {
+        "factor": "1.1",
+        "operation": "multiply",
+        "priceAdjustmentId": "regional-processing-uplift",
+        "selector": {
+          "endpointGeographies": [
+            "regional"
+          ]
+        },
+        "sourceRefs": [
+          "source:openai:developers-openai-com-api-docs-pricing"
+        ]
+      }
+    ],
+    "pricingId": "price:openai/gpt-6-sol:standard:short:current",
+    "pricingStatus": "current",
+    "processingMode": "standard",
+    "promptTokenThreshold": 272000,
+    "regionPolicy": "global",
+    "regionSelector": {
+      "dataResidencies": [
+        "global",
+        "us",
+        "eu"
+      ],
+      "endpointGeographies": [
+        "global",
+        "regional"
+      ],
+      "pricingGeography": "global_base"
+    },
+    "sourceDatasetIds": {
+      "publicDatasetIds": [
+        "gpt-6-sol"
+      ],
+      "websiteIds": []
+    },
+    "sourceRefs": [
+      "source:openai:developers-openai-com-api-docs-models-gpt-6-sol",
+      "source:openai:developers-openai-com-api-docs-pricing"
+    ],
+    "tierSelection": {
+      "cachedPromptTokensIncluded": true,
+      "comparison": "less_than_or_equal",
+      "tokenBasis": "input_tokens",
+      "wholeRequestPricing": true
+    },
+    "verificationStatus": "verified",
+    "verifiedAt": "2026-09-23T00:00:00Z"
+  },
+  {
+    "availabilityRules": [],
+    "billingNote": "standard long-context pricing; the 272,000 threshold is based on input tokens, includes cached input tokens, and applies the selected tier to the full request.",
+    "calculationDefault": false,
+    "charges": [
+      {
+        "amount": "4",
+        "chargeId": "price:openai/gpt-6-sol:standard:long:current:input:text:per_1m_tokens",
+        "component": "input",
+        "modality": "text",
+        "unit": "per_1m_tokens"
+      },
+      {
+        "amount": "0.4",
+        "chargeId": "price:openai/gpt-6-sol:standard:long:current:cached_input:text:per_1m_tokens",
+        "component": "cached_input",
+        "modality": "text",
+        "unit": "per_1m_tokens"
+      },
+      {
+        "amount": "5",
+        "chargeId": "price:openai/gpt-6-sol:standard:long:current:cache_write:text:per_1m_tokens",
+        "component": "cache_write",
+        "modality": "text",
+        "unit": "per_1m_tokens"
+      },
+      {
+        "amount": "15",
+        "chargeId": "price:openai/gpt-6-sol:standard:long:current:output:text:per_1m_tokens",
+        "component": "output",
+        "modality": "text",
+        "unit": "per_1m_tokens"
+      }
+    ],
+    "checkedAt": "2026-09-23T00:00:00Z",
+    "contextClass": "long",
+    "currency": "USD",
+    "defaultAvailabilityStatus": "available",
+    "effectiveFrom": "2026-09-22",
+    "effectiveUntil": null,
+    "modelInternalId": "openai/gpt-6-sol",
+    "priceAdjustments": [
+      {
+        "factor": "1.1",
+        "operation": "multiply",
+        "priceAdjustmentId": "regional-processing-uplift",
+        "selector": {
+          "endpointGeographies": [
+            "regional"
+          ]
+        },
+        "sourceRefs": [
+          "source:openai:developers-openai-com-api-docs-pricing"
+        ]
+      }
+    ],
+    "pricingId": "price:openai/gpt-6-sol:standard:long:current",
+    "pricingStatus": "current",
+    "processingMode": "standard",
+    "promptTokenThreshold": 272000,
+    "regionPolicy": "global",
+    "regionSelector": {
+      "dataResidencies": [
+        "global",
+        "us",
+        "eu"
+      ],
+      "endpointGeographies": [
+        "global",
+        "regional"
+      ],
+      "pricingGeography": "global_base"
+    },
+    "sourceDatasetIds": {
+      "publicDatasetIds": [
+        "gpt-6-sol"
+      ],
+      "websiteIds": []
+    },
+    "sourceRefs": [
+      "source:openai:developers-openai-com-api-docs-models-gpt-6-sol",
+      "source:openai:developers-openai-com-api-docs-pricing"
+    ],
+    "tierSelection": {
+      "cachedPromptTokensIncluded": true,
+      "comparison": "greater_than",
+      "tokenBasis": "input_tokens",
+      "wholeRequestPricing": true
+    },
+    "verificationStatus": "verified",
+    "verifiedAt": "2026-09-23T00:00:00Z"
+  },
+  {
+    "availabilityRules": [
+      {
+        "availabilityRuleId": "batch-eu-data-residency-unavailable",
+        "availabilityStatus": "unavailable",
+        "reason": "EU data residency and regional processing are available only with Standard processing.",
+        "selector": {
+          "dataResidencies": [
+            "eu"
+          ]
+        },
+        "sourceRefs": [
+          "source:openai:developers-openai-com-api-docs-pricing"
+        ]
+      }
+    ],
+    "billingNote": "batch short-context pricing; the 272,000 threshold is based on input tokens, includes cached input tokens, and applies the selected tier to the full request.",
+    "calculationDefault": false,
+    "charges": [
+      {
+        "amount": "1",
+        "chargeId": "price:openai/gpt-6-sol:batch:short:current:input:text:per_1m_tokens",
+        "component": "input",
+        "modality": "text",
+        "unit": "per_1m_tokens"
+      },
+      {
+        "amount": "0.1",
+        "chargeId": "price:openai/gpt-6-sol:batch:short:current:cached_input:text:per_1m_tokens",
+        "component": "cached_input",
+        "modality": "text",
+        "unit": "per_1m_tokens"
+      },
+      {
+        "amount": "1.25",
+        "chargeId": "price:openai/gpt-6-sol:batch:short:current:cache_write:text:per_1m_tokens",
+        "component": "cache_write",
+        "modality": "text",
+        "unit": "per_1m_tokens"
+      },
+      {
+        "amount": "5",
+        "chargeId": "price:openai/gpt-6-sol:batch:short:current:output:text:per_1m_tokens",
+        "component": "output",
+        "modality": "text",
+        "unit": "per_1m_tokens"
+      }
+    ],
+    "checkedAt": "2026-09-23T00:00:00Z",
+    "contextClass": "short",
+    "currency": "USD",
+    "defaultAvailabilityStatus": "available",
+    "effectiveFrom": "2026-09-22",
+    "effectiveUntil": null,
+    "modelInternalId": "openai/gpt-6-sol",
+    "priceAdjustments": [
+      {
+        "factor": "1.1",
+        "operation": "multiply",
+        "priceAdjustmentId": "regional-processing-uplift",
+        "selector": {
+          "endpointGeographies": [
+            "regional"
+          ]
+        },
+        "sourceRefs": [
+          "source:openai:developers-openai-com-api-docs-pricing"
+        ]
+      }
+    ],
+    "pricingId": "price:openai/gpt-6-sol:batch:short:current",
+    "pricingStatus": "current",
+    "processingMode": "batch",
+    "promptTokenThreshold": 272000,
+    "regionPolicy": "global",
+    "regionSelector": {
+      "dataResidencies": [
+        "global",
+        "us",
+        "eu"
+      ],
+      "endpointGeographies": [
+        "global",
+        "regional"
+      ],
+      "pricingGeography": "global_base"
+    },
+    "sourceDatasetIds": {
+      "publicDatasetIds": [
+        "gpt-6-sol"
+      ],
+      "websiteIds": []
+    },
+    "sourceRefs": [
+      "source:openai:developers-openai-com-api-docs-models-gpt-6-sol",
+      "source:openai:developers-openai-com-api-docs-pricing"
+    ],
+    "tierSelection": {
+      "cachedPromptTokensIncluded": true,
+      "comparison": "less_than_or_equal",
+      "tokenBasis": "input_tokens",
+      "wholeRequestPricing": true
+    },
+    "verificationStatus": "verified",
+    "verifiedAt": "2026-09-23T00:00:00Z"
+  },
+  {
+    "availabilityRules": [
+      {
+        "availabilityRuleId": "batch-eu-data-residency-unavailable",
+        "availabilityStatus": "unavailable",
+        "reason": "EU data residency and regional processing are available only with Standard processing.",
+        "selector": {
+          "dataResidencies": [
+            "eu"
+          ]
+        },
+        "sourceRefs": [
+          "source:openai:developers-openai-com-api-docs-pricing"
+        ]
+      }
+    ],
+    "billingNote": "batch long-context pricing; the 272,000 threshold is based on input tokens, includes cached input tokens, and applies the selected tier to the full request.",
+    "calculationDefault": false,
+    "charges": [
+      {
+        "amount": "2",
+        "chargeId": "price:openai/gpt-6-sol:batch:long:current:input:text:per_1m_tokens",
+        "component": "input",
+        "modality": "text",
+        "unit": "per_1m_tokens"
+      },
+      {
+        "amount": "0.2",
+        "chargeId": "price:openai/gpt-6-sol:batch:long:current:cached_input:text:per_1m_tokens",
+        "component": "cached_input",
+        "modality": "text",
+        "unit": "per_1m_tokens"
+      },
+      {
+        "amount": "2.5",
+        "chargeId": "price:openai/gpt-6-sol:batch:long:current:cache_write:text:per_1m_tokens",
+        "component": "cache_write",
+        "modality": "text",
+        "unit": "per_1m_tokens"
+      },
+      {
+        "amount": "7.5",
+        "chargeId": "price:openai/gpt-6-sol:batch:long:current:output:text:per_1m_tokens",
+        "component": "output",
+        "modality": "text",
+        "unit": "per_1m_tokens"
+      }
+    ],
+    "checkedAt": "2026-09-23T00:00:00Z",
+    "contextClass": "long",
+    "currency": "USD",
+    "defaultAvailabilityStatus": "available",
+    "effectiveFrom": "2026-09-22",
+    "effectiveUntil": null,
+    "modelInternalId": "openai/gpt-6-sol",
+    "priceAdjustments": [
+      {
+        "factor": "1.1",
+        "operation": "multiply",
+        "priceAdjustmentId": "regional-processing-uplift",
+        "selector": {
+          "endpointGeographies": [
+            "regional"
+          ]
+        },
+        "sourceRefs": [
+          "source:openai:developers-openai-com-api-docs-pricing"
+        ]
+      }
+    ],
+    "pricingId": "price:openai/gpt-6-sol:batch:long:current",
+    "pricingStatus": "current",
+    "processingMode": "batch",
+    "promptTokenThreshold": 272000,
+    "regionPolicy": "global",
+    "regionSelector": {
+      "dataResidencies": [
+        "global",
+        "us",
+        "eu"
+      ],
+      "endpointGeographies": [
+        "global",
+        "regional"
+      ],
+      "pricingGeography": "global_base"
+    },
+    "sourceDatasetIds": {
+      "publicDatasetIds": [
+        "gpt-6-sol"
+      ],
+      "websiteIds": []
+    },
+    "sourceRefs": [
+      "source:openai:developers-openai-com-api-docs-models-gpt-6-sol",
+      "source:openai:developers-openai-com-api-docs-pricing"
+    ],
+    "tierSelection": {
+      "cachedPromptTokensIncluded": true,
+      "comparison": "greater_than",
+      "tokenBasis": "input_tokens",
+      "wholeRequestPricing": true
+    },
+    "verificationStatus": "verified",
+    "verifiedAt": "2026-09-23T00:00:00Z"
+  },
+  {
+    "availabilityRules": [
+      {
+        "availabilityRuleId": "flex-eu-data-residency-unavailable",
+        "availabilityStatus": "unavailable",
+        "reason": "EU data residency and regional processing are available only with Standard processing.",
+        "selector": {
+          "dataResidencies": [
+            "eu"
+          ]
+        },
+        "sourceRefs": [
+          "source:openai:developers-openai-com-api-docs-pricing"
+        ]
+      }
+    ],
+    "billingNote": "flex short-context pricing; the 272,000 threshold is based on input tokens, includes cached input tokens, and applies the selected tier to the full request.",
+    "calculationDefault": false,
+    "charges": [
+      {
+        "amount": "1",
+        "chargeId": "price:openai/gpt-6-sol:flex:short:current:input:text:per_1m_tokens",
+        "component": "input",
+        "modality": "text",
+        "unit": "per_1m_tokens"
+      },
+      {
+        "amount": "0.1",
+        "chargeId": "price:openai/gpt-6-sol:flex:short:current:cached_input:text:per_1m_tokens",
+        "component": "cached_input",
+        "modality": "text",
+        "unit": "per_1m_tokens"
+      },
+      {
+        "amount": "1.25",
+        "chargeId": "price:openai/gpt-6-sol:flex:short:current:cache_write:text:per_1m_tokens",
+        "component": "cache_write",
+        "modality": "text",
+        "unit": "per_1m_tokens"
+      },
+      {
+        "amount": "5",
+        "chargeId": "price:openai/gpt-6-sol:flex:short:current:output:text:per_1m_tokens",
+        "component": "output",
+        "modality": "text",
+        "unit": "per_1m_tokens"
+      }
+    ],
+    "checkedAt": "2026-09-23T00:00:00Z",
+    "contextClass": "short",
+    "currency": "USD",
+    "defaultAvailabilityStatus": "available",
+    "effectiveFrom": "2026-09-22",
+    "effectiveUntil": null,
+    "modelInternalId": "openai/gpt-6-sol",
+    "priceAdjustments": [
+      {
+        "factor": "1.1",
+        "operation": "multiply",
+        "priceAdjustmentId": "regional-processing-uplift",
+        "selector": {
+          "endpointGeographies": [
+            "regional"
+          ]
+        },
+        "sourceRefs": [
+          "source:openai:developers-openai-com-api-docs-pricing"
+        ]
+      }
+    ],
+    "pricingId": "price:openai/gpt-6-sol:flex:short:current",
+    "pricingStatus": "current",
+    "processingMode": "flex",
+    "promptTokenThreshold": 272000,
+    "regionPolicy": "global",
+    "regionSelector": {
+      "dataResidencies": [
+        "global",
+        "us",
+        "eu"
+      ],
+      "endpointGeographies": [
+        "global",
+        "regional"
+      ],
+      "pricingGeography": "global_base"
+    },
+    "sourceDatasetIds": {
+      "publicDatasetIds": [
+        "gpt-6-sol"
+      ],
+      "websiteIds": []
+    },
+    "sourceRefs": [
+      "source:openai:developers-openai-com-api-docs-models-gpt-6-sol",
+      "source:openai:developers-openai-com-api-docs-pricing"
+    ],
+    "tierSelection": {
+      "cachedPromptTokensIncluded": true,
+      "comparison": "less_than_or_equal",
+      "tokenBasis": "input_tokens",
+      "wholeRequestPricing": true
+    },
+    "verificationStatus": "verified",
+    "verifiedAt": "2026-09-23T00:00:00Z"
+  },
+  {
+    "availabilityRules": [
+      {
+        "availabilityRuleId": "flex-eu-data-residency-unavailable",
+        "availabilityStatus": "unavailable",
+        "reason": "EU data residency and regional processing are available only with Standard processing.",
+        "selector": {
+          "dataResidencies": [
+            "eu"
+          ]
+        },
+        "sourceRefs": [
+          "source:openai:developers-openai-com-api-docs-pricing"
+        ]
+      }
+    ],
+    "billingNote": "flex long-context pricing; the 272,000 threshold is based on input tokens, includes cached input tokens, and applies the selected tier to the full request.",
+    "calculationDefault": false,
+    "charges": [
+      {
+        "amount": "2",
+        "chargeId": "price:openai/gpt-6-sol:flex:long:current:input:text:per_1m_tokens",
+        "component": "input",
+        "modality": "text",
+        "unit": "per_1m_tokens"
+      },
+      {
+        "amount": "0.2",
+        "chargeId": "price:openai/gpt-6-sol:flex:long:current:cached_input:text:per_1m_tokens",
+        "component": "cached_input",
+        "modality": "text",
+        "unit": "per_1m_tokens"
+      },
+      {
+        "amount": "2.5",
+        "chargeId": "price:openai/gpt-6-sol:flex:long:current:cache_write:text:per_1m_tokens",
+        "component": "cache_write",
+        "modality": "text",
+        "unit": "per_1m_tokens"
+      },
+      {
+        "amount": "7.5",
+        "chargeId": "price:openai/gpt-6-sol:flex:long:current:output:text:per_1m_tokens",
+        "component": "output",
+        "modality": "text",
+        "unit": "per_1m_tokens"
+      }
+    ],
+    "checkedAt": "2026-09-23T00:00:00Z",
+    "contextClass": "long",
+    "currency": "USD",
+    "defaultAvailabilityStatus": "available",
+    "effectiveFrom": "2026-09-22",
+    "effectiveUntil": null,
+    "modelInternalId": "openai/gpt-6-sol",
+    "priceAdjustments": [
+      {
+        "factor": "1.1",
+        "operation": "multiply",
+        "priceAdjustmentId": "regional-processing-uplift",
+        "selector": {
+          "endpointGeographies": [
+            "regional"
+          ]
+        },
+        "sourceRefs": [
+          "source:openai:developers-openai-com-api-docs-pricing"
+        ]
+      }
+    ],
+    "pricingId": "price:openai/gpt-6-sol:flex:long:current",
+    "pricingStatus": "current",
+    "processingMode": "flex",
+    "promptTokenThreshold": 272000,
+    "regionPolicy": "global",
+    "regionSelector": {
+      "dataResidencies": [
+        "global",
+        "us",
+        "eu"
+      ],
+      "endpointGeographies": [
+        "global",
+        "regional"
+      ],
+      "pricingGeography": "global_base"
+    },
+    "sourceDatasetIds": {
+      "publicDatasetIds": [
+        "gpt-6-sol"
+      ],
+      "websiteIds": []
+    },
+    "sourceRefs": [
+      "source:openai:developers-openai-com-api-docs-models-gpt-6-sol",
+      "source:openai:developers-openai-com-api-docs-pricing"
+    ],
+    "tierSelection": {
+      "cachedPromptTokensIncluded": true,
+      "comparison": "greater_than",
+      "tokenBasis": "input_tokens",
+      "wholeRequestPricing": true
+    },
+    "verificationStatus": "verified",
+    "verifiedAt": "2026-09-23T00:00:00Z"
+  },
+  {
+    "availabilityRules": [
+      {
+        "availabilityRuleId": "fast-eu-data-residency-unavailable",
+        "availabilityStatus": "unavailable",
+        "reason": "EU data residency and regional processing are available only with Standard processing.",
+        "selector": {
+          "dataResidencies": [
+            "eu"
+          ]
+        },
+        "sourceRefs": [
+          "source:openai:developers-openai-com-api-docs-pricing"
+        ]
+      }
+    ],
+    "billingNote": "fast short-context pricing; the 272,000 threshold is based on input tokens, includes cached input tokens, and applies the selected tier to the full request.",
+    "calculationDefault": false,
+    "charges": [
+      {
+        "amount": "4",
+        "chargeId": "price:openai/gpt-6-sol:fast:short:current:input:text:per_1m_tokens",
+        "component": "input",
+        "modality": "text",
+        "unit": "per_1m_tokens"
+      },
+      {
+        "amount": "0.4",
+        "chargeId": "price:openai/gpt-6-sol:fast:short:current:cached_input:text:per_1m_tokens",
+        "component": "cached_input",
+        "modality": "text",
+        "unit": "per_1m_tokens"
+      },
+      {
+        "amount": "5",
+        "chargeId": "price:openai/gpt-6-sol:fast:short:current:cache_write:text:per_1m_tokens",
+        "component": "cache_write",
+        "modality": "text",
+        "unit": "per_1m_tokens"
+      },
+      {
+        "amount": "20",
+        "chargeId": "price:openai/gpt-6-sol:fast:short:current:output:text:per_1m_tokens",
+        "component": "output",
+        "modality": "text",
+        "unit": "per_1m_tokens"
+      }
+    ],
+    "checkedAt": "2026-09-23T00:00:00Z",
+    "contextClass": "short",
+    "currency": "USD",
+    "defaultAvailabilityStatus": "available",
+    "effectiveFrom": "2026-09-22",
+    "effectiveUntil": null,
+    "modelInternalId": "openai/gpt-6-sol",
+    "priceAdjustments": [
+      {
+        "factor": "1.1",
+        "operation": "multiply",
+        "priceAdjustmentId": "regional-processing-uplift",
+        "selector": {
+          "endpointGeographies": [
+            "regional"
+          ]
+        },
+        "sourceRefs": [
+          "source:openai:developers-openai-com-api-docs-pricing"
+        ]
+      }
+    ],
+    "pricingId": "price:openai/gpt-6-sol:fast:short:current",
+    "pricingStatus": "current",
+    "processingMode": "fast",
+    "promptTokenThreshold": 272000,
+    "regionPolicy": "global",
+    "regionSelector": {
+      "dataResidencies": [
+        "global",
+        "us",
+        "eu"
+      ],
+      "endpointGeographies": [
+        "global",
+        "regional"
+      ],
+      "pricingGeography": "global_base"
+    },
+    "sourceDatasetIds": {
+      "publicDatasetIds": [
+        "gpt-6-sol"
+      ],
+      "websiteIds": []
+    },
+    "sourceRefs": [
+      "source:openai:developers-openai-com-api-docs-models-gpt-6-sol",
+      "source:openai:developers-openai-com-api-docs-pricing"
+    ],
+    "tierSelection": {
+      "cachedPromptTokensIncluded": true,
+      "comparison": "less_than_or_equal",
+      "tokenBasis": "input_tokens",
+      "wholeRequestPricing": true
+    },
+    "verificationStatus": "verified",
+    "verifiedAt": "2026-09-23T00:00:00Z"
+  },
+  {
+    "availabilityRules": [
+      {
+        "availabilityRuleId": "fast-eu-data-residency-unavailable",
+        "availabilityStatus": "unavailable",
+        "reason": "EU data residency and regional processing are available only with Standard processing.",
+        "selector": {
+          "dataResidencies": [
+            "eu"
+          ]
+        },
+        "sourceRefs": [
+          "source:openai:developers-openai-com-api-docs-pricing"
+        ]
+      }
+    ],
+    "billingNote": "fast long-context pricing; the 272,000 threshold is based on input tokens, includes cached input tokens, and applies the selected tier to the full request.",
+    "calculationDefault": false,
+    "charges": [
+      {
+        "amount": "8",
+        "chargeId": "price:openai/gpt-6-sol:fast:long:current:input:text:per_1m_tokens",
+        "component": "input",
+        "modality": "text",
+        "unit": "per_1m_tokens"
+      },
+      {
+        "amount": "0.8",
+        "chargeId": "price:openai/gpt-6-sol:fast:long:current:cached_input:text:per_1m_tokens",
+        "component": "cached_input",
+        "modality": "text",
+        "unit": "per_1m_tokens"
+      },
+      {
+        "amount": "10",
+        "chargeId": "price:openai/gpt-6-sol:fast:long:current:cache_write:text:per_1m_tokens",
+        "component": "cache_write",
+        "modality": "text",
+        "unit": "per_1m_tokens"
+      },
+      {
+        "amount": "30",
+        "chargeId": "price:openai/gpt-6-sol:fast:long:current:output:text:per_1m_tokens",
+        "component": "output",
+        "modality": "text",
+        "unit": "per_1m_tokens"
+      }
+    ],
+    "checkedAt": "2026-09-23T00:00:00Z",
+    "contextClass": "long",
+    "currency": "USD",
+    "defaultAvailabilityStatus": "available",
+    "effectiveFrom": "2026-09-22",
+    "effectiveUntil": null,
+    "modelInternalId": "openai/gpt-6-sol",
+    "priceAdjustments": [
+      {
+        "factor": "1.1",
+        "operation": "multiply",
+        "priceAdjustmentId": "regional-processing-uplift",
+        "selector": {
+          "endpointGeographies": [
+            "regional"
+          ]
+        },
+        "sourceRefs": [
+          "source:openai:developers-openai-com-api-docs-pricing"
+        ]
+      }
+    ],
+    "pricingId": "price:openai/gpt-6-sol:fast:long:current",
+    "pricingStatus": "current",
+    "processingMode": "fast",
+    "promptTokenThreshold": 272000,
+    "regionPolicy": "global",
+    "regionSelector": {
+      "dataResidencies": [
+        "global",
+        "us",
+        "eu"
+      ],
+      "endpointGeographies": [
+        "global",
+        "regional"
+      ],
+      "pricingGeography": "global_base"
+    },
+    "sourceDatasetIds": {
+      "publicDatasetIds": [
+        "gpt-6-sol"
+      ],
+      "websiteIds": []
+    },
+    "sourceRefs": [
+      "source:openai:developers-openai-com-api-docs-models-gpt-6-sol",
+      "source:openai:developers-openai-com-api-docs-pricing"
+    ],
+    "tierSelection": {
+      "cachedPromptTokensIncluded": true,
+      "comparison": "greater_than",
+      "tokenBasis": "input_tokens",
+      "wholeRequestPricing": true
+    },
+    "verificationStatus": "verified",
+    "verifiedAt": "2026-09-23T00:00:00Z"
   },
   {
     "availabilityRules": [],

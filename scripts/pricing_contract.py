@@ -284,7 +284,10 @@ def validate_canonical_price_records(records: Any, *, production: bool = True) -
             )
             _require(threshold is not None, f"price record {record_id} tier_selection requires a threshold")
             _require(tier.get("comparison") in COMPARISONS, f"price record {record_id} comparison is invalid")
-            _require(tier.get("token_basis") == "total_prompt_tokens", f"price record {record_id} token_basis is invalid")
+            _require(
+                tier.get("token_basis") in {"total_prompt_tokens", "input_tokens"},
+                f"price record {record_id} token_basis is invalid",
+            )
             _require(tier.get("cached_prompt_tokens_included") is True, f"price record {record_id} must include cached prompt tokens")
             _require(tier.get("whole_request_pricing") is True, f"price record {record_id} must use whole-request pricing")
         else:
@@ -488,7 +491,10 @@ def project_v1_compatibility(records: list[dict[str, Any]]) -> dict[str, Any]:
         "unit": "1M tokens" if standard_amounts else None,
         "input": _json_number(standard_amounts["input"], "V1 input") if "input" in standard_amounts else None,
         "output": _json_number(standard_amounts["output"], "V1 output") if "output" in standard_amounts else None,
-        "cached_input": _json_number(standard_amounts["cached_input"], "V1 cached_input") if "cached_input" in standard_amounts else None,
+        "cached_input": _json_number(
+            standard_amounts.get("cached_input", standard_amounts.get("cache_read")),
+            "V1 cached_input",
+        ) if "cached_input" in standard_amounts or "cache_read" in standard_amounts else None,
         "cache_write": _json_number(cache_write, "V1 cache_write") if cache_write is not None else None,
         "cache_write_1h": _json_number(standard_amounts["cache_write_1h"], "V1 cache_write_1h") if "cache_write_1h" in standard_amounts else None,
         "batch_input": _json_number(batch_amounts["input"], "V1 batch_input") if "input" in batch_amounts else None,

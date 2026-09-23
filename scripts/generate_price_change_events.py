@@ -18,6 +18,7 @@ except ModuleNotFoundError:
     from scripts.lib import ROOT
 
 EVENTS_PATH = ROOT / "data" / "price-change-events" / "events.jsonl"
+SUCCESSOR_TRANSITIONS_PATH = ROOT / "data" / "price-change-events" / "successor-transitions.json"
 PRICE_EVENT_FIELDS = ("input", "cached_input", "output")
 SCHEMA_VERSION = "1.0"
 CHANGE_TYPES = {
@@ -28,6 +29,7 @@ CHANGE_TYPES = {
     "temporal_price_schedule_update",
     "model_added",
     "lifecycle_update",
+    "successor_transition",
 }
 DATE_BASIS_VALUES = {
     "provider_announced",
@@ -274,6 +276,10 @@ def canonical_dedupe_payload(event: dict[str, Any]) -> dict[str, Any]:
     }
     if event.get("component_changes"):
         payload["component_changes"] = event["component_changes"]
+    if event.get("change_type") == "successor_transition":
+        payload["predecessor_model_id"] = event["predecessor_model_id"]
+        payload["successor_model_id"] = event["successor_model_id"]
+        payload["component_comparisons"] = event["component_comparisons"]
     if "old_time_pricing" in event or "new_time_pricing" in event:
         payload["old_time_pricing"] = event.get("old_time_pricing")
         payload["new_time_pricing"] = event.get("new_time_pricing")
@@ -293,6 +299,174 @@ def build_dedupe_key(event: dict[str, Any]) -> str:
 def build_event_id(event: dict[str, Any]) -> str:
     short_hash = event["dedupe_key"].split(":", 1)[1][:12]
     return f"{event['provider_id']}:{event['model_id']}:{event['change_type']}:{short_hash}"
+
+
+def load_successor_transitions(path: Path = SUCCESSOR_TRANSITIONS_PATH) -> list[dict[str, Any]]:
+    mappings = json.loads(path.read_text(encoding="utf-8"))
+    if not isinstance(mappings, list):
+        fail("successor transition mapping must be an array")
+    seen: set[tuple[str, str, str]] = set()
+    for mapping in mappings:
+        required = {
+            "provider_id", "predecessor_model_id", "successor_model_id", "effective_from",
+            "verified_at", "source_refs", "claims", "introduced_components", "notes",
+        }
+        if not isinstance(mapping, dict) or set(mapping) != required:
+            fail("successor transition mapping has unsupported or missing fields")
+        identity = (mapping["provider_id"], mapping["predecessor_model_id"], mapping["successor_model_id"])
+        if identity in seen:
+            fail(f"duplicate successor transition mapping {identity}")
+        seen.add(identity)
+        if identity[1] == identity[2]:
+            fail("successor transition must reference two distinct model IDs")
+        if not mapping["source_refs"] or not all(valid_https_url(url) for url in mapping["source_refs"]):
+            fail(f"successor transition {identity} requires HTTPS source_refs")
+    return mappings
+
+
+def standard_short_charges(model: dict[str, Any]) -> dict[str, str]:
+    record = next(
+        (
+            item for item in model.get("price_records", [])
+            if item.get("processing_mode") == "standard"
+            and item.get("context_class") == "short"
+            and item.get("pricing_status") == "current"
+        ),
+        None,
+    )
+    if record:
+        return {
+            charge["component"]: normalized_component_amount(charge["amount"], charge["id"])
+            for charge in record["charges"]
+            if charge.get("unit") == "per_1m_tokens" and charge.get("modality") == "text"
+        }
+    pricing = model["pricing"]
+    result = {}
+    for component, field in (
+        ("input", "input"), ("cached_input", "cached_input"),
+        ("cache_write", "cache_write"), ("cache_write_1h", "cache_write_1h"),
+        ("output", "output"),
+    ):
+        value = pricing.get(field)
+        if value is not None:
+            result[component] = normalized_component_amount(str(value), f"{model['model_id']}.{field}")
+    return result
+
+
+def current_mode_charges(model: dict[str, Any], mode: str, context: str) -> dict[str, str]:
+    record = next(
+        (
+            item for item in model.get("price_records", [])
+            if item.get("processing_mode") == mode
+            and item.get("context_class") == context
+            and item.get("pricing_status") == "current"
+        ),
+        None,
+    )
+    if record is None:
+        return {}
+    return {
+        charge["component"]: normalized_component_amount(charge["amount"], charge["id"])
+        for charge in record["charges"]
+        if charge.get("unit") == "per_1m_tokens" and charge.get("modality") == "text"
+    }
+
+
+def predecessor_amount(charges: dict[str, str], component: str) -> str | None:
+    aliases = {
+        "cache_read": ("cache_read", "cached_input"),
+        "cached_input": ("cached_input", "cache_read"),
+        "cache_write_5m": ("cache_write_5m", "cache_write"),
+        "cache_write": ("cache_write", "cache_write_5m"),
+    }
+    return next((charges[key] for key in aliases.get(component, (component,)) if key in charges), None)
+
+
+def successor_transition_event(
+    mapping: dict[str, Any],
+    before_models: dict[tuple[str, str], dict[str, Any]],
+    after_models: dict[tuple[str, str], dict[str, Any]],
+    before_rel: str,
+    after_rel: str,
+    detected_at: str,
+) -> dict[str, Any] | None:
+    provider = mapping["provider_id"]
+    predecessor_key = (provider, mapping["predecessor_model_id"])
+    successor_key = (provider, mapping["successor_model_id"])
+    if successor_key in before_models or successor_key not in after_models:
+        return None
+    if predecessor_key not in before_models or predecessor_key not in after_models:
+        fail(f"successor mapping predecessor is missing: {predecessor_key}")
+    before_predecessor = before_models[predecessor_key]
+    after_predecessor = after_models[predecessor_key]
+    for field in ("pricing", "status", "lifecycle", "aliases", "effective_from"):
+        if before_predecessor.get(field) != after_predecessor.get(field):
+            fail(f"predecessor invariant changed for {provider}/{mapping['predecessor_model_id']}: {field}")
+    successor = after_models[successor_key]
+    old_charges = standard_short_charges(after_predecessor)
+    new_charges = standard_short_charges(successor)
+    comparisons = []
+    for component, new_amount in new_charges.items():
+        old_amount = predecessor_amount(old_charges, component)
+        if old_amount is None or old_amount == new_amount:
+            continue
+        display_component = "cache_read" if provider == "anthropic" and component == "cached_input" else component
+        comparisons.append({
+            "component": display_component,
+            "processing_mode": "standard",
+            "context_class": "short",
+            "relation": "changed",
+            "old_amount": old_amount,
+            "new_amount": new_amount,
+            "unit": "per_1m_tokens",
+            "currency": "USD",
+        })
+    for introduced in mapping["introduced_components"]:
+        charges = current_mode_charges(successor, introduced["processing_mode"], introduced["context_class"])
+        for component in introduced["components"]:
+            if component not in charges:
+                fail(f"introduced successor component is missing from canonical: {successor_key} {component}")
+            comparisons.append({
+                "component": component,
+                "processing_mode": introduced["processing_mode"],
+                "context_class": introduced["context_class"],
+                "relation": "introduced",
+                "old_amount": None,
+                "new_amount": charges[component],
+                "unit": "per_1m_tokens",
+                "currency": "USD",
+            })
+    if not comparisons:
+        fail(f"successor transition has no derived comparisons: {successor_key}")
+    event = {
+        "schema_version": SCHEMA_VERSION,
+        "event_id": "",
+        "provider_id": provider,
+        "model_id": mapping["successor_model_id"],
+        "predecessor_model_id": mapping["predecessor_model_id"],
+        "successor_model_id": mapping["successor_model_id"],
+        "change_type": "successor_transition",
+        "old_prices": normalize_prices(after_predecessor["pricing"], "successor predecessor pricing"),
+        "new_prices": normalize_prices(successor["pricing"], "successor pricing"),
+        "component_comparisons": comparisons,
+        "claims": deepcopy(mapping["claims"]),
+        "source_refs": deepcopy(mapping["source_refs"]),
+        "unit": "1M tokens",
+        "currency": "USD",
+        "effective_from": mapping["effective_from"],
+        "detected_at": detected_at,
+        "verified_at": mapping["verified_at"],
+        "date_basis": "provider_announced",
+        "official_source_url": mapping["source_refs"][0],
+        "announcement_url": mapping["source_refs"][0],
+        "source_snapshot_before": before_rel,
+        "source_snapshot_after": after_rel,
+        "dedupe_key": "",
+        "notes": mapping["notes"],
+    }
+    event["dedupe_key"] = build_dedupe_key(event)
+    event["event_id"] = build_event_id(event)
+    return event
 
 
 def lifecycle_event(
@@ -426,8 +600,10 @@ def redirect_billing_schedule_event(
 
 
 def generate_events(before: Path, after: Path, provider_id: str | None = None) -> list[dict[str, Any]]:
-    before_models = load_snapshot(before)
-    after_models = load_snapshot(after)
+    all_before_models = load_snapshot(before)
+    all_after_models = load_snapshot(after)
+    before_models = all_before_models
+    after_models = all_after_models
     if provider_id:
         before_models = {key: value for key, value in before_models.items() if key[0] == provider_id}
         after_models = {key: value for key, value in after_models.items() if key[0] == provider_id}
@@ -444,6 +620,15 @@ def generate_events(before: Path, after: Path, provider_id: str | None = None) -
             events.append(
                 lifecycle_event(None, after_model, before_rel, after_rel, detected_at, "model_added")
             )
+
+    for mapping in load_successor_transitions():
+        if provider_id and mapping["provider_id"] != provider_id:
+            continue
+        transition_event = successor_transition_event(
+            mapping, all_before_models, all_after_models, before_rel, after_rel, detected_at
+        )
+        if transition_event is not None:
+            events.append(transition_event)
 
     for key in sorted(set(before_models) & set(after_models)):
         before_model = before_models[key]
@@ -647,6 +832,38 @@ def validate_component_changes(value: Any) -> list[dict[str, Any]]:
     return normalized
 
 
+def validate_component_comparisons(value: Any) -> list[dict[str, Any]]:
+    if not isinstance(value, list) or not value:
+        fail("component_comparisons must be a non-empty array")
+    normalized = []
+    seen = set()
+    required = {"component", "processing_mode", "context_class", "relation", "old_amount", "new_amount", "unit", "currency"}
+    for index, comparison in enumerate(value):
+        if not isinstance(comparison, dict) or set(comparison) != required:
+            fail(f"component_comparisons[{index}] has unsupported or missing fields")
+        identity = (comparison["processing_mode"], comparison["context_class"], comparison["component"])
+        if identity in seen:
+            fail("component_comparisons identities must be unique")
+        seen.add(identity)
+        relation = comparison["relation"]
+        old_amount = comparison["old_amount"]
+        new_amount = comparison["new_amount"]
+        if old_amount is not None:
+            old_amount = normalized_component_amount(old_amount, f"component_comparisons[{index}].old_amount")
+        if new_amount is not None:
+            new_amount = normalized_component_amount(new_amount, f"component_comparisons[{index}].new_amount")
+        if relation == "changed" and (old_amount is None or new_amount is None or old_amount == "0" or old_amount == new_amount):
+            fail("changed comparison requires distinct present amounts and old_amount > 0")
+        if relation == "introduced" and (old_amount is not None or new_amount is None):
+            fail("introduced comparison requires null old_amount and present new_amount")
+        if relation == "removed" and (old_amount is None or new_amount is not None):
+            fail("removed comparison requires present old_amount and null new_amount")
+        if comparison["unit"] != "per_1m_tokens" or comparison["currency"] != "USD":
+            fail("component comparison unit/currency must be per_1m_tokens/USD")
+        normalized.append({**comparison, "old_amount": old_amount, "new_amount": new_amount})
+    return normalized
+
+
 def valid_https_url(value: Any) -> bool:
     if not isinstance(value, str):
         return False
@@ -700,6 +917,25 @@ def validate_event(event: dict[str, Any], path: Path | None = None, line_number:
         elif event.get("change_type") == "lifecycle_update":
             if not lifecycle_changed:
                 fail("lifecycle_update requires a status or lifecycle delta")
+        elif event.get("change_type") == "successor_transition":
+            if event.get("model_id") != event.get("successor_model_id"):
+                fail("successor_transition model_id must equal successor_model_id")
+            if not event.get("predecessor_model_id") or event.get("predecessor_model_id") == event.get("successor_model_id"):
+                fail("successor_transition requires distinct predecessor and successor model IDs")
+            comparisons = validate_component_comparisons(event.get("component_comparisons"))
+            source_refs = event.get("source_refs")
+            if not isinstance(source_refs, list) or not source_refs or not all(valid_https_url(url) for url in source_refs):
+                fail("successor_transition requires HTTPS source_refs")
+            claims = event.get("claims", [])
+            if not isinstance(claims, list) or not all(
+                isinstance(claim, dict)
+                and set(claim) == {"kind", "text", "source_url"}
+                and claim["kind"] in {"official_provider_pricing_claim", "official_workload_level_claim"}
+                and isinstance(claim["text"], str) and claim["text"]
+                and valid_https_url(claim["source_url"])
+                for claim in claims
+            ):
+                fail("successor_transition claims are invalid")
         else:
             if old_prices == new_prices and not component_changes and not temporal_changed:
                 fail("old_prices/new_prices, component_changes, or temporal pricing must differ")

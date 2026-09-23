@@ -177,10 +177,13 @@ def charge_amount(
 ) -> int | float | None:
     if price is None:
         return None
+    components = {component}
+    if component == "cached_input":
+        components.add("cache_read")
     candidates = [
         charge
         for charge in price["charges"]
-        if charge["component"] == component
+        if charge["component"] in components
         and charge["unit"] == "per_1m_tokens"
         and charge.get("alternativeGroup") is None
         and charge.get("optionalFeature") is None
