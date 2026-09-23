@@ -1,0 +1,198 @@
+{
+  "accessed_at": "2026-09-23T07:32:58Z",
+  "context_window_tokens": 500000,
+  "display_name": "Grok 4.7",
+  "effective_from": "2026-09-21",
+  "last_verified_at": "2026-09-23T07:32:58Z",
+  "model_family": "Grok 4",
+  "model_id": "grok-4.7",
+  "notes": "Released on 2026-09-21 and available on the public xAI API. Supports text and image input with text output; reasoning efforts are low, medium, high (default), and xhigh. Global Standard rates use the short tier through 200,000 total prompt tokens and the long tier above 200,000; cached prompt tokens count toward the threshold and the selected tier prices the whole request. Grok 4.7 Fast is twice the Standard token rates but is available only in Cursor and Grok Build, not on the public xAI API, so it is excluded from public pricing rows. Batch API is not supported, no separate cache-write price is published, and the US regional endpoint applies a 1.10x premium to input, cached input, and output tokens, including long-context rates.",
+  "official_source_url": "https://docs.x.ai/developers/models/grok-4.7",
+  "official_source_urls": [
+    "https://docs.x.ai/developers/models/grok-4.7",
+    "https://docs.x.ai/developers/release-notes",
+    "https://x.ai/news/grok-4-7",
+    "https://docs.x.ai/developers/pricing",
+    "https://docs.x.ai/developers/advanced-api-usage/prompt-caching/usage-and-pricing",
+    "https://docs.x.ai/developers/advanced-api-usage/regions"
+  ],
+  "price_records": [
+    {
+      "billing_note": "Global Standard token rates for prompts of 200,000 total tokens or fewer. Cached prompt tokens count toward the threshold, and the selected tier prices the whole request. The US regional endpoint applies a 1.10x premium. Fast is not available on the public xAI API and Batch API is not supported.",
+      "calculation_default": true,
+      "charges": [
+        {
+          "amount": "2",
+          "component": "input",
+          "id": "price:xai/grok-4.7:standard:short:current:input:text:per_1m_tokens",
+          "modality": "text",
+          "unit": "per_1m_tokens"
+        },
+        {
+          "amount": "0.5",
+          "component": "cached_input",
+          "id": "price:xai/grok-4.7:standard:short:current:cached_input:text:per_1m_tokens",
+          "modality": "text",
+          "unit": "per_1m_tokens"
+        },
+        {
+          "amount": "6",
+          "component": "output",
+          "id": "price:xai/grok-4.7:standard:short:current:output:text:per_1m_tokens",
+          "modality": "text",
+          "unit": "per_1m_tokens"
+        }
+      ],
+      "checked_at": "2026-09-23T07:32:58Z",
+      "context_class": "short",
+      "currency": "USD",
+      "effective_from": "2026-09-21",
+      "effective_until": null,
+      "id": "price:xai/grok-4.7:standard:short:current",
+      "pricing_status": "current",
+      "processing_mode": "standard",
+      "prompt_token_threshold": 200000,
+      "region_policy": {
+        "availability": {
+          "default": "available",
+          "rules": []
+        },
+        "data_residencies": [
+          "global",
+          "us"
+        ],
+        "endpoint_geographies": [
+          "global",
+          "regional"
+        ],
+        "price_adjustments": [
+          {
+            "factor": "1.10",
+            "id": "us-regional-endpoint-premium",
+            "operation": "multiply",
+            "selector": {
+              "endpoint_geographies": [
+                "regional"
+              ]
+            },
+            "source_refs": [
+              "https://docs.x.ai/developers/advanced-api-usage/regions",
+              "https://docs.x.ai/developers/pricing"
+            ]
+          }
+        ],
+        "pricing_geography": "global_base"
+      },
+      "source_refs": [
+        "https://docs.x.ai/developers/models/grok-4.7",
+        "https://docs.x.ai/developers/release-notes",
+        "https://docs.x.ai/developers/advanced-api-usage/prompt-caching/usage-and-pricing",
+        "https://docs.x.ai/developers/advanced-api-usage/regions"
+      ],
+      "tier_selection": {
+        "cached_prompt_tokens_included": true,
+        "comparison": "less_than_or_equal",
+        "token_basis": "total_prompt_tokens",
+        "whole_request_pricing": true
+      },
+      "verification_status": "verified",
+      "verified_at": "2026-09-23T07:32:58Z"
+    },
+    {
+      "billing_note": "Global Standard token rates for prompts above 200,000 total tokens. Cached prompt tokens count toward the threshold, and the selected tier prices the whole request. The US regional endpoint applies a 1.10x premium. Fast is not available on the public xAI API and Batch API is not supported.",
+      "calculation_default": false,
+      "charges": [
+        {
+          "amount": "4",
+          "component": "input",
+          "id": "price:xai/grok-4.7:standard:long:current:input:text:per_1m_tokens",
+          "modality": "text",
+          "unit": "per_1m_tokens"
+        },
+        {
+          "amount": "1",
+          "component": "cached_input",
+          "id": "price:xai/grok-4.7:standard:long:current:cached_input:text:per_1m_tokens",
+          "modality": "text",
+          "unit": "per_1m_tokens"
+        },
+        {
+          "amount": "12",
+          "component": "output",
+          "id": "price:xai/grok-4.7:standard:long:current:output:text:per_1m_tokens",
+          "modality": "text",
+          "unit": "per_1m_tokens"
+        }
+      ],
+      "checked_at": "2026-09-23T07:32:58Z",
+      "context_class": "long",
+      "currency": "USD",
+      "effective_from": "2026-09-21",
+      "effective_until": null,
+      "id": "price:xai/grok-4.7:standard:long:current",
+      "pricing_status": "current",
+      "processing_mode": "standard",
+      "prompt_token_threshold": 200000,
+      "region_policy": {
+        "availability": {
+          "default": "available",
+          "rules": []
+        },
+        "data_residencies": [
+          "global",
+          "us"
+        ],
+        "endpoint_geographies": [
+          "global",
+          "regional"
+        ],
+        "price_adjustments": [
+          {
+            "factor": "1.10",
+            "id": "us-regional-endpoint-premium",
+            "operation": "multiply",
+            "selector": {
+              "endpoint_geographies": [
+                "regional"
+              ]
+            },
+            "source_refs": [
+              "https://docs.x.ai/developers/advanced-api-usage/regions",
+              "https://docs.x.ai/developers/pricing"
+            ]
+          }
+        ],
+        "pricing_geography": "global_base"
+      },
+      "source_refs": [
+        "https://docs.x.ai/developers/models/grok-4.7",
+        "https://docs.x.ai/developers/release-notes",
+        "https://docs.x.ai/developers/advanced-api-usage/prompt-caching/usage-and-pricing",
+        "https://docs.x.ai/developers/advanced-api-usage/regions"
+      ],
+      "tier_selection": {
+        "cached_prompt_tokens_included": true,
+        "comparison": "greater_than",
+        "token_basis": "total_prompt_tokens",
+        "whole_request_pricing": true
+      },
+      "verification_status": "verified",
+      "verified_at": "2026-09-23T07:32:58Z"
+    }
+  ],
+  "pricing": {
+    "batch_input": null,
+    "batch_output": null,
+    "cache_write": null,
+    "cache_write_1h": null,
+    "cached_input": 0.5,
+    "currency": "USD",
+    "input": 2,
+    "output": 6,
+    "unit": "1M tokens"
+  },
+  "project_context_window": true,
+  "provider_id": "xai",
+  "release_stage": "stable",
+  "status": "active"
+}

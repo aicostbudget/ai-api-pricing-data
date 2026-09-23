@@ -53,6 +53,10 @@ def pricing_component(amount="3.75", processing_mode="standard"):
         "charge_id": "price:test-provider/model-a:standard:short:current:cache_write_5m:text:per_1m_tokens",
         "component": "cache_write_5m",
         "amount": amount,
+        "unit": "per_1m_tokens",
+        "currency": "USD",
+        "modality": "text",
+        "calculation_default": True,
         "condition": {
             "processing_mode": processing_mode,
             "context_class": "short",
@@ -62,6 +66,8 @@ def pricing_component(amount="3.75", processing_mode="standard"):
             "effective_from": "2026-07-01",
             "effective_until": None,
         },
+        "source_refs": ["source:test-provider:pricing"],
+        "verification_status": "verified",
     }
 
 
@@ -204,21 +210,87 @@ class PriceChangeEventTests(unittest.TestCase):
             "condition": pricing_component()["condition"],
         }])
 
-    def test_component_numeric_format_metadata_and_add_remove_do_not_emit(self):
+    def test_component_numeric_format_and_provenance_metadata_do_not_emit(self):
         before = model()
         after = model()
         before["pricing_components"] = [pricing_component("3.750")]
         after["pricing_components"] = [pricing_component("3.75")]
+        after["pricing_components"][0]["source_refs"] = ["source:test-provider:updated-pricing-page"]
+        after["pricing_components"][0]["verification_status"] = "partially_verified"
         self.assertEqual(self.generated(before, after), [])
+
+    def test_component_unit_change_fails_closed(self):
+        before = model()
+        after = model()
+        before["pricing_components"] = [pricing_component()]
+        after["pricing_components"] = [pricing_component()]
+        after["pricing_components"][0]["unit"] = "per_request"
+        with self.assertRaisesRegex(
+            ValueError,
+            r"test-provider/model-a: unit changed for .*cache_write_5m.* from 'per_1m_tokens' to 'per_request'",
+        ):
+            self.generated(before, after)
+
+    def test_component_added_fails_closed(self):
+        before = model()
+        after = model()
+        before["pricing_components"] = []
+        after["pricing_components"] = [pricing_component()]
+        with self.assertRaisesRegex(ValueError, r"test-provider/model-a: component added .*cache_write_5m"):
+            self.generated(before, after)
+
+    def test_component_removed_fails_closed(self):
+        before = model()
+        after = model()
+        before["pricing_components"] = [pricing_component()]
         after["pricing_components"] = []
+        with self.assertRaisesRegex(ValueError, r"test-provider/model-a: component removed .*cache_write_5m"):
+            self.generated(before, after)
+
+    def test_unchanged_legacy_components_do_not_block_unrelated_event_generation(self):
+        before = model()
+        after = model()
+        legacy_components = [
+            {"id": "input_image", "component": "input", "amount": 0.01, "unit": "per_image"},
+            {"id": "output_image", "component": "output", "amount": 0.04, "unit": "per_image"},
+        ]
+        before["pricing_components"] = copy.deepcopy(legacy_components)
+        after["pricing_components"] = copy.deepcopy(legacy_components)
         self.assertEqual(self.generated(before, after), [])
+        after["pricing_components"][0]["amount"] = 0.02
+        with self.assertRaisesRegex(
+            ValueError,
+            r"Unsupported legacy component semantic change for test-provider/model-a",
+        ):
+            self.generated(before, after)
 
     def test_component_condition_change_requires_explicit_semantics(self):
         before = model()
         after = model()
         before["pricing_components"] = [pricing_component("3.75", "standard")]
         after["pricing_components"] = [pricing_component("4.25", "batch")]
-        with self.assertRaises(ValueError):
+        with self.assertRaisesRegex(ValueError, r"test-provider/model-a: condition changed for .*cache_write_5m"):
+            self.generated(before, after)
+
+    def test_component_identity_change_requires_explicit_semantics(self):
+        before = model()
+        after = model()
+        before["pricing_components"] = [pricing_component()]
+        after["pricing_components"] = [pricing_component()]
+        after["pricing_components"][0]["component"] = "cache_write_1h"
+        with self.assertRaisesRegex(ValueError, r"test-provider/model-a: component identity changed for .*cache_write_5m"):
+            self.generated(before, after)
+
+    def test_component_billing_semantic_metadata_change_fails_closed(self):
+        before = model()
+        after = model()
+        before["pricing_components"] = [pricing_component()]
+        after["pricing_components"] = [pricing_component()]
+        after["pricing_components"][0]["calculation_default"] = False
+        with self.assertRaisesRegex(
+            ValueError,
+            r"test-provider/model-a: calculation_default changed for .*cache_write_5m.* from True to False",
+        ):
             self.generated(before, after)
 
     def test_no_event_for_identical_prices_verified_date_source_url_or_numeric_format(self):

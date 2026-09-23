@@ -125,23 +125,67 @@ def normalized_component_amount(value: Any, field: str) -> str:
 def component_price_changes(before_model: dict[str, Any], after_model: dict[str, Any], label: str) -> list[dict[str, Any]]:
     def indexed(model: dict[str, Any], side: str) -> dict[tuple[str, str], dict[str, Any]]:
         result = {}
-        for component in model.get("pricing_components", []):
+        for index, component in enumerate(model.get("pricing_components", [])):
             key = (component.get("pricing_id"), component.get("charge_id"))
-            if not all(key) or key in result:
+            if not all(key):
+                fail(
+                    f"Unsupported legacy component semantic change for {label}: "
+                    f"{side} pricing_components[{index}] lacks pricing_id + charge_id"
+                )
+            if key in result:
                 fail(f"{label} {side} pricing_components must have unique pricing_id + charge_id")
             result[key] = component
         return result
 
     before_components = indexed(before_model, "old")
     after_components = indexed(after_model, "new")
+    removed = sorted(set(before_components) - set(after_components))
+    if removed:
+        pricing_id, charge_id = removed[0]
+        fail(
+            f"Unsupported component semantic change for {label}: component removed "
+            f"({pricing_id}, {charge_id})"
+        )
+    added = sorted(set(after_components) - set(before_components))
+    if added:
+        pricing_id, charge_id = added[0]
+        fail(
+            f"Unsupported component semantic change for {label}: component added "
+            f"({pricing_id}, {charge_id})"
+        )
+
+    non_semantic_fields = {"source_refs", "verification_status"}
+    handled_fields = {
+        "pricing_id",
+        "charge_id",
+        "component",
+        "condition",
+        "amount",
+        *non_semantic_fields,
+    }
     changes = []
-    for key in sorted(set(before_components) & set(after_components)):
+    for key in sorted(before_components):
         old_component = before_components[key]
         new_component = after_components[key]
         if old_component.get("component") != new_component.get("component"):
-            fail(f"{label} component identity changed for {key[1]}")
+            fail(
+                f"Unsupported component semantic change for {label}: component identity changed for {key[1]} "
+                f"from {old_component.get('component')!r} to {new_component.get('component')!r}"
+            )
         if old_component.get("condition") != new_component.get("condition"):
-            fail(f"{label} component condition changed for {key[1]}; add explicit event semantics")
+            fail(
+                f"Unsupported component semantic change for {label}: condition changed for {key[1]}; "
+                "add explicit event semantics"
+            )
+        semantic_fields = sorted((set(old_component) | set(new_component)) - handled_fields)
+        for field in semantic_fields:
+            old_value = old_component.get(field)
+            new_value = new_component.get(field)
+            if old_value != new_value:
+                fail(
+                    f"Unsupported component semantic change for {label}: {field} changed for {key[1]} "
+                    f"from {old_value!r} to {new_value!r}"
+                )
         old_amount = normalized_component_amount(old_component.get("amount"), f"{label} old {key[1]}.amount")
         new_amount = normalized_component_amount(new_component.get("amount"), f"{label} new {key[1]}.amount")
         if old_amount == new_amount:
@@ -412,7 +456,11 @@ def generate_events(before: Path, after: Path, provider_id: str | None = None) -
         after_pricing = after_model["pricing"]
         old_prices = normalize_prices(before_pricing, f"{key[0]}/{key[1]} old")
         new_prices = normalize_prices(after_pricing, f"{key[0]}/{key[1]} new")
-        component_changes = component_price_changes(before_model, after_model, f"{key[0]}/{key[1]}")
+        component_changes = (
+            []
+            if before_model.get("pricing_components", []) == after_model.get("pricing_components", [])
+            else component_price_changes(before_model, after_model, f"{key[0]}/{key[1]}")
+        )
         old_time_pricing = before_model.get("time_pricing")
         new_time_pricing = after_model.get("time_pricing")
         temporal_changed = comparable_time_pricing(old_time_pricing) != comparable_time_pricing(new_time_pricing)

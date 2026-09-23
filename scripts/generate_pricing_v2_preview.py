@@ -66,7 +66,7 @@ OFFICIAL_DOMAINS = {
     "google-cloud": ("cloud.google.com", "docs.cloud.google.com", "developers.google.com"),
     "aws": ("aws.amazon.com", "docs.aws.amazon.com", "pricing.us-east-1.amazonaws.com"),
     "azure": ("azure.microsoft.com", "learn.microsoft.com", "prices.azure.com"),
-    "xai": ("docs.x.ai",),
+    "xai": ("docs.x.ai", "x.ai"),
     "deepseek": ("api-docs.deepseek.com", "deepseek.com"),
     "mistral-ai": ("mistral.ai",),
     "cohere": ("cohere.com", "docs.cohere.com"),
