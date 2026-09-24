@@ -6,7 +6,10 @@ Keep the public V1 token columns unchanged. Continue to use
 `input_price_per_1m_tokens`, `cached_input_price_per_1m_tokens`, and
 `output_price_per_1m_tokens` only for token prices. Extend the internal V2
 charge-unit vocabulary additively so later records can express
-`per_1000_pages`, `per_minute`, `per_second`, `per_image`, and `per_request`.
+`per_1000_pages`, `per_minute`, `per_second`, `per_image`, `per_request`, and
+`per_1m_tokens_per_hour`. The compound token-hour unit is reserved for prices
+that explicitly depend on both stored token quantity and storage duration; it
+must not be flattened into either `per_1m_tokens` or `per_hour`.
 A future public schema can expose these records through structured pricing
 components while retaining the V1 scalar columns as nullable compatibility
 fields.

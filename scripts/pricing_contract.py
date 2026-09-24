@@ -39,6 +39,7 @@ CHARGE_COMPONENTS = {
 MODALITIES = {"text", "image", "audio", "video", "document"}
 UNITS = {
     "per_1m_tokens",
+    "per_1m_tokens_per_hour",
     "per_1k_calls",
     "per_1000_pages",
     "per_minute",
@@ -1043,6 +1044,7 @@ def calculate_price_record_cost(
     _require(groups == set(alternative_selections), "every alternative group requires exactly one selection")
     divisors = {
         "per_1m_tokens": Decimal("1000000"),
+        "per_1m_tokens_per_hour": Decimal("1000000"),
         "per_1k_calls": Decimal("1000"),
         "per_1000_pages": Decimal("1000"),
         "per_minute": Decimal("1"),

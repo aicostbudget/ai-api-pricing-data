@@ -68,7 +68,7 @@ CHARGE_COMPONENTS = {
     "session_duration",
 }
 MODALITIES = {"text", "image", "audio", "video", "document"}
-UNITS = {"per_1m_tokens", "per_1k_calls", "per_1000_pages", "per_minute", "per_hour", "per_image", "per_second"}
+UNITS = {"per_1m_tokens", "per_1m_tokens_per_hour", "per_1k_calls", "per_1000_pages", "per_minute", "per_hour", "per_image", "per_second"}
 DECIMAL_STRING = re.compile(r"^(0|[1-9]\d*)(\.\d+)?$")
 
 
@@ -1237,6 +1237,20 @@ def validate_preview() -> dict[str, Any]:
         for row in phase4a_rows
         if row["defaultSafe"] and row.get("selectedPriceRecordId") is not None
     }
+    selected_safe_price_ids.update(
+        record["pricingId"]
+        for row in phase4a_rows
+        for record in row.get("priceRecords", [])
+        if row.get("selectedPriceRecordId") is None
+        and any(
+            component.get("pricingId") == record["pricingId"]
+            and component.get("component") == "output"
+            and component.get("modality") == "audio"
+            for component in row.get("pricingComponents", [])
+        )
+        and record.get("calculationDefault") is True
+        and record.get("pricingStatus") == "current"
+    )
     if safe_stats["mappedToProjection"] != len(selected_safe_price_ids):
         fail("phase4a.5 safe reconciliation must cover unique selected safe PriceRecords")
     if safe_stats["safePriceRecordsInput"] != safe_stats["mappedToProjection"] + safe_stats["omitted"]:

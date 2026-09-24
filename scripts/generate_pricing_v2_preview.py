@@ -3,6 +3,7 @@ from __future__ import annotations
 import argparse
 import json
 import math
+import sys
 import time
 from collections import defaultdict
 from datetime import date, datetime
@@ -62,7 +63,7 @@ PROVIDER_DISPLAY = {
 OFFICIAL_DOMAINS = {
     "openai": ("platform.openai.com", "developers.openai.com", "openai.com"),
     "anthropic": ("docs.anthropic.com", "platform.claude.com", "anthropic.com"),
-    "google-gemini": ("ai.google.dev",),
+    "google-gemini": ("ai.google.dev", "blog.google"),
     "google-cloud": ("cloud.google.com", "docs.cloud.google.com", "developers.google.com"),
     "aws": ("aws.amazon.com", "docs.aws.amazon.com", "pricing.us-east-1.amazonaws.com"),
     "azure": ("azure.microsoft.com", "learn.microsoft.com", "prices.azure.com"),
@@ -1884,6 +1885,29 @@ def source_type(url: str) -> str:
     return "official_pricing_page"
 
 
+def reconcile_existing_sources(
+    derived_sources_by_url: dict[str, dict[str, Any]],
+    existing_sources: list[dict[str, Any]],
+) -> dict[str, dict[str, Any]]:
+    """Preserve stable metadata for source identities already in the registry."""
+    reconciled = {url: dict(source) for url, source in derived_sources_by_url.items()}
+    seen_urls: set[str] = set()
+    for existing_source in existing_sources:
+        url = existing_source["url"]
+        if url in seen_urls:
+            raise ValueError(f"Existing sources contain duplicate URL {url}")
+        seen_urls.add(url)
+        expected_source_id = source_id(existing_source["providerId"], url)
+        if existing_source.get("sourceId") != expected_source_id:
+            raise ValueError(f"Existing source identity mismatch for {url}")
+        reconciled[url] = {
+            key: value
+            for key, value in existing_source.items()
+            if key != "sourceId"
+        }
+    return reconciled
+
+
 def website_provider_id(record: dict[str, Any]) -> str:
     return PROVIDER_SLUGS.get(record["provider"], record["provider"].lower().replace(" ", "-"))
 
@@ -2200,7 +2224,18 @@ def main() -> None:
         default=WEBSITE_DATASET,
         help="Website data/model-pricing.json input (defaults to the legacy local checkout path).",
     )
+    parser.add_argument(
+        "--previous-sources",
+        default=str(PREVIEW / "sources.json"),
+        help="Previous sources registry used for stable-identity reconciliation; use '-' to read JSON from stdin.",
+    )
     args = parser.parse_args()
+
+    if args.previous_sources == "-":
+        existing_sources = json.load(sys.stdin)
+    else:
+        previous_sources_path = Path(args.previous_sources).resolve()
+        existing_sources = read_json(previous_sources_path) if previous_sources_path.exists() else []
 
     public_models = read_json(CANONICAL / "models.json")
     website_models = read_json(args.website_dataset.resolve())
@@ -2293,6 +2328,12 @@ def main() -> None:
                 source[field] = max(value, source.get(field) or value)
         source["verificationStatus"] = "verified"
 
+    # A source URL is the stable identity for reconciliation. Regeneration may
+    # discover the same URL through a newer model, but that must not silently
+    # refresh or reclassify the existing source record. Explicit registry
+    # entries below remain authoritative and may intentionally replace it.
+    source_urls = reconcile_existing_sources(source_urls, existing_sources)
+
     for (provider_id, url), meta in PHASE26_EXTRA_SOURCE_URLS.items():
         checked_at = meta.get("checkedAt", "2026-07-07T00:00:00Z")
         source_urls[url] = {
@@ -2307,22 +2348,6 @@ def main() -> None:
             "supports": meta["supports"],
             "verificationStatus": meta["verificationStatus"],
         }
-
-    # Prompt-cache evidence is a verified V2 extension that is not represented by
-    # the legacy V1 model schema. Preserve these generic extension records when
-    # regenerating the preview so an unrelated provider onboarding cannot erase
-    # previously verified cache contracts.
-    existing_sources_path = PREVIEW / "sources.json"
-    if existing_sources_path.exists():
-        for existing_source in read_json(existing_sources_path):
-            supports = set(existing_source.get("supports", []))
-            if not supports.intersection({"cache_eligibility", "cache_lifetime", "cache_mode"}):
-                continue
-            url = existing_source["url"]
-            upsert_source(
-                url,
-                {key: value for key, value in existing_source.items() if key != "sourceId"},
-            )
 
     source_by_url = {url: source_id(meta["providerId"], url) for url, meta in source_urls.items()}
     sources = [

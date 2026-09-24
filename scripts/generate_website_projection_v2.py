@@ -174,6 +174,7 @@ def charge_amount(
     price: dict[str, Any] | None,
     component: str,
     modality: str = "text",
+    allow_single_modality_fallback: bool = True,
 ) -> int | float | None:
     if price is None:
         return None
@@ -191,13 +192,16 @@ def charge_amount(
     exact = next((charge for charge in candidates if charge["modality"] == modality), None)
     if exact is not None:
         return parse_decimal(exact["amount"])
-    if len(candidates) == 1:
+    if allow_single_modality_fallback and len(candidates) == 1:
         return parse_decimal(candidates[0]["amount"])
     return None
 
 
 def has_text_input_output(price: dict[str, Any]) -> bool:
-    return charge_amount(price, "input") is not None and charge_amount(price, "output") is not None
+    return (
+        charge_amount(price, "input") is not None
+        and charge_amount(price, "output", allow_single_modality_fallback=False) is not None
+    )
 
 
 def select_price(
@@ -997,10 +1001,21 @@ def projection_row(
                 and sources_by_id[ref].get("url") == public_verification.get("official_source_url")
             )
             public_prices = public_verification.get("pricing", {}) if public_verification else {}
+            public_input = public_prices.get("input")
+            public_output = public_prices.get("output")
+            selected_input = charge_amount(selected_price, "input")
+            selected_output = charge_amount(selected_price, "output")
             public_price_matches = (
                 public_verification is not None
-                and parse_decimal(str(public_prices.get("input"))) == charge_amount(selected_price, "input")
-                and parse_decimal(str(public_prices.get("output"))) == charge_amount(selected_price, "output")
+                and public_input is not None
+                and parse_decimal(str(public_input)) == selected_input
+                and (
+                    (public_output is None and selected_output is None)
+                    or (
+                        public_output is not None
+                        and parse_decimal(str(public_output)) == selected_output
+                    )
+                )
                 and (
                     public_prices.get("cached_input") is None
                     or parse_decimal(str(public_prices.get("cached_input"))) == charge_amount(selected_price, "cached_input")

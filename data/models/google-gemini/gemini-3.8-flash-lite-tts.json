@@ -1,0 +1,542 @@
+{
+  "accessed_at": "2026-09-24T14:27:54Z",
+  "context_window_tokens": 8192,
+  "display_name": "Gemini 3.8 Flash-Lite TTS",
+  "effective_from": "2026-09-22",
+  "input_modality": "text",
+  "last_verified_at": "2026-09-24T14:27:54Z",
+  "model_category": "text_to_speech",
+  "model_family": "Gemini 3.8 TTS",
+  "model_id": "gemini-3.8-flash-lite-tts",
+  "notes": "High-throughput, low-latency, cost-efficient TTS model for conversational voice and production workloads. Stable Gemini API model released 2026-09-22 with no shutdown date announced. Official input and output token limits are 8,192 and 16,384. Supports Caching, Batch API, Flex inference, and Priority inference. Current prices are effective through 2026-12-31; separately stored future records take effect 2027-01-01. Audio output is 25 tokens per second. The legacy V1 output scalar remains null because the published output price is for audio tokens, not text tokens.",
+  "official_source_url": "https://ai.google.dev/gemini-api/docs/pricing",
+  "official_source_urls": [
+    "https://ai.google.dev/gemini-api/docs/pricing",
+    "https://ai.google.dev/gemini-api/docs/models/gemini-3.8-flash-lite-tts",
+    "https://ai.google.dev/gemini-api/docs/deprecations",
+    "https://blog.google/innovation-and-ai/models-and-research/gemini-models/gemini-3-8-text-to-speech/"
+  ],
+  "output_modality": "audio",
+  "price_records": [
+    {
+      "billing_note": "Standard text-input, cached-input, cache-storage, and audio-output token pricing. Cache storage is billed per 1M cached tokens per hour; audio output is tokenized at 25 tokens per second.",
+      "calculation_default": true,
+      "charges": [
+        {
+          "amount": "0.50",
+          "component": "input",
+          "id": "price:google-gemini/gemini-3.8-flash-lite-tts:standard:current:input:text:per_1m_tokens",
+          "modality": "text",
+          "unit": "per_1m_tokens"
+        },
+        {
+          "amount": "0.125",
+          "component": "cached_input",
+          "id": "price:google-gemini/gemini-3.8-flash-lite-tts:standard:current:cached_input:text:per_1m_tokens",
+          "modality": "text",
+          "unit": "per_1m_tokens"
+        },
+        {
+          "amount": "0.50",
+          "component": "storage",
+          "id": "price:google-gemini/gemini-3.8-flash-lite-tts:standard:current:storage:text:per_1m_tokens_per_hour",
+          "modality": "text",
+          "unit": "per_1m_tokens_per_hour"
+        },
+        {
+          "amount": "6.00",
+          "component": "output",
+          "id": "price:google-gemini/gemini-3.8-flash-lite-tts:standard:current:output:audio:per_1m_tokens",
+          "modality": "audio",
+          "unit": "per_1m_tokens"
+        }
+      ],
+      "checked_at": "2026-09-24T14:27:54Z",
+      "context_class": "short",
+      "currency": "USD",
+      "effective_from": "2026-09-22",
+      "effective_until": "2026-12-31",
+      "id": "price:google-gemini/gemini-3.8-flash-lite-tts:standard:current",
+      "pricing_status": "current",
+      "processing_mode": "standard",
+      "prompt_token_threshold": null,
+      "region_policy": {
+        "availability": {
+          "default": "available",
+          "rules": []
+        },
+        "data_residencies": [
+          "global"
+        ],
+        "endpoint_geographies": [
+          "global"
+        ],
+        "price_adjustments": [],
+        "pricing_geography": "global_base"
+      },
+      "source_refs": [
+        "https://ai.google.dev/gemini-api/docs/pricing",
+        "https://ai.google.dev/gemini-api/docs/models/gemini-3.8-flash-lite-tts"
+      ],
+      "verification_status": "verified",
+      "verified_at": "2026-09-24T14:27:54Z"
+    },
+    {
+      "billing_note": "Standard text-input, cached-input, cache-storage, and audio-output token pricing. Cache storage is billed per 1M cached tokens per hour; audio output is tokenized at 25 tokens per second.",
+      "calculation_default": false,
+      "charges": [
+        {
+          "amount": "1",
+          "component": "input",
+          "id": "price:google-gemini/gemini-3.8-flash-lite-tts:standard:future:input:text:per_1m_tokens",
+          "modality": "text",
+          "unit": "per_1m_tokens"
+        },
+        {
+          "amount": "0.25",
+          "component": "cached_input",
+          "id": "price:google-gemini/gemini-3.8-flash-lite-tts:standard:future:cached_input:text:per_1m_tokens",
+          "modality": "text",
+          "unit": "per_1m_tokens"
+        },
+        {
+          "amount": "1",
+          "component": "storage",
+          "id": "price:google-gemini/gemini-3.8-flash-lite-tts:standard:future:storage:text:per_1m_tokens_per_hour",
+          "modality": "text",
+          "unit": "per_1m_tokens_per_hour"
+        },
+        {
+          "amount": "12",
+          "component": "output",
+          "id": "price:google-gemini/gemini-3.8-flash-lite-tts:standard:future:output:audio:per_1m_tokens",
+          "modality": "audio",
+          "unit": "per_1m_tokens"
+        }
+      ],
+      "checked_at": "2026-09-24T14:27:54Z",
+      "context_class": "short",
+      "currency": "USD",
+      "effective_from": "2027-01-01",
+      "effective_until": null,
+      "id": "price:google-gemini/gemini-3.8-flash-lite-tts:standard:future",
+      "pricing_status": "future",
+      "processing_mode": "standard",
+      "prompt_token_threshold": null,
+      "region_policy": {
+        "availability": {
+          "default": "available",
+          "rules": []
+        },
+        "data_residencies": [
+          "global"
+        ],
+        "endpoint_geographies": [
+          "global"
+        ],
+        "price_adjustments": [],
+        "pricing_geography": "global_base"
+      },
+      "source_refs": [
+        "https://ai.google.dev/gemini-api/docs/pricing",
+        "https://ai.google.dev/gemini-api/docs/models/gemini-3.8-flash-lite-tts"
+      ],
+      "verification_status": "verified",
+      "verified_at": "2026-09-24T14:27:54Z"
+    },
+    {
+      "billing_note": "Batch text-input, cached-input, cache-storage, and audio-output token pricing. Cache storage is billed per 1M cached tokens per hour; audio output is tokenized at 25 tokens per second.",
+      "calculation_default": false,
+      "charges": [
+        {
+          "amount": "0.25",
+          "component": "input",
+          "id": "price:google-gemini/gemini-3.8-flash-lite-tts:batch:current:input:text:per_1m_tokens",
+          "modality": "text",
+          "unit": "per_1m_tokens"
+        },
+        {
+          "amount": "0.0625",
+          "component": "cached_input",
+          "id": "price:google-gemini/gemini-3.8-flash-lite-tts:batch:current:cached_input:text:per_1m_tokens",
+          "modality": "text",
+          "unit": "per_1m_tokens"
+        },
+        {
+          "amount": "0.50",
+          "component": "storage",
+          "id": "price:google-gemini/gemini-3.8-flash-lite-tts:batch:current:storage:text:per_1m_tokens_per_hour",
+          "modality": "text",
+          "unit": "per_1m_tokens_per_hour"
+        },
+        {
+          "amount": "3.00",
+          "component": "output",
+          "id": "price:google-gemini/gemini-3.8-flash-lite-tts:batch:current:output:audio:per_1m_tokens",
+          "modality": "audio",
+          "unit": "per_1m_tokens"
+        }
+      ],
+      "checked_at": "2026-09-24T14:27:54Z",
+      "context_class": "short",
+      "currency": "USD",
+      "effective_from": "2026-09-22",
+      "effective_until": "2026-12-31",
+      "id": "price:google-gemini/gemini-3.8-flash-lite-tts:batch:current",
+      "pricing_status": "current",
+      "processing_mode": "batch",
+      "prompt_token_threshold": null,
+      "region_policy": {
+        "availability": {
+          "default": "available",
+          "rules": []
+        },
+        "data_residencies": [
+          "global"
+        ],
+        "endpoint_geographies": [
+          "global"
+        ],
+        "price_adjustments": [],
+        "pricing_geography": "global_base"
+      },
+      "source_refs": [
+        "https://ai.google.dev/gemini-api/docs/pricing",
+        "https://ai.google.dev/gemini-api/docs/models/gemini-3.8-flash-lite-tts"
+      ],
+      "verification_status": "verified",
+      "verified_at": "2026-09-24T14:27:54Z"
+    },
+    {
+      "billing_note": "Batch text-input, cached-input, cache-storage, and audio-output token pricing. Cache storage is billed per 1M cached tokens per hour; audio output is tokenized at 25 tokens per second.",
+      "calculation_default": false,
+      "charges": [
+        {
+          "amount": "0.5",
+          "component": "input",
+          "id": "price:google-gemini/gemini-3.8-flash-lite-tts:batch:future:input:text:per_1m_tokens",
+          "modality": "text",
+          "unit": "per_1m_tokens"
+        },
+        {
+          "amount": "0.125",
+          "component": "cached_input",
+          "id": "price:google-gemini/gemini-3.8-flash-lite-tts:batch:future:cached_input:text:per_1m_tokens",
+          "modality": "text",
+          "unit": "per_1m_tokens"
+        },
+        {
+          "amount": "1",
+          "component": "storage",
+          "id": "price:google-gemini/gemini-3.8-flash-lite-tts:batch:future:storage:text:per_1m_tokens_per_hour",
+          "modality": "text",
+          "unit": "per_1m_tokens_per_hour"
+        },
+        {
+          "amount": "6",
+          "component": "output",
+          "id": "price:google-gemini/gemini-3.8-flash-lite-tts:batch:future:output:audio:per_1m_tokens",
+          "modality": "audio",
+          "unit": "per_1m_tokens"
+        }
+      ],
+      "checked_at": "2026-09-24T14:27:54Z",
+      "context_class": "short",
+      "currency": "USD",
+      "effective_from": "2027-01-01",
+      "effective_until": null,
+      "id": "price:google-gemini/gemini-3.8-flash-lite-tts:batch:future",
+      "pricing_status": "future",
+      "processing_mode": "batch",
+      "prompt_token_threshold": null,
+      "region_policy": {
+        "availability": {
+          "default": "available",
+          "rules": []
+        },
+        "data_residencies": [
+          "global"
+        ],
+        "endpoint_geographies": [
+          "global"
+        ],
+        "price_adjustments": [],
+        "pricing_geography": "global_base"
+      },
+      "source_refs": [
+        "https://ai.google.dev/gemini-api/docs/pricing",
+        "https://ai.google.dev/gemini-api/docs/models/gemini-3.8-flash-lite-tts"
+      ],
+      "verification_status": "verified",
+      "verified_at": "2026-09-24T14:27:54Z"
+    },
+    {
+      "billing_note": "Flex text-input, cached-input, cache-storage, and audio-output token pricing. Cache storage is billed per 1M cached tokens per hour; audio output is tokenized at 25 tokens per second.",
+      "calculation_default": false,
+      "charges": [
+        {
+          "amount": "0.25",
+          "component": "input",
+          "id": "price:google-gemini/gemini-3.8-flash-lite-tts:flex:current:input:text:per_1m_tokens",
+          "modality": "text",
+          "unit": "per_1m_tokens"
+        },
+        {
+          "amount": "0.025",
+          "component": "cached_input",
+          "id": "price:google-gemini/gemini-3.8-flash-lite-tts:flex:current:cached_input:text:per_1m_tokens",
+          "modality": "text",
+          "unit": "per_1m_tokens"
+        },
+        {
+          "amount": "0.50",
+          "component": "storage",
+          "id": "price:google-gemini/gemini-3.8-flash-lite-tts:flex:current:storage:text:per_1m_tokens_per_hour",
+          "modality": "text",
+          "unit": "per_1m_tokens_per_hour"
+        },
+        {
+          "amount": "3.00",
+          "component": "output",
+          "id": "price:google-gemini/gemini-3.8-flash-lite-tts:flex:current:output:audio:per_1m_tokens",
+          "modality": "audio",
+          "unit": "per_1m_tokens"
+        }
+      ],
+      "checked_at": "2026-09-24T14:27:54Z",
+      "context_class": "short",
+      "currency": "USD",
+      "effective_from": "2026-09-22",
+      "effective_until": "2026-12-31",
+      "id": "price:google-gemini/gemini-3.8-flash-lite-tts:flex:current",
+      "pricing_status": "current",
+      "processing_mode": "flex",
+      "prompt_token_threshold": null,
+      "region_policy": {
+        "availability": {
+          "default": "available",
+          "rules": []
+        },
+        "data_residencies": [
+          "global"
+        ],
+        "endpoint_geographies": [
+          "global"
+        ],
+        "price_adjustments": [],
+        "pricing_geography": "global_base"
+      },
+      "source_refs": [
+        "https://ai.google.dev/gemini-api/docs/pricing",
+        "https://ai.google.dev/gemini-api/docs/models/gemini-3.8-flash-lite-tts"
+      ],
+      "verification_status": "verified",
+      "verified_at": "2026-09-24T14:27:54Z"
+    },
+    {
+      "billing_note": "Flex text-input, cached-input, cache-storage, and audio-output token pricing. Cache storage is billed per 1M cached tokens per hour; audio output is tokenized at 25 tokens per second.",
+      "calculation_default": false,
+      "charges": [
+        {
+          "amount": "0.5",
+          "component": "input",
+          "id": "price:google-gemini/gemini-3.8-flash-lite-tts:flex:future:input:text:per_1m_tokens",
+          "modality": "text",
+          "unit": "per_1m_tokens"
+        },
+        {
+          "amount": "0.05",
+          "component": "cached_input",
+          "id": "price:google-gemini/gemini-3.8-flash-lite-tts:flex:future:cached_input:text:per_1m_tokens",
+          "modality": "text",
+          "unit": "per_1m_tokens"
+        },
+        {
+          "amount": "1",
+          "component": "storage",
+          "id": "price:google-gemini/gemini-3.8-flash-lite-tts:flex:future:storage:text:per_1m_tokens_per_hour",
+          "modality": "text",
+          "unit": "per_1m_tokens_per_hour"
+        },
+        {
+          "amount": "6",
+          "component": "output",
+          "id": "price:google-gemini/gemini-3.8-flash-lite-tts:flex:future:output:audio:per_1m_tokens",
+          "modality": "audio",
+          "unit": "per_1m_tokens"
+        }
+      ],
+      "checked_at": "2026-09-24T14:27:54Z",
+      "context_class": "short",
+      "currency": "USD",
+      "effective_from": "2027-01-01",
+      "effective_until": null,
+      "id": "price:google-gemini/gemini-3.8-flash-lite-tts:flex:future",
+      "pricing_status": "future",
+      "processing_mode": "flex",
+      "prompt_token_threshold": null,
+      "region_policy": {
+        "availability": {
+          "default": "available",
+          "rules": []
+        },
+        "data_residencies": [
+          "global"
+        ],
+        "endpoint_geographies": [
+          "global"
+        ],
+        "price_adjustments": [],
+        "pricing_geography": "global_base"
+      },
+      "source_refs": [
+        "https://ai.google.dev/gemini-api/docs/pricing",
+        "https://ai.google.dev/gemini-api/docs/models/gemini-3.8-flash-lite-tts"
+      ],
+      "verification_status": "verified",
+      "verified_at": "2026-09-24T14:27:54Z"
+    },
+    {
+      "billing_note": "Priority text-input, cached-input, cache-storage, and audio-output token pricing. Cache storage is billed per 1M cached tokens per hour; audio output is tokenized at 25 tokens per second.",
+      "calculation_default": false,
+      "charges": [
+        {
+          "amount": "0.90",
+          "component": "input",
+          "id": "price:google-gemini/gemini-3.8-flash-lite-tts:priority:current:input:text:per_1m_tokens",
+          "modality": "text",
+          "unit": "per_1m_tokens"
+        },
+        {
+          "amount": "0.225",
+          "component": "cached_input",
+          "id": "price:google-gemini/gemini-3.8-flash-lite-tts:priority:current:cached_input:text:per_1m_tokens",
+          "modality": "text",
+          "unit": "per_1m_tokens"
+        },
+        {
+          "amount": "0.50",
+          "component": "storage",
+          "id": "price:google-gemini/gemini-3.8-flash-lite-tts:priority:current:storage:text:per_1m_tokens_per_hour",
+          "modality": "text",
+          "unit": "per_1m_tokens_per_hour"
+        },
+        {
+          "amount": "10.80",
+          "component": "output",
+          "id": "price:google-gemini/gemini-3.8-flash-lite-tts:priority:current:output:audio:per_1m_tokens",
+          "modality": "audio",
+          "unit": "per_1m_tokens"
+        }
+      ],
+      "checked_at": "2026-09-24T14:27:54Z",
+      "context_class": "short",
+      "currency": "USD",
+      "effective_from": "2026-09-22",
+      "effective_until": "2026-12-31",
+      "id": "price:google-gemini/gemini-3.8-flash-lite-tts:priority:current",
+      "pricing_status": "current",
+      "processing_mode": "priority",
+      "prompt_token_threshold": null,
+      "region_policy": {
+        "availability": {
+          "default": "available",
+          "rules": []
+        },
+        "data_residencies": [
+          "global"
+        ],
+        "endpoint_geographies": [
+          "global"
+        ],
+        "price_adjustments": [],
+        "pricing_geography": "global_base"
+      },
+      "source_refs": [
+        "https://ai.google.dev/gemini-api/docs/pricing",
+        "https://ai.google.dev/gemini-api/docs/models/gemini-3.8-flash-lite-tts"
+      ],
+      "verification_status": "verified",
+      "verified_at": "2026-09-24T14:27:54Z"
+    },
+    {
+      "billing_note": "Priority text-input, cached-input, cache-storage, and audio-output token pricing. Cache storage is billed per 1M cached tokens per hour; audio output is tokenized at 25 tokens per second.",
+      "calculation_default": false,
+      "charges": [
+        {
+          "amount": "1.8",
+          "component": "input",
+          "id": "price:google-gemini/gemini-3.8-flash-lite-tts:priority:future:input:text:per_1m_tokens",
+          "modality": "text",
+          "unit": "per_1m_tokens"
+        },
+        {
+          "amount": "0.45",
+          "component": "cached_input",
+          "id": "price:google-gemini/gemini-3.8-flash-lite-tts:priority:future:cached_input:text:per_1m_tokens",
+          "modality": "text",
+          "unit": "per_1m_tokens"
+        },
+        {
+          "amount": "1",
+          "component": "storage",
+          "id": "price:google-gemini/gemini-3.8-flash-lite-tts:priority:future:storage:text:per_1m_tokens_per_hour",
+          "modality": "text",
+          "unit": "per_1m_tokens_per_hour"
+        },
+        {
+          "amount": "21.6",
+          "component": "output",
+          "id": "price:google-gemini/gemini-3.8-flash-lite-tts:priority:future:output:audio:per_1m_tokens",
+          "modality": "audio",
+          "unit": "per_1m_tokens"
+        }
+      ],
+      "checked_at": "2026-09-24T14:27:54Z",
+      "context_class": "short",
+      "currency": "USD",
+      "effective_from": "2027-01-01",
+      "effective_until": null,
+      "id": "price:google-gemini/gemini-3.8-flash-lite-tts:priority:future",
+      "pricing_status": "future",
+      "processing_mode": "priority",
+      "prompt_token_threshold": null,
+      "region_policy": {
+        "availability": {
+          "default": "available",
+          "rules": []
+        },
+        "data_residencies": [
+          "global"
+        ],
+        "endpoint_geographies": [
+          "global"
+        ],
+        "price_adjustments": [],
+        "pricing_geography": "global_base"
+      },
+      "source_refs": [
+        "https://ai.google.dev/gemini-api/docs/pricing",
+        "https://ai.google.dev/gemini-api/docs/models/gemini-3.8-flash-lite-tts"
+      ],
+      "verification_status": "verified",
+      "verified_at": "2026-09-24T14:27:54Z"
+    }
+  ],
+  "pricing": {
+    "batch_cached_input": 0.0625,
+    "batch_input": 0.25,
+    "batch_output": null,
+    "cache_write": null,
+    "cache_write_1h": null,
+    "cached_input": 0.125,
+    "currency": "USD",
+    "input": 0.5,
+    "output": null,
+    "unit": "1M tokens"
+  },
+  "project_context_window": true,
+  "provider_id": "google-gemini",
+  "release_stage": "stable",
+  "status": "active"
+}
