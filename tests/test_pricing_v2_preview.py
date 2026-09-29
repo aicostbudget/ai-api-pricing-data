@@ -276,6 +276,75 @@ class PricingV2PreviewTests(unittest.TestCase):
                 base_prices,
             )
 
+    def test_openai_gpt56_family_uses_verified_declarative_price_records(self):
+        expected = {
+            "openai/gpt-5.6-sol": {
+                ("standard", "short"): ("4", "0.4", "5", "20"),
+                ("standard", "long"): ("8", "0.8", "10", "30"),
+                ("batch", "short"): ("2", "0.2", "2.5", "10"),
+                ("batch", "long"): ("4", "0.4", "5", "15"),
+                ("flex", "short"): ("2", "0.2", "2.5", "10"),
+                ("flex", "long"): ("4", "0.4", "5", "15"),
+                ("fast", "short"): ("8", "0.8", "10", "40"),
+                ("fast", "long"): ("16", "1.6", "20", "60"),
+            },
+            "openai/gpt-5.6-terra": {
+                ("standard", "short"): ("2", "0.2", "2.5", "12"),
+                ("standard", "long"): ("4", "0.4", "5", "18"),
+                ("batch", "short"): ("1", "0.1", "1.25", "6"),
+                ("batch", "long"): ("2", "0.2", "2.5", "9"),
+                ("flex", "short"): ("1", "0.1", "1.25", "6"),
+                ("flex", "long"): ("2", "0.2", "2.5", "9"),
+                ("fast", "short"): ("4", "0.4", "5", "24"),
+                ("fast", "long"): ("8", "0.8", "10", "36"),
+            },
+            "openai/gpt-5.6-luna": {
+                ("standard", "short"): ("0.2", "0.02", "0.25", "1.2"),
+                ("standard", "long"): ("0.4", "0.04", "0.5", "1.8"),
+                ("batch", "short"): ("0.1", "0.01", "0.125", "0.6"),
+                ("batch", "long"): ("0.2", "0.02", "0.25", "0.9"),
+                ("flex", "short"): ("0.1", "0.01", "0.125", "0.6"),
+                ("flex", "long"): ("0.2", "0.02", "0.25", "0.9"),
+                ("fast", "short"): ("0.4", "0.04", "0.5", "2.4"),
+                ("fast", "long"): ("0.8", "0.08", "1", "3.6"),
+            },
+        }
+        canonical = {
+            f"{model['provider_id']}/{model['model_id']}": model
+            for model in self.canonical_models
+        }
+        for internal_id, expected_records in expected.items():
+            canonical_records = canonical[internal_id]["price_records"]
+            projected_records = [
+                record for record in self.prices if record["modelInternalId"] == internal_id
+            ]
+            self.assertEqual(len(canonical_records), 8)
+            self.assertEqual(len(projected_records), 8)
+            self.assertEqual(
+                sum(record["calculation_default"] for record in canonical_records),
+                1,
+            )
+            for record in projected_records:
+                key = (record["processingMode"], record["contextClass"])
+                self.assertEqual(record["pricingStatus"], "current")
+                self.assertEqual(record["verifiedAt"], "2026-09-29T16:30:47Z")
+                self.assertEqual(record["checkedAt"], "2026-09-29T16:30:47Z")
+                self.assertTrue(record["sourceRefs"])
+                self.assertEqual(record["promptTokenThreshold"], 272000)
+                self.assertEqual(record["tierSelection"]["tokenBasis"], "total_prompt_tokens")
+                self.assertTrue(record["tierSelection"]["cachedPromptTokensIncluded"])
+                self.assertTrue(record["tierSelection"]["wholeRequestPricing"])
+                amounts = {charge["component"]: charge["amount"] for charge in record["charges"]}
+                self.assertEqual(
+                    tuple(amounts[component] for component in ("input", "cached_input", "cache_write", "output")),
+                    expected_records[key],
+                )
+            model = self.model(internal_id)
+            self.assertEqual(
+                model["defaultPriceRecordId"],
+                f"price:{internal_id}:standard:short:current",
+            )
+
     def test_grok_4_3_validator_rejects_invalid_tier_mutations(self):
         original_read_json = pricing_validator.read_json
 

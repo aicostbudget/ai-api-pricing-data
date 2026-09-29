@@ -414,6 +414,9 @@ class WebsiteProjectionV2Tests(unittest.TestCase):
         }
         for internal_id in (
             "openai/gpt-5.4-mini",
+            "openai/gpt-5.6-sol",
+            "openai/gpt-5.6-terra",
+            "openai/gpt-5.6-luna",
             "anthropic/claude-haiku-4.5",
             "xai/grok-4.3",
             "google-gemini/gemini-2.5-pro",
@@ -431,6 +434,24 @@ class WebsiteProjectionV2Tests(unittest.TestCase):
             self.assertTrue(selected["sourceRefs"])
             for component in row["pricingComponents"]:
                 self.assertIn(component["pricingId"], records)
+
+    def test_gpt_5_6_projection_publishes_record_level_provenance(self):
+        for internal_id in (
+            "openai/gpt-5.6-sol",
+            "openai/gpt-5.6-terra",
+            "openai/gpt-5.6-luna",
+        ):
+            row = self.by_internal[internal_id]
+            self.assertEqual(len(row["priceRecords"]), 8)
+            self.assertEqual(
+                row["selectedPriceRecordId"],
+                f"price:{internal_id}:standard:short:current",
+            )
+            for record in row["priceRecords"]:
+                self.assertEqual(record["pricingStatus"], "current")
+                self.assertEqual(record["verifiedAt"], "2026-09-29T16:30:47Z")
+                self.assertEqual(record["checkedAt"], "2026-09-29T16:30:47Z")
+                self.assertTrue(record["sourceRefs"])
 
     def test_pricing_component_projection_preserves_supported_cache_variants(self):
         record = {
