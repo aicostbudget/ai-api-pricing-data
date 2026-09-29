@@ -1908,6 +1908,32 @@ def reconcile_existing_sources(
     return reconciled
 
 
+def refresh_verified_record_sources(
+    sources_by_url: dict[str, dict[str, Any]],
+    public_by_key: dict[tuple[str, str], dict[str, Any]],
+    refresh_keys: list[tuple[str, str]],
+) -> dict[str, dict[str, Any]]:
+    """Refresh source metadata only for explicitly reverified canonical records."""
+    refreshed = {url: dict(source) for url, source in sources_by_url.items()}
+    for key in refresh_keys:
+        public = public_by_key.get(key)
+        if public is None:
+            raise ValueError(f"Unknown canonical source refresh record {key[0]}/{key[1]}")
+        accessed_at = public.get("accessed_at")
+        verified_at = public.get("last_verified_at")
+        if not accessed_at or not verified_at:
+            raise ValueError(f"Canonical source refresh record lacks timestamps {key[0]}/{key[1]}")
+        for url in public_source_urls(public):
+            source = refreshed.get(url)
+            if source is None:
+                raise ValueError(f"Canonical source refresh URL is missing from registry: {url}")
+            source["accessedAt"] = max(source.get("accessedAt") or accessed_at, accessed_at)
+            source["checkedAt"] = max(source.get("checkedAt") or accessed_at, accessed_at)
+            source["verifiedAt"] = max(source.get("verifiedAt") or verified_at, verified_at)
+            source["verificationStatus"] = "verified"
+    return refreshed
+
+
 def website_provider_id(record: dict[str, Any]) -> str:
     return PROVIDER_SLUGS.get(record["provider"], record["provider"].lower().replace(" ", "-"))
 
@@ -2229,6 +2255,13 @@ def main() -> None:
         default=str(PREVIEW / "sources.json"),
         help="Previous sources registry used for stable-identity reconciliation; use '-' to read JSON from stdin.",
     )
+    parser.add_argument(
+        "--refresh-source-record",
+        action="append",
+        default=[],
+        metavar="PROVIDER/MODEL",
+        help="Refresh source timestamps only for an explicitly reverified canonical record.",
+    )
     args = parser.parse_args()
 
     if args.previous_sources == "-":
@@ -2240,6 +2273,12 @@ def main() -> None:
     public_models = read_json(CANONICAL / "models.json")
     website_models = read_json(args.website_dataset.resolve())
     public_by_key = {(item["provider_id"], item["model_id"]): item for item in public_models}
+    refresh_source_keys = []
+    for value in args.refresh_source_record:
+        provider_id, separator, model_id = value.partition("/")
+        if not separator or not provider_id or not model_id:
+            raise ValueError(f"Invalid --refresh-source-record value: {value}")
+        refresh_source_keys.append((provider_id, model_id))
     website_by_key = {(website_provider_id(item), item["id"]): item for item in website_models}
     candidate_keys = sorted(set(public_by_key) | set(website_by_key))
 
@@ -2333,6 +2372,11 @@ def main() -> None:
     # refresh or reclassify the existing source record. Explicit registry
     # entries below remain authoritative and may intentionally replace it.
     source_urls = reconcile_existing_sources(source_urls, existing_sources)
+    source_urls = refresh_verified_record_sources(
+        source_urls,
+        public_by_key,
+        refresh_source_keys,
+    )
 
     for (provider_id, url), meta in PHASE26_EXTRA_SOURCE_URLS.items():
         checked_at = meta.get("checkedAt", "2026-07-07T00:00:00Z")

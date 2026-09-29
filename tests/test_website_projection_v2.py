@@ -327,6 +327,15 @@ class WebsiteProjectionV2Tests(unittest.TestCase):
         ])
         self.assertNotIn("redirectedBilling", self.by_internal["cohere/parse-v5.0"])
 
+    def test_reverified_non_token_records_propagate_record_level_timestamps(self):
+        for internal_id, timestamp in {
+            "cohere/parse-v5.0": "2026-09-29T12:39:46Z",
+            "xai/grok-imagine-image-2.0": "2026-09-29T11:56:18Z",
+        }.items():
+            row = self.by_internal[internal_id]
+            self.assertEqual(row["verifiedAt"], timestamp)
+            self.assertEqual(row["checkedAt"], timestamp)
+
     def test_gpt_4_1_family_and_excluded_defaults_are_null(self):
         for internal_id in ("openai/gpt-4.1", "openai/gpt-4.1-mini", "openai/gpt-4.1-nano"):
             row = self.by_internal[internal_id]

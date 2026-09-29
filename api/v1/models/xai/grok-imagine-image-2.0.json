@@ -1,13 +1,13 @@
 {
-  "accessed_at": "2026-09-05T15:40:04Z",
+  "accessed_at": "2026-09-29T11:56:18Z",
   "display_name": "Grok Imagine Image 2.0",
   "effective_from": null,
   "input_modality": "image",
-  "last_verified_at": "2026-09-05T15:40:04Z",
+  "last_verified_at": "2026-09-29T11:56:18Z",
   "model_category": "image_generation",
   "model_family": "Grok Imagine Image",
   "model_id": "grok-imagine-image-2.0",
-  "notes": "Low quality billing is $0.01 per input image, $0.04 per 1K output image, and $0.06 per 2K output image. The quality selector is explicit because redirected requests from grok-imagine-image-quality are scheduled to use quality=low.",
+  "notes": "Image input is $0.01 per image. Output pricing is resolution- and quality-specific: Low is $0.04/$0.05/$0.06 for 1K/1.5K/2K, and Medium is $0.06/$0.07/$0.08 for 1K/1.5K/2K. Batch is supported but the official model page lists Batch pricing as N/A.",
   "official_source_url": "https://docs.x.ai/developers/models/grok-imagine-image-2.0",
   "official_source_urls": [
     "https://docs.x.ai/developers/models/grok-imagine-image-2.0",
@@ -58,6 +58,23 @@
       "unit": "per_image"
     },
     {
+      "amount": 0.05,
+      "calculation_default": false,
+      "component": "output",
+      "configuration": {
+        "quality": "low",
+        "resolution": "1.5k"
+      },
+      "currency": "USD",
+      "effective_from": null,
+      "effective_until": null,
+      "id": "output_image_1p5k_low",
+      "modality": "image",
+      "pricing_status": "current",
+      "processing_mode": "standard",
+      "unit": "per_image"
+    },
+    {
       "amount": 0.06,
       "calculation_default": false,
       "component": "output",
@@ -69,6 +86,57 @@
       "effective_from": null,
       "effective_until": null,
       "id": "output_image_2k_low",
+      "modality": "image",
+      "pricing_status": "current",
+      "processing_mode": "standard",
+      "unit": "per_image"
+    },
+    {
+      "amount": 0.06,
+      "calculation_default": false,
+      "component": "output",
+      "configuration": {
+        "quality": "medium",
+        "resolution": "1k"
+      },
+      "currency": "USD",
+      "effective_from": null,
+      "effective_until": null,
+      "id": "output_image_1k_medium",
+      "modality": "image",
+      "pricing_status": "current",
+      "processing_mode": "standard",
+      "unit": "per_image"
+    },
+    {
+      "amount": 0.07,
+      "calculation_default": false,
+      "component": "output",
+      "configuration": {
+        "quality": "medium",
+        "resolution": "1.5k"
+      },
+      "currency": "USD",
+      "effective_from": null,
+      "effective_until": null,
+      "id": "output_image_1p5k_medium",
+      "modality": "image",
+      "pricing_status": "current",
+      "processing_mode": "standard",
+      "unit": "per_image"
+    },
+    {
+      "amount": 0.08,
+      "calculation_default": false,
+      "component": "output",
+      "configuration": {
+        "quality": "medium",
+        "resolution": "2k"
+      },
+      "currency": "USD",
+      "effective_from": null,
+      "effective_until": null,
+      "id": "output_image_2k_medium",
       "modality": "image",
       "pricing_status": "current",
       "processing_mode": "standard",

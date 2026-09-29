@@ -726,6 +726,7 @@ def main() -> None:
     parser.add_argument("--website-repo", type=Path, required=True)
     parser.add_argument("--website-ref", default="HEAD")
     parser.add_argument("--output", type=Path, default=HF_DIR)
+    parser.add_argument("--generated-at", help="Explicit UTC generation timestamp for deterministic release builds.")
     mode = parser.add_mutually_exclusive_group(required=True)
     mode.add_argument("--write", action="store_true")
     mode.add_argument("--check", action="store_true")
@@ -756,7 +757,11 @@ def main() -> None:
     metadata = read_json(META_PATH)
     legacy_models = load_website_models(args.website_repo.resolve(), args.website_ref)
     payload = build_export(projection, metadata, legacy_models)
-    preserve_existing_generated_at_for_timestamp_only_change(payload, args.output)
+    if args.generated_at:
+        payload["metadata"]["generated_at"] = args.generated_at
+        validate_payload(payload, projection)
+    else:
+        preserve_existing_generated_at_for_timestamp_only_change(payload, args.output)
     expected = artifact_contents(payload)
 
     if args.write:

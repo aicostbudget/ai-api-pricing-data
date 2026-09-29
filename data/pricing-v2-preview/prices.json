@@ -6794,13 +6794,27 @@
   },
   {
     "availabilityRules": [],
-    "billingNote": "Standard Kimi API pricing. Cache-miss input maps to input; automatically detected prefix-cache hits map to cached input. K3 always reasons, and reasoning content uses the normal billable output-token path with no separate surcharge published.",
+    "billingNote": "Standard Kimi API pricing. Cache-miss input is $3 per 1M tokens; 5-minute and 1-hour cache writes are $3 and $6; cached input is $0.30. K3 always reasons, and reasoning content uses the normal billable output-token path with no separate surcharge published.",
     "calculationDefault": true,
     "charges": [
       {
         "amount": "3",
         "chargeId": "price:moonshot-ai/kimi-k3:standard:short:current:input:text:per_1m_tokens",
         "component": "input",
+        "modality": "text",
+        "unit": "per_1m_tokens"
+      },
+      {
+        "amount": "3",
+        "chargeId": "price:moonshot-ai/kimi-k3:standard:short:current:cache_write_5m:text:per_1m_tokens",
+        "component": "cache_write_5m",
+        "modality": "text",
+        "unit": "per_1m_tokens"
+      },
+      {
+        "amount": "6",
+        "chargeId": "price:moonshot-ai/kimi-k3:standard:short:current:cache_write_1h:text:per_1m_tokens",
+        "component": "cache_write_1h",
         "modality": "text",
         "unit": "per_1m_tokens"
       },
@@ -6819,7 +6833,7 @@
         "unit": "per_1m_tokens"
       }
     ],
-    "checkedAt": "2026-09-08T03:04:30Z",
+    "checkedAt": "2026-09-29T11:56:21Z",
     "contextClass": "short",
     "currency": "USD",
     "defaultAvailabilityStatus": "available",
@@ -6856,7 +6870,7 @@
       "source:moonshot-ai:platform-kimi-ai-docs-pricing-chat-k3"
     ],
     "verificationStatus": "verified",
-    "verifiedAt": "2026-09-08T03:04:30Z"
+    "verifiedAt": "2026-09-29T11:56:21Z"
   },
   {
     "billingNote": "Use this for ChatGPT-style chat-latest estimates only. Production API model IDs may differ.",
@@ -13969,7 +13983,7 @@
     "verificationStatus": "verified"
   },
   {
-    "billingNote": "Low quality billing is $0.01 per input image, $0.04 per 1K output image, and $0.06 per 2K output image. The quality selector is explicit because redirected requests from grok-imagine-image-quality are scheduled to use quality=low.",
+    "billingNote": "Image input is $0.01 per image. Output pricing is resolution- and quality-specific: Low is $0.04/$0.05/$0.06 for 1K/1.5K/2K, and Medium is $0.06/$0.07/$0.08 for 1K/1.5K/2K. Batch is supported but the official model page lists Batch pricing as N/A.",
     "calculationDefault": false,
     "charges": [
       {
@@ -14004,7 +14018,7 @@
     "verificationStatus": "verified"
   },
   {
-    "billingNote": "Low quality billing is $0.01 per input image, $0.04 per 1K output image, and $0.06 per 2K output image. The quality selector is explicit because redirected requests from grok-imagine-image-quality are scheduled to use quality=low.",
+    "billingNote": "Image input is $0.01 per image. Output pricing is resolution- and quality-specific: Low is $0.04/$0.05/$0.06 for 1K/1.5K/2K, and Medium is $0.06/$0.07/$0.08 for 1K/1.5K/2K. Batch is supported but the official model page lists Batch pricing as N/A.",
     "calculationDefault": true,
     "charges": [
       {
@@ -14043,7 +14057,46 @@
     "verificationStatus": "verified"
   },
   {
-    "billingNote": "Low quality billing is $0.01 per input image, $0.04 per 1K output image, and $0.06 per 2K output image. The quality selector is explicit because redirected requests from grok-imagine-image-quality are scheduled to use quality=low.",
+    "billingNote": "Image input is $0.01 per image. Output pricing is resolution- and quality-specific: Low is $0.04/$0.05/$0.06 for 1K/1.5K/2K, and Medium is $0.06/$0.07/$0.08 for 1K/1.5K/2K. Batch is supported but the official model page lists Batch pricing as N/A.",
+    "calculationDefault": false,
+    "charges": [
+      {
+        "amount": "0.05",
+        "chargeId": "price:xai/grok-imagine-image-2.0:standard:short:current:output_image_1p5k_low:output:image:per_image",
+        "component": "output",
+        "modality": "image",
+        "unit": "per_image"
+      }
+    ],
+    "configuration": {
+      "quality": "low",
+      "resolution": "1.5k"
+    },
+    "contextClass": "short",
+    "currency": "USD",
+    "effectiveFrom": null,
+    "effectiveUntil": null,
+    "modelInternalId": "xai/grok-imagine-image-2.0",
+    "pricingId": "price:xai/grok-imagine-image-2.0:standard:short:current:output_image_1p5k_low",
+    "pricingStatus": "current",
+    "processingMode": "standard",
+    "promptTokenThreshold": null,
+    "regionPolicy": "global",
+    "sourceDatasetIds": {
+      "publicDatasetIds": [
+        "grok-imagine-image-2.0"
+      ],
+      "websiteIds": []
+    },
+    "sourceRefs": [
+      "source:xai:docs-x-ai-developers-model-capabilities-images-generation",
+      "source:xai:docs-x-ai-developers-models-grok-imagine-image-2-0",
+      "source:xai:docs-x-ai-developers-pricing"
+    ],
+    "verificationStatus": "verified"
+  },
+  {
+    "billingNote": "Image input is $0.01 per image. Output pricing is resolution- and quality-specific: Low is $0.04/$0.05/$0.06 for 1K/1.5K/2K, and Medium is $0.06/$0.07/$0.08 for 1K/1.5K/2K. Batch is supported but the official model page lists Batch pricing as N/A.",
     "calculationDefault": false,
     "charges": [
       {
@@ -14064,6 +14117,123 @@
     "effectiveUntil": null,
     "modelInternalId": "xai/grok-imagine-image-2.0",
     "pricingId": "price:xai/grok-imagine-image-2.0:standard:short:current:output_image_2k_low",
+    "pricingStatus": "current",
+    "processingMode": "standard",
+    "promptTokenThreshold": null,
+    "regionPolicy": "global",
+    "sourceDatasetIds": {
+      "publicDatasetIds": [
+        "grok-imagine-image-2.0"
+      ],
+      "websiteIds": []
+    },
+    "sourceRefs": [
+      "source:xai:docs-x-ai-developers-model-capabilities-images-generation",
+      "source:xai:docs-x-ai-developers-models-grok-imagine-image-2-0",
+      "source:xai:docs-x-ai-developers-pricing"
+    ],
+    "verificationStatus": "verified"
+  },
+  {
+    "billingNote": "Image input is $0.01 per image. Output pricing is resolution- and quality-specific: Low is $0.04/$0.05/$0.06 for 1K/1.5K/2K, and Medium is $0.06/$0.07/$0.08 for 1K/1.5K/2K. Batch is supported but the official model page lists Batch pricing as N/A.",
+    "calculationDefault": false,
+    "charges": [
+      {
+        "amount": "0.06",
+        "chargeId": "price:xai/grok-imagine-image-2.0:standard:short:current:output_image_1k_medium:output:image:per_image",
+        "component": "output",
+        "modality": "image",
+        "unit": "per_image"
+      }
+    ],
+    "configuration": {
+      "quality": "medium",
+      "resolution": "1k"
+    },
+    "contextClass": "short",
+    "currency": "USD",
+    "effectiveFrom": null,
+    "effectiveUntil": null,
+    "modelInternalId": "xai/grok-imagine-image-2.0",
+    "pricingId": "price:xai/grok-imagine-image-2.0:standard:short:current:output_image_1k_medium",
+    "pricingStatus": "current",
+    "processingMode": "standard",
+    "promptTokenThreshold": null,
+    "regionPolicy": "global",
+    "sourceDatasetIds": {
+      "publicDatasetIds": [
+        "grok-imagine-image-2.0"
+      ],
+      "websiteIds": []
+    },
+    "sourceRefs": [
+      "source:xai:docs-x-ai-developers-model-capabilities-images-generation",
+      "source:xai:docs-x-ai-developers-models-grok-imagine-image-2-0",
+      "source:xai:docs-x-ai-developers-pricing"
+    ],
+    "verificationStatus": "verified"
+  },
+  {
+    "billingNote": "Image input is $0.01 per image. Output pricing is resolution- and quality-specific: Low is $0.04/$0.05/$0.06 for 1K/1.5K/2K, and Medium is $0.06/$0.07/$0.08 for 1K/1.5K/2K. Batch is supported but the official model page lists Batch pricing as N/A.",
+    "calculationDefault": false,
+    "charges": [
+      {
+        "amount": "0.07",
+        "chargeId": "price:xai/grok-imagine-image-2.0:standard:short:current:output_image_1p5k_medium:output:image:per_image",
+        "component": "output",
+        "modality": "image",
+        "unit": "per_image"
+      }
+    ],
+    "configuration": {
+      "quality": "medium",
+      "resolution": "1.5k"
+    },
+    "contextClass": "short",
+    "currency": "USD",
+    "effectiveFrom": null,
+    "effectiveUntil": null,
+    "modelInternalId": "xai/grok-imagine-image-2.0",
+    "pricingId": "price:xai/grok-imagine-image-2.0:standard:short:current:output_image_1p5k_medium",
+    "pricingStatus": "current",
+    "processingMode": "standard",
+    "promptTokenThreshold": null,
+    "regionPolicy": "global",
+    "sourceDatasetIds": {
+      "publicDatasetIds": [
+        "grok-imagine-image-2.0"
+      ],
+      "websiteIds": []
+    },
+    "sourceRefs": [
+      "source:xai:docs-x-ai-developers-model-capabilities-images-generation",
+      "source:xai:docs-x-ai-developers-models-grok-imagine-image-2-0",
+      "source:xai:docs-x-ai-developers-pricing"
+    ],
+    "verificationStatus": "verified"
+  },
+  {
+    "billingNote": "Image input is $0.01 per image. Output pricing is resolution- and quality-specific: Low is $0.04/$0.05/$0.06 for 1K/1.5K/2K, and Medium is $0.06/$0.07/$0.08 for 1K/1.5K/2K. Batch is supported but the official model page lists Batch pricing as N/A.",
+    "calculationDefault": false,
+    "charges": [
+      {
+        "amount": "0.08",
+        "chargeId": "price:xai/grok-imagine-image-2.0:standard:short:current:output_image_2k_medium:output:image:per_image",
+        "component": "output",
+        "modality": "image",
+        "unit": "per_image"
+      }
+    ],
+    "configuration": {
+      "quality": "medium",
+      "resolution": "2k"
+    },
+    "contextClass": "short",
+    "currency": "USD",
+    "effectiveFrom": null,
+    "effectiveUntil": null,
+    "modelInternalId": "xai/grok-imagine-image-2.0",
+    "pricingId": "price:xai/grok-imagine-image-2.0:standard:short:current:output_image_2k_medium",
     "pricingStatus": "current",
     "processingMode": "standard",
     "promptTokenThreshold": null,

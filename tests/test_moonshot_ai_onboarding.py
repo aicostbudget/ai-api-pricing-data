@@ -66,7 +66,13 @@ class MoonshotAIOnboardingTests(unittest.TestCase):
 
     def test_verified_standard_cache_and_batch_contracts(self):
         expected_standard = {
-            "kimi-k3": {"input": "3", "cached_input": "0.3", "output": "15"},
+            "kimi-k3": {
+                "input": "3",
+                "cache_write_5m": "3",
+                "cache_write_1h": "6",
+                "cached_input": "0.3",
+                "output": "15",
+            },
             "kimi-k2.7-code": {"input": "0.95", "cached_input": "0.19", "output": "4"},
             "kimi-k2.6": {"input": "0.95", "cached_input": "0.16", "output": "4"},
         }

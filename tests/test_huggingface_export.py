@@ -334,13 +334,24 @@ class HuggingFaceExportTests(unittest.TestCase):
         )
         phase_b_cache_write_count += len(opus_writes)
         self.assertEqual(phase_b_cache_write_count, 18)
+        kimi_record = next(row for row in self.records if row["model_id"] == "kimi-k3")
+        kimi_writes = [
+            item
+            for item in kimi_record["pricing_components"]
+            if item["component"].startswith("cache_write")
+        ]
+        self.assertEqual(
+            {item["component"]: item["amount"] for item in kimi_writes},
+            {"cache_write_5m": "3", "cache_write_1h": "6"},
+        )
+        self.assertEqual(len(kimi_writes), 2)
         self.assertEqual(
             cache_write_count - phase_b_cache_write_count,
-            45 + len(expected_new_writes),
+            45 + len(expected_new_writes) + len(kimi_writes),
         )
         self.assertEqual(
             cache_write_count,
-            45 + len(expected_new_writes) + phase_b_cache_write_count,
+            45 + len(expected_new_writes) + len(kimi_writes) + phase_b_cache_write_count,
         )
         self.assertTrue(any(not record["pricing_components"] for record in self.records))
 

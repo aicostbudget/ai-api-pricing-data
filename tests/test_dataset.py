@@ -34,9 +34,12 @@ def copy_build_fixture(output_root: Path) -> Path:
     return output_data
 
 
-def run_isolated_build(output_root: Path) -> None:
+def run_isolated_build(output_root: Path, generated_at: str | None = None) -> None:
+    command = [sys.executable, "scripts/build.py", "--output-root", str(output_root)]
+    if generated_at is not None:
+        command.extend(["--generated-at", generated_at])
     subprocess.run(
-        [sys.executable, "scripts/build.py", "--output-root", str(output_root)],
+        command,
         cwd=ROOT,
         check=True,
     )
@@ -153,6 +156,15 @@ class DatasetTests(unittest.TestCase):
             "openai/gpt-5.4-pro": (30.0, None, 180.0, None, None, 15.0, 90.0),
             "openai/gpt-5.5-pro": (30.0, None, 180.0, None, None, 15.0, 90.0),
         }
+        expected_verified_at = {
+            "anthropic/claude-fable-5": "2026-09-29T11:55:08Z",
+            "google-gemini/gemini-3.1-flash-lite": "2026-09-29T11:55:14Z",
+            "google-gemini/gemini-3.5-flash": "2026-09-29T11:55:12Z",
+            "openai/gpt-5.4": "2026-09-29T11:55:03Z",
+            "openai/gpt-5.4-nano": "2026-09-29T11:55:05Z",
+            "openai/gpt-5.4-pro": "2026-09-29T11:55:02Z",
+            "openai/gpt-5.5-pro": "2026-09-29T11:55:00Z",
+        }
         for internal_id, values in expected.items():
             row = by_key[internal_id]
             self.assertEqual(
@@ -172,8 +184,8 @@ class DatasetTests(unittest.TestCase):
                 internal_id,
             )
             self.assertEqual(row["status"], "active", internal_id)
-            self.assertEqual(row["accessed_at"], "2026-08-24T08:42:53Z", internal_id)
-            self.assertEqual(row["last_verified_at"], "2026-08-24T08:42:53Z", internal_id)
+            self.assertEqual(row["accessed_at"], expected_verified_at[internal_id], internal_id)
+            self.assertEqual(row["last_verified_at"], expected_verified_at[internal_id], internal_id)
             self.assertEqual(row["effective_from"], "2026-07-03", internal_id)
             self.assertTrue(row["official_source_url"].startswith("https://"), internal_id)
             self.assertTrue(row["notes"], internal_id)
@@ -257,6 +269,17 @@ class DatasetTests(unittest.TestCase):
             after = json.loads((output_data / "prices.json").read_text(encoding="utf-8"))
             before["generated_at"] = after["generated_at"]
             self.assertEqual(before, after)
+
+    def test_build_accepts_explicit_generated_at(self):
+        with tempfile.TemporaryDirectory() as tmp:
+            output_root = Path(tmp)
+            output_data = copy_build_fixture(output_root)
+            generated_at = "2026-09-29T12:45:00Z"
+            run_isolated_build(output_root, generated_at)
+            dataset = json.loads((output_data / "prices.json").read_text(encoding="utf-8"))
+            metadata = json.loads((output_root / "api/v1/meta.json").read_text(encoding="utf-8"))
+            self.assertEqual(dataset["generated_at"], generated_at)
+            self.assertEqual(metadata["generated_at"], generated_at)
 
     def test_build_twice_preserves_history_without_duplicate_entries(self):
         with tempfile.TemporaryDirectory() as tmp:

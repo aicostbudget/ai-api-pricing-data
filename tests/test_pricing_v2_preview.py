@@ -217,6 +217,10 @@ class PricingV2PreviewTests(unittest.TestCase):
             "openai/gpt-5.6-terra": "https://developers.openai.com/api/docs/models/gpt-5.6-terra",
             "openai/gpt-5.6-luna": "https://developers.openai.com/api/docs/models/gpt-5.6-luna",
         }
+        expected_model_source_timestamps = {
+            "openai/gpt-5.6-terra": "2026-09-29T11:54:56Z",
+            "openai/gpt-5.6-luna": "2026-09-29T11:54:58Z",
+        }
 
         for model_internal_id, base_prices in expected_base.items():
             records = [price for price in self.prices if price["modelInternalId"] == model_internal_id]
@@ -242,8 +246,9 @@ class PricingV2PreviewTests(unittest.TestCase):
                 self.assertIn(expected_model_sources[model_internal_id], source_urls)
                 for ref in record["sourceRefs"]:
                     if source_by_id[ref]["url"] == expected_model_sources[model_internal_id]:
-                        self.assertEqual(source_by_id[ref]["checkedAt"], "2026-08-25T15:02:22Z")
-                        self.assertEqual(source_by_id[ref]["verifiedAt"], "2026-08-25T15:02:22Z")
+                        expected_timestamp = expected_model_source_timestamps[model_internal_id]
+                        self.assertEqual(source_by_id[ref]["checkedAt"], expected_timestamp)
+                        self.assertEqual(source_by_id[ref]["verifiedAt"], expected_timestamp)
 
             def selected(prompt_tokens):
                 return sorted(
@@ -649,7 +654,11 @@ class XaiImageLifecycleTests(unittest.TestCase):
         self.assertEqual(self.component_amounts(new), {
             ("input", ()): 0.01,
             ("output", (("quality", "low"), ("resolution", "1k"))): 0.04,
+            ("output", (("quality", "low"), ("resolution", "1.5k"))): 0.05,
             ("output", (("quality", "low"), ("resolution", "2k"))): 0.06,
+            ("output", (("quality", "medium"), ("resolution", "1k"))): 0.06,
+            ("output", (("quality", "medium"), ("resolution", "1.5k"))): 0.07,
+            ("output", (("quality", "medium"), ("resolution", "2k"))): 0.08,
         })
         self.assertEqual(old["lifecycle"], {
             "retirement_notice_date": "2026-09-02",

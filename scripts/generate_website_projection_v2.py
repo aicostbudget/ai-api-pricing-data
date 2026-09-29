@@ -875,6 +875,40 @@ def website_price_matches(
     return cached is None or parse_decimal(str(cached)) == charge_amount(selected_price, "cached_input")
 
 
+def public_non_token_prices_match(
+    public_record: dict[str, Any] | None,
+    projected_components: list[dict[str, Any]] | None,
+) -> bool:
+    public_components = (public_record or {}).get("pricing_components") or []
+    if not public_components or not projected_components:
+        return False
+    expected = sorted(
+        (
+            component["component"],
+            component["modality"],
+            component["unit"],
+            parse_decimal(str(component["amount"])),
+            component.get("processing_mode"),
+            component.get("effective_from"),
+            component.get("effective_until"),
+        )
+        for component in public_components
+    )
+    actual = sorted(
+        (
+            component["component"],
+            component["modality"],
+            component["unit"],
+            parse_decimal(str(component["amount"])),
+            component["condition"].get("processingMode"),
+            component["condition"].get("effectiveFrom"),
+            component["condition"].get("effectiveUntil"),
+        )
+        for component in projected_components
+    )
+    return expected == actual
+
+
 def refs_for_url(
     refs: list[str],
     sources_by_id: dict[str, dict[str, Any]],
@@ -989,6 +1023,8 @@ def projection_row(
     ) if website_source_refs else None
     verified_at = None
     verified_source_refs: list[str] = []
+    public_source_refs: list[str] = []
+    public_price_matches = False
     if default_safe and selected_price:
         verified_evidence = verified_price_by_id.get(selected_price["pricingId"], {})
         verified_at = verified_evidence.get("phase25VerifiedAt")
@@ -1026,7 +1062,14 @@ def projection_row(
                 if public_price_matches and public_source_refs
                 else None
             )
-            if (
+            if public_verified_at is not None and (
+                not existing_row
+                or not existing_row.get("verifiedAt")
+                or public_verified_at > existing_row["verifiedAt"]
+            ):
+                verified_at = public_verified_at
+                verified_source_refs = public_source_refs
+            elif (
                 existing_row
                 and existing_row.get("selectedPriceRecordId") == selected_price["pricingId"]
                 and existing_row.get("verifiedAt")
@@ -1037,9 +1080,6 @@ def projection_row(
             elif website_verified_at is not None:
                 verified_at = website_verified_at
                 verified_source_refs = website_source_refs
-            elif public_verified_at is not None:
-                verified_at = public_verified_at
-                verified_source_refs = public_source_refs
         if verified_at is None:
             verified_at = latest_timestamp(
                 [source_timestamp(sources_by_id[ref], "verifiedAt") for ref in refs if ref in sources_by_id]
@@ -1058,6 +1098,14 @@ def projection_row(
         verified_source_refs = source_refs_at_timestamp(
             refs, sources_by_id, "verifiedAt", verified_at
         )
+        public_source_refs = sorted(
+            ref
+            for ref in refs
+            if ref in sources_by_id
+            and public_verification
+            and sources_by_id[ref].get("url") == public_verification.get("official_source_url")
+        )
+        public_price_matches = public_non_token_prices_match(public_verification, pricing_components)
     selected_pricing_id = (selected_price or {}).get("pricingId")
     existing_price_matches = (
         (existing_row or {}).get("selectedPriceRecordId") == selected_pricing_id
@@ -1075,7 +1123,19 @@ def projection_row(
         not default_safe
         and (existing_row or {}).get("selectedPriceRecordId") is None
     )
-    if (
+    public_checked_at = (
+        public_verification.get("accessed_at")
+        if public_price_matches and public_source_refs
+        else None
+    )
+    if public_checked_at is not None and (
+        not existing_row
+        or not existing_row.get("checkedAt")
+        or public_checked_at > existing_row["checkedAt"]
+    ):
+        checked_at = public_checked_at
+        checked_source_refs = public_source_refs
+    elif (
         existing_row
         and (
             existing_price_matches

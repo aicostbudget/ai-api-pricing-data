@@ -1,7 +1,11 @@
 import copy
 import unittest
 
-from scripts.generate_pricing_v2_preview import reconcile_existing_sources, source_id
+from scripts.generate_pricing_v2_preview import (
+    reconcile_existing_sources,
+    refresh_verified_record_sources,
+    source_id,
+)
 
 
 class SourceReconciliationTests(unittest.TestCase):
@@ -91,6 +95,32 @@ class SourceReconciliationTests(unittest.TestCase):
         invalid["sourceId"] = "source:openai:wrong"
         with self.assertRaisesRegex(ValueError, "identity mismatch"):
             reconcile_existing_sources({}, [invalid])
+
+    def test_explicit_record_refresh_updates_only_its_source_timestamps(self):
+        public_by_key = {
+            ("openai", "gpt-test"): {
+                "provider_id": "openai",
+                "model_id": "gpt-test",
+                "official_source_url": self.openai_url,
+                "official_source_urls": [self.openai_url],
+                "accessed_at": "2026-09-29T12:00:00Z",
+                "last_verified_at": "2026-09-29T11:59:00Z",
+            }
+        }
+        reconciled = reconcile_existing_sources(self.derived, self.existing)
+        refreshed = refresh_verified_record_sources(
+            reconciled,
+            public_by_key,
+            [("openai", "gpt-test")],
+        )
+        self.assertEqual(refreshed[self.openai_url]["accessedAt"], "2026-09-29T12:00:00Z")
+        self.assertEqual(refreshed[self.openai_url]["checkedAt"], "2026-09-29T12:00:00Z")
+        self.assertEqual(refreshed[self.openai_url]["verifiedAt"], "2026-09-29T11:59:00Z")
+        self.assertEqual(refreshed[self.anthropic_url], reconciled[self.anthropic_url])
+
+    def test_explicit_record_refresh_rejects_unknown_record(self):
+        with self.assertRaisesRegex(ValueError, "Unknown canonical source refresh record"):
+            refresh_verified_record_sources({}, {}, [("openai", "missing")])
 
 
 if __name__ == "__main__":

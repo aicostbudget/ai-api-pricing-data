@@ -39,7 +39,7 @@ def source_commit_sha() -> str:
     return value
 
 
-def build_outputs(output_root: Path) -> None:
+def build_outputs(output_root: Path, generated_at_value: str | None = None) -> None:
     data = output_root / "data"
     api = output_root / "api" / "v1"
     for path in [data / "prices.json", data / "prices.csv", data / "providers", data / "models", api]:
@@ -50,7 +50,7 @@ def build_outputs(output_root: Path) -> None:
 
     providers = load_providers()
     models = load_models()
-    generated_at = utc_now()
+    generated_at = generated_at_value or utc_now()
     dataset = build_dataset(generated_at)
 
     write_json(data / "prices.json", dataset)
@@ -114,8 +114,12 @@ def main() -> None:
         default=ROOT,
         help="Root directory for generated data/ and api/v1/ outputs (defaults to the repository root).",
     )
+    parser.add_argument(
+        "--generated-at",
+        help="Explicit UTC generation timestamp for reproducible release builds.",
+    )
     args = parser.parse_args()
-    build_outputs(args.output_root.resolve())
+    build_outputs(args.output_root.resolve(), args.generated_at)
 
 
 if __name__ == "__main__":
