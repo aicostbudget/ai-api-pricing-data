@@ -1132,6 +1132,137 @@
   },
   {
     "availabilityRules": [],
+    "billingNote": "Standard global Claude API token and prompt-cache pricing; the full 1M context window uses the same rates, and 5-minute and 1-hour cache writes are distinct charge semantics.",
+    "calculationDefault": true,
+    "charges": [
+      {
+        "amount": "2",
+        "chargeId": "price:anthropic/claude-sonnet-5-5:standard:short:current:input:text:per_1m_tokens",
+        "component": "input",
+        "modality": "text",
+        "unit": "per_1m_tokens"
+      },
+      {
+        "amount": "0.2",
+        "chargeId": "price:anthropic/claude-sonnet-5-5:standard:short:current:cache_read:text:per_1m_tokens",
+        "component": "cache_read",
+        "modality": "text",
+        "unit": "per_1m_tokens"
+      },
+      {
+        "amount": "2.5",
+        "chargeId": "price:anthropic/claude-sonnet-5-5:standard:short:current:cache_write_5m:text:per_1m_tokens",
+        "component": "cache_write_5m",
+        "modality": "text",
+        "unit": "per_1m_tokens"
+      },
+      {
+        "amount": "4",
+        "chargeId": "price:anthropic/claude-sonnet-5-5:standard:short:current:cache_write_1h:text:per_1m_tokens",
+        "component": "cache_write_1h",
+        "modality": "text",
+        "unit": "per_1m_tokens"
+      },
+      {
+        "amount": "10",
+        "chargeId": "price:anthropic/claude-sonnet-5-5:standard:short:current:output:text:per_1m_tokens",
+        "component": "output",
+        "modality": "text",
+        "unit": "per_1m_tokens"
+      }
+    ],
+    "checkedAt": "2026-09-30T03:25:59Z",
+    "contextClass": "short",
+    "currency": "USD",
+    "defaultAvailabilityStatus": "available",
+    "effectiveFrom": "2026-09-28",
+    "effectiveUntil": null,
+    "modelInternalId": "anthropic/claude-sonnet-5-5",
+    "priceAdjustments": [],
+    "pricingId": "price:anthropic/claude-sonnet-5-5:standard:short:current",
+    "pricingStatus": "current",
+    "processingMode": "standard",
+    "promptTokenThreshold": null,
+    "regionPolicy": "global",
+    "regionSelector": {
+      "dataResidencies": [
+        "global"
+      ],
+      "endpointGeographies": [
+        "global"
+      ],
+      "pricingGeography": "global_base"
+    },
+    "sourceDatasetIds": {
+      "publicDatasetIds": [
+        "claude-sonnet-5-5"
+      ],
+      "websiteIds": []
+    },
+    "sourceRefs": [
+      "source:anthropic:platform-claude-com-docs-en-about-claude-pricing",
+      "source:anthropic:platform-claude-com-docs-en-models-sonnet-5-5-overview"
+    ],
+    "verificationStatus": "verified",
+    "verifiedAt": "2026-09-30T03:25:59Z"
+  },
+  {
+    "availabilityRules": [],
+    "billingNote": "Batch API input and output pricing is the published 50% discount from Standard global token rates.",
+    "calculationDefault": false,
+    "charges": [
+      {
+        "amount": "1",
+        "chargeId": "price:anthropic/claude-sonnet-5-5:batch:short:current:input:text:per_1m_tokens",
+        "component": "input",
+        "modality": "text",
+        "unit": "per_1m_tokens"
+      },
+      {
+        "amount": "5",
+        "chargeId": "price:anthropic/claude-sonnet-5-5:batch:short:current:output:text:per_1m_tokens",
+        "component": "output",
+        "modality": "text",
+        "unit": "per_1m_tokens"
+      }
+    ],
+    "checkedAt": "2026-09-30T03:25:59Z",
+    "contextClass": "short",
+    "currency": "USD",
+    "defaultAvailabilityStatus": "available",
+    "effectiveFrom": "2026-09-28",
+    "effectiveUntil": null,
+    "modelInternalId": "anthropic/claude-sonnet-5-5",
+    "priceAdjustments": [],
+    "pricingId": "price:anthropic/claude-sonnet-5-5:batch:short:current",
+    "pricingStatus": "current",
+    "processingMode": "batch",
+    "promptTokenThreshold": null,
+    "regionPolicy": "global",
+    "regionSelector": {
+      "dataResidencies": [
+        "global"
+      ],
+      "endpointGeographies": [
+        "global"
+      ],
+      "pricingGeography": "global_base"
+    },
+    "sourceDatasetIds": {
+      "publicDatasetIds": [
+        "claude-sonnet-5-5"
+      ],
+      "websiteIds": []
+    },
+    "sourceRefs": [
+      "source:anthropic:platform-claude-com-docs-en-about-claude-pricing",
+      "source:anthropic:platform-claude-com-docs-en-models-sonnet-5-5-overview"
+    ],
+    "verificationStatus": "verified",
+    "verifiedAt": "2026-09-30T03:25:59Z"
+  },
+  {
+    "availabilityRules": [],
     "billingNote": "Standard paid pricing is graduated monthly: USD 1.50 per 1,000 pages for the first 1,000,000 pages and USD 0.60 per 1,000 pages above 1,000,000 in most listed commercial regions. Region adjustments preserve the different US West (N. California) and GovCloud rates.",
     "calculationDefault": false,
     "charges": [

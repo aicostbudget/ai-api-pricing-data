@@ -3,6 +3,7 @@ from __future__ import annotations
 import argparse
 import json
 import os
+import subprocess
 from datetime import datetime, timezone
 from decimal import Decimal
 from pathlib import Path
@@ -940,6 +941,34 @@ def resolve_generated_at(
     return max(parse_effective_at(value) for value in timestamps).isoformat().replace("+00:00", "Z")
 
 
+def row_effective_at(
+    identity: dict[str, Any],
+    existing_projection_by_id: dict[str, dict[str, Any]],
+    public_verification_by_internal_id: dict[str, dict[str, Any]],
+    requested_effective_at: datetime,
+    existing_effective_at: datetime,
+    generated_at_value: str,
+    preserve_existing_selections: bool,
+) -> datetime:
+    if not preserve_existing_selections:
+        return requested_effective_at
+
+    existing_row = existing_projection_by_id.get(website_id_for(identity))
+    if existing_row is None:
+        return requested_effective_at
+    if existing_row.get("selectedPriceRecordId") is not None:
+        return existing_effective_at
+
+    public_record = public_verification_by_internal_id.get(identity["internalId"], {})
+    effective_from = public_record.get("effective_from")
+    newly_verified = public_record.get("last_verified_at") == generated_at_value
+    if newly_verified and effective_from:
+        record_effective_at = parse_effective_at(effective_from)
+        if existing_effective_at < record_effective_at <= requested_effective_at:
+            return requested_effective_at
+    return existing_effective_at
+
+
 def projection_row(
     identity: dict[str, Any],
     model_by_id: dict[str, dict[str, Any]],
@@ -1735,6 +1764,8 @@ def build_projection(
     website_dataset: Path,
     generated_at_value: str | None = None,
     existing_artifact: Path | None = ARTIFACT,
+    existing_projection_data: dict[str, Any] | None = None,
+    preserve_existing_selections: bool = False,
 ) -> tuple[dict[str, Any], dict[str, Any]]:
     schema_version = read_json(PREVIEW / "schema-version.json")
     identities = read_json(PREVIEW / "model-identity-registry.json")
@@ -1759,11 +1790,20 @@ def build_projection(
     }
     existing_projection_by_id: dict[str, dict[str, Any]] = {}
     existing_projection: dict[str, Any] | None = None
-    if existing_artifact is not None and existing_artifact.exists():
+    if existing_projection_data is not None:
+        existing_projection = existing_projection_data
+        existing_projection_by_id = {
+            row["id"]: row for row in existing_projection.get("models", [])
+        }
+    elif existing_artifact is not None and existing_artifact.exists():
         existing_projection = read_json(existing_artifact)
         existing_projection_by_id = {
             row["id"]: row for row in existing_projection.get("models", [])
         }
+    resolved_generated_at = resolve_generated_at(generated_at_value, existing_projection, [])
+    existing_effective_at = parse_effective_at(
+        (existing_projection or {}).get("effectiveAt", effective_at_value)
+    )
     rows = [
         projection_row(
             identity,
@@ -1773,7 +1813,15 @@ def build_projection(
             verified_price_by_id,
             public_verification_by_internal_id,
             existing_projection_by_id,
-            effective_at,
+            row_effective_at(
+                identity,
+                existing_projection_by_id,
+                public_verification_by_internal_id,
+                effective_at,
+                existing_effective_at,
+                resolved_generated_at,
+                preserve_existing_selections,
+            ),
             website_rows,
             excluded_reasons,
             merged_sources,
@@ -2134,14 +2182,40 @@ def main() -> None:
     parser.add_argument("--website-dataset", type=Path, required=True)
     parser.add_argument("--artifact", type=Path, default=ARTIFACT)
     parser.add_argument("--existing-artifact", type=Path)
+    parser.add_argument(
+        "--existing-artifact-git-ref",
+        help="Read the existing projection baseline from this local Git ref instead of the worktree artifact.",
+    )
+    parser.add_argument(
+        "--preserve-existing-selections",
+        action="store_true",
+        help="Keep existing rows on the prior artifact effectiveAt while evaluating newly verified canonical additions at --effective-at.",
+    )
     parser.add_argument("--report", type=Path, default=REPORT)
     args = parser.parse_args()
-    existing_artifact = args.existing_artifact if args.existing_artifact is not None else args.artifact
+    if args.existing_artifact is not None and args.existing_artifact_git_ref:
+        parser.error("--existing-artifact and --existing-artifact-git-ref are mutually exclusive")
+    existing_projection_data = None
+    if args.existing_artifact_git_ref:
+        artifact_relative = args.artifact.resolve().relative_to(ROOT).as_posix()
+        completed = subprocess.run(
+            ["git", "show", f"{args.existing_artifact_git_ref}:{artifact_relative}"],
+            cwd=ROOT,
+            check=True,
+            capture_output=True,
+            encoding="utf-8",
+        )
+        existing_projection_data = json.loads(completed.stdout)
+        existing_artifact = None
+    else:
+        existing_artifact = args.existing_artifact if args.existing_artifact is not None else args.artifact
     artifact, report = build_projection(
         args.effective_at,
         website_dataset=args.website_dataset,
         generated_at_value=args.generated_at,
         existing_artifact=existing_artifact,
+        existing_projection_data=existing_projection_data,
+        preserve_existing_selections=args.preserve_existing_selections,
     )
     audits = build_phase45_audits(artifact, report, website_dataset=args.website_dataset)
     atomic_write_json(args.artifact, artifact)

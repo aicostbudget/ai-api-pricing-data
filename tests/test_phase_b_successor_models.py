@@ -19,11 +19,13 @@ class PhaseBSuccessorModelTests(unittest.TestCase):
     def setUpClass(cls):
         cls.models = {row["model_id"]: row for row in read_json("data/canonical/models.json")}
 
-    def test_new_models_validate_and_future_announcements_stay_absent(self):
+    def test_new_models_validate_released_sonnet_and_future_haiku_stays_absent(self):
         self.assertTrue(MODEL_IDS <= set(self.models))
         for model_id in MODEL_IDS:
             validate_model_price_records(self.models[model_id])
-        self.assertFalse(any("sonnet-5-5" in model_id or "haiku-5-5" in model_id for model_id in self.models))
+        self.assertIn("claude-sonnet-5-5", self.models)
+        validate_model_price_records(self.models["claude-sonnet-5-5"])
+        self.assertFalse(any("haiku-5-5" in model_id for model_id in self.models))
 
     def test_predecessor_pricing_and_lifecycle_invariants(self):
         expected = {

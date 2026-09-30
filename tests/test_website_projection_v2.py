@@ -17,6 +17,7 @@ from scripts.generate_website_projection_v2 import (
     project_pricing_component,
     project_cache_eligibility,
     project_cache_lifetime_modes,
+    row_effective_at,
     validate_projection,
 )
 
@@ -150,6 +151,38 @@ class WebsiteProjectionV2Tests(unittest.TestCase):
         verified_at = datetime.fromisoformat("2026-08-08T18:00:00+00:00")
         self.assertGreaterEqual(generated_at, verified_at)
         self.assertGreaterEqual(self.artifact["effectiveAt"], "2026-07-24T00:00:00Z")
+
+    def test_preserved_selection_activates_only_newly_verified_canonical_addition(self):
+        prior = parse_effective_at("2026-08-31T17:11:58Z")
+        requested = parse_effective_at("2026-09-30T03:25:59Z")
+        identity = {"internalId": "anthropic/new-model", "canonicalOfficialId": "new-model"}
+        existing = {
+            "new-model": {
+                "id": "new-model",
+                "selectedPriceRecordId": None,
+            }
+        }
+        public = {
+            "anthropic/new-model": {
+                "effective_from": "2026-09-28",
+                "last_verified_at": "2026-09-30T03:25:59Z",
+            }
+        }
+        self.assertEqual(
+            row_effective_at(identity, existing, public, requested, prior, "2026-09-30T03:25:59Z", True),
+            requested,
+        )
+        public["anthropic/new-model"]["last_verified_at"] = "2026-09-29T00:00:00Z"
+        self.assertEqual(
+            row_effective_at(identity, existing, public, requested, prior, "2026-09-30T03:25:59Z", True),
+            prior,
+        )
+        existing["new-model"]["selectedPriceRecordId"] = "price:anthropic/new-model:standard:short:current"
+        public["anthropic/new-model"]["last_verified_at"] = "2026-09-30T03:25:59Z"
+        self.assertEqual(
+            row_effective_at(identity, existing, public, requested, prior, "2026-09-30T03:25:59Z", True),
+            prior,
+        )
 
     def test_projection_generated_at_covers_every_checked_and_verified_timestamp(self):
         generated_at = datetime.fromisoformat(self.artifact["generatedAt"].replace("Z", "+00:00"))

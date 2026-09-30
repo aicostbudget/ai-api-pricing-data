@@ -9,7 +9,7 @@
     "review_required": "display only with warning; no default or recommendation placement",
     "unsafe": "exclude from default calculations and show warning only where explicitly allowed"
   },
-  "effectiveAt": "2026-09-29T16:30:47Z",
+  "effectiveAt": "2026-09-30T03:25:59Z",
   "effectiveTimezone": "UTC",
   "failureBehavior": {
     "atomicWrite": true,
@@ -18,7 +18,7 @@
     "partialJson": "not_written",
     "publicV1Mutation": "forbidden"
   },
-  "generatedAt": "2026-09-29T16:30:47Z",
+  "generatedAt": "2026-09-30T03:25:59Z",
   "generatedAtPolicy": "UTC artifact generation timestamp injected by the generation pipeline",
   "governancePolicy": {
     "classes": [
@@ -3353,6 +3353,415 @@
       "verifiedAt": "2026-09-29T11:55:10Z",
       "verifiedSourceRefs": [
         "source:anthropic:platform-claude-com-docs-en-about-claude-pricing"
+      ]
+    },
+    {
+      "aliasTargetInternalId": null,
+      "availability": "active",
+      "batchInputPrice": 1,
+      "batchOutputPrice": 5,
+      "billingModelInternalId": null,
+      "blockedFromDefaultReasons": [],
+      "cacheEligibility": {
+        "checkedAt": "2026-09-30T03:25:59Z",
+        "minimumCacheablePrefixTokens": 512,
+        "sourceRefs": [
+          "source:anthropic:platform-claude-com-docs-en-build-with-claude-prompt-caching"
+        ],
+        "sourceUrls": [
+          "https://platform.claude.com/docs/en/build-with-claude/prompt-caching"
+        ],
+        "verificationStatus": "verified",
+        "verifiedAt": "2026-09-30T03:25:59Z"
+      },
+      "cacheLifetimeModes": [
+        {
+          "activationBehavior": "request_configured",
+          "cacheWriteComponent": "cache_write_5m",
+          "checkedAt": "2026-09-30T03:25:59Z",
+          "isDefault": true,
+          "minimumLifetimeSeconds": 300,
+          "renewalBehavior": "refresh_on_reuse",
+          "sourceRefs": [
+            "source:anthropic:platform-claude-com-docs-en-build-with-claude-prompt-caching"
+          ],
+          "sourceUrls": [
+            "https://platform.claude.com/docs/en/build-with-claude/prompt-caching"
+          ],
+          "userSelectable": true,
+          "verificationStatus": "verified",
+          "verifiedAt": "2026-09-30T03:25:59Z"
+        },
+        {
+          "activationBehavior": "request_configured",
+          "cacheWriteComponent": "cache_write_1h",
+          "checkedAt": "2026-09-30T03:25:59Z",
+          "isDefault": false,
+          "minimumLifetimeSeconds": 3600,
+          "renewalBehavior": "refresh_on_reuse",
+          "sourceRefs": [
+            "source:anthropic:platform-claude-com-docs-en-build-with-claude-prompt-caching"
+          ],
+          "sourceUrls": [
+            "https://platform.claude.com/docs/en/build-with-claude/prompt-caching"
+          ],
+          "userSelectable": true,
+          "verificationStatus": "verified",
+          "verifiedAt": "2026-09-30T03:25:59Z"
+        }
+      ],
+      "cachedInputPrice": 0.2,
+      "canonicalInternalId": "anthropic/claude-sonnet-5-5",
+      "checkedAt": "2026-09-30T03:25:59Z",
+      "checkedSourceRefs": [
+        "source:anthropic:platform-claude-com-docs-en-about-claude-pricing",
+        "source:anthropic:platform-claude-com-docs-en-models-sonnet-5-5-overview"
+      ],
+      "contextWindow": "1M",
+      "contextWindowStatus": "canonical_verified",
+      "contextWindowTokens": 1000000,
+      "defaultPriceSelectionRule": [
+        "current_effective_utc",
+        "verified",
+        "standard",
+        "text",
+        "default_context_class"
+      ],
+      "defaultSafe": true,
+      "governanceClass": "VERIFIED_CANONICAL",
+      "governanceDetails": null,
+      "governanceReason": "canonical_verified_direct_public_projection",
+      "governanceSourceCandidateIds": [
+        "anthropic/claude-sonnet-5-5"
+      ],
+      "id": "claude-sonnet-5-5",
+      "identityType": "canonical_model",
+      "inputPrice": 2,
+      "lifecycleStatus": "active",
+      "model": "Claude Sonnet 5.5",
+      "officialSourceUrl": "https://platform.claude.com/docs/en/about-claude/pricing",
+      "outputPrice": 10,
+      "priceRecords": [
+        {
+          "calculationDefault": false,
+          "checkedAt": "2026-09-30T03:25:59Z",
+          "contextClass": "short",
+          "effectiveFrom": "2026-09-28",
+          "effectiveUntil": null,
+          "pricingId": "price:anthropic/claude-sonnet-5-5:batch:short:current",
+          "pricingStatus": "current",
+          "processingMode": "batch",
+          "sourceRefs": [
+            "source:anthropic:platform-claude-com-docs-en-about-claude-pricing",
+            "source:anthropic:platform-claude-com-docs-en-models-sonnet-5-5-overview"
+          ],
+          "verificationStatus": "verified",
+          "verifiedAt": "2026-09-30T03:25:59Z"
+        },
+        {
+          "calculationDefault": true,
+          "checkedAt": "2026-09-30T03:25:59Z",
+          "contextClass": "short",
+          "effectiveFrom": "2026-09-28",
+          "effectiveUntil": null,
+          "pricingId": "price:anthropic/claude-sonnet-5-5:standard:short:current",
+          "pricingStatus": "current",
+          "processingMode": "standard",
+          "sourceRefs": [
+            "source:anthropic:platform-claude-com-docs-en-about-claude-pricing",
+            "source:anthropic:platform-claude-com-docs-en-models-sonnet-5-5-overview"
+          ],
+          "verificationStatus": "verified",
+          "verifiedAt": "2026-09-30T03:25:59Z"
+        }
+      ],
+      "pricingComponents": [
+        {
+          "amount": "1",
+          "calculationDefault": false,
+          "chargeId": "price:anthropic/claude-sonnet-5-5:batch:short:current:input:text:per_1m_tokens",
+          "component": "input",
+          "condition": {
+            "availabilityRules": [],
+            "contextClass": "short",
+            "defaultAvailabilityStatus": "available",
+            "effectiveFrom": "2026-09-28",
+            "effectiveUntil": null,
+            "priceAdjustments": [],
+            "processingMode": "batch",
+            "promptTokenThreshold": null,
+            "regionPolicy": "global",
+            "regionSelector": {
+              "dataResidencies": [
+                "global"
+              ],
+              "endpointGeographies": [
+                "global"
+              ],
+              "pricingGeography": "global_base"
+            },
+            "tierSelection": null
+          },
+          "currency": "USD",
+          "modality": "text",
+          "pricingId": "price:anthropic/claude-sonnet-5-5:batch:short:current",
+          "sourceRefs": [
+            "source:anthropic:platform-claude-com-docs-en-about-claude-pricing",
+            "source:anthropic:platform-claude-com-docs-en-models-sonnet-5-5-overview"
+          ],
+          "unit": "per_1m_tokens",
+          "verificationStatus": "verified"
+        },
+        {
+          "amount": "5",
+          "calculationDefault": false,
+          "chargeId": "price:anthropic/claude-sonnet-5-5:batch:short:current:output:text:per_1m_tokens",
+          "component": "output",
+          "condition": {
+            "availabilityRules": [],
+            "contextClass": "short",
+            "defaultAvailabilityStatus": "available",
+            "effectiveFrom": "2026-09-28",
+            "effectiveUntil": null,
+            "priceAdjustments": [],
+            "processingMode": "batch",
+            "promptTokenThreshold": null,
+            "regionPolicy": "global",
+            "regionSelector": {
+              "dataResidencies": [
+                "global"
+              ],
+              "endpointGeographies": [
+                "global"
+              ],
+              "pricingGeography": "global_base"
+            },
+            "tierSelection": null
+          },
+          "currency": "USD",
+          "modality": "text",
+          "pricingId": "price:anthropic/claude-sonnet-5-5:batch:short:current",
+          "sourceRefs": [
+            "source:anthropic:platform-claude-com-docs-en-about-claude-pricing",
+            "source:anthropic:platform-claude-com-docs-en-models-sonnet-5-5-overview"
+          ],
+          "unit": "per_1m_tokens",
+          "verificationStatus": "verified"
+        },
+        {
+          "amount": "0.2",
+          "calculationDefault": true,
+          "chargeId": "price:anthropic/claude-sonnet-5-5:standard:short:current:cache_read:text:per_1m_tokens",
+          "component": "cache_read",
+          "condition": {
+            "availabilityRules": [],
+            "contextClass": "short",
+            "defaultAvailabilityStatus": "available",
+            "effectiveFrom": "2026-09-28",
+            "effectiveUntil": null,
+            "priceAdjustments": [],
+            "processingMode": "standard",
+            "promptTokenThreshold": null,
+            "regionPolicy": "global",
+            "regionSelector": {
+              "dataResidencies": [
+                "global"
+              ],
+              "endpointGeographies": [
+                "global"
+              ],
+              "pricingGeography": "global_base"
+            },
+            "tierSelection": null
+          },
+          "currency": "USD",
+          "modality": "text",
+          "pricingId": "price:anthropic/claude-sonnet-5-5:standard:short:current",
+          "sourceRefs": [
+            "source:anthropic:platform-claude-com-docs-en-about-claude-pricing",
+            "source:anthropic:platform-claude-com-docs-en-models-sonnet-5-5-overview"
+          ],
+          "unit": "per_1m_tokens",
+          "verificationStatus": "verified"
+        },
+        {
+          "amount": "4",
+          "calculationDefault": true,
+          "chargeId": "price:anthropic/claude-sonnet-5-5:standard:short:current:cache_write_1h:text:per_1m_tokens",
+          "component": "cache_write_1h",
+          "condition": {
+            "availabilityRules": [],
+            "contextClass": "short",
+            "defaultAvailabilityStatus": "available",
+            "effectiveFrom": "2026-09-28",
+            "effectiveUntil": null,
+            "priceAdjustments": [],
+            "processingMode": "standard",
+            "promptTokenThreshold": null,
+            "regionPolicy": "global",
+            "regionSelector": {
+              "dataResidencies": [
+                "global"
+              ],
+              "endpointGeographies": [
+                "global"
+              ],
+              "pricingGeography": "global_base"
+            },
+            "tierSelection": null
+          },
+          "currency": "USD",
+          "modality": "text",
+          "pricingId": "price:anthropic/claude-sonnet-5-5:standard:short:current",
+          "sourceRefs": [
+            "source:anthropic:platform-claude-com-docs-en-about-claude-pricing",
+            "source:anthropic:platform-claude-com-docs-en-models-sonnet-5-5-overview"
+          ],
+          "unit": "per_1m_tokens",
+          "verificationStatus": "verified"
+        },
+        {
+          "amount": "2.5",
+          "calculationDefault": true,
+          "chargeId": "price:anthropic/claude-sonnet-5-5:standard:short:current:cache_write_5m:text:per_1m_tokens",
+          "component": "cache_write_5m",
+          "condition": {
+            "availabilityRules": [],
+            "contextClass": "short",
+            "defaultAvailabilityStatus": "available",
+            "effectiveFrom": "2026-09-28",
+            "effectiveUntil": null,
+            "priceAdjustments": [],
+            "processingMode": "standard",
+            "promptTokenThreshold": null,
+            "regionPolicy": "global",
+            "regionSelector": {
+              "dataResidencies": [
+                "global"
+              ],
+              "endpointGeographies": [
+                "global"
+              ],
+              "pricingGeography": "global_base"
+            },
+            "tierSelection": null
+          },
+          "currency": "USD",
+          "modality": "text",
+          "pricingId": "price:anthropic/claude-sonnet-5-5:standard:short:current",
+          "sourceRefs": [
+            "source:anthropic:platform-claude-com-docs-en-about-claude-pricing",
+            "source:anthropic:platform-claude-com-docs-en-models-sonnet-5-5-overview"
+          ],
+          "unit": "per_1m_tokens",
+          "verificationStatus": "verified"
+        },
+        {
+          "amount": "2",
+          "calculationDefault": true,
+          "chargeId": "price:anthropic/claude-sonnet-5-5:standard:short:current:input:text:per_1m_tokens",
+          "component": "input",
+          "condition": {
+            "availabilityRules": [],
+            "contextClass": "short",
+            "defaultAvailabilityStatus": "available",
+            "effectiveFrom": "2026-09-28",
+            "effectiveUntil": null,
+            "priceAdjustments": [],
+            "processingMode": "standard",
+            "promptTokenThreshold": null,
+            "regionPolicy": "global",
+            "regionSelector": {
+              "dataResidencies": [
+                "global"
+              ],
+              "endpointGeographies": [
+                "global"
+              ],
+              "pricingGeography": "global_base"
+            },
+            "tierSelection": null
+          },
+          "currency": "USD",
+          "modality": "text",
+          "pricingId": "price:anthropic/claude-sonnet-5-5:standard:short:current",
+          "sourceRefs": [
+            "source:anthropic:platform-claude-com-docs-en-about-claude-pricing",
+            "source:anthropic:platform-claude-com-docs-en-models-sonnet-5-5-overview"
+          ],
+          "unit": "per_1m_tokens",
+          "verificationStatus": "verified"
+        },
+        {
+          "amount": "10",
+          "calculationDefault": true,
+          "chargeId": "price:anthropic/claude-sonnet-5-5:standard:short:current:output:text:per_1m_tokens",
+          "component": "output",
+          "condition": {
+            "availabilityRules": [],
+            "contextClass": "short",
+            "defaultAvailabilityStatus": "available",
+            "effectiveFrom": "2026-09-28",
+            "effectiveUntil": null,
+            "priceAdjustments": [],
+            "processingMode": "standard",
+            "promptTokenThreshold": null,
+            "regionPolicy": "global",
+            "regionSelector": {
+              "dataResidencies": [
+                "global"
+              ],
+              "endpointGeographies": [
+                "global"
+              ],
+              "pricingGeography": "global_base"
+            },
+            "tierSelection": null
+          },
+          "currency": "USD",
+          "modality": "text",
+          "pricingId": "price:anthropic/claude-sonnet-5-5:standard:short:current",
+          "sourceRefs": [
+            "source:anthropic:platform-claude-com-docs-en-about-claude-pricing",
+            "source:anthropic:platform-claude-com-docs-en-models-sonnet-5-5-overview"
+          ],
+          "unit": "per_1m_tokens",
+          "verificationStatus": "verified"
+        }
+      ],
+      "pricingSourceType": "canonical_verified_price",
+      "provider": "anthropic",
+      "publicExposure": "public",
+      "redirectTargetInternalId": null,
+      "releaseStage": "stable",
+      "replacementInternalId": null,
+      "routingBehavior": "direct",
+      "routingDetails": {},
+      "selectedBatchPriceRecordId": "price:anthropic/claude-sonnet-5-5:batch:short:current",
+      "selectedBillingPriceRecordId": "price:anthropic/claude-sonnet-5-5:standard:short:current",
+      "selectedPriceEffectiveFrom": "2026-09-28",
+      "selectedPriceEffectiveUntil": null,
+      "selectedPriceRecordId": "price:anthropic/claude-sonnet-5-5:standard:short:current",
+      "sourceRefs": [
+        "source:anthropic:platform-claude-com-docs-en-about-claude-model-deprecations",
+        "source:anthropic:platform-claude-com-docs-en-about-claude-pricing",
+        "source:anthropic:platform-claude-com-docs-en-build-with-claude-prompt-caching",
+        "source:anthropic:platform-claude-com-docs-en-models-sonnet-5-5-overview",
+        "source:anthropic:www-anthropic-com-claude-sonnet-5-5"
+      ],
+      "sourceUrls": [
+        "https://platform.claude.com/docs/en/about-claude/model-deprecations",
+        "https://platform.claude.com/docs/en/about-claude/pricing",
+        "https://platform.claude.com/docs/en/build-with-claude/prompt-caching",
+        "https://platform.claude.com/docs/en/models/sonnet-5-5/overview",
+        "https://www.anthropic.com/claude-sonnet-5-5"
+      ],
+      "status": "latest",
+      "verificationStatus": "verified",
+      "verifiedAt": "2026-09-30T03:25:59Z",
+      "verifiedSourceRefs": [
+        "source:anthropic:platform-claude-com-docs-en-about-claude-pricing",
+        "source:anthropic:platform-claude-com-docs-en-models-sonnet-5-5-overview"
       ]
     },
     {

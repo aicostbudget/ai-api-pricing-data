@@ -345,21 +345,34 @@ class HuggingFaceExportTests(unittest.TestCase):
             {"cache_write_5m": "3", "cache_write_1h": "6"},
         )
         self.assertEqual(len(kimi_writes), 2)
+        sonnet_55_record = next(
+            row for row in self.records if row["model_id"] == "claude-sonnet-5-5"
+        )
+        sonnet_55_writes = [
+            item
+            for item in sonnet_55_record["pricing_components"]
+            if item["component"].startswith("cache_write")
+        ]
+        self.assertEqual(
+            {item["component"]: item["amount"] for item in sonnet_55_writes},
+            {"cache_write_5m": "2.5", "cache_write_1h": "4"},
+        )
+        self.assertEqual(len(sonnet_55_writes), 2)
         self.assertEqual(
             cache_write_count - phase_b_cache_write_count,
-            45 + len(expected_new_writes) + len(kimi_writes),
+            45 + len(expected_new_writes) + len(kimi_writes) + len(sonnet_55_writes),
         )
         self.assertEqual(
             cache_write_count,
-            45 + len(expected_new_writes) + len(kimi_writes) + phase_b_cache_write_count,
+            45 + len(expected_new_writes) + len(kimi_writes) + len(sonnet_55_writes) + phase_b_cache_write_count,
         )
         self.assertTrue(any(not record["pricing_components"] for record in self.records))
 
-    def test_eleven_cache_pricing_targets_have_component_contract(self):
+    def test_twelve_cache_pricing_targets_have_component_contract(self):
         target_ids = {
             "gpt-5.6-sol", "gpt-5.6-terra", "gpt-5.6-luna", "claude-fable-5", "claude-fable-5-1", "claude-mythos-5-1",
             "claude-haiku-4.5", "claude-opus-4.8", "claude-opus-5",
-            "claude-sonnet-4.6", "claude-sonnet-5",
+            "claude-sonnet-4.6", "claude-sonnet-5", "claude-sonnet-5-5",
         }
         by_id = {record["model_id"]: record for record in self.records}
         self.assertEqual(target_ids - set(by_id), set())

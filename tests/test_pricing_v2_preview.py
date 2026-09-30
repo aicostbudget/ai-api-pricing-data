@@ -438,6 +438,41 @@ class PricingV2PreviewTests(unittest.TestCase):
         self.assertEqual(identity["releaseStage"], "stable")
         self.assertEqual(model["defaultPriceRecordId"], "price:anthropic/claude-opus-4.8:standard:short:current")
 
+    def test_claude_sonnet_5_5_ga_identity_and_prices_are_complete(self):
+        identity = self.identity("anthropic/claude-sonnet-5-5")
+        model = self.model("anthropic/claude-sonnet-5-5")
+        self.assertEqual(identity["displayName"], "Claude Sonnet 5.5")
+        self.assertEqual(identity["lifecycleStatus"], "active")
+        self.assertEqual(identity["releaseStage"], "stable")
+        self.assertEqual(identity["availability"], "active")
+        self.assertEqual(identity["contextWindowTokens"], 1_000_000)
+        self.assertIn("claude-sonnet-5-5", identity["publicDatasetIds"])
+        self.assertEqual(
+            model["defaultPriceRecordId"],
+            "price:anthropic/claude-sonnet-5-5:standard:short:current",
+        )
+
+        standard = self.price("price:anthropic/claude-sonnet-5-5:standard:short:current")
+        batch = self.price("price:anthropic/claude-sonnet-5-5:batch:short:current")
+        self.assertEqual(standard["effectiveFrom"], "2026-09-28")
+        self.assertEqual(standard["verificationStatus"], "verified")
+        self.assertTrue(standard["sourceRefs"])
+        self.assertEqual(
+            {charge["component"]: charge["amount"] for charge in standard["charges"]},
+            {
+                "input": "2",
+                "cache_read": "0.2",
+                "cache_write_5m": "2.5",
+                "cache_write_1h": "4",
+                "output": "10",
+            },
+        )
+        self.assertEqual(batch["processingMode"], "batch")
+        self.assertEqual(
+            {charge["component"]: charge["amount"] for charge in batch["charges"]},
+            {"input": "1", "output": "5"},
+        )
+
     def test_report_counts_match_phase_1_baseline(self):
         self.assertEqual(self.report["candidateUnionCount"], len(self.dispositions))
         self.assertEqual(
