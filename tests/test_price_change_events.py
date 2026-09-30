@@ -6,12 +6,14 @@ import sys
 import tempfile
 import unittest
 from pathlib import Path
+from unittest import mock
 
 from scripts.generate_price_change_events import (
     CHANGE_TYPES,
     EVENTS_PATH,
     build_dedupe_key,
     build_event_id,
+    ensure_source_snapshots_tracked,
     generate_events,
     load_events,
     merge_events,
@@ -429,6 +431,16 @@ class PriceChangeEventTests(unittest.TestCase):
             dry = subprocess.run(command[:-2] + ["--output", str(dry_output), "--dry-run"], check=True, capture_output=True, text=True)
             self.assertFalse(dry_output.exists())
             self.assertEqual(len([line for line in dry.stdout.splitlines() if line.strip()]), 2)
+
+    def test_event_generation_requires_git_tracked_source_snapshots(self):
+        tracked = subprocess.CompletedProcess(args=[], returncode=0)
+        untracked = subprocess.CompletedProcess(args=[], returncode=1)
+        with mock.patch(
+            "scripts.generate_price_change_events.subprocess.run",
+            side_effect=[tracked, untracked],
+        ):
+            with self.assertRaisesRegex(ValueError, r"must be tracked by Git before event generation"):
+                ensure_source_snapshots_tracked(REAL_BEFORE, Path("data/snapshots/2026-07-28/prices.json"))
 
     def test_load_events_rejects_malformed_jsonl_and_duplicates(self):
         with tempfile.TemporaryDirectory() as tmp:

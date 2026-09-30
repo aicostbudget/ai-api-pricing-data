@@ -5,6 +5,7 @@ import hashlib
 import json
 import math
 import os
+import subprocess
 from copy import deepcopy
 from datetime import datetime
 from decimal import Decimal, InvalidOperation
@@ -887,6 +888,24 @@ def resolve_source_snapshot(raw_path: Any, field: str) -> Path:
     return resolved
 
 
+def ensure_source_snapshots_tracked(*paths: Path) -> None:
+    for path in paths:
+        resolved = path.resolve()
+        try:
+            relative = resolved.relative_to(ROOT).as_posix()
+        except ValueError:
+            fail(f"source snapshot must stay within the repository: {path}")
+        result = subprocess.run(
+            ["git", "ls-files", "--error-unmatch", "--", relative],
+            cwd=ROOT,
+            capture_output=True,
+            text=True,
+            check=False,
+        )
+        if result.returncode != 0:
+            fail(f"source snapshot must be tracked by Git before event generation: {relative}")
+
+
 def validate_event(event: dict[str, Any], path: Path | None = None, line_number: int | None = None) -> None:
     location = f"{path}:{line_number}: " if path and line_number else ""
     try:
@@ -1012,6 +1031,7 @@ def main() -> None:
     parser.add_argument("--dry-run", action="store_true", help="Print generated events without writing.")
     args = parser.parse_args()
 
+    ensure_source_snapshots_tracked(args.before, args.after)
     generated = generate_events(args.before, args.after, provider_id=args.provider)
     if args.dry_run:
         for event in generated:

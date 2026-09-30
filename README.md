@@ -211,6 +211,8 @@ python scripts\generate_price_change_events.py --before data\snapshots\2026-07-0
 
 The generator matches models by `provider_id + model_id`, compares only pricing semantics, writes stable sorted output, and merges by `dedupe_key`. The first version emits `price_update`, `cached_price_added`, and `cached_price_removed`; it does not emit `pricing_added` or `pricing_removed` because a model first appearing in a snapshot may be coverage expansion rather than an official pricing launch. The dedupe key is based on provider, model, old prices, new prices, unit, currency, and change type. It excludes `verified_at`, `announcement_url`, and notes so later metadata backfills update the same event instead of creating a duplicate.
 
+Both source snapshots must already be tracked by Git before event generation. The generator fails closed rather than writing a canonical event that depends on an ignored, untracked, or local-only snapshot.
+
 Manual backfills should edit the existing event with the same `dedupe_key`. Add `effective_from` only when an official provider announcement, official changelog, or pricing page explicitly gives the effective date. Add `announcement_url` only for an official URL; do not invent one.
 
 Do not copy a fixed event count into documentation or product code. The validated records in `data/price-change-events/events.jsonl` are the authoritative current count.
