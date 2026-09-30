@@ -291,7 +291,7 @@ class HuggingFaceExportTests(unittest.TestCase):
             for context_class in ("short", "long")
         }
         phase_b_cache_write_count = 0
-        for model_id in ("gpt-6-sol", "gpt-6-luna"):
+        for model_id in ("gpt-6-sol", "gpt-6-luna", "gpt-6.1-sol"):
             record = next(row for row in self.records if row["model_id"] == model_id)
             writes = [
                 item
@@ -333,7 +333,7 @@ class HuggingFaceExportTests(unittest.TestCase):
             )
         )
         phase_b_cache_write_count += len(opus_writes)
-        self.assertEqual(phase_b_cache_write_count, 18)
+        self.assertEqual(phase_b_cache_write_count, 26)
         kimi_record = next(row for row in self.records if row["model_id"] == "kimi-k3")
         kimi_writes = [
             item
