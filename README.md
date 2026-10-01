@@ -108,25 +108,30 @@ main();
 
 ## Explore Pricing by Provider
 
-| Provider | Pricing page |
-| --- | --- |
-| OpenAI | [OpenAI API pricing](https://aicostbudget.com/en/providers/openai-api-pricing?utm_source=github&utm_medium=referral&utm_campaign=pricing_dataset&utm_content=openai) |
-| Anthropic | [Anthropic API pricing](https://aicostbudget.com/en/providers/anthropic-api-pricing?utm_source=github&utm_medium=referral&utm_campaign=pricing_dataset&utm_content=anthropic) |
-| Google Gemini | [Google Gemini API pricing](https://aicostbudget.com/en/providers/google-gemini-api-pricing?utm_source=github&utm_medium=referral&utm_campaign=pricing_dataset&utm_content=google_gemini) |
-| xAI | [xAI API pricing](https://aicostbudget.com/en/providers/xai-api-pricing?utm_source=github&utm_medium=referral&utm_campaign=pricing_dataset&utm_content=xai) |
-| DeepSeek | [DeepSeek API pricing](https://aicostbudget.com/en/providers/deepseek-api-pricing?utm_source=github&utm_medium=referral&utm_campaign=pricing_dataset&utm_content=deepseek) |
-| Mistral AI | [Mistral AI API pricing](https://aicostbudget.com/en/providers/mistral-ai-api-pricing?utm_source=github&utm_medium=referral&utm_campaign=pricing_dataset&utm_content=mistral_ai) |
-| Cohere | [Cohere API pricing](https://aicostbudget.com/en/providers/cohere-api-pricing?utm_source=github&utm_medium=referral&utm_campaign=pricing_dataset&utm_content=cohere) |
+| Provider | Pricing page | Coverage |
+| --- | --- | --- |
+| OpenAI | [OpenAI API pricing](https://aicostbudget.com/en/providers/openai-api-pricing?utm_source=github&utm_medium=referral&utm_campaign=pricing_dataset&utm_content=openai) | GPT models, cached input, cache-write pricing, batch and alternative processing modes, and long-context tiers |
+| Anthropic | [Anthropic API pricing](https://aicostbudget.com/en/providers/anthropic-api-pricing?utm_source=github&utm_medium=referral&utm_campaign=pricing_dataset&utm_content=anthropic) | Claude models, prompt caching, cache-write pricing, and batch pricing |
+| Google Gemini | [Google Gemini API pricing](https://aicostbudget.com/en/providers/google-gemini-api-pricing?utm_source=github&utm_medium=referral&utm_campaign=pricing_dataset&utm_content=google_gemini) | Gemini models, multimodal pricing, TTS, batch pricing, and cached input |
+| xAI | [xAI API pricing](https://aicostbudget.com/en/providers/xai-api-pricing?utm_source=github&utm_medium=referral&utm_campaign=pricing_dataset&utm_content=xai) | Grok models, long-context tiers, processing-mode pricing, and speech/transcription pricing |
+| DeepSeek | [DeepSeek API pricing](https://aicostbudget.com/en/providers/deepseek-api-pricing?utm_source=github&utm_medium=referral&utm_campaign=pricing_dataset&utm_content=deepseek) | DeepSeek chat and reasoning models, including cached-input pricing where available |
+| Mistral AI | [Mistral AI API pricing](https://aicostbudget.com/en/providers/mistral-ai-api-pricing?utm_source=github&utm_medium=referral&utm_campaign=pricing_dataset&utm_content=mistral_ai) | Mistral model pricing with structured source and verification metadata |
+| Cohere | [Cohere API pricing](https://aicostbudget.com/en/providers/cohere-api-pricing?utm_source=github&utm_medium=referral&utm_campaign=pricing_dataset&utm_content=cohere) | Cohere model pricing and supported non-token services |
 
-## Coverage
+## Dataset Coverage
 
-- OpenAI
-- Anthropic Claude
-- Google Gemini
-- DeepSeek
-- xAI Grok
-- Mistral AI
-- Cohere
+The dataset covers multiple AI providers and supports both token-based and non-token pricing structures.
+
+Coverage includes:
+
+- Standard input and output token pricing
+- Cached input and cache-write pricing
+- Batch and alternative processing modes
+- Long-context, usage-tier, and conditional pricing
+- Multimodal and non-token pricing
+- TTS, speech, and transcription pricing
+- Model lifecycle, provenance, and verification metadata
+- Structured conditional pricing components
 
 ## Fields
 
