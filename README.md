@@ -8,14 +8,18 @@ Published as JSON, CSV, and a Hugging Face dataset, with machine-readable record
 [![Code license: MIT](https://img.shields.io/badge/code-MIT-blue.svg)](LICENSE-CODE)
 [![Data license: CC BY 4.0](https://img.shields.io/badge/data-CC%20BY%204.0-green.svg)](LICENSE-DATA)
 
+## Dataset access
+
+- **Canonical dataset page:** [AI API & LLM Pricing Dataset documentation](https://aicostbudget.com/en/datasets/ai-api-pricing?utm_source=github&utm_medium=referral&utm_campaign=pricing_dataset&utm_content=readme_dataset)
+- **Machine-readable downloads:** [JSON](https://aicostbudget.github.io/ai-api-pricing-data/api/v1/prices.json) | [CSV](https://aicostbudget.github.io/ai-api-pricing-data/api/v1/prices.csv) | [metadata](https://aicostbudget.github.io/ai-api-pricing-data/api/v1/meta.json)
+- **Hugging Face mirror:** [aicostbudget-ai/ai-api-pricing](https://huggingface.co/datasets/aicostbudget-ai/ai-api-pricing)
+- **Schema and verification:** [model schema](schema/model.schema.json) | [pricing contract](docs/pricing-contract.md) | [methodology](METHODOLOGY.md)
+
 ## Interactive Tools
 
 - [Calculate your API cost](https://aicostbudget.com/en/ai-api-cost-calculator?utm_source=github&utm_medium=referral&utm_campaign=pricing_dataset&utm_content=readme_calculator)
 - [Compare AI model prices](https://aicostbudget.com/en/model-pricing-comparison?utm_source=github&utm_medium=referral&utm_campaign=pricing_dataset&utm_content=readme_comparison)
 - [Track AI model price changes](https://aicostbudget.com/en/model-price-monitor?utm_source=github&utm_medium=referral&utm_campaign=pricing_dataset&utm_content=readme_price_monitor)
-- [Browse the full pricing dataset](https://aicostbudget.com/en/datasets/ai-api-pricing?utm_source=github&utm_medium=referral&utm_campaign=pricing_dataset&utm_content=readme_dataset)
-
-Downloads: [JSON](https://aicostbudget.github.io/ai-api-pricing-data/api/v1/prices.json) | [CSV](https://aicostbudget.github.io/ai-api-pricing-data/api/v1/prices.csv) | [Hugging Face](https://huggingface.co/datasets/aicostbudget-ai/ai-api-pricing)
 
 ### Distribution projections
 
@@ -225,11 +229,28 @@ Prices are accepted only from official provider pricing pages, official document
 
 See [METHODOLOGY.md](METHODOLOGY.md).
 
-## Citation
+## Citation and reproducibility
 
-If you use this dataset for a benchmark, research, analysis, tooling, an article, or dataset aggregation, cite this repository using [CITATION.cff](CITATION.cff), or cite:
+For the current dataset, cite [CITATION.cff](CITATION.cff) and include the date you accessed the data. The canonical human-readable page and source repository are:
 
-> AICostBudget. AICostBudget AI API Pricing Dataset. https://github.com/aicostbudget/ai-api-pricing-data
+```text
+AICostBudget. AICostBudget AI API Pricing Dataset.
+Canonical dataset page: https://aicostbudget.com/en/datasets/ai-api-pricing
+Source repository: https://github.com/aicostbudget/ai-api-pricing-data
+License: CC BY 4.0
+Accessed: YYYY-MM-DD
+```
+
+Use `meta.json` for the export generation timestamp and aggregate verification timestamp. Use each record's `last_verified_at` for record-level verification; an access date is not a substitute for either timestamp.
+
+For a fixed historical reference, cite an exact Git commit together with the tracked dated snapshot under `data/snapshots/<YYYY-MM-DD>/`. The existing [v1.0.0 release](https://github.com/aicostbudget/ai-api-pricing-data/releases/tag/v1.0.0) is the initial public release and should not be cited as the current dataset unless that specific release is what you used.
+
+Example fixed-version reference:
+
+```text
+AICostBudget. AICostBudget AI API Pricing Dataset, snapshot YYYY-MM-DD,
+Git commit <full SHA>. Accessed YYYY-MM-DD. CC BY 4.0.
+```
 
 ## Contributing
 

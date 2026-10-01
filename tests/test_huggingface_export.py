@@ -488,7 +488,8 @@ class HuggingFaceExportTests(unittest.TestCase):
     def test_dataset_card_uses_utm_only_for_html_acquisition_links(self):
         card = (HF_DIR / "README.md").read_text(encoding="utf-8")
         urls = set(re.findall(r"https://aicostbudget\.com/[^\s)]+", card))
-        clean_api_urls = {
+        clean_reference_urls = {
+            "https://aicostbudget.com/en/datasets/ai-api-pricing",
             "https://aicostbudget.com/api/datasets/ai-api-pricing.json",
             "https://aicostbudget.com/api/datasets/ai-api-pricing.csv",
         }
@@ -498,15 +499,41 @@ class HuggingFaceExportTests(unittest.TestCase):
             "https://aicostbudget.com/en/model-pricing-comparison?utm_source=huggingface&utm_medium=referral&utm_campaign=pricing_dataset&utm_content=dataset_card_comparison",
             "https://aicostbudget.com/en/model-price-monitor?utm_source=huggingface&utm_medium=referral&utm_campaign=pricing_dataset&utm_content=dataset_card_price_monitor",
         }
-        self.assertEqual(urls, clean_api_urls | acquisition_urls)
+        self.assertEqual(urls, clean_reference_urls | acquisition_urls)
         for url in acquisition_urls:
             for marker in REQUIRED_UTM:
                 self.assertIn(marker, url)
         for marker in FORBIDDEN_UTM:
             self.assertNotIn(marker, card)
-        for url in clean_api_urls:
+        for url in clean_reference_urls:
             self.assertNotRegex(url, r"[?&]utm_")
         self.assertIn("not a separately curated subset", card)
+
+    def test_distribution_docs_expose_canonical_citation_and_format_semantics(self):
+        readme = (HF_DIR.parent / "README.md").read_text(encoding="utf-8")
+        card = (HF_DIR / "README.md").read_text(encoding="utf-8")
+
+        self.assertLess(readme.index("## Dataset access"), readme.index("## Interactive Tools"))
+        self.assertIn("**Canonical dataset page:**", readme)
+        self.assertIn("**Machine-readable downloads:**", readme)
+        self.assertIn("**Hugging Face mirror:**", readme)
+        self.assertIn("**Schema and verification:**", readme)
+        self.assertIn("## Citation and reproducibility", readme)
+        self.assertIn("Canonical dataset page: https://aicostbudget.com/en/datasets/ai-api-pricing", readme)
+        self.assertIn("Source repository: https://github.com/aicostbudget/ai-api-pricing-data", readme)
+        self.assertIn("Accessed: YYYY-MM-DD", readme)
+        self.assertIn("data/snapshots/<YYYY-MM-DD>/", readme)
+
+        self.assertIn("Canonical human-readable dataset page and documentation", card)
+        self.assertIn("auto-converted Parquet from `train.csv`", card)
+        self.assertIn("Viewer and search indexing can lag", card)
+        self.assertIn("They are not an independent pricing source", card)
+        self.assertIn("model schema", card)
+        self.assertIn("pricing contract", card)
+        self.assertIn("Canonical dataset page: https://aicostbudget.com/en/datasets/ai-api-pricing", card)
+        self.assertIn("Source repository: https://github.com/aicostbudget/ai-api-pricing-data", card)
+        self.assertIn("Accessed: YYYY-MM-DD", card)
+        self.assertIn("each row's `last_verified_at`", card)
 
 
 if __name__ == "__main__":

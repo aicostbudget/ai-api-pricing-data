@@ -38,7 +38,7 @@ Use the current pricing dataset to estimate a real AI API workload, compare mode
 
 ## Explore and download
 
-- [AICostBudget AI API Pricing Dataset](https://aicostbudget.com/en/datasets/ai-api-pricing?utm_source=huggingface&utm_medium=referral&utm_campaign=pricing_dataset&utm_content=dataset_card_dataset)
+- [Canonical human-readable dataset page and documentation](https://aicostbudget.com/en/datasets/ai-api-pricing?utm_source=huggingface&utm_medium=referral&utm_campaign=pricing_dataset&utm_content=dataset_card_dataset)
 - [Download the public JSON dataset](https://aicostbudget.com/api/datasets/ai-api-pricing.json)
 - [Download the public CSV dataset](https://aicostbudget.com/api/datasets/ai-api-pricing.csv)
 
@@ -52,6 +52,10 @@ Use the current pricing dataset to estimate a real AI API workload, compare mode
 `train.csv` intentionally omits the large serialized `pricing_tiers_json`, `time_pricing_json`, `pricing_components_json`, `conditional_usage_allowances_json`, and `model_selection_json` columns for Dataset Viewer usability. It preserves every exported model and all other CSV fields. Complete tier, time, component, conditional allowance, transport, alternative-measurement, optional-feature, and model-selection details remain available in `prices.csv` and `prices.json`. Schema 1.8.0 keeps eligibility-scoped short-term allowances separate from standard paid usage tiers.
 
 Unknown or unavailable prices are `null` in JSON and empty in CSV; they are never rewritten as zero.
+
+Hugging Face generates the Dataset Viewer and auto-converted Parquet from `train.csv` as convenience views. They are not an independent pricing source. Viewer and search indexing can lag behind the raw published artifacts, so use `prices.json`, `prices.csv`, and `meta.json` for the corresponding published version when displayed counts or dates differ.
+
+The compact field guide below describes the public export. For structured pricing details, see the repository's [model schema](https://github.com/aicostbudget/ai-api-pricing-data/blob/main/schema/model.schema.json) and [pricing contract](https://github.com/aicostbudget/ai-api-pricing-data/blob/main/docs/pricing-contract.md).
 
 ## Distribution rule
 
@@ -159,8 +163,15 @@ Prices are accepted from official provider pricing pages, documentation, APIs, o
 
 ```text
 AICostBudget. AICostBudget AI API Pricing Dataset.
-https://github.com/aicostbudget/ai-api-pricing-data
+Canonical dataset page: https://aicostbudget.com/en/datasets/ai-api-pricing
+Source repository: https://github.com/aicostbudget/ai-api-pricing-data
+License: CC BY 4.0
+Accessed: YYYY-MM-DD
 ```
+
+For the current dataset, record the access date and inspect `meta.json` for export generation and aggregate verification timestamps. Record-level verification remains in each row's `last_verified_at`; do not replace it with the access date or `generated_at`.
+
+For reproducible historical work, cite an exact Git commit and its tracked `data/snapshots/<YYYY-MM-DD>/` snapshot in the source repository. Do not treat the initial `v1.0.0` release as the current dataset unless that specific release is what you used.
 
 ## Website Tools
 
