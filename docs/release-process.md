@@ -1,31 +1,30 @@
 # Dataset release process
 
-This is a local release candidate procedure, not a published release. Run the gate again against the intended tag commit before publishing. GitHub Pages V1 and Website/Hugging Face Pricing V2 are different projections.
+The fixed `v1.1.0` release is published and verified. The procedure below remains the gate for future releases. GitHub Pages V1 and Website/Hugging Face Pricing V2 are different projections.
 
-## Audited baseline (2026-10-01)
+## Trusted fixed baseline: v1.1.0
 
-| Item | Observed value | Source |
+| Item | Verified value | Source |
 | --- | --- | --- |
-| Repository HEAD and origin/main | `4814933c4fbd9f4c3b0e7067a6ff2ccb36b6bcd0` | `git rev-parse` |
-| Latest tracked snapshot | `data/snapshots/2026-09-30/` | `git ls-files` |
-| Snapshot data commit | `c0e1cd74a8aa86534f283037bd571f38a36039cd` | `dataset-2026-09-30` tag |
-| GitHub Pages V1 | 75 records, 11 providers | `api/v1/prices.json`, `api/v1/meta.json` |
-| Website/HF Pricing V2 public export | 81 records, 11 providers | `huggingface/prices.json`, `huggingface/meta.json`; Website parity `--check` passed |
-| Public export schema | `1.8.0` | `huggingface/meta.json` |
-| Dataset JSON Schema | unversioned; SHA-256 `50bf44484e9c4d9fea5b9841d7f62dece2ce8a8365b657f6fb4f99fafe804600` | `schema/dataset.schema.json` |
-| Pricing V2 preview schema | `2.0.0-preview.1` | `data/pricing-v2-preview/schema-version.json`; not the public export schema |
-| Generated at | `2026-09-30T13:48:52Z` | V1 and HF metadata |
-| Aggregate last verified at | `2026-09-30T03:25:59Z` | V1 and HF metadata |
+| GitHub Release | [v1.1.0](https://github.com/aicostbudget/ai-api-pricing-data/releases/tag/v1.1.0) | Published Release |
+| Dataset tag commit | `6882e95a8cdf5fb39b75b47bcd9ba0bff63b13d8` | `v1.1.0` tag |
+| Website source commit | `52d79a701df4cc67e6c4a17b3ab52d50b8197576` | Release notes |
+| Snapshot | `data/snapshots/2026-09-30/` | Release notes |
+| Release date | `2026-10-02` in Asia/Hong_Kong (GitHub published `2026-10-01T16:54:11Z`) | GitHub Release |
+| Version DOI | [10.5281/zenodo.23087250](https://doi.org/10.5281/zenodo.23087250) | Published Zenodo record |
+| GitHub Pages V1 | 75 records, 11 providers | Release notes and V1 assets |
+| Website/HF Pricing V2 public export | 81 records, 11 providers; export schema `1.8.0` | Release notes and V2 assets |
+| Dataset JSON Schema | unversioned; SHA-256 `50bf44484e9c4d9fea5b9841d7f62dece2ce8a8365b657f6fb4f99fafe804600` | Release manifest |
+| Generated at | `2026-09-30T13:48:52Z` | Release notes |
+| Aggregate last verified at | `2026-09-30T03:25:59Z` | Release notes |
 
-The `dataset_version: 1.0.0` field in V1 output and `version: 1.0.0` in HF metadata are existing data fields. They do not make the current data the July 2026 `v1.0.0` release. Do not silently reinterpret them as the next release version. The snapshot's `source_commit_sha` is a build provenance field; it is not the tag commit or the future release commit.
+The DOI identifies this frozen version, not the changing live dataset. The snapshot date, release date, generation time, and verification time are distinct. The `dataset_version: 1.0.0` field in V1 output and `version: 1.0.0` in HF metadata remain data fields; they do not rename the GitHub `v1.1.0` release.
 
-The latest [`dataset-2026-09-30` release](https://github.com/aicostbudget/ai-api-pricing-data/releases/tag/dataset-2026-09-30) is fixed but has a projection mismatch: its `prices.json` SHA-256 is `8826ec544e5067612c8525c35996bf43e939fc8f55bb49f1e187546b77a5b8b0` and `prices.csv` is `1c626209a4139f7a341cba83a3d6f3a91ef68eced31129f866004df219dbb420`, identical to the 75-record V1 snapshot. Its `meta.json` SHA-256 is `c9f50768a598205f8f530fdc30f1c79be061c8b49eef56d16bf059d9e038a0bf`, identical to the 81-record HF V2 metadata. Its notes call the assets Pricing V2. Treat these files as a mixed release; do not cite the bundle as a validated V2 export. Policy: **KEEP AS HISTORICAL**. Only after the recommended `v1.1.0` release is verified, **ANNOTATE** the old release with its V1-prices/V2-meta warning and **MARK SUPERSEDED BY `v1.1.0`**. Do not delete the old tag, replace old assets, or rewrite historical hashes.
+The earlier [`dataset-2026-09-30` release](https://github.com/aicostbudget/ai-api-pricing-data/releases/tag/dataset-2026-09-30) is historical and contains V1 `prices.json`/`prices.csv` with Pricing V2 `meta.json`, despite notes claiming Pricing V2. It is not a validated V2 bundle. Keep its tag, assets, and hashes intact; a maintainer should prepend a factual superseded warning to its online description, pointing to `v1.1.0` and the version DOI. That online annotation has not been performed by this local documentation task.
 
 ## Version decision
 
-Recommended next release version: `v1.1.0` (not yet published). The GitHub Pages V1 public consumer contract remains compatible; newly formalized Pricing V2 assets and deterministic dual-projection packaging add backward-compatible capability. There is no evidence of a breaking V1 change, so do not call this `v2.0.0`.
-
-Recommended tag: `v1.1.0`. Recommended release title: `AICostBudget AI API Pricing Dataset v1.1.0 — Reproducible Dual-Projection Release`. Keep the snapshot date as a separate manifest field; never conflate it with the semantic version or recycle the old date tag.
+`v1.1.0` is the published, trusted dual-projection release. GitHub Pages V1 remains backward compatible; the asset contract and deterministic packaging are additional capabilities. Do not infer the next release version from the `2026-09-30` snapshot date, and do not recycle the historical date tag.
 
 ## Projection and asset contract
 
@@ -33,7 +32,7 @@ Recommended tag: `v1.1.0`. Recommended release title: `AICostBudget AI API Prici
 - **Website Pricing V2:** public Website projection with conditional components and non-token billing. Build its public export using the existing export path; do not substitute the narrower V1 files.
 - **Hugging Face Pricing V2:** generated from the same public Website projection. `huggingface/prices.json`, `prices.csv`, `train.csv`, and `meta.json` must pass the Website export check. The HF Viewer may lag and `train.csv` intentionally omits large serialized fields.
 
-For the next release, use projection-qualified asset names. **Must include:** `github-pages-v1-prices.json`, `github-pages-v1-prices.csv`, `github-pages-v1-meta.json`; `pricing-v2-prices.json`, `pricing-v2-prices.csv`, `pricing-v2-meta.json`; `release-manifest.json`; and `SHA256SUMS.txt`. The Website V2 files must byte-match the checked local public export used for HF parity. The V1 files must byte-match the intended tracked snapshot/API output. **Should include:** the HF `train.csv` viewer projection if a consumer needs it, clearly labeled as a reduced view. **Do not include:** the whole generated tree, history files, unpublished preview artifacts, duplicate unqualified `prices.*` names, secrets, or a fabricated DOI. The tag's source archive already contains the tracked snapshot, schemas, methodology, and licenses.
+For `v1.1.0` and future releases, use projection-qualified asset names. **Must include:** `github-pages-v1-prices.json`, `github-pages-v1-prices.csv`, `github-pages-v1-meta.json`; `pricing-v2-prices.json`, `pricing-v2-prices.csv`, `pricing-v2-meta.json`; `release-manifest.json`; and `SHA256SUMS.txt`. The Website V2 files must byte-match the checked local public export used for HF parity. The V1 files must byte-match the intended tracked snapshot/API output. **Should include:** the HF `train.csv` viewer projection if a consumer needs it, clearly labeled as a reduced view. **Do not include:** the whole generated tree, history files, unpublished preview artifacts, duplicate unqualified `prices.*` names, secrets, or a fabricated DOI. The tag's source archive already contains the tracked snapshot, schemas, methodology, and licenses.
 
 The real candidate manifest is generated by [`scripts/build_release_bundle.py`](../scripts/build_release_bundle.py). Do not keep a pre-commit candidate manifest in `docs/`. It records a candidate status, null release version/date, the exact Dataset and Website commits, snapshot path, schema hash, per-projection counts/timestamps, and for each asset the fixed `source_path`, byte length, media type, and SHA-256. V2 bytes are generated from the pinned Website public projection using the Dataset V2 canonical projection and existing exporter, then byte-compared with the HF mirror at the Dataset commit. V1 bytes come from the pinned Dataset commit's `api/v1/` Git blobs and must match the dated snapshot blobs. This avoids platform-dependent checkout line endings: the old 2026-09-30 Release's V1 `prices.json` used Windows CRLF worktree bytes (SHA-256 `8826ec54...`); the same tag blob with LF is `cdfe8ac2...`. The record content is identical after line-ending conversion, but the byte hashes differ. The manifest is itself included in `SHA256SUMS.txt`; the checksum file does not hash itself.
 
@@ -95,25 +94,30 @@ All items must pass for the proposed tag commit and asset set:
 10. Manifest names the exact tag commit, tracked snapshot, schema hash, and export schema version.
 11. Each manifest count reproduces from its named projection; asset metadata counts agree with its own data files. V1 and V2 counts need not agree.
 12. `SHA256SUMS.txt` and manifest checksums reproduce from every uploaded asset.
-13. `CITATION.cff` validates; no unreleased version, date, or DOI is asserted.
+13. `CITATION.cff` validates and cites the published `v1.1.0` version DOI; any future release DOI is backfilled only after its Zenodo record is Published.
 14. Release notes state V1/V2 differences and limitations, cite the methodology and both licenses, and match the actual uploaded asset names.
 
 ## Citation and DOI sequence
 
-For current changing data, cite the clean [canonical dataset URL](https://aicostbudget.com/en/datasets/ai-api-pricing), repository, access date, and relevant `meta.json` timestamps. For a frozen result, cite the release tag URL, exact commit, tracked snapshot path/date, and data license. A minimal BibTeX template without a DOI is:
+For reproducible research, cite the frozen [`v1.1.0` GitHub Release](https://github.com/aicostbudget/ai-api-pricing-data/releases/tag/v1.1.0), exact Dataset commit `6882e95a8cdf5fb39b75b47bcd9ba0bff63b13d8`, tracked `2026-09-30` snapshot, and [version DOI](https://doi.org/10.5281/zenodo.23087250). This DOI does not identify whatever data is currently on `main`. For current operational use, cite the clean [live dataset URL](https://aicostbudget.com/en/datasets/ai-api-pricing) with an access date and consult the relevant metadata timestamps.
+
+A broadly compatible BibTeX citation for the fixed version is:
 
 ```bibtex
-@dataset{aicostbudget_ai_api_pricing_YYYYMMDD,
+@misc{aicostbudget_2026_v110,
   author = {{AICostBudget}},
   title = {AICostBudget AI API Pricing Dataset},
-  year = {YYYY},
-  url = {https://github.com/aicostbudget/ai-api-pricing-data},
-  note = {Snapshot YYYY-MM-DD, Git commit FULL_SHA, accessed YYYY-MM-DD}
+  year = {2026},
+  version = {1.1.0},
+  doi = {10.5281/zenodo.23087250},
+  url = {https://doi.org/10.5281/zenodo.23087250},
+  note = {Snapshot 2026-09-30; Git commit 6882e95a8cdf5fb39b75b47bcd9ba0bff63b13d8}
 }
 ```
 
-The first trusted Zenodo baseline is the verified `v1.1.0` release, not the mixed historical release. `CITATION.cff` remains the metadata source; do not create a Zenodo record or DOI, write a DOI, or add `.zenodo.json` during this pre-commit cleanup.
+The first trusted Zenodo baseline is the [Published `v1.1.0` record](https://zenodo.org/records/23087250), DOI `10.5281/zenodo.23087250`. `CITATION.cff` remains the repository citation metadata source. No concept DOI is asserted here. Do not add `.zenodo.json` without a specific metadata need.
 
-Zenodo [accepts `CITATION.cff`](https://help.zenodo.org/docs/github/describe-software/citation-file/). Do not add `.zenodo.json` unless Zenodo-specific fields are needed: [Zenodo says it overrides CFF when both exist](https://help.zenodo.org/docs/github/describe-software/zenodo-json/). A repository owner should [enable the GitHub integration](https://help.zenodo.org/docs/github/enable-repository/) before the next validated release. After GitHub publication, [verify Zenodo ingestion](https://help.zenodo.org/docs/github/archive-software/github-upload/), record the version DOI and concept DOI, then update README/CFF in a later commit. Never require a DOI in the commit whose release creates that DOI.
+For later versions, keep the sequence: publish the GitHub Release from its final tag → verify Zenodo ingestion and Published status → verify that version's DOI → backfill its DOI in a later repository commit. Never invent or prefill an unpublished DOI.
+
 
 Sources: [GitHub releases](https://docs.github.com/en/repositories/releasing-projects-on-github/managing-releases-in-a-repository), [GitHub citation/Zenodo guide](https://docs.github.com/en/repositories/archiving-a-github-repository/referencing-and-citing-content), [CFF format](https://citation-file-format.github.io/), and [HF Dataset Cards](https://huggingface.co/docs/hub/datasets-cards).

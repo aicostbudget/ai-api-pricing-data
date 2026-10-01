@@ -1,4 +1,4 @@
-# Dataset distribution kit (draft, 2026-10-01)
+# Dataset distribution kit (private draft; release status verified 2026-10-02)
 
 All copy here is a private draft. Recheck platform rules, counts, links, and release assets before a human posts. Use the clean canonical URL `https://aicostbudget.com/en/datasets/ai-api-pricing` for citation and DOI metadata; keep existing UTM links only for explicit referral CTAs.
 
@@ -12,38 +12,31 @@ Ratings are qualitative estimates for this repository, not traffic measurements.
 
 | Channel | Traffic | Citation | Backlinks | Developer fit | AI fit | Dataset fit | Asset fit | Maintenance | Promo risk | Decision |
 | --- | --- | --- | --- | --- | --- | --- | --- | --- | --- | --- |
-| Corrected GitHub Release | M | H | H | H | H | H | H | L | L | P0 |
+| v1.1.0 GitHub Release | M | H | H | H | H | H | H | L | L | P0 |
 | Hugging Face Dataset Card | H | M | H | H | H | H | H | M | L | P0 |
 | GitHub Topics and citation UX | M | M | M | H | H | H | H | L | L | P0 |
-| Zenodo DOI | L | H | H | M | M | H | M | L | L | P1 after corrected release |
-| GitHub Discussion | M | L | M | H | H | M | H | L | M | P1 after release |
+| v1.1.0 version DOI | L | H | H | M | M | H | M | L | L | ACTIVE |
+| GitHub Discussion | M | L | M | H | H | M | H | L | M | P1 draft only |
 | Awesome-list outreach | M | L | H | H | H | M | M | M | M | P1, selective |
 | Reddit | M | L | L | M | H | M | M | H | H | P2/DEFER |
 | Hacker News | uncertain | L | M | H | H | M | M | M | H | DEFER |
 | Kaggle mirror | uncertain | M | M | M | M | M | L | H | L | DEFER |
 | Research catalogs / Papers with Code | L | M | M | L | M | L | L | M | M | SKIP for now |
 
-Immediate 3–5 actions: repair the next GitHub Release contract, make citation/version guidance accurate, keep HF card discoverable through a deliberate manual card update, prepare Zenodo for the next validated release, and approach only a few matching lists. GitHub [topics are designed for discovery](https://docs.github.com/en/repositories/managing-your-repositorys-settings-and-features/customizing-your-repository/classifying-your-repository-with-topics); current topics include `ai-api-pricing`, `ai-cost`, `ai-finops`, `ai-pricing`, `llm-pricing`, provider names, `json-dataset`, and `csv-dataset`. Suggested additions for manual review: `dataset`, `api-pricing`, `cost-optimization`, and possibly `finops`; do not replace relevant existing topics.
+Immediate 3–5 actions: keep the published v1.1.0 Release and version DOI prominent in citation guidance, keep the HF card discoverable through a deliberate manual card update, and consider only a few matching lists after human review. GitHub [topics are designed for discovery](https://docs.github.com/en/repositories/managing-your-repositorys-settings-and-features/customizing-your-repository/classifying-your-repository-with-topics); current topics include `ai-api-pricing`, `ai-cost`, `ai-finops`, `ai-pricing`, `llm-pricing`, provider names, `json-dataset`, and `csv-dataset`. Suggested additions for manual review: `dataset`, `api-pricing`, `cost-optimization`, and possibly `finops`; do not replace relevant existing topics.
 
 [HF metadata](https://huggingface.co/docs/hub/datasets-cards) supports discovery through license, language, pretty name, tags, and task fields. The local `huggingface/README.md` already has pretty name, license, language, tags, config, clean citation text, and GitHub/methodology links. The [publish allowlist](../scripts/publish_huggingface.py) contains only four data artifacts; changing the local card does not publish it. A maintainer should compare the live card with this local mirror and update the HF card separately only if source repository or canonical citation links are missing. The Dataset Viewer can lag raw files.
 
-Zenodo is **GO after a corrected release**, because [GitHub integration archives releases and mints a version DOI](https://docs.github.com/en/repositories/archiving-a-github-repository/referencing-and-citing-content); the concept DOI then identifies the version family. Enable the repository before the next release, verify its metadata and archive, then backfill DOI links in a later commit. [Zenodo accepts CFF alone](https://help.zenodo.org/docs/github/describe-software/zenodo-json/), so no `.zenodo.json` is needed now.
+Zenodo is **ACTIVE for the published v1.1.0 baseline**: version DOI [10.5281/zenodo.23087250](https://doi.org/10.5281/zenodo.23087250). This DOI identifies the frozen release, not the changing live dataset. `CITATION.cff` remains the repository metadata source; no concept DOI or `.zenodo.json` is asserted here.
 
 Kaggle is **DEFER**. It offers [versioned datasets](https://www.kaggle.com/docs/datasets), but a mirror adds a separate update/parity obligation. The existing GitHub/HF channels cover direct downloads and a tabular viewer; public search did not establish a clear incremental audience for this pricing dataset. Papers with Code is **SKIP** unless a research paper or benchmark use case emerges; its directory is centered on ML datasets and tasks.
 
-## Next GitHub Release description (draft)
+## Published fixed release reference
 
-Title: `AICostBudget AI API Pricing Dataset — RELEASE_VERSION`
+The trusted fixed release is [v1.1.0](https://github.com/aicostbudget/ai-api-pricing-data/releases/tag/v1.1.0), Dataset commit `6882e95a8cdf5fb39b75b47bcd9ba0bff63b13d8`, snapshot `2026-09-30`, released `2026-10-02` in Asia/Hong_Kong. Its [release manifest](https://github.com/aicostbudget/ai-api-pricing-data/releases/download/v1.1.0/release-manifest.json) separates GitHub Pages V1 and Pricing V2 assets. The frozen version DOI is [10.5281/zenodo.23087250](https://doi.org/10.5281/zenodo.23087250); the [canonical live dataset](https://aicostbudget.com/en/datasets/ai-api-pricing) continues to update.
 
-> Fixed pricing dataset baseline at snapshot `SNAPSHOT_DATE`, Git commit `FULL_SHA`. This release replaces the mixed-projection asset contract of `dataset-2026-09-30`; it does not alter the historical release.
->
-> GitHub Pages V1 contains `V1_COUNT` canonical repository records across `V1_PROVIDERS` providers. Website/HF Pricing V2 contains `V2_COUNT` public records across `V2_PROVIDERS` providers, with export schema `EXPORT_SCHEMA`. The projections have different scopes; counts are not required to match. Dataset JSON Schema: `SCHEMA_PATH` at `SCHEMA_SHA256`.
->
-> Generated: `GENERATED_AT`. Aggregate last verified: `LAST_VERIFIED_AT`. Download the projection-qualified JSON, CSV, and metadata assets, `release-manifest.json`, and `SHA256SUMS.txt`. The tracked snapshot is `SNAPSHOT_PATH`. Verify each asset SHA-256 and manifest count before use.
->
-> For citation, use this release URL, exact commit, snapshot date, [methodology](https://github.com/aicostbudget/ai-api-pricing-data/blob/main/METHODOLOGY.md), and CC BY 4.0 data license. Code is MIT. Prices may lag provider changes and may be conditional, regional, or account-specific.
+The old `dataset-2026-09-30` Release remains a historical mixed-projection artifact. Its online description has not been changed by this local kit update; a maintainer may prepend the superseded warning after reviewing it.
 
-Fill placeholders only after the [release gate](release-process.md) passes. Describe concrete changes from the previous correct baseline; do not invent a model launch list.
 
 ## GitHub Discussion draft
 
@@ -51,13 +44,13 @@ Title: `A fixed, projection-labeled release baseline for the AI API pricing data
 
 Body:
 
-> We have prepared a release with separate GitHub Pages V1 and Website/HF Pricing V2 assets, a manifest that names the tag commit and tracked snapshot, and SHA-256 checksums. The two projections intentionally contain different public record sets.
+> The published v1.1.0 release has separate GitHub Pages V1 and Website/HF Pricing V2 assets, a manifest naming the tag commit and tracked snapshot, and SHA-256 checksums. The two projections intentionally contain different public record sets.
 >
-> The previous `dataset-2026-09-30` bundle mixed V1 price files with V2 metadata. The successor release documents and validates each projection separately. For a reproducible comparison, use the release tag and snapshot rather than the changing main-branch downloads.
+> The historical `dataset-2026-09-30` bundle mixed V1 price files with V2 metadata. v1.1.0 documents and validates each projection separately. For a reproducible comparison, use the release tag and snapshot rather than the changing main-branch downloads.
 >
-> Release: `RELEASE_URL`. Manifest: `MANIFEST_URL`. Methodology: `METHODOLOGY_URL`. What additional manifest field would make this easier to cite or integrate?
+> Release: https://github.com/aicostbudget/ai-api-pricing-data/releases/tag/v1.1.0. Manifest: https://github.com/aicostbudget/ai-api-pricing-data/releases/download/v1.1.0/release-manifest.json. DOI: https://doi.org/10.5281/zenodo.23087250. What additional manifest field would make this easier to cite or integrate?
 
-Post only after release. Existing [Discussion #24](https://github.com/aicostbudget/ai-api-pricing-data/discussions/24) asks how to model conditional prices; this draft asks about release reproducibility instead.
+This remains an unposted private draft; a human must recheck rules before posting. Existing [Discussion #24](https://github.com/aicostbudget/ai-api-pricing-data/discussions/24) asks how to model conditional prices; this draft asks about release reproducibility instead.
 
 ## Hacker News editorial brief
 
@@ -75,7 +68,7 @@ Current rule evidence: [r/LLMDevs Rule 5 update](https://www.reddit.com/r/LLMDev
 
 - Subreddit: r/LLMDevs; recommendation: conditional, moderator check first.
 - Title: `A source-linked pricing dataset with explicit cache, batch, and non-token rates`
-- Body: `I maintain AICostBudget's open AI API pricing dataset. We store provider source URLs and verification timestamps alongside token and conditional pricing, including cache writes, batch modes, and non-token units. The fixed release and data schema are at RELEASE_URL. Which pricing conditions are hardest to represent in your cost tooling?`
+- Body: `I maintain AICostBudget's open AI API pricing dataset. We store provider source URLs and verification timestamps alongside token and conditional pricing, including cache writes, batch modes, and non-token units. The fixed release is at https://github.com/aicostbudget/ai-api-pricing-data/releases/tag/v1.1.0. Which pricing conditions are hardest to represent in your cost tooling?`
 - Disclosure: `I maintain AICostBudget and the linked dataset.`
 - Risk: commercial association and self-promotion; do not hide it or post if moderators object.
 
@@ -95,4 +88,4 @@ Snapshot of public GitHub repository API on 2026-10-01; stars and last push are 
 | [ravsau/awesome-ai-cost-optimization](https://github.com/ravsau/awesome-ai-cost-optimization) | 1 | 2026-09-16 | No explicit rule confirmed | Topical but tiny audience; hold |
 | [argilla-io/awesome-llm-datasets](https://github.com/argilla-io/awesome-llm-datasets) | 26 | 2023-05-02 | No current contribution rule confirmed | Training-data focus and stale; skip |
 
-Approach only the first three initially, after a corrected release exists. Propose the GitHub source and clean canonical dataset URL, explain the fixed snapshot and official-source provenance, and follow each maintainer's rules. Do not create PRs or issues as part of this local task.
+With v1.1.0 now published, consider only the first three initially after human review. Propose the GitHub source and clean canonical dataset URL, explain the fixed snapshot and official-source provenance, and follow each maintainer's rules. Do not create PRs or issues as part of this local task.

@@ -234,28 +234,18 @@ Prices are accepted only from official provider pricing pages, official document
 
 See [METHODOLOGY.md](METHODOLOGY.md).
 
-## Citation and reproducibility
+## Cite this dataset
 
-For the current dataset, cite [CITATION.cff](CITATION.cff) and include the date you accessed the data. The canonical human-readable page and source repository are:
+For reproducible research, cite the frozen **v1.1.0** release:
 
-```text
-AICostBudget. AICostBudget AI API Pricing Dataset.
-Canonical dataset page: https://aicostbudget.com/en/datasets/ai-api-pricing
-Source repository: https://github.com/aicostbudget/ai-api-pricing-data
-License: CC BY 4.0
-Accessed: YYYY-MM-DD
-```
+> AICostBudget. *AICostBudget AI API Pricing Dataset*, v1.1.0 (snapshot 2026-09-30). [https://doi.org/10.5281/zenodo.23087250](https://doi.org/10.5281/zenodo.23087250).
 
-Use `meta.json` for the export generation timestamp and aggregate verification timestamp. Use each record's `last_verified_at` for record-level verification; an access date is not a substitute for either timestamp.
+- [GitHub Release v1.1.0](https://github.com/aicostbudget/ai-api-pricing-data/releases/tag/v1.1.0)
+- Dataset commit: `6882e95a8cdf5fb39b75b47bcd9ba0bff63b13d8`
+- Data license: [CC BY 4.0](LICENSE-DATA)
 
-For a fixed historical reference, cite an exact Git commit together with the tracked dated snapshot under `data/snapshots/<YYYY-MM-DD>/`. Check the [GitHub Releases](https://github.com/aicostbudget/ai-api-pricing-data/releases) for frozen downloads, and verify that each release asset matches its stated projection and metadata. The [v1.0.0 release](https://github.com/aicostbudget/ai-api-pricing-data/releases/tag/v1.0.0) is the initial public release, not the current dataset. See the [release process](docs/release-process.md) for projection and checksum rules.
+The DOI identifies this fixed release, not the latest data. [CITATION.cff](CITATION.cff) provides its machine-readable citation metadata. The [canonical live dataset](https://aicostbudget.com/en/datasets/ai-api-pricing) continues to update; for current operational use, cite that URL with your access date. The export's `generated_at` and `last_verified_at` timestamps are separate from the access date. See the [release process](docs/release-process.md) for projection and checksum rules.
 
-Example fixed-version reference:
-
-```text
-AICostBudget. AICostBudget AI API Pricing Dataset, snapshot YYYY-MM-DD,
-Git commit <full SHA>. Accessed YYYY-MM-DD. CC BY 4.0.
-```
 
 ## Contributing
 
