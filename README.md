@@ -248,7 +248,7 @@ Accessed: YYYY-MM-DD
 
 Use `meta.json` for the export generation timestamp and aggregate verification timestamp. Use each record's `last_verified_at` for record-level verification; an access date is not a substitute for either timestamp.
 
-For a fixed historical reference, cite an exact Git commit together with the tracked dated snapshot under `data/snapshots/<YYYY-MM-DD>/`. The existing [v1.0.0 release](https://github.com/aicostbudget/ai-api-pricing-data/releases/tag/v1.0.0) is the initial public release and should not be cited as the current dataset unless that specific release is what you used.
+For a fixed historical reference, cite an exact Git commit together with the tracked dated snapshot under `data/snapshots/<YYYY-MM-DD>/`. Check the [GitHub Releases](https://github.com/aicostbudget/ai-api-pricing-data/releases) for frozen downloads, and verify that each release asset matches its stated projection and metadata. The [v1.0.0 release](https://github.com/aicostbudget/ai-api-pricing-data/releases/tag/v1.0.0) is the initial public release, not the current dataset. See the [release process](docs/release-process.md) for projection and checksum rules.
 
 Example fixed-version reference:
 
