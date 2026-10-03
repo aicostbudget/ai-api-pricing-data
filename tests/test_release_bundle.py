@@ -1,5 +1,6 @@
 import hashlib
 import json
+import re
 import subprocess
 import tempfile
 import unittest
@@ -96,8 +97,27 @@ class ReleaseBundleTests(unittest.TestCase):
         ).returncode != 0
         if serializer_dirty:
             self.skipTest("pinned historical export requires its committed serializer")
-        files = build_contents("HEAD", website, "HEAD", "2026-09-30")
-        verify_contents(files)
+        tracked_paths = set(subprocess.check_output(
+            ["git", "ls-tree", "-r", "--name-only", "HEAD", "--", "data/snapshots/"],
+            cwd=ROOT,
+            text=True,
+        ).splitlines())
+        snapshot_dates = {
+            parts[2]
+            for path in tracked_paths
+            if len(parts := path.split("/")) == 4
+            and parts[:2] == ["data", "snapshots"]
+            and parts[3] in {"prices.json", "prices.csv"}
+            and re.fullmatch(r"\d{4}-\d{2}-\d{2}", parts[2])
+        }
+        self.assertTrue(snapshot_dates, "HEAD has no tracked dated V1 snapshot")
+        snapshot = max(snapshot_dates)
+        for suffix in ("json", "csv"):
+            self.assertIn(f"data/snapshots/{snapshot}/prices.{suffix}", tracked_paths)
+        files = build_contents("HEAD", website, "HEAD", snapshot)
+        manifest = verify_contents(files)
+        self.assertEqual(manifest["snapshot_date"], snapshot)
+        self.assertEqual(manifest["snapshot_path"], f"data/snapshots/{snapshot}/")
 
 
 if __name__ == "__main__":
