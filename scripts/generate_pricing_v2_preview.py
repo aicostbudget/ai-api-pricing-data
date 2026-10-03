@@ -71,7 +71,7 @@ OFFICIAL_DOMAINS = {
     "deepseek": ("api-docs.deepseek.com", "deepseek.com"),
     "mistral-ai": ("mistral.ai",),
     "cohere": ("cohere.com", "docs.cohere.com"),
-    "moonshot-ai": ("platform.kimi.ai", "kimi.ai", "moonshot.ai"),
+    "moonshot-ai": ("platform.kimi.ai", "kimi.ai", "kimi.com", "moonshot.ai"),
 }
 
 DEEPSEEK_V4_FLASH_RETIREMENT_AT = "2026-09-10T04:00:00Z"
@@ -2072,6 +2072,8 @@ def public_source_urls(record: dict[str, Any] | None) -> list[str]:
     if not record:
         return []
     urls = list(record.get("official_source_urls") or [record["official_source_url"]])
+    if record.get("release_evidence"):
+        urls.append(record["release_evidence"]["url"])
     for price_record in record.get("price_records", []):
         urls.extend(price_record.get("source_refs", []))
         for rule in price_record.get("region_policy", {}).get("availability", {}).get("rules", []):
@@ -2091,8 +2093,12 @@ def projected_context_window_tokens(public: dict[str, Any] | None) -> int | None
     return public.get("context_window_tokens")
 
 
-def source_refs_for(provider_id: str, public: dict[str, Any] | None, website: dict[str, Any] | None, source_by_url: dict[str, str]) -> list[str]:
+def source_refs_for(provider_id: str, public: dict[str, Any] | None, website: dict[str, Any] | None, source_by_url: dict[str, str], *, include_release: bool = False) -> list[str]:
     urls = public_source_urls(public)
+    if public and not include_release and public.get("release_evidence"):
+        release_url = public["release_evidence"]["url"]
+        if release_url not in (public.get("official_source_urls") or [public["official_source_url"]]):
+            urls = [url for url in urls if url != release_url]
     website_url = (website or {}).get("officialPriceUrl")
     if website_url:
         urls.append(website_url)
@@ -2378,6 +2384,29 @@ def main() -> None:
         refresh_source_keys,
     )
 
+    # Release evidence is model metadata. Keep its source identity separate from price records.
+    release_titles_by_url: dict[str, set[str]] = {}
+    for public in public_models:
+        evidence = public.get("release_evidence")
+        if evidence is None:
+            continue
+        url = evidence["url"]
+        source = source_urls.get(url)
+        if source is None:
+            raise ValueError(f"Release source missing from catalog: {url}")
+        source["sourceType"] = evidence["source_type"]
+        source["officialProviderDomain"] = official_domain(public["provider_id"], url)
+        source["supports"] = sorted(set(source["supports"]) | {"models", "release"})
+        if url not in {source["url"] for source in existing_sources} and url != public["official_source_url"] and not any(
+            url in record.get("source_refs", []) for record in public.get("price_records", [])
+        ):
+            source["supports"] = [purpose for purpose in source["supports"] if purpose != "pricing"]
+        release_titles_by_url.setdefault(url, set()).add(evidence["title"])
+    for url, titles in release_titles_by_url.items():
+        source_urls[url]["title"] = (
+            next(iter(titles)) if len(titles) == 1 else sorted(title.split(" - ", 1)[0] for title in titles)[0]
+        )
+
     for (provider_id, url), meta in PHASE26_EXTRA_SOURCE_URLS.items():
         checked_at = meta.get("checkedAt", "2026-07-07T00:00:00Z")
         source_urls[url] = {
@@ -2428,6 +2457,11 @@ def main() -> None:
             "identityType": identity_type,
             "lifecycleStatus": parts["lifecycleStatus"],
             "releaseStage": parts["releaseStage"],
+            "releasedAt": (public or {}).get("released_at"),
+            "releaseSourceRef": (
+                source_by_url[public["release_evidence"]["url"]]
+                if public and public.get("release_evidence") else None
+            ),
             "availability": parts["availability"],
             "routingBehavior": (
                 (collapse or {}).get("routingBehavior")
@@ -2923,6 +2957,11 @@ def main() -> None:
                 "officialIds": official_ids(provider_id, model_id, public, website),
                 "lifecycleStatus": parts["lifecycleStatus"],
                 "releaseStage": parts["releaseStage"],
+                "releasedAt": (public or {}).get("released_at"),
+                "releaseSourceRef": (
+                    source_by_url[public["release_evidence"]["url"]]
+                    if public and public.get("release_evidence") else None
+                ),
                 "availability": parts["availability"],
                 "routingBehavior": "direct",
                 "defaultPriceRecordId": default_price["pricingId"] if default_price else None,

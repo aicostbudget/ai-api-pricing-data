@@ -12,6 +12,17 @@
     "model_category": {"type": "string"},
     "status": {"type": "string", "enum": ["active", "preview", "deprecated", "retired", "unknown"]},
     "release_stage": {"type": "string", "enum": ["stable", "preview", "legacy", "specialized", "unknown"]},
+    "released_at": {"type": ["string", "null"], "pattern": "^[0-9]{4}-[0-9]{2}-[0-9]{2}$", "description": "First official public availability of the exact canonical model/version, including public preview before GA; never a price or verification date."},
+    "release_evidence": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["url", "title", "source_type"],
+      "properties": {
+        "url": {"type": "string", "format": "uri"},
+        "title": {"type": "string", "minLength": 1},
+        "source_type": {"type": "string", "enum": ["official_release_announcement", "official_changelog", "official_model_docs"]}
+      }
+    },
     "context_window_tokens": {"type": "integer", "minimum": 1},
     "project_context_window": {"type": "boolean"},
     "aliases": {

@@ -127,7 +127,7 @@ class Grok47OnboardingTests(unittest.TestCase):
     def test_grok_46_canonical_semantics_are_frozen(self):
         grok46 = next(row for row in self.xai_models if row["model_id"] == "grok-4.6")
         digest = hashlib.sha256(
-            json.dumps(grok46, sort_keys=True, separators=(",", ":")).encode()
+            json.dumps({k: v for k, v in grok46.items() if k not in {"released_at", "release_evidence"}}, sort_keys=True, separators=(",", ":")).encode()
         ).hexdigest()
         self.assertEqual(digest, "43acf46a77f31ba5bcfef9e3feaf6daf99f2c8b77149fac7421f36fb2efa1a44")
 

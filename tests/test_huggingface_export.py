@@ -250,7 +250,7 @@ class HuggingFaceExportTests(unittest.TestCase):
         legacy_headers = [
             "provider_id", "provider", "model_id", "model", "input_price_per_1m_tokens",
             "cached_input_price_per_1m_tokens", "output_price_per_1m_tokens", "currency",
-            "pricing_unit", "status", "availability", "official_source_url", "verification_status",
+            "pricing_unit", "status", "released_at", "availability", "official_source_url", "verification_status",
             "last_verified_at", "checked_at", "effective_from", "effective_until", "notes",
             "pricing_tier_count", "pricing_tiers_json",
         ]
@@ -426,6 +426,7 @@ class HuggingFaceExportTests(unittest.TestCase):
         for record in self.records:
             baseline = dict(record)
             for field in (
+                "released_at",
                 "pricing_components",
                 "conditional_usage_allowances",
                 "model_selection",

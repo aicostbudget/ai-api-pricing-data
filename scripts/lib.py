@@ -123,6 +123,7 @@ def csv_rows(models: list[dict[str, Any]]) -> list[dict[str, Any]]:
                 "display_name": model["display_name"],
                 "model_family": model["model_family"],
                 "status": model["status"],
+                "released_at": model.get("released_at"),
                 "currency": pricing["currency"],
                 "unit": pricing["unit"],
                 "input": pricing["input"],

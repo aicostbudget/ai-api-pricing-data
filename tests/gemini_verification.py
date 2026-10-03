@@ -26,6 +26,6 @@ def assert_gemini_facts_and_verification(test_case, before, after):
             test_case.assertTrue(all(set(record["source_refs"]) <= set(current["official_source_urls"]) for record in current["price_records"]))
             continue
         test_case.assertEqual(
-            {key: value for key, value in current.items() if key not in ("last_verified_at", "accessed_at")},
-            {key: value for key, value in old.items() if key not in ("last_verified_at", "accessed_at")},
+            {key: value for key, value in current.items() if key not in ("last_verified_at", "accessed_at", "released_at", "release_evidence")},
+            {key: value for key, value in old.items() if key not in ("last_verified_at", "accessed_at", "released_at", "release_evidence")},
         )

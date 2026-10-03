@@ -1241,6 +1241,12 @@ def projection_row(
         "identityType": identity["identityType"],
         "lifecycleStatus": identity["lifecycleStatus"],
         "releaseStage": identity["releaseStage"],
+        "releasedAt": identity.get("releasedAt"),
+        "releaseSourceRef": identity.get("releaseSourceRef"),
+        "releaseSourceUrl": (
+            sources_by_id[identity["releaseSourceRef"]]["url"]
+            if identity.get("releaseSourceRef") else None
+        ),
         "availability": identity["availability"],
         "routingBehavior": identity["routingBehavior"],
         "routingDetails": identity["routingDetails"],

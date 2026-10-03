@@ -35,6 +35,7 @@ CSV_HEADERS = (
     "currency",
     "pricing_unit",
     "status",
+    "released_at",
     "availability",
     "official_source_url",
     "verification_status",
@@ -486,6 +487,7 @@ def build_public_records(
     projection_by_key = {(row["provider"], row["id"]): row for row in projection["models"]}
     for record in records:
         projection_row = projection_by_key[(record["provider_id"], record["model_id"])]
+        record["released_at"] = projection_row.get("releasedAt")
         record["conditional_usage_allowances"] = public_conditional_usage_allowances(projection_row)
         record["model_selection"] = public_model_selection(projection_row)
 

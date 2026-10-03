@@ -4,6 +4,7 @@ import argparse
 import csv
 import json
 import math
+import re
 from datetime import date, datetime, timezone
 from pathlib import Path
 from urllib.request import Request, urlopen
@@ -130,6 +131,29 @@ def validate_pricing_contract(model: dict, item: tuple[str, str]) -> None:
             fail(f"invalid {label} configuration")
 
 
+def validate_release_metadata(model: dict, item: tuple[str, str]) -> None:
+    released_at = model.get("released_at")
+    evidence = model.get("release_evidence")
+    if released_at is None:
+        if evidence is not None:
+            fail(f"release evidence without released_at for {item[0]}/{item[1]}")
+    else:
+        if not isinstance(released_at, str) or not re.fullmatch(r"\d{4}-\d{2}-\d{2}", released_at):
+            fail(f"invalid released_at format for {item[0]}/{item[1]}")
+        try:
+            date.fromisoformat(released_at)
+        except ValueError:
+            fail(f"invalid released_at date for {item[0]}/{item[1]}")
+        if not isinstance(evidence, dict) or set(evidence) != {"url", "title", "source_type"}:
+            fail(f"missing release evidence for {item[0]}/{item[1]}")
+        if evidence["source_type"] not in {"official_release_announcement", "official_changelog", "official_model_docs"}:
+            fail(f"invalid release evidence type for {item[0]}/{item[1]}")
+        if not isinstance(evidence["title"], str) or not evidence["title"].strip():
+            fail(f"invalid release evidence title for {item[0]}/{item[1]}")
+        url = evidence["url"]
+        if not isinstance(url, str) or not url.startswith("https://"):
+            fail(f"invalid release evidence URL for {item[0]}/{item[1]}")
+
 def validate_models(now: datetime | None = None) -> None:
     now = now or datetime.now(timezone.utc)
     providers = load_providers()
@@ -173,6 +197,7 @@ def validate_models(now: datetime | None = None) -> None:
             fail(f"future accessed_at for {item[0]}/{item[1]}: {model['accessed_at']}")
         if last_verified_at > now:
             fail(f"future last_verified_at for {item[0]}/{item[1]}: {model['last_verified_at']}")
+        validate_release_metadata(model, item)
         pricing = model["pricing"]
         validate_pricing_contract(model, item)
 

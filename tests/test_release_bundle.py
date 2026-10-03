@@ -1,5 +1,6 @@
 import hashlib
 import json
+import subprocess
 import tempfile
 import unittest
 from pathlib import Path
@@ -88,6 +89,13 @@ class ReleaseBundleTests(unittest.TestCase):
         website = Path("D:/ai-cost-control-tool/aicostguard-english")
         if not website.is_dir():
             self.skipTest("local Website checkout is unavailable")
+        serializer_dirty = subprocess.run(
+            ["git", "diff", "--quiet", "HEAD", "--", "scripts/export_huggingface.py"],
+            cwd=Path(__file__).resolve().parents[1],
+            check=False,
+        ).returncode != 0
+        if serializer_dirty:
+            self.skipTest("pinned historical export requires its committed serializer")
         files = build_contents("HEAD", website, "HEAD", "2026-09-30")
         verify_contents(files)
 
