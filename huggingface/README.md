@@ -11,10 +11,10 @@ tags:
   - token-cost
   - ai-finops
   - pricing-data
-  - open-data
-  - csv
-  - json
-  - developer-tools
+  - finops
+  - openai
+  - anthropic
+  - gemini
 configs:
   - config_name: default
     data_files:
@@ -24,23 +24,21 @@ configs:
 
 # AI API Pricing Dataset
 
-This Hugging Face dataset is the machine-readable distribution of the public AI API pricing records published by AICostBudget. It is not a separately curated subset: `train.csv`, `prices.csv`, and `prices.json` are generated from the same Pricing V2 public projection used by the AICostBudget Dataset page and download APIs.
+Source-linked AI API pricing data covering token, cache, batch, tiered, multimodal, and non-token pricing across multiple providers, including OpenAI, Anthropic, Google, xAI, DeepSeek, Mistral, and Cohere. These are examples, not an exhaustive provider list.
+
+- [Live dataset and documentation](https://aicostbudget.com/en/datasets/ai-api-pricing)
+- [Source repository](https://github.com/aicostbudget/ai-api-pricing-data)
+- [Fixed v1.1.0 release (snapshot 2026-09-30)](https://github.com/aicostbudget/ai-api-pricing-data/releases/tag/v1.1.0)
+- [Version DOI](https://doi.org/10.5281/zenodo.23087250)
+- [Methodology](https://github.com/aicostbudget/ai-api-pricing-data/blob/main/METHODOLOGY.md)
+
+This Hugging Face dataset is the machine-readable distribution of the public AI API pricing records published by AICostBudget. It is not a separately curated subset: `train.csv`, `prices.csv`, and `prices.json` are generated from the same Pricing V2 public projection used by the AICostBudget Dataset page and download APIs. The Hugging Face dataset mirrors that Pricing V2 public projection; GitHub Pages `/api/v1` is a separate compatibility projection and may have a different record count by design.
 
 Prices change frequently. Verify production billing decisions against the provider pricing page, contract, billing dashboard, and invoice.
 
-## Use the pricing data
-
-Use the current pricing dataset to estimate a real AI API workload, compare models, or monitor price changes.
-
-- [Calculate your API cost with this dataset](https://aicostbudget.com/en/ai-api-cost-calculator?utm_source=huggingface&utm_medium=referral&utm_campaign=pricing_dataset&utm_content=dataset_card_calculator)
-- [Compare these models interactively](https://aicostbudget.com/en/model-pricing-comparison?utm_source=huggingface&utm_medium=referral&utm_campaign=pricing_dataset&utm_content=dataset_card_comparison)
-- [Track AI model price changes](https://aicostbudget.com/en/model-price-monitor?utm_source=huggingface&utm_medium=referral&utm_campaign=pricing_dataset&utm_content=dataset_card_price_monitor)
-
 ## Explore and download
 
-- [Canonical human-readable dataset page and documentation](https://aicostbudget.com/en/datasets/ai-api-pricing?utm_source=huggingface&utm_medium=referral&utm_campaign=pricing_dataset&utm_content=dataset_card_dataset)
-- [Download the public JSON dataset](https://aicostbudget.com/api/datasets/ai-api-pricing.json)
-- [Download the public CSV dataset](https://aicostbudget.com/api/datasets/ai-api-pricing.csv)
+Download `prices.json` or `prices.csv` from the [Hugging Face files](https://huggingface.co/datasets/aicostbudget-ai/ai-api-pricing/tree/main), or use the live dataset's [public JSON](https://aicostbudget.com/api/datasets/ai-api-pricing.json) and [public CSV](https://aicostbudget.com/api/datasets/ai-api-pricing.csv) downloads.
 
 ## Published files
 
@@ -97,7 +95,7 @@ The canonical provider and pricing facts live in the [AICostBudget pricing data 
 | `pricing_components` | JSON-only full conditional pricing representation: component, decimal-string amount, conditions, effective range, source IDs and URLs, and verification status; `[]` when none apply. |
 | `pricing_components_json` | Final CSV column containing the same `pricing_components` array as compact deterministic JSON; `[]` when none apply. |
 
-The scalar input, cached-input, and output fields remain the compatibility/default pricing view. They are not deprecated. `pricing_components` is the detailed view for provider semantics that cannot be represented by one scalar, including separate `cache_write_5m` and `cache_write_1h` charges or cache-write prices that vary by processing mode and context class. The contract is component-oriented, so it also supports storage, request, tool-call, grounding, and future charge types.
+The scalar input, cached-input, and output fields remain the compatibility/default pricing view. They are not deprecated. `pricing_components` represents conditions and units that one scalar cannot: context thresholds, batch and processing modes, cache writes, multimodal usage, tiered pricing, and non-token services. The [pricing contract](https://github.com/aicostbudget/ai-api-pricing-data/blob/main/docs/pricing-contract.md) defines the full structure.
 
 ## Load with pandas
 
@@ -157,32 +155,38 @@ For current coverage and timestamps, inspect `meta.json`. The source repository 
 - [Data license](https://github.com/aicostbudget/ai-api-pricing-data/blob/main/LICENSE-DATA)
 - [Code license](https://github.com/aicostbudget/ai-api-pricing-data/blob/main/LICENSE-CODE)
 
+Dataset data is licensed under CC BY 4.0; repository code is licensed under MIT. The front matter license applies to the dataset data.
+
 Prices are accepted from official provider pricing pages, documentation, APIs, or announcements. Third-party aggregators and search snippets are not final price evidence.
 
 ## Citation
 
+For reproducible analysis, cite the frozen v1.1.0 release and its version DOI (snapshot 2026-09-30). The live dataset and Hugging Face `main` can change after that snapshot; for latest operational use, cite the live dataset with your access date instead. This is a version DOI, not a claim that it identifies the latest dataset.
+
 ```text
-AICostBudget. AICostBudget AI API Pricing Dataset.
-Canonical dataset page: https://aicostbudget.com/en/datasets/ai-api-pricing
-Source repository: https://github.com/aicostbudget/ai-api-pricing-data
-License: CC BY 4.0
-Accessed: YYYY-MM-DD
+AICostBudget. AICostBudget AI API Pricing Dataset, v1.1.0, snapshot 2026-09-30.
+Version DOI: 10.5281/zenodo.23087250
+DOI: https://doi.org/10.5281/zenodo.23087250
+GitHub Release: https://github.com/aicostbudget/ai-api-pricing-data/releases/tag/v1.1.0
+Canonical live dataset: https://aicostbudget.com/en/datasets/ai-api-pricing
 ```
 
-For the current dataset, record the access date and inspect `meta.json` for export generation and aggregate verification timestamps. Record-level verification remains in each row's `last_verified_at`; do not replace it with the access date or `generated_at`.
+```bibtex
+@misc{aicostbudget_2026_v110,
+  author = {{AICostBudget}},
+  title = {AICostBudget AI API Pricing Dataset},
+  year = {2026},
+  version = {1.1.0},
+  doi = {10.5281/zenodo.23087250},
+  url = {https://doi.org/10.5281/zenodo.23087250},
+  note = {Snapshot 2026-09-30}
+}
+```
 
-For reproducible historical work, cite an exact Git commit and its tracked `data/snapshots/<YYYY-MM-DD>/` snapshot in the source repository. Do not treat the initial `v1.0.0` release as the current dataset unless that specific release is what you used.
-
-## Website Tools
-
-Continue from the dataset to estimate, compare, or monitor AI API pricing:
-
-- [Calculate your API cost with this dataset](https://aicostbudget.com/en/ai-api-cost-calculator?utm_source=huggingface&utm_medium=referral&utm_campaign=pricing_dataset&utm_content=dataset_card_calculator)
-- [Compare these models interactively](https://aicostbudget.com/en/model-pricing-comparison?utm_source=huggingface&utm_medium=referral&utm_campaign=pricing_dataset&utm_content=dataset_card_comparison)
-- [Track AI model price changes](https://aicostbudget.com/en/model-price-monitor?utm_source=huggingface&utm_medium=referral&utm_campaign=pricing_dataset&utm_content=dataset_card_price_monitor)
+For the changing dataset, record the access date and inspect `meta.json` for export generation and aggregate verification timestamps. Record-level verification remains in each row's `last_verified_at`; do not replace it with the access date or `generated_at`.
 
 ## Disclaimer
 
-This dataset is informational and may lag provider changes. AICostBudget is independent and is not affiliated with or endorsed by the listed providers. Provider names and trademarks belong to their respective owners.
+This dataset is informational. Prices can change, provider conditions vary, and verification timestamps may lag provider changes. Check official provider documentation before production billing decisions. AICostBudget is independent and is not affiliated with or endorsed by the listed providers. Provider names and trademarks belong to their respective owners.
 
 If this dataset saves you time, consider liking it on Hugging Face so you can find future pricing updates more easily.

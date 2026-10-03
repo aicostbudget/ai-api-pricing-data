@@ -8,11 +8,9 @@ from pathlib import Path
 
 from scripts.export_huggingface import (
     CSV_HEADERS,
-    FORBIDDEN_UTM,
     HF_DIR,
     META_PATH,
     PROJECTION_PATH,
-    REQUIRED_UTM,
     VIEWER_CSV_HEADERS,
     VIEWER_OMITTED_FIELDS,
     artifact_contents,
@@ -21,6 +19,7 @@ from scripts.export_huggingface import (
     parse_date,
     public_pricing_components,
     preserve_existing_generated_at_for_timestamp_only_change,
+    validate_dataset_card_urls,
     validate_huggingface_artifacts,
 )
 
@@ -485,29 +484,48 @@ class HuggingFaceExportTests(unittest.TestCase):
                     self.assertIsInstance(value, (int, float), (row["provider_id"], row["model_id"], field))
                     self.assertGreaterEqual(value, 0, (row["provider_id"], row["model_id"], field))
 
-    def test_dataset_card_uses_utm_only_for_html_acquisition_links(self):
+    def test_dataset_card_uses_clean_dataset_references_and_fixed_citation(self):
         card = (HF_DIR / "README.md").read_text(encoding="utf-8")
         urls = set(re.findall(r"https://aicostbudget\.com/[^\s)]+", card))
-        clean_reference_urls = {
+        self.assertEqual(urls, {
             "https://aicostbudget.com/en/datasets/ai-api-pricing",
             "https://aicostbudget.com/api/datasets/ai-api-pricing.json",
             "https://aicostbudget.com/api/datasets/ai-api-pricing.csv",
-        }
-        acquisition_urls = {
-            "https://aicostbudget.com/en/datasets/ai-api-pricing?utm_source=huggingface&utm_medium=referral&utm_campaign=pricing_dataset&utm_content=dataset_card_dataset",
-            "https://aicostbudget.com/en/ai-api-cost-calculator?utm_source=huggingface&utm_medium=referral&utm_campaign=pricing_dataset&utm_content=dataset_card_calculator",
-            "https://aicostbudget.com/en/model-pricing-comparison?utm_source=huggingface&utm_medium=referral&utm_campaign=pricing_dataset&utm_content=dataset_card_comparison",
-            "https://aicostbudget.com/en/model-price-monitor?utm_source=huggingface&utm_medium=referral&utm_campaign=pricing_dataset&utm_content=dataset_card_price_monitor",
-        }
-        self.assertEqual(urls, clean_reference_urls | acquisition_urls)
-        for url in acquisition_urls:
-            for marker in REQUIRED_UTM:
-                self.assertIn(marker, url)
-        for marker in FORBIDDEN_UTM:
-            self.assertNotIn(marker, card)
-        for url in clean_reference_urls:
-            self.assertNotRegex(url, r"[?&]utm_")
+        })
+        self.assertNotIn("utm_", card)
+        self.assertNotIn("/en/ai-api-cost-calculator", card)
+        self.assertNotIn("/en/model-pricing-comparison", card)
+        self.assertNotIn("/en/model-price-monitor", card)
         self.assertIn("not a separately curated subset", card)
+        self.assertEqual(card.count("## Citation"), 1)
+        self.assertIn("@misc{aicostbudget_2026_v110", card)
+        self.assertIn("10.5281/zenodo.23087250", card)
+        self.assertIn("fixed v1.1.0 release", card.lower())
+        validate_dataset_card_urls(card)
+
+    def test_dataset_card_attribution_is_optional_but_complete_when_present(self):
+        card = (HF_DIR / "README.md").read_text(encoding="utf-8")
+        self.assertNotIn("utm_", card)
+        validate_dataset_card_urls(card)
+
+        complete = card + "\nhttps://aicostbudget.com/en/example?utm_source=huggingface&utm_medium=referral&utm_campaign=pricing_dataset\n"
+        validate_dataset_card_urls(complete)
+
+        partial = card + "\nhttps://aicostbudget.com/en/example?utm_source=huggingface\n"
+        with self.assertRaisesRegex(ValueError, "attribution URL missing utm_medium=referral"):
+            validate_dataset_card_urls(partial)
+
+        legacy = card + "\nhttps://aicostbudget.com/en/example?utm_source=huggingface&utm_medium=dataset&utm_campaign=pricing_dataset\n"
+        with self.assertRaisesRegex(ValueError, "legacy utm_medium=dataset"):
+            validate_dataset_card_urls(legacy)
+
+        tracked_canonical = card + "\nhttps://aicostbudget.com/en/datasets/ai-api-pricing?utm_source=huggingface&utm_medium=referral&utm_campaign=pricing_dataset\n"
+        with self.assertRaisesRegex(ValueError, "reference URL must be clean"):
+            validate_dataset_card_urls(tracked_canonical)
+
+        tracked_doi = card + "\nhttps://doi.org/10.5281/zenodo.23087250?utm_source=huggingface&utm_medium=referral&utm_campaign=pricing_dataset\n"
+        with self.assertRaisesRegex(ValueError, "reference URL must be clean"):
+            validate_dataset_card_urls(tracked_doi)
 
     def test_distribution_docs_expose_canonical_citation_and_format_semantics(self):
         readme = (HF_DIR.parent / "README.md").read_text(encoding="utf-8")
@@ -529,15 +547,17 @@ class HuggingFaceExportTests(unittest.TestCase):
         self.assertIn("live dataset", citation.lower())
         self.assertIn("access date", citation.lower())
 
-        self.assertIn("Canonical human-readable dataset page and documentation", card)
+        self.assertIn("[Live dataset and documentation](https://aicostbudget.com/en/datasets/ai-api-pricing)", card)
         self.assertIn("auto-converted Parquet from `train.csv`", card)
         self.assertIn("Viewer and search indexing can lag", card)
         self.assertIn("They are not an independent pricing source", card)
         self.assertIn("model schema", card)
         self.assertIn("pricing contract", card)
-        self.assertIn("Canonical dataset page: https://aicostbudget.com/en/datasets/ai-api-pricing", card)
-        self.assertIn("Source repository: https://github.com/aicostbudget/ai-api-pricing-data", card)
-        self.assertIn("Accessed: YYYY-MM-DD", card)
+        self.assertIn("Canonical live dataset: https://aicostbudget.com/en/datasets/ai-api-pricing", card)
+        self.assertIn("[Source repository](https://github.com/aicostbudget/ai-api-pricing-data)", card)
+        self.assertIn("GitHub Release: https://github.com/aicostbudget/ai-api-pricing-data/releases/tag/v1.1.0", card)
+        self.assertIn("DOI: https://doi.org/10.5281/zenodo.23087250", card)
+        self.assertIn("access date", card)
         self.assertIn("each row's `last_verified_at`", card)
 
 

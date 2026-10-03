@@ -6,11 +6,13 @@ import io
 import json
 import math
 import os
+import re
 import subprocess
 from datetime import datetime, timezone
 from decimal import Decimal, InvalidOperation
 from pathlib import Path
 from typing import Any
+from urllib.parse import parse_qs, urlsplit, urlunsplit
 
 try:
     from lib import ROOT
@@ -95,6 +97,13 @@ REQUIRED_UTM = (
 FORBIDDEN_UTM = (
     "utm_medium=dataset",
     "utm_campaign=ai_api_pricing",
+)
+CARD_REFERENCE_URLS = (
+    DATASET_PAGE_URL,
+    "https://github.com/aicostbudget/ai-api-pricing-data",
+    "https://github.com/aicostbudget/ai-api-pricing-data/releases/tag/v1.1.0",
+    "https://doi.org/10.5281/zenodo.23087250",
+    "https://github.com/aicostbudget/ai-api-pricing-data/blob/main/METHODOLOGY.md",
 )
 
 
@@ -683,6 +692,33 @@ def write_atomic(path: Path, content: str) -> None:
     os.replace(temp_path, path)
 
 
+def validate_dataset_card_urls(card: str) -> None:
+    urls = re.findall(r"https?://[^\s<>)\]},;]+", card)
+    for reference in CARD_REFERENCE_URLS:
+        if reference not in urls:
+            raise ValueError(f"Hugging Face Dataset Card missing clean reference URL {reference}")
+    for marker in FORBIDDEN_UTM:
+        if marker in card:
+            raise ValueError(f"Hugging Face Dataset Card contains legacy {marker}")
+
+    for url in urls:
+        parsed = urlsplit(url)
+        query = parse_qs(parsed.query, keep_blank_values=True)
+        base_url = urlunsplit((parsed.scheme, parsed.netloc, parsed.path, "", ""))
+        utm_keys = {key for key in query if key.startswith("utm_")}
+        if base_url in CARD_REFERENCE_URLS:
+            if utm_keys or (base_url == DATASET_PAGE_URL and (parsed.query or parsed.fragment)):
+                raise ValueError(f"Hugging Face Dataset Card reference URL must be clean: {url}")
+        if not utm_keys:
+            continue
+        if parsed.hostname != "aicostbudget.com":
+            raise ValueError(f"Hugging Face Dataset Card attribution URL has an unexpected host: {url}")
+        for marker in REQUIRED_UTM:
+            key, value = marker.split("=", 1)
+            if query.get(key) != [value]:
+                raise ValueError(f"Hugging Face Dataset Card attribution URL missing {marker}: {url}")
+
+
 def validate_huggingface_artifacts(output_dir: Path = HF_DIR) -> None:
     projection = read_json(PROJECTION_PATH)
     payload = read_json(output_dir / "prices.json")
@@ -693,12 +729,7 @@ def validate_huggingface_artifacts(output_dir: Path = HF_DIR) -> None:
         if not path.exists() or path.read_text(encoding="utf-8") != content:
             raise ValueError(f"Hugging Face artifact is inconsistent: {path.relative_to(ROOT)}")
     card = (output_dir / "README.md").read_text(encoding="utf-8")
-    for marker in REQUIRED_UTM:
-        if marker not in card:
-            raise ValueError(f"Hugging Face Dataset Card missing {marker}")
-    for marker in FORBIDDEN_UTM:
-        if marker in card:
-            raise ValueError(f"Hugging Face Dataset Card contains legacy {marker}")
+    validate_dataset_card_urls(card)
 
 
 def preserve_existing_generated_at_for_timestamp_only_change(
