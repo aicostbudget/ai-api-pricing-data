@@ -1745,6 +1745,118 @@
     "verificationStatus": "partially_verified"
   },
   {
+    "availabilityRules": [],
+    "billingNote": "Cohere Embed API input billing uses separate text and image rates per 1M tokens; embedding vectors are not billed as output tokens.",
+    "calculationDefault": true,
+    "charges": [
+      {
+        "amount": "0.08",
+        "chargeId": "charge:cohere/embed-v5.0-fast:standard:input:text:tokens",
+        "component": "input",
+        "modality": "text",
+        "unit": "per_1m_tokens"
+      },
+      {
+        "amount": "0.4",
+        "chargeId": "charge:cohere/embed-v5.0-fast:standard:input:image:tokens",
+        "component": "input",
+        "modality": "image",
+        "unit": "per_1m_tokens"
+      }
+    ],
+    "checkedAt": "2026-10-04T15:36:06Z",
+    "contextClass": "short",
+    "currency": "USD",
+    "defaultAvailabilityStatus": "available",
+    "effectiveFrom": null,
+    "effectiveUntil": null,
+    "modelInternalId": "cohere/embed-v5.0-fast",
+    "priceAdjustments": [],
+    "pricingId": "price:cohere/embed-v5.0-fast:standard:short:current",
+    "pricingStatus": "current",
+    "processingMode": "standard",
+    "promptTokenThreshold": null,
+    "regionPolicy": "global",
+    "regionSelector": {
+      "dataResidencies": [
+        "global"
+      ],
+      "endpointGeographies": [
+        "global"
+      ],
+      "pricingGeography": "global_base"
+    },
+    "sourceDatasetIds": {
+      "publicDatasetIds": [
+        "embed-v5.0-fast"
+      ],
+      "websiteIds": []
+    },
+    "sourceRefs": [
+      "source:cohere:cohere-com-blog-embed-5",
+      "source:cohere:docs-cohere-com-changelog-embed-v5",
+      "source:cohere:docs-cohere-com-docs-cohere-embed"
+    ],
+    "verificationStatus": "verified",
+    "verifiedAt": "2026-10-04T15:36:06Z"
+  },
+  {
+    "availabilityRules": [],
+    "billingNote": "Cohere Embed API input billing uses separate text and image rates per 1M tokens; embedding vectors are not billed as output tokens.",
+    "calculationDefault": true,
+    "charges": [
+      {
+        "amount": "0.12",
+        "chargeId": "charge:cohere/embed-v5.0-pro:standard:input:text:tokens",
+        "component": "input",
+        "modality": "text",
+        "unit": "per_1m_tokens"
+      },
+      {
+        "amount": "0.4",
+        "chargeId": "charge:cohere/embed-v5.0-pro:standard:input:image:tokens",
+        "component": "input",
+        "modality": "image",
+        "unit": "per_1m_tokens"
+      }
+    ],
+    "checkedAt": "2026-10-04T15:36:06Z",
+    "contextClass": "short",
+    "currency": "USD",
+    "defaultAvailabilityStatus": "available",
+    "effectiveFrom": null,
+    "effectiveUntil": null,
+    "modelInternalId": "cohere/embed-v5.0-pro",
+    "priceAdjustments": [],
+    "pricingId": "price:cohere/embed-v5.0-pro:standard:short:current",
+    "pricingStatus": "current",
+    "processingMode": "standard",
+    "promptTokenThreshold": null,
+    "regionPolicy": "global",
+    "regionSelector": {
+      "dataResidencies": [
+        "global"
+      ],
+      "endpointGeographies": [
+        "global"
+      ],
+      "pricingGeography": "global_base"
+    },
+    "sourceDatasetIds": {
+      "publicDatasetIds": [
+        "embed-v5.0-pro"
+      ],
+      "websiteIds": []
+    },
+    "sourceRefs": [
+      "source:cohere:cohere-com-blog-embed-5",
+      "source:cohere:docs-cohere-com-changelog-embed-v5",
+      "source:cohere:docs-cohere-com-docs-cohere-embed"
+    ],
+    "verificationStatus": "verified",
+    "verifiedAt": "2026-10-04T15:36:06Z"
+  },
+  {
     "billingNote": "Cohere Parse v5 is generally available through the Cohere Parse API as parse-v5.0 at $1.50 per 1,000 pages. The public official sources do not publish a separate async or Batch API rate, page-count tier, or API free allowance. The free Cohere Space is a product demo, not a free API billing tier.",
     "calculationDefault": false,
     "charges": [
@@ -7314,42 +7426,122 @@
     "verificationStatus": "partially_verified"
   },
   {
-    "billingNote": "Specialized coding model. Use for code-agent budgeting rather than general chat budgeting.",
+    "availabilityRules": [],
+    "billingNote": "Current Standard token rates per 1M tokens; no official pricing effective date is stated.",
     "calculationDefault": true,
     "charges": [
       {
         "amount": "1.75",
-        "chargeId": "price:openai/gpt-5.3-codex:standard:short:website-preview:input:text:per_1m_tokens",
+        "chargeId": "charge:openai/gpt-5.3-codex:standard:input:text:tokens",
         "component": "input",
         "modality": "text",
         "unit": "per_1m_tokens"
       },
       {
         "amount": "0.175",
-        "chargeId": "price:openai/gpt-5.3-codex:standard:short:website-preview:cached_input:text:per_1m_tokens",
+        "chargeId": "charge:openai/gpt-5.3-codex:standard:cached_input:text:tokens",
         "component": "cached_input",
         "modality": "text",
         "unit": "per_1m_tokens"
       },
       {
         "amount": "14",
-        "chargeId": "price:openai/gpt-5.3-codex:standard:short:website-preview:output:text:per_1m_tokens",
+        "chargeId": "charge:openai/gpt-5.3-codex:standard:output:text:tokens",
         "component": "output",
         "modality": "text",
         "unit": "per_1m_tokens"
       }
     ],
+    "checkedAt": "2026-10-04T15:36:06Z",
     "contextClass": "short",
     "currency": "USD",
-    "effectiveFrom": "2026-07-03",
+    "defaultAvailabilityStatus": "available",
+    "effectiveFrom": null,
     "effectiveUntil": null,
     "modelInternalId": "openai/gpt-5.3-codex",
-    "pricingId": "price:openai/gpt-5.3-codex:standard:short:website-preview",
+    "priceAdjustments": [],
+    "pricingId": "price:openai/gpt-5.3-codex:standard:short:current",
+    "pricingStatus": "current",
     "processingMode": "standard",
     "promptTokenThreshold": null,
     "regionPolicy": "global",
+    "regionSelector": {
+      "dataResidencies": [
+        "global"
+      ],
+      "endpointGeographies": [
+        "global"
+      ],
+      "pricingGeography": "global_base"
+    },
     "sourceDatasetIds": {
-      "publicDatasetIds": [],
+      "publicDatasetIds": [
+        "gpt-5.3-codex"
+      ],
+      "websiteIds": [
+        "gpt-5.3-codex"
+      ]
+    },
+    "sourceRefs": [
+      "source:openai:developers-openai-com-api-docs-models-gpt-5-3-codex",
+      "source:openai:developers-openai-com-api-docs-pricing"
+    ],
+    "verificationStatus": "verified",
+    "verifiedAt": "2026-10-04T15:36:06Z"
+  },
+  {
+    "availabilityRules": [],
+    "billingNote": "Official Fast mode token rates per 1M tokens; no official pricing effective date is stated.",
+    "calculationDefault": false,
+    "charges": [
+      {
+        "amount": "3.5",
+        "chargeId": "charge:openai/gpt-5.3-codex:fast:input:text:tokens",
+        "component": "input",
+        "modality": "text",
+        "unit": "per_1m_tokens"
+      },
+      {
+        "amount": "0.35",
+        "chargeId": "charge:openai/gpt-5.3-codex:fast:cached_input:text:tokens",
+        "component": "cached_input",
+        "modality": "text",
+        "unit": "per_1m_tokens"
+      },
+      {
+        "amount": "28",
+        "chargeId": "charge:openai/gpt-5.3-codex:fast:output:text:tokens",
+        "component": "output",
+        "modality": "text",
+        "unit": "per_1m_tokens"
+      }
+    ],
+    "checkedAt": "2026-10-04T15:36:06Z",
+    "contextClass": "short",
+    "currency": "USD",
+    "defaultAvailabilityStatus": "available",
+    "effectiveFrom": null,
+    "effectiveUntil": null,
+    "modelInternalId": "openai/gpt-5.3-codex",
+    "priceAdjustments": [],
+    "pricingId": "price:openai/gpt-5.3-codex:fast:short:current",
+    "pricingStatus": "current",
+    "processingMode": "fast",
+    "promptTokenThreshold": null,
+    "regionPolicy": "global",
+    "regionSelector": {
+      "dataResidencies": [
+        "global"
+      ],
+      "endpointGeographies": [
+        "global"
+      ],
+      "pricingGeography": "global_base"
+    },
+    "sourceDatasetIds": {
+      "publicDatasetIds": [
+        "gpt-5.3-codex"
+      ],
       "websiteIds": [
         "gpt-5.3-codex"
       ]
@@ -7357,7 +7549,8 @@
     "sourceRefs": [
       "source:openai:developers-openai-com-api-docs-pricing"
     ],
-    "verificationStatus": "verified"
+    "verificationStatus": "verified",
+    "verifiedAt": "2026-10-04T15:36:06Z"
   },
   {
     "billingNote": "V1 stores Standard short-context prices and Batch short-context input/output prices. Batch cached input is $0.125 per 1M tokens. Above 272K input tokens, Standard pricing is $5 input, $0.50 cached input, and $22.50 output per 1M tokens; Batch pricing is $2.50 input, $0.25 cached input, and $11.25 output per 1M tokens.",
@@ -7569,7 +7762,7 @@
     "verifiedAt": "2026-09-22T04:23:19Z"
   },
   {
-    "billingNote": "V1 stores Standard prices and Batch input/output prices. Batch cached input is $0.01 per 1M tokens. The official model page lists a 400K context window and no separate long-context pricing tier.",
+    "billingNote": "Deprecated on 2026-10-01, but the API model remains callable until shutdown on 2027-04-01; OpenAI recommends gpt-6-luna. Current Standard and Batch prices remain valid. V1 stores Standard prices and Batch input/output prices; Batch cached input is $0.01 per 1M tokens. The official model page lists a 400K context window and no separate long-context pricing tier.",
     "calculationDefault": true,
     "charges": [
       {
@@ -7612,6 +7805,8 @@
       ]
     },
     "sourceRefs": [
+      "source:openai:developers-openai-com-api-docs-changelog",
+      "source:openai:developers-openai-com-api-docs-deprecations",
       "source:openai:developers-openai-com-api-docs-pricing"
     ],
     "verificationStatus": "verified"
@@ -7653,6 +7848,8 @@
       ]
     },
     "sourceRefs": [
+      "source:openai:developers-openai-com-api-docs-changelog",
+      "source:openai:developers-openai-com-api-docs-deprecations",
       "source:openai:developers-openai-com-api-docs-pricing"
     ],
     "verificationStatus": "verified"

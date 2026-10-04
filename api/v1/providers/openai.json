@@ -61,6 +61,158 @@
       "status": "active"
     },
     {
+      "accessed_at": "2026-10-04T15:36:06Z",
+      "context_window_tokens": 400000,
+      "display_name": "GPT-5.3 Codex",
+      "effective_from": null,
+      "input_modality": "text",
+      "last_verified_at": "2026-10-04T15:36:06Z",
+      "model_family": "GPT-5.3",
+      "model_id": "gpt-5.3-codex",
+      "notes": "Deprecated on 2026-10-01; API shutdown is scheduled for 2027-04-01, with gpt-6-sol as the recommended replacement. Standard and Fast mode prices remain current. Accepts text and image input and produces text. Batch endpoint support is documented, but a separate model-specific Batch price is not published; no Flex, Priority, or special long-context price is asserted.",
+      "official_source_url": "https://developers.openai.com/api/docs/models/gpt-5.3-codex",
+      "official_source_urls": [
+        "https://developers.openai.com/api/docs/models/gpt-5.3-codex",
+        "https://developers.openai.com/api/docs/pricing",
+        "https://developers.openai.com/api/docs/deprecations",
+        "https://developers.openai.com/api/docs/changelog"
+      ],
+      "output_modality": "text",
+      "price_records": [
+        {
+          "billing_note": "Current Standard token rates per 1M tokens; no official pricing effective date is stated.",
+          "calculation_default": true,
+          "charges": [
+            {
+              "amount": "1.75",
+              "component": "input",
+              "id": "charge:openai/gpt-5.3-codex:standard:input:text:tokens",
+              "modality": "text",
+              "unit": "per_1m_tokens"
+            },
+            {
+              "amount": "0.175",
+              "component": "cached_input",
+              "id": "charge:openai/gpt-5.3-codex:standard:cached_input:text:tokens",
+              "modality": "text",
+              "unit": "per_1m_tokens"
+            },
+            {
+              "amount": "14",
+              "component": "output",
+              "id": "charge:openai/gpt-5.3-codex:standard:output:text:tokens",
+              "modality": "text",
+              "unit": "per_1m_tokens"
+            }
+          ],
+          "checked_at": "2026-10-04T15:36:06Z",
+          "context_class": "short",
+          "currency": "USD",
+          "effective_from": null,
+          "effective_until": null,
+          "id": "price:openai/gpt-5.3-codex:standard:short:current",
+          "pricing_status": "current",
+          "processing_mode": "standard",
+          "prompt_token_threshold": null,
+          "region_policy": {
+            "availability": {
+              "default": "available",
+              "rules": []
+            },
+            "data_residencies": [
+              "global"
+            ],
+            "endpoint_geographies": [
+              "global"
+            ],
+            "price_adjustments": [],
+            "pricing_geography": "global_base"
+          },
+          "source_refs": [
+            "https://developers.openai.com/api/docs/models/gpt-5.3-codex",
+            "https://developers.openai.com/api/docs/pricing"
+          ],
+          "verification_status": "verified",
+          "verified_at": "2026-10-04T15:36:06Z"
+        },
+        {
+          "billing_note": "Official Fast mode token rates per 1M tokens; no official pricing effective date is stated.",
+          "calculation_default": false,
+          "charges": [
+            {
+              "amount": "3.50",
+              "component": "input",
+              "id": "charge:openai/gpt-5.3-codex:fast:input:text:tokens",
+              "modality": "text",
+              "unit": "per_1m_tokens"
+            },
+            {
+              "amount": "0.35",
+              "component": "cached_input",
+              "id": "charge:openai/gpt-5.3-codex:fast:cached_input:text:tokens",
+              "modality": "text",
+              "unit": "per_1m_tokens"
+            },
+            {
+              "amount": "28",
+              "component": "output",
+              "id": "charge:openai/gpt-5.3-codex:fast:output:text:tokens",
+              "modality": "text",
+              "unit": "per_1m_tokens"
+            }
+          ],
+          "checked_at": "2026-10-04T15:36:06Z",
+          "context_class": "short",
+          "currency": "USD",
+          "effective_from": null,
+          "effective_until": null,
+          "id": "price:openai/gpt-5.3-codex:fast:short:current",
+          "pricing_status": "current",
+          "processing_mode": "fast",
+          "prompt_token_threshold": null,
+          "region_policy": {
+            "availability": {
+              "default": "available",
+              "rules": []
+            },
+            "data_residencies": [
+              "global"
+            ],
+            "endpoint_geographies": [
+              "global"
+            ],
+            "price_adjustments": [],
+            "pricing_geography": "global_base"
+          },
+          "source_refs": [
+            "https://developers.openai.com/api/docs/pricing"
+          ],
+          "verification_status": "verified",
+          "verified_at": "2026-10-04T15:36:06Z"
+        }
+      ],
+      "pricing": {
+        "batch_input": null,
+        "batch_output": null,
+        "cache_write": null,
+        "cache_write_1h": null,
+        "cached_input": 0.175,
+        "currency": "USD",
+        "input": 1.75,
+        "output": 14.0,
+        "unit": "1M tokens"
+      },
+      "provider_id": "openai",
+      "release_evidence": {
+        "source_type": "official_changelog",
+        "title": "OpenAI API Changelog",
+        "url": "https://developers.openai.com/api/docs/changelog"
+      },
+      "release_stage": "specialized",
+      "released_at": "2026-02-24",
+      "status": "deprecated"
+    },
+    {
       "accessed_at": "2026-09-29T11:55:03Z",
       "display_name": "GPT-5.4",
       "effective_from": "2026-07-03",
@@ -230,14 +382,19 @@
       "status": "active"
     },
     {
-      "accessed_at": "2026-09-29T11:55:05Z",
+      "accessed_at": "2026-10-04T15:33:53Z",
       "display_name": "GPT-5.4 nano",
       "effective_from": "2026-07-03",
-      "last_verified_at": "2026-09-29T11:55:05Z",
+      "last_verified_at": "2026-10-04T15:33:53Z",
       "model_family": "GPT-5.4",
       "model_id": "gpt-5.4-nano",
-      "notes": "V1 stores Standard prices and Batch input/output prices. Batch cached input is $0.01 per 1M tokens. The official model page lists a 400K context window and no separate long-context pricing tier.",
+      "notes": "Deprecated on 2026-10-01, but the API model remains callable until shutdown on 2027-04-01; OpenAI recommends gpt-6-luna. Current Standard and Batch prices remain valid. V1 stores Standard prices and Batch input/output prices; Batch cached input is $0.01 per 1M tokens. The official model page lists a 400K context window and no separate long-context pricing tier.",
       "official_source_url": "https://developers.openai.com/api/docs/pricing",
+      "official_source_urls": [
+        "https://developers.openai.com/api/docs/pricing",
+        "https://developers.openai.com/api/docs/deprecations",
+        "https://developers.openai.com/api/docs/changelog"
+      ],
       "pricing": {
         "batch_input": 0.1,
         "batch_output": 0.625,
@@ -256,7 +413,7 @@
         "url": "https://developers.openai.com/api/docs/changelog"
       },
       "released_at": "2026-03-17",
-      "status": "active"
+      "status": "deprecated"
     },
     {
       "accessed_at": "2026-09-29T11:55:02Z",

@@ -198,7 +198,7 @@ class PricingGovernanceTests(unittest.TestCase):
 
     def test_verified_projection_requires_official_evidence(self):
         rows = [row for row in self.projection.values() if row["governanceClass"] == "VERIFIED_PROJECTION"]
-        self.assertEqual(len(rows), 7, "VERIFIED_PROJECTION_COUNT_MISMATCH")
+        self.assertEqual(len(rows), 6, "VERIFIED_PROJECTION_COUNT_MISMATCH")
         for row in rows:
             internal_id = row["canonicalInternalId"]
             self.assertEqual(row["verificationStatus"], "verified", f"PROMOTION_WITHOUT_VERIFICATION: {internal_id}")
@@ -206,7 +206,7 @@ class PricingGovernanceTests(unittest.TestCase):
             self.assertTrue(row["verifiedAt"], f"PROMOTION_WITHOUT_TIMESTAMP: {internal_id}")
             self.assertTrue(all(url.startswith("https://") for url in row["sourceUrls"]), f"PROMOTION_WITHOUT_OFFICIAL_SOURCE: {internal_id}")
 
-    def test_p3_promotes_only_the_approved_seven(self):
+    def test_p3_promotes_only_the_approved_canonical_and_projection_models(self):
         promoted = {
             "anthropic/claude-fable-5",
             "google-gemini/gemini-3.1-flash-lite",
@@ -222,7 +222,6 @@ class PricingGovernanceTests(unittest.TestCase):
             "google-gemini/gemini-3-flash-preview",
             "google-gemini/gemini-3.1-pro-preview",
             "openai/chatgpt-chat-latest",
-            "openai/gpt-5.3-codex",
             "xai/grok-build-0.1",
         }
         self.assertTrue(promoted.issubset(self.canonical))

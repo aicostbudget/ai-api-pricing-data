@@ -161,7 +161,6 @@ class DatasetTests(unittest.TestCase):
             "google-gemini/gemini-3.1-flash-lite": "2026-09-29T11:55:14Z",
             "google-gemini/gemini-3.5-flash": "2026-09-29T11:55:12Z",
             "openai/gpt-5.4": "2026-09-29T11:55:03Z",
-            "openai/gpt-5.4-nano": "2026-09-29T11:55:05Z",
             "openai/gpt-5.4-pro": "2026-09-29T11:55:02Z",
             "openai/gpt-5.5-pro": "2026-09-29T11:55:00Z",
         }
@@ -183,9 +182,13 @@ class DatasetTests(unittest.TestCase):
                 values,
                 internal_id,
             )
-            self.assertEqual(row["status"], "active", internal_id)
-            self.assertEqual(row["accessed_at"], expected_verified_at[internal_id], internal_id)
-            self.assertEqual(row["last_verified_at"], expected_verified_at[internal_id], internal_id)
+            self.assertEqual(row["status"], "deprecated" if internal_id == "openai/gpt-5.4-nano" else "active", internal_id)
+            if internal_id == "openai/gpt-5.4-nano":
+                self.assertEqual(row["accessed_at"], row["last_verified_at"], internal_id)
+                self.assertGreaterEqual(row["last_verified_at"][:10], "2026-10-01", internal_id)
+            else:
+                self.assertEqual(row["accessed_at"], expected_verified_at[internal_id], internal_id)
+                self.assertEqual(row["last_verified_at"], expected_verified_at[internal_id], internal_id)
             self.assertEqual(row["effective_from"], "2026-07-03", internal_id)
             self.assertTrue(row["official_source_url"].startswith("https://"), internal_id)
             self.assertTrue(row["notes"], internal_id)

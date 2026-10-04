@@ -357,6 +357,7 @@ class WebsiteProjectionV2Tests(unittest.TestCase):
             "deepseek/deepseek-v4-flash",
             "deepseek/deepseek-v4-flash-vision-exp",
             "xai/grok-3",
+            "xai/grok-voice-transcribe-1.0",
         ])
         self.assertNotIn("redirectedBilling", self.by_internal["cohere/parse-v5.0"])
 

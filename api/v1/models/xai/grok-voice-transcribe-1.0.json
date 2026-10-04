@@ -1,9 +1,28 @@
 {
-  "accessed_at": "2026-09-21T10:47:28Z",
+  "accessed_at": "2026-10-04T15:33:53Z",
   "display_name": "Grok Voice Transcribe 1.0",
   "effective_from": null,
   "input_modality": "audio",
-  "last_verified_at": "2026-09-21T10:47:28Z",
+  "last_verified_at": "2026-10-04T15:33:53Z",
+  "lifecycle": {
+    "replacement_model_id": "grok-voice-transcribe-2.0",
+    "retirement_date": "2026-10-02",
+    "retirement_notice_date": "2026-10-02",
+    "scheduled_transition": {
+      "billing_configuration": {
+        "model": "grok-voice-transcribe-2.0"
+      },
+      "billing_model_id": "grok-voice-transcribe-2.0",
+      "billing_source": "redirect_target",
+      "effective_from": "2026-10-02",
+      "kind": "retirement_redirect",
+      "redirect_target_model_id": "grok-voice-transcribe-2.0",
+      "source_slug_remains_resolvable": true,
+      "target_configuration": {
+        "model": "grok-voice-transcribe-2.0"
+      }
+    }
+  },
   "model_category": "speech_to_text",
   "model_family": "Grok Voice Transcribe",
   "model_id": "grok-voice-transcribe-1.0",
@@ -16,7 +35,7 @@
     ],
     "verified_at": "2026-09-21T10:47:28Z"
   },
-  "notes": "Original supported Speech to Text model. It remains explicitly selectable and active, while 2.0 is the independent omitted-model default. REST and Streaming are mutually exclusive transports.",
+  "notes": "Original model reached end of life on 2026-10-02. Requests using this resolvable slug are routed to grok-voice-transcribe-2.0 at the same REST and Streaming service rates; the original model is retired. REST and Streaming are mutually exclusive transports.",
   "official_source_url": "https://docs.x.ai/developers/models/speech-to-text",
   "official_source_urls": [
     "https://docs.x.ai/developers/models/speech-to-text",
@@ -124,6 +143,6 @@
     "unit": null
   },
   "provider_id": "xai",
-  "release_stage": "stable",
-  "status": "active"
+  "release_stage": "legacy",
+  "status": "retired"
 }

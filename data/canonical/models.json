@@ -1604,7 +1604,7 @@
     "model_id": "gpt-5.4-nano",
     "display_name": "GPT-5.4 nano",
     "model_family": "GPT-5.4",
-    "status": "active",
+    "status": "deprecated",
     "pricing": {
       "currency": "USD",
       "unit": "1M tokens",
@@ -1617,10 +1617,15 @@
       "batch_output": 0.625
     },
     "official_source_url": "https://developers.openai.com/api/docs/pricing",
-    "accessed_at": "2026-09-29T11:55:05Z",
-    "last_verified_at": "2026-09-29T11:55:05Z",
+    "official_source_urls": [
+      "https://developers.openai.com/api/docs/pricing",
+      "https://developers.openai.com/api/docs/deprecations",
+      "https://developers.openai.com/api/docs/changelog"
+    ],
+    "accessed_at": "2026-10-04T15:33:53Z",
+    "last_verified_at": "2026-10-04T15:33:53Z",
     "effective_from": "2026-07-03",
-    "notes": "V1 stores Standard prices and Batch input/output prices. Batch cached input is $0.01 per 1M tokens. The official model page lists a 400K context window and no separate long-context pricing tier.",
+    "notes": "Deprecated on 2026-10-01, but the API model remains callable until shutdown on 2027-04-01; OpenAI recommends gpt-6-luna. Current Standard and Batch prices remain valid. V1 stores Standard prices and Batch input/output prices; Batch cached input is $0.01 per 1M tokens. The official model page lists a 400K context window and no separate long-context pricing tier.",
     "released_at": "2026-03-17",
     "release_evidence": {
       "url": "https://developers.openai.com/api/docs/changelog",
@@ -8022,14 +8027,33 @@
     "notes": "Microsoft Azure Document Intelligence Read uses the exact GA model ID prebuilt-read with the 2024-11-30 API. This record admits only Standard S0 Basic OCR public retail pricing for 31 commercial ARM regions returned by the official Retail Prices API. F0, Batch Read, Government cloud, Layout, specialized prebuilt models, custom models, add-ons, Azure OpenAI, and Microsoft Copilot are not admitted. Current commercial rows have the same two rates but region-specific effectiveStartDate values from 2022-03-01 through 2025-02-01, so no single effective_from is asserted. PDF pages and TIFF images count as pages; each Excel worksheet and PowerPoint slide counts as one page; Word and HTML count in blocks of up to 3,000 characters. Blank-page, failed-request, partial-failure, and sub-1K rounding semantics remain unverified."
   },
   {
-    "provider_id": "xai", "model_id": "grok-voice-transcribe-1.0", "display_name": "Grok Voice Transcribe 1.0", "model_family": "Grok Voice Transcribe", "model_category": "speech_to_text", "status": "active", "release_stage": "stable", "input_modality": "audio", "output_modality": "text",
+    "provider_id": "xai", "model_id": "grok-voice-transcribe-1.0", "display_name": "Grok Voice Transcribe 1.0", "model_family": "Grok Voice Transcribe", "model_category": "speech_to_text", "status": "retired", "release_stage": "legacy", "input_modality": "audio", "output_modality": "text",
+    "lifecycle": {
+      "retirement_notice_date": "2026-10-02",
+      "retirement_date": "2026-10-02",
+      "replacement_model_id": "grok-voice-transcribe-2.0",
+      "scheduled_transition": {
+        "kind": "retirement_redirect",
+        "effective_from": "2026-10-02",
+        "source_slug_remains_resolvable": true,
+        "redirect_target_model_id": "grok-voice-transcribe-2.0",
+        "target_configuration": {
+          "model": "grok-voice-transcribe-2.0"
+        },
+        "billing_source": "redirect_target",
+        "billing_model_id": "grok-voice-transcribe-2.0",
+        "billing_configuration": {
+          "model": "grok-voice-transcribe-2.0"
+        }
+      }
+    },
     "pricing": {"currency": "USD", "unit": null, "input": null, "output": null, "cached_input": null, "cache_write": null, "cache_write_1h": null, "batch_input": null, "batch_output": null},
     "model_selection": {"default_when_model_omitted": false, "explicit_model_id_supported": true, "source_refs": ["https://docs.x.ai/developers/models/speech-to-text"], "checked_at": "2026-09-21T10:47:28Z", "verified_at": "2026-09-21T10:47:28Z"},
     "price_records": [
       {"id": "price:xai/grok-voice-transcribe-1.0:rest:current", "processing_mode": "standard", "transport": "rest", "context_class": "short", "pricing_status": "current", "calculation_default": true, "prompt_token_threshold": null, "effective_from": null, "effective_until": null, "currency": "USD", "charges": [{"id": "charge:xai/grok-voice-transcribe-1.0:rest:session-duration", "component": "session_duration", "modality": "audio", "unit": "per_hour", "amount": "0.10"}], "region_policy": {"pricing_geography": "global_base", "endpoint_geographies": ["us-east-1"], "data_residencies": ["us-east-1"], "availability": {"default": "available", "rules": []}, "price_adjustments": []}, "source_refs": ["https://docs.x.ai/developers/models/speech-to-text", "https://docs.x.ai/developers/pricing"], "verification_status": "verified", "checked_at": "2026-09-21T10:47:28Z", "verified_at": "2026-09-21T10:47:28Z", "billing_note": "Current xAI Speech to Text service rate for REST file transcription; the official rate is service-level and this explicit model ID is supported."},
       {"id": "price:xai/grok-voice-transcribe-1.0:streaming:current", "processing_mode": "standard", "transport": "streaming", "context_class": "short", "pricing_status": "current", "calculation_default": false, "prompt_token_threshold": null, "effective_from": null, "effective_until": null, "currency": "USD", "charges": [{"id": "charge:xai/grok-voice-transcribe-1.0:streaming:session-duration", "component": "session_duration", "modality": "audio", "unit": "per_hour", "amount": "0.20"}], "region_policy": {"pricing_geography": "global_base", "endpoint_geographies": ["us-east-1"], "data_residencies": ["us-east-1"], "availability": {"default": "available", "rules": []}, "price_adjustments": []}, "source_refs": ["https://docs.x.ai/developers/models/speech-to-text", "https://docs.x.ai/developers/pricing"], "verification_status": "verified", "checked_at": "2026-09-21T10:47:28Z", "verified_at": "2026-09-21T10:47:28Z", "billing_note": "Current xAI Speech to Text service rate for real-time streaming; the official rate is service-level and this explicit model ID is supported."}
     ],
-    "official_source_url": "https://docs.x.ai/developers/models/speech-to-text", "official_source_urls": ["https://docs.x.ai/developers/models/speech-to-text", "https://docs.x.ai/developers/pricing", "https://docs.x.ai/developers/release-notes"], "accessed_at": "2026-09-21T10:47:28Z", "last_verified_at": "2026-09-21T10:47:28Z", "effective_from": null, "notes": "Original supported Speech to Text model. It remains explicitly selectable and active, while 2.0 is the independent omitted-model default. REST and Streaming are mutually exclusive transports."
+    "official_source_url": "https://docs.x.ai/developers/models/speech-to-text", "official_source_urls": ["https://docs.x.ai/developers/models/speech-to-text", "https://docs.x.ai/developers/pricing", "https://docs.x.ai/developers/release-notes"], "accessed_at": "2026-10-04T15:33:53Z", "last_verified_at": "2026-10-04T15:33:53Z", "effective_from": null, "notes": "Original model reached end of life on 2026-10-02. Requests using this resolvable slug are routed to grok-voice-transcribe-2.0 at the same REST and Streaming service rates; the original model is retired. REST and Streaming are mutually exclusive transports."
   },
   {
     "provider_id": "xai", "model_id": "grok-voice-transcribe-2.0", "display_name": "Grok Voice Transcribe 2.0", "model_family": "Grok Voice Transcribe", "model_category": "speech_to_text", "status": "active", "release_stage": "stable", "input_modality": "audio", "output_modality": "text",
@@ -8100,6 +8124,336 @@
     "release_evidence": {
       "url": "https://developers.openai.com/api/docs/changelog",
       "title": "OpenAI API Changelog - GPT-6.1 Sol",
+      "source_type": "official_changelog"
+    }
+  },
+  {
+    "provider_id": "openai",
+    "model_id": "gpt-5.3-codex",
+    "display_name": "GPT-5.3 Codex",
+    "model_family": "GPT-5.3",
+    "status": "deprecated",
+    "release_stage": "specialized",
+    "context_window_tokens": 400000,
+    "input_modality": "text",
+    "output_modality": "text",
+    "pricing": {
+      "currency": "USD",
+      "unit": "1M tokens",
+      "input": 1.75,
+      "output": 14.0,
+      "cached_input": 0.175,
+      "cache_write": null,
+      "cache_write_1h": null,
+      "batch_input": null,
+      "batch_output": null
+    },
+    "price_records": [
+      {
+        "id": "price:openai/gpt-5.3-codex:standard:short:current",
+        "processing_mode": "standard",
+        "context_class": "short",
+        "pricing_status": "current",
+        "calculation_default": true,
+        "prompt_token_threshold": null,
+        "effective_from": null,
+        "effective_until": null,
+        "currency": "USD",
+        "charges": [
+          {
+            "id": "charge:openai/gpt-5.3-codex:standard:input:text:tokens",
+            "component": "input",
+            "modality": "text",
+            "unit": "per_1m_tokens",
+            "amount": "1.75"
+          },
+          {
+            "id": "charge:openai/gpt-5.3-codex:standard:cached_input:text:tokens",
+            "component": "cached_input",
+            "modality": "text",
+            "unit": "per_1m_tokens",
+            "amount": "0.175"
+          },
+          {
+            "id": "charge:openai/gpt-5.3-codex:standard:output:text:tokens",
+            "component": "output",
+            "modality": "text",
+            "unit": "per_1m_tokens",
+            "amount": "14"
+          }
+        ],
+        "region_policy": {
+          "pricing_geography": "global_base",
+          "endpoint_geographies": [
+            "global"
+          ],
+          "data_residencies": [
+            "global"
+          ],
+          "availability": {
+            "default": "available",
+            "rules": []
+          },
+          "price_adjustments": []
+        },
+        "source_refs": [
+          "https://developers.openai.com/api/docs/models/gpt-5.3-codex",
+          "https://developers.openai.com/api/docs/pricing"
+        ],
+        "verification_status": "verified",
+        "checked_at": "2026-10-04T15:36:06Z",
+        "verified_at": "2026-10-04T15:36:06Z",
+        "billing_note": "Current Standard token rates per 1M tokens; no official pricing effective date is stated."
+      },
+      {
+        "id": "price:openai/gpt-5.3-codex:fast:short:current",
+        "processing_mode": "fast",
+        "context_class": "short",
+        "pricing_status": "current",
+        "calculation_default": false,
+        "prompt_token_threshold": null,
+        "effective_from": null,
+        "effective_until": null,
+        "currency": "USD",
+        "charges": [
+          {
+            "id": "charge:openai/gpt-5.3-codex:fast:input:text:tokens",
+            "component": "input",
+            "modality": "text",
+            "unit": "per_1m_tokens",
+            "amount": "3.50"
+          },
+          {
+            "id": "charge:openai/gpt-5.3-codex:fast:cached_input:text:tokens",
+            "component": "cached_input",
+            "modality": "text",
+            "unit": "per_1m_tokens",
+            "amount": "0.35"
+          },
+          {
+            "id": "charge:openai/gpt-5.3-codex:fast:output:text:tokens",
+            "component": "output",
+            "modality": "text",
+            "unit": "per_1m_tokens",
+            "amount": "28"
+          }
+        ],
+        "region_policy": {
+          "pricing_geography": "global_base",
+          "endpoint_geographies": [
+            "global"
+          ],
+          "data_residencies": [
+            "global"
+          ],
+          "availability": {
+            "default": "available",
+            "rules": []
+          },
+          "price_adjustments": []
+        },
+        "source_refs": [
+          "https://developers.openai.com/api/docs/pricing"
+        ],
+        "verification_status": "verified",
+        "checked_at": "2026-10-04T15:36:06Z",
+        "verified_at": "2026-10-04T15:36:06Z",
+        "billing_note": "Official Fast mode token rates per 1M tokens; no official pricing effective date is stated."
+      }
+    ],
+    "official_source_url": "https://developers.openai.com/api/docs/models/gpt-5.3-codex",
+    "official_source_urls": [
+      "https://developers.openai.com/api/docs/models/gpt-5.3-codex",
+      "https://developers.openai.com/api/docs/pricing",
+      "https://developers.openai.com/api/docs/deprecations",
+      "https://developers.openai.com/api/docs/changelog"
+    ],
+    "accessed_at": "2026-10-04T15:36:06Z",
+    "last_verified_at": "2026-10-04T15:36:06Z",
+    "effective_from": null,
+    "notes": "Deprecated on 2026-10-01; API shutdown is scheduled for 2027-04-01, with gpt-6-sol as the recommended replacement. Standard and Fast mode prices remain current. Accepts text and image input and produces text. Batch endpoint support is documented, but a separate model-specific Batch price is not published; no Flex, Priority, or special long-context price is asserted.",
+    "released_at": "2026-02-24",
+    "release_evidence": {
+      "url": "https://developers.openai.com/api/docs/changelog",
+      "title": "OpenAI API Changelog",
+      "source_type": "official_changelog"
+    }
+  },
+  {
+    "provider_id": "cohere",
+    "model_id": "embed-v5.0-pro",
+    "display_name": "Cohere Embed 5 Pro",
+    "model_family": "Embed 5",
+    "model_category": "embedding",
+    "status": "active",
+    "release_stage": "stable",
+    "context_window_tokens": 128000,
+    "pricing": {
+      "currency": "USD",
+      "unit": "1M tokens",
+      "input": 0.12,
+      "output": null,
+      "cached_input": null,
+      "cache_write": null,
+      "cache_write_1h": null,
+      "batch_input": null,
+      "batch_output": null
+    },
+    "price_records": [
+      {
+        "id": "price:cohere/embed-v5.0-pro:standard:short:current",
+        "processing_mode": "standard",
+        "context_class": "short",
+        "pricing_status": "current",
+        "calculation_default": true,
+        "prompt_token_threshold": null,
+        "effective_from": null,
+        "effective_until": null,
+        "currency": "USD",
+        "charges": [
+          {
+            "id": "charge:cohere/embed-v5.0-pro:standard:input:text:tokens",
+            "component": "input",
+            "modality": "text",
+            "unit": "per_1m_tokens",
+            "amount": "0.12"
+          },
+          {
+            "id": "charge:cohere/embed-v5.0-pro:standard:input:image:tokens",
+            "component": "input",
+            "modality": "image",
+            "unit": "per_1m_tokens",
+            "amount": "0.40"
+          }
+        ],
+        "region_policy": {
+          "pricing_geography": "global_base",
+          "endpoint_geographies": [
+            "global"
+          ],
+          "data_residencies": [
+            "global"
+          ],
+          "availability": {
+            "default": "available",
+            "rules": []
+          },
+          "price_adjustments": []
+        },
+        "source_refs": [
+          "https://cohere.com/blog/embed-5",
+          "https://docs.cohere.com/changelog/embed-v5",
+          "https://docs.cohere.com/docs/cohere-embed"
+        ],
+        "verification_status": "verified",
+        "checked_at": "2026-10-04T15:36:06Z",
+        "verified_at": "2026-10-04T15:36:06Z",
+        "billing_note": "Cohere Embed API input billing uses separate text and image rates per 1M tokens; embedding vectors are not billed as output tokens."
+      }
+    ],
+    "official_source_url": "https://cohere.com/blog/embed-5",
+    "official_source_urls": [
+      "https://cohere.com/blog/embed-5",
+      "https://docs.cohere.com/changelog/embed-v5",
+      "https://docs.cohere.com/docs/cohere-embed"
+    ],
+    "accessed_at": "2026-10-04T15:36:06Z",
+    "last_verified_at": "2026-10-04T15:36:06Z",
+    "effective_from": null,
+    "notes": "Generally available on the Cohere Embed API since 2026-09-30. Multimodal text, image, and mixed inputs return embedding vectors. Both input modalities have separate token rates. Pro prioritizes retrieval quality.",
+    "released_at": "2026-09-30",
+    "release_evidence": {
+      "url": "https://docs.cohere.com/changelog/embed-v5",
+      "title": "Announcing Cohere's Embed 5 Models",
+      "source_type": "official_changelog"
+    }
+  },
+  {
+    "provider_id": "cohere",
+    "model_id": "embed-v5.0-fast",
+    "display_name": "Cohere Embed 5 Fast",
+    "model_family": "Embed 5",
+    "model_category": "embedding",
+    "status": "active",
+    "release_stage": "stable",
+    "context_window_tokens": 128000,
+    "pricing": {
+      "currency": "USD",
+      "unit": "1M tokens",
+      "input": 0.08,
+      "output": null,
+      "cached_input": null,
+      "cache_write": null,
+      "cache_write_1h": null,
+      "batch_input": null,
+      "batch_output": null
+    },
+    "price_records": [
+      {
+        "id": "price:cohere/embed-v5.0-fast:standard:short:current",
+        "processing_mode": "standard",
+        "context_class": "short",
+        "pricing_status": "current",
+        "calculation_default": true,
+        "prompt_token_threshold": null,
+        "effective_from": null,
+        "effective_until": null,
+        "currency": "USD",
+        "charges": [
+          {
+            "id": "charge:cohere/embed-v5.0-fast:standard:input:text:tokens",
+            "component": "input",
+            "modality": "text",
+            "unit": "per_1m_tokens",
+            "amount": "0.08"
+          },
+          {
+            "id": "charge:cohere/embed-v5.0-fast:standard:input:image:tokens",
+            "component": "input",
+            "modality": "image",
+            "unit": "per_1m_tokens",
+            "amount": "0.40"
+          }
+        ],
+        "region_policy": {
+          "pricing_geography": "global_base",
+          "endpoint_geographies": [
+            "global"
+          ],
+          "data_residencies": [
+            "global"
+          ],
+          "availability": {
+            "default": "available",
+            "rules": []
+          },
+          "price_adjustments": []
+        },
+        "source_refs": [
+          "https://cohere.com/blog/embed-5",
+          "https://docs.cohere.com/changelog/embed-v5",
+          "https://docs.cohere.com/docs/cohere-embed"
+        ],
+        "verification_status": "verified",
+        "checked_at": "2026-10-04T15:36:06Z",
+        "verified_at": "2026-10-04T15:36:06Z",
+        "billing_note": "Cohere Embed API input billing uses separate text and image rates per 1M tokens; embedding vectors are not billed as output tokens."
+      }
+    ],
+    "official_source_url": "https://cohere.com/blog/embed-5",
+    "official_source_urls": [
+      "https://cohere.com/blog/embed-5",
+      "https://docs.cohere.com/changelog/embed-v5",
+      "https://docs.cohere.com/docs/cohere-embed"
+    ],
+    "accessed_at": "2026-10-04T15:36:06Z",
+    "last_verified_at": "2026-10-04T15:36:06Z",
+    "effective_from": null,
+    "notes": "Generally available on the Cohere Embed API since 2026-09-30. Multimodal text, image, and mixed inputs return embedding vectors. Both input modalities have separate token rates. Fast prioritizes latency and throughput.",
+    "released_at": "2026-09-30",
+    "release_evidence": {
+      "url": "https://docs.cohere.com/changelog/embed-v5",
+      "title": "Announcing Cohere's Embed 5 Models",
       "source_type": "official_changelog"
     }
   }

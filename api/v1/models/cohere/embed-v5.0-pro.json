@@ -1,0 +1,89 @@
+{
+  "accessed_at": "2026-10-04T15:36:06Z",
+  "context_window_tokens": 128000,
+  "display_name": "Cohere Embed 5 Pro",
+  "effective_from": null,
+  "last_verified_at": "2026-10-04T15:36:06Z",
+  "model_category": "embedding",
+  "model_family": "Embed 5",
+  "model_id": "embed-v5.0-pro",
+  "notes": "Generally available on the Cohere Embed API since 2026-09-30. Multimodal text, image, and mixed inputs return embedding vectors. Both input modalities have separate token rates. Pro prioritizes retrieval quality.",
+  "official_source_url": "https://cohere.com/blog/embed-5",
+  "official_source_urls": [
+    "https://cohere.com/blog/embed-5",
+    "https://docs.cohere.com/changelog/embed-v5",
+    "https://docs.cohere.com/docs/cohere-embed"
+  ],
+  "price_records": [
+    {
+      "billing_note": "Cohere Embed API input billing uses separate text and image rates per 1M tokens; embedding vectors are not billed as output tokens.",
+      "calculation_default": true,
+      "charges": [
+        {
+          "amount": "0.12",
+          "component": "input",
+          "id": "charge:cohere/embed-v5.0-pro:standard:input:text:tokens",
+          "modality": "text",
+          "unit": "per_1m_tokens"
+        },
+        {
+          "amount": "0.40",
+          "component": "input",
+          "id": "charge:cohere/embed-v5.0-pro:standard:input:image:tokens",
+          "modality": "image",
+          "unit": "per_1m_tokens"
+        }
+      ],
+      "checked_at": "2026-10-04T15:36:06Z",
+      "context_class": "short",
+      "currency": "USD",
+      "effective_from": null,
+      "effective_until": null,
+      "id": "price:cohere/embed-v5.0-pro:standard:short:current",
+      "pricing_status": "current",
+      "processing_mode": "standard",
+      "prompt_token_threshold": null,
+      "region_policy": {
+        "availability": {
+          "default": "available",
+          "rules": []
+        },
+        "data_residencies": [
+          "global"
+        ],
+        "endpoint_geographies": [
+          "global"
+        ],
+        "price_adjustments": [],
+        "pricing_geography": "global_base"
+      },
+      "source_refs": [
+        "https://cohere.com/blog/embed-5",
+        "https://docs.cohere.com/changelog/embed-v5",
+        "https://docs.cohere.com/docs/cohere-embed"
+      ],
+      "verification_status": "verified",
+      "verified_at": "2026-10-04T15:36:06Z"
+    }
+  ],
+  "pricing": {
+    "batch_input": null,
+    "batch_output": null,
+    "cache_write": null,
+    "cache_write_1h": null,
+    "cached_input": null,
+    "currency": "USD",
+    "input": 0.12,
+    "output": null,
+    "unit": "1M tokens"
+  },
+  "provider_id": "cohere",
+  "release_evidence": {
+    "source_type": "official_changelog",
+    "title": "Announcing Cohere's Embed 5 Models",
+    "url": "https://docs.cohere.com/changelog/embed-v5"
+  },
+  "release_stage": "stable",
+  "released_at": "2026-09-30",
+  "status": "active"
+}

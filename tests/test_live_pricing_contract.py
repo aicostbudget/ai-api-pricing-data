@@ -240,7 +240,7 @@ class LivePricingContractTests(unittest.TestCase):
             ("grok-voice-transcribe-2.0", True),
         ):
             canonical = self.models[("xai", model_id)]
-            self.assertEqual(canonical["status"], "active")
+            self.assertEqual(canonical["status"], "active" if is_default else "retired")
             self.assertEqual(canonical["model_selection"]["default_when_model_omitted"], is_default)
             self.assertEqual(
                 {record["transport"]: record["charges"][0]["amount"] for record in canonical["price_records"]},

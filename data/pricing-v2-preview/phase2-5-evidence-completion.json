@@ -881,6 +881,62 @@
     "afterVerificationStatus": "verified",
     "beforeEvidenceCompleteness": "complete",
     "beforeVerificationStatus": "verified",
+    "blocker": [],
+    "businessCriticality": "production_default_candidate",
+    "currentEffective": true,
+    "currentPrices": {
+      "cached_input": null,
+      "input": "0.4",
+      "output": null
+    },
+    "defaultSafe": true,
+    "modelInternalId": "cohere/embed-v5.0-fast",
+    "officialEvidence": [],
+    "phase25VerifiedAt": null,
+    "pricingId": "price:cohere/embed-v5.0-fast:standard:short:current",
+    "priorityClass": "not_partial",
+    "provider": "cohere",
+    "reason": "Default-safe gate passed.",
+    "sourceRefs": [
+      "source:cohere:cohere-com-blog-embed-5",
+      "source:cohere:docs-cohere-com-changelog-embed-v5",
+      "source:cohere:docs-cohere-com-docs-cohere-embed"
+    ],
+    "verificationDecision": "unchanged"
+  },
+  {
+    "afterEvidenceCompleteness": "complete",
+    "afterVerificationStatus": "verified",
+    "beforeEvidenceCompleteness": "complete",
+    "beforeVerificationStatus": "verified",
+    "blocker": [],
+    "businessCriticality": "production_default_candidate",
+    "currentEffective": true,
+    "currentPrices": {
+      "cached_input": null,
+      "input": "0.4",
+      "output": null
+    },
+    "defaultSafe": true,
+    "modelInternalId": "cohere/embed-v5.0-pro",
+    "officialEvidence": [],
+    "phase25VerifiedAt": null,
+    "pricingId": "price:cohere/embed-v5.0-pro:standard:short:current",
+    "priorityClass": "not_partial",
+    "provider": "cohere",
+    "reason": "Default-safe gate passed.",
+    "sourceRefs": [
+      "source:cohere:cohere-com-blog-embed-5",
+      "source:cohere:docs-cohere-com-changelog-embed-v5",
+      "source:cohere:docs-cohere-com-docs-cohere-embed"
+    ],
+    "verificationDecision": "unchanged"
+  },
+  {
+    "afterEvidenceCompleteness": "complete",
+    "afterVerificationStatus": "verified",
+    "beforeEvidenceCompleteness": "complete",
+    "beforeVerificationStatus": "verified",
     "blocker": [
       "missing_text_modality",
       "not_production_default_candidate"
@@ -3676,18 +3732,46 @@
     },
     "defaultSafe": true,
     "modelInternalId": "openai/gpt-5.3-codex",
-    "officialEvidence": [
-      "https://developers.openai.com/api/docs/pricing"
-    ],
-    "phase25VerifiedAt": "2026-07-07T00:00:00Z",
-    "pricingId": "price:openai/gpt-5.3-codex:standard:short:website-preview",
+    "officialEvidence": [],
+    "phase25VerifiedAt": null,
+    "pricingId": "price:openai/gpt-5.3-codex:standard:short:current",
     "priorityClass": "not_partial",
     "provider": "openai",
     "reason": "Default-safe gate passed.",
     "sourceRefs": [
+      "source:openai:developers-openai-com-api-docs-models-gpt-5-3-codex",
       "source:openai:developers-openai-com-api-docs-pricing"
     ],
-    "verificationDecision": "official_verified_in_phase2_5"
+    "verificationDecision": "unchanged"
+  },
+  {
+    "afterEvidenceCompleteness": "complete",
+    "afterVerificationStatus": "verified",
+    "beforeEvidenceCompleteness": "complete",
+    "beforeVerificationStatus": "verified",
+    "blocker": [
+      "not_production_default_candidate",
+      "not_standard_processing_mode"
+    ],
+    "businessCriticality": "non_default_tier",
+    "currentEffective": true,
+    "currentPrices": {
+      "cached_input": "0.35",
+      "input": "3.5",
+      "output": "28"
+    },
+    "defaultSafe": false,
+    "modelInternalId": "openai/gpt-5.3-codex",
+    "officialEvidence": [],
+    "phase25VerifiedAt": null,
+    "pricingId": "price:openai/gpt-5.3-codex:fast:short:current",
+    "priorityClass": "not_partial",
+    "provider": "openai",
+    "reason": "Default-safe gate blocked by: not_production_default_candidate, not_standard_processing_mode",
+    "sourceRefs": [
+      "source:openai:developers-openai-com-api-docs-pricing"
+    ],
+    "verificationDecision": "unchanged"
   },
   {
     "afterEvidenceCompleteness": "complete",
@@ -3828,6 +3912,8 @@
     "provider": "openai",
     "reason": "Default-safe gate passed.",
     "sourceRefs": [
+      "source:openai:developers-openai-com-api-docs-changelog",
+      "source:openai:developers-openai-com-api-docs-deprecations",
       "source:openai:developers-openai-com-api-docs-pricing"
     ],
     "verificationDecision": "official_verified_in_phase2_5"
@@ -3859,6 +3945,8 @@
     "provider": "openai",
     "reason": "Default-safe gate blocked by: not_production_default_candidate, not_standard_processing_mode",
     "sourceRefs": [
+      "source:openai:developers-openai-com-api-docs-changelog",
+      "source:openai:developers-openai-com-api-docs-deprecations",
       "source:openai:developers-openai-com-api-docs-pricing"
     ],
     "verificationDecision": "official_verified_in_phase2_5"
@@ -7021,10 +7109,12 @@
     "beforeEvidenceCompleteness": "complete",
     "beforeVerificationStatus": "verified",
     "blocker": [
+      "criticality_historical",
+      "lifecycle_retired",
       "missing_text_modality",
       "not_production_default_candidate"
     ],
-    "businessCriticality": "production_secondary",
+    "businessCriticality": "historical",
     "currentEffective": true,
     "currentPrices": {
       "cached_input": null,
@@ -7038,7 +7128,7 @@
     "pricingId": "price:xai/grok-voice-transcribe-1.0:rest:current",
     "priorityClass": "not_partial",
     "provider": "xai",
-    "reason": "Default-safe gate blocked by: missing_text_modality, not_production_default_candidate",
+    "reason": "Default-safe gate blocked by: criticality_historical, lifecycle_retired, missing_text_modality, not_production_default_candidate",
     "sourceRefs": [
       "source:xai:docs-x-ai-developers-models-speech-to-text",
       "source:xai:docs-x-ai-developers-pricing"
@@ -7051,10 +7141,12 @@
     "beforeEvidenceCompleteness": "complete",
     "beforeVerificationStatus": "verified",
     "blocker": [
+      "criticality_historical",
+      "lifecycle_retired",
       "missing_text_modality",
       "not_production_default_candidate"
     ],
-    "businessCriticality": "production_secondary",
+    "businessCriticality": "historical",
     "currentEffective": true,
     "currentPrices": {
       "cached_input": null,
@@ -7068,7 +7160,7 @@
     "pricingId": "price:xai/grok-voice-transcribe-1.0:streaming:current",
     "priorityClass": "not_partial",
     "provider": "xai",
-    "reason": "Default-safe gate blocked by: missing_text_modality, not_production_default_candidate",
+    "reason": "Default-safe gate blocked by: criticality_historical, lifecycle_retired, missing_text_modality, not_production_default_candidate",
     "sourceRefs": [
       "source:xai:docs-x-ai-developers-models-speech-to-text",
       "source:xai:docs-x-ai-developers-pricing"

@@ -9,7 +9,7 @@
     "review_required": "display only with warning; no default or recommendation placement",
     "unsafe": "exclude from default calculations and show warning only where explicitly allowed"
   },
-  "effectiveAt": "2026-09-30T00:00:00Z",
+  "effectiveAt": "2026-10-04T15:49:37Z",
   "effectiveTimezone": "UTC",
   "failureBehavior": {
     "atomicWrite": true,
@@ -18,7 +18,7 @@
     "partialJson": "not_written",
     "publicV1Mutation": "forbidden"
   },
-  "generatedAt": "2026-09-30T03:25:59Z",
+  "generatedAt": "2026-10-04T15:49:37Z",
   "generatedAtPolicy": "UTC artifact generation timestamp injected by the generation pipeline",
   "governancePolicy": {
     "classes": [
@@ -4765,6 +4765,338 @@
       "verifiedSourceRefs": [
         "source:cohere:cohere-com-pricing"
       ]
+    },
+    {
+      "aliasTargetInternalId": null,
+      "availability": "active",
+      "batchInputPrice": null,
+      "batchOutputPrice": null,
+      "billingModelInternalId": null,
+      "blockedFromDefaultReasons": [
+        "missing_verified_current_price"
+      ],
+      "cachedInputPrice": null,
+      "canonicalInternalId": "cohere/embed-v5.0-fast",
+      "checkedAt": "2026-10-04T15:36:06Z",
+      "checkedSourceRefs": [
+        "source:cohere:cohere-com-blog-embed-5",
+        "source:cohere:docs-cohere-com-changelog-embed-v5",
+        "source:cohere:docs-cohere-com-docs-cohere-embed"
+      ],
+      "contextWindow": null,
+      "contextWindowStatus": "unknown_not_guessed",
+      "defaultPriceSelectionRule": [
+        "current_effective_utc",
+        "verified",
+        "standard",
+        "text",
+        "default_context_class"
+      ],
+      "defaultSafe": false,
+      "governanceClass": "VERIFIED_CANONICAL",
+      "governanceDetails": null,
+      "governanceReason": "canonical_verified_non_token_public_projection",
+      "governanceSourceCandidateIds": [
+        "cohere/embed-v5.0-fast"
+      ],
+      "id": "embed-v5.0-fast",
+      "identityType": "canonical_model",
+      "inputPrice": null,
+      "lifecycleStatus": "active",
+      "model": "Cohere Embed 5 Fast",
+      "officialSourceUrl": "https://docs.cohere.com/docs/cohere-embed",
+      "outputPrice": null,
+      "priceRecords": [
+        {
+          "calculationDefault": true,
+          "checkedAt": "2026-10-04T15:36:06Z",
+          "contextClass": "short",
+          "effectiveFrom": null,
+          "effectiveUntil": null,
+          "pricingId": "price:cohere/embed-v5.0-fast:standard:short:current",
+          "pricingStatus": "current",
+          "processingMode": "standard",
+          "sourceRefs": [
+            "source:cohere:cohere-com-blog-embed-5",
+            "source:cohere:docs-cohere-com-changelog-embed-v5",
+            "source:cohere:docs-cohere-com-docs-cohere-embed"
+          ],
+          "verificationStatus": "verified",
+          "verifiedAt": "2026-10-04T15:36:06Z"
+        }
+      ],
+      "pricingComponents": [
+        {
+          "amount": "0.4",
+          "calculationDefault": true,
+          "chargeId": "charge:cohere/embed-v5.0-fast:standard:input:image:tokens",
+          "component": "input",
+          "condition": {
+            "availabilityRules": [],
+            "contextClass": "short",
+            "defaultAvailabilityStatus": "available",
+            "effectiveFrom": null,
+            "effectiveUntil": null,
+            "priceAdjustments": [],
+            "processingMode": "standard",
+            "promptTokenThreshold": null,
+            "regionPolicy": "global",
+            "regionSelector": {
+              "dataResidencies": [
+                "global"
+              ],
+              "endpointGeographies": [
+                "global"
+              ],
+              "pricingGeography": "global_base"
+            },
+            "tierSelection": null
+          },
+          "currency": "USD",
+          "modality": "image",
+          "pricingId": "price:cohere/embed-v5.0-fast:standard:short:current",
+          "sourceRefs": [
+            "source:cohere:cohere-com-blog-embed-5",
+            "source:cohere:docs-cohere-com-changelog-embed-v5",
+            "source:cohere:docs-cohere-com-docs-cohere-embed"
+          ],
+          "unit": "per_1m_tokens",
+          "verificationStatus": "verified"
+        },
+        {
+          "amount": "0.08",
+          "calculationDefault": true,
+          "chargeId": "charge:cohere/embed-v5.0-fast:standard:input:text:tokens",
+          "component": "input",
+          "condition": {
+            "availabilityRules": [],
+            "contextClass": "short",
+            "defaultAvailabilityStatus": "available",
+            "effectiveFrom": null,
+            "effectiveUntil": null,
+            "priceAdjustments": [],
+            "processingMode": "standard",
+            "promptTokenThreshold": null,
+            "regionPolicy": "global",
+            "regionSelector": {
+              "dataResidencies": [
+                "global"
+              ],
+              "endpointGeographies": [
+                "global"
+              ],
+              "pricingGeography": "global_base"
+            },
+            "tierSelection": null
+          },
+          "currency": "USD",
+          "modality": "text",
+          "pricingId": "price:cohere/embed-v5.0-fast:standard:short:current",
+          "sourceRefs": [
+            "source:cohere:cohere-com-blog-embed-5",
+            "source:cohere:docs-cohere-com-changelog-embed-v5",
+            "source:cohere:docs-cohere-com-docs-cohere-embed"
+          ],
+          "unit": "per_1m_tokens",
+          "verificationStatus": "verified"
+        }
+      ],
+      "pricingSourceType": "canonical_verified_structured_price",
+      "provider": "cohere",
+      "publicExposure": "public",
+      "redirectTargetInternalId": null,
+      "releaseSourceRef": "source:cohere:docs-cohere-com-changelog-embed-v5",
+      "releaseSourceUrl": "https://docs.cohere.com/changelog/embed-v5",
+      "releaseStage": "stable",
+      "releasedAt": "2026-09-30",
+      "replacementInternalId": null,
+      "routingBehavior": "direct",
+      "routingDetails": {},
+      "selectedBatchPriceRecordId": null,
+      "selectedBillingPriceRecordId": null,
+      "selectedPriceEffectiveFrom": null,
+      "selectedPriceEffectiveUntil": null,
+      "selectedPriceRecordId": null,
+      "sourceRefs": [
+        "source:cohere:cohere-com-blog-embed-5",
+        "source:cohere:docs-cohere-com-changelog-embed-v5",
+        "source:cohere:docs-cohere-com-docs-cohere-embed"
+      ],
+      "sourceUrls": [
+        "https://cohere.com/blog/embed-5",
+        "https://docs.cohere.com/changelog/embed-v5",
+        "https://docs.cohere.com/docs/cohere-embed"
+      ],
+      "status": "latest",
+      "verificationStatus": "verified",
+      "verifiedAt": null,
+      "verifiedSourceRefs": []
+    },
+    {
+      "aliasTargetInternalId": null,
+      "availability": "active",
+      "batchInputPrice": null,
+      "batchOutputPrice": null,
+      "billingModelInternalId": null,
+      "blockedFromDefaultReasons": [
+        "missing_verified_current_price"
+      ],
+      "cachedInputPrice": null,
+      "canonicalInternalId": "cohere/embed-v5.0-pro",
+      "checkedAt": "2026-10-04T15:36:06Z",
+      "checkedSourceRefs": [
+        "source:cohere:cohere-com-blog-embed-5",
+        "source:cohere:docs-cohere-com-changelog-embed-v5",
+        "source:cohere:docs-cohere-com-docs-cohere-embed"
+      ],
+      "contextWindow": null,
+      "contextWindowStatus": "unknown_not_guessed",
+      "defaultPriceSelectionRule": [
+        "current_effective_utc",
+        "verified",
+        "standard",
+        "text",
+        "default_context_class"
+      ],
+      "defaultSafe": false,
+      "governanceClass": "VERIFIED_CANONICAL",
+      "governanceDetails": null,
+      "governanceReason": "canonical_verified_non_token_public_projection",
+      "governanceSourceCandidateIds": [
+        "cohere/embed-v5.0-pro"
+      ],
+      "id": "embed-v5.0-pro",
+      "identityType": "canonical_model",
+      "inputPrice": null,
+      "lifecycleStatus": "active",
+      "model": "Cohere Embed 5 Pro",
+      "officialSourceUrl": "https://docs.cohere.com/docs/cohere-embed",
+      "outputPrice": null,
+      "priceRecords": [
+        {
+          "calculationDefault": true,
+          "checkedAt": "2026-10-04T15:36:06Z",
+          "contextClass": "short",
+          "effectiveFrom": null,
+          "effectiveUntil": null,
+          "pricingId": "price:cohere/embed-v5.0-pro:standard:short:current",
+          "pricingStatus": "current",
+          "processingMode": "standard",
+          "sourceRefs": [
+            "source:cohere:cohere-com-blog-embed-5",
+            "source:cohere:docs-cohere-com-changelog-embed-v5",
+            "source:cohere:docs-cohere-com-docs-cohere-embed"
+          ],
+          "verificationStatus": "verified",
+          "verifiedAt": "2026-10-04T15:36:06Z"
+        }
+      ],
+      "pricingComponents": [
+        {
+          "amount": "0.4",
+          "calculationDefault": true,
+          "chargeId": "charge:cohere/embed-v5.0-pro:standard:input:image:tokens",
+          "component": "input",
+          "condition": {
+            "availabilityRules": [],
+            "contextClass": "short",
+            "defaultAvailabilityStatus": "available",
+            "effectiveFrom": null,
+            "effectiveUntil": null,
+            "priceAdjustments": [],
+            "processingMode": "standard",
+            "promptTokenThreshold": null,
+            "regionPolicy": "global",
+            "regionSelector": {
+              "dataResidencies": [
+                "global"
+              ],
+              "endpointGeographies": [
+                "global"
+              ],
+              "pricingGeography": "global_base"
+            },
+            "tierSelection": null
+          },
+          "currency": "USD",
+          "modality": "image",
+          "pricingId": "price:cohere/embed-v5.0-pro:standard:short:current",
+          "sourceRefs": [
+            "source:cohere:cohere-com-blog-embed-5",
+            "source:cohere:docs-cohere-com-changelog-embed-v5",
+            "source:cohere:docs-cohere-com-docs-cohere-embed"
+          ],
+          "unit": "per_1m_tokens",
+          "verificationStatus": "verified"
+        },
+        {
+          "amount": "0.12",
+          "calculationDefault": true,
+          "chargeId": "charge:cohere/embed-v5.0-pro:standard:input:text:tokens",
+          "component": "input",
+          "condition": {
+            "availabilityRules": [],
+            "contextClass": "short",
+            "defaultAvailabilityStatus": "available",
+            "effectiveFrom": null,
+            "effectiveUntil": null,
+            "priceAdjustments": [],
+            "processingMode": "standard",
+            "promptTokenThreshold": null,
+            "regionPolicy": "global",
+            "regionSelector": {
+              "dataResidencies": [
+                "global"
+              ],
+              "endpointGeographies": [
+                "global"
+              ],
+              "pricingGeography": "global_base"
+            },
+            "tierSelection": null
+          },
+          "currency": "USD",
+          "modality": "text",
+          "pricingId": "price:cohere/embed-v5.0-pro:standard:short:current",
+          "sourceRefs": [
+            "source:cohere:cohere-com-blog-embed-5",
+            "source:cohere:docs-cohere-com-changelog-embed-v5",
+            "source:cohere:docs-cohere-com-docs-cohere-embed"
+          ],
+          "unit": "per_1m_tokens",
+          "verificationStatus": "verified"
+        }
+      ],
+      "pricingSourceType": "canonical_verified_structured_price",
+      "provider": "cohere",
+      "publicExposure": "public",
+      "redirectTargetInternalId": null,
+      "releaseSourceRef": "source:cohere:docs-cohere-com-changelog-embed-v5",
+      "releaseSourceUrl": "https://docs.cohere.com/changelog/embed-v5",
+      "releaseStage": "stable",
+      "releasedAt": "2026-09-30",
+      "replacementInternalId": null,
+      "routingBehavior": "direct",
+      "routingDetails": {},
+      "selectedBatchPriceRecordId": null,
+      "selectedBillingPriceRecordId": null,
+      "selectedPriceEffectiveFrom": null,
+      "selectedPriceEffectiveUntil": null,
+      "selectedPriceRecordId": null,
+      "sourceRefs": [
+        "source:cohere:cohere-com-blog-embed-5",
+        "source:cohere:docs-cohere-com-changelog-embed-v5",
+        "source:cohere:docs-cohere-com-docs-cohere-embed"
+      ],
+      "sourceUrls": [
+        "https://cohere.com/blog/embed-5",
+        "https://docs.cohere.com/changelog/embed-v5",
+        "https://docs.cohere.com/docs/cohere-embed"
+      ],
+      "status": "latest",
+      "verificationStatus": "verified",
+      "verifiedAt": null,
+      "verifiedSourceRefs": []
     },
     {
       "aliasTargetInternalId": null,
@@ -19107,8 +19439,9 @@
       "blockedFromDefaultReasons": [],
       "cachedInputPrice": 0.175,
       "canonicalInternalId": "openai/gpt-5.3-codex",
-      "checkedAt": "2026-07-07T00:00:00Z",
+      "checkedAt": "2026-10-04T15:36:06Z",
       "checkedSourceRefs": [
+        "source:openai:developers-openai-com-api-docs-models-gpt-5-3-codex",
         "source:openai:developers-openai-com-api-docs-pricing"
       ],
       "contextWindow": null,
@@ -19121,55 +19454,189 @@
         "default_context_class"
       ],
       "defaultSafe": true,
-      "governanceClass": "VERIFIED_PROJECTION",
+      "governanceClass": "VERIFIED_CANONICAL",
       "governanceDetails": null,
-      "governanceReason": "official_evidence_verified_projection_pending_canonical_review",
+      "governanceReason": "canonical_verified_direct_public_projection",
       "governanceSourceCandidateIds": [
         "openai/gpt-5.3-codex"
       ],
       "id": "gpt-5.3-codex",
       "identityType": "canonical_model",
       "inputPrice": 1.75,
-      "lifecycleStatus": "active",
+      "lifecycleStatus": "deprecated",
       "model": "GPT-5.3 Codex",
       "officialSourceUrl": "https://developers.openai.com/api/docs/pricing",
       "outputPrice": 14,
       "priceRecords": [
         {
-          "calculationDefault": true,
-          "checkedAt": null,
+          "calculationDefault": false,
+          "checkedAt": "2026-10-04T15:36:06Z",
           "contextClass": "short",
-          "effectiveFrom": "2026-07-03",
+          "effectiveFrom": null,
           "effectiveUntil": null,
-          "pricingId": "price:openai/gpt-5.3-codex:standard:short:website-preview",
-          "pricingStatus": null,
-          "processingMode": "standard",
+          "pricingId": "price:openai/gpt-5.3-codex:fast:short:current",
+          "pricingStatus": "current",
+          "processingMode": "fast",
           "sourceRefs": [
             "source:openai:developers-openai-com-api-docs-pricing"
           ],
           "verificationStatus": "verified",
-          "verifiedAt": null
+          "verifiedAt": "2026-10-04T15:36:06Z"
+        },
+        {
+          "calculationDefault": true,
+          "checkedAt": "2026-10-04T15:36:06Z",
+          "contextClass": "short",
+          "effectiveFrom": null,
+          "effectiveUntil": null,
+          "pricingId": "price:openai/gpt-5.3-codex:standard:short:current",
+          "pricingStatus": "current",
+          "processingMode": "standard",
+          "sourceRefs": [
+            "source:openai:developers-openai-com-api-docs-models-gpt-5-3-codex",
+            "source:openai:developers-openai-com-api-docs-pricing"
+          ],
+          "verificationStatus": "verified",
+          "verifiedAt": "2026-10-04T15:36:06Z"
         }
       ],
       "pricingComponents": [
         {
-          "amount": "0.175",
-          "calculationDefault": true,
-          "chargeId": "price:openai/gpt-5.3-codex:standard:short:website-preview:cached_input:text:per_1m_tokens",
+          "amount": "0.35",
+          "calculationDefault": false,
+          "chargeId": "charge:openai/gpt-5.3-codex:fast:cached_input:text:tokens",
           "component": "cached_input",
           "condition": {
+            "availabilityRules": [],
             "contextClass": "short",
-            "effectiveFrom": "2026-07-03",
+            "defaultAvailabilityStatus": "available",
+            "effectiveFrom": null,
             "effectiveUntil": null,
-            "processingMode": "standard",
+            "priceAdjustments": [],
+            "processingMode": "fast",
             "promptTokenThreshold": null,
             "regionPolicy": "global",
+            "regionSelector": {
+              "dataResidencies": [
+                "global"
+              ],
+              "endpointGeographies": [
+                "global"
+              ],
+              "pricingGeography": "global_base"
+            },
             "tierSelection": null
           },
           "currency": "USD",
           "modality": "text",
-          "pricingId": "price:openai/gpt-5.3-codex:standard:short:website-preview",
+          "pricingId": "price:openai/gpt-5.3-codex:fast:short:current",
           "sourceRefs": [
+            "source:openai:developers-openai-com-api-docs-pricing"
+          ],
+          "unit": "per_1m_tokens",
+          "verificationStatus": "verified"
+        },
+        {
+          "amount": "3.5",
+          "calculationDefault": false,
+          "chargeId": "charge:openai/gpt-5.3-codex:fast:input:text:tokens",
+          "component": "input",
+          "condition": {
+            "availabilityRules": [],
+            "contextClass": "short",
+            "defaultAvailabilityStatus": "available",
+            "effectiveFrom": null,
+            "effectiveUntil": null,
+            "priceAdjustments": [],
+            "processingMode": "fast",
+            "promptTokenThreshold": null,
+            "regionPolicy": "global",
+            "regionSelector": {
+              "dataResidencies": [
+                "global"
+              ],
+              "endpointGeographies": [
+                "global"
+              ],
+              "pricingGeography": "global_base"
+            },
+            "tierSelection": null
+          },
+          "currency": "USD",
+          "modality": "text",
+          "pricingId": "price:openai/gpt-5.3-codex:fast:short:current",
+          "sourceRefs": [
+            "source:openai:developers-openai-com-api-docs-pricing"
+          ],
+          "unit": "per_1m_tokens",
+          "verificationStatus": "verified"
+        },
+        {
+          "amount": "28",
+          "calculationDefault": false,
+          "chargeId": "charge:openai/gpt-5.3-codex:fast:output:text:tokens",
+          "component": "output",
+          "condition": {
+            "availabilityRules": [],
+            "contextClass": "short",
+            "defaultAvailabilityStatus": "available",
+            "effectiveFrom": null,
+            "effectiveUntil": null,
+            "priceAdjustments": [],
+            "processingMode": "fast",
+            "promptTokenThreshold": null,
+            "regionPolicy": "global",
+            "regionSelector": {
+              "dataResidencies": [
+                "global"
+              ],
+              "endpointGeographies": [
+                "global"
+              ],
+              "pricingGeography": "global_base"
+            },
+            "tierSelection": null
+          },
+          "currency": "USD",
+          "modality": "text",
+          "pricingId": "price:openai/gpt-5.3-codex:fast:short:current",
+          "sourceRefs": [
+            "source:openai:developers-openai-com-api-docs-pricing"
+          ],
+          "unit": "per_1m_tokens",
+          "verificationStatus": "verified"
+        },
+        {
+          "amount": "0.175",
+          "calculationDefault": true,
+          "chargeId": "charge:openai/gpt-5.3-codex:standard:cached_input:text:tokens",
+          "component": "cached_input",
+          "condition": {
+            "availabilityRules": [],
+            "contextClass": "short",
+            "defaultAvailabilityStatus": "available",
+            "effectiveFrom": null,
+            "effectiveUntil": null,
+            "priceAdjustments": [],
+            "processingMode": "standard",
+            "promptTokenThreshold": null,
+            "regionPolicy": "global",
+            "regionSelector": {
+              "dataResidencies": [
+                "global"
+              ],
+              "endpointGeographies": [
+                "global"
+              ],
+              "pricingGeography": "global_base"
+            },
+            "tierSelection": null
+          },
+          "currency": "USD",
+          "modality": "text",
+          "pricingId": "price:openai/gpt-5.3-codex:standard:short:current",
+          "sourceRefs": [
+            "source:openai:developers-openai-com-api-docs-models-gpt-5-3-codex",
             "source:openai:developers-openai-com-api-docs-pricing"
           ],
           "unit": "per_1m_tokens",
@@ -19178,21 +19645,34 @@
         {
           "amount": "1.75",
           "calculationDefault": true,
-          "chargeId": "price:openai/gpt-5.3-codex:standard:short:website-preview:input:text:per_1m_tokens",
+          "chargeId": "charge:openai/gpt-5.3-codex:standard:input:text:tokens",
           "component": "input",
           "condition": {
+            "availabilityRules": [],
             "contextClass": "short",
-            "effectiveFrom": "2026-07-03",
+            "defaultAvailabilityStatus": "available",
+            "effectiveFrom": null,
             "effectiveUntil": null,
+            "priceAdjustments": [],
             "processingMode": "standard",
             "promptTokenThreshold": null,
             "regionPolicy": "global",
+            "regionSelector": {
+              "dataResidencies": [
+                "global"
+              ],
+              "endpointGeographies": [
+                "global"
+              ],
+              "pricingGeography": "global_base"
+            },
             "tierSelection": null
           },
           "currency": "USD",
           "modality": "text",
-          "pricingId": "price:openai/gpt-5.3-codex:standard:short:website-preview",
+          "pricingId": "price:openai/gpt-5.3-codex:standard:short:current",
           "sourceRefs": [
+            "source:openai:developers-openai-com-api-docs-models-gpt-5-3-codex",
             "source:openai:developers-openai-com-api-docs-pricing"
           ],
           "unit": "per_1m_tokens",
@@ -19201,53 +19681,73 @@
         {
           "amount": "14",
           "calculationDefault": true,
-          "chargeId": "price:openai/gpt-5.3-codex:standard:short:website-preview:output:text:per_1m_tokens",
+          "chargeId": "charge:openai/gpt-5.3-codex:standard:output:text:tokens",
           "component": "output",
           "condition": {
+            "availabilityRules": [],
             "contextClass": "short",
-            "effectiveFrom": "2026-07-03",
+            "defaultAvailabilityStatus": "available",
+            "effectiveFrom": null,
             "effectiveUntil": null,
+            "priceAdjustments": [],
             "processingMode": "standard",
             "promptTokenThreshold": null,
             "regionPolicy": "global",
+            "regionSelector": {
+              "dataResidencies": [
+                "global"
+              ],
+              "endpointGeographies": [
+                "global"
+              ],
+              "pricingGeography": "global_base"
+            },
             "tierSelection": null
           },
           "currency": "USD",
           "modality": "text",
-          "pricingId": "price:openai/gpt-5.3-codex:standard:short:website-preview",
+          "pricingId": "price:openai/gpt-5.3-codex:standard:short:current",
           "sourceRefs": [
+            "source:openai:developers-openai-com-api-docs-models-gpt-5-3-codex",
             "source:openai:developers-openai-com-api-docs-pricing"
           ],
           "unit": "per_1m_tokens",
           "verificationStatus": "verified"
         }
       ],
-      "pricingSourceType": "verified_website_seed_price",
+      "pricingSourceType": "canonical_verified_price",
       "provider": "openai",
       "publicExposure": "public",
       "redirectTargetInternalId": null,
-      "releaseSourceRef": null,
-      "releaseSourceUrl": null,
+      "releaseSourceRef": "source:openai:developers-openai-com-api-docs-changelog",
+      "releaseSourceUrl": "https://developers.openai.com/api/docs/changelog",
       "releaseStage": "specialized",
-      "releasedAt": null,
+      "releasedAt": "2026-02-24",
       "replacementInternalId": null,
       "routingBehavior": "direct",
       "routingDetails": {},
       "selectedBatchPriceRecordId": null,
-      "selectedBillingPriceRecordId": "price:openai/gpt-5.3-codex:standard:short:website-preview",
-      "selectedPriceEffectiveFrom": "2026-07-03",
+      "selectedBillingPriceRecordId": "price:openai/gpt-5.3-codex:standard:short:current",
+      "selectedPriceEffectiveFrom": null,
       "selectedPriceEffectiveUntil": null,
-      "selectedPriceRecordId": "price:openai/gpt-5.3-codex:standard:short:website-preview",
+      "selectedPriceRecordId": "price:openai/gpt-5.3-codex:standard:short:current",
       "sourceRefs": [
+        "source:openai:developers-openai-com-api-docs-changelog",
+        "source:openai:developers-openai-com-api-docs-deprecations",
+        "source:openai:developers-openai-com-api-docs-models-gpt-5-3-codex",
         "source:openai:developers-openai-com-api-docs-pricing"
       ],
       "sourceUrls": [
+        "https://developers.openai.com/api/docs/changelog",
+        "https://developers.openai.com/api/docs/deprecations",
+        "https://developers.openai.com/api/docs/models/gpt-5.3-codex",
         "https://developers.openai.com/api/docs/pricing"
       ],
-      "status": "specialized",
+      "status": "legacy",
       "verificationStatus": "verified",
-      "verifiedAt": "2026-07-07T00:00:00Z",
+      "verifiedAt": "2026-10-04T15:36:06Z",
       "verifiedSourceRefs": [
+        "source:openai:developers-openai-com-api-docs-models-gpt-5-3-codex",
         "source:openai:developers-openai-com-api-docs-pricing"
       ]
     },
@@ -19780,7 +20280,7 @@
       "id": "gpt-5.4-nano",
       "identityType": "canonical_model",
       "inputPrice": 0.2,
-      "lifecycleStatus": "active",
+      "lifecycleStatus": "deprecated",
       "model": "GPT-5.4 nano",
       "officialSourceUrl": "https://developers.openai.com/api/docs/pricing",
       "outputPrice": 1.25,
@@ -19795,6 +20295,8 @@
           "pricingStatus": null,
           "processingMode": "batch",
           "sourceRefs": [
+            "source:openai:developers-openai-com-api-docs-changelog",
+            "source:openai:developers-openai-com-api-docs-deprecations",
             "source:openai:developers-openai-com-api-docs-pricing"
           ],
           "verificationStatus": "verified",
@@ -19810,6 +20312,8 @@
           "pricingStatus": null,
           "processingMode": "standard",
           "sourceRefs": [
+            "source:openai:developers-openai-com-api-docs-changelog",
+            "source:openai:developers-openai-com-api-docs-deprecations",
             "source:openai:developers-openai-com-api-docs-pricing"
           ],
           "verificationStatus": "verified",
@@ -19835,6 +20339,8 @@
           "modality": "text",
           "pricingId": "price:openai/gpt-5.4-nano:batch:short:current",
           "sourceRefs": [
+            "source:openai:developers-openai-com-api-docs-changelog",
+            "source:openai:developers-openai-com-api-docs-deprecations",
             "source:openai:developers-openai-com-api-docs-pricing"
           ],
           "unit": "per_1m_tokens",
@@ -19858,6 +20364,8 @@
           "modality": "text",
           "pricingId": "price:openai/gpt-5.4-nano:batch:short:current",
           "sourceRefs": [
+            "source:openai:developers-openai-com-api-docs-changelog",
+            "source:openai:developers-openai-com-api-docs-deprecations",
             "source:openai:developers-openai-com-api-docs-pricing"
           ],
           "unit": "per_1m_tokens",
@@ -19881,6 +20389,8 @@
           "modality": "text",
           "pricingId": "price:openai/gpt-5.4-nano:standard:short:current",
           "sourceRefs": [
+            "source:openai:developers-openai-com-api-docs-changelog",
+            "source:openai:developers-openai-com-api-docs-deprecations",
             "source:openai:developers-openai-com-api-docs-pricing"
           ],
           "unit": "per_1m_tokens",
@@ -19904,6 +20414,8 @@
           "modality": "text",
           "pricingId": "price:openai/gpt-5.4-nano:standard:short:current",
           "sourceRefs": [
+            "source:openai:developers-openai-com-api-docs-changelog",
+            "source:openai:developers-openai-com-api-docs-deprecations",
             "source:openai:developers-openai-com-api-docs-pricing"
           ],
           "unit": "per_1m_tokens",
@@ -19927,6 +20439,8 @@
           "modality": "text",
           "pricingId": "price:openai/gpt-5.4-nano:standard:short:current",
           "sourceRefs": [
+            "source:openai:developers-openai-com-api-docs-changelog",
+            "source:openai:developers-openai-com-api-docs-deprecations",
             "source:openai:developers-openai-com-api-docs-pricing"
           ],
           "unit": "per_1m_tokens",
@@ -19950,15 +20464,21 @@
       "selectedPriceEffectiveUntil": null,
       "selectedPriceRecordId": "price:openai/gpt-5.4-nano:standard:short:current",
       "sourceRefs": [
+        "source:openai:developers-openai-com-api-docs-changelog",
+        "source:openai:developers-openai-com-api-docs-deprecations",
         "source:openai:developers-openai-com-api-docs-pricing"
       ],
       "sourceUrls": [
+        "https://developers.openai.com/api/docs/changelog",
+        "https://developers.openai.com/api/docs/deprecations",
         "https://developers.openai.com/api/docs/pricing"
       ],
-      "status": "latest",
+      "status": "legacy",
       "verificationStatus": "verified",
       "verifiedAt": "2026-08-24T08:42:53Z",
       "verifiedSourceRefs": [
+        "source:openai:developers-openai-com-api-docs-changelog",
+        "source:openai:developers-openai-com-api-docs-deprecations",
         "source:openai:developers-openai-com-api-docs-pricing"
       ]
     },
@@ -42268,13 +42788,14 @@
     },
     {
       "aliasTargetInternalId": null,
-      "availability": "active",
+      "availability": "retired",
       "batchInputPrice": null,
       "batchOutputPrice": null,
-      "billingModelInternalId": null,
-      "billingNote": "Current xAI Speech to Text service rate for real-time streaming; the official rate is service-level and this explicit model ID is supported.",
+      "billingModelInternalId": "xai/grok-voice-transcribe-2.0",
+      "billingNote": "Current xAI Speech to Text service rate for real-time streaming; 2.0 became available and the omitted-model default on 2026-09-17.",
       "blockedFromDefaultReasons": [
-        "missing_verified_current_price"
+        "missing_verified_current_price",
+        "retired_identity"
       ],
       "cachedInputPrice": null,
       "canonicalInternalId": "xai/grok-voice-transcribe-1.0",
@@ -42294,16 +42815,16 @@
         "default_context_class"
       ],
       "defaultSafe": false,
-      "governanceClass": "VERIFIED_CANONICAL",
+      "governanceClass": "HISTORICAL_REFERENCE",
       "governanceDetails": null,
-      "governanceReason": "canonical_verified_non_token_public_projection",
+      "governanceReason": "retired_identity_redirects_to_current_billing",
       "governanceSourceCandidateIds": [
         "xai/grok-voice-transcribe-1.0"
       ],
       "id": "grok-voice-transcribe-1.0",
       "identityType": "canonical_model",
       "inputPrice": null,
-      "lifecycleStatus": "active",
+      "lifecycleStatus": "retired",
       "model": "Grok Voice Transcribe 1.0",
       "modelSelection": {
         "checkedAt": "2026-09-21T10:47:28Z",
@@ -42321,14 +42842,15 @@
           "calculationDefault": true,
           "checkedAt": "2026-09-21T10:47:28Z",
           "contextClass": "short",
-          "effectiveFrom": null,
+          "effectiveFrom": "2026-09-17",
           "effectiveUntil": null,
-          "pricingId": "price:xai/grok-voice-transcribe-1.0:rest:current",
+          "pricingId": "price:xai/grok-voice-transcribe-2.0:rest:current",
           "pricingStatus": "current",
           "processingMode": "standard",
           "sourceRefs": [
             "source:xai:docs-x-ai-developers-models-speech-to-text",
-            "source:xai:docs-x-ai-developers-pricing"
+            "source:xai:docs-x-ai-developers-pricing",
+            "source:xai:docs-x-ai-developers-release-notes"
           ],
           "verificationStatus": "verified",
           "verifiedAt": "2026-09-21T10:47:28Z"
@@ -42337,14 +42859,15 @@
           "calculationDefault": false,
           "checkedAt": "2026-09-21T10:47:28Z",
           "contextClass": "short",
-          "effectiveFrom": null,
+          "effectiveFrom": "2026-09-17",
           "effectiveUntil": null,
-          "pricingId": "price:xai/grok-voice-transcribe-1.0:streaming:current",
+          "pricingId": "price:xai/grok-voice-transcribe-2.0:streaming:current",
           "pricingStatus": "current",
           "processingMode": "standard",
           "sourceRefs": [
             "source:xai:docs-x-ai-developers-models-speech-to-text",
-            "source:xai:docs-x-ai-developers-pricing"
+            "source:xai:docs-x-ai-developers-pricing",
+            "source:xai:docs-x-ai-developers-release-notes"
           ],
           "verificationStatus": "verified",
           "verifiedAt": "2026-09-21T10:47:28Z"
@@ -42354,13 +42877,13 @@
         {
           "amount": "0.1",
           "calculationDefault": true,
-          "chargeId": "charge:xai/grok-voice-transcribe-1.0:rest:session-duration",
+          "chargeId": "charge:xai/grok-voice-transcribe-2.0:rest:session-duration",
           "component": "session_duration",
           "condition": {
             "availabilityRules": [],
             "contextClass": "short",
             "defaultAvailabilityStatus": "available",
-            "effectiveFrom": null,
+            "effectiveFrom": "2026-09-17",
             "effectiveUntil": null,
             "priceAdjustments": [],
             "processingMode": "standard",
@@ -42380,10 +42903,11 @@
           },
           "currency": "USD",
           "modality": "audio",
-          "pricingId": "price:xai/grok-voice-transcribe-1.0:rest:current",
+          "pricingId": "price:xai/grok-voice-transcribe-2.0:rest:current",
           "sourceRefs": [
             "source:xai:docs-x-ai-developers-models-speech-to-text",
-            "source:xai:docs-x-ai-developers-pricing"
+            "source:xai:docs-x-ai-developers-pricing",
+            "source:xai:docs-x-ai-developers-release-notes"
           ],
           "unit": "per_hour",
           "verificationStatus": "verified"
@@ -42391,13 +42915,13 @@
         {
           "amount": "0.2",
           "calculationDefault": false,
-          "chargeId": "charge:xai/grok-voice-transcribe-1.0:streaming:session-duration",
+          "chargeId": "charge:xai/grok-voice-transcribe-2.0:streaming:session-duration",
           "component": "session_duration",
           "condition": {
             "availabilityRules": [],
             "contextClass": "short",
             "defaultAvailabilityStatus": "available",
-            "effectiveFrom": null,
+            "effectiveFrom": "2026-09-17",
             "effectiveUntil": null,
             "priceAdjustments": [],
             "processingMode": "standard",
@@ -42417,29 +42941,50 @@
           },
           "currency": "USD",
           "modality": "audio",
-          "pricingId": "price:xai/grok-voice-transcribe-1.0:streaming:current",
+          "pricingId": "price:xai/grok-voice-transcribe-2.0:streaming:current",
           "sourceRefs": [
             "source:xai:docs-x-ai-developers-models-speech-to-text",
-            "source:xai:docs-x-ai-developers-pricing"
+            "source:xai:docs-x-ai-developers-pricing",
+            "source:xai:docs-x-ai-developers-release-notes"
           ],
           "unit": "per_hour",
           "verificationStatus": "verified"
         }
       ],
-      "pricingSourceType": "canonical_verified_structured_price",
+      "pricingSourceType": "redirected_verified_billing",
       "provider": "xai",
       "publicExposure": "public",
-      "redirectTargetInternalId": null,
+      "redirectTargetInternalId": "xai/grok-voice-transcribe-2.0",
+      "redirectedBilling": {
+        "billingModelInternalId": "xai/grok-voice-transcribe-2.0",
+        "currentBillingPriceRecordId": null,
+        "historicalPriceCurrentCalculationEligible": false,
+        "redirectTargetInternalId": "xai/grok-voice-transcribe-2.0"
+      },
       "releaseSourceRef": null,
       "releaseSourceUrl": null,
-      "releaseStage": "stable",
+      "releaseStage": "legacy",
       "releasedAt": null,
-      "replacementInternalId": null,
-      "routingBehavior": "direct",
+      "replacementInternalId": "xai/grok-voice-transcribe-2.0",
+      "routingBehavior": "retired_redirect",
       "routingDetails": {},
+      "scheduledTransition": {
+        "billingConfiguration": {
+          "model": "grok-voice-transcribe-2.0"
+        },
+        "billingModelInternalId": "xai/grok-voice-transcribe-2.0",
+        "billingSource": "redirect_target",
+        "effectiveFrom": "2026-10-02",
+        "kind": "retirement_redirect",
+        "redirectTargetInternalId": "xai/grok-voice-transcribe-2.0",
+        "sourceSlugRemainsResolvable": true,
+        "targetConfiguration": {
+          "model": "grok-voice-transcribe-2.0"
+        }
+      },
       "selectedBatchPriceRecordId": null,
-      "selectedBillingPriceRecordId": "price:xai/grok-voice-transcribe-1.0:streaming:current",
-      "selectedPriceEffectiveFrom": null,
+      "selectedBillingPriceRecordId": "price:xai/grok-voice-transcribe-2.0:streaming:current",
+      "selectedPriceEffectiveFrom": "2026-09-17",
       "selectedPriceEffectiveUntil": null,
       "selectedPriceRecordId": null,
       "sourceRefs": [
@@ -42452,7 +42997,7 @@
         "https://docs.x.ai/developers/pricing",
         "https://docs.x.ai/developers/release-notes"
       ],
-      "status": "latest",
+      "status": "retired",
       "verificationStatus": "verified",
       "verifiedAt": "2026-09-29T11:56:18Z",
       "verifiedSourceRefs": [
