@@ -4,8 +4,12 @@ import re
 import subprocess
 import tempfile
 import unittest
+from datetime import datetime, timedelta, timezone
 from pathlib import Path
+from unittest.mock import patch
 
+from scripts import build_release_bundle as release_bundle
+from scripts.export_huggingface import preserve_generated_at_for_timestamp_only_change
 from scripts.build_release_bundle import (
     ROOT,
     V1_SOURCES,
@@ -36,6 +40,44 @@ class ReleaseBundleTests(unittest.TestCase):
         files["release-manifest.json"] = json.dumps(manifest).encode()
         files["SHA256SUMS.txt"] = "".join(f"{hashlib.sha256(files[name]).hexdigest()}  {name}\n" for name in sorted(files)).encode()
         return files
+
+    def pinned_checkout(self):
+        website = Path("D:/ai-cost-control-tool/aicostguard-english")
+        if not website.is_dir():
+            self.skipTest("local Website checkout is unavailable")
+        tracked_paths = set(subprocess.check_output(
+            ["git", "ls-tree", "-r", "--name-only", "HEAD", "--", "data/snapshots/"],
+            cwd=ROOT,
+            text=True,
+        ).splitlines())
+        snapshot_dates = {
+            parts[2]
+            for path in tracked_paths
+            if len(parts := path.split("/")) == 4
+            and parts[:2] == ["data", "snapshots"]
+            and parts[3] in {"prices.json", "prices.csv"}
+            and re.fullmatch(r"\d{4}-\d{2}-\d{2}", parts[2])
+        }
+        self.assertTrue(snapshot_dates, "HEAD has no tracked dated V1 snapshot")
+        snapshot = max(snapshot_dates)
+        for suffix in ("json", "csv"):
+            self.assertIn(f"data/snapshots/{snapshot}/prices.{suffix}", tracked_paths)
+        return website, snapshot
+
+    def build_with_pinned_source_change(self, changed_path, change):
+        website, snapshot = self.pinned_checkout()
+        original_source = release_bundle.source
+
+        def altered_source(repo, revision, path):
+            content = original_source(repo, revision, path)
+            if path != changed_path:
+                return content
+            payload = json.loads(content)
+            change(payload)
+            return (json.dumps(payload, indent=2, ensure_ascii=False) + "\n").encode("utf-8")
+
+        with patch.object(release_bundle, "source", side_effect=altered_source):
+            return build_contents("HEAD", website, "HEAD", snapshot)
 
     def test_valid_v1_and_v2(self):
         for prefix, projection, assets in (
@@ -87,37 +129,54 @@ class ReleaseBundleTests(unittest.TestCase):
                 write_bundle(second, output)
 
     def test_pinned_website_export_build_when_checkout_available(self):
-        website = Path("D:/ai-cost-control-tool/aicostguard-english")
-        if not website.is_dir():
-            self.skipTest("local Website checkout is unavailable")
-        serializer_dirty = subprocess.run(
-            ["git", "diff", "--quiet", "HEAD", "--", "scripts/export_huggingface.py"],
-            cwd=Path(__file__).resolve().parents[1],
-            check=False,
-        ).returncode != 0
-        if serializer_dirty:
-            self.skipTest("pinned historical export requires its committed serializer")
-        tracked_paths = set(subprocess.check_output(
-            ["git", "ls-tree", "-r", "--name-only", "HEAD", "--", "data/snapshots/"],
-            cwd=ROOT,
-            text=True,
-        ).splitlines())
-        snapshot_dates = {
-            parts[2]
-            for path in tracked_paths
-            if len(parts := path.split("/")) == 4
-            and parts[:2] == ["data", "snapshots"]
-            and parts[3] in {"prices.json", "prices.csv"}
-            and re.fullmatch(r"\d{4}-\d{2}-\d{2}", parts[2])
-        }
-        self.assertTrue(snapshot_dates, "HEAD has no tracked dated V1 snapshot")
-        snapshot = max(snapshot_dates)
-        for suffix in ("json", "csv"):
-            self.assertIn(f"data/snapshots/{snapshot}/prices.{suffix}", tracked_paths)
+        website, snapshot = self.pinned_checkout()
         files = build_contents("HEAD", website, "HEAD", snapshot)
         manifest = verify_contents(files)
         self.assertEqual(manifest["snapshot_date"], snapshot)
         self.assertEqual(manifest["snapshot_path"], f"data/snapshots/{snapshot}/")
+        self.assertEqual(files["pricing-v2-prices.json"], release_bundle.source(ROOT, "HEAD", "huggingface/prices.json"))
+
+    def test_timestamp_only_drift_keeps_pinned_hf_generated_at(self):
+        mirror = json.loads(release_bundle.source(ROOT, "HEAD", "huggingface/prices.json"))
+        mirror_time = datetime.fromisoformat(mirror["metadata"]["generated_at"].replace("Z", "+00:00"))
+        newer_time = (mirror_time + timedelta(seconds=1)).isoformat().replace("+00:00", "Z")
+        self.assertLess(mirror_time + timedelta(seconds=1), datetime.now(timezone.utc))
+
+        def change_generated_at(meta):
+            meta["generated_at"] = newer_time
+
+        files = self.build_with_pinned_source_change("api/v1/meta.json", change_generated_at)
+        manifest = verify_contents(files)
+        self.assertEqual(manifest["projections"]["pricing_v2"]["generated_at"], mirror["metadata"]["generated_at"])
+        self.assertEqual(files["pricing-v2-prices.json"], release_bundle.source(ROOT, "HEAD", "huggingface/prices.json"))
+
+    def test_record_drift_still_fails_pinned_hf_parity(self):
+        def change_record(mirror):
+            mirror["records"][0]["notes"] += " changed"
+
+        with self.assertRaisesRegex(ValueError, "Website export and HF mirror differ: pricing-v2-prices.json"):
+            self.build_with_pinned_source_change("huggingface/prices.json", change_record)
+
+    def test_substantive_metadata_drift_still_fails_pinned_hf_parity(self):
+        def change_metadata(mirror):
+            mirror["metadata"]["last_updated"] = "2030-01-01T00:00:00Z"
+
+        with self.assertRaisesRegex(ValueError, "Website export and HF mirror differ: pricing-v2-prices.json"):
+            self.build_with_pinned_source_change("huggingface/prices.json", change_metadata)
+
+    def test_substantive_drift_does_not_preserve_generated_at(self):
+        mirror = json.loads(release_bundle.source(ROOT, "HEAD", "huggingface/prices.json"))
+        for field in ("records", "metadata"):
+            with self.subTest(field=field):
+                current = json.loads(json.dumps(mirror))
+                candidate = json.loads(json.dumps(mirror))
+                candidate["metadata"]["generated_at"] = "2000-01-01T00:00:00Z"
+                if field == "records":
+                    current["records"][0]["notes"] += " changed"
+                else:
+                    current["metadata"]["last_updated"] = "2030-01-01T00:00:00Z"
+                preserve_generated_at_for_timestamp_only_change(candidate, current)
+                self.assertEqual(candidate["metadata"]["generated_at"], "2000-01-01T00:00:00Z")
 
 
 if __name__ == "__main__":

@@ -734,14 +734,10 @@ def validate_huggingface_artifacts(output_dir: Path = HF_DIR) -> None:
     validate_dataset_card_urls(card)
 
 
-def preserve_existing_generated_at_for_timestamp_only_change(
+def preserve_generated_at_for_timestamp_only_change(
     payload: dict[str, Any],
-    output_dir: Path,
+    current: dict[str, Any],
 ) -> None:
-    current_path = output_dir / "prices.json"
-    if not current_path.exists():
-        return
-    current = read_json(current_path)
     current_metadata = dict(current.get("metadata", {}))
     expected_metadata = dict(payload["metadata"])
     current_generated_at = current_metadata.pop("generated_at", None)
@@ -752,6 +748,17 @@ def preserve_existing_generated_at_for_timestamp_only_change(
         and current_metadata == expected_metadata
     ):
         payload["metadata"]["generated_at"] = current_generated_at
+
+
+def preserve_existing_generated_at_for_timestamp_only_change(
+    payload: dict[str, Any],
+    output_dir: Path,
+) -> None:
+    current_path = output_dir / "prices.json"
+    if not current_path.exists():
+        return
+    current = read_json(current_path)
+    preserve_generated_at_for_timestamp_only_change(payload, current)
 
 
 def main() -> None:

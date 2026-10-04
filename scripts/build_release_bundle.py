@@ -25,6 +25,7 @@ from scripts.export_huggingface import (  # noqa: E402
     build_export,
     load_website_models,
     load_website_projection,
+    preserve_generated_at_for_timestamp_only_change,
     public_conditional_usage_allowances,
     public_pricing_components,
 )
@@ -137,6 +138,9 @@ def build_contents(dataset_ref: str, website_repo: Path, website_ref: str, snaps
             raise ValueError("Website and Dataset Pricing V2 projections differ")
     metadata = parsed(v1["github-pages-v1-meta.json"])
     payload = build_export(website, metadata, load_website_models(website_repo, website_sha))
+    preserve_generated_at_for_timestamp_only_change(
+        payload, parsed(source(ROOT, dataset_sha, HF_MIRRORS["pricing-v2-prices.json"]))
+    )
     generated = artifact_contents(payload)
     v2 = {name: generated[name.removeprefix("pricing-v2-")].encode("utf-8") for name in V2_SOURCES}
     for name, mirror in HF_MIRRORS.items():
