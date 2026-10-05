@@ -333,8 +333,9 @@
     "lifecycle": {
       "type": "object",
       "additionalProperties": false,
-      "required": ["retirement_notice_date", "retirement_date", "replacement_model_id", "scheduled_transition"],
+      "required": ["retirement_date"],
       "properties": {
+        "deprecation_date": {"type": "string", "format": "date"},
         "retirement_notice_date": {"type": "string", "format": "date"},
         "retirement_date": {"type": "string", "format": "date"},
         "replacement_model_id": {"type": "string", "minLength": 1},

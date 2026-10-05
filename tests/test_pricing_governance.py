@@ -188,8 +188,24 @@ class PricingGovernanceTests(unittest.TestCase):
             "xai/grok-imagine-image-quality",
             "xai/grok-imagine-image-2.0",
         })
+        lifecycle_only = {
+            key for key in excluded
+            if self.projection[key]["governanceReason"] == "lifecycle_only_without_public_price"
+        }
+        self.assertEqual(lifecycle_only, {
+            "openai/gpt-5.1",
+            "openai/gpt-4o-mini-tts-2025-12-15",
+            "openai/gpt-4o-mini-tts-2025-03-20",
+            "openai/tts-1",
+            "openai/tts-1-hd",
+            "openai/gpt-5.4-cyber",
+            "google-gemini/gemini-2.5-flash-image",
+        })
+        for internal_id in lifecycle_only:
+            self.assertEqual(self.projection[internal_id]["pricingSourceType"], "none")
+            self.assertIsNone(self.projection[internal_id]["selectedPriceRecordId"])
         self.assertEqual(
-            excluded - contract_deferred,
+            excluded - contract_deferred - lifecycle_only,
             set(self.excluded_decisions),
             "EXCLUSION_DECISION_DRIFT: non-contract exclusions differ from Phase 2.6",
         )

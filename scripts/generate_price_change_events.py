@@ -481,8 +481,11 @@ def lifecycle_event(
     after_pricing = after_model["pricing"]
     effective_from = after_model.get("effective_from")
     if change_type == "lifecycle_update":
+        lifecycle = after_model.get("lifecycle") or {}
         effective_from = (
-            (after_model.get("lifecycle") or {}).get("scheduled_transition", {}).get("effective_from")
+            (lifecycle.get("scheduled_transition") or {}).get("effective_from")
+            or (lifecycle.get("retirement_date") if after_model.get("status") == "retired" else None)
+            or lifecycle.get("deprecation_date")
             or effective_from
         )
     event = {
@@ -522,7 +525,7 @@ def lifecycle_event(
     return event
 
 
-def newly_observed_retired_event(
+def newly_observed_lifecycle_event(
     after_model: dict[str, Any],
     before_rel: str,
     after_rel: str,
@@ -530,11 +533,10 @@ def newly_observed_retired_event(
 ) -> dict[str, Any]:
     """Record lifecycle truth without misclassifying a historical model as newly launched."""
     event = lifecycle_event(None, after_model, before_rel, after_rel, detected_at, "lifecycle_update")
-    event["old_status"] = "active"
+    event["old_status"] = None
     event["notes"] = (
-        "This model predates the before snapshot and was already retired when it was first added to the dataset. "
-        "The event records the provider-announced retirement and redirect; no model launch event is inferred from "
-        "the dataset addition date. " + after_model.get("notes", "")
+        "The model was absent from the before snapshot. This late-discovered lifecycle fact "
+        "does not imply a model launch or a previous active state. " + after_model.get("notes", "")
     ).strip()
     event["dedupe_key"] = build_dedupe_key(event)
     event["event_id"] = build_event_id(event)
@@ -615,8 +617,13 @@ def generate_events(before: Path, after: Path, provider_id: str | None = None) -
 
     for key in sorted(set(after_models) - set(before_models)):
         after_model = after_models[key]
-        if after_model.get("status") == "retired" and (after_model.get("lifecycle") or {}).get("retirement_date"):
-            events.append(newly_observed_retired_event(after_model, before_rel, after_rel, detected_at))
+        lifecycle = after_model.get("lifecycle") or {}
+        lifecycle_date = (
+            lifecycle.get("retirement_date") if after_model.get("status") == "retired"
+            else lifecycle.get("deprecation_date")
+        )
+        if after_model.get("status") in {"deprecated", "retired"} and lifecycle_date and lifecycle_date <= detected_at:
+            events.append(newly_observed_lifecycle_event(after_model, before_rel, after_rel, detected_at))
         else:
             events.append(
                 lifecycle_event(None, after_model, before_rel, after_rel, detected_at, "model_added")
@@ -961,10 +968,16 @@ def validate_event(event: dict[str, Any], path: Path | None = None, line_number:
             expected_type = expected_change_type(old_prices, new_prices, component_changes, temporal_changed)
             if event.get("change_type") != expected_type:
                 fail(f"change_type must be {expected_type} for this price delta")
-        if event.get("currency") != "USD":
-            fail("currency must be USD")
-        if event.get("unit") != "1M tokens":
-            fail("unit must be 1M tokens")
+        if event.get("change_type") == "lifecycle_update":
+            if event.get("currency") not in {"USD", None}:
+                fail("lifecycle currency must be USD or null")
+            if event.get("unit") not in {"1M tokens", None}:
+                fail("lifecycle unit must be 1M tokens or null")
+        else:
+            if event.get("currency") != "USD":
+                fail("currency must be USD")
+            if event.get("unit") != "1M tokens":
+                fail("unit must be 1M tokens")
         effective_from = event.get("effective_from")
         if effective_from:
             if "T" in effective_from:

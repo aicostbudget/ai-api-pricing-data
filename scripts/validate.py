@@ -74,6 +74,13 @@ def validate_pricing_contract(model: dict, item: tuple[str, str]) -> None:
     if not isinstance(components, list) or not components:
         price_records = model.get("price_records")
         if (
+            model.get("status") in {"deprecated", "retired"}
+            and model.get("lifecycle")
+            and not price_records
+            and all(pricing.get(field) is None for field in PRICE_FIELDS)
+        ):
+            return  # Lifecycle-only coverage has no asserted price.
+        if (
             isinstance(price_records, list)
             and price_records
             and all(
@@ -203,42 +210,49 @@ def validate_models(now: datetime | None = None) -> None:
 
         lifecycle = model.get("lifecycle")
         if lifecycle is not None:
-            required_lifecycle = {
-                "retirement_notice_date", "retirement_date", "replacement_model_id", "scheduled_transition"
+            allowed_lifecycle = {
+                "deprecation_date", "retirement_notice_date", "retirement_date",
+                "replacement_model_id", "scheduled_transition"
             }
-            if set(lifecycle) != required_lifecycle:
+            if set(lifecycle) - allowed_lifecycle or "retirement_date" not in lifecycle:
                 fail(f"invalid lifecycle fields for {item[0]}/{item[1]}")
-            notice_date = date.fromisoformat(lifecycle["retirement_notice_date"])
+            notice_value = lifecycle.get("deprecation_date") or lifecycle.get("retirement_notice_date")
+            notice_date = date.fromisoformat(notice_value) if notice_value else None
             retirement_date = date.fromisoformat(lifecycle["retirement_date"])
-            transition = lifecycle["scheduled_transition"]
-            required_transition = {
-                "kind", "effective_from", "source_slug_remains_resolvable", "redirect_target_model_id",
-                "target_configuration", "billing_source", "billing_model_id", "billing_configuration",
-            }
-            if set(transition) != required_transition:
-                fail(f"invalid scheduled lifecycle transition fields for {item[0]}/{item[1]}")
-            if transition["kind"] != "retirement_redirect":
-                fail(f"unsupported lifecycle transition kind for {item[0]}/{item[1]}")
-            if notice_date > retirement_date or date.fromisoformat(transition["effective_from"]) != retirement_date:
+            if notice_date and notice_date > retirement_date:
                 fail(f"lifecycle retirement dates do not align for {item[0]}/{item[1]}")
-            if transition["source_slug_remains_resolvable"] is not True:
-                fail(f"retirement redirect must preserve the source slug for {item[0]}/{item[1]}")
-            target_ids = {
-                lifecycle["replacement_model_id"], transition["redirect_target_model_id"], transition["billing_model_id"]
-            }
-            if len(target_ids) != 1 or (item[0], next(iter(target_ids))) not in model_keys:
-                fail(f"lifecycle target model mismatch for {item[0]}/{item[1]}")
-            if transition["billing_source"] != "redirect_target":
-                fail(f"lifecycle billing source mismatch for {item[0]}/{item[1]}")
-            if transition["target_configuration"] != transition["billing_configuration"]:
-                fail(f"lifecycle target and billing configurations differ for {item[0]}/{item[1]}")
-            if not transition["target_configuration"] or any(
-                not isinstance(key, str) or not key or not isinstance(value, str) or not value
-                for key, value in transition["target_configuration"].items()
-            ):
-                fail(f"invalid lifecycle target configuration for {item[0]}/{item[1]}")
-            if retirement_date > now.date() and model["status"] == "retired":
+            if model["status"] == "deprecated" and retirement_date <= now.date():
+                fail(f"past retirement must not remain deprecated for {item[0]}/{item[1]}")
+            if model["status"] == "retired" and retirement_date > now.date():
                 fail(f"future retirement must not be marked retired for {item[0]}/{item[1]}")
+            transition = lifecycle.get("scheduled_transition")
+            if transition is not None:
+                required_transition = {
+                    "kind", "effective_from", "source_slug_remains_resolvable", "redirect_target_model_id",
+                    "target_configuration", "billing_source", "billing_model_id", "billing_configuration",
+                }
+                if set(transition) != required_transition:
+                    fail(f"invalid scheduled lifecycle transition fields for {item[0]}/{item[1]}")
+                if transition["kind"] != "retirement_redirect":
+                    fail(f"unsupported lifecycle transition kind for {item[0]}/{item[1]}")
+                if date.fromisoformat(transition["effective_from"]) != retirement_date:
+                    fail(f"lifecycle retirement dates do not align for {item[0]}/{item[1]}")
+                if transition["source_slug_remains_resolvable"] is not True:
+                    fail(f"retirement redirect must preserve the source slug for {item[0]}/{item[1]}")
+                target_ids = {
+                    lifecycle["replacement_model_id"], transition["redirect_target_model_id"], transition["billing_model_id"]
+                }
+                if len(target_ids) != 1 or (item[0], next(iter(target_ids))) not in model_keys:
+                    fail(f"lifecycle target model mismatch for {item[0]}/{item[1]}")
+                if transition["billing_source"] != "redirect_target":
+                    fail(f"lifecycle billing source mismatch for {item[0]}/{item[1]}")
+                if transition["target_configuration"] != transition["billing_configuration"]:
+                    fail(f"lifecycle target and billing configurations differ for {item[0]}/{item[1]}")
+                if not transition["target_configuration"] or any(
+                    not isinstance(key, str) or not key or not isinstance(value, str) or not value
+                    for key, value in transition["target_configuration"].items()
+                ):
+                    fail(f"invalid lifecycle target configuration for {item[0]}/{item[1]}")
 
         source_urls = model.get("official_source_urls", [model["official_source_url"]])
         if model["official_source_url"] not in source_urls:

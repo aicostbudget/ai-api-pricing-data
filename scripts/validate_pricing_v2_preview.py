@@ -141,6 +141,10 @@ def validate_preview() -> dict[str, Any]:
     phase35_risks = read_json(PREVIEW / "phase3-5-risk-register.json")
     phase35_readiness = read_json(PREVIEW / "phase3-5-readiness.json")
     phase4a_projection = read_json(PREVIEW / "generated" / "model-pricing.v2.json")
+    canonical_by_id = {
+        f"{item['provider_id']}/{item['model_id']}": item
+        for item in read_json(ROOT / "data" / "canonical" / "models.json")
+    }
     phase4a_report = read_json(PREVIEW / "phase4a-website-projection-report.json")
     phase45_safe_reconciliation = read_json(PREVIEW / "phase4a-5-safe-price-record-reconciliation.json")
     phase45_row_reconciliation = read_json(PREVIEW / "phase4a-5-projection-row-reconciliation.json")
@@ -398,8 +402,17 @@ def validate_preview() -> dict[str, Any]:
                 fail(f"invalid officialId for {identity['internalId']}")
         if identity["aliasTargetInternalId"] and identity["aliasTargetInternalId"] not in identity_set:
             fail(f"invalid alias target for {identity['internalId']}")
-        if identity["replacementInternalId"] and identity["replacementInternalId"] not in identity_set:
-            fail(f"invalid replacement target for {identity['internalId']}")
+        replacement = identity["replacementInternalId"]
+        if replacement and replacement not in identity_set:
+            canonical_lifecycle = canonical_by_id.get(identity["internalId"], {}).get("lifecycle") or {}
+            expected = f"{identity['providerId']}/{canonical_lifecycle.get('replacement_model_id')}"
+            if (
+                replacement != expected
+                or identity["redirectTargetInternalId"] is not None
+                or identity["billingModelInternalId"] is not None
+                or identity["routingBehavior"] != "direct"
+            ):
+                fail(f"invalid replacement target for {identity['internalId']}")
         if identity["redirectTargetInternalId"] and identity["redirectTargetInternalId"] not in identity_set:
             fail(f"invalid redirect target for {identity['internalId']}")
         if identity["billingModelInternalId"] and identity["billingModelInternalId"] not in identity_set:

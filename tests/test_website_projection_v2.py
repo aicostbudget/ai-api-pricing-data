@@ -34,6 +34,11 @@ class WebsiteProjectionV2Tests(unittest.TestCase):
         cls.by_id = {row["id"]: row for row in cls.rows}
         cls.by_internal = {row["canonicalInternalId"]: row for row in cls.rows}
 
+    def test_retirement_date_survives_identity_to_website_projection(self):
+        row = self.by_internal["xai/grok-voice-transcribe-1.0"]
+        self.assertEqual(row["lifecycleStatus"], "retired")
+        self.assertEqual(row["retirementDate"], "2026-10-02")
+
     def test_cache_eligibility_projects_verified_model_evidence_without_defaults(self):
         openai = self.by_internal["openai/gpt-5.6-sol"]["cacheEligibility"]
         anthropic = self.by_internal["anthropic/claude-sonnet-5"]["cacheEligibility"]

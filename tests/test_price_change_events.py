@@ -139,6 +139,7 @@ class PriceChangeEventTests(unittest.TestCase):
         retired.update({
             "status": "retired",
             "effective_from": "2026-08-21",
+            "last_verified_at": "2026-10-05T00:00:00Z",
             "lifecycle": {
                 "retirement_date": "2026-09-10",
                 "scheduled_transition": {
@@ -152,13 +153,13 @@ class PriceChangeEventTests(unittest.TestCase):
         with tempfile.TemporaryDirectory() as tmp:
             root = Path(tmp)
             before = root / "2026-07-26" / "prices.json"
-            after = root / "2026-07-27" / "prices.json"
+            after = root / "2026-10-05" / "prices.json"
             snapshot(before, [])
             snapshot(after, [retired])
             events = generate_events(before, after)
         self.assertEqual(len(events), 1)
         self.assertEqual(events[0]["change_type"], "lifecycle_update")
-        self.assertEqual(events[0]["old_status"], "active")
+        self.assertIsNone(events[0]["old_status"])
         self.assertEqual(events[0]["new_status"], "retired")
         self.assertEqual(events[0]["effective_from"], "2026-09-10")
         self.assertNotEqual(events[0]["effective_from"], "2026-08-21")

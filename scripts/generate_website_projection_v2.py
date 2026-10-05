@@ -544,6 +544,17 @@ def governance_metadata(
         details = identity.get("routingDetails", {}).get("semantics")
         pricing_source = "target_projection"
         public_exposure = "alias_only"
+    elif (
+        identity["lifecycleStatus"] in {"deprecated", "retired"}
+        and not row.get("pricingComponents")
+        and not row.get("selectedPriceRecordId")
+        and website_row is None
+    ):
+        governance_class = "HISTORICAL_REFERENCE" if identity["lifecycleStatus"] == "retired" else "EXCLUDED"
+        reason = "lifecycle_only_without_public_price"
+        details = "Official lifecycle evidence is retained without a verified public price."
+        pricing_source = "none"
+        public_exposure = "excluded"
     elif identity["identityType"] == "historical_reference" or identity["lifecycleStatus"] == "retired":
         governance_class = "HISTORICAL_REFERENCE"
         if identity.get("billingModelInternalId"):
@@ -1240,6 +1251,8 @@ def projection_row(
         "canonicalInternalId": identity["internalId"],
         "identityType": identity["identityType"],
         "lifecycleStatus": identity["lifecycleStatus"],
+        "deprecationDate": identity.get("deprecationDate"),
+        "retirementDate": identity.get("retirementDate"),
         "releaseStage": identity["releaseStage"],
         "releasedAt": identity.get("releasedAt"),
         "releaseSourceRef": identity.get("releaseSourceRef"),

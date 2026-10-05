@@ -2017,7 +2017,7 @@ def scheduled_lifecycle_transition(
     public: dict[str, Any] | None,
 ) -> dict[str, Any] | None:
     lifecycle = (public or {}).get("lifecycle")
-    if lifecycle is None:
+    if lifecycle is None or lifecycle.get("scheduled_transition") is None:
         return None
     transition = lifecycle["scheduled_transition"]
     return {
@@ -2330,8 +2330,8 @@ def main() -> None:
                 "officialProviderDomain": official_domain(key[0], url),
                 "supports": (
                     ["pricing", "retirement", "redirect", "billing"]
-                    if item.get("lifecycle")
-                    else ["pricing"]
+                    if (item.get("lifecycle") or {}).get("scheduled_transition")
+                    else ["pricing", "retirement"] if item.get("lifecycle") else ["pricing"]
                 ),
                 "verificationStatus": "verified",
             })
@@ -2479,14 +2479,14 @@ def main() -> None:
             ),
             "replacementInternalId": (
                 internal_id(provider_id, lifecycle["replacement_model_id"])
-                if lifecycle
+                if lifecycle and lifecycle.get("replacement_model_id")
                 else (
                     internal_id(provider_id, website["replacementModelId"])
                     if website and website.get("replacementModelId") and not (provider_id == "xai" and model_id == "grok-3")
                     else None
                 )
             ),
-            "deprecationDate": None,
+            "deprecationDate": (lifecycle or {}).get("deprecation_date"),
             "retirementDate": (
                 lifecycle["retirement_date"]
                 if lifecycle

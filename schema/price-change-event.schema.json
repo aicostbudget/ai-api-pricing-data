@@ -3,6 +3,10 @@
   "$id": "https://aicostbudget.com/schemas/ai-api-pricing/price-change-event.schema.json",
   "title": "AI API Pricing Price Change Event",
   "type": "object",
+  "allOf": [{
+    "if": {"properties": {"change_type": {"not": {"const": "lifecycle_update"}}}},
+    "then": {"properties": {"unit": {"const": "1M tokens"}}}
+  }],
   "required": [
     "schema_version",
     "event_id",
@@ -87,7 +91,7 @@
         {"$ref": "model.schema.json#/$defs/lifecycle"}
       ]
     },
-    "unit": {"type": "string", "enum": ["1M tokens"]},
+    "unit": {"type": ["string", "null"], "enum": ["1M tokens", null]},
     "currency": {"type": "string", "const": "USD"},
     "effective_from": {
       "anyOf": [
