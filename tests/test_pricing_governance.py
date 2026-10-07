@@ -143,8 +143,8 @@ class PricingGovernanceTests(unittest.TestCase):
         rows = [row for row in self.projection.values() if row["pricingSourceType"] in fallback_types]
         self.assertEqual(
             {row["canonicalInternalId"] for row in rows},
-            {"anthropic/claude-sonnet-4", "openai/gpt-4.1", "openai/gpt-4.1-mini", "openai/gpt-4.1-nano"},
-            "FALLBACK_SET_MISMATCH: expected the four audited legacy compatibility rows",
+            {"anthropic/claude-opus-4.1", "anthropic/claude-sonnet-4", "openai/gpt-4.1", "openai/gpt-4.1-mini", "openai/gpt-4.1-nano"},
+            "FALLBACK_SET_MISMATCH: expected audited compatibility and retired historical rows",
         )
         for row in rows:
             internal_id = row["canonicalInternalId"]
@@ -214,7 +214,7 @@ class PricingGovernanceTests(unittest.TestCase):
 
     def test_verified_projection_requires_official_evidence(self):
         rows = [row for row in self.projection.values() if row["governanceClass"] == "VERIFIED_PROJECTION"]
-        self.assertEqual(len(rows), 6, "VERIFIED_PROJECTION_COUNT_MISMATCH")
+        self.assertEqual(len(rows), 5, "VERIFIED_PROJECTION_COUNT_MISMATCH")
         for row in rows:
             internal_id = row["canonicalInternalId"]
             self.assertEqual(row["verificationStatus"], "verified", f"PROMOTION_WITHOUT_VERIFICATION: {internal_id}")
@@ -234,7 +234,6 @@ class PricingGovernanceTests(unittest.TestCase):
         }
         protected_projection = {
             "anthropic/claude-mythos-5",
-            "anthropic/claude-opus-4.1",
             "google-gemini/gemini-3-flash-preview",
             "google-gemini/gemini-3.1-pro-preview",
             "openai/chatgpt-chat-latest",
@@ -255,6 +254,12 @@ class PricingGovernanceTests(unittest.TestCase):
         )
         self.assertTrue(all(self.projection[internal_id]["publicExposure"] == "public" for internal_id in promoted))
         self.assertTrue(protected_projection.isdisjoint(self.canonical))
+        retired = self.projection["anthropic/claude-opus-4.1"]
+        self.assertEqual(retired["lifecycleStatus"], "retired")
+        self.assertEqual(retired["governanceClass"], "HISTORICAL_REFERENCE")
+        self.assertEqual(retired["publicExposure"], "public")
+        self.assertFalse(retired["defaultSafe"])
+        self.assertNotIn("anthropic/claude-opus-4.1", self.canonical)
 
     def test_public_numeric_and_timestamp_semantics(self):
         now = datetime.now(timezone.utc)

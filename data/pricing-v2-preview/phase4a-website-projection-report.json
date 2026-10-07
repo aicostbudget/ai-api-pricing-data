@@ -1,22 +1,22 @@
 {
   "artifactPath": "data/pricing-v2-preview/generated/model-pricing.v2.json",
-  "defaultSafeModelCount": 63,
+  "defaultSafeModelCount": 62,
   "generatedAt": "2026-10-05T02:47:26Z",
   "governanceClassCounts": {
     "COMPATIBILITY_FALLBACK": 0,
     "EXCLUDED": 8,
-    "HISTORICAL_REFERENCE": 7,
+    "HISTORICAL_REFERENCE": 8,
     "PROJECTED_IDENTITY": 4,
     "REVIEW_REQUIRED": 3,
     "VERIFIED_CANONICAL": 69,
-    "VERIFIED_PROJECTION": 6
+    "VERIFIED_PROJECTION": 5
   },
-  "nullPriceCount": 34,
+  "nullPriceCount": 35,
   "parity": {
     "counts": {
-      "exact_parity": 40,
+      "exact_parity": 39,
       "expected_difference": 2,
-      "unsafe_difference": 8
+      "unsafe_difference": 9
     },
     "details": [
       {
@@ -110,14 +110,14 @@
         }
       },
       {
-        "classification": "exact_parity",
+        "classification": "unsafe_difference",
         "modelId": "claude-opus-4.1",
         "projection": {
-          "cachedInputPrice": 1.5,
-          "inputPrice": 15,
-          "outputPrice": 75
+          "cachedInputPrice": null,
+          "inputPrice": null,
+          "outputPrice": null
         },
-        "reason": "Legacy Website values match current projection values.",
+        "reason": "Projection blocks this row from default calculations.",
         "website": {
           "cachedInputPrice": 1.5,
           "inputPrice": 15,
@@ -777,5 +777,5 @@
   "phase35Readiness": "ready",
   "projectionModelCount": 97,
   "runtimeNetworkDependency": "none",
-  "unsafeIdentityCount": 34
+  "unsafeIdentityCount": 35
 }

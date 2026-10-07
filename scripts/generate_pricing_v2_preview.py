@@ -1973,10 +1973,17 @@ def status_parts(provider_id: str, model_id: str, public: dict[str, Any] | None,
             "availability": (website or {}).get("availability", "Retired"),
             "verificationStatus": "verified",
         }
-    if website_status == "retired" or public_status == "retired":
+    # Canonical lifecycle is authoritative; Website editorial labels describe presentation.
+    if public_status in {"active", "preview", "deprecated", "retired"}:
+        lifecycle = "active" if public_status == "preview" else public_status
+    elif (website or {}).get("lifecycleStatus") in {"active", "deprecated", "retired", "unknown"}:
+        lifecycle = website["lifecycleStatus"]
+    elif website_status == "retired":
         lifecycle = "retired"
-    elif website_status in {"legacy", "deprecated"} or public_status == "deprecated":
+    elif website_status == "deprecated":
         lifecycle = "deprecated"
+    elif website_status == "legacy":
+        lifecycle = "unknown"
     else:
         lifecycle = "active"
 

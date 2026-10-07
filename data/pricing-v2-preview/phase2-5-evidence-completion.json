@@ -266,15 +266,19 @@
     "afterVerificationStatus": "verified",
     "beforeEvidenceCompleteness": "complete",
     "beforeVerificationStatus": "verified",
-    "blocker": [],
-    "businessCriticality": "production_default_candidate",
+    "blocker": [
+      "criticality_historical",
+      "lifecycle_retired",
+      "not_production_default_candidate"
+    ],
+    "businessCriticality": "historical",
     "currentEffective": true,
     "currentPrices": {
       "cached_input": "1.5",
       "input": "15",
       "output": "75"
     },
-    "defaultSafe": true,
+    "defaultSafe": false,
     "modelInternalId": "anthropic/claude-opus-4.1",
     "officialEvidence": [
       "https://platform.claude.com/docs/en/about-claude/pricing"
@@ -283,7 +287,7 @@
     "pricingId": "price:anthropic/claude-opus-4.1:standard:short:website-preview",
     "priorityClass": "not_partial",
     "provider": "anthropic",
-    "reason": "Default-safe gate passed.",
+    "reason": "Default-safe gate blocked by: criticality_historical, lifecycle_retired, not_production_default_candidate",
     "sourceRefs": [
       "source:anthropic:platform-claude-com-docs-en-about-claude-pricing"
     ],
@@ -1427,10 +1431,9 @@
     "beforeEvidenceCompleteness": "complete",
     "beforeVerificationStatus": "verified",
     "blocker": [
-      "criticality_historical",
       "not_production_default_candidate"
     ],
-    "businessCriticality": "historical",
+    "businessCriticality": "production_secondary",
     "currentEffective": true,
     "currentPrices": {
       "cached_input": "0.25",
@@ -1444,7 +1447,7 @@
     "pricingId": "price:google-gemini/gemini-2.5-pro:standard:long:current",
     "priorityClass": "not_partial",
     "provider": "google-gemini",
-    "reason": "Default-safe gate blocked by: criticality_historical, not_production_default_candidate",
+    "reason": "Default-safe gate blocked by: not_production_default_candidate",
     "sourceRefs": [
       "source:google-gemini:ai-google-dev-gemini-api-docs-generate-content-caching",
       "source:google-gemini:ai-google-dev-gemini-api-docs-pricing"

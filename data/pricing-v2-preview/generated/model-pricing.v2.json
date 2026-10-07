@@ -1565,12 +1565,14 @@
     },
     {
       "aliasTargetInternalId": null,
-      "availability": "Deprecated",
+      "availability": "Retired",
       "batchInputPrice": null,
       "batchOutputPrice": null,
       "billingModelInternalId": null,
-      "blockedFromDefaultReasons": [],
-      "cachedInputPrice": 1.5,
+      "blockedFromDefaultReasons": [
+        "retired_identity"
+      ],
+      "cachedInputPrice": null,
       "canonicalInternalId": "anthropic/claude-opus-4.1",
       "checkedAt": "2026-08-24T08:42:53Z",
       "checkedSourceRefs": [
@@ -1585,21 +1587,21 @@
         "text",
         "default_context_class"
       ],
-      "defaultSafe": true,
+      "defaultSafe": false,
       "deprecationDate": null,
-      "governanceClass": "VERIFIED_PROJECTION",
+      "governanceClass": "HISTORICAL_REFERENCE",
       "governanceDetails": null,
-      "governanceReason": "official_evidence_verified_projection_pending_canonical_review",
+      "governanceReason": "retired_identity_retained_with_legacy_historical_price",
       "governanceSourceCandidateIds": [
         "anthropic/claude-opus-4.1"
       ],
       "id": "claude-opus-4.1",
       "identityType": "canonical_model",
-      "inputPrice": 15,
-      "lifecycleStatus": "deprecated",
+      "inputPrice": null,
+      "lifecycleStatus": "retired",
       "model": "Claude Opus 4.1",
       "officialSourceUrl": "https://platform.claude.com/docs/en/about-claude/pricing",
-      "outputPrice": 75,
+      "outputPrice": null,
       "priceRecords": [
         {
           "calculationDefault": true,
@@ -1688,7 +1690,7 @@
           "verificationStatus": "verified"
         }
       ],
-      "pricingSourceType": "verified_website_seed_price",
+      "pricingSourceType": "legacy_historical_fallback",
       "provider": "anthropic",
       "publicExposure": "public",
       "redirectTargetInternalId": null,
@@ -1704,19 +1706,17 @@
       "selectedBillingPriceRecordId": "price:anthropic/claude-opus-4.1:standard:short:website-preview",
       "selectedPriceEffectiveFrom": "2026-07-03",
       "selectedPriceEffectiveUntil": null,
-      "selectedPriceRecordId": "price:anthropic/claude-opus-4.1:standard:short:website-preview",
+      "selectedPriceRecordId": null,
       "sourceRefs": [
         "source:anthropic:platform-claude-com-docs-en-about-claude-pricing"
       ],
       "sourceUrls": [
         "https://platform.claude.com/docs/en/about-claude/pricing"
       ],
-      "status": "legacy",
-      "verificationStatus": "verified",
-      "verifiedAt": "2026-07-07T00:00:00Z",
-      "verifiedSourceRefs": [
-        "source:anthropic:platform-claude-com-docs-en-about-claude-pricing"
-      ]
+      "status": "retired",
+      "verificationStatus": "partially_verified",
+      "verifiedAt": null,
+      "verifiedSourceRefs": []
     },
     {
       "aliasTargetInternalId": null,
@@ -7644,7 +7644,7 @@
       "id": "gemini-2.5-flash",
       "identityType": "canonical_model",
       "inputPrice": 0.3,
-      "lifecycleStatus": "deprecated",
+      "lifecycleStatus": "active",
       "model": "Gemini 2.5 Flash",
       "officialSourceUrl": "https://ai.google.dev/gemini-api/docs/pricing",
       "outputPrice": 2.5,
@@ -7820,7 +7820,7 @@
       "sourceUrls": [
         "https://ai.google.dev/gemini-api/docs/pricing"
       ],
-      "status": "legacy",
+      "status": "latest",
       "verificationStatus": "verified",
       "verifiedAt": "2026-09-20T10:16:13Z",
       "verifiedSourceRefs": [
@@ -7929,7 +7929,7 @@
       "id": "gemini-2.5-pro",
       "identityType": "canonical_model",
       "inputPrice": 1.25,
-      "lifecycleStatus": "deprecated",
+      "lifecycleStatus": "active",
       "model": "Gemini 2.5 Pro",
       "officialSourceUrl": "https://ai.google.dev/gemini-api/docs/pricing",
       "outputPrice": 10,
@@ -9122,7 +9122,7 @@
         "https://ai.google.dev/gemini-api/docs/generate-content/caching",
         "https://ai.google.dev/gemini-api/docs/pricing"
       ],
-      "status": "legacy",
+      "status": "latest",
       "verificationStatus": "verified",
       "verifiedAt": "2026-09-20T11:05:13Z",
       "verifiedSourceRefs": [
