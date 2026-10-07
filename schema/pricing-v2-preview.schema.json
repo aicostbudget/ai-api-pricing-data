@@ -134,7 +134,14 @@
         "verificationStatus",
         "sourceRefs"
       ],
+      "allOf": [{"if": {"required": ["accessStatus"], "properties": {"accessStatus": {"not": {"const": "unknown"}}}}, "then": {"required": ["accessEvidence", "accessCheckedAt"], "properties": {"accessEvidence": {"minItems": 1}, "accessCheckedAt": {"type": "string", "format": "date-time"}}}}, {"if": {"required": ["accessStatus"], "properties": {"accessStatus": {"const": "unknown"}}}, "then": {"properties": {"accessEvidence": {"maxItems": 0}, "accessCheckedAt": {"type": "null"}}}}, {"if": {"required": ["bindingStatus"], "properties": {"bindingStatus": {"const": "approved"}}}, "then": {"required": ["bindingEvidence"], "properties": {"bindingEvidence": {"minItems": 1}}}}],
       "properties": {
+        "accessStatus": {"type": "string", "enum": ["public", "existing_users_only", "invite_only", "restricted", "unknown"]},
+        "accessEvidence": {"type": "array", "items": {"type": "object", "required": ["title", "claimType", "officialModelId", "scope", "sourceRef"], "additionalProperties": false, "properties": {"title": {"type": "string", "minLength": 1}, "claimType": {"type": "string", "minLength": 1}, "officialModelId": {"type": "string", "minLength": 1}, "scope": {"type": "string", "minLength": 1}, "sourceRef": {"type": "string", "minLength": 1}}}},
+        "accessCheckedAt": {"type": ["string", "null"], "format": "date-time"},
+        "bindingStatus": {"type": "string", "enum": ["approved", "unresolved"]},
+        "bindingEvidence": {"type": "array", "items": {"type": "object", "required": ["title", "claimType", "officialModelId", "reason", "sourceRef"], "additionalProperties": false, "properties": {"title": {"type": "string", "minLength": 1}, "claimType": {"type": "string", "minLength": 1}, "officialModelId": {"type": "string", "minLength": 1}, "reason": {"type": "string", "minLength": 1}, "sourceRef": {"type": "string", "minLength": 1}, "entitlementScopeMatches": {"type": "boolean"}}}},
+        "accessAuthority": {"type": "object", "required": ["kind", "baseRevision", "factSha256", "revisionScope"], "additionalProperties": false, "properties": {"kind": {"enum": ["canonical", "website_only_seed", "approved_alias", "unknown"]}, "baseRevision": {"type": ["string", "null"], "pattern": "^[0-9a-f]{40}$"}, "factSha256": {"type": "string", "pattern": "^[0-9a-f]{64}$"}, "revisionScope": {"const": "base_revision_plus_fact_digest"}}},
         "providerId": {"type": "string"},
         "internalId": {"type": "string"},
         "displayName": {"type": "string"},
@@ -193,7 +200,14 @@
         "verificationStatus",
         "sourceRefs"
       ],
+      "allOf": [{"if": {"required": ["accessStatus"], "properties": {"accessStatus": {"not": {"const": "unknown"}}}}, "then": {"required": ["accessEvidence", "accessCheckedAt"], "properties": {"accessEvidence": {"minItems": 1}, "accessCheckedAt": {"type": "string", "format": "date-time"}}}}, {"if": {"required": ["accessStatus"], "properties": {"accessStatus": {"const": "unknown"}}}, "then": {"properties": {"accessEvidence": {"maxItems": 0}, "accessCheckedAt": {"type": "null"}}}}, {"if": {"required": ["bindingStatus"], "properties": {"bindingStatus": {"const": "approved"}}}, "then": {"required": ["bindingEvidence"], "properties": {"bindingEvidence": {"minItems": 1}}}}],
       "properties": {
+        "accessStatus": {"type": "string", "enum": ["public", "existing_users_only", "invite_only", "restricted", "unknown"]},
+        "accessEvidence": {"type": "array", "items": {"type": "object", "required": ["title", "claimType", "officialModelId", "scope", "sourceRef"], "additionalProperties": false, "properties": {"title": {"type": "string", "minLength": 1}, "claimType": {"type": "string", "minLength": 1}, "officialModelId": {"type": "string", "minLength": 1}, "scope": {"type": "string", "minLength": 1}, "sourceRef": {"type": "string", "minLength": 1}}}},
+        "accessCheckedAt": {"type": ["string", "null"], "format": "date-time"},
+        "bindingStatus": {"type": "string", "enum": ["approved", "unresolved"]},
+        "bindingEvidence": {"type": "array", "items": {"type": "object", "required": ["title", "claimType", "officialModelId", "reason", "sourceRef"], "additionalProperties": false, "properties": {"title": {"type": "string", "minLength": 1}, "claimType": {"type": "string", "minLength": 1}, "officialModelId": {"type": "string", "minLength": 1}, "reason": {"type": "string", "minLength": 1}, "sourceRef": {"type": "string", "minLength": 1}, "entitlementScopeMatches": {"type": "boolean"}}}},
+        "accessAuthority": {"type": "object", "required": ["kind", "baseRevision", "factSha256", "revisionScope"], "additionalProperties": false, "properties": {"kind": {"enum": ["canonical", "website_only_seed", "approved_alias", "unknown"]}, "baseRevision": {"type": ["string", "null"], "pattern": "^[0-9a-f]{40}$"}, "factSha256": {"type": "string", "pattern": "^[0-9a-f]{64}$"}, "revisionScope": {"const": "base_revision_plus_fact_digest"}}},
         "providerId": {"type": "string"},
         "internalId": {"type": "string"},
         "displayName": {"type": "string"},

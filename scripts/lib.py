@@ -149,6 +149,11 @@ def csv_rows(models: list[dict[str, Any]]) -> list[dict[str, Any]]:
                     if conditional_usage_allowances
                     else None
                 ),
+                "access_status": model.get("access_status", "unknown"),
+                "access_checked_at": model.get("access_checked_at"),
+                "access_evidence_json": json.dumps(model.get("access_evidence", []), separators=(",", ":")),
+                "binding_status": model.get("binding_status", "unresolved"),
+                "binding_evidence_json": json.dumps(model.get("binding_evidence", []), separators=(",", ":")),
             }
         )
     return rows

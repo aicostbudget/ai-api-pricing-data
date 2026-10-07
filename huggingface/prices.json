@@ -6,7 +6,7 @@
     "page_url": "https://aicostbudget.com/en/datasets/ai-api-pricing",
     "last_updated": "2026-10-05T02:42:02Z",
     "last_verified_at": "2026-10-05T02:42:02Z",
-    "generated_at": "2026-10-05T02:47:26Z",
+    "generated_at": "2026-10-07T04:26:40Z",
     "provider_count": 11,
     "record_count": 83,
     "official_source_count": 22,
@@ -26,7 +26,13 @@
       "conditional_usage_allowances": "Eligibility-scoped recurring allowances that remain separate from standard paid tiers.",
       "conditional_usage_allowances_json": "Compact CSV JSON serialization of conditional_usage_allowances.",
       "model_selection": "Independent model-default and explicit-ID support metadata; null when not published.",
-      "model_selection_json": "Compact CSV JSON serialization of model_selection."
+      "model_selection_json": "Compact CSV JSON serialization of model_selection.",
+      "access_status": "Independent official API access: public/existing_users_only/invite_only/restricted/unknown; not production selector enforcement.",
+      "access_checked_at": "UTC timestamp of successful access verification, independent of pricing freshness.",
+      "access_evidence": "Official access claim scope, exact official model ID, source reference and URL.",
+      "access_evidence_json": "Compact CSV JSON serialization; appended additive column.",
+      "binding_status": "Independent approved/unresolved local-to-official identity decision.",
+      "binding_evidence_json": "Compact CSV JSON serialization; appended additive column."
     }
   },
   "records": [
@@ -241,6 +247,29 @@
       "billing_quantity": null,
       "pricing_dimension": null,
       "released_at": "2026-06-09",
+      "access_status": "public",
+      "access_checked_at": "2026-10-07T04:26:40Z",
+      "access_evidence": [
+        {
+          "claimType": "official_access_public",
+          "officialModelId": "claude-fable-5",
+          "scope": "Documented Claude API model available under ordinary API account requirements; specialized cyber capability grants do not restrict ordinary model access.",
+          "sourceRef": "source:anthropic:platform-claude-com-docs-en-models-fable-5-overview",
+          "title": "claude-fable-5 official model access documentation",
+          "url": "https://platform.claude.com/docs/en/models/fable-5/overview"
+        }
+      ],
+      "binding_status": "approved",
+      "binding_evidence": [
+        {
+          "claimType": "official_identity_binding",
+          "officialModelId": "claude-fable-5",
+          "reason": "Exact documented API ID or exact provider/version spelling; no entitlement inherited from billing target.",
+          "sourceRef": "source:anthropic:platform-claude-com-docs-en-models-fable-5-overview",
+          "title": "claude-fable-5 official identity documentation",
+          "url": "https://platform.claude.com/docs/en/models/fable-5/overview"
+        }
+      ],
       "conditional_usage_allowances": [],
       "model_selection": null
     },
@@ -497,6 +526,29 @@
       "billing_quantity": null,
       "pricing_dimension": null,
       "released_at": "2026-09-01",
+      "access_status": "public",
+      "access_checked_at": "2026-10-07T04:26:40Z",
+      "access_evidence": [
+        {
+          "claimType": "official_access_public",
+          "officialModelId": "claude-fable-5-1",
+          "scope": "Documented Claude API model available under ordinary API account requirements; specialized cyber capability grants do not restrict ordinary model access.",
+          "sourceRef": "source:anthropic:platform-claude-com-docs-en-models-fable-5-1-overview",
+          "title": "claude-fable-5-1 official model access documentation",
+          "url": "https://platform.claude.com/docs/en/models/fable-5-1/overview"
+        }
+      ],
+      "binding_status": "approved",
+      "binding_evidence": [
+        {
+          "claimType": "official_identity_binding",
+          "officialModelId": "claude-fable-5-1",
+          "reason": "Exact documented API ID or exact provider/version spelling; no entitlement inherited from billing target.",
+          "sourceRef": "source:anthropic:platform-claude-com-docs-en-models-fable-5-1-overview",
+          "title": "claude-fable-5-1 official identity documentation",
+          "url": "https://platform.claude.com/docs/en/models/fable-5-1/overview"
+        }
+      ],
       "conditional_usage_allowances": [],
       "model_selection": null
     },
@@ -795,6 +847,29 @@
       "billing_quantity": null,
       "pricing_dimension": null,
       "released_at": "2025-10-15",
+      "access_status": "public",
+      "access_checked_at": "2026-10-07T04:26:40Z",
+      "access_evidence": [
+        {
+          "claimType": "official_access_public",
+          "officialModelId": "claude-haiku-4-5",
+          "scope": "Documented Claude API model available under ordinary API account requirements; specialized cyber capability grants do not restrict ordinary model access.",
+          "sourceRef": "source:anthropic:platform-claude-com-docs-en-models-haiku-4-5-overview",
+          "title": "claude-haiku-4-5 official model access documentation",
+          "url": "https://platform.claude.com/docs/en/models/haiku-4-5/overview"
+        }
+      ],
+      "binding_status": "approved",
+      "binding_evidence": [
+        {
+          "claimType": "official_identity_binding",
+          "officialModelId": "claude-haiku-4-5",
+          "reason": "Exact documented API ID or exact provider/version spelling; no entitlement inherited from billing target.",
+          "sourceRef": "source:anthropic:platform-claude-com-docs-en-models-haiku-4-5-overview",
+          "title": "claude-haiku-4-5 official identity documentation",
+          "url": "https://platform.claude.com/docs/en/models/haiku-4-5/overview"
+        }
+      ],
       "conditional_usage_allowances": [],
       "model_selection": null
     },
@@ -905,6 +980,37 @@
       "billing_quantity": null,
       "pricing_dimension": null,
       "released_at": null,
+      "access_status": "restricted",
+      "access_checked_at": "2026-10-07T04:26:40Z",
+      "access_evidence": [
+        {
+          "claimType": "official_access_restricted",
+          "officialModelId": "claude-mythos-5",
+          "scope": "Model-specific organization verification, access tier and grant required; verification-program access is restricted.",
+          "sourceRef": "source:anthropic:platform-claude-com-docs-en-models-mythos-5-overview",
+          "title": "claude-mythos-5 official model access documentation",
+          "url": "https://platform.claude.com/docs/en/models/mythos-5/overview"
+        },
+        {
+          "claimType": "official_access_restricted",
+          "officialModelId": "claude-mythos-5",
+          "scope": "Model-specific organization verification, access tier and grant required; verification-program access is restricted.",
+          "sourceRef": "source:anthropic:support-claude-com-en-articles-14604842-cyber-verification-program",
+          "title": "anthropic ordinary API access requirements",
+          "url": "https://support.claude.com/en/articles/14604842-cyber-verification-program"
+        }
+      ],
+      "binding_status": "approved",
+      "binding_evidence": [
+        {
+          "claimType": "official_identity_binding",
+          "officialModelId": "claude-mythos-5",
+          "reason": "Exact documented API ID or exact provider/version spelling; no entitlement inherited from billing target.",
+          "sourceRef": "source:anthropic:platform-claude-com-docs-en-models-mythos-5-overview",
+          "title": "claude-mythos-5 official identity documentation",
+          "url": "https://platform.claude.com/docs/en/models/mythos-5/overview"
+        }
+      ],
       "conditional_usage_allowances": [],
       "model_selection": null
     },
@@ -1147,6 +1253,37 @@
       "billing_quantity": null,
       "pricing_dimension": null,
       "released_at": null,
+      "access_status": "restricted",
+      "access_checked_at": "2026-10-07T04:26:40Z",
+      "access_evidence": [
+        {
+          "claimType": "official_access_restricted",
+          "officialModelId": "claude-mythos-5-1",
+          "scope": "Model-specific organization verification, access tier and grant required; verification-program access is restricted.",
+          "sourceRef": "source:anthropic:platform-claude-com-docs-en-models-mythos-5-1-overview",
+          "title": "claude-mythos-5-1 official model access documentation",
+          "url": "https://platform.claude.com/docs/en/models/mythos-5-1/overview"
+        },
+        {
+          "claimType": "official_access_restricted",
+          "officialModelId": "claude-mythos-5-1",
+          "scope": "Model-specific organization verification, access tier and grant required; verification-program access is restricted.",
+          "sourceRef": "source:anthropic:support-claude-com-en-articles-14604842-cyber-verification-program",
+          "title": "anthropic ordinary API access requirements",
+          "url": "https://support.claude.com/en/articles/14604842-cyber-verification-program"
+        }
+      ],
+      "binding_status": "approved",
+      "binding_evidence": [
+        {
+          "claimType": "official_identity_binding",
+          "officialModelId": "claude-mythos-5-1",
+          "reason": "Exact documented API ID or exact provider/version spelling; no entitlement inherited from billing target.",
+          "sourceRef": "source:anthropic:platform-claude-com-docs-en-models-mythos-5-1-overview",
+          "title": "claude-mythos-5-1 official identity documentation",
+          "url": "https://platform.claude.com/docs/en/models/mythos-5-1/overview"
+        }
+      ],
       "conditional_usage_allowances": [],
       "model_selection": null
     },
@@ -1257,6 +1394,11 @@
       "billing_quantity": null,
       "pricing_dimension": null,
       "released_at": null,
+      "access_status": "unknown",
+      "access_checked_at": null,
+      "access_evidence": [],
+      "binding_status": "unresolved",
+      "binding_evidence": [],
       "conditional_usage_allowances": [],
       "model_selection": null
     },
@@ -1471,6 +1613,29 @@
       "billing_quantity": null,
       "pricing_dimension": null,
       "released_at": "2026-05-28",
+      "access_status": "public",
+      "access_checked_at": "2026-10-07T04:26:40Z",
+      "access_evidence": [
+        {
+          "claimType": "official_access_public",
+          "officialModelId": "claude-opus-4-8",
+          "scope": "Documented Claude API model available under ordinary API account requirements; specialized cyber capability grants do not restrict ordinary model access.",
+          "sourceRef": "source:anthropic:platform-claude-com-docs-en-models-opus-4-8-overview",
+          "title": "claude-opus-4-8 official model access documentation",
+          "url": "https://platform.claude.com/docs/en/models/opus-4-8/overview"
+        }
+      ],
+      "binding_status": "approved",
+      "binding_evidence": [
+        {
+          "claimType": "official_identity_binding",
+          "officialModelId": "claude-opus-4-8",
+          "reason": "Exact documented API ID or exact provider/version spelling; no entitlement inherited from billing target.",
+          "sourceRef": "source:anthropic:platform-claude-com-docs-en-models-opus-4-8-overview",
+          "title": "claude-opus-4-8 official identity documentation",
+          "url": "https://platform.claude.com/docs/en/models/opus-4-8/overview"
+        }
+      ],
       "conditional_usage_allowances": [],
       "model_selection": null
     },
@@ -1685,6 +1850,29 @@
       "billing_quantity": null,
       "pricing_dimension": null,
       "released_at": "2026-07-24",
+      "access_status": "public",
+      "access_checked_at": "2026-10-07T04:26:40Z",
+      "access_evidence": [
+        {
+          "claimType": "official_access_public",
+          "officialModelId": "claude-opus-5",
+          "scope": "Documented Claude API model available under ordinary API account requirements; specialized cyber capability grants do not restrict ordinary model access.",
+          "sourceRef": "source:anthropic:platform-claude-com-docs-en-models-opus-5-overview",
+          "title": "claude-opus-5 official model access documentation",
+          "url": "https://platform.claude.com/docs/en/models/opus-5/overview"
+        }
+      ],
+      "binding_status": "approved",
+      "binding_evidence": [
+        {
+          "claimType": "official_identity_binding",
+          "officialModelId": "claude-opus-5",
+          "reason": "Exact documented API ID or exact provider/version spelling; no entitlement inherited from billing target.",
+          "sourceRef": "source:anthropic:platform-claude-com-docs-en-models-opus-5-overview",
+          "title": "claude-opus-5 official identity documentation",
+          "url": "https://platform.claude.com/docs/en/models/opus-5/overview"
+        }
+      ],
       "conditional_usage_allowances": [],
       "model_selection": null
     },
@@ -1997,6 +2185,29 @@
       "billing_quantity": null,
       "pricing_dimension": null,
       "released_at": "2026-09-22",
+      "access_status": "public",
+      "access_checked_at": "2026-10-07T04:26:40Z",
+      "access_evidence": [
+        {
+          "claimType": "official_access_public",
+          "officialModelId": "claude-opus-5-5",
+          "scope": "Documented Claude API model available under ordinary API account requirements; specialized cyber capability grants do not restrict ordinary model access.",
+          "sourceRef": "source:anthropic:platform-claude-com-docs-en-models-opus-5-5-overview",
+          "title": "claude-opus-5-5 official model access documentation",
+          "url": "https://platform.claude.com/docs/en/models/opus-5-5/overview"
+        }
+      ],
+      "binding_status": "approved",
+      "binding_evidence": [
+        {
+          "claimType": "official_identity_binding",
+          "officialModelId": "claude-opus-5-5",
+          "reason": "Exact documented API ID or exact provider/version spelling; no entitlement inherited from billing target.",
+          "sourceRef": "source:anthropic:platform-claude-com-docs-en-models-opus-5-5-overview",
+          "title": "claude-opus-5-5 official identity documentation",
+          "url": "https://platform.claude.com/docs/en/models/opus-5-5/overview"
+        }
+      ],
       "conditional_usage_allowances": [],
       "model_selection": null
     },
@@ -2028,6 +2239,11 @@
       "billing_quantity": null,
       "pricing_dimension": null,
       "released_at": null,
+      "access_status": "unknown",
+      "access_checked_at": null,
+      "access_evidence": [],
+      "binding_status": "unresolved",
+      "binding_evidence": [],
       "conditional_usage_allowances": [],
       "model_selection": null
     },
@@ -2242,6 +2458,29 @@
       "billing_quantity": null,
       "pricing_dimension": null,
       "released_at": "2026-02-17",
+      "access_status": "public",
+      "access_checked_at": "2026-10-07T04:26:40Z",
+      "access_evidence": [
+        {
+          "claimType": "official_access_public",
+          "officialModelId": "claude-sonnet-4-6",
+          "scope": "Documented Claude API model available under ordinary API account requirements; specialized cyber capability grants do not restrict ordinary model access.",
+          "sourceRef": "source:anthropic:platform-claude-com-docs-en-models-sonnet-4-6-overview",
+          "title": "claude-sonnet-4-6 official model access documentation",
+          "url": "https://platform.claude.com/docs/en/models/sonnet-4-6/overview"
+        }
+      ],
+      "binding_status": "approved",
+      "binding_evidence": [
+        {
+          "claimType": "official_identity_binding",
+          "officialModelId": "claude-sonnet-4-6",
+          "reason": "Exact documented API ID or exact provider/version spelling; no entitlement inherited from billing target.",
+          "sourceRef": "source:anthropic:platform-claude-com-docs-en-models-sonnet-4-6-overview",
+          "title": "claude-sonnet-4-6 official identity documentation",
+          "url": "https://platform.claude.com/docs/en/models/sonnet-4-6/overview"
+        }
+      ],
       "conditional_usage_allowances": [],
       "model_selection": null
     },
@@ -2470,6 +2709,29 @@
       "billing_quantity": null,
       "pricing_dimension": null,
       "released_at": "2026-06-30",
+      "access_status": "public",
+      "access_checked_at": "2026-10-07T04:26:40Z",
+      "access_evidence": [
+        {
+          "claimType": "official_access_public",
+          "officialModelId": "claude-sonnet-5",
+          "scope": "Documented Claude API model available under ordinary API account requirements; specialized cyber capability grants do not restrict ordinary model access.",
+          "sourceRef": "source:anthropic:platform-claude-com-docs-en-models-sonnet-5-overview",
+          "title": "claude-sonnet-5 official model access documentation",
+          "url": "https://platform.claude.com/docs/en/models/sonnet-5/overview"
+        }
+      ],
+      "binding_status": "approved",
+      "binding_evidence": [
+        {
+          "claimType": "official_identity_binding",
+          "officialModelId": "claude-sonnet-5",
+          "reason": "Exact documented API ID or exact provider/version spelling; no entitlement inherited from billing target.",
+          "sourceRef": "source:anthropic:platform-claude-com-docs-en-models-sonnet-5-overview",
+          "title": "claude-sonnet-5 official identity documentation",
+          "url": "https://platform.claude.com/docs/en/models/sonnet-5/overview"
+        }
+      ],
       "conditional_usage_allowances": [],
       "model_selection": null
     },
@@ -2782,6 +3044,29 @@
       "billing_quantity": null,
       "pricing_dimension": null,
       "released_at": "2026-09-28",
+      "access_status": "public",
+      "access_checked_at": "2026-10-07T04:26:40Z",
+      "access_evidence": [
+        {
+          "claimType": "official_access_public",
+          "officialModelId": "claude-sonnet-5-5",
+          "scope": "Documented Claude API model available under ordinary API account requirements; specialized cyber capability grants do not restrict ordinary model access.",
+          "sourceRef": "source:anthropic:platform-claude-com-docs-en-models-sonnet-5-5-overview",
+          "title": "claude-sonnet-5-5 official model access documentation",
+          "url": "https://platform.claude.com/docs/en/models/sonnet-5-5/overview"
+        }
+      ],
+      "binding_status": "approved",
+      "binding_evidence": [
+        {
+          "claimType": "official_identity_binding",
+          "officialModelId": "claude-sonnet-5-5",
+          "reason": "Exact documented API ID or exact provider/version spelling; no entitlement inherited from billing target.",
+          "sourceRef": "source:anthropic:platform-claude-com-docs-en-models-sonnet-5-5-overview",
+          "title": "claude-sonnet-5-5 official identity documentation",
+          "url": "https://platform.claude.com/docs/en/models/sonnet-5-5/overview"
+        }
+      ],
       "conditional_usage_allowances": [],
       "model_selection": null
     },
@@ -2998,6 +3283,11 @@
       "billing_quantity": null,
       "pricing_dimension": null,
       "released_at": null,
+      "access_status": "unknown",
+      "access_checked_at": null,
+      "access_evidence": [],
+      "binding_status": "unresolved",
+      "binding_evidence": [],
       "conditional_usage_allowances": [
         {
           "allowance_id": "allowance:aws/DetectDocumentText:new-customer-paid-plan-trial",
@@ -3238,6 +3528,11 @@
       "billing_quantity": null,
       "pricing_dimension": null,
       "released_at": null,
+      "access_status": "unknown",
+      "access_checked_at": null,
+      "access_evidence": [],
+      "binding_status": "unresolved",
+      "binding_evidence": [],
       "conditional_usage_allowances": [],
       "model_selection": null
     },
@@ -3322,6 +3617,37 @@
       "billing_quantity": null,
       "pricing_dimension": null,
       "released_at": "2024-10-24",
+      "access_status": "public",
+      "access_checked_at": "2026-10-07T04:26:40Z",
+      "access_evidence": [
+        {
+          "claimType": "official_access_public",
+          "officialModelId": "c4ai-aya-expanse-32b",
+          "scope": "Exact documented hosted API model; normal production API key can be created after ordinary terms acceptance. Special-use-case review is not a blanket model restriction.",
+          "sourceRef": "source:cohere:docs-cohere-com-docs-aya-expanse",
+          "title": "c4ai-aya-expanse-32b official model access documentation",
+          "url": "https://docs.cohere.com/docs/aya-expanse"
+        },
+        {
+          "claimType": "official_access_public",
+          "officialModelId": "c4ai-aya-expanse-32b",
+          "scope": "Exact documented hosted API model; normal production API key can be created after ordinary terms acceptance. Special-use-case review is not a blanket model restriction.",
+          "sourceRef": "source:cohere:docs-cohere-com-docs-going-live",
+          "title": "cohere ordinary API access requirements",
+          "url": "https://docs.cohere.com/docs/going-live"
+        }
+      ],
+      "binding_status": "unresolved",
+      "binding_evidence": [
+        {
+          "claimType": "official_identity_unresolved",
+          "officialModelId": "c4ai-aya-expanse-32b",
+          "reason": "Local ID omits c4ai prefix; no explicit local-to-official binding authority verified.",
+          "sourceRef": "source:cohere:docs-cohere-com-docs-aya-expanse",
+          "title": "c4ai-aya-expanse-32b official identity documentation",
+          "url": "https://docs.cohere.com/docs/aya-expanse"
+        }
+      ],
       "conditional_usage_allowances": [],
       "model_selection": null
     },
@@ -3406,6 +3732,37 @@
       "billing_quantity": null,
       "pricing_dimension": null,
       "released_at": "2024-08-30",
+      "access_status": "public",
+      "access_checked_at": "2026-10-07T04:26:40Z",
+      "access_evidence": [
+        {
+          "claimType": "official_access_public",
+          "officialModelId": "command-r-plus-08-2024",
+          "scope": "Exact documented hosted API model; normal production API key can be created after ordinary terms acceptance. Special-use-case review is not a blanket model restriction.",
+          "sourceRef": "source:cohere:docs-cohere-com-docs-command-r-plus",
+          "title": "command-r-plus-08-2024 official model access documentation",
+          "url": "https://docs.cohere.com/docs/command-r-plus"
+        },
+        {
+          "claimType": "official_access_public",
+          "officialModelId": "command-r-plus-08-2024",
+          "scope": "Exact documented hosted API model; normal production API key can be created after ordinary terms acceptance. Special-use-case review is not a blanket model restriction.",
+          "sourceRef": "source:cohere:docs-cohere-com-docs-going-live",
+          "title": "cohere ordinary API access requirements",
+          "url": "https://docs.cohere.com/docs/going-live"
+        }
+      ],
+      "binding_status": "approved",
+      "binding_evidence": [
+        {
+          "claimType": "official_identity_binding",
+          "officialModelId": "command-r-plus-08-2024",
+          "reason": "Exact documented API ID or exact provider/version spelling; no entitlement inherited from billing target.",
+          "sourceRef": "source:cohere:docs-cohere-com-docs-command-r-plus",
+          "title": "command-r-plus-08-2024 official identity documentation",
+          "url": "https://docs.cohere.com/docs/command-r-plus"
+        }
+      ],
       "conditional_usage_allowances": [],
       "model_selection": null
     },
@@ -3522,6 +3879,11 @@
       "billing_quantity": null,
       "pricing_dimension": null,
       "released_at": "2026-09-30",
+      "access_status": "unknown",
+      "access_checked_at": null,
+      "access_evidence": [],
+      "binding_status": "unresolved",
+      "binding_evidence": [],
       "conditional_usage_allowances": [],
       "model_selection": null
     },
@@ -3638,6 +4000,11 @@
       "billing_quantity": null,
       "pricing_dimension": null,
       "released_at": "2026-09-30",
+      "access_status": "unknown",
+      "access_checked_at": null,
+      "access_evidence": [],
+      "binding_status": "unresolved",
+      "binding_evidence": [],
       "conditional_usage_allowances": [],
       "model_selection": null
     },
@@ -3702,6 +4069,11 @@
       "billing_quantity": 1000,
       "pricing_dimension": "document_page",
       "released_at": null,
+      "access_status": "unknown",
+      "access_checked_at": null,
+      "access_evidence": [],
+      "binding_status": "unresolved",
+      "binding_evidence": [],
       "conditional_usage_allowances": [],
       "model_selection": null
     },
@@ -3979,6 +4351,29 @@
       "billing_quantity": null,
       "pricing_dimension": null,
       "released_at": "2026-09-10",
+      "access_status": "public",
+      "access_checked_at": "2026-10-07T04:26:40Z",
+      "access_evidence": [
+        {
+          "claimType": "official_access_public",
+          "officialModelId": "deepseek-flash",
+          "scope": "Exact model is an API endpoint with published base URLs and ordinary topped-up/granted balance billing; model table provides positive concurrency limits without model-specific enrollment.",
+          "sourceRef": "source:deepseek:api-docs-deepseek-com-quick_start-pricing",
+          "title": "deepseek-flash official model access documentation",
+          "url": "https://api-docs.deepseek.com/quick_start/pricing"
+        }
+      ],
+      "binding_status": "approved",
+      "binding_evidence": [
+        {
+          "claimType": "official_identity_binding",
+          "officialModelId": "deepseek-flash",
+          "reason": "Exact documented API ID or exact provider/version spelling; no entitlement inherited from billing target.",
+          "sourceRef": "source:deepseek:api-docs-deepseek-com-quick_start-pricing",
+          "title": "deepseek-flash official identity documentation",
+          "url": "https://api-docs.deepseek.com/quick_start/pricing"
+        }
+      ],
       "conditional_usage_allowances": [],
       "model_selection": null
     },
@@ -4256,6 +4651,11 @@
       "billing_quantity": null,
       "pricing_dimension": null,
       "released_at": null,
+      "access_status": "unknown",
+      "access_checked_at": null,
+      "access_evidence": [],
+      "binding_status": "unresolved",
+      "binding_evidence": [],
       "conditional_usage_allowances": [],
       "model_selection": null
     },
@@ -4533,6 +4933,11 @@
       "billing_quantity": null,
       "pricing_dimension": null,
       "released_at": null,
+      "access_status": "unknown",
+      "access_checked_at": null,
+      "access_evidence": [],
+      "binding_status": "unresolved",
+      "binding_evidence": [],
       "conditional_usage_allowances": [],
       "model_selection": null
     },
@@ -4810,6 +5215,29 @@
       "billing_quantity": null,
       "pricing_dimension": null,
       "released_at": "2026-04-24",
+      "access_status": "public",
+      "access_checked_at": "2026-10-07T04:26:40Z",
+      "access_evidence": [
+        {
+          "claimType": "official_access_public",
+          "officialModelId": "deepseek-v4-pro",
+          "scope": "Exact model is an API endpoint with published base URLs and ordinary topped-up/granted balance billing; model table provides positive concurrency limits without model-specific enrollment.",
+          "sourceRef": "source:deepseek:api-docs-deepseek-com-quick_start-pricing",
+          "title": "deepseek-v4-pro official model access documentation",
+          "url": "https://api-docs.deepseek.com/quick_start/pricing"
+        }
+      ],
+      "binding_status": "approved",
+      "binding_evidence": [
+        {
+          "claimType": "official_identity_binding",
+          "officialModelId": "deepseek-v4-pro",
+          "reason": "Exact documented API ID or exact provider/version spelling; no entitlement inherited from billing target.",
+          "sourceRef": "source:deepseek:api-docs-deepseek-com-quick_start-pricing",
+          "title": "deepseek-v4-pro official identity documentation",
+          "url": "https://api-docs.deepseek.com/quick_start/pricing"
+        }
+      ],
       "conditional_usage_allowances": [],
       "model_selection": null
     },
@@ -5016,6 +5444,11 @@
       "billing_quantity": null,
       "pricing_dimension": null,
       "released_at": null,
+      "access_status": "unknown",
+      "access_checked_at": null,
+      "access_evidence": [],
+      "binding_status": "unresolved",
+      "binding_evidence": [],
       "conditional_usage_allowances": [],
       "model_selection": null
     },
@@ -5178,6 +5611,29 @@
       "billing_quantity": null,
       "pricing_dimension": null,
       "released_at": "2025-06-17",
+      "access_status": "existing_users_only",
+      "access_checked_at": "2026-10-07T04:26:40Z",
+      "access_evidence": [
+        {
+          "claimType": "official_access_existing_users_only",
+          "officialModelId": "gemini-2.5-flash",
+          "scope": "Only users who previously actively used this exact model may continue; not all old Google projects.",
+          "sourceRef": "source:google-gemini:ai-google-dev-gemini-api-docs-deprecations",
+          "title": "gemini-2.5-flash official model access documentation",
+          "url": "https://ai.google.dev/gemini-api/docs/deprecations"
+        }
+      ],
+      "binding_status": "approved",
+      "binding_evidence": [
+        {
+          "claimType": "official_identity_binding",
+          "officialModelId": "gemini-2.5-flash",
+          "reason": "Exact documented API ID or exact provider/version spelling; no entitlement inherited from billing target.",
+          "sourceRef": "source:google-gemini:ai-google-dev-gemini-api-docs-deprecations",
+          "title": "gemini-2.5-flash official identity documentation",
+          "url": "https://ai.google.dev/gemini-api/docs/deprecations"
+        }
+      ],
       "conditional_usage_allowances": [],
       "model_selection": null
     },
@@ -6343,6 +6799,29 @@
       "billing_quantity": null,
       "pricing_dimension": null,
       "released_at": "2025-06-17",
+      "access_status": "existing_users_only",
+      "access_checked_at": "2026-10-07T04:26:40Z",
+      "access_evidence": [
+        {
+          "claimType": "official_access_existing_users_only",
+          "officialModelId": "gemini-2.5-pro",
+          "scope": "Only users who previously actively used this exact model may continue; not all old Google projects.",
+          "sourceRef": "source:google-gemini:ai-google-dev-gemini-api-docs-deprecations",
+          "title": "gemini-2.5-pro official model access documentation",
+          "url": "https://ai.google.dev/gemini-api/docs/deprecations"
+        }
+      ],
+      "binding_status": "approved",
+      "binding_evidence": [
+        {
+          "claimType": "official_identity_binding",
+          "officialModelId": "gemini-2.5-pro",
+          "reason": "Exact documented API ID or exact provider/version spelling; no entitlement inherited from billing target.",
+          "sourceRef": "source:google-gemini:ai-google-dev-gemini-api-docs-deprecations",
+          "title": "gemini-2.5-pro official identity documentation",
+          "url": "https://ai.google.dev/gemini-api/docs/deprecations"
+        }
+      ],
       "conditional_usage_allowances": [],
       "model_selection": null
     },
@@ -6453,6 +6932,29 @@
       "billing_quantity": null,
       "pricing_dimension": null,
       "released_at": null,
+      "access_status": "public",
+      "access_checked_at": "2026-10-07T04:26:40Z",
+      "access_evidence": [
+        {
+          "claimType": "official_access_public",
+          "officialModelId": "gemini-3-flash-preview",
+          "scope": "Exact model is listed for ordinary Gemini API access; a public preview stage does not imply private entitlement.",
+          "sourceRef": "source:google-gemini:ai-google-dev-gemini-api-docs-models",
+          "title": "gemini-3-flash-preview official model access documentation",
+          "url": "https://ai.google.dev/gemini-api/docs/models"
+        }
+      ],
+      "binding_status": "approved",
+      "binding_evidence": [
+        {
+          "claimType": "official_identity_binding",
+          "officialModelId": "gemini-3-flash-preview",
+          "reason": "Exact documented API ID or exact provider/version spelling; no entitlement inherited from billing target.",
+          "sourceRef": "source:google-gemini:ai-google-dev-gemini-api-docs-models",
+          "title": "gemini-3-flash-preview official identity documentation",
+          "url": "https://ai.google.dev/gemini-api/docs/models"
+        }
+      ],
       "conditional_usage_allowances": [],
       "model_selection": null
     },
@@ -6615,6 +7117,29 @@
       "billing_quantity": null,
       "pricing_dimension": null,
       "released_at": "2026-03-03",
+      "access_status": "public",
+      "access_checked_at": "2026-10-07T04:26:40Z",
+      "access_evidence": [
+        {
+          "claimType": "official_access_public",
+          "officialModelId": "gemini-3.1-flash-lite",
+          "scope": "Exact model is listed for ordinary Gemini API access; a public preview stage does not imply private entitlement.",
+          "sourceRef": "source:google-gemini:ai-google-dev-gemini-api-docs-models",
+          "title": "gemini-3.1-flash-lite official model access documentation",
+          "url": "https://ai.google.dev/gemini-api/docs/models"
+        }
+      ],
+      "binding_status": "approved",
+      "binding_evidence": [
+        {
+          "claimType": "official_identity_binding",
+          "officialModelId": "gemini-3.1-flash-lite",
+          "reason": "Exact documented API ID or exact provider/version spelling; no entitlement inherited from billing target.",
+          "sourceRef": "source:google-gemini:ai-google-dev-gemini-api-docs-models",
+          "title": "gemini-3.1-flash-lite official identity documentation",
+          "url": "https://ai.google.dev/gemini-api/docs/models"
+        }
+      ],
       "conditional_usage_allowances": [],
       "model_selection": null
     },
@@ -6803,6 +7328,29 @@
       "billing_quantity": null,
       "pricing_dimension": null,
       "released_at": null,
+      "access_status": "public",
+      "access_checked_at": "2026-10-07T04:26:40Z",
+      "access_evidence": [
+        {
+          "claimType": "official_access_public",
+          "officialModelId": "gemini-3.1-pro-preview",
+          "scope": "Exact model is listed for ordinary Gemini API access; a public preview stage does not imply private entitlement.",
+          "sourceRef": "source:google-gemini:ai-google-dev-gemini-api-docs-models",
+          "title": "gemini-3.1-pro-preview official model access documentation",
+          "url": "https://ai.google.dev/gemini-api/docs/models"
+        }
+      ],
+      "binding_status": "approved",
+      "binding_evidence": [
+        {
+          "claimType": "official_identity_binding",
+          "officialModelId": "gemini-3.1-pro-preview",
+          "reason": "Exact documented API ID or exact provider/version spelling; no entitlement inherited from billing target.",
+          "sourceRef": "source:google-gemini:ai-google-dev-gemini-api-docs-models",
+          "title": "gemini-3.1-pro-preview official identity documentation",
+          "url": "https://ai.google.dev/gemini-api/docs/models"
+        }
+      ],
       "conditional_usage_allowances": [],
       "model_selection": null
     },
@@ -6965,6 +7513,29 @@
       "billing_quantity": null,
       "pricing_dimension": null,
       "released_at": "2026-05-19",
+      "access_status": "public",
+      "access_checked_at": "2026-10-07T04:26:40Z",
+      "access_evidence": [
+        {
+          "claimType": "official_access_public",
+          "officialModelId": "gemini-3.5-flash",
+          "scope": "Exact model is listed for ordinary Gemini API access; a public preview stage does not imply private entitlement.",
+          "sourceRef": "source:google-gemini:ai-google-dev-gemini-api-docs-models",
+          "title": "gemini-3.5-flash official model access documentation",
+          "url": "https://ai.google.dev/gemini-api/docs/models"
+        }
+      ],
+      "binding_status": "approved",
+      "binding_evidence": [
+        {
+          "claimType": "official_identity_binding",
+          "officialModelId": "gemini-3.5-flash",
+          "reason": "Exact documented API ID or exact provider/version spelling; no entitlement inherited from billing target.",
+          "sourceRef": "source:google-gemini:ai-google-dev-gemini-api-docs-models",
+          "title": "gemini-3.5-flash official identity documentation",
+          "url": "https://ai.google.dev/gemini-api/docs/models"
+        }
+      ],
       "conditional_usage_allowances": [],
       "model_selection": null
     },
@@ -7127,6 +7698,29 @@
       "billing_quantity": null,
       "pricing_dimension": null,
       "released_at": "2026-07-21",
+      "access_status": "public",
+      "access_checked_at": "2026-10-07T04:26:40Z",
+      "access_evidence": [
+        {
+          "claimType": "official_access_public",
+          "officialModelId": "gemini-3.5-flash-lite",
+          "scope": "Exact model is listed for ordinary Gemini API access; a public preview stage does not imply private entitlement.",
+          "sourceRef": "source:google-gemini:ai-google-dev-gemini-api-docs-models",
+          "title": "gemini-3.5-flash-lite official model access documentation",
+          "url": "https://ai.google.dev/gemini-api/docs/models"
+        }
+      ],
+      "binding_status": "approved",
+      "binding_evidence": [
+        {
+          "claimType": "official_identity_binding",
+          "officialModelId": "gemini-3.5-flash-lite",
+          "reason": "Exact documented API ID or exact provider/version spelling; no entitlement inherited from billing target.",
+          "sourceRef": "source:google-gemini:ai-google-dev-gemini-api-docs-models",
+          "title": "gemini-3.5-flash-lite official identity documentation",
+          "url": "https://ai.google.dev/gemini-api/docs/models"
+        }
+      ],
       "conditional_usage_allowances": [],
       "model_selection": null
     },
@@ -7223,6 +7817,11 @@
       "billing_quantity": null,
       "pricing_dimension": null,
       "released_at": null,
+      "access_status": "unknown",
+      "access_checked_at": null,
+      "access_evidence": [],
+      "binding_status": "unresolved",
+      "binding_evidence": [],
       "conditional_usage_allowances": [],
       "model_selection": null
     },
@@ -7319,6 +7918,11 @@
       "billing_quantity": null,
       "pricing_dimension": null,
       "released_at": null,
+      "access_status": "unknown",
+      "access_checked_at": null,
+      "access_evidence": [],
+      "binding_status": "unresolved",
+      "binding_evidence": [],
       "conditional_usage_allowances": [],
       "model_selection": null
     },
@@ -7711,6 +8315,29 @@
       "billing_quantity": null,
       "pricing_dimension": null,
       "released_at": "2026-07-21",
+      "access_status": "public",
+      "access_checked_at": "2026-10-07T04:26:40Z",
+      "access_evidence": [
+        {
+          "claimType": "official_access_public",
+          "officialModelId": "gemini-3.6-flash",
+          "scope": "Exact model is listed for ordinary Gemini API access; a public preview stage does not imply private entitlement.",
+          "sourceRef": "source:google-gemini:ai-google-dev-gemini-api-docs-models",
+          "title": "gemini-3.6-flash official model access documentation",
+          "url": "https://ai.google.dev/gemini-api/docs/models"
+        }
+      ],
+      "binding_status": "approved",
+      "binding_evidence": [
+        {
+          "claimType": "official_identity_binding",
+          "officialModelId": "gemini-3.6-flash",
+          "reason": "Exact documented API ID or exact provider/version spelling; no entitlement inherited from billing target.",
+          "sourceRef": "source:google-gemini:ai-google-dev-gemini-api-docs-models",
+          "title": "gemini-3.6-flash official identity documentation",
+          "url": "https://ai.google.dev/gemini-api/docs/models"
+        }
+      ],
       "conditional_usage_allowances": [],
       "model_selection": null
     },
@@ -8127,6 +8754,29 @@
       "billing_quantity": null,
       "pricing_dimension": null,
       "released_at": "2026-08-13",
+      "access_status": "public",
+      "access_checked_at": "2026-10-07T04:26:40Z",
+      "access_evidence": [
+        {
+          "claimType": "official_access_public",
+          "officialModelId": "gemini-3.7-flash",
+          "scope": "Exact model is listed for ordinary Gemini API access; a public preview stage does not imply private entitlement.",
+          "sourceRef": "source:google-gemini:ai-google-dev-gemini-api-docs-models",
+          "title": "gemini-3.7-flash official model access documentation",
+          "url": "https://ai.google.dev/gemini-api/docs/models"
+        }
+      ],
+      "binding_status": "approved",
+      "binding_evidence": [
+        {
+          "claimType": "official_identity_binding",
+          "officialModelId": "gemini-3.7-flash",
+          "reason": "Exact documented API ID or exact provider/version spelling; no entitlement inherited from billing target.",
+          "sourceRef": "source:google-gemini:ai-google-dev-gemini-api-docs-models",
+          "title": "gemini-3.7-flash official identity documentation",
+          "url": "https://ai.google.dev/gemini-api/docs/models"
+        }
+      ],
       "conditional_usage_allowances": [],
       "model_selection": null
     },
@@ -8543,6 +9193,29 @@
       "billing_quantity": null,
       "pricing_dimension": null,
       "released_at": "2026-09-02",
+      "access_status": "public",
+      "access_checked_at": "2026-10-07T04:26:40Z",
+      "access_evidence": [
+        {
+          "claimType": "official_access_public",
+          "officialModelId": "gemini-3.8-flash",
+          "scope": "Exact model is listed for ordinary Gemini API access; a public preview stage does not imply private entitlement.",
+          "sourceRef": "source:google-gemini:ai-google-dev-gemini-api-docs-models",
+          "title": "gemini-3.8-flash official model access documentation",
+          "url": "https://ai.google.dev/gemini-api/docs/models"
+        }
+      ],
+      "binding_status": "approved",
+      "binding_evidence": [
+        {
+          "claimType": "official_identity_binding",
+          "officialModelId": "gemini-3.8-flash",
+          "reason": "Exact documented API ID or exact provider/version spelling; no entitlement inherited from billing target.",
+          "sourceRef": "source:google-gemini:ai-google-dev-gemini-api-docs-models",
+          "title": "gemini-3.8-flash official identity documentation",
+          "url": "https://ai.google.dev/gemini-api/docs/models"
+        }
+      ],
       "conditional_usage_allowances": [],
       "model_selection": null
     },
@@ -9855,6 +10528,11 @@
       "billing_quantity": null,
       "pricing_dimension": null,
       "released_at": null,
+      "access_status": "unknown",
+      "access_checked_at": null,
+      "access_evidence": [],
+      "binding_status": "unresolved",
+      "binding_evidence": [],
       "conditional_usage_allowances": [],
       "model_selection": null
     },
@@ -11167,6 +11845,11 @@
       "billing_quantity": null,
       "pricing_dimension": null,
       "released_at": null,
+      "access_status": "unknown",
+      "access_checked_at": null,
+      "access_evidence": [],
+      "binding_status": "unresolved",
+      "binding_evidence": [],
       "conditional_usage_allowances": [],
       "model_selection": null
     },
@@ -11713,6 +12396,29 @@
       "billing_quantity": null,
       "pricing_dimension": null,
       "released_at": null,
+      "access_status": "public",
+      "access_checked_at": "2026-10-07T04:26:40Z",
+      "access_evidence": [
+        {
+          "claimType": "official_access_public",
+          "officialModelId": "gemini-3.8-live",
+          "scope": "Exact model is listed for ordinary Gemini API access; a public preview stage does not imply private entitlement.",
+          "sourceRef": "source:google-gemini:ai-google-dev-gemini-api-docs-models",
+          "title": "gemini-3.8-live official model access documentation",
+          "url": "https://ai.google.dev/gemini-api/docs/models"
+        }
+      ],
+      "binding_status": "approved",
+      "binding_evidence": [
+        {
+          "claimType": "official_identity_binding",
+          "officialModelId": "gemini-3.8-live",
+          "reason": "Exact documented API ID or exact provider/version spelling; no entitlement inherited from billing target.",
+          "sourceRef": "source:google-gemini:ai-google-dev-gemini-api-docs-models",
+          "title": "gemini-3.8-live official identity documentation",
+          "url": "https://ai.google.dev/gemini-api/docs/models"
+        }
+      ],
       "conditional_usage_allowances": [],
       "model_selection": null
     },
@@ -12283,6 +12989,29 @@
       "billing_quantity": null,
       "pricing_dimension": null,
       "released_at": null,
+      "access_status": "public",
+      "access_checked_at": "2026-10-07T04:26:40Z",
+      "access_evidence": [
+        {
+          "claimType": "official_access_public",
+          "officialModelId": "gemini-3.8-live-extended-thinking",
+          "scope": "Exact model is listed for ordinary Gemini API access; a public preview stage does not imply private entitlement.",
+          "sourceRef": "source:google-gemini:ai-google-dev-gemini-api-docs-models",
+          "title": "gemini-3.8-live-extended-thinking official model access documentation",
+          "url": "https://ai.google.dev/gemini-api/docs/models"
+        }
+      ],
+      "binding_status": "approved",
+      "binding_evidence": [
+        {
+          "claimType": "official_identity_binding",
+          "officialModelId": "gemini-3.8-live-extended-thinking",
+          "reason": "Exact documented API ID or exact provider/version spelling; no entitlement inherited from billing target.",
+          "sourceRef": "source:google-gemini:ai-google-dev-gemini-api-docs-models",
+          "title": "gemini-3.8-live-extended-thinking official identity documentation",
+          "url": "https://ai.google.dev/gemini-api/docs/models"
+        }
+      ],
       "conditional_usage_allowances": [],
       "model_selection": null
     },
@@ -12531,6 +13260,37 @@
       "billing_quantity": null,
       "pricing_dimension": null,
       "released_at": "2025-07-30",
+      "access_status": "public",
+      "access_checked_at": "2026-10-07T04:26:40Z",
+      "access_evidence": [
+        {
+          "claimType": "official_access_public",
+          "officialModelId": "codestral-2508",
+          "scope": "Documented hosted API version under ordinary La Plateforme API key requirements; access claim for exact official version does not approve ambiguous local ID binding.",
+          "sourceRef": "source:mistral-ai:docs-mistral-ai-models-codestral-25-08",
+          "title": "codestral-2508 official model access documentation",
+          "url": "https://docs.mistral.ai/models/codestral-25-08"
+        },
+        {
+          "claimType": "official_access_public",
+          "officialModelId": "codestral-2508",
+          "scope": "Documented hosted API version under ordinary La Plateforme API key requirements; access claim for exact official version does not approve ambiguous local ID binding.",
+          "sourceRef": "source:mistral-ai:docs-mistral-ai-getting-started-quickstarts-developer-first-api-request",
+          "title": "mistral-ai ordinary API access requirements",
+          "url": "https://docs.mistral.ai/getting-started/quickstarts/developer/first-api-request"
+        }
+      ],
+      "binding_status": "approved",
+      "binding_evidence": [
+        {
+          "claimType": "official_identity_binding",
+          "officialModelId": "codestral-2508",
+          "reason": "Exact documented API ID or exact provider/version spelling; no entitlement inherited from billing target.",
+          "sourceRef": "source:mistral-ai:docs-mistral-ai-models-codestral-25-08",
+          "title": "codestral-2508 official identity documentation",
+          "url": "https://docs.mistral.ai/models/codestral-25-08"
+        }
+      ],
       "conditional_usage_allowances": [],
       "model_selection": null
     },
@@ -12773,6 +13533,37 @@
       "billing_quantity": null,
       "pricing_dimension": null,
       "released_at": "2025-12-02",
+      "access_status": "public",
+      "access_checked_at": "2026-10-07T04:26:40Z",
+      "access_evidence": [
+        {
+          "claimType": "official_access_public",
+          "officialModelId": "ministral-14b-2512",
+          "scope": "Documented hosted API version under ordinary La Plateforme API key requirements; access claim for exact official version does not approve ambiguous local ID binding.",
+          "sourceRef": "source:mistral-ai:docs-mistral-ai-models-ministral-3-14b-25-12",
+          "title": "ministral-14b-2512 official model access documentation",
+          "url": "https://docs.mistral.ai/models/ministral-3-14b-25-12"
+        },
+        {
+          "claimType": "official_access_public",
+          "officialModelId": "ministral-14b-2512",
+          "scope": "Documented hosted API version under ordinary La Plateforme API key requirements; access claim for exact official version does not approve ambiguous local ID binding.",
+          "sourceRef": "source:mistral-ai:docs-mistral-ai-getting-started-quickstarts-developer-first-api-request",
+          "title": "mistral-ai ordinary API access requirements",
+          "url": "https://docs.mistral.ai/getting-started/quickstarts/developer/first-api-request"
+        }
+      ],
+      "binding_status": "approved",
+      "binding_evidence": [
+        {
+          "claimType": "official_identity_binding",
+          "officialModelId": "ministral-14b-2512",
+          "reason": "Exact documented API ID or exact provider/version spelling; no entitlement inherited from billing target.",
+          "sourceRef": "source:mistral-ai:docs-mistral-ai-models-ministral-3-14b-25-12",
+          "title": "ministral-14b-2512 official identity documentation",
+          "url": "https://docs.mistral.ai/models/ministral-3-14b-25-12"
+        }
+      ],
       "conditional_usage_allowances": [],
       "model_selection": null
     },
@@ -13015,6 +13806,37 @@
       "billing_quantity": null,
       "pricing_dimension": null,
       "released_at": "2025-12-02",
+      "access_status": "public",
+      "access_checked_at": "2026-10-07T04:26:40Z",
+      "access_evidence": [
+        {
+          "claimType": "official_access_public",
+          "officialModelId": "ministral-3b-2512",
+          "scope": "Documented hosted API version under ordinary La Plateforme API key requirements; access claim for exact official version does not approve ambiguous local ID binding.",
+          "sourceRef": "source:mistral-ai:docs-mistral-ai-models-ministral-3-3b-25-12",
+          "title": "ministral-3b-2512 official model access documentation",
+          "url": "https://docs.mistral.ai/models/ministral-3-3b-25-12"
+        },
+        {
+          "claimType": "official_access_public",
+          "officialModelId": "ministral-3b-2512",
+          "scope": "Documented hosted API version under ordinary La Plateforme API key requirements; access claim for exact official version does not approve ambiguous local ID binding.",
+          "sourceRef": "source:mistral-ai:docs-mistral-ai-getting-started-quickstarts-developer-first-api-request",
+          "title": "mistral-ai ordinary API access requirements",
+          "url": "https://docs.mistral.ai/getting-started/quickstarts/developer/first-api-request"
+        }
+      ],
+      "binding_status": "approved",
+      "binding_evidence": [
+        {
+          "claimType": "official_identity_binding",
+          "officialModelId": "ministral-3b-2512",
+          "reason": "Exact documented API ID or exact provider/version spelling; no entitlement inherited from billing target.",
+          "sourceRef": "source:mistral-ai:docs-mistral-ai-models-ministral-3-3b-25-12",
+          "title": "ministral-3b-2512 official identity documentation",
+          "url": "https://docs.mistral.ai/models/ministral-3-3b-25-12"
+        }
+      ],
       "conditional_usage_allowances": [],
       "model_selection": null
     },
@@ -13257,6 +14079,37 @@
       "billing_quantity": null,
       "pricing_dimension": null,
       "released_at": "2025-12-02",
+      "access_status": "public",
+      "access_checked_at": "2026-10-07T04:26:40Z",
+      "access_evidence": [
+        {
+          "claimType": "official_access_public",
+          "officialModelId": "ministral-8b-2512",
+          "scope": "Documented hosted API version under ordinary La Plateforme API key requirements; access claim for exact official version does not approve ambiguous local ID binding.",
+          "sourceRef": "source:mistral-ai:docs-mistral-ai-models-ministral-3-8b-25-12",
+          "title": "ministral-8b-2512 official model access documentation",
+          "url": "https://docs.mistral.ai/models/ministral-3-8b-25-12"
+        },
+        {
+          "claimType": "official_access_public",
+          "officialModelId": "ministral-8b-2512",
+          "scope": "Documented hosted API version under ordinary La Plateforme API key requirements; access claim for exact official version does not approve ambiguous local ID binding.",
+          "sourceRef": "source:mistral-ai:docs-mistral-ai-getting-started-quickstarts-developer-first-api-request",
+          "title": "mistral-ai ordinary API access requirements",
+          "url": "https://docs.mistral.ai/getting-started/quickstarts/developer/first-api-request"
+        }
+      ],
+      "binding_status": "approved",
+      "binding_evidence": [
+        {
+          "claimType": "official_identity_binding",
+          "officialModelId": "ministral-8b-2512",
+          "reason": "Exact documented API ID or exact provider/version spelling; no entitlement inherited from billing target.",
+          "sourceRef": "source:mistral-ai:docs-mistral-ai-models-ministral-3-8b-25-12",
+          "title": "ministral-8b-2512 official identity documentation",
+          "url": "https://docs.mistral.ai/models/ministral-3-8b-25-12"
+        }
+      ],
       "conditional_usage_allowances": [],
       "model_selection": null
     },
@@ -13499,6 +14352,37 @@
       "billing_quantity": null,
       "pricing_dimension": null,
       "released_at": null,
+      "access_status": "public",
+      "access_checked_at": "2026-10-07T04:26:40Z",
+      "access_evidence": [
+        {
+          "claimType": "official_access_public",
+          "officialModelId": "mistral-large-2512",
+          "scope": "Documented hosted API version under ordinary La Plateforme API key requirements; access claim for exact official version does not approve ambiguous local ID binding.",
+          "sourceRef": "source:mistral-ai:docs-mistral-ai-models-mistral-large-3-25-12",
+          "title": "mistral-large-2512 official model access documentation",
+          "url": "https://docs.mistral.ai/models/mistral-large-3-25-12"
+        },
+        {
+          "claimType": "official_access_public",
+          "officialModelId": "mistral-large-2512",
+          "scope": "Documented hosted API version under ordinary La Plateforme API key requirements; access claim for exact official version does not approve ambiguous local ID binding.",
+          "sourceRef": "source:mistral-ai:docs-mistral-ai-getting-started-quickstarts-developer-first-api-request",
+          "title": "mistral-ai ordinary API access requirements",
+          "url": "https://docs.mistral.ai/getting-started/quickstarts/developer/first-api-request"
+        }
+      ],
+      "binding_status": "unresolved",
+      "binding_evidence": [
+        {
+          "claimType": "official_identity_unresolved",
+          "officialModelId": "mistral-large-2512",
+          "reason": "Bare local ID does not select an exact dated Large version; current Large variants must not be inferred.",
+          "sourceRef": "source:mistral-ai:docs-mistral-ai-models-mistral-large-3-25-12",
+          "title": "mistral-large-2512 official identity documentation",
+          "url": "https://docs.mistral.ai/models/mistral-large-3-25-12"
+        }
+      ],
       "conditional_usage_allowances": [],
       "model_selection": null
     },
@@ -13741,6 +14625,37 @@
       "billing_quantity": null,
       "pricing_dimension": null,
       "released_at": "2026-04-28",
+      "access_status": "public",
+      "access_checked_at": "2026-10-07T04:26:40Z",
+      "access_evidence": [
+        {
+          "claimType": "official_access_public",
+          "officialModelId": "mistral-medium-3-5",
+          "scope": "Documented hosted API version under ordinary La Plateforme API key requirements; access claim for exact official version does not approve ambiguous local ID binding.",
+          "sourceRef": "source:mistral-ai:docs-mistral-ai-models-mistral-medium-3-5-26-04",
+          "title": "mistral-medium-3-5 official model access documentation",
+          "url": "https://docs.mistral.ai/models/mistral-medium-3-5-26-04"
+        },
+        {
+          "claimType": "official_access_public",
+          "officialModelId": "mistral-medium-3-5",
+          "scope": "Documented hosted API version under ordinary La Plateforme API key requirements; access claim for exact official version does not approve ambiguous local ID binding.",
+          "sourceRef": "source:mistral-ai:docs-mistral-ai-getting-started-quickstarts-developer-first-api-request",
+          "title": "mistral-ai ordinary API access requirements",
+          "url": "https://docs.mistral.ai/getting-started/quickstarts/developer/first-api-request"
+        }
+      ],
+      "binding_status": "approved",
+      "binding_evidence": [
+        {
+          "claimType": "official_identity_binding",
+          "officialModelId": "mistral-medium-3-5",
+          "reason": "Exact documented API ID or exact provider/version spelling; no entitlement inherited from billing target.",
+          "sourceRef": "source:mistral-ai:docs-mistral-ai-models-mistral-medium-3-5-26-04",
+          "title": "mistral-medium-3-5 official identity documentation",
+          "url": "https://docs.mistral.ai/models/mistral-medium-3-5-26-04"
+        }
+      ],
       "conditional_usage_allowances": [],
       "model_selection": null
     },
@@ -13807,6 +14722,11 @@
       "billing_quantity": 1000,
       "pricing_dimension": "document_page",
       "released_at": null,
+      "access_status": "unknown",
+      "access_checked_at": null,
+      "access_evidence": [],
+      "binding_status": "unresolved",
+      "binding_evidence": [],
       "conditional_usage_allowances": [],
       "model_selection": null
     },
@@ -13873,6 +14793,11 @@
       "billing_quantity": 1000,
       "pricing_dimension": "document_page",
       "released_at": null,
+      "access_status": "unknown",
+      "access_checked_at": null,
+      "access_evidence": [],
+      "binding_status": "unresolved",
+      "binding_evidence": [],
       "conditional_usage_allowances": [],
       "model_selection": null
     },
@@ -14115,6 +15040,37 @@
       "billing_quantity": null,
       "pricing_dimension": null,
       "released_at": "2026-03-16",
+      "access_status": "public",
+      "access_checked_at": "2026-10-07T04:26:40Z",
+      "access_evidence": [
+        {
+          "claimType": "official_access_public",
+          "officialModelId": "mistral-small-2603",
+          "scope": "Documented hosted API version under ordinary La Plateforme API key requirements; access claim for exact official version does not approve ambiguous local ID binding.",
+          "sourceRef": "source:mistral-ai:docs-mistral-ai-models-mistral-small-4-0-26-03",
+          "title": "mistral-small-2603 official model access documentation",
+          "url": "https://docs.mistral.ai/models/mistral-small-4-0-26-03"
+        },
+        {
+          "claimType": "official_access_public",
+          "officialModelId": "mistral-small-2603",
+          "scope": "Documented hosted API version under ordinary La Plateforme API key requirements; access claim for exact official version does not approve ambiguous local ID binding.",
+          "sourceRef": "source:mistral-ai:docs-mistral-ai-getting-started-quickstarts-developer-first-api-request",
+          "title": "mistral-ai ordinary API access requirements",
+          "url": "https://docs.mistral.ai/getting-started/quickstarts/developer/first-api-request"
+        }
+      ],
+      "binding_status": "approved",
+      "binding_evidence": [
+        {
+          "claimType": "official_identity_binding",
+          "officialModelId": "mistral-small-2603",
+          "reason": "Exact documented API ID or exact provider/version spelling; no entitlement inherited from billing target.",
+          "sourceRef": "source:mistral-ai:docs-mistral-ai-models-mistral-small-4-0-26-03",
+          "title": "mistral-small-2603 official identity documentation",
+          "url": "https://docs.mistral.ai/models/mistral-small-4-0-26-03"
+        }
+      ],
       "conditional_usage_allowances": [],
       "model_selection": null
     },
@@ -14399,6 +15355,37 @@
       "billing_quantity": null,
       "pricing_dimension": null,
       "released_at": "2026-04-20",
+      "access_status": "public",
+      "access_checked_at": "2026-10-07T04:26:40Z",
+      "access_evidence": [
+        {
+          "claimType": "official_access_public",
+          "officialModelId": "kimi-k2.6",
+          "scope": "Exact hosted API model under ordinary Kimi platform API key/account requirements.",
+          "sourceRef": "source:moonshot-ai:platform-kimi-ai-docs-models",
+          "title": "kimi-k2.6 official model access documentation",
+          "url": "https://platform.kimi.ai/docs/models"
+        },
+        {
+          "claimType": "official_access_public",
+          "officialModelId": "kimi-k2.6",
+          "scope": "Exact hosted API model under ordinary Kimi platform API key/account requirements.",
+          "sourceRef": "source:moonshot-ai:platform-kimi-ai-docs-overview",
+          "title": "moonshot-ai ordinary API access requirements",
+          "url": "https://platform.kimi.ai/docs/overview"
+        }
+      ],
+      "binding_status": "approved",
+      "binding_evidence": [
+        {
+          "claimType": "official_identity_binding",
+          "officialModelId": "kimi-k2.6",
+          "reason": "Exact documented API ID or exact provider/version spelling; no entitlement inherited from billing target.",
+          "sourceRef": "source:moonshot-ai:platform-kimi-ai-docs-models",
+          "title": "kimi-k2.6 official identity documentation",
+          "url": "https://platform.kimi.ai/docs/models"
+        }
+      ],
       "conditional_usage_allowances": [],
       "model_selection": null
     },
@@ -14809,6 +15796,37 @@
       "billing_quantity": null,
       "pricing_dimension": null,
       "released_at": "2026-06-12",
+      "access_status": "public",
+      "access_checked_at": "2026-10-07T04:26:40Z",
+      "access_evidence": [
+        {
+          "claimType": "official_access_public",
+          "officialModelId": "kimi-k2.7-code",
+          "scope": "Exact hosted API model under ordinary Kimi platform API key/account requirements.",
+          "sourceRef": "source:moonshot-ai:platform-kimi-ai-docs-models",
+          "title": "kimi-k2.7-code official model access documentation",
+          "url": "https://platform.kimi.ai/docs/models"
+        },
+        {
+          "claimType": "official_access_public",
+          "officialModelId": "kimi-k2.7-code",
+          "scope": "Exact hosted API model under ordinary Kimi platform API key/account requirements.",
+          "sourceRef": "source:moonshot-ai:platform-kimi-ai-docs-overview",
+          "title": "moonshot-ai ordinary API access requirements",
+          "url": "https://platform.kimi.ai/docs/overview"
+        }
+      ],
+      "binding_status": "approved",
+      "binding_evidence": [
+        {
+          "claimType": "official_identity_binding",
+          "officialModelId": "kimi-k2.7-code",
+          "reason": "Exact documented API ID or exact provider/version spelling; no entitlement inherited from billing target.",
+          "sourceRef": "source:moonshot-ai:platform-kimi-ai-docs-models",
+          "title": "kimi-k2.7-code official identity documentation",
+          "url": "https://platform.kimi.ai/docs/models"
+        }
+      ],
       "conditional_usage_allowances": [],
       "model_selection": null
     },
@@ -15061,6 +16079,37 @@
       "billing_quantity": null,
       "pricing_dimension": null,
       "released_at": "2026-07-16",
+      "access_status": "public",
+      "access_checked_at": "2026-10-07T04:26:40Z",
+      "access_evidence": [
+        {
+          "claimType": "official_access_public",
+          "officialModelId": "kimi-k3",
+          "scope": "Exact hosted API model under ordinary Kimi platform API key/account requirements.",
+          "sourceRef": "source:moonshot-ai:platform-kimi-ai-docs-models",
+          "title": "kimi-k3 official model access documentation",
+          "url": "https://platform.kimi.ai/docs/models"
+        },
+        {
+          "claimType": "official_access_public",
+          "officialModelId": "kimi-k3",
+          "scope": "Exact hosted API model under ordinary Kimi platform API key/account requirements.",
+          "sourceRef": "source:moonshot-ai:platform-kimi-ai-docs-overview",
+          "title": "moonshot-ai ordinary API access requirements",
+          "url": "https://platform.kimi.ai/docs/overview"
+        }
+      ],
+      "binding_status": "approved",
+      "binding_evidence": [
+        {
+          "claimType": "official_identity_binding",
+          "officialModelId": "kimi-k3",
+          "reason": "Exact documented API ID or exact provider/version spelling; no entitlement inherited from billing target.",
+          "sourceRef": "source:moonshot-ai:platform-kimi-ai-docs-models",
+          "title": "kimi-k3 official identity documentation",
+          "url": "https://platform.kimi.ai/docs/models"
+        }
+      ],
       "conditional_usage_allowances": [],
       "model_selection": null
     },
@@ -15171,6 +16220,29 @@
       "billing_quantity": null,
       "pricing_dimension": null,
       "released_at": null,
+      "access_status": "public",
+      "access_checked_at": "2026-10-07T04:26:40Z",
+      "access_evidence": [
+        {
+          "claimType": "official_access_public",
+          "officialModelId": "chat-latest",
+          "scope": "Documented API endpoint with positive ordinary paid API usage tiers; account verification and standard tier limits are ordinary account requirements.",
+          "sourceRef": "source:openai:developers-openai-com-api-docs-models-chat-latest",
+          "title": "chat-latest official model access documentation",
+          "url": "https://developers.openai.com/api/docs/models/chat-latest"
+        }
+      ],
+      "binding_status": "unresolved",
+      "binding_evidence": [
+        {
+          "claimType": "official_identity_unresolved",
+          "officialModelId": "chat-latest",
+          "reason": "Local compatibility ID differs from documented chat-latest; no explicit same-entitlement mapping verified.",
+          "sourceRef": "source:openai:developers-openai-com-api-docs-models-chat-latest",
+          "title": "chat-latest official identity documentation",
+          "url": "https://developers.openai.com/api/docs/models/chat-latest"
+        }
+      ],
       "conditional_usage_allowances": [],
       "model_selection": null
     },
@@ -15202,6 +16274,11 @@
       "billing_quantity": null,
       "pricing_dimension": null,
       "released_at": null,
+      "access_status": "unknown",
+      "access_checked_at": null,
+      "access_evidence": [],
+      "binding_status": "unresolved",
+      "binding_evidence": [],
       "conditional_usage_allowances": [],
       "model_selection": null
     },
@@ -15233,6 +16310,11 @@
       "billing_quantity": null,
       "pricing_dimension": null,
       "released_at": null,
+      "access_status": "unknown",
+      "access_checked_at": null,
+      "access_evidence": [],
+      "binding_status": "unresolved",
+      "binding_evidence": [],
       "conditional_usage_allowances": [],
       "model_selection": null
     },
@@ -15264,6 +16346,11 @@
       "billing_quantity": null,
       "pricing_dimension": null,
       "released_at": null,
+      "access_status": "unknown",
+      "access_checked_at": null,
+      "access_evidence": [],
+      "binding_status": "unresolved",
+      "binding_evidence": [],
       "conditional_usage_allowances": [],
       "model_selection": null
     },
@@ -15530,6 +16617,29 @@
       "billing_quantity": null,
       "pricing_dimension": null,
       "released_at": "2026-02-24",
+      "access_status": "public",
+      "access_checked_at": "2026-10-07T04:26:40Z",
+      "access_evidence": [
+        {
+          "claimType": "official_access_public",
+          "officialModelId": "gpt-5.3-codex",
+          "scope": "Documented API endpoint with positive ordinary paid API usage tiers; account verification and standard tier limits are ordinary account requirements.",
+          "sourceRef": "source:openai:developers-openai-com-api-docs-models-gpt-5-3-codex",
+          "title": "gpt-5.3-codex official model access documentation",
+          "url": "https://developers.openai.com/api/docs/models/gpt-5.3-codex"
+        }
+      ],
+      "binding_status": "approved",
+      "binding_evidence": [
+        {
+          "claimType": "official_identity_binding",
+          "officialModelId": "gpt-5.3-codex",
+          "reason": "Exact documented API ID or exact provider/version spelling; no entitlement inherited from billing target.",
+          "sourceRef": "source:openai:developers-openai-com-api-docs-models-gpt-5-3-codex",
+          "title": "gpt-5.3-codex official identity documentation",
+          "url": "https://developers.openai.com/api/docs/models/gpt-5.3-codex"
+        }
+      ],
       "conditional_usage_allowances": [],
       "model_selection": null
     },
@@ -15692,6 +16802,29 @@
       "billing_quantity": null,
       "pricing_dimension": null,
       "released_at": "2026-03-05",
+      "access_status": "public",
+      "access_checked_at": "2026-10-07T04:26:40Z",
+      "access_evidence": [
+        {
+          "claimType": "official_access_public",
+          "officialModelId": "gpt-5.4",
+          "scope": "Documented API endpoint with positive ordinary paid API usage tiers; account verification and standard tier limits are ordinary account requirements.",
+          "sourceRef": "source:openai:developers-openai-com-api-docs-models-gpt-5-4",
+          "title": "gpt-5.4 official model access documentation",
+          "url": "https://developers.openai.com/api/docs/models/gpt-5.4"
+        }
+      ],
+      "binding_status": "approved",
+      "binding_evidence": [
+        {
+          "claimType": "official_identity_binding",
+          "officialModelId": "gpt-5.4",
+          "reason": "Exact documented API ID or exact provider/version spelling; no entitlement inherited from billing target.",
+          "sourceRef": "source:openai:developers-openai-com-api-docs-models-gpt-5-4",
+          "title": "gpt-5.4 official identity documentation",
+          "url": "https://developers.openai.com/api/docs/models/gpt-5.4"
+        }
+      ],
       "conditional_usage_allowances": [],
       "model_selection": null
     },
@@ -15918,6 +17051,29 @@
       "billing_quantity": null,
       "pricing_dimension": null,
       "released_at": "2026-03-17",
+      "access_status": "public",
+      "access_checked_at": "2026-10-07T04:26:40Z",
+      "access_evidence": [
+        {
+          "claimType": "official_access_public",
+          "officialModelId": "gpt-5.4-mini",
+          "scope": "Documented API endpoint with positive ordinary paid API usage tiers; account verification and standard tier limits are ordinary account requirements.",
+          "sourceRef": "source:openai:developers-openai-com-api-docs-models-gpt-5-4-mini",
+          "title": "gpt-5.4-mini official model access documentation",
+          "url": "https://developers.openai.com/api/docs/models/gpt-5.4-mini"
+        }
+      ],
+      "binding_status": "approved",
+      "binding_evidence": [
+        {
+          "claimType": "official_identity_binding",
+          "officialModelId": "gpt-5.4-mini",
+          "reason": "Exact documented API ID or exact provider/version spelling; no entitlement inherited from billing target.",
+          "sourceRef": "source:openai:developers-openai-com-api-docs-models-gpt-5-4-mini",
+          "title": "gpt-5.4-mini official identity documentation",
+          "url": "https://developers.openai.com/api/docs/models/gpt-5.4-mini"
+        }
+      ],
       "conditional_usage_allowances": [],
       "model_selection": null
     },
@@ -16100,6 +17256,11 @@
       "billing_quantity": null,
       "pricing_dimension": null,
       "released_at": "2026-03-17",
+      "access_status": "unknown",
+      "access_checked_at": null,
+      "access_evidence": [],
+      "binding_status": "unresolved",
+      "binding_evidence": [],
       "conditional_usage_allowances": [],
       "model_selection": null
     },
@@ -16236,6 +17397,29 @@
       "billing_quantity": null,
       "pricing_dimension": null,
       "released_at": "2026-03-05",
+      "access_status": "public",
+      "access_checked_at": "2026-10-07T04:26:40Z",
+      "access_evidence": [
+        {
+          "claimType": "official_access_public",
+          "officialModelId": "gpt-5.4-pro",
+          "scope": "Documented API endpoint with positive ordinary paid API usage tiers; account verification and standard tier limits are ordinary account requirements.",
+          "sourceRef": "source:openai:developers-openai-com-api-docs-models-gpt-5-4-pro",
+          "title": "gpt-5.4-pro official model access documentation",
+          "url": "https://developers.openai.com/api/docs/models/gpt-5.4-pro"
+        }
+      ],
+      "binding_status": "approved",
+      "binding_evidence": [
+        {
+          "claimType": "official_identity_binding",
+          "officialModelId": "gpt-5.4-pro",
+          "reason": "Exact documented API ID or exact provider/version spelling; no entitlement inherited from billing target.",
+          "sourceRef": "source:openai:developers-openai-com-api-docs-models-gpt-5-4-pro",
+          "title": "gpt-5.4-pro official identity documentation",
+          "url": "https://developers.openai.com/api/docs/models/gpt-5.4-pro"
+        }
+      ],
       "conditional_usage_allowances": [],
       "model_selection": null
     },
@@ -17155,6 +18339,29 @@
       "billing_quantity": null,
       "pricing_dimension": null,
       "released_at": "2026-04-24",
+      "access_status": "public",
+      "access_checked_at": "2026-10-07T04:26:40Z",
+      "access_evidence": [
+        {
+          "claimType": "official_access_public",
+          "officialModelId": "gpt-5.5",
+          "scope": "Documented API endpoint with positive ordinary paid API usage tiers; account verification and standard tier limits are ordinary account requirements.",
+          "sourceRef": "source:openai:developers-openai-com-api-docs-models-gpt-5-5",
+          "title": "gpt-5.5 official model access documentation",
+          "url": "https://developers.openai.com/api/docs/models/gpt-5.5"
+        }
+      ],
+      "binding_status": "approved",
+      "binding_evidence": [
+        {
+          "claimType": "official_identity_binding",
+          "officialModelId": "gpt-5.5",
+          "reason": "Exact documented API ID or exact provider/version spelling; no entitlement inherited from billing target.",
+          "sourceRef": "source:openai:developers-openai-com-api-docs-models-gpt-5-5",
+          "title": "gpt-5.5 official identity documentation",
+          "url": "https://developers.openai.com/api/docs/models/gpt-5.5"
+        }
+      ],
       "conditional_usage_allowances": [],
       "model_selection": null
     },
@@ -17291,6 +18498,29 @@
       "billing_quantity": null,
       "pricing_dimension": null,
       "released_at": "2026-04-24",
+      "access_status": "public",
+      "access_checked_at": "2026-10-07T04:26:40Z",
+      "access_evidence": [
+        {
+          "claimType": "official_access_public",
+          "officialModelId": "gpt-5.5-pro",
+          "scope": "Documented API endpoint with positive ordinary paid API usage tiers; account verification and standard tier limits are ordinary account requirements.",
+          "sourceRef": "source:openai:developers-openai-com-api-docs-models-gpt-5-5-pro",
+          "title": "gpt-5.5-pro official model access documentation",
+          "url": "https://developers.openai.com/api/docs/models/gpt-5.5-pro"
+        }
+      ],
+      "binding_status": "approved",
+      "binding_evidence": [
+        {
+          "claimType": "official_identity_binding",
+          "officialModelId": "gpt-5.5-pro",
+          "reason": "Exact documented API ID or exact provider/version spelling; no entitlement inherited from billing target.",
+          "sourceRef": "source:openai:developers-openai-com-api-docs-models-gpt-5-5-pro",
+          "title": "gpt-5.5-pro official identity documentation",
+          "url": "https://developers.openai.com/api/docs/models/gpt-5.5-pro"
+        }
+      ],
       "conditional_usage_allowances": [],
       "model_selection": null
     },
@@ -18864,6 +20094,29 @@
       "billing_quantity": null,
       "pricing_dimension": null,
       "released_at": "2026-07-09",
+      "access_status": "public",
+      "access_checked_at": "2026-10-07T04:26:40Z",
+      "access_evidence": [
+        {
+          "claimType": "official_access_public",
+          "officialModelId": "gpt-5.6-luna",
+          "scope": "Documented API endpoint with positive ordinary paid API usage tiers; account verification and standard tier limits are ordinary account requirements.",
+          "sourceRef": "source:openai:developers-openai-com-api-docs-models-gpt-5-6-luna",
+          "title": "gpt-5.6-luna official model access documentation",
+          "url": "https://developers.openai.com/api/docs/models/gpt-5.6-luna"
+        }
+      ],
+      "binding_status": "approved",
+      "binding_evidence": [
+        {
+          "claimType": "official_identity_binding",
+          "officialModelId": "gpt-5.6-luna",
+          "reason": "Exact documented API ID or exact provider/version spelling; no entitlement inherited from billing target.",
+          "sourceRef": "source:openai:developers-openai-com-api-docs-models-gpt-5-6-luna",
+          "title": "gpt-5.6-luna official identity documentation",
+          "url": "https://developers.openai.com/api/docs/models/gpt-5.6-luna"
+        }
+      ],
       "conditional_usage_allowances": [],
       "model_selection": null
     },
@@ -20437,6 +21690,29 @@
       "billing_quantity": null,
       "pricing_dimension": null,
       "released_at": "2026-07-09",
+      "access_status": "public",
+      "access_checked_at": "2026-10-07T04:26:40Z",
+      "access_evidence": [
+        {
+          "claimType": "official_access_public",
+          "officialModelId": "gpt-5.6-sol",
+          "scope": "Documented API endpoint with positive ordinary paid API usage tiers; account verification and standard tier limits are ordinary account requirements.",
+          "sourceRef": "source:openai:developers-openai-com-api-docs-models-gpt-5-6-sol",
+          "title": "gpt-5.6-sol official model access documentation",
+          "url": "https://developers.openai.com/api/docs/models/gpt-5.6-sol"
+        }
+      ],
+      "binding_status": "approved",
+      "binding_evidence": [
+        {
+          "claimType": "official_identity_binding",
+          "officialModelId": "gpt-5.6-sol",
+          "reason": "Exact documented API ID or exact provider/version spelling; no entitlement inherited from billing target.",
+          "sourceRef": "source:openai:developers-openai-com-api-docs-models-gpt-5-6-sol",
+          "title": "gpt-5.6-sol official identity documentation",
+          "url": "https://developers.openai.com/api/docs/models/gpt-5.6-sol"
+        }
+      ],
       "conditional_usage_allowances": [],
       "model_selection": null
     },
@@ -22010,6 +23286,29 @@
       "billing_quantity": null,
       "pricing_dimension": null,
       "released_at": "2026-07-09",
+      "access_status": "public",
+      "access_checked_at": "2026-10-07T04:26:40Z",
+      "access_evidence": [
+        {
+          "claimType": "official_access_public",
+          "officialModelId": "gpt-5.6-terra",
+          "scope": "Documented API endpoint with positive ordinary paid API usage tiers; account verification and standard tier limits are ordinary account requirements.",
+          "sourceRef": "source:openai:developers-openai-com-api-docs-models-gpt-5-6-terra",
+          "title": "gpt-5.6-terra official model access documentation",
+          "url": "https://developers.openai.com/api/docs/models/gpt-5.6-terra"
+        }
+      ],
+      "binding_status": "approved",
+      "binding_evidence": [
+        {
+          "claimType": "official_identity_binding",
+          "officialModelId": "gpt-5.6-terra",
+          "reason": "Exact documented API ID or exact provider/version spelling; no entitlement inherited from billing target.",
+          "sourceRef": "source:openai:developers-openai-com-api-docs-models-gpt-5-6-terra",
+          "title": "gpt-5.6-terra official identity documentation",
+          "url": "https://developers.openai.com/api/docs/models/gpt-5.6-terra"
+        }
+      ],
       "conditional_usage_allowances": [],
       "model_selection": null
     },
@@ -24223,6 +25522,29 @@
       "billing_quantity": null,
       "pricing_dimension": null,
       "released_at": "2026-09-03",
+      "access_status": "public",
+      "access_checked_at": "2026-10-07T04:26:40Z",
+      "access_evidence": [
+        {
+          "claimType": "official_access_public",
+          "officialModelId": "gpt-6-astra",
+          "scope": "Documented API endpoint with positive ordinary paid API usage tiers; account verification and standard tier limits are ordinary account requirements.",
+          "sourceRef": "source:openai:developers-openai-com-api-docs-models-gpt-6-astra",
+          "title": "gpt-6-astra official model access documentation",
+          "url": "https://developers.openai.com/api/docs/models/gpt-6-astra"
+        }
+      ],
+      "binding_status": "approved",
+      "binding_evidence": [
+        {
+          "claimType": "official_identity_binding",
+          "officialModelId": "gpt-6-astra",
+          "reason": "Exact documented API ID or exact provider/version spelling; no entitlement inherited from billing target.",
+          "sourceRef": "source:openai:developers-openai-com-api-docs-models-gpt-6-astra",
+          "title": "gpt-6-astra official identity documentation",
+          "url": "https://developers.openai.com/api/docs/models/gpt-6-astra"
+        }
+      ],
       "conditional_usage_allowances": [],
       "model_selection": null
     },
@@ -26628,6 +27950,29 @@
       "billing_quantity": null,
       "pricing_dimension": null,
       "released_at": "2026-09-22",
+      "access_status": "public",
+      "access_checked_at": "2026-10-07T04:26:40Z",
+      "access_evidence": [
+        {
+          "claimType": "official_access_public",
+          "officialModelId": "gpt-6-luna",
+          "scope": "Documented API endpoint with positive ordinary paid API usage tiers; account verification and standard tier limits are ordinary account requirements.",
+          "sourceRef": "source:openai:developers-openai-com-api-docs-models-gpt-6-luna",
+          "title": "gpt-6-luna official model access documentation",
+          "url": "https://developers.openai.com/api/docs/models/gpt-6-luna"
+        }
+      ],
+      "binding_status": "approved",
+      "binding_evidence": [
+        {
+          "claimType": "official_identity_binding",
+          "officialModelId": "gpt-6-luna",
+          "reason": "Exact documented API ID or exact provider/version spelling; no entitlement inherited from billing target.",
+          "sourceRef": "source:openai:developers-openai-com-api-docs-models-gpt-6-luna",
+          "title": "gpt-6-luna official identity documentation",
+          "url": "https://developers.openai.com/api/docs/models/gpt-6-luna"
+        }
+      ],
       "conditional_usage_allowances": [],
       "model_selection": null
     },
@@ -29033,6 +30378,29 @@
       "billing_quantity": null,
       "pricing_dimension": null,
       "released_at": "2026-09-22",
+      "access_status": "public",
+      "access_checked_at": "2026-10-07T04:26:40Z",
+      "access_evidence": [
+        {
+          "claimType": "official_access_public",
+          "officialModelId": "gpt-6-sol",
+          "scope": "Documented API endpoint with positive ordinary paid API usage tiers; account verification and standard tier limits are ordinary account requirements.",
+          "sourceRef": "source:openai:developers-openai-com-api-docs-models-gpt-6-sol",
+          "title": "gpt-6-sol official model access documentation",
+          "url": "https://developers.openai.com/api/docs/models/gpt-6-sol"
+        }
+      ],
+      "binding_status": "approved",
+      "binding_evidence": [
+        {
+          "claimType": "official_identity_binding",
+          "officialModelId": "gpt-6-sol",
+          "reason": "Exact documented API ID or exact provider/version spelling; no entitlement inherited from billing target.",
+          "sourceRef": "source:openai:developers-openai-com-api-docs-models-gpt-6-sol",
+          "title": "gpt-6-sol official identity documentation",
+          "url": "https://developers.openai.com/api/docs/models/gpt-6-sol"
+        }
+      ],
       "conditional_usage_allowances": [],
       "model_selection": null
     },
@@ -31246,6 +32614,29 @@
       "billing_quantity": null,
       "pricing_dimension": null,
       "released_at": "2026-09-29",
+      "access_status": "public",
+      "access_checked_at": "2026-10-07T04:26:40Z",
+      "access_evidence": [
+        {
+          "claimType": "official_access_public",
+          "officialModelId": "gpt-6.1-sol",
+          "scope": "Documented API endpoint with positive ordinary paid API usage tiers; account verification and standard tier limits are ordinary account requirements.",
+          "sourceRef": "source:openai:developers-openai-com-api-docs-models-gpt-6-1-sol",
+          "title": "gpt-6.1-sol official model access documentation",
+          "url": "https://developers.openai.com/api/docs/models/gpt-6.1-sol"
+        }
+      ],
+      "binding_status": "approved",
+      "binding_evidence": [
+        {
+          "claimType": "official_identity_binding",
+          "officialModelId": "gpt-6.1-sol",
+          "reason": "Exact documented API ID or exact provider/version spelling; no entitlement inherited from billing target.",
+          "sourceRef": "source:openai:developers-openai-com-api-docs-models-gpt-6-1-sol",
+          "title": "gpt-6.1-sol official identity documentation",
+          "url": "https://developers.openai.com/api/docs/models/gpt-6.1-sol"
+        }
+      ],
       "conditional_usage_allowances": [],
       "model_selection": null
     },
@@ -31320,6 +32711,11 @@
       "billing_quantity": 1,
       "pricing_dimension": "session_duration",
       "released_at": null,
+      "access_status": "unknown",
+      "access_checked_at": null,
+      "access_evidence": [],
+      "binding_status": "unresolved",
+      "binding_evidence": [],
       "conditional_usage_allowances": [],
       "model_selection": null
     },
@@ -32246,6 +33642,11 @@
       "billing_quantity": null,
       "pricing_dimension": null,
       "released_at": null,
+      "access_status": "unknown",
+      "access_checked_at": null,
+      "access_evidence": [],
+      "binding_status": "unresolved",
+      "binding_evidence": [],
       "conditional_usage_allowances": [],
       "model_selection": null
     },
@@ -32871,6 +34272,29 @@
       "billing_quantity": null,
       "pricing_dimension": null,
       "released_at": "2026-03-10",
+      "access_status": "public",
+      "access_checked_at": "2026-10-07T04:26:40Z",
+      "access_evidence": [
+        {
+          "claimType": "official_access_public",
+          "officialModelId": "grok-4.20-0309-non-reasoning",
+          "scope": "Exact API model has a positive ordinary Tier 0 rate limit; Grok Build is currently public beta, not historical early access.",
+          "sourceRef": "source:xai:docs-x-ai-developers-rate-limits",
+          "title": "grok-4.20-0309-non-reasoning official model access documentation",
+          "url": "https://docs.x.ai/developers/rate-limits"
+        }
+      ],
+      "binding_status": "approved",
+      "binding_evidence": [
+        {
+          "claimType": "official_identity_binding",
+          "officialModelId": "grok-4.20-0309-non-reasoning",
+          "reason": "Exact documented API ID or exact provider/version spelling; no entitlement inherited from billing target.",
+          "sourceRef": "source:xai:docs-x-ai-developers-rate-limits",
+          "title": "grok-4.20-0309-non-reasoning official identity documentation",
+          "url": "https://docs.x.ai/developers/rate-limits"
+        }
+      ],
       "conditional_usage_allowances": [],
       "model_selection": null
     },
@@ -33496,6 +34920,29 @@
       "billing_quantity": null,
       "pricing_dimension": null,
       "released_at": "2026-03-10",
+      "access_status": "public",
+      "access_checked_at": "2026-10-07T04:26:40Z",
+      "access_evidence": [
+        {
+          "claimType": "official_access_public",
+          "officialModelId": "grok-4.20-0309-reasoning",
+          "scope": "Exact API model has a positive ordinary Tier 0 rate limit; Grok Build is currently public beta, not historical early access.",
+          "sourceRef": "source:xai:docs-x-ai-developers-rate-limits",
+          "title": "grok-4.20-0309-reasoning official model access documentation",
+          "url": "https://docs.x.ai/developers/rate-limits"
+        }
+      ],
+      "binding_status": "approved",
+      "binding_evidence": [
+        {
+          "claimType": "official_identity_binding",
+          "officialModelId": "grok-4.20-0309-reasoning",
+          "reason": "Exact documented API ID or exact provider/version spelling; no entitlement inherited from billing target.",
+          "sourceRef": "source:xai:docs-x-ai-developers-rate-limits",
+          "title": "grok-4.20-0309-reasoning official identity documentation",
+          "url": "https://docs.x.ai/developers/rate-limits"
+        }
+      ],
       "conditional_usage_allowances": [],
       "model_selection": null
     },
@@ -34121,6 +35568,29 @@
       "billing_quantity": null,
       "pricing_dimension": null,
       "released_at": "2026-03-10",
+      "access_status": "public",
+      "access_checked_at": "2026-10-07T04:26:40Z",
+      "access_evidence": [
+        {
+          "claimType": "official_access_public",
+          "officialModelId": "grok-4.20-multi-agent-0309",
+          "scope": "Exact API model has a positive ordinary Tier 0 rate limit; Grok Build is currently public beta, not historical early access.",
+          "sourceRef": "source:xai:docs-x-ai-developers-rate-limits",
+          "title": "grok-4.20-multi-agent-0309 official model access documentation",
+          "url": "https://docs.x.ai/developers/rate-limits"
+        }
+      ],
+      "binding_status": "approved",
+      "binding_evidence": [
+        {
+          "claimType": "official_identity_binding",
+          "officialModelId": "grok-4.20-multi-agent-0309",
+          "reason": "Exact documented API ID or exact provider/version spelling; no entitlement inherited from billing target.",
+          "sourceRef": "source:xai:docs-x-ai-developers-rate-limits",
+          "title": "grok-4.20-multi-agent-0309 official identity documentation",
+          "url": "https://docs.x.ai/developers/rate-limits"
+        }
+      ],
       "conditional_usage_allowances": [],
       "model_selection": null
     },
@@ -35104,6 +36574,29 @@
       "billing_quantity": null,
       "pricing_dimension": null,
       "released_at": null,
+      "access_status": "public",
+      "access_checked_at": "2026-10-07T04:26:40Z",
+      "access_evidence": [
+        {
+          "claimType": "official_access_public",
+          "officialModelId": "grok-4.3",
+          "scope": "Exact API model has a positive ordinary Tier 0 rate limit; Grok Build is currently public beta, not historical early access.",
+          "sourceRef": "source:xai:docs-x-ai-developers-rate-limits",
+          "title": "grok-4.3 official model access documentation",
+          "url": "https://docs.x.ai/developers/rate-limits"
+        }
+      ],
+      "binding_status": "approved",
+      "binding_evidence": [
+        {
+          "claimType": "official_identity_binding",
+          "officialModelId": "grok-4.3",
+          "reason": "Exact documented API ID or exact provider/version spelling; no entitlement inherited from billing target.",
+          "sourceRef": "source:xai:docs-x-ai-developers-rate-limits",
+          "title": "grok-4.3 official identity documentation",
+          "url": "https://docs.x.ai/developers/rate-limits"
+        }
+      ],
       "conditional_usage_allowances": [],
       "model_selection": null
     },
@@ -35473,6 +36966,29 @@
       "billing_quantity": null,
       "pricing_dimension": null,
       "released_at": "2026-07-08",
+      "access_status": "public",
+      "access_checked_at": "2026-10-07T04:26:40Z",
+      "access_evidence": [
+        {
+          "claimType": "official_access_public",
+          "officialModelId": "grok-4.5",
+          "scope": "Exact API model has a positive ordinary Tier 0 rate limit; Grok Build is currently public beta, not historical early access.",
+          "sourceRef": "source:xai:docs-x-ai-developers-rate-limits",
+          "title": "grok-4.5 official model access documentation",
+          "url": "https://docs.x.ai/developers/rate-limits"
+        }
+      ],
+      "binding_status": "approved",
+      "binding_evidence": [
+        {
+          "claimType": "official_identity_binding",
+          "officialModelId": "grok-4.5",
+          "reason": "Exact documented API ID or exact provider/version spelling; no entitlement inherited from billing target.",
+          "sourceRef": "source:xai:docs-x-ai-developers-rate-limits",
+          "title": "grok-4.5 official identity documentation",
+          "url": "https://docs.x.ai/developers/rate-limits"
+        }
+      ],
       "conditional_usage_allowances": [],
       "model_selection": null
     },
@@ -35784,6 +37300,29 @@
       "billing_quantity": null,
       "pricing_dimension": null,
       "released_at": "2026-08-12",
+      "access_status": "public",
+      "access_checked_at": "2026-10-07T04:26:40Z",
+      "access_evidence": [
+        {
+          "claimType": "official_access_public",
+          "officialModelId": "grok-4.6",
+          "scope": "Exact API model has a positive ordinary Tier 0 rate limit; Grok Build is currently public beta, not historical early access.",
+          "sourceRef": "source:xai:docs-x-ai-developers-rate-limits",
+          "title": "grok-4.6 official model access documentation",
+          "url": "https://docs.x.ai/developers/rate-limits"
+        }
+      ],
+      "binding_status": "approved",
+      "binding_evidence": [
+        {
+          "claimType": "official_identity_binding",
+          "officialModelId": "grok-4.6",
+          "reason": "Exact documented API ID or exact provider/version spelling; no entitlement inherited from billing target.",
+          "sourceRef": "source:xai:docs-x-ai-developers-rate-limits",
+          "title": "grok-4.6 official identity documentation",
+          "url": "https://docs.x.ai/developers/rate-limits"
+        }
+      ],
       "conditional_usage_allowances": [],
       "model_selection": null
     },
@@ -36269,6 +37808,29 @@
       "billing_quantity": null,
       "pricing_dimension": null,
       "released_at": "2026-09-21",
+      "access_status": "public",
+      "access_checked_at": "2026-10-07T04:26:40Z",
+      "access_evidence": [
+        {
+          "claimType": "official_access_public",
+          "officialModelId": "grok-4.7",
+          "scope": "Exact API model has a positive ordinary Tier 0 rate limit; Grok Build is currently public beta, not historical early access.",
+          "sourceRef": "source:xai:docs-x-ai-developers-rate-limits",
+          "title": "grok-4.7 official model access documentation",
+          "url": "https://docs.x.ai/developers/rate-limits"
+        }
+      ],
+      "binding_status": "approved",
+      "binding_evidence": [
+        {
+          "claimType": "official_identity_binding",
+          "officialModelId": "grok-4.7",
+          "reason": "Exact documented API ID or exact provider/version spelling; no entitlement inherited from billing target.",
+          "sourceRef": "source:xai:docs-x-ai-developers-rate-limits",
+          "title": "grok-4.7 official identity documentation",
+          "url": "https://docs.x.ai/developers/rate-limits"
+        }
+      ],
       "conditional_usage_allowances": [],
       "model_selection": null
     },
@@ -36538,6 +38100,37 @@
       "billing_quantity": null,
       "pricing_dimension": null,
       "released_at": null,
+      "access_status": "public",
+      "access_checked_at": "2026-10-07T04:26:40Z",
+      "access_evidence": [
+        {
+          "claimType": "official_access_public",
+          "officialModelId": "grok-build-0.1",
+          "scope": "Exact API model has a positive ordinary Tier 0 rate limit; Grok Build is currently public beta, not historical early access.",
+          "sourceRef": "source:xai:docs-x-ai-developers-rate-limits",
+          "title": "grok-build-0.1 official model access documentation",
+          "url": "https://docs.x.ai/developers/rate-limits"
+        },
+        {
+          "claimType": "official_access_public",
+          "officialModelId": "grok-build-0.1",
+          "scope": "Exact API model has a positive ordinary Tier 0 rate limit; Grok Build is currently public beta, not historical early access.",
+          "sourceRef": "source:xai:docs-x-ai-developers-models-grok-build-0-1",
+          "title": "xai ordinary API access requirements",
+          "url": "https://docs.x.ai/developers/models/grok-build-0.1"
+        }
+      ],
+      "binding_status": "approved",
+      "binding_evidence": [
+        {
+          "claimType": "official_identity_binding",
+          "officialModelId": "grok-build-0.1",
+          "reason": "Exact documented API ID or exact provider/version spelling; no entitlement inherited from billing target.",
+          "sourceRef": "source:xai:docs-x-ai-developers-rate-limits",
+          "title": "grok-build-0.1 official identity documentation",
+          "url": "https://docs.x.ai/developers/rate-limits"
+        }
+      ],
       "conditional_usage_allowances": [],
       "model_selection": null
     },
@@ -36656,6 +38249,11 @@
       "billing_quantity": null,
       "pricing_dimension": null,
       "released_at": null,
+      "access_status": "unknown",
+      "access_checked_at": null,
+      "access_evidence": [],
+      "binding_status": "unresolved",
+      "binding_evidence": [],
       "conditional_usage_allowances": [],
       "model_selection": {
         "default_when_model_omitted": false,
@@ -36785,6 +38383,11 @@
       "billing_quantity": null,
       "pricing_dimension": null,
       "released_at": null,
+      "access_status": "unknown",
+      "access_checked_at": null,
+      "access_evidence": [],
+      "binding_status": "unresolved",
+      "binding_evidence": [],
       "conditional_usage_allowances": [],
       "model_selection": {
         "default_when_model_omitted": true,

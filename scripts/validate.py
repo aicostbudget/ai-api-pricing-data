@@ -1,6 +1,11 @@
 from __future__ import annotations
 
 import argparse
+try:
+    from access_metadata import canonical_facts, validate_facts, resolve_authoritative_facts, register_sources, project_facts, resolve_projection_metadata, validate_projected_metadata
+except ModuleNotFoundError:
+    from scripts.access_metadata import canonical_facts, validate_facts, resolve_authoritative_facts, register_sources, project_facts, resolve_projection_metadata, validate_projected_metadata
+
 import csv
 import json
 import math
@@ -205,6 +210,7 @@ def validate_models(now: datetime | None = None) -> None:
         if last_verified_at > now:
             fail(f"future last_verified_at for {item[0]}/{item[1]}: {model['last_verified_at']}")
         validate_release_metadata(model, item)
+        validate_facts(canonical_facts(model), model["provider_id"], now)
         pricing = model["pricing"]
         validate_pricing_contract(model, item)
 

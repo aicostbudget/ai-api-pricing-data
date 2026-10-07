@@ -4,7 +4,13 @@
   "title": "AI API Pricing Model",
   "type": "object",
   "required": ["provider_id", "model_id", "display_name", "model_family", "status", "pricing", "official_source_url", "accessed_at", "last_verified_at", "effective_from", "notes"],
+  "allOf": [{"if": {"required": ["access_status"], "properties": {"access_status": {"not": {"const": "unknown"}}}}, "then": {"required": ["access_evidence", "access_checked_at"], "properties": {"access_evidence": {"minItems": 1}, "access_checked_at": {"type": "string", "format": "date-time"}}}}, {"if": {"required": ["access_status"], "properties": {"access_status": {"const": "unknown"}}}, "then": {"properties": {"access_evidence": {"maxItems": 0}, "access_checked_at": {"type": "null"}}}}, {"if": {"required": ["binding_status"], "properties": {"binding_status": {"const": "approved"}}}, "then": {"required": ["binding_evidence"], "properties": {"binding_evidence": {"minItems": 1}}}}],
   "properties": {
+    "access_status": {"type": "string", "enum": ["public", "existing_users_only", "invite_only", "restricted", "unknown"]},
+    "access_evidence": {"type": "array", "items": {"type": "object", "required": ["url", "title", "claim_type", "official_model_id", "scope"], "additionalProperties": false, "properties": {"url": {"type": "string", "format": "uri"}, "title": {"type": "string", "minLength": 1}, "claim_type": {"type": "string", "minLength": 1}, "official_model_id": {"type": "string", "minLength": 1}, "scope": {"type": "string", "minLength": 1}}}},
+    "access_checked_at": {"type": ["string", "null"], "format": "date-time"},
+    "binding_status": {"type": "string", "enum": ["approved", "unresolved"]},
+    "binding_evidence": {"type": "array", "items": {"type": "object", "required": ["url", "title", "claim_type", "official_model_id", "reason"], "additionalProperties": false, "properties": {"url": {"type": "string", "format": "uri"}, "title": {"type": "string", "minLength": 1}, "claim_type": {"type": "string", "minLength": 1}, "official_model_id": {"type": "string", "minLength": 1}, "reason": {"type": "string", "minLength": 1}, "entitlement_scope_matches": {"type": "boolean"}}}},
     "provider_id": {"type": "string", "pattern": "^[a-z0-9][a-z0-9-]*$"},
     "model_id": {"type": "string"},
     "display_name": {"type": "string"},

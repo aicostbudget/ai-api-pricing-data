@@ -51,6 +51,9 @@ Download `prices.json` or `prices.csv` from the [Hugging Face files](https://hug
 
 Unknown or unavailable prices are `null` in JSON and empty in CSV; they are never rewritten as zero.
 
+Access Policy V1 adds optional, independent access and identity-binding metadata. JSON exposes `access_status`, `access_checked_at`, official `access_evidence`, `binding_status`, and `binding_evidence`. CSV appends five columns after all existing columns: `access_status`, `access_checked_at`, `access_evidence_json`, `binding_status`, and `binding_evidence_json`. Consumers using named columns remain compatible; consumers assuming a fixed column count must accept these additions. Access verification timestamps are separate from price freshness. Access restrictions do not filter this factual pricing export. Older pinned exports without access metadata retain their original JSON and CSV contract when reproduced.
+
+
 Hugging Face generates the Dataset Viewer and auto-converted Parquet from `train.csv` as convenience views. They are not an independent pricing source. Viewer and search indexing can lag behind the raw published artifacts, so use `prices.json`, `prices.csv`, and `meta.json` for the corresponding published version when displayed counts or dates differ.
 
 The compact field guide below describes the public export. For structured pricing details, see the repository's [model schema](https://github.com/aicostbudget/ai-api-pricing-data/blob/main/schema/model.schema.json) and [pricing contract](https://github.com/aicostbudget/ai-api-pricing-data/blob/main/docs/pricing-contract.md).

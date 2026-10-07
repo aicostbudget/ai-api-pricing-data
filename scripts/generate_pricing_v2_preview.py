@@ -1,6 +1,12 @@
 from __future__ import annotations
 
 import argparse
+import subprocess
+try:
+    from access_metadata import canonical_facts, validate_facts, resolve_authoritative_facts, register_sources, project_facts, resolve_projection_metadata, validate_projected_metadata, apply_approved_aliases
+except ModuleNotFoundError:
+    from scripts.access_metadata import canonical_facts, validate_facts, resolve_authoritative_facts, register_sources, project_facts, resolve_projection_metadata, validate_projected_metadata, apply_approved_aliases
+
 import json
 import math
 import sys
@@ -2255,6 +2261,45 @@ def source_side(public: dict[str, Any] | None, website: dict[str, Any] | None) -
     return "website_only"
 
 
+def update_access_metadata(website_path: Path) -> None:
+    """Preserve every existing non-access fact and price source reference."""
+    public = {(m["provider_id"], m["model_id"]): m for m in read_json(CANONICAL / "models.json")}
+    website = {(website_provider_id(m), m["id"]): m for m in read_json(website_path)}
+    registry = read_json(PREVIEW / "sources.json")
+    source_urls = {s["url"]: {k: v for k, v in s.items() if k != "sourceId"} for s in registry}
+    existing_ids = {s["url"]: s["sourceId"] for s in registry}
+    revision = subprocess.check_output(["git", "rev-parse", "HEAD"], cwd=ROOT, text=True).strip()
+    updates = {}
+    for identity in read_json(PREVIEW / "model-identity-registry.json"):
+        key = tuple(identity["internalId"].split("/", 1))
+        facts, authority = resolve_authoritative_facts(public.get(key), website.get(key), key[0])
+        register_sources(source_urls, facts, key[0])
+        updates[identity["internalId"]] = (facts, authority, revision if authority == "canonical" else (website.get(key) or {}).get("accessAuthorityRevision"))
+    by_url = {url: existing_ids.get(url) or source_id(meta["providerId"], url) for url, meta in source_urls.items()}
+    if len(set(by_url.values())) != len(by_url):
+        raise ValueError("ACCESS_SOURCE_ID: duplicate normalized source identity")
+    sources = sorted([{"sourceId": by_url[url], **meta} for url, meta in source_urls.items()], key=lambda s: s["sourceId"])
+    sources_by_id = {s["sourceId"]: s for s in sources}
+    prices = read_json(PREVIEW / "prices.json")
+    outputs = {}
+    for filename in ("model-identity-registry.json", "models.json"):
+        rows = read_json(PREVIEW / filename)
+        for row in rows:
+            facts, authority, base = updates[row["internalId"]]
+            row.update(project_facts(facts, by_url, authority, base))
+            validate_projected_metadata(row, sources_by_id, prices)
+        if filename == "model-identity-registry.json":
+            apply_approved_aliases(rows, sources_by_id, {internal_id(*key) for key in public})
+            for row in rows:
+                validate_projected_metadata(row, sources_by_id, prices)
+        outputs[filename] = rows
+    # Validate the full result before writing.
+    write_json(PREVIEW / "sources.json", sources)
+    for filename, rows in outputs.items():
+        write_json(PREVIEW / filename, rows)
+    print(f"updated access metadata: {len(updates)} frozen identities; {len(prices)} unchanged prices")
+
+
 def main() -> None:
     parser = argparse.ArgumentParser(description="Generate the Pricing V2 preview artifacts.")
     parser.add_argument(
@@ -2275,7 +2320,11 @@ def main() -> None:
         metavar="PROVIDER/MODEL",
         help="Refresh source timestamps only for an explicitly reverified canonical record.",
     )
+    parser.add_argument("--access-metadata-only", action="store_true", help="Add access facts to the frozen universe without reevaluating pricing/lifecycle contracts.")
     args = parser.parse_args()
+    if args.access_metadata_only:
+        update_access_metadata(args.website_dataset.resolve())
+        return
 
     if args.previous_sources == "-":
         existing_sources = json.load(sys.stdin)
@@ -2429,12 +2478,20 @@ def main() -> None:
             "verificationStatus": meta["verificationStatus"],
         }
 
+    access_by_key = {}
+    authority_by_key = {}
+    canonical_revision = subprocess.check_output(["git", "rev-parse", "HEAD"], cwd=ROOT, text=True).strip()
+    for key in candidate_keys:
+        facts, authority = resolve_authoritative_facts(public_by_key.get(key), website_by_key.get(key), key[0])
+        access_by_key[key] = facts
+        authority_by_key[key] = authority
+        register_sources(source_urls, facts, key[0])
     source_by_url = {url: source_id(meta["providerId"], url) for url, meta in source_urls.items()}
     sources = [
         {"sourceId": source_by_url[url], **meta}
         for url, meta in sorted(source_urls.items(), key=lambda item: source_by_url[item[0]])
     ]
-    verified_timestamps = [source["verifiedAt"] for source in sources if source.get("verifiedAt")]
+    verified_timestamps = [source["verifiedAt"] for source in sources if source.get("verifiedAt") and not set(source["supports"]) <= {"access", "binding"}]
     generated_at = max(verified_timestamps) if verified_timestamps else f"{date.today().isoformat()}T00:00:00Z"
 
     identities = []
@@ -2507,7 +2564,12 @@ def main() -> None:
             identity["contextWindowTokens"] = context_window_tokens
         if scheduled_transition is not None:
             identity["scheduledTransition"] = scheduled_transition
+        key = (provider_id, model_id)
+        identity.update(project_facts(access_by_key[key], source_by_url, authority_by_key[key],
+                                      canonical_revision if authority_by_key[key] == "canonical" else (website or {}).get("accessAuthorityRevision")))
         identities.append(identity)
+
+    apply_approved_aliases(identities, {s["sourceId"]:s for s in sources}, {internal_id(*key) for key in public_by_key})
 
     candidate_dispositions = []
     for provider_id, model_id in candidate_keys:
@@ -3017,6 +3079,9 @@ def main() -> None:
                 }
                 for mode in public["cache_lifetime_modes"]
             ]
+        key = (provider_id, model_id)
+        model_record.update(project_facts(access_by_key[key], source_by_url, authority_by_key[key],
+                                          canonical_revision if authority_by_key[key] == "canonical" else (website or {}).get("accessAuthorityRevision")))
         models.append(model_record)
 
     exact_parity: list[str] = []

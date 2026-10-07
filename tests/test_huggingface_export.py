@@ -254,9 +254,9 @@ class HuggingFaceExportTests(unittest.TestCase):
             "last_verified_at", "checked_at", "effective_from", "effective_until", "notes",
             "pricing_tier_count", "pricing_tiers_json",
         ]
-        self.assertEqual(headers[:-8], legacy_headers)
+        self.assertEqual(headers[:-13], legacy_headers)
         self.assertEqual(
-            headers[-8:],
+            headers[-13:-5],
             ["time_pricing_json", "pricing_components_json", "conditional_usage_allowances_json", "model_selection_json", "unit_price", "billing_unit", "billing_quantity", "pricing_dimension"],
         )
         for record in self.records:
@@ -426,6 +426,7 @@ class HuggingFaceExportTests(unittest.TestCase):
         for record in self.records:
             baseline = dict(record)
             for field in (
+                "access_status", "access_checked_at", "access_evidence", "binding_status", "binding_evidence",
                 "released_at",
                 "pricing_components",
                 "conditional_usage_allowances",

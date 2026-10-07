@@ -1,6 +1,11 @@
 from __future__ import annotations
 
 import argparse
+try:
+    from access_metadata import canonical_facts, validate_facts, resolve_authoritative_facts, register_sources, project_facts, resolve_projection_metadata, validate_projected_metadata
+except ModuleNotFoundError:
+    from scripts.access_metadata import canonical_facts, validate_facts, resolve_authoritative_facts, register_sources, project_facts, resolve_projection_metadata, validate_projected_metadata
+
 import json
 import os
 import subprocess
@@ -1314,6 +1319,8 @@ def projection_row(
             "routingBehavior": identity["routingBehavior"],
             "routingDetails": identity["routingDetails"],
         }
+    validate_projected_metadata(identity, sources_by_id, [])
+    row.update(resolve_projection_metadata(identity, sources_by_id))
     row.update(governance_metadata(identity, row, website_row, excluded_reasons, merged_sources))
 
     pricing_tiers = build_canonical_pricing_tiers(

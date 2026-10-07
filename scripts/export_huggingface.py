@@ -54,6 +54,7 @@ CSV_HEADERS = (
     "billing_unit",
     "billing_quantity",
     "pricing_dimension",
+    "access_status", "access_checked_at", "access_evidence_json", "binding_status", "binding_evidence_json",
 )
 VIEWER_OMITTED_FIELDS = frozenset(
     {
@@ -488,6 +489,12 @@ def build_public_records(
     for record in records:
         projection_row = projection_by_key[(record["provider_id"], record["model_id"])]
         record["released_at"] = projection_row.get("releasedAt")
+        if "accessStatus" in projection_row:
+            record["access_status"] = projection_row.get("accessStatus", "unknown")
+            record["access_checked_at"] = projection_row.get("accessCheckedAt")
+            record["access_evidence"] = projection_row.get("accessEvidence", [])
+            record["binding_status"] = projection_row.get("bindingStatus", "unresolved")
+            record["binding_evidence"] = projection_row.get("bindingEvidence", [])
         record["conditional_usage_allowances"] = public_conditional_usage_allowances(projection_row)
         record["model_selection"] = public_model_selection(projection_row)
 
@@ -544,6 +551,15 @@ def build_export(
         },
         "records": records,
     }
+    if any("access_status" in record for record in records):
+        payload["metadata"]["features"].update({
+                "access_status": "Independent official API access: public/existing_users_only/invite_only/restricted/unknown; not production selector enforcement.",
+                "access_checked_at": "UTC timestamp of successful access verification, independent of pricing freshness.",
+                "access_evidence": "Official access claim scope, exact official model ID, source reference and URL.",
+                "access_evidence_json": "Compact CSV JSON serialization; appended additive column.",
+                "binding_status": "Independent approved/unresolved local-to-official identity decision.",
+                "binding_evidence_json": "Compact CSV JSON serialization; appended additive column.",
+        })
     validate_payload(payload, projection)
     return payload
 
@@ -666,6 +682,8 @@ def csv_text(
     for record in records:
         serialized = {
             **{key: value for key, value in record.items() if key not in {"pricing_tiers", "time_pricing", "pricing_components", "conditional_usage_allowances", "model_selection"}},
+            "access_evidence_json": json.dumps(record.get("access_evidence", []), separators=(",", ":"), ensure_ascii=False),
+            "binding_evidence_json": json.dumps(record.get("binding_evidence", []), separators=(",", ":"), ensure_ascii=False),
             "pricing_tiers_json": json.dumps(record["pricing_tiers"], separators=(",", ":"), ensure_ascii=False),
             "time_pricing_json": json.dumps(record["time_pricing"], separators=(",", ":"), ensure_ascii=False),
             "pricing_components_json": json.dumps(record["pricing_components"], separators=(",", ":"), ensure_ascii=False),
@@ -677,8 +695,12 @@ def csv_text(
 
 
 def artifact_contents(payload: dict[str, Any]) -> dict[str, str]:
-    full_csv_payload = csv_text(payload["records"])
-    viewer_csv_payload = csv_text(payload["records"], VIEWER_CSV_HEADERS)
+    access_columns = {"access_status", "access_checked_at", "access_evidence_json", "binding_status", "binding_evidence_json"}
+    has_access = any("access_status" in row for row in payload["records"])
+    columns = CSV_HEADERS if has_access else tuple(k for k in CSV_HEADERS if k not in access_columns)
+    viewer_columns = VIEWER_CSV_HEADERS if has_access else tuple(k for k in VIEWER_CSV_HEADERS if k not in access_columns)
+    full_csv_payload = csv_text(payload["records"], columns)
+    viewer_csv_payload = csv_text(payload["records"], viewer_columns)
     return {
         "prices.json": json.dumps(payload, indent=2, ensure_ascii=False) + "\n",
         "prices.csv": full_csv_payload,

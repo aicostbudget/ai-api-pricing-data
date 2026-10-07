@@ -1,6 +1,12 @@
 from __future__ import annotations
 
 import argparse
+import json
+try:
+    from access_metadata import canonical_facts, validate_facts, resolve_authoritative_facts, register_sources, project_facts, resolve_projection_metadata, validate_projected_metadata
+except ModuleNotFoundError:
+    from scripts.access_metadata import canonical_facts, validate_facts, resolve_authoritative_facts, register_sources, project_facts, resolve_projection_metadata, validate_projected_metadata
+
 import os
 import re
 import shutil
@@ -81,9 +87,15 @@ def build_outputs(output_root: Path, generated_at_value: str | None = None) -> N
 
     write_json(api / "prices.json", dataset)
     write_csv(api / "prices.csv", models)
+    access_sources = {s["sourceId"]: s for s in json.loads((ROOT / "data/pricing-v2-preview/sources.json").read_text(encoding="utf-8"))}
+    access_identities = json.loads((ROOT / "data/pricing-v2-preview/model-identity-registry.json").read_text(encoding="utf-8"))
     write_json(
         api / "meta.json",
         {
+            "modelAccess": [
+                {"internalId": row["internalId"], "providerId": row["providerId"], **resolve_projection_metadata(row, access_sources)}
+                for row in access_identities
+            ],
             "dataset_name": dataset["dataset_name"],
             "dataset_version": dataset["dataset_version"],
             "generated_at": dataset["generated_at"],

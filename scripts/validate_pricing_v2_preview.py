@@ -1,6 +1,11 @@
 from __future__ import annotations
 
 import json
+try:
+    from access_metadata import canonical_facts, validate_facts, resolve_authoritative_facts, register_sources, project_facts, resolve_projection_metadata, validate_projected_metadata
+except ModuleNotFoundError:
+    from scripts.access_metadata import canonical_facts, validate_facts, resolve_authoritative_facts, register_sources, project_facts, resolve_projection_metadata, validate_projected_metadata
+
 import re
 from datetime import date, datetime, time, timedelta, timezone
 from pathlib import Path
@@ -386,6 +391,7 @@ def validate_preview() -> dict[str, Any]:
         fail("claude-sonnet-5-intro must not be modeled as a canonical model")
 
     for identity in identities:
+        validate_projected_metadata(identity, source_by_id, prices)
         if identity["identityType"] not in IDENTITY_TYPES:
             fail(f"invalid identityType for {identity['internalId']}")
         if identity["lifecycleStatus"] not in LIFECYCLE_STATUSES:
@@ -443,6 +449,7 @@ def validate_preview() -> dict[str, Any]:
         fail("claude-sonnet-5 must be a direct canonical identity")
 
     for model in models:
+        validate_projected_metadata(model, source_by_id, prices)
         if model["internalId"] not in identity_set:
             fail(f"model without identity {model['internalId']}")
         if model["verificationStatus"] not in VERIFICATION_STATUSES:
