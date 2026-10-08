@@ -3,14 +3,21 @@ from __future__ import annotations
 import argparse
 import json
 import re
+import subprocess
 import sys
 import time
 import urllib.error
 import urllib.request
 from typing import Any, Callable, TextIO
 
+try:
+    from prepare_pages_artifact import committed_pages
+except ModuleNotFoundError:
+    from scripts.prepare_pages_artifact import committed_pages
+
 META_URL = "https://aicostbudget.github.io/ai-api-pricing-data/api/v1/meta.json"
 PRICES_URL = "https://aicostbudget.github.io/ai-api-pricing-data/api/v1/prices.json"
+PRICES_CSV_URL = "https://aicostbudget.github.io/ai-api-pricing-data/api/v1/prices.csv"
 FULL_GIT_SHA = re.compile(r"^[0-9a-f]{40}$")
 META_REQUIRED_FIELDS = (
     "dataset_version",
@@ -39,11 +46,12 @@ class FetchError(VerificationError):
         self.status = status
 
 
-def fetch_json(
+def fetch_bytes(
     url: str,
     timeout: float,
     opener: Callable[..., Any] = urllib.request.urlopen,
-) -> tuple[Any, int]:
+    expected_bytes: bytes | None = None,
+) -> tuple[bytes, int]:
     request = urllib.request.Request(
         url,
         headers={"Accept": "application/json", "User-Agent": "ai-api-pricing-data-pages-verifier"},
@@ -58,8 +66,22 @@ def fetch_json(
         raise FetchError(url, "unavailable", str(exc.reason)) from exc
     except TimeoutError as exc:
         raise FetchError(url, "timeout", str(exc)) from exc
+    if status != 200:
+        raise FetchError(url, str(status), "expected HTTP 200")
     if not body:
         raise FetchError(url, str(status), "empty response body")
+    if expected_bytes is not None and body != expected_bytes:
+        raise VerificationError(f"public bytes differ from committed API: endpoint={url}")
+    return body, status
+
+
+def fetch_json(
+    url: str,
+    timeout: float,
+    opener: Callable[..., Any] = urllib.request.urlopen,
+    expected_bytes: bytes | None = None,
+) -> tuple[Any, int]:
+    body, status = fetch_bytes(url, timeout, opener, expected_bytes)
     try:
         return json.loads(body), status
     except (UnicodeDecodeError, json.JSONDecodeError) as exc:
@@ -112,6 +134,7 @@ def verify_public_deployment(
     opener: Callable[..., Any] = urllib.request.urlopen,
     sleeper: Callable[[float], None] = time.sleep,
     output: TextIO = sys.stdout,
+    expected_files: dict[str, bytes] | None = None,
 ) -> None:
     if not FULL_GIT_SHA.fullmatch(expected_sha):
         raise VerificationError("expected SHA must be 40 lowercase hexadecimal characters")
@@ -122,7 +145,10 @@ def verify_public_deployment(
     last_error = "deployment has not been checked"
     for attempt in range(1, attempts + 1):
         try:
-            meta, status = fetch_json(META_URL, timeout, opener)
+            meta, status = fetch_json(
+                META_URL, timeout, opener,
+                expected_files["api/v1/meta.json"] if expected_files is not None else None,
+            )
             last_status = str(status)
             last_actual = meta.get("source_commit_sha", "missing") if isinstance(meta, dict) else "unavailable"
             if last_actual != expected_sha:
@@ -133,8 +159,13 @@ def verify_public_deployment(
                     file=output,
                 )
             else:
-                prices, prices_status = fetch_json(PRICES_URL, timeout, opener)
+                prices, prices_status = fetch_json(
+                    PRICES_URL, timeout, opener,
+                    expected_files["api/v1/prices.json"] if expected_files is not None else None,
+                )
                 validate_public_payloads(meta, prices, expected_sha)
+                if expected_files is not None:
+                    fetch_bytes(PRICES_CSV_URL, timeout, opener, expected_files["api/v1/prices.csv"])
                 print(
                     f"Pages verification passed: attempt={attempt}/{attempts} "
                     f"meta HTTP status={status} prices HTTP status={prices_status} SHA={expected_sha}",
@@ -161,14 +192,21 @@ def verify_public_deployment(
 
 def main() -> None:
     parser = argparse.ArgumentParser(description="Verify the deployed public GitHub Pages JSON.")
-    parser.add_argument("--expected-sha", required=True)
+    parser.add_argument("--expected-source-sha", "--expected-sha", dest="expected_source_sha", required=True)
+    parser.add_argument("--artifact-sha", required=True, help="Committed artifact whose API bytes must be public")
     parser.add_argument("--attempts", type=int, default=8)
     parser.add_argument("--interval", type=float, default=8)
     parser.add_argument("--timeout", type=float, default=3)
     args = parser.parse_args()
     try:
-        verify_public_deployment(args.expected_sha, args.attempts, args.interval, args.timeout)
-    except (ValueError, VerificationError) as exc:
+        files, source_sha, artifact_sha = committed_pages(args.artifact_sha)
+        if args.expected_source_sha != source_sha:
+            raise VerificationError("Expected Source SHA does not match committed API provenance")
+        print(f"Pages provenance: Source SHA={source_sha} Artifact SHA={artifact_sha}")
+        verify_public_deployment(
+            source_sha, args.attempts, args.interval, args.timeout, expected_files=files,
+        )
+    except (ValueError, VerificationError, OSError, subprocess.SubprocessError) as exc:
         print(exc, file=sys.stderr)
         raise SystemExit(1) from exc
 

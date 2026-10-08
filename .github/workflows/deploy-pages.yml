@@ -17,19 +17,20 @@ concurrency:
 jobs:
   build:
     runs-on: ubuntu-latest
+    outputs:
+      source_sha: ${{ steps.artifact.outputs.source_sha }}
     steps:
       - uses: actions/checkout@v5
+        with:
+          fetch-depth: 0
       - uses: actions/setup-python@v6
         with:
           python-version: "3.11"
-      - name: Build static dataset
-        env:
-          SOURCE_COMMIT_SHA: ${{ github.sha }}
-        run: python scripts/build.py
       - name: Validate static dataset
         run: python scripts/validate.py
       - name: Prepare Pages artifact
-        run: python scripts/prepare_pages_artifact.py pages-dist
+        id: artifact
+        run: python scripts/prepare_pages_artifact.py pages-dist --artifact-sha "${{ github.sha }}" --github-output "$GITHUB_OUTPUT"
       - uses: actions/configure-pages@v6
       - uses: actions/upload-pages-artifact@v5
         with:
@@ -42,10 +43,12 @@ jobs:
     needs: build
     steps:
       - uses: actions/checkout@v5
+        with:
+          fetch-depth: 0
       - uses: actions/setup-python@v6
         with:
           python-version: "3.11"
       - id: deployment
         uses: actions/deploy-pages@v5
       - name: Verify public Pages deployment
-        run: python scripts/verify_pages_deployment.py --expected-sha "${{ github.sha }}"
+        run: python scripts/verify_pages_deployment.py --expected-source-sha "${{ needs.build.outputs.source_sha }}" --artifact-sha "${{ github.sha }}"
