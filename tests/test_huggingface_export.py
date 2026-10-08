@@ -357,13 +357,19 @@ class HuggingFaceExportTests(unittest.TestCase):
             {"cache_write_5m": "2.5", "cache_write_1h": "4"},
         )
         self.assertEqual(len(sonnet_55_writes), 2)
+        astra = next(row for row in self.records if row["model_id"] == "gpt-6-astra")
+        ultrafast_writes = [item for item in astra["pricing_components"]
+                           if item["component"] == "cache_write"
+                           and item["condition"]["processing_mode"] == "ultrafast"]
+        self.assertEqual({item["condition"]["context_class"]: item["amount"] for item in ultrafast_writes},
+                         {"short": "75", "long": "150"})
         self.assertEqual(
             cache_write_count - phase_b_cache_write_count,
-            45 + len(expected_new_writes) + len(kimi_writes) + len(sonnet_55_writes),
+            45 + len(expected_new_writes) + len(kimi_writes) + len(sonnet_55_writes) + len(ultrafast_writes),
         )
         self.assertEqual(
             cache_write_count,
-            45 + len(expected_new_writes) + len(kimi_writes) + len(sonnet_55_writes) + phase_b_cache_write_count,
+            45 + len(expected_new_writes) + len(kimi_writes) + len(sonnet_55_writes) + phase_b_cache_write_count + len(ultrafast_writes),
         )
         self.assertTrue(any(not record["pricing_components"] for record in self.records))
 

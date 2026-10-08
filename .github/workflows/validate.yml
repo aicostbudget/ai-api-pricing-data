@@ -18,6 +18,7 @@ jobs:
         if: github.event_name != 'pull_request' || (github.event.pull_request.head.repo.full_name == github.repository && github.actor != 'dependabot[bot]')
         uses: actions/checkout@v5
         with:
+          fetch-depth: 0
           repository: linqiang-max/aicostbudget
           ref: main
           path: website-source

@@ -41,34 +41,31 @@ class ReleaseBundleTests(unittest.TestCase):
         files["SHA256SUMS.txt"] = "".join(f"{hashlib.sha256(files[name]).hexdigest()}  {name}\n" for name in sorted(files)).encode()
         return files
 
-    def pinned_checkout(self):
-        website = Path("D:/ai-cost-control-tool/aicostguard-english")
-        if not website.is_dir():
-            self.skipTest("local Website checkout is unavailable")
-        tracked_paths = set(subprocess.check_output(
-            ["git", "ls-tree", "-r", "--name-only", "HEAD", "--", "data/snapshots/"],
-            cwd=ROOT,
-            text=True,
-        ).splitlines())
-        snapshot_dates = {
-            parts[2]
-            for path in tracked_paths
-            if len(parts := path.split("/")) == 4
-            and parts[:2] == ["data", "snapshots"]
-            and parts[3] in {"prices.json", "prices.csv"}
-            and re.fullmatch(r"\d{4}-\d{2}-\d{2}", parts[2])
-        }
-        self.assertTrue(snapshot_dates, "HEAD has no tracked dated V1 snapshot")
-        snapshot = max(snapshot_dates)
-        for suffix in ("json", "csv"):
-            self.assertIn(f"data/snapshots/{snapshot}/prices.{suffix}", tracked_paths)
-        return website, snapshot
+    # Fixed committed inputs make this fixture independent of later HEAD changes.
+    DATASET_FIXTURE_REF = "9e74adfcdadf5674f6929e7ed5a86d7284ef0ff2"
+    WEBSITE_FIXTURE_REF = "34a0f4e1ba53c2208cc0208ef2ea6bd94d785bcd"
+    FIXTURE_SNAPSHOT = "2026-10-07"
 
-    def build_with_pinned_source_change(self, changed_path, change):
+    def pinned_checkout(self):
+        website = ROOT / "website-source"
+        if not website.is_dir():
+            website = Path("D:/ai-cost-control-tool/aicostguard-english")
+        self.assertTrue(website.is_dir(), "Website fixture checkout is required")
+        return website, self.FIXTURE_SNAPSHOT
+
+    def build_with_pinned_source_change(self, changed_path=None, change=None):
         website, snapshot = self.pinned_checkout()
         original_source = release_bundle.source
 
-        def altered_source(repo, revision, path):
+        def fixture_source(repo, revision, path):
+            # This is an in-memory TEST snapshot, not a tracked historical snapshot.
+            # Pair it explicitly with the identical committed V1 bytes; retain the
+            # real builder's byte check, projection checks, and HF comparison.
+            if repo == ROOT and path in {
+                f"data/snapshots/{snapshot}/prices.json",
+                f"data/snapshots/{snapshot}/prices.csv",
+            }:
+                return original_source(repo, revision, "api/v1/" + path.rsplit("/", 1)[1])
             content = original_source(repo, revision, path)
             if path != changed_path:
                 return content
@@ -76,8 +73,8 @@ class ReleaseBundleTests(unittest.TestCase):
             change(payload)
             return (json.dumps(payload, indent=2, ensure_ascii=False) + "\n").encode("utf-8")
 
-        with patch.object(release_bundle, "source", side_effect=altered_source):
-            return build_contents("HEAD", website, "HEAD", snapshot)
+        with patch.object(release_bundle, "source", side_effect=fixture_source):
+            return build_contents(self.DATASET_FIXTURE_REF, website, self.WEBSITE_FIXTURE_REF, snapshot)
 
     def test_valid_v1_and_v2(self):
         for prefix, projection, assets in (
@@ -130,14 +127,15 @@ class ReleaseBundleTests(unittest.TestCase):
 
     def test_pinned_website_export_build_when_checkout_available(self):
         website, snapshot = self.pinned_checkout()
-        files = build_contents("HEAD", website, "HEAD", snapshot)
+        files = self.build_with_pinned_source_change()
+        self.assertEqual(files, self.build_with_pinned_source_change())
         manifest = verify_contents(files)
         self.assertEqual(manifest["snapshot_date"], snapshot)
         self.assertEqual(manifest["snapshot_path"], f"data/snapshots/{snapshot}/")
-        self.assertEqual(files["pricing-v2-prices.json"], release_bundle.source(ROOT, "HEAD", "huggingface/prices.json"))
+        self.assertEqual(files["pricing-v2-prices.json"], release_bundle.source(ROOT, self.DATASET_FIXTURE_REF, "huggingface/prices.json"))
 
     def test_timestamp_only_drift_keeps_pinned_hf_generated_at(self):
-        mirror = json.loads(release_bundle.source(ROOT, "HEAD", "huggingface/prices.json"))
+        mirror = json.loads(release_bundle.source(ROOT, self.DATASET_FIXTURE_REF, "huggingface/prices.json"))
         mirror_time = datetime.fromisoformat(mirror["metadata"]["generated_at"].replace("Z", "+00:00"))
         newer_time = (mirror_time + timedelta(seconds=1)).isoformat().replace("+00:00", "Z")
         self.assertLess(mirror_time + timedelta(seconds=1), datetime.now(timezone.utc))
@@ -148,7 +146,7 @@ class ReleaseBundleTests(unittest.TestCase):
         files = self.build_with_pinned_source_change("api/v1/meta.json", change_generated_at)
         manifest = verify_contents(files)
         self.assertEqual(manifest["projections"]["pricing_v2"]["generated_at"], mirror["metadata"]["generated_at"])
-        self.assertEqual(files["pricing-v2-prices.json"], release_bundle.source(ROOT, "HEAD", "huggingface/prices.json"))
+        self.assertEqual(files["pricing-v2-prices.json"], release_bundle.source(ROOT, self.DATASET_FIXTURE_REF, "huggingface/prices.json"))
 
     def test_record_drift_still_fails_pinned_hf_parity(self):
         def change_record(mirror):
@@ -164,8 +162,31 @@ class ReleaseBundleTests(unittest.TestCase):
         with self.assertRaisesRegex(ValueError, "Website export and HF mirror differ: pricing-v2-prices.json"):
             self.build_with_pinned_source_change("huggingface/prices.json", change_metadata)
 
+    def test_current_head_and_historical_snapshot_pair_still_fails(self):
+        website, _ = self.pinned_checkout()
+        with self.assertRaisesRegex(ValueError, "V1 API and 2026-10-05 snapshot differ: prices.json"):
+            build_contents("HEAD", website, self.WEBSITE_FIXTURE_REF, "2026-10-05")
+
+    def test_access_and_binding_drift_still_fail_v1_snapshot_byte_check(self):
+        for field, value in (("access_status", "restricted"), ("binding_status", "unresolved")):
+            with self.subTest(field=field):
+                def change_record(payload):
+                    row = next(row for row in payload['models'] if row.get(field) != value)
+                    row[field] = value
+                with self.assertRaisesRegex(ValueError, "V1 API and .* snapshot differ: prices.json"):
+                    self.build_with_pinned_source_change("api/v1/prices.json", change_record)
+
+    def test_access_and_binding_drift_still_fail_hf_parity(self):
+        for field, value in (("access_status", "restricted"), ("binding_status", "unresolved")):
+            with self.subTest(field=field):
+                def change_record(payload):
+                    row = next(row for row in payload['records'] if row.get(field) != value)
+                    row[field] = value
+                with self.assertRaisesRegex(ValueError, "Website export and HF mirror differ: pricing-v2-prices.json"):
+                    self.build_with_pinned_source_change("huggingface/prices.json", change_record)
+
     def test_substantive_drift_does_not_preserve_generated_at(self):
-        mirror = json.loads(release_bundle.source(ROOT, "HEAD", "huggingface/prices.json"))
+        mirror = json.loads(release_bundle.source(ROOT, self.DATASET_FIXTURE_REF, "huggingface/prices.json"))
         for field in ("records", "metadata"):
             with self.subTest(field=field):
                 current = json.loads(json.dumps(mirror))

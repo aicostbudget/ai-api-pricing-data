@@ -139,7 +139,7 @@
       "required": ["id", "processing_mode", "context_class", "pricing_status", "calculation_default", "prompt_token_threshold", "effective_from", "effective_until", "currency", "charges", "region_policy", "source_refs", "verification_status", "checked_at", "verified_at", "billing_note"],
       "properties": {
         "id": {"type": "string", "minLength": 1},
-        "processing_mode": {"type": "string", "enum": ["standard", "batch", "flex", "priority", "fast"]},
+        "processing_mode": {"type": "string", "enum": ["standard", "batch", "flex", "priority", "fast", "ultrafast"]},
         "transport": {"type": "string", "enum": ["rest", "streaming"]},
         "context_class": {"type": "string", "enum": ["short", "long"]},
         "pricing_status": {"type": "string", "enum": ["current", "future", "historical"]},
@@ -475,7 +475,7 @@
       ],
       "properties": {
         "id": {"type": "string", "enum": ["short", "long"]},
-        "processing_mode": {"type": "string", "enum": ["standard", "batch", "flex", "priority", "fast"]},
+        "processing_mode": {"type": "string", "enum": ["standard", "batch", "flex", "priority", "fast", "ultrafast"]},
         "pricing_status": {"type": "string", "enum": ["current", "future", "historical"]},
         "calculation_default": {"type": "boolean"},
         "prompt_token_threshold": {"type": "integer", "minimum": 0},

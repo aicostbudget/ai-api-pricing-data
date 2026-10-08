@@ -1,6 +1,10 @@
 from __future__ import annotations
 
 import argparse
+try:
+    from sql_seed import render_sql_seed
+except ModuleNotFoundError:
+    from scripts.sql_seed import render_sql_seed
 import subprocess
 try:
     from access_metadata import canonical_facts, validate_facts, resolve_authoritative_facts, register_sources, project_facts, resolve_projection_metadata, validate_projected_metadata, apply_approved_aliases
@@ -3183,9 +3187,6 @@ def main() -> None:
             and existing_row.get("canonicalInternalId") in canonical_internal_ids
         )
 
-    def sql_json(value: dict[str, Any]) -> str:
-        return json.dumps(value, sort_keys=True).replace("'", "''")
-
     existing_models_path = PREVIEW / "models.json"
     if existing_models_path.exists():
         existing_models_by_id = {
@@ -3197,31 +3198,7 @@ def main() -> None:
                 if field in existing_model:
                     model[field] = existing_model[field]
 
-    sql_lines = [
-        "begin;",
-        "create table if not exists pricing_v2_preview_sources (source_id text primary key, payload jsonb not null);",
-        "create table if not exists pricing_v2_preview_models (internal_id text primary key, payload jsonb not null);",
-        "create table if not exists pricing_v2_preview_prices (pricing_id text primary key, model_internal_id text not null, payload jsonb not null);",
-    ]
-    for source in sources:
-        sql_lines.append(
-            "insert into pricing_v2_preview_sources (source_id, payload) values "
-            + f"('{source['sourceId']}', '{sql_json(source)}'::jsonb) "
-            + "on conflict (source_id) do update set payload = excluded.payload;"
-        )
-    for model in models:
-        sql_lines.append(
-            "insert into pricing_v2_preview_models (internal_id, payload) values "
-            + f"('{model['internalId']}', '{sql_json(model)}'::jsonb) "
-            + "on conflict (internal_id) do update set payload = excluded.payload;"
-        )
-    for price in prices:
-        sql_lines.append(
-            "insert into pricing_v2_preview_prices (pricing_id, model_internal_id, payload) values "
-            + f"('{price['pricingId']}', '{price['modelInternalId']}', '{sql_json(price)}'::jsonb) "
-            + "on conflict (pricing_id) do update set model_internal_id = excluded.model_internal_id, payload = excluded.payload;"
-        )
-    sql_lines.extend(["commit;", ""])
+    sql_seed = render_sql_seed(sources, models, prices)
 
     identity_type_counts = defaultdict(int)
     disposition_counts = defaultdict(int)
@@ -3414,7 +3391,7 @@ def main() -> None:
     write_json(PREVIEW / "phase3-5-readiness.json", phase35_readiness)
     write_json(GENERATED / "model-pricing.website-preview.json", website_projection)
     (GENERATED / "seed-pricing.preview.sql").parent.mkdir(parents=True, exist_ok=True)
-    write_text_with_retry(GENERATED / "seed-pricing.preview.sql", "\n".join(sql_lines))
+    write_text_with_retry(GENERATED / "seed-pricing.preview.sql", sql_seed)
 
     print(f"generated pricing v2 preview: {PREVIEW}")
 

@@ -8,7 +8,7 @@ from decimal import Decimal, InvalidOperation
 from typing import Any, Callable, Iterable
 
 
-PROCESSING_MODES = {"standard", "batch", "flex", "priority", "fast"}
+PROCESSING_MODES = {"standard", "batch", "flex", "priority", "fast", "ultrafast"}
 TRANSPORTS = {"rest", "streaming"}
 CONTEXT_CLASSES = {"short", "long"}
 PRICING_STATUSES = {"current", "future", "historical"}

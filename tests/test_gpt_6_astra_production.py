@@ -26,6 +26,8 @@ EXPECTED_MATRIX = {
     ("flex", "long"): ("10", "1", "12.5", "37.5"),
     ("fast", "short"): ("20", "2", "25", "100"),
     ("fast", "long"): ("40", "4", "50", "150"),
+    ("ultrafast", "short"): ("60", "6", "75", "300"),
+    ("ultrafast", "long"): ("120", "12", "150", "450"),
 }
 COMPONENTS = ("input", "cached_input", "cache_write", "output")
 
@@ -68,8 +70,8 @@ class Gpt6AstraProductionTests(unittest.TestCase):
         projected.pop("batch_cached_input")
         self.assertEqual(projected, self.model["pricing"])
 
-    def test_exact_eight_record_matrix_and_unique_ids(self) -> None:
-        self.assertEqual(len(self.records), 8)
+    def test_exact_ten_record_matrix_and_unique_ids(self) -> None:
+        self.assertEqual(len(self.records), 10)
         self.assertEqual(
             {(row["processing_mode"], row["context_class"]) for row in self.records},
             set(EXPECTED_MATRIX),
@@ -78,7 +80,7 @@ class Gpt6AstraProductionTests(unittest.TestCase):
         record_ids = [row["id"] for row in self.records]
         charge_ids = [charge["id"] for row in self.records for charge in row["charges"]]
         self.assertEqual(len(record_ids), len(set(record_ids)))
-        self.assertEqual(len(charge_ids), 32)
+        self.assertEqual(len(charge_ids), 40)
         self.assertEqual(len(charge_ids), len(set(charge_ids)))
         for row in self.records:
             key = (row["processing_mode"], row["context_class"])
@@ -108,6 +110,8 @@ class Gpt6AstraProductionTests(unittest.TestCase):
 
     def test_regional_uplift_and_fast_eu_unavailability(self) -> None:
         for (mode, context), expected in EXPECTED_MATRIX.items():
+            if mode == "ultrafast":
+                continue  # Not released on the 2026-09-04 historical test date.
             token_count = THRESHOLD if context == "short" else THRESHOLD + 1
             selected = select_price_record(
                 self.normalized,
@@ -142,8 +146,8 @@ class Gpt6AstraProductionTests(unittest.TestCase):
             row for row in read_json("data/pricing-v2-preview/prices.json")
             if row["modelInternalId"] == INTERNAL_ID
         ]
-        self.assertEqual(len(v2_prices), 8)
-        self.assertEqual(sum(len(row["charges"]) for row in v2_prices), 32)
+        self.assertEqual(len(v2_prices), 10)
+        self.assertEqual(sum(len(row["charges"]) for row in v2_prices), 40)
         self.assertEqual(sum(row["calculationDefault"] for row in v2_prices), 1)
 
         for path in ("data/prices.json", "api/v1/prices.json"):
@@ -164,7 +168,7 @@ class Gpt6AstraProductionTests(unittest.TestCase):
         self.assertTrue(website["defaultSafe"])
         self.assertEqual(website["selectedPriceRecordId"], f"price:{INTERNAL_ID}:standard:short:current")
         self.assertEqual(website["selectedBatchPriceRecordId"], f"price:{INTERNAL_ID}:batch:short:current")
-        self.assertEqual(len(website["pricingComponents"]), 32)
+        self.assertEqual(len(website["pricingComponents"]), 40)
         self.assertEqual(len(website["pricingTiers"]), 2)
 
         compatibility_preview = exactly_one(
@@ -188,7 +192,7 @@ class Gpt6AstraProductionTests(unittest.TestCase):
         self.assertEqual(hf["input_price_per_1m_tokens"], 10)
         self.assertEqual(hf["cached_input_price_per_1m_tokens"], 1)
         self.assertEqual(hf["output_price_per_1m_tokens"], 50)
-        self.assertEqual(len(hf["pricing_components"]), 32)
+        self.assertEqual(len(hf["pricing_components"]), 40)
         self.assertEqual(hf["pricing_tier_count"], 2)
 
 

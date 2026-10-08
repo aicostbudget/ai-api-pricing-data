@@ -6,7 +6,7 @@
     "page_url": "https://aicostbudget.com/en/datasets/ai-api-pricing",
     "last_updated": "2026-10-05T02:42:02Z",
     "last_verified_at": "2026-10-05T02:42:02Z",
-    "generated_at": "2026-10-07T04:26:40Z",
+    "generated_at": "2026-10-08T08:54:59Z",
     "provider_count": 11,
     "record_count": 83,
     "official_source_count": 22,
@@ -1032,7 +1032,7 @@
       "checked_at": "2026-09-20",
       "effective_from": "2026-09-01",
       "effective_until": null,
-      "notes": "Invite-only availability through Project Glasswing. Verify account access before using this in production budgets.",
+      "notes": "Active (verification required). Restricted to organizations approved through Anthropic verification programs. Verify account access before using this in production budgets.",
       "pricing_tier_count": 0,
       "pricing_tiers": [],
       "time_pricing": null,
@@ -25515,6 +25515,694 @@
             "https://developers.openai.com/api/docs/pricing"
           ],
           "verification_status": "verified"
+        },
+        {
+          "pricing_id": "price:openai/gpt-6-astra:ultrafast:long:current",
+          "charge_id": "price:openai/gpt-6-astra:ultrafast:long:current:cache_write:text:per_1m_tokens",
+          "component": "cache_write",
+          "amount": "150",
+          "unit": "per_1m_tokens",
+          "currency": "USD",
+          "modality": "text",
+          "condition": {
+            "processing_mode": "ultrafast",
+            "context_class": "long",
+            "prompt_token_threshold": 272000,
+            "tier_selection": {
+              "comparison": "greater_than",
+              "token_basis": "input_tokens",
+              "cached_prompt_tokens_included": true,
+              "whole_request_pricing": true
+            },
+            "region_policy": "global",
+            "effective_from": "2026-09-29",
+            "effective_until": null,
+            "region_selector": {
+              "dataResidencies": [
+                "global",
+                "us"
+              ],
+              "endpointGeographies": [
+                "global",
+                "regional"
+              ],
+              "pricingGeography": "global_base"
+            },
+            "default_availability_status": "available",
+            "availability_rules": [
+              {
+                "availabilityRuleId": "ultrafast-regional-requires-us-residency",
+                "availabilityStatus": "unavailable",
+                "reason": "Ultrafast permits global processing or US residency; a regional endpoint without US residency is unsupported.",
+                "selector": {
+                  "dataResidencies": [
+                    "global"
+                  ],
+                  "endpointGeographies": [
+                    "regional"
+                  ]
+                },
+                "sourceRefs": [
+                  "source:openai:developers-openai-com-api-docs-guides-ultrafast-mode"
+                ]
+              }
+            ],
+            "price_adjustments": [
+              {
+                "factor": "1.1",
+                "operation": "multiply",
+                "priceAdjustmentId": "regional-data-residency-uplift",
+                "selector": {
+                  "endpointGeographies": [
+                    "regional"
+                  ]
+                },
+                "sourceRefs": [
+                  "source:openai:developers-openai-com-api-docs-guides-your-data",
+                  "source:openai:developers-openai-com-api-docs-pricing"
+                ]
+              }
+            ]
+          },
+          "calculation_default": false,
+          "source_refs": [
+            "source:openai:developers-openai-com-api-docs-changelog",
+            "source:openai:developers-openai-com-api-docs-guides-ultrafast-mode",
+            "source:openai:developers-openai-com-api-docs-models-gpt-6-astra",
+            "source:openai:developers-openai-com-api-docs-pricing"
+          ],
+          "source_urls": [
+            "https://developers.openai.com/api/docs/changelog",
+            "https://developers.openai.com/api/docs/guides/ultrafast-mode",
+            "https://developers.openai.com/api/docs/models/gpt-6-astra",
+            "https://developers.openai.com/api/docs/pricing"
+          ],
+          "verification_status": "verified",
+          "checked_at": "2026-10-08T08:54:59Z",
+          "last_verified_at": "2026-10-08T08:54:59Z",
+          "billing_note": "Ultrafast uses the existing gpt-6-astra model in the Responses API with service_tier=\"ultrafast\"; it is not the default or a Batch/Chat Completions mode. Short context includes 272,000 input tokens; above 272,000 tokens the long-context rates apply to the entire request, including cached prompt tokens. Global processing and US data residency are supported; EU and other non-US regional processing are unsupported. Regional data-residency endpoints retain the published 10% uplift. Default usage-tier rate limits are Build 500,000 TPM, Launch 1,000,000 TPM, and Grow 5,000,000 TPM. Endpoint eligibility, service-tier binding, and TPM limits are descriptive, not programmatically enforced by this pricing contract."
+        },
+        {
+          "pricing_id": "price:openai/gpt-6-astra:ultrafast:long:current",
+          "charge_id": "price:openai/gpt-6-astra:ultrafast:long:current:cached_input:text:per_1m_tokens",
+          "component": "cached_input",
+          "amount": "12",
+          "unit": "per_1m_tokens",
+          "currency": "USD",
+          "modality": "text",
+          "condition": {
+            "processing_mode": "ultrafast",
+            "context_class": "long",
+            "prompt_token_threshold": 272000,
+            "tier_selection": {
+              "comparison": "greater_than",
+              "token_basis": "input_tokens",
+              "cached_prompt_tokens_included": true,
+              "whole_request_pricing": true
+            },
+            "region_policy": "global",
+            "effective_from": "2026-09-29",
+            "effective_until": null,
+            "region_selector": {
+              "dataResidencies": [
+                "global",
+                "us"
+              ],
+              "endpointGeographies": [
+                "global",
+                "regional"
+              ],
+              "pricingGeography": "global_base"
+            },
+            "default_availability_status": "available",
+            "availability_rules": [
+              {
+                "availabilityRuleId": "ultrafast-regional-requires-us-residency",
+                "availabilityStatus": "unavailable",
+                "reason": "Ultrafast permits global processing or US residency; a regional endpoint without US residency is unsupported.",
+                "selector": {
+                  "dataResidencies": [
+                    "global"
+                  ],
+                  "endpointGeographies": [
+                    "regional"
+                  ]
+                },
+                "sourceRefs": [
+                  "source:openai:developers-openai-com-api-docs-guides-ultrafast-mode"
+                ]
+              }
+            ],
+            "price_adjustments": [
+              {
+                "factor": "1.1",
+                "operation": "multiply",
+                "priceAdjustmentId": "regional-data-residency-uplift",
+                "selector": {
+                  "endpointGeographies": [
+                    "regional"
+                  ]
+                },
+                "sourceRefs": [
+                  "source:openai:developers-openai-com-api-docs-guides-your-data",
+                  "source:openai:developers-openai-com-api-docs-pricing"
+                ]
+              }
+            ]
+          },
+          "calculation_default": false,
+          "source_refs": [
+            "source:openai:developers-openai-com-api-docs-changelog",
+            "source:openai:developers-openai-com-api-docs-guides-ultrafast-mode",
+            "source:openai:developers-openai-com-api-docs-models-gpt-6-astra",
+            "source:openai:developers-openai-com-api-docs-pricing"
+          ],
+          "source_urls": [
+            "https://developers.openai.com/api/docs/changelog",
+            "https://developers.openai.com/api/docs/guides/ultrafast-mode",
+            "https://developers.openai.com/api/docs/models/gpt-6-astra",
+            "https://developers.openai.com/api/docs/pricing"
+          ],
+          "verification_status": "verified",
+          "checked_at": "2026-10-08T08:54:59Z",
+          "last_verified_at": "2026-10-08T08:54:59Z",
+          "billing_note": "Ultrafast uses the existing gpt-6-astra model in the Responses API with service_tier=\"ultrafast\"; it is not the default or a Batch/Chat Completions mode. Short context includes 272,000 input tokens; above 272,000 tokens the long-context rates apply to the entire request, including cached prompt tokens. Global processing and US data residency are supported; EU and other non-US regional processing are unsupported. Regional data-residency endpoints retain the published 10% uplift. Default usage-tier rate limits are Build 500,000 TPM, Launch 1,000,000 TPM, and Grow 5,000,000 TPM. Endpoint eligibility, service-tier binding, and TPM limits are descriptive, not programmatically enforced by this pricing contract."
+        },
+        {
+          "pricing_id": "price:openai/gpt-6-astra:ultrafast:long:current",
+          "charge_id": "price:openai/gpt-6-astra:ultrafast:long:current:input:text:per_1m_tokens",
+          "component": "input",
+          "amount": "120",
+          "unit": "per_1m_tokens",
+          "currency": "USD",
+          "modality": "text",
+          "condition": {
+            "processing_mode": "ultrafast",
+            "context_class": "long",
+            "prompt_token_threshold": 272000,
+            "tier_selection": {
+              "comparison": "greater_than",
+              "token_basis": "input_tokens",
+              "cached_prompt_tokens_included": true,
+              "whole_request_pricing": true
+            },
+            "region_policy": "global",
+            "effective_from": "2026-09-29",
+            "effective_until": null,
+            "region_selector": {
+              "dataResidencies": [
+                "global",
+                "us"
+              ],
+              "endpointGeographies": [
+                "global",
+                "regional"
+              ],
+              "pricingGeography": "global_base"
+            },
+            "default_availability_status": "available",
+            "availability_rules": [
+              {
+                "availabilityRuleId": "ultrafast-regional-requires-us-residency",
+                "availabilityStatus": "unavailable",
+                "reason": "Ultrafast permits global processing or US residency; a regional endpoint without US residency is unsupported.",
+                "selector": {
+                  "dataResidencies": [
+                    "global"
+                  ],
+                  "endpointGeographies": [
+                    "regional"
+                  ]
+                },
+                "sourceRefs": [
+                  "source:openai:developers-openai-com-api-docs-guides-ultrafast-mode"
+                ]
+              }
+            ],
+            "price_adjustments": [
+              {
+                "factor": "1.1",
+                "operation": "multiply",
+                "priceAdjustmentId": "regional-data-residency-uplift",
+                "selector": {
+                  "endpointGeographies": [
+                    "regional"
+                  ]
+                },
+                "sourceRefs": [
+                  "source:openai:developers-openai-com-api-docs-guides-your-data",
+                  "source:openai:developers-openai-com-api-docs-pricing"
+                ]
+              }
+            ]
+          },
+          "calculation_default": false,
+          "source_refs": [
+            "source:openai:developers-openai-com-api-docs-changelog",
+            "source:openai:developers-openai-com-api-docs-guides-ultrafast-mode",
+            "source:openai:developers-openai-com-api-docs-models-gpt-6-astra",
+            "source:openai:developers-openai-com-api-docs-pricing"
+          ],
+          "source_urls": [
+            "https://developers.openai.com/api/docs/changelog",
+            "https://developers.openai.com/api/docs/guides/ultrafast-mode",
+            "https://developers.openai.com/api/docs/models/gpt-6-astra",
+            "https://developers.openai.com/api/docs/pricing"
+          ],
+          "verification_status": "verified",
+          "checked_at": "2026-10-08T08:54:59Z",
+          "last_verified_at": "2026-10-08T08:54:59Z",
+          "billing_note": "Ultrafast uses the existing gpt-6-astra model in the Responses API with service_tier=\"ultrafast\"; it is not the default or a Batch/Chat Completions mode. Short context includes 272,000 input tokens; above 272,000 tokens the long-context rates apply to the entire request, including cached prompt tokens. Global processing and US data residency are supported; EU and other non-US regional processing are unsupported. Regional data-residency endpoints retain the published 10% uplift. Default usage-tier rate limits are Build 500,000 TPM, Launch 1,000,000 TPM, and Grow 5,000,000 TPM. Endpoint eligibility, service-tier binding, and TPM limits are descriptive, not programmatically enforced by this pricing contract."
+        },
+        {
+          "pricing_id": "price:openai/gpt-6-astra:ultrafast:long:current",
+          "charge_id": "price:openai/gpt-6-astra:ultrafast:long:current:output:text:per_1m_tokens",
+          "component": "output",
+          "amount": "450",
+          "unit": "per_1m_tokens",
+          "currency": "USD",
+          "modality": "text",
+          "condition": {
+            "processing_mode": "ultrafast",
+            "context_class": "long",
+            "prompt_token_threshold": 272000,
+            "tier_selection": {
+              "comparison": "greater_than",
+              "token_basis": "input_tokens",
+              "cached_prompt_tokens_included": true,
+              "whole_request_pricing": true
+            },
+            "region_policy": "global",
+            "effective_from": "2026-09-29",
+            "effective_until": null,
+            "region_selector": {
+              "dataResidencies": [
+                "global",
+                "us"
+              ],
+              "endpointGeographies": [
+                "global",
+                "regional"
+              ],
+              "pricingGeography": "global_base"
+            },
+            "default_availability_status": "available",
+            "availability_rules": [
+              {
+                "availabilityRuleId": "ultrafast-regional-requires-us-residency",
+                "availabilityStatus": "unavailable",
+                "reason": "Ultrafast permits global processing or US residency; a regional endpoint without US residency is unsupported.",
+                "selector": {
+                  "dataResidencies": [
+                    "global"
+                  ],
+                  "endpointGeographies": [
+                    "regional"
+                  ]
+                },
+                "sourceRefs": [
+                  "source:openai:developers-openai-com-api-docs-guides-ultrafast-mode"
+                ]
+              }
+            ],
+            "price_adjustments": [
+              {
+                "factor": "1.1",
+                "operation": "multiply",
+                "priceAdjustmentId": "regional-data-residency-uplift",
+                "selector": {
+                  "endpointGeographies": [
+                    "regional"
+                  ]
+                },
+                "sourceRefs": [
+                  "source:openai:developers-openai-com-api-docs-guides-your-data",
+                  "source:openai:developers-openai-com-api-docs-pricing"
+                ]
+              }
+            ]
+          },
+          "calculation_default": false,
+          "source_refs": [
+            "source:openai:developers-openai-com-api-docs-changelog",
+            "source:openai:developers-openai-com-api-docs-guides-ultrafast-mode",
+            "source:openai:developers-openai-com-api-docs-models-gpt-6-astra",
+            "source:openai:developers-openai-com-api-docs-pricing"
+          ],
+          "source_urls": [
+            "https://developers.openai.com/api/docs/changelog",
+            "https://developers.openai.com/api/docs/guides/ultrafast-mode",
+            "https://developers.openai.com/api/docs/models/gpt-6-astra",
+            "https://developers.openai.com/api/docs/pricing"
+          ],
+          "verification_status": "verified",
+          "checked_at": "2026-10-08T08:54:59Z",
+          "last_verified_at": "2026-10-08T08:54:59Z",
+          "billing_note": "Ultrafast uses the existing gpt-6-astra model in the Responses API with service_tier=\"ultrafast\"; it is not the default or a Batch/Chat Completions mode. Short context includes 272,000 input tokens; above 272,000 tokens the long-context rates apply to the entire request, including cached prompt tokens. Global processing and US data residency are supported; EU and other non-US regional processing are unsupported. Regional data-residency endpoints retain the published 10% uplift. Default usage-tier rate limits are Build 500,000 TPM, Launch 1,000,000 TPM, and Grow 5,000,000 TPM. Endpoint eligibility, service-tier binding, and TPM limits are descriptive, not programmatically enforced by this pricing contract."
+        },
+        {
+          "pricing_id": "price:openai/gpt-6-astra:ultrafast:short:current",
+          "charge_id": "price:openai/gpt-6-astra:ultrafast:short:current:cache_write:text:per_1m_tokens",
+          "component": "cache_write",
+          "amount": "75",
+          "unit": "per_1m_tokens",
+          "currency": "USD",
+          "modality": "text",
+          "condition": {
+            "processing_mode": "ultrafast",
+            "context_class": "short",
+            "prompt_token_threshold": 272000,
+            "tier_selection": {
+              "comparison": "less_than_or_equal",
+              "token_basis": "input_tokens",
+              "cached_prompt_tokens_included": true,
+              "whole_request_pricing": true
+            },
+            "region_policy": "global",
+            "effective_from": "2026-09-29",
+            "effective_until": null,
+            "region_selector": {
+              "dataResidencies": [
+                "global",
+                "us"
+              ],
+              "endpointGeographies": [
+                "global",
+                "regional"
+              ],
+              "pricingGeography": "global_base"
+            },
+            "default_availability_status": "available",
+            "availability_rules": [
+              {
+                "availabilityRuleId": "ultrafast-regional-requires-us-residency",
+                "availabilityStatus": "unavailable",
+                "reason": "Ultrafast permits global processing or US residency; a regional endpoint without US residency is unsupported.",
+                "selector": {
+                  "dataResidencies": [
+                    "global"
+                  ],
+                  "endpointGeographies": [
+                    "regional"
+                  ]
+                },
+                "sourceRefs": [
+                  "source:openai:developers-openai-com-api-docs-guides-ultrafast-mode"
+                ]
+              }
+            ],
+            "price_adjustments": [
+              {
+                "factor": "1.1",
+                "operation": "multiply",
+                "priceAdjustmentId": "regional-data-residency-uplift",
+                "selector": {
+                  "endpointGeographies": [
+                    "regional"
+                  ]
+                },
+                "sourceRefs": [
+                  "source:openai:developers-openai-com-api-docs-guides-your-data",
+                  "source:openai:developers-openai-com-api-docs-pricing"
+                ]
+              }
+            ]
+          },
+          "calculation_default": false,
+          "source_refs": [
+            "source:openai:developers-openai-com-api-docs-changelog",
+            "source:openai:developers-openai-com-api-docs-guides-ultrafast-mode",
+            "source:openai:developers-openai-com-api-docs-models-gpt-6-astra",
+            "source:openai:developers-openai-com-api-docs-pricing"
+          ],
+          "source_urls": [
+            "https://developers.openai.com/api/docs/changelog",
+            "https://developers.openai.com/api/docs/guides/ultrafast-mode",
+            "https://developers.openai.com/api/docs/models/gpt-6-astra",
+            "https://developers.openai.com/api/docs/pricing"
+          ],
+          "verification_status": "verified",
+          "checked_at": "2026-10-08T08:54:59Z",
+          "last_verified_at": "2026-10-08T08:54:59Z",
+          "billing_note": "Ultrafast uses the existing gpt-6-astra model in the Responses API with service_tier=\"ultrafast\"; it is not the default or a Batch/Chat Completions mode. Short context includes 272,000 input tokens; above 272,000 tokens the long-context rates apply to the entire request, including cached prompt tokens. Global processing and US data residency are supported; EU and other non-US regional processing are unsupported. Regional data-residency endpoints retain the published 10% uplift. Default usage-tier rate limits are Build 500,000 TPM, Launch 1,000,000 TPM, and Grow 5,000,000 TPM. Endpoint eligibility, service-tier binding, and TPM limits are descriptive, not programmatically enforced by this pricing contract."
+        },
+        {
+          "pricing_id": "price:openai/gpt-6-astra:ultrafast:short:current",
+          "charge_id": "price:openai/gpt-6-astra:ultrafast:short:current:cached_input:text:per_1m_tokens",
+          "component": "cached_input",
+          "amount": "6",
+          "unit": "per_1m_tokens",
+          "currency": "USD",
+          "modality": "text",
+          "condition": {
+            "processing_mode": "ultrafast",
+            "context_class": "short",
+            "prompt_token_threshold": 272000,
+            "tier_selection": {
+              "comparison": "less_than_or_equal",
+              "token_basis": "input_tokens",
+              "cached_prompt_tokens_included": true,
+              "whole_request_pricing": true
+            },
+            "region_policy": "global",
+            "effective_from": "2026-09-29",
+            "effective_until": null,
+            "region_selector": {
+              "dataResidencies": [
+                "global",
+                "us"
+              ],
+              "endpointGeographies": [
+                "global",
+                "regional"
+              ],
+              "pricingGeography": "global_base"
+            },
+            "default_availability_status": "available",
+            "availability_rules": [
+              {
+                "availabilityRuleId": "ultrafast-regional-requires-us-residency",
+                "availabilityStatus": "unavailable",
+                "reason": "Ultrafast permits global processing or US residency; a regional endpoint without US residency is unsupported.",
+                "selector": {
+                  "dataResidencies": [
+                    "global"
+                  ],
+                  "endpointGeographies": [
+                    "regional"
+                  ]
+                },
+                "sourceRefs": [
+                  "source:openai:developers-openai-com-api-docs-guides-ultrafast-mode"
+                ]
+              }
+            ],
+            "price_adjustments": [
+              {
+                "factor": "1.1",
+                "operation": "multiply",
+                "priceAdjustmentId": "regional-data-residency-uplift",
+                "selector": {
+                  "endpointGeographies": [
+                    "regional"
+                  ]
+                },
+                "sourceRefs": [
+                  "source:openai:developers-openai-com-api-docs-guides-your-data",
+                  "source:openai:developers-openai-com-api-docs-pricing"
+                ]
+              }
+            ]
+          },
+          "calculation_default": false,
+          "source_refs": [
+            "source:openai:developers-openai-com-api-docs-changelog",
+            "source:openai:developers-openai-com-api-docs-guides-ultrafast-mode",
+            "source:openai:developers-openai-com-api-docs-models-gpt-6-astra",
+            "source:openai:developers-openai-com-api-docs-pricing"
+          ],
+          "source_urls": [
+            "https://developers.openai.com/api/docs/changelog",
+            "https://developers.openai.com/api/docs/guides/ultrafast-mode",
+            "https://developers.openai.com/api/docs/models/gpt-6-astra",
+            "https://developers.openai.com/api/docs/pricing"
+          ],
+          "verification_status": "verified",
+          "checked_at": "2026-10-08T08:54:59Z",
+          "last_verified_at": "2026-10-08T08:54:59Z",
+          "billing_note": "Ultrafast uses the existing gpt-6-astra model in the Responses API with service_tier=\"ultrafast\"; it is not the default or a Batch/Chat Completions mode. Short context includes 272,000 input tokens; above 272,000 tokens the long-context rates apply to the entire request, including cached prompt tokens. Global processing and US data residency are supported; EU and other non-US regional processing are unsupported. Regional data-residency endpoints retain the published 10% uplift. Default usage-tier rate limits are Build 500,000 TPM, Launch 1,000,000 TPM, and Grow 5,000,000 TPM. Endpoint eligibility, service-tier binding, and TPM limits are descriptive, not programmatically enforced by this pricing contract."
+        },
+        {
+          "pricing_id": "price:openai/gpt-6-astra:ultrafast:short:current",
+          "charge_id": "price:openai/gpt-6-astra:ultrafast:short:current:input:text:per_1m_tokens",
+          "component": "input",
+          "amount": "60",
+          "unit": "per_1m_tokens",
+          "currency": "USD",
+          "modality": "text",
+          "condition": {
+            "processing_mode": "ultrafast",
+            "context_class": "short",
+            "prompt_token_threshold": 272000,
+            "tier_selection": {
+              "comparison": "less_than_or_equal",
+              "token_basis": "input_tokens",
+              "cached_prompt_tokens_included": true,
+              "whole_request_pricing": true
+            },
+            "region_policy": "global",
+            "effective_from": "2026-09-29",
+            "effective_until": null,
+            "region_selector": {
+              "dataResidencies": [
+                "global",
+                "us"
+              ],
+              "endpointGeographies": [
+                "global",
+                "regional"
+              ],
+              "pricingGeography": "global_base"
+            },
+            "default_availability_status": "available",
+            "availability_rules": [
+              {
+                "availabilityRuleId": "ultrafast-regional-requires-us-residency",
+                "availabilityStatus": "unavailable",
+                "reason": "Ultrafast permits global processing or US residency; a regional endpoint without US residency is unsupported.",
+                "selector": {
+                  "dataResidencies": [
+                    "global"
+                  ],
+                  "endpointGeographies": [
+                    "regional"
+                  ]
+                },
+                "sourceRefs": [
+                  "source:openai:developers-openai-com-api-docs-guides-ultrafast-mode"
+                ]
+              }
+            ],
+            "price_adjustments": [
+              {
+                "factor": "1.1",
+                "operation": "multiply",
+                "priceAdjustmentId": "regional-data-residency-uplift",
+                "selector": {
+                  "endpointGeographies": [
+                    "regional"
+                  ]
+                },
+                "sourceRefs": [
+                  "source:openai:developers-openai-com-api-docs-guides-your-data",
+                  "source:openai:developers-openai-com-api-docs-pricing"
+                ]
+              }
+            ]
+          },
+          "calculation_default": false,
+          "source_refs": [
+            "source:openai:developers-openai-com-api-docs-changelog",
+            "source:openai:developers-openai-com-api-docs-guides-ultrafast-mode",
+            "source:openai:developers-openai-com-api-docs-models-gpt-6-astra",
+            "source:openai:developers-openai-com-api-docs-pricing"
+          ],
+          "source_urls": [
+            "https://developers.openai.com/api/docs/changelog",
+            "https://developers.openai.com/api/docs/guides/ultrafast-mode",
+            "https://developers.openai.com/api/docs/models/gpt-6-astra",
+            "https://developers.openai.com/api/docs/pricing"
+          ],
+          "verification_status": "verified",
+          "checked_at": "2026-10-08T08:54:59Z",
+          "last_verified_at": "2026-10-08T08:54:59Z",
+          "billing_note": "Ultrafast uses the existing gpt-6-astra model in the Responses API with service_tier=\"ultrafast\"; it is not the default or a Batch/Chat Completions mode. Short context includes 272,000 input tokens; above 272,000 tokens the long-context rates apply to the entire request, including cached prompt tokens. Global processing and US data residency are supported; EU and other non-US regional processing are unsupported. Regional data-residency endpoints retain the published 10% uplift. Default usage-tier rate limits are Build 500,000 TPM, Launch 1,000,000 TPM, and Grow 5,000,000 TPM. Endpoint eligibility, service-tier binding, and TPM limits are descriptive, not programmatically enforced by this pricing contract."
+        },
+        {
+          "pricing_id": "price:openai/gpt-6-astra:ultrafast:short:current",
+          "charge_id": "price:openai/gpt-6-astra:ultrafast:short:current:output:text:per_1m_tokens",
+          "component": "output",
+          "amount": "300",
+          "unit": "per_1m_tokens",
+          "currency": "USD",
+          "modality": "text",
+          "condition": {
+            "processing_mode": "ultrafast",
+            "context_class": "short",
+            "prompt_token_threshold": 272000,
+            "tier_selection": {
+              "comparison": "less_than_or_equal",
+              "token_basis": "input_tokens",
+              "cached_prompt_tokens_included": true,
+              "whole_request_pricing": true
+            },
+            "region_policy": "global",
+            "effective_from": "2026-09-29",
+            "effective_until": null,
+            "region_selector": {
+              "dataResidencies": [
+                "global",
+                "us"
+              ],
+              "endpointGeographies": [
+                "global",
+                "regional"
+              ],
+              "pricingGeography": "global_base"
+            },
+            "default_availability_status": "available",
+            "availability_rules": [
+              {
+                "availabilityRuleId": "ultrafast-regional-requires-us-residency",
+                "availabilityStatus": "unavailable",
+                "reason": "Ultrafast permits global processing or US residency; a regional endpoint without US residency is unsupported.",
+                "selector": {
+                  "dataResidencies": [
+                    "global"
+                  ],
+                  "endpointGeographies": [
+                    "regional"
+                  ]
+                },
+                "sourceRefs": [
+                  "source:openai:developers-openai-com-api-docs-guides-ultrafast-mode"
+                ]
+              }
+            ],
+            "price_adjustments": [
+              {
+                "factor": "1.1",
+                "operation": "multiply",
+                "priceAdjustmentId": "regional-data-residency-uplift",
+                "selector": {
+                  "endpointGeographies": [
+                    "regional"
+                  ]
+                },
+                "sourceRefs": [
+                  "source:openai:developers-openai-com-api-docs-guides-your-data",
+                  "source:openai:developers-openai-com-api-docs-pricing"
+                ]
+              }
+            ]
+          },
+          "calculation_default": false,
+          "source_refs": [
+            "source:openai:developers-openai-com-api-docs-changelog",
+            "source:openai:developers-openai-com-api-docs-guides-ultrafast-mode",
+            "source:openai:developers-openai-com-api-docs-models-gpt-6-astra",
+            "source:openai:developers-openai-com-api-docs-pricing"
+          ],
+          "source_urls": [
+            "https://developers.openai.com/api/docs/changelog",
+            "https://developers.openai.com/api/docs/guides/ultrafast-mode",
+            "https://developers.openai.com/api/docs/models/gpt-6-astra",
+            "https://developers.openai.com/api/docs/pricing"
+          ],
+          "verification_status": "verified",
+          "checked_at": "2026-10-08T08:54:59Z",
+          "last_verified_at": "2026-10-08T08:54:59Z",
+          "billing_note": "Ultrafast uses the existing gpt-6-astra model in the Responses API with service_tier=\"ultrafast\"; it is not the default or a Batch/Chat Completions mode. Short context includes 272,000 input tokens; above 272,000 tokens the long-context rates apply to the entire request, including cached prompt tokens. Global processing and US data residency are supported; EU and other non-US regional processing are unsupported. Regional data-residency endpoints retain the published 10% uplift. Default usage-tier rate limits are Build 500,000 TPM, Launch 1,000,000 TPM, and Grow 5,000,000 TPM. Endpoint eligibility, service-tier binding, and TPM limits are descriptive, not programmatically enforced by this pricing contract."
         }
       ],
       "unit_price": null,

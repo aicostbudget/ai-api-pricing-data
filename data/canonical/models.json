@@ -744,6 +744,216 @@
         "checked_at": "2026-09-04T17:34:11Z",
         "verified_at": "2026-09-04T17:34:11Z",
         "billing_note": "Fast long-context pricing is 2x the applicable Standard rate. Fast and priority route identically, and Fast remains unavailable with EU data residency."
+      },
+      {
+        "id": "price:openai/gpt-6-astra:ultrafast:short:current",
+        "processing_mode": "ultrafast",
+        "context_class": "short",
+        "pricing_status": "current",
+        "calculation_default": false,
+        "prompt_token_threshold": 272000,
+        "tier_selection": {
+          "comparison": "less_than_or_equal",
+          "token_basis": "input_tokens",
+          "cached_prompt_tokens_included": true,
+          "whole_request_pricing": true
+        },
+        "effective_from": "2026-09-29",
+        "effective_until": null,
+        "currency": "USD",
+        "charges": [
+          {
+            "id": "price:openai/gpt-6-astra:ultrafast:short:current:input:text:per_1m_tokens",
+            "component": "input",
+            "modality": "text",
+            "unit": "per_1m_tokens",
+            "amount": "60"
+          },
+          {
+            "id": "price:openai/gpt-6-astra:ultrafast:short:current:cached_input:text:per_1m_tokens",
+            "component": "cached_input",
+            "modality": "text",
+            "unit": "per_1m_tokens",
+            "amount": "6"
+          },
+          {
+            "id": "price:openai/gpt-6-astra:ultrafast:short:current:cache_write:text:per_1m_tokens",
+            "component": "cache_write",
+            "modality": "text",
+            "unit": "per_1m_tokens",
+            "amount": "75"
+          },
+          {
+            "id": "price:openai/gpt-6-astra:ultrafast:short:current:output:text:per_1m_tokens",
+            "component": "output",
+            "modality": "text",
+            "unit": "per_1m_tokens",
+            "amount": "300"
+          }
+        ],
+        "region_policy": {
+          "pricing_geography": "global_base",
+          "endpoint_geographies": [
+            "global",
+            "regional"
+          ],
+          "data_residencies": [
+            "global",
+            "us"
+          ],
+          "availability": {
+            "default": "available",
+            "rules": [
+              {
+                "id": "ultrafast-regional-requires-us-residency",
+                "selector": {
+                  "endpoint_geographies": [
+                    "regional"
+                  ],
+                  "data_residencies": [
+                    "global"
+                  ]
+                },
+                "status": "unavailable",
+                "reason": "Ultrafast permits global processing or US residency; a regional endpoint without US residency is unsupported.",
+                "source_refs": [
+                  "https://developers.openai.com/api/docs/guides/ultrafast-mode"
+                ]
+              }
+            ]
+          },
+          "price_adjustments": [
+            {
+              "id": "regional-data-residency-uplift",
+              "selector": {
+                "endpoint_geographies": [
+                  "regional"
+                ]
+              },
+              "operation": "multiply",
+              "factor": "1.10",
+              "source_refs": [
+                "https://developers.openai.com/api/docs/pricing",
+                "https://developers.openai.com/api/docs/guides/your-data"
+              ]
+            }
+          ]
+        },
+        "source_refs": [
+          "https://developers.openai.com/api/docs/pricing",
+          "https://developers.openai.com/api/docs/guides/ultrafast-mode",
+          "https://developers.openai.com/api/docs/changelog",
+          "https://developers.openai.com/api/docs/models/gpt-6-astra"
+        ],
+        "verification_status": "verified",
+        "checked_at": "2026-10-08T08:54:59Z",
+        "verified_at": "2026-10-08T08:54:59Z",
+        "billing_note": "Ultrafast uses the existing gpt-6-astra model in the Responses API with service_tier=\"ultrafast\"; it is not the default or a Batch/Chat Completions mode. Short context includes 272,000 input tokens; above 272,000 tokens the long-context rates apply to the entire request, including cached prompt tokens. Global processing and US data residency are supported; EU and other non-US regional processing are unsupported. Regional data-residency endpoints retain the published 10% uplift. Default usage-tier rate limits are Build 500,000 TPM, Launch 1,000,000 TPM, and Grow 5,000,000 TPM. Endpoint eligibility, service-tier binding, and TPM limits are descriptive, not programmatically enforced by this pricing contract."
+      },
+      {
+        "id": "price:openai/gpt-6-astra:ultrafast:long:current",
+        "processing_mode": "ultrafast",
+        "context_class": "long",
+        "pricing_status": "current",
+        "calculation_default": false,
+        "prompt_token_threshold": 272000,
+        "tier_selection": {
+          "comparison": "greater_than",
+          "token_basis": "input_tokens",
+          "cached_prompt_tokens_included": true,
+          "whole_request_pricing": true
+        },
+        "effective_from": "2026-09-29",
+        "effective_until": null,
+        "currency": "USD",
+        "charges": [
+          {
+            "id": "price:openai/gpt-6-astra:ultrafast:long:current:input:text:per_1m_tokens",
+            "component": "input",
+            "modality": "text",
+            "unit": "per_1m_tokens",
+            "amount": "120"
+          },
+          {
+            "id": "price:openai/gpt-6-astra:ultrafast:long:current:cached_input:text:per_1m_tokens",
+            "component": "cached_input",
+            "modality": "text",
+            "unit": "per_1m_tokens",
+            "amount": "12"
+          },
+          {
+            "id": "price:openai/gpt-6-astra:ultrafast:long:current:cache_write:text:per_1m_tokens",
+            "component": "cache_write",
+            "modality": "text",
+            "unit": "per_1m_tokens",
+            "amount": "150"
+          },
+          {
+            "id": "price:openai/gpt-6-astra:ultrafast:long:current:output:text:per_1m_tokens",
+            "component": "output",
+            "modality": "text",
+            "unit": "per_1m_tokens",
+            "amount": "450"
+          }
+        ],
+        "region_policy": {
+          "pricing_geography": "global_base",
+          "endpoint_geographies": [
+            "global",
+            "regional"
+          ],
+          "data_residencies": [
+            "global",
+            "us"
+          ],
+          "availability": {
+            "default": "available",
+            "rules": [
+              {
+                "id": "ultrafast-regional-requires-us-residency",
+                "selector": {
+                  "endpoint_geographies": [
+                    "regional"
+                  ],
+                  "data_residencies": [
+                    "global"
+                  ]
+                },
+                "status": "unavailable",
+                "reason": "Ultrafast permits global processing or US residency; a regional endpoint without US residency is unsupported.",
+                "source_refs": [
+                  "https://developers.openai.com/api/docs/guides/ultrafast-mode"
+                ]
+              }
+            ]
+          },
+          "price_adjustments": [
+            {
+              "id": "regional-data-residency-uplift",
+              "selector": {
+                "endpoint_geographies": [
+                  "regional"
+                ]
+              },
+              "operation": "multiply",
+              "factor": "1.10",
+              "source_refs": [
+                "https://developers.openai.com/api/docs/pricing",
+                "https://developers.openai.com/api/docs/guides/your-data"
+              ]
+            }
+          ]
+        },
+        "source_refs": [
+          "https://developers.openai.com/api/docs/pricing",
+          "https://developers.openai.com/api/docs/guides/ultrafast-mode",
+          "https://developers.openai.com/api/docs/changelog",
+          "https://developers.openai.com/api/docs/models/gpt-6-astra"
+        ],
+        "verification_status": "verified",
+        "checked_at": "2026-10-08T08:54:59Z",
+        "verified_at": "2026-10-08T08:54:59Z",
+        "billing_note": "Ultrafast uses the existing gpt-6-astra model in the Responses API with service_tier=\"ultrafast\"; it is not the default or a Batch/Chat Completions mode. Short context includes 272,000 input tokens; above 272,000 tokens the long-context rates apply to the entire request, including cached prompt tokens. Global processing and US data residency are supported; EU and other non-US regional processing are unsupported. Regional data-residency endpoints retain the published 10% uplift. Default usage-tier rate limits are Build 500,000 TPM, Launch 1,000,000 TPM, and Grow 5,000,000 TPM. Endpoint eligibility, service-tier binding, and TPM limits are descriptive, not programmatically enforced by this pricing contract."
       }
     ],
     "official_source_url": "https://developers.openai.com/api/docs/models/gpt-6-astra",
@@ -755,7 +965,8 @@
       "https://developers.openai.com/api/docs/guides/flex-processing",
       "https://developers.openai.com/api/docs/guides/fast-mode",
       "https://developers.openai.com/api/docs/guides/your-data",
-      "https://openai.com/index/gpt-6-astra/"
+      "https://openai.com/index/gpt-6-astra/",
+      "https://developers.openai.com/api/docs/guides/ultrafast-mode"
     ],
     "accessed_at": "2026-09-04T17:34:11Z",
     "last_verified_at": "2026-09-04T17:34:11Z",
@@ -3725,7 +3936,7 @@
     "accessed_at": "2026-09-03T13:03:55Z",
     "last_verified_at": "2026-09-03T13:03:55Z",
     "effective_from": "2026-09-01",
-    "notes": "Released 2026-09-01 and listed as Active (invite only) for approved Project Glasswing participants, with retirement not sooner than 2027-09-01. It shares Claude Fable 5.1 pricing: $10 input, $0.25 cache read, $12.50 5-minute cache write, $20 1-hour cache write, and $50 output per 1M tokens. Batch input and output receive the published 50% discount.",
+    "notes": "Released 2026-09-01 and listed as Active (verification required), with access restricted to organizations verified through Anthropic verification programs, with retirement not sooner than 2027-09-01. It shares Claude Fable 5.1 pricing: $10 input, $0.25 cache read, $12.50 5-minute cache write, $20 1-hour cache write, and $50 output per 1M tokens. Batch input and output receive the published 50% discount.",
     "access_status": "restricted",
     "access_evidence": [
       {
@@ -8201,7 +8412,7 @@
     "accessed_at": "2026-09-02T11:29:12Z",
     "last_verified_at": "2026-09-02T11:29:12Z",
     "effective_from": null,
-    "notes": "Cohere lists command-a-plus-05-2026 as Live and available through standard API endpoints, with no deprecation date. Its model page says both trial and production keys are free until rate limits are reached, while general pricing documentation says generative models including Command A+ are priced per token and the public pricing page says production keys are billed pay-as-you-go without publishing a Command A+ token rate. Standard Model Vault is a separate managed deployment option and lists Command A+ at $57.50 per XL instance-hour. V1 keeps Standard token, cached-input, and Batch prices null; null is not zero."
+    "notes": "Cohere lists command-a-plus-05-2026 as Live and available through standard API endpoints, with no deprecation date. Its model page says both trial and production keys are free until rate limits are reached, while general pricing documentation says generative models including Command A+ are priced per token and the public pricing page says production keys are billed pay-as-you-go without publishing a Command A+ token rate. Standard Model Vault is a separate managed deployment option and lists Command A+ at USD $17.50 per L instance-hour and USD $32.50 per XL instance-hour. V1 keeps Standard token, cached-input, and Batch prices null; null is not zero."
   },
   {
     "provider_id": "cohere",

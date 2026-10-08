@@ -30,7 +30,7 @@ LIFECYCLE_STATUSES = {"active", "deprecated", "retired", "unknown"}
 RELEASE_STAGES = {"stable", "preview", "legacy", "specialized", "unknown"}
 VERIFICATION_STATUSES = {"verified", "partially_verified", "unconfirmed_price", "stale", "review_required"}
 OFFICIAL_ID_TYPES = {"canonical", "alias", "snapshot", "pinned", "legacy", "historical_reference"}
-PROCESSING_MODES = {"standard", "batch", "flex", "priority", "fast"}
+PROCESSING_MODES = {"standard", "batch", "flex", "priority", "fast", "ultrafast"}
 CONTEXT_CLASSES = {"short", "long"}
 BUSINESS_CRITICALITIES = {
     "production_default_candidate",

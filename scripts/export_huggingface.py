@@ -256,6 +256,13 @@ def public_pricing_components(row: dict[str, Any]) -> list[dict[str, Any]]:
                 "source_urls": source_urls,
                 "verification_status": status,
             }
+        for internal_name, public_name in (
+            ("checkedAt", "checked_at"),
+            ("verifiedAt", "last_verified_at"),
+            ("billingNote", "billing_note"),
+        ):
+            if component.get(internal_name) is not None:
+                public_component[public_name] = component[internal_name]
         if component.get("alternativeGroup") is not None:
             public_component["alternative_group"] = component["alternativeGroup"]
         if component.get("optionalFeature") is not None:

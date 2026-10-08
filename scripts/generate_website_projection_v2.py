@@ -743,6 +743,12 @@ def project_pricing_component(record: dict[str, Any], charge: dict[str, Any]) ->
         "sourceRefs": sorted(record["sourceRefs"]),
         "verificationStatus": record["verificationStatus"],
     }
+    # Preserve record-level evidence for the new mode without changing legacy
+    # component shapes or implying that their pricing has been reverified.
+    if record["processingMode"] == "ultrafast":
+        for field in ("checkedAt", "verifiedAt", "billingNote"):
+            if record.get(field) is not None:
+                projected[field] = record[field]
     if charge.get("alternativeGroup") is not None:
         projected["alternativeGroup"] = charge["alternativeGroup"]
     if charge.get("optionalFeature") is not None:
