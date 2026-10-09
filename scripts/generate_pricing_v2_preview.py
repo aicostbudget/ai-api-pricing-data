@@ -1,6 +1,9 @@
 from __future__ import annotations
 
 import argparse
+import copy
+import os
+import tempfile
 try:
     from sql_seed import render_sql_seed
 except ModuleNotFoundError:
@@ -336,9 +339,13 @@ def read_json(path: Path) -> Any:
     return json.loads(path.read_text(encoding="utf-8"))
 
 
+def render_json(value: Any) -> str:
+    return json.dumps(value, indent=2, sort_keys=True) + "\n"
+
+
 def write_json(path: Path, value: Any) -> None:
     path.parent.mkdir(parents=True, exist_ok=True)
-    write_text_with_retry(path, json.dumps(value, indent=2, sort_keys=True) + "\n")
+    write_text_with_retry(path, render_json(value))
 
 
 def write_text_with_retry(path: Path, value: str) -> None:
@@ -1970,8 +1977,13 @@ def status_parts(provider_id: str, model_id: str, public: dict[str, Any] | None,
     website_status = (website or {}).get("status")
     public_status = (public or {}).get("status")
     if (provider_id, model_id) in REVIEW_REQUIRED_IDS:
+        # Review eligibility is separate from lifecycle. Only the base GPT-4.1
+        # has canonical lifecycle evidence here; keep the family safety gates.
+        lifecycle = "deprecated"
+        if (provider_id, model_id) == ("openai", "gpt-4.1"):
+            lifecycle = public_status if public_status in {"active", "deprecated", "retired"} else "unknown"
         return {
-            "lifecycleStatus": "deprecated",
+            "lifecycleStatus": lifecycle,
             "releaseStage": "legacy",
             "availability": (website or {}).get("availability", "Legacy"),
             "verificationStatus": "review_required",
@@ -2304,6 +2316,165 @@ def update_access_metadata(website_path: Path) -> None:
     print(f"updated access metadata: {len(updates)} frozen identities; {len(prices)} unchanged prices")
 
 
+GPT41_TARGET = "openai/gpt-4.1"
+GPT41_JSON_TARGETS = {
+    "model-identity-registry.json": (None, "internalId"),
+    "models.json": (None, "internalId"),
+    "generated/model-pricing.v2.json": ("models", "canonicalInternalId"),
+}
+GPT41_SQL = "generated/seed-pricing.preview.sql"
+
+
+def frozen_preview(preview: Path) -> dict[str, bytes]:
+    return {path.relative_to(preview).as_posix(): path.read_bytes()
+            for path in sorted(preview.rglob("*")) if path.is_file()}
+
+
+def exact_gpt41(rows: Any, field: str, expected: str = GPT41_TARGET) -> dict:
+    if not isinstance(rows, list) or any(not isinstance(row, dict) for row in rows):
+        raise ValueError("GPT41_STRUCTURE: expected object array")
+    matches = [row for row in rows if row.get(field) == expected]
+    if len(matches) != 1:
+        raise ValueError("GPT41_IDENTITY: target must exist exactly once")
+    return matches[0]
+
+
+def audit_gpt41_delta(baseline: dict[str, bytes], candidate: dict[str, bytes], lifecycle: str) -> None:
+    """Reject any semantic or byte delta outside the single lifecycle field."""
+    if baseline.keys() != candidate.keys():
+        raise ValueError("GPT41_DIFF: artifact files changed")
+    allowed = {*GPT41_JSON_TARGETS, GPT41_SQL}
+    for name, original in baseline.items():
+        proposed = candidate[name]
+        if name not in allowed:
+            if original != proposed:
+                raise ValueError("GPT41_DIFF: non-target artifact changed: " + name)
+            continue
+        if name == GPT41_SQL:
+            try:
+                from sql_seed import parse_seed
+            except ModuleNotFoundError:
+                from scripts.sql_seed import parse_seed
+            before, after = parse_seed(original.decode()), parse_seed(proposed.decode())
+            if [(r.table, r.key) for r in before] != [(r.table, r.key) for r in after]:
+                raise ValueError("GPT41_SQL: keys or order changed")
+            if not all(r.in_transaction and r.upsert for r in after):
+                raise ValueError("GPT41_SQL: transaction/upsert violation")
+            targets = [r for r in after if r.table == "models" and r.key == GPT41_TARGET]
+            if len(targets) != 1:
+                raise ValueError("GPT41_SQL: target missing")
+            for old, new in zip(before, after):
+                if old.table == "models" and old.key == GPT41_TARGET:
+                    expected = {**old.payload, "lifecycleStatus": lifecycle}
+                    if new.payload != expected:
+                        raise ValueError("GPT41_SQL: target payload drift")
+                elif old.raw != new.raw:
+                    raise ValueError("GPT41_SQL: non-target INSERT changed")
+            continue
+        old, new = json.loads(original), json.loads(proposed)
+        container, field = GPT41_JSON_TARGETS[name]
+        target = exact_gpt41(new[container] if container else new, field)
+        if target.get("lifecycleStatus") != lifecycle:
+            raise ValueError("GPT41_DIFF: incorrect lifecycle")
+        restored = copy.deepcopy(new)
+        old_target = exact_gpt41(old[container] if container else old, field)
+        exact_gpt41(restored[container] if container else restored, field)["lifecycleStatus"] = old_target["lifecycleStatus"]
+        if restored != old or proposed != render_json(new).encode():
+            raise ValueError("GPT41_DIFF: non-target field or serialization changed")
+
+
+def gpt41_candidates(baseline: dict[str, bytes], canonical: list[dict]) -> dict[str, bytes]:
+    public = exact_gpt41([r for r in canonical if r.get("provider_id") == "openai"], "model_id", "gpt-4.1")
+    if public.get("status") != "active":
+        raise ValueError("GPT41_CANONICAL: expected reviewed active baseline")
+    website = exact_gpt41(json.loads(baseline["generated/model-pricing.website-preview.json"]), "id", "gpt-4.1")
+    parts = status_parts("openai", "gpt-4.1", public, website)
+    if parts != {"lifecycleStatus": "active", "releaseStage": "legacy",
+                 "availability": "Legacy", "verificationStatus": "review_required"}:
+        raise ValueError("GPT41_RULE: lifecycle or safety policy changed")
+    result = dict(baseline)
+    for name, (container, field) in GPT41_JSON_TARGETS.items():
+        document = json.loads(baseline[name])
+        if container and (not isinstance(document, dict) or container not in document):
+            raise ValueError("GPT41_STRUCTURE: missing models array")
+        target = exact_gpt41(document[container] if container else document, field)
+        required = {"releaseStage": "legacy", "verificationStatus": "review_required",
+                    "availability": "Legacy", "accessStatus": "unknown", "bindingStatus": "unresolved"}
+        if name == "models.json":
+            required["defaultPriceRecordId"] = None
+        if container:
+            required.update(defaultSafe=False, selectedPriceRecordId=None)
+        if any(key not in target or target[key] != value for key, value in required.items()):
+            raise ValueError("GPT41_SAFETY: target eligibility or structure differs")
+        if target.get("lifecycleStatus") not in {"deprecated", "active"}:
+            raise ValueError("GPT41_LIFECYCLE: unexpected baseline")
+        if baseline[name] != render_json(document).encode():
+            raise ValueError("GPT41_SERIALIZER: unexpected baseline format")
+        target["lifecycleStatus"] = parts["lifecycleStatus"]
+        result[name] = render_json(document).encode()
+    sources, models, prices = [json.loads(baseline[name]) for name in ("sources.json", "models.json", "prices.json")]
+    if (len(json.loads(baseline["model-identity-registry.json"])), len(models), len(prices),
+        sum(len(row["charges"]) for row in prices), len(sources)) != (97, 94, 250, 751, 170):
+        raise ValueError("GPT41_UNIVERSE: frozen baseline counts differ")
+    if any(row.get("calculationDefault") is not False or row.get("verificationStatus") != "review_required"
+           for row in prices if row.get("modelInternalId") == GPT41_TARGET):
+        raise ValueError("GPT41_SAFETY: target PriceRecord eligibility changed")
+    if baseline[GPT41_SQL] != render_sql_seed(sources, models, prices).encode():
+        raise ValueError("GPT41_SQL: persisted baseline parity failure")
+    result[GPT41_SQL] = render_sql_seed(sources, json.loads(result["models.json"]), prices).encode()
+    audit_gpt41_delta(baseline, result, parts["lifecycleStatus"])
+    return result
+
+
+def persist_gpt41(preview: Path, baseline: dict[str, bytes], candidate: dict[str, bytes]) -> None:
+    """Preflight in TEMP, then replace files; roll back completed replacements on error."""
+    audit_gpt41_delta(baseline, candidate, "active")
+    with tempfile.TemporaryDirectory(prefix="gpt41-review-") as review_dir:
+        review = Path(review_dir)
+        for name, data in candidate.items():
+            path = review / name
+            path.parent.mkdir(parents=True, exist_ok=True)
+            path.write_bytes(data)
+        audit_gpt41_delta(baseline, frozen_preview(review), "active")
+        if frozen_preview(preview) != baseline:
+            raise ValueError("GPT41_CONCURRENT: persisted inputs changed")
+        changed = [name for name in candidate if candidate[name] != baseline[name]]
+        # Stage replacements and backups on the destination volume for os.replace.
+        with tempfile.TemporaryDirectory(prefix=".gpt41-stage-", dir=preview.parent) as staging_dir:
+            staging = Path(staging_dir)
+            for index, name in enumerate(changed):
+                (staging / f"new-{index}").write_bytes(candidate[name])
+                (staging / f"old-{index}").write_bytes(baseline[name])
+            if frozen_preview(preview) != baseline:
+                raise ValueError("GPT41_CONCURRENT: persisted inputs changed")
+            completed = []
+            try:
+                for index, name in enumerate(changed):
+                    os.replace(staging / f"new-{index}", preview / name)
+                    completed.append((index, name))
+                if frozen_preview(preview) != candidate:
+                    raise ValueError("GPT41_WRITE: persisted candidate mismatch")
+            except BaseException:
+                for index, name in reversed(completed):
+                    os.replace(staging / f"old-{index}", preview / name)
+                raise
+
+
+def targeted_gpt41_lifecycle(write: bool) -> None:
+    baseline = frozen_preview(PREVIEW)
+    canonical_bytes = (CANONICAL / "models.json").read_bytes()
+    candidate = gpt41_candidates(baseline, json.loads(canonical_bytes))
+    if (CANONICAL / "models.json").read_bytes() != canonical_bytes:
+        raise ValueError("GPT41_CONCURRENT: canonical changed")
+    if write:
+        persist_gpt41(PREVIEW, baseline, candidate)
+        print("Targeted GPT-4.1 lifecycle artifacts written.")
+    elif candidate != baseline:
+        raise ValueError("GPT41_CHECK: persisted lifecycle artifacts differ")
+    else:
+        print("Targeted GPT-4.1 lifecycle artifacts are in sync.")
+
+
 def main() -> None:
     parser = argparse.ArgumentParser(description="Generate the Pricing V2 preview artifacts.")
     parser.add_argument(
@@ -2325,7 +2496,18 @@ def main() -> None:
         help="Refresh source timestamps only for an explicitly reverified canonical record.",
     )
     parser.add_argument("--access-metadata-only", action="store_true", help="Add access facts to the frozen universe without reevaluating pricing/lifecycle contracts.")
+    parser.add_argument("--targeted-gpt41-lifecycle", action="store_true", help="Reconcile only the reviewed GPT-4.1 lifecycle against frozen persisted artifacts.")
+    targeted_mode = parser.add_mutually_exclusive_group()
+    targeted_mode.add_argument("--check", action="store_true")
+    targeted_mode.add_argument("--write", action="store_true")
     args = parser.parse_args()
+    if args.targeted_gpt41_lifecycle:
+        if not (args.check or args.write) or args.access_metadata_only or args.refresh_source_record:
+            parser.error("targeted lifecycle requires --check or --write and cannot refresh access/sources")
+        targeted_gpt41_lifecycle(args.write)
+        return
+    if args.check or args.write:
+        parser.error("--check/--write require --targeted-gpt41-lifecycle")
     if args.access_metadata_only:
         update_access_metadata(args.website_dataset.resolve())
         return
