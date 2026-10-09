@@ -2,6 +2,10 @@ from __future__ import annotations
 
 import json
 try:
+    from lifecycle_authority import load_authority
+except ModuleNotFoundError:
+    from scripts.lifecycle_authority import load_authority
+try:
     from access_metadata import canonical_facts, validate_facts, resolve_authoritative_facts, register_sources, project_facts, resolve_projection_metadata, validate_projected_metadata
 except ModuleNotFoundError:
     from scripts.access_metadata import canonical_facts, validate_facts, resolve_authoritative_facts, register_sources, project_facts, resolve_projection_metadata, validate_projected_metadata
@@ -117,11 +121,19 @@ def validate_required_fields(items: list[dict[str, Any]], required: set[str], la
 
 
 def validate_preview() -> dict[str, Any]:
+    try:
+        mini_authority = load_authority()
+    except (ValueError, OSError) as exc:
+        fail(str(exc))
     identities = read_json(PREVIEW / "model-identity-registry.json")
     dispositions = read_json(PREVIEW / "candidate-disposition-map.json")
     models = read_json(PREVIEW / "models.json")
     prices = read_json(PREVIEW / "prices.json")
     sources = read_json(PREVIEW / "sources.json")
+    for rows, field in ((identities, "internalId"), (models, "internalId")):
+        target = [row for row in rows if row.get(field) == mini_authority["canonicalInternalId"]]
+        if len(target) != 1 or target[0].get("lifecycleStatus") != mini_authority["normalizedLifecycleStatus"]:
+            fail("mini lifecycle differs from the independent authority")
     report = read_json(PREVIEW / "convergence-report.json")
     phase2_conflict = read_json(PREVIEW / "phase2-conflict-resolution-report.json")
     phase2_matrix = read_json(PREVIEW / "phase2-evidence-matrix.json")

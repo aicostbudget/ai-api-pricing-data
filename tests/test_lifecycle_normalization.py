@@ -46,7 +46,7 @@ class LifecycleNormalizationTests(unittest.TestCase):
 
     def test_real_mini_preserves_independent_review_lifecycle(self):
         self.assertEqual(status_parts("openai", "gpt-4.1-mini", None, {"status": "legacy"}), {
-            "lifecycleStatus": "deprecated", "releaseStage": "legacy",
+            "lifecycleStatus": "active", "releaseStage": "legacy",
             "availability": "Legacy", "verificationStatus": "review_required",
         })
 
@@ -55,7 +55,7 @@ class LifecycleNormalizationTests(unittest.TestCase):
         self.assertEqual((result["lifecycleStatus"], result["verificationStatus"]), ("deprecated", "review_required"))
 
     def test_other_review_required_ids_keep_existing_semantics(self):
-        for provider, model in generator.REVIEW_REQUIRED_IDS - {("openai", "gpt-4.1")}:
+        for provider, model in generator.REVIEW_REQUIRED_IDS - {("openai", "gpt-4.1"), ("openai", "gpt-4.1-mini")}:
             with self.subTest(model=model):
                 result = status_parts(provider, model, {"status": "active"}, {"status": "latest"})
                 self.assertEqual((result["lifecycleStatus"], result["releaseStage"], result["verificationStatus"]),

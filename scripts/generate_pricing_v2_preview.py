@@ -4,6 +4,11 @@ import argparse
 import copy
 import os
 import tempfile
+import hashlib
+try:
+    import lifecycle_authority
+except ModuleNotFoundError:
+    from scripts import lifecycle_authority
 try:
     from sql_seed import render_sql_seed
 except ModuleNotFoundError:
@@ -1973,19 +1978,23 @@ def has_verified_price_record_evidence(public: dict[str, Any] | None) -> bool:
     return True
 
 
-def status_parts(provider_id: str, model_id: str, public: dict[str, Any] | None, website: dict[str, Any] | None) -> dict[str, Any]:
+def status_parts(provider_id: str, model_id: str, public: dict[str, Any] | None, website: dict[str, Any] | None,
+                 *, mini_authority: dict[str, Any] | None = None) -> dict[str, Any]:
     website_status = (website or {}).get("status")
     public_status = (public or {}).get("status")
     if (provider_id, model_id) in REVIEW_REQUIRED_IDS:
-        # Review eligibility is separate from lifecycle. Only the base GPT-4.1
-        # has canonical lifecycle evidence here; keep the family safety gates.
+        # Lifecycle authority is independent of the unchanged family review gate.
         lifecycle = "deprecated"
         if (provider_id, model_id) == ("openai", "gpt-4.1"):
             lifecycle = public_status if public_status in {"active", "deprecated", "retired"} else "unknown"
+        elif (provider_id, model_id) == ("openai", "gpt-4.1-mini"):
+            authority = (lifecycle_authority.load_authority() if mini_authority is None
+                         else lifecycle_authority.validate_authority([mini_authority]))
+            lifecycle = authority["normalizedLifecycleStatus"]
         return {
             "lifecycleStatus": lifecycle,
             "releaseStage": "legacy",
-            "availability": (website or {}).get("availability", "Legacy"),
+            "availability": "Legacy" if (provider_id, model_id) == ("openai", "gpt-4.1-mini") else (website or {}).get("availability", "Legacy"),
             "verificationStatus": "review_required",
         }
     if provider_id == "xai" and model_id == "grok-3":
@@ -2339,7 +2348,8 @@ def exact_gpt41(rows: Any, field: str, expected: str = GPT41_TARGET) -> dict:
     return matches[0]
 
 
-def audit_gpt41_delta(baseline: dict[str, bytes], candidate: dict[str, bytes], lifecycle: str) -> None:
+def audit_gpt41_delta(baseline: dict[str, bytes], candidate: dict[str, bytes], lifecycle: str,
+                      *, target: str = GPT41_TARGET) -> None:
     """Reject any semantic or byte delta outside the single lifecycle field."""
     if baseline.keys() != candidate.keys():
         raise ValueError("GPT41_DIFF: artifact files changed")
@@ -2360,11 +2370,11 @@ def audit_gpt41_delta(baseline: dict[str, bytes], candidate: dict[str, bytes], l
                 raise ValueError("GPT41_SQL: keys or order changed")
             if not all(r.in_transaction and r.upsert for r in after):
                 raise ValueError("GPT41_SQL: transaction/upsert violation")
-            targets = [r for r in after if r.table == "models" and r.key == GPT41_TARGET]
+            targets = [r for r in after if r.table == "models" and r.key == target]
             if len(targets) != 1:
                 raise ValueError("GPT41_SQL: target missing")
             for old, new in zip(before, after):
-                if old.table == "models" and old.key == GPT41_TARGET:
+                if old.table == "models" and old.key == target:
                     expected = {**old.payload, "lifecycleStatus": lifecycle}
                     if new.payload != expected:
                         raise ValueError("GPT41_SQL: target payload drift")
@@ -2373,12 +2383,12 @@ def audit_gpt41_delta(baseline: dict[str, bytes], candidate: dict[str, bytes], l
             continue
         old, new = json.loads(original), json.loads(proposed)
         container, field = GPT41_JSON_TARGETS[name]
-        target = exact_gpt41(new[container] if container else new, field)
-        if target.get("lifecycleStatus") != lifecycle:
+        target_row = exact_gpt41(new[container] if container else new, field, target)
+        if target_row.get("lifecycleStatus") != lifecycle:
             raise ValueError("GPT41_DIFF: incorrect lifecycle")
         restored = copy.deepcopy(new)
-        old_target = exact_gpt41(old[container] if container else old, field)
-        exact_gpt41(restored[container] if container else restored, field)["lifecycleStatus"] = old_target["lifecycleStatus"]
+        old_target = exact_gpt41(old[container] if container else old, field, target)
+        exact_gpt41(restored[container] if container else restored, field, target)["lifecycleStatus"] = old_target["lifecycleStatus"]
         if restored != old or proposed != render_json(new).encode():
             raise ValueError("GPT41_DIFF: non-target field or serialization changed")
 
@@ -2475,6 +2485,179 @@ def targeted_gpt41_lifecycle(write: bool) -> None:
         print("Targeted GPT-4.1 lifecycle artifacts are in sync.")
 
 
+def mini_candidates(baseline: dict[str, bytes], authority: dict[str, Any]) -> dict[str, bytes]:
+    """Reconcile one reviewed lifecycle while retaining every frozen price/source byte."""
+    target = lifecycle_authority.MINI_ID
+    authority = lifecycle_authority.validate_authority([authority])
+    website = exact_gpt41(json.loads(baseline["generated/model-pricing.website-preview.json"]), "id", "gpt-4.1-mini")
+    parts = status_parts("openai", "gpt-4.1-mini", None, website, mini_authority=authority)
+    if parts != {"lifecycleStatus": "active", "releaseStage": "legacy",
+                 "availability": "Legacy", "verificationStatus": "review_required"}:
+        raise ValueError("MINI_RULE: lifecycle and review contract mismatch")
+    result = dict(baseline)
+    for name, (container, field) in GPT41_JSON_TARGETS.items():
+        document = json.loads(baseline[name])
+        if container and (not isinstance(document, dict) or container not in document):
+            raise ValueError("MINI_STRUCTURE: missing models array")
+        row = exact_gpt41(document[container] if container else document, field, target)
+        required = {"releaseStage": "legacy", "availability": "Legacy", "verificationStatus": "review_required",
+                    "accessStatus": "unknown", "bindingStatus": "unresolved"}
+        if name == "models.json":
+            required["defaultPriceRecordId"] = None
+        if container:
+            required.update(defaultSafe=False, selectedPriceRecordId=None)
+        if any(key not in row or row[key] != value for key, value in required.items()):
+            raise ValueError("MINI_SAFETY: pricing/access/selection veto differs")
+        if row.get("lifecycleStatus") not in {"deprecated", "active"}:
+            raise ValueError("MINI_LIFECYCLE: unexpected frozen state")
+        if baseline[name] != render_json(document).encode():
+            raise ValueError("MINI_SERIALIZER: unexpected frozen format")
+        row["lifecycleStatus"] = parts["lifecycleStatus"]
+        result[name] = render_json(document).encode()
+    sources, models, prices = [json.loads(baseline[name]) for name in ("sources.json", "models.json", "prices.json")]
+    if (len(json.loads(baseline["model-identity-registry.json"])), len(models), len(prices),
+        sum(len(row["charges"]) for row in prices), len(sources)) != (97, 94, 250, 751, 170):
+        raise ValueError("MINI_UNIVERSE: frozen counts differ")
+    target_prices = [row for row in prices if row["modelInternalId"] == target]
+    if (len(target_prices) != 1 or target_prices[0]["calculationDefault"] is not False
+            or target_prices[0]["verificationStatus"] != "review_required"
+            or target_prices[0]["processingMode"] != "standard"
+            or [(charge["component"], charge["amount"]) for charge in target_prices[0]["charges"]]
+            != [("input", "0.4"), ("output", "1.6")]):
+        raise ValueError("MINI_PRICE: frozen single Standard record differs")
+    if baseline[GPT41_SQL] != render_sql_seed(sources, models, prices).encode():
+        raise ValueError("MINI_SQL: frozen renderer parity failure")
+    result[GPT41_SQL] = render_sql_seed(sources, json.loads(result["models.json"]), prices).encode()
+    audit_mini_delta(baseline, result)
+    return result
+
+
+def audit_mini_delta(baseline: dict[str, bytes], candidate: dict[str, bytes]) -> None:
+    audit_gpt41_delta(baseline, candidate, "active", target=lifecycle_authority.MINI_ID)
+    expected_sql = render_sql_seed(*[json.loads(candidate[name]) for name in ("sources.json", "models.json", "prices.json")]).encode()
+    if candidate[GPT41_SQL] != expected_sql:
+        raise ValueError("MINI_SQL: formal renderer/transaction bytes differ")
+
+
+def lifecycle_git_head() -> str:
+    return subprocess.run(["git", "-C", str(ROOT), "rev-parse", "HEAD"],
+                          check=True, capture_output=True, text=True).stdout.strip()
+
+
+def mini_context() -> dict[Path, bytes]:
+    paths = [CANONICAL / "models.json", lifecycle_authority.AUTHORITY_PATH, lifecycle_authority.SCHEMA_PATH,
+             Path(__file__), Path(lifecycle_authority.__file__), ROOT / "scripts/sql_seed.py",
+             ROOT / "scripts/validate_pricing_v2_preview.py", ROOT / "scripts/generate_website_projection_v2.py"]
+    paths.extend(sorted((ROOT / "scripts").glob("*.py")))
+    paths.extend(sorted((ROOT / "schema").glob("*.json")))
+    paths.extend(sorted(CANONICAL.glob("*.json")))
+    try:
+        return {path: path.read_bytes() for path in paths}
+    except OSError as exc:
+        raise ValueError("MINI_INPUT: missing frozen input") from exc
+
+
+def assert_mini_context(context: dict[Path, bytes], head: str) -> None:
+    if lifecycle_git_head() != head or any(not path.exists() or path.read_bytes() != data for path, data in context.items()):
+        raise ValueError("MINI_CONCURRENT: authority, schema, source or HEAD changed")
+
+
+def review_mini_candidate(baseline: dict[str, bytes], candidate: dict[str, bytes],
+                          context: dict[Path, bytes], head: str) -> Path:
+    audit_mini_delta(baseline, candidate)
+    review = Path(tempfile.mkdtemp(prefix="mini-lifecycle-review-"))
+    for name, data in candidate.items():
+        path = review / "preview" / name
+        path.parent.mkdir(parents=True, exist_ok=True)
+        path.write_bytes(data)
+    for name, data in baseline.items():
+        path = review / "original" / name
+        path.parent.mkdir(parents=True, exist_ok=True)
+        path.write_bytes(data)
+    # Full existing validator, with only its artifact root redirected into SYSTEM TEMP.
+    try:
+        import validate_pricing_v2_preview as validator
+    except ModuleNotFoundError:
+        from scripts import validate_pricing_v2_preview as validator
+    original_preview = validator.PREVIEW
+    try:
+        validator.PREVIEW = review / "preview"
+        summary = validator.validate_preview()
+    finally:
+        validator.PREVIEW = original_preview
+    if frozen_preview(review / "preview") != candidate or frozen_preview(review / "original") != baseline:
+        raise ValueError("MINI_REVIEW: TEMP candidate/original bytes changed")
+    manifest = {"head": head, "scope": "mini lifecycle only", "validation": summary,
+                "inputs": {str(path): hashlib.sha256(data).hexdigest() for path, data in context.items()},
+                "artifacts": {name: {"before": hashlib.sha256(data).hexdigest(),
+                                      "after": hashlib.sha256(candidate[name]).hexdigest()}
+                              for name, data in baseline.items()}}
+    (review / "review.json").write_text(render_json(manifest), encoding="utf-8")
+    assert_mini_context(context, head)
+    return review
+
+
+def write_mini_artifact(path: Path, data: bytes) -> None:
+    with path.open("wb") as output:
+        output.write(data)
+        output.flush()
+        os.fsync(output.fileno())
+
+
+def persist_mini(preview: Path, baseline: dict[str, bytes], candidate: dict[str, bytes],
+                 context: dict[Path, bytes], head: str, review: Path) -> None:
+    audit_mini_delta(baseline, candidate)
+    if frozen_preview(review / "preview") != candidate or frozen_preview(review / "original") != baseline:
+        raise ValueError("MINI_REVIEW: TEMP candidate/original bytes changed")
+    working = dict(baseline)
+    attempted: list[str] = []
+    try:
+        for name in baseline:
+            if candidate[name] == baseline[name]:
+                continue
+            assert_mini_context(context, head)
+            if frozen_preview(preview) != working:
+                raise ValueError("MINI_CONCURRENT: artifact input changed")
+            # Register before writing so a partially failed write is restored too.
+            attempted.append(name)
+            write_mini_artifact(preview / name, candidate[name])
+            working[name] = candidate[name]
+        assert_mini_context(context, head)
+        if frozen_preview(preview) != candidate:
+            raise ValueError("MINI_WRITE: persisted bytes differ")
+    except BaseException:
+        for name in reversed(attempted):
+            (preview / name).write_bytes(baseline[name])
+        raise
+
+
+def targeted_identity_lifecycle(model_id: str, write: bool) -> None:
+    if model_id != lifecycle_authority.MINI_ID:
+        raise ValueError("MINI_TARGET: only openai/gpt-4.1-mini is approved")
+    head = lifecycle_git_head()
+    context = mini_context()
+    baseline = frozen_preview(PREVIEW)
+    canonical = json.loads(context[CANONICAL / "models.json"])
+    if any((row["provider_id"], row["model_id"]) == ("openai", "gpt-4.1-mini") for row in canonical):
+        raise ValueError("MINI_AUTHORITY: canonical model unexpectedly exists")
+    authority = lifecycle_authority.validate_authority(
+        lifecycle_authority.parsed(context[lifecycle_authority.AUTHORITY_PATH]),
+        lifecycle_authority.parsed(context[lifecycle_authority.SCHEMA_PATH]))
+    candidate = mini_candidates(baseline, authority)
+    review = review_mini_candidate(baseline, candidate, context, head)
+    print(f"Mini lifecycle TEMP review: {review}")
+    assert_mini_context(context, head)
+    if frozen_preview(PREVIEW) != baseline:
+        raise ValueError("MINI_CONCURRENT: preview changed before persistence")
+    if write:
+        persist_mini(PREVIEW, baseline, candidate, context, head, review)
+        print("Targeted mini lifecycle artifacts written.")
+    elif candidate != baseline:
+        raise ValueError("MINI_CHECK: persisted mini lifecycle artifacts differ")
+    else:
+        print("Targeted mini lifecycle artifacts are in sync.")
+
+
 def main() -> None:
     parser = argparse.ArgumentParser(description="Generate the Pricing V2 preview artifacts.")
     parser.add_argument(
@@ -2497,20 +2680,31 @@ def main() -> None:
     )
     parser.add_argument("--access-metadata-only", action="store_true", help="Add access facts to the frozen universe without reevaluating pricing/lifecycle contracts.")
     parser.add_argument("--targeted-gpt41-lifecycle", action="store_true", help="Reconcile only the reviewed GPT-4.1 lifecycle against frozen persisted artifacts.")
+    parser.add_argument("--targeted-identity-lifecycle", action="store_true", help="Reconcile only the independently reviewed mini lifecycle.")
+    parser.add_argument("--model-internal-id", help="Exact approved lifecycle identity; no wildcard or multiple targets")
     targeted_mode = parser.add_mutually_exclusive_group()
     targeted_mode.add_argument("--check", action="store_true")
     targeted_mode.add_argument("--write", action="store_true")
     args = parser.parse_args()
+    if args.targeted_identity_lifecycle:
+        if not (args.check or args.write) or args.targeted_gpt41_lifecycle or args.access_metadata_only or args.refresh_source_record:
+            parser.error("mini lifecycle requires --check/--write and cannot mix modes or refresh evidence")
+        targeted_identity_lifecycle(args.model_internal_id, args.write)
+        return
+    if args.model_internal_id:
+        parser.error("--model-internal-id requires --targeted-identity-lifecycle")
     if args.targeted_gpt41_lifecycle:
         if not (args.check or args.write) or args.access_metadata_only or args.refresh_source_record:
             parser.error("targeted lifecycle requires --check or --write and cannot refresh access/sources")
         targeted_gpt41_lifecycle(args.write)
         return
     if args.check or args.write:
-        parser.error("--check/--write require --targeted-gpt41-lifecycle")
+        parser.error("--check/--write require a targeted lifecycle mode")
     if args.access_metadata_only:
         update_access_metadata(args.website_dataset.resolve())
         return
+
+    mini_authority = lifecycle_authority.load_authority()
 
     if args.previous_sources == "-":
         existing_sources = json.load(sys.stdin)
@@ -2688,7 +2882,7 @@ def main() -> None:
         public = public_by_key.get((provider_id, model_id))
         website = website_by_key.get((provider_id, model_id))
         collapse = IDENTITY_COLLAPSE.get((provider_id, model_id))
-        parts = status_parts(provider_id, model_id, public, website)
+        parts = status_parts(provider_id, model_id, public, website, mini_authority=mini_authority)
         identity_type = collapse["identityType"] if collapse else "canonical_model"
         target = collapse["target"] if collapse else None
         if identity_type == "canonical_model":
@@ -2764,7 +2958,7 @@ def main() -> None:
         candidate_internal_id = internal_id(provider_id, model_id)
         collapse = IDENTITY_COLLAPSE.get((provider_id, model_id))
         merged = MERGED_DUPLICATES.get((provider_id, model_id))
-        parts = status_parts(provider_id, model_id, public, website)
+        parts = status_parts(provider_id, model_id, public, website, mini_authority=mini_authority)
         disposition = "canonical_identity"
         final_internal_id = candidate_internal_id
         merge_target = None
@@ -2814,7 +3008,7 @@ def main() -> None:
     for provider_id, model_id in canonical_keys:
         public = public_by_key.get((provider_id, model_id))
         website = website_by_key.get((provider_id, model_id))
-        verification = status_parts(provider_id, model_id, public, website)["verificationStatus"]
+        verification = status_parts(provider_id, model_id, public, website, mini_authority=mini_authority)["verificationStatus"]
         model_internal_id = internal_id(provider_id, model_id)
 
         if public:
@@ -3194,7 +3388,7 @@ def main() -> None:
     for provider_id, model_id in sorted(canonical_keys):
         public = public_by_key.get((provider_id, model_id))
         website = website_by_key.get((provider_id, model_id))
-        parts = status_parts(provider_id, model_id, public, website)
+        parts = status_parts(provider_id, model_id, public, website, mini_authority=mini_authority)
         model_internal_id = internal_id(provider_id, model_id)
         default_price = next(
             (

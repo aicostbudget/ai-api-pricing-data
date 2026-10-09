@@ -54,7 +54,9 @@ class TargetedGpt41LifecycleTests(unittest.TestCase):
         models = json.loads(self.candidate["models.json"])
         self.assertEqual(len(models), 94)
         for model in ("openai/gpt-4.1-mini", "openai/gpt-4.1-nano"):
-            self.assertEqual(g.exact_gpt41(models, "internalId", model)["lifecycleStatus"], "deprecated")
+            self.assertEqual(g.exact_gpt41(models, "internalId", model),
+                             g.exact_gpt41(json.loads(self.baseline["models.json"]), "internalId", model))
+        self.assertEqual(g.exact_gpt41(models, "internalId", "openai/gpt-4.1-nano")["lifecycleStatus"], "deprecated")
 
     def test_access_binding_and_default_safety_remain_blocked(self):
         row = g.exact_gpt41(json.loads(self.candidate["generated/model-pricing.v2.json"])["models"], "canonicalInternalId")
