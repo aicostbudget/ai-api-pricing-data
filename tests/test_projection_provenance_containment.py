@@ -173,6 +173,18 @@ class ProjectionProvenanceContainmentTests(unittest.TestCase):
                 "https://example.test/pricing",
             )
 
+    def test_instance_pricing_does_not_tie_public_api_pricing(self):
+        sources = {
+            "api": source("api", "https://cohere.com/pricing"),
+            "vault": source("vault", "https://docs.cohere.com/docs/model-vault/standard/pricing"),
+        }
+        self.assertEqual(source_evidence_role(sources["vault"]), "deployment_pricing")
+        self.assertEqual(select_official_source_url(
+            ["vault", "api"], sources, existing_url=None,
+            price_source_refs=["vault", "api"], public_official_url=None,
+            website_official_url=None,
+        ), "https://cohere.com/pricing")
+
     def test_existing_legal_url_wins_over_fresh_ranking(self):
         sources = {
             "pricing": source("pricing", "https://example.test/pricing"),

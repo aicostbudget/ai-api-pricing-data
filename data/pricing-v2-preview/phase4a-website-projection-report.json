@@ -1,7 +1,7 @@
 {
   "artifactPath": "data/pricing-v2-preview/generated/model-pricing.v2.json",
-  "defaultSafeModelCount": 62,
-  "generatedAt": "2026-10-08T08:54:59Z",
+  "defaultSafeModelCount": 60,
+  "generatedAt": "2026-10-09T06:56:54Z",
   "governanceClassCounts": {
     "COMPATIBILITY_FALLBACK": 0,
     "EXCLUDED": 8,
@@ -11,12 +11,12 @@
     "VERIFIED_CANONICAL": 69,
     "VERIFIED_PROJECTION": 5
   },
-  "nullPriceCount": 35,
+  "nullPriceCount": 37,
   "parity": {
     "counts": {
-      "exact_parity": 39,
+      "exact_parity": 37,
       "expected_difference": 2,
-      "unsafe_difference": 9
+      "unsafe_difference": 11
     },
     "details": [
       {
@@ -440,14 +440,14 @@
         }
       },
       {
-        "classification": "exact_parity",
+        "classification": "unsafe_difference",
         "modelId": "gpt-5.3-codex",
         "projection": {
-          "cachedInputPrice": 0.175,
-          "inputPrice": 1.75,
-          "outputPrice": 14
+          "cachedInputPrice": null,
+          "inputPrice": null,
+          "outputPrice": null
         },
-        "reason": "Legacy Website values match current projection values.",
+        "reason": "Projection blocks this row from default calculations.",
         "website": {
           "cachedInputPrice": 0.175,
           "inputPrice": 1.75,
@@ -485,14 +485,14 @@
         }
       },
       {
-        "classification": "exact_parity",
+        "classification": "unsafe_difference",
         "modelId": "gpt-5.4-nano",
         "projection": {
-          "cachedInputPrice": 0.02,
-          "inputPrice": 0.2,
-          "outputPrice": 1.25
+          "cachedInputPrice": null,
+          "inputPrice": null,
+          "outputPrice": null
         },
-        "reason": "Legacy Website values match current projection values.",
+        "reason": "Projection blocks this row from default calculations.",
         "website": {
           "cachedInputPrice": 0.02,
           "inputPrice": 0.2,
@@ -777,5 +777,5 @@
   "phase35Readiness": "ready",
   "projectionModelCount": 97,
   "runtimeNetworkDependency": "none",
-  "unsafeIdentityCount": 35
+  "unsafeIdentityCount": 37
 }

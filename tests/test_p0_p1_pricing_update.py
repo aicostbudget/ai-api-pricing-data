@@ -159,7 +159,16 @@ class P0P1PricingUpdateTests(unittest.TestCase):
                 {field: canonical["pricing"][field] for field in ("input", "cached_input", "output", "batch_input", "batch_cached_input", "batch_output")},
                 {"input": 0.75, "cached_input": 0.075, "output": 3.75, "batch_input": 0.375, "batch_cached_input": 0.0375, "batch_output": 1.875},
             )
-            periods = {period["id"]: period for period in canonical["pricing_periods"]}
+            if model_id == "gemini-3.8-flash":
+                periods = {}
+                for period_id, status in (("introductory_2026", "current"), ("standard_2027", "future")):
+                    records = {r["processing_mode"]: r for r in canonical["price_records"] if r["pricing_status"] == status}
+                    standard, batch = records["standard"], records["batch"]
+                    prices = {c["component"]: float(c["amount"]) for c in standard["charges"] if c["unit"] == "per_1m_tokens"}
+                    prices.update({"batch_" + c["component"]: float(c["amount"]) for c in batch["charges"] if c["unit"] == "per_1m_tokens"})
+                    periods[period_id] = {**standard, "pricing": prices}
+            else:
+                periods = {period["id"]: period for period in canonical["pricing_periods"]}
             self.assertEqual(periods["introductory_2026"]["effective_until"], "2026-12-31")
             self.assertTrue(periods["introductory_2026"]["calculation_default"])
             self.assertEqual(periods["standard_2027"]["effective_from"], "2027-01-01")
@@ -172,7 +181,7 @@ class P0P1PricingUpdateTests(unittest.TestCase):
             )
             internal_id = f"google-gemini/{model_id}"
             prices = [row for row in self.v2_prices if row["modelInternalId"] == internal_id]
-            self.assertEqual(len(prices), 4)
+            self.assertEqual(len(prices), 8 if model_id == "gemini-3.8-flash" else 4)
             self.assertEqual({row["pricingStatus"] for row in prices}, {"current", "future"})
             for boundary, expected_status in (("2026-12-31", "current"), ("2027-01-01", "future")):
                 for processing_mode in ("standard", "batch"):
@@ -196,7 +205,7 @@ class P0P1PricingUpdateTests(unittest.TestCase):
                 component for component in projection["pricingComponents"]
                 if component["condition"]["effectiveFrom"] == "2027-01-01"
             ]
-            self.assertEqual(len(future_components), 6)
+            self.assertEqual(len(future_components), 16 if model_id == "gemini-3.8-flash" else 6)
 
         gemini_38 = self.canonical_by_id["gemini-3.8-flash"]
         self.assertEqual(gemini_38["effective_from"], "2026-09-02")

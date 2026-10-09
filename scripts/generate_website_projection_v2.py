@@ -416,6 +416,9 @@ def source_evidence_role(source: dict[str, Any]) -> str:
     }
     source_type = source.get("sourceType")
     supports = set(source.get("supports", []))
+    if "model-vault" in path_tokens and path_tokens & {"pricing", "pricing-md", "prices"}:
+        # Instance deployment tariffs are distinct from public API model prices.
+        return "deployment_pricing"
     if path_tokens & {"pricing", "pricing-md", "prices"}:
         return "direct_pricing"
     if source_type in {"official_model_page", "official_model_docs"} or "reference" in path_tokens:
@@ -432,6 +435,7 @@ def source_evidence_role(source: dict[str, Any]) -> str:
 SOURCE_EVIDENCE_PRIORITY = {
     "direct_pricing": 5,
     "model_detail": 4,
+    "deployment_pricing": 3,
     "pricing_support": 3,
     "release_note": 2,
     "announcement": 1,
@@ -1045,6 +1049,8 @@ def projection_row(
         blocked_reasons.append("historical_only")
     if identity["lifecycleStatus"] == "retired":
         blocked_reasons.append("retired_identity")
+    if identity["lifecycleStatus"] == "deprecated":
+        blocked_reasons.append("deprecated_identity")
     if inactive_alias:
         blocked_reasons.append("inactive_alias")
     if selected_price is None:
@@ -1157,6 +1163,16 @@ def projection_row(
             and sources_by_id[ref].get("url") == public_verification.get("official_source_url")
         )
         public_price_matches = public_non_token_prices_match(public_verification, pricing_components)
+        # A shared URL observation cannot reverify every model that cites it.
+        if selected_billing_price.get("verifiedAt"):
+            verified_at = selected_billing_price["verifiedAt"]
+            verified_source_refs = sorted(selected_billing_price["sourceRefs"])
+        elif public_price_matches and public_source_refs:
+            verified_at = public_verification.get("last_verified_at")
+            verified_source_refs = public_source_refs
+        elif existing_row and existing_row.get("selectedBillingPriceRecordId") == selected_billing_price["pricingId"]:
+            verified_at = existing_row.get("verifiedAt")
+            verified_source_refs = sorted(ref for ref in existing_row.get("verifiedSourceRefs", []) if ref in refs)
     selected_pricing_id = (selected_price or {}).get("pricingId")
     existing_price_matches = (
         (existing_row or {}).get("selectedPriceRecordId") == selected_pricing_id
@@ -1212,13 +1228,25 @@ def projection_row(
             [source_timestamp(sources_by_id[ref], "checkedAt") for ref in refs if ref in sources_by_id]
         )
         checked_source_refs = source_refs_at_timestamp(refs, sources_by_id, "checkedAt", checked_at)
-    if selected_price and selected_price.get("verificationStatus") == "verified":
-        if selected_price.get("verifiedAt"):
-            verified_at = selected_price["verifiedAt"]
-            verified_source_refs = sorted(selected_price["sourceRefs"])
-        if selected_price.get("checkedAt"):
-            checked_at = selected_price["checkedAt"]
-            checked_source_refs = sorted(selected_price["sourceRefs"])
+    authoritative_price = selected_price or selected_billing_price
+    if authoritative_price and authoritative_price.get("verificationStatus") == "verified":
+        if authoritative_price.get("verifiedAt"):
+            verified_at = authoritative_price["verifiedAt"]
+            verified_source_refs = sorted(authoritative_price["sourceRefs"])
+        if authoritative_price.get("checkedAt"):
+            checked_at = authoritative_price["checkedAt"]
+            checked_source_refs = sorted(authoritative_price["sourceRefs"])
+    # Preserve a prior row-level observation when its underlying record evidence
+    # is unchanged; neither a shared URL refresh nor an older record date replaces it.
+    previous_record = next((r for r in (existing_row or {}).get("priceRecords", [])
+                            if authoritative_price and r["pricingId"] == authoritative_price["pricingId"]), None)
+    if previous_record and previous_record.get("verifiedAt") == authoritative_price.get("verifiedAt"):
+        if existing_row.get("verifiedAt") and (not verified_at or existing_row["verifiedAt"] > verified_at):
+            verified_at = existing_row["verifiedAt"]
+            verified_source_refs = sorted(ref for ref in existing_row.get("verifiedSourceRefs", []) if ref in refs)
+        if existing_row.get("checkedAt") and (not checked_at or existing_row["checkedAt"] > checked_at):
+            checked_at = existing_row["checkedAt"]
+            checked_source_refs = sorted(ref for ref in existing_row.get("checkedSourceRefs", []) if ref in refs)
     context_window_tokens = (model or {}).get("contextWindowTokens")
     cache_eligibility = project_cache_eligibility(model, sources_by_id)
     conditional_usage_allowances = project_conditional_usage_allowances(model, sources_by_id)
@@ -1288,6 +1316,8 @@ def projection_row(
         "sourceRefs": refs,
         "sourceUrls": urls,
     }
+    if existing_row and existing_row.get("lifecycleStatus") == identity["lifecycleStatus"]:
+        row["status"] = existing_row["status"]
     if context_window_tokens is not None:
         row["contextWindowTokens"] = context_window_tokens
     if cache_eligibility is not None:
@@ -1510,10 +1540,17 @@ def build_phase45_audits(
     projection_by_internal_id = {row["canonicalInternalId"]: row for row in projection_rows}
     projection_by_selected_price = {}
     for row in projection_rows:
-        for field in ("selectedPriceRecordId", "selectedBillingPriceRecordId"):
-            pricing_id = row.get(field)
-            if pricing_id:
-                projection_by_selected_price.setdefault(pricing_id, []).append(row)
+        selected_ids = set()
+        if row["defaultSafe"] and row.get("selectedPriceRecordId"):
+            selected_ids.add(row["selectedPriceRecordId"])
+        # Non-token audio defaults have no scalar selectedPriceRecordId.
+        if row.get("selectedPriceRecordId") is None and row["lifecycleStatus"] not in {"deprecated", "retired"}:
+            selected_ids.update(record["pricingId"] for record in row.get("priceRecords", [])
+                if record.get("calculationDefault") is True and record.get("pricingStatus") == "current"
+                and any(c.get("pricingId") == record["pricingId"] and c.get("component") == "output"
+                        and c.get("modality") == "audio" for c in row.get("pricingComponents", [])))
+        for pricing_id in selected_ids:
+            projection_by_selected_price.setdefault(pricing_id, []).append(row)
     safe_reconciliation_rows = []
     for safe in safe_rows:
         price = price_by_id[safe["pricingId"]]
@@ -1524,7 +1561,7 @@ def build_phase45_audits(
         if omitted:
             if canonical_row is None:
                 omission_reason = "model_identity_not_projected"
-            elif canonical_row.get("selectedBillingPriceRecordId") != safe["pricingId"]:
+            elif not canonical_row["defaultSafe"] or canonical_row.get("selectedBillingPriceRecordId") != safe["pricingId"]:
                 omission_reason = "superseded_by_projection_selection_rule"
             else:
                 omission_reason = "unclassified"

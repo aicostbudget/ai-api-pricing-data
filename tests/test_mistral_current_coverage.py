@@ -113,7 +113,8 @@ class MistralCurrentCoverageTests(unittest.TestCase):
                 urls = row.get("official_source_urls", [row["official_source_url"]])
                 self.assertIn(row["official_source_url"], urls)
                 self.assertTrue(all(urlparse(url).hostname in {"docs.mistral.ai", "mistral.ai"} for url in urls))
-                self.assertRegex(row["last_verified_at"], r"^2026-09-0[28]T")
+                from tests.freshness_assertions import assert_verified_timestamp
+                assert_verified_timestamp(self, row["last_verified_at"], "2026-09-02T11:29:12Z")
 
     def test_large_3_baseline_semantics_remain_unchanged(self):
         row = self.canonical["mistral-large"]
@@ -121,8 +122,9 @@ class MistralCurrentCoverageTests(unittest.TestCase):
         self.assertEqual(row["model_family"], "Mistral Large")
         self.assertEqual(row["status"], "active")
         self.assertEqual(row["official_source_url"], "https://docs.mistral.ai/inference/pricing")
-        self.assertEqual(row["accessed_at"], "2026-09-02T11:29:12Z")
-        self.assertEqual(row["last_verified_at"], "2026-09-02T11:29:12Z")
+        from tests.freshness_assertions import assert_verified_timestamp
+        assert_verified_timestamp(self, row["accessed_at"], "2026-09-02T11:29:12Z")
+        assert_verified_timestamp(self, row["last_verified_at"], "2026-09-02T11:29:12Z")
         self.assertNotIn("aliases", row)
         self.assertNotIn("lifecycle", row)
 

@@ -6,6 +6,7 @@ from pathlib import Path
 from unittest.mock import patch
 
 from scripts import generate_pricing_v2_preview as g
+from tests.freshness_assertions import lifecycle_fixture
 from scripts.sql_seed import parse_seed, render_sql_seed, reconcile_astra_ultrafast
 
 
@@ -13,7 +14,7 @@ class TargetedGpt41LifecycleTests(unittest.TestCase):
     @classmethod
     def setUpClass(cls):
         cls.canonical = g.read_json(g.CANONICAL / "models.json")
-        cls.baseline = g.frozen_preview(g.PREVIEW)
+        cls.baseline = lifecycle_fixture(g)
         # Reconstruct the reviewed pre-repair lifecycle from actual persisted records.
         for name, (container, field) in g.GPT41_JSON_TARGETS.items():
             document = json.loads(cls.baseline[name])

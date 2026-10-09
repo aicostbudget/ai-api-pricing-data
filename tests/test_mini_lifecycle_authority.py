@@ -6,6 +6,7 @@ from pathlib import Path
 from unittest.mock import patch
 
 from scripts import generate_pricing_v2_preview as g
+from tests.freshness_assertions import lifecycle_fixture
 from scripts import lifecycle_authority as authority
 from scripts.sql_seed import parse_seed, render_sql_seed
 
@@ -114,7 +115,7 @@ class TargetedMiniLifecycleTests(unittest.TestCase):
     @classmethod
     def setUpClass(cls):
         cls.authority = authority.load_authority()
-        cls.baseline = g.frozen_preview(g.PREVIEW)
+        cls.baseline = lifecycle_fixture(g)
         for name, (container, field) in g.GPT41_JSON_TARGETS.items():
             document = json.loads(cls.baseline[name])
             g.exact_gpt41(document[container] if container else document, field, authority.MINI_ID)["lifecycleStatus"] = "deprecated"

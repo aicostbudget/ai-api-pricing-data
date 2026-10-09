@@ -18,7 +18,7 @@ def assert_gemini_facts_and_verification(test_case, before, after):
                 test_case.assertLessEqual(refreshed, datetime.now(timezone.utc))
                 test_case.assertTrue(current["official_source_url"].startswith("https://"))
         # Gemini 2.5 Pro now has an explicit current pricing contract; retain the V1 facts and identity.
-        if current["model_id"] == "gemini-2.5-pro":
+        if current["model_id"] in {"gemini-2.5-pro", "gemini-3.8-flash"}:
             for key in ("provider_id", "model_id", "display_name", "status", "effective_from", "pricing"):
                 test_case.assertEqual(current[key], old[key], key)
             test_case.assertEqual(len(current["price_records"]), 8)

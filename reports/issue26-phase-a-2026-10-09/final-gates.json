@@ -1,0 +1,27 @@
+[
+  {
+    "command": "python scripts/build.py",
+    "exit_code": 0,
+    "output": ""
+  },
+  {
+    "command": "python scripts/validate.py",
+    "exit_code": 0,
+    "output": "validation ok\n"
+  },
+  {
+    "command": "python scripts/validate_pricing_v2_preview.py",
+    "exit_code": 0,
+    "output": "pricing v2 preview validation ok candidates=97 identities=97 models=94 prices=257 charges=778 sources=172\n"
+  },
+  {
+    "command": "python scripts/sql_seed.py --check",
+    "exit_code": 0,
+    "output": "SQL seed matches persisted preview inputs.\n"
+  },
+  {
+    "command": "python -m unittest tests.test_freshness_workflow tests.test_source_reconciliation tests.test_lifecycle_normalization tests.test_pricing_governance tests.test_declarative_pricing_contract tests.test_release_bundle tests.test_website_projection_v2 tests.test_huggingface_export tests.test_projection_provenance_containment tests.test_issue26_freshness_closure",
+    "exit_code": 0,
+    "output": "....................................................................................................................................\n----------------------------------------------------------------------\nRan 132 tests in 8.200s\n\nOK\n"
+  }
+]

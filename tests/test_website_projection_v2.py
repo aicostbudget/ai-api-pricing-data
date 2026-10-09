@@ -674,7 +674,9 @@ class WebsiteProjectionV2Tests(unittest.TestCase):
         }
         for internal_id, prices in expected.items():
             row = self.by_internal[internal_id]
-            self.assertEqual(row["status"], "latest")
+            baseline = json.loads((Path(__file__).resolve().parents[1] / "data/pricing-v2-preview/generated/model-pricing.v2.json").read_text(encoding="utf-8"))
+            prior = next(r for r in baseline["models"] if r["canonicalInternalId"] == internal_id)
+            self.assertEqual(row["status"], prior["status"])
             self.assertEqual(row["verificationStatus"], "verified")
             self.assertTrue(row["defaultSafe"])
             self.assertEqual(

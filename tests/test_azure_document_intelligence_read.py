@@ -89,7 +89,9 @@ class AzureDocumentIntelligenceReadTests(unittest.TestCase):
         self.assertNotIn("free_allowance\": 500", serialized)
         self.assertNotIn("usgov", serialized)
         self.assertTrue(all(any("prices.azure.com" in source for source in row["source_refs"]) for row in self.records))
-        self.assertTrue(all(row["verified_at"].startswith("2026-09-09") for row in self.records))
+        from tests.freshness_assertions import assert_verified_timestamp
+        for row in self.records:
+            assert_verified_timestamp(self, row["verified_at"], "2026-09-09T00:00:00Z")
 
     def test_v2_api_hf_and_website_are_lossless(self):
         v2_model = next(row for row in self.v2_models if row["internalId"] == "azure/prebuilt-read")

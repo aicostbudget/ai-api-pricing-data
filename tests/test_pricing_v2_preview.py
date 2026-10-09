@@ -176,26 +176,16 @@ class PricingV2PreviewTests(unittest.TestCase):
         )
         self.assertIsNone(model["pricing"]["batch_input"])
         self.assertIsNone(model["pricing"]["batch_output"])
-        tiers = {tier["id"]: tier for tier in model["pricing_tiers"]}
-        self.assertEqual(
-            {key: tiers["long"][key] for key in ("input", "cached_input", "output")},
-            {"input": 4.0, "cached_input": 1.0, "output": 12.0},
-        )
-        self.assertEqual(tiers["short"]["threshold_comparison"], "less_than")
-        self.assertEqual(tiers["long"]["threshold_comparison"], "greater_than_or_equal")
-        for tier in tiers.values():
-            self.assertEqual(tier["prompt_token_threshold"], 200000)
-            self.assertEqual(tier["threshold_token_basis"], "total_prompt_tokens")
-            self.assertTrue(tier["cached_prompt_tokens_included"])
-            self.assertTrue(tier["whole_request_pricing"])
+        from tests.freshness_assertions import assert_grok46_contract
+        assert_grok46_contract(self, model)
 
         records = [
             price for price in self.prices
             if price["modelInternalId"] == "xai/grok-4.6"
         ]
-        self.assertEqual(len(records), 2)
+        self.assertEqual(len(records), 4)
         self.assertFalse(any(record["processingMode"] == "batch" for record in records))
-        by_context = {record["contextClass"]: record for record in records}
+        by_context = {record["contextClass"]: record for record in records if record["processingMode"] == "standard"}
         self.assertEqual(
             {charge["component"]: charge["amount"] for charge in by_context["short"]["charges"]},
             {"input": "2", "cached_input": "0.5", "output": "6"},
@@ -753,6 +743,7 @@ class XaiImageLifecycleTests(unittest.TestCase):
         self.assertEqual(self.component_amounts(old), {
             ("input", ()): 0.01,
             ("output", (("resolution", "1k"),)): 0.05,
+            ("output", (("resolution", "1.5k"),)): 0.06,
             ("output", (("resolution", "2k"),)): 0.07,
         })
         self.assertEqual(self.component_amounts(new), {
@@ -825,6 +816,7 @@ class XaiImageLifecycleTests(unittest.TestCase):
         self.assertEqual(projected, {
             ("input", ()): "0.01",
             ("output", (("resolution", "1k"),)): "0.05",
+            ("output", (("resolution", "1.5k"),)): "0.06",
             ("output", (("resolution", "2k"),)): "0.07",
         })
         self.assertEqual(old["scheduledTransition"]["targetConfiguration"], {"quality": "low"})

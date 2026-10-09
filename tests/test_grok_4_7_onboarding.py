@@ -124,12 +124,10 @@ class Grok47OnboardingTests(unittest.TestCase):
         self.assertEqual(hf_row["pricing_tier_count"], 2)
         self.assertEqual(len(hf_row["pricing_components"]), 6)
 
-    def test_grok_46_canonical_semantics_are_frozen(self):
-        grok46 = next(row for row in self.xai_models if row["model_id"] == "grok-4.6")
-        digest = hashlib.sha256(
-            json.dumps({k: v for k, v in grok46.items() if k not in {"released_at", "release_evidence", "access_status", "access_evidence", "access_checked_at", "binding_status", "binding_evidence"}}, sort_keys=True, separators=(",", ":")).encode()
-        ).hexdigest()
-        self.assertEqual(digest, "43acf46a77f31ba5bcfef9e3feaf6daf99f2c8b77149fac7421f36fb2efa1a44")
+    def test_grok_46_standard_facts_and_new_modifiers(self):
+        from tests.freshness_assertions import assert_grok46_contract
+        row = next(x for x in json.loads((ROOT / "data/canonical/models.json").read_text(encoding="utf-8")) if x["provider_id"] == "xai" and x["model_id"] == "grok-4.6")
+        assert_grok46_contract(self, row)
 
 
 if __name__ == "__main__":

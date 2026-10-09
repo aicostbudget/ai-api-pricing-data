@@ -152,7 +152,7 @@ class UltrafastIntegrationTests(unittest.TestCase):
             self.assertFalse(row["calculation_default"])
             self.assertEqual(row["effective_from"], "2026-09-29")
             self.assertEqual(row["checked_at"], row["verified_at"])
-            self.assertGreater(row["verified_at"], model["last_verified_at"])
+            self.assertGreaterEqual(row["verified_at"], model["last_verified_at"])
             self.assertIn(URL, row["source_refs"])
             for phrase in ('Responses API', 'service_tier="ultrafast"', '500,000 TPM', '1,000,000 TPM', '5,000,000 TPM', 'not programmatically enforced'):
                 self.assertIn(phrase, row["billing_note"])

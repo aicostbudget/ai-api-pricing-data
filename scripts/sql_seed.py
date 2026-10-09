@@ -166,9 +166,17 @@ def reconcile_astra_ultrafast(sql: str, sources: list[dict], prices: list[dict])
     generated = parse_seed(render_sql_seed([source], [], selected))
     target_sql = {(row.table, row.key): row.raw for row in generated}
     lines = ["begin;", *CREATE_STATEMENTS]
+    ordering = {
+        "sources": {row["sourceId"]: index for index, row in enumerate(sources)},
+        "prices": {row["pricingId"]: index for index, row in enumerate(prices)},
+    }
     for table in TABLE_KEYS:
-        lines.extend(row.raw for row in baseline if row.table == table and (row.table, row.key) not in targets)
-        lines.extend(target_sql[key] for key in expected if key[0] == table)
+        rows = [row for row in baseline if row.table == table]
+        if table in ordering:
+            # Restore canonical positions even when old target INSERTs were outside
+            # the transaction, while preserving every non-target INSERT byte.
+            rows.sort(key=lambda row: ordering[table].get(row.key, len(ordering[table])))
+        lines.extend(target_sql.get((row.table, row.key), row.raw) for row in rows)
     lines.append("commit;")
     result = "\n".join(lines) + "\n"
     candidate = parse_seed(result)
