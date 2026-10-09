@@ -3063,6 +3063,8 @@ def main() -> None:
                             "sourceRefs": source_refs_for(provider_id, public, website, source_by_url),
                             "billingNote": public.get("notes", ""),
                             "verificationStatus": verification,
+                            **({"checkedAt": public["accessed_at"], "verifiedAt": public["last_verified_at"]}
+                               if component["pricing_status"] == "historical" else {}),
                             "calculationDefault": component["calculation_default"],
                             "sourceDatasetIds": {
                                 "publicDatasetIds": [public["model_id"]],

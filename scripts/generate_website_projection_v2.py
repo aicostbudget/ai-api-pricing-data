@@ -569,6 +569,11 @@ def governance_metadata(
         if identity.get("billingModelInternalId"):
             reason = "retired_identity_redirects_to_current_billing"
             pricing_source = "redirected_verified_billing"
+        elif (identity.get("publicDatasetIds") and row.get("pricingComponents")
+              and row.get("priceRecords") and all(r.get("pricingStatus") == "historical"
+              and r.get("verificationStatus") == "verified" for r in row["priceRecords"])):
+            reason = "retired_identity_retained_with_verified_native_history"
+            pricing_source = "canonical_verified_structured_price"
         else:
             reason = "retired_identity_retained_with_legacy_historical_price"
             pricing_source = "legacy_historical_fallback"
@@ -749,10 +754,13 @@ def project_pricing_component(record: dict[str, Any], charge: dict[str, Any]) ->
     }
     # Preserve record-level evidence for the new mode without changing legacy
     # component shapes or implying that their pricing has been reverified.
-    if record["processingMode"] == "ultrafast":
+    if record["processingMode"] == "ultrafast" or record.get("pricingStatus") == "historical":
         for field in ("checkedAt", "verifiedAt", "billingNote"):
             if record.get(field) is not None:
                 projected[field] = record[field]
+    elif "BILLING PRECISION UNCONFIRMED" in record.get("billingNote", ""):
+        # Keep an explicit published-rate precision caveat with its public charge.
+        projected["billingNote"] = record["billingNote"]
     if charge.get("alternativeGroup") is not None:
         projected["alternativeGroup"] = charge["alternativeGroup"]
     if charge.get("optionalFeature") is not None:
@@ -811,16 +819,18 @@ def build_pricing_components(
     model_prices: list[dict[str, Any]],
     effective_at: datetime,
     verified_price_by_id: dict[str, dict[str, Any]],
+    *, display_historical: bool = False,
 ) -> list[dict[str, Any]] | None:
     eligible_records = [
         record
         for record in model_prices
-        if record.get("pricingStatus") != "historical"
+        if (record.get("pricingStatus") != "historical" or (display_historical and record.get("calculationDefault") is not True))
         and (
             record.get("verificationStatus") == "verified"
             or record.get("pricingId") in verified_price_by_id
         )
-        and (record.get("pricingStatus") == "future" or current_effective(record, effective_at))
+        and (record.get("pricingStatus") == "future" or current_effective(record, effective_at)
+             or (display_historical and record.get("pricingStatus") == "historical"))
     ]
 
     components: list[dict[str, Any]] = []
@@ -858,16 +868,18 @@ def build_price_records(
     model_prices: list[dict[str, Any]],
     effective_at: datetime,
     verified_price_by_id: dict[str, dict[str, Any]],
+    *, display_historical: bool = False,
 ) -> list[dict[str, Any]] | None:
     eligible_records = [
         record
         for record in model_prices
-        if record.get("pricingStatus") != "historical"
+        if (record.get("pricingStatus") != "historical" or (display_historical and record.get("calculationDefault") is not True))
         and (
             record.get("verificationStatus") == "verified"
             or record.get("pricingId") in verified_price_by_id
         )
-        and (record.get("pricingStatus") == "future" or current_effective(record, effective_at))
+        and (record.get("pricingStatus") == "future" or current_effective(record, effective_at)
+             or (display_historical and record.get("pricingStatus") == "historical"))
     ]
     records = [
         {
@@ -1034,11 +1046,15 @@ def projection_row(
         effective_at,
         verified_price_by_id,
     )
+    # Retired native prices may be shown as history, never selected for billing.
+    display_historical = identity["lifecycleStatus"] == "retired" and target_internal_id == identity["internalId"]
     pricing_components = build_pricing_components(
-        prices_by_model.get(target_internal_id, []), effective_at, verified_price_by_id
+        prices_by_model.get(target_internal_id, []), effective_at, verified_price_by_id,
+        display_historical=display_historical,
     )
     price_records = build_price_records(
-        prices_by_model.get(target_internal_id, []), effective_at, verified_price_by_id
+        prices_by_model.get(target_internal_id, []), effective_at, verified_price_by_id,
+        display_historical=display_historical,
     )
     blocked_reasons: list[str] = []
     if identity["internalId"] in excluded_reasons:
@@ -1173,6 +1189,13 @@ def projection_row(
         elif existing_row and existing_row.get("selectedBillingPriceRecordId") == selected_billing_price["pricingId"]:
             verified_at = existing_row.get("verifiedAt")
             verified_source_refs = sorted(ref for ref in existing_row.get("verifiedSourceRefs", []) if ref in refs)
+    elif display_historical and public_non_token_prices_match(public_verification, pricing_components):
+        # Record-level history verification is independent of shared URL timestamps.
+        public_source_refs = refs_for_url(refs, sources_by_id, public_official_url)
+        public_price_matches = bool(public_source_refs)
+        if public_price_matches:
+            verified_at = public_verification.get("last_verified_at")
+            verified_source_refs = public_source_refs
     selected_pricing_id = (selected_price or {}).get("pricingId")
     existing_price_matches = (
         (existing_row or {}).get("selectedPriceRecordId") == selected_pricing_id

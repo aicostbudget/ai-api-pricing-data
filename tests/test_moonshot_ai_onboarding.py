@@ -86,7 +86,7 @@ class MoonshotAIOnboardingTests(unittest.TestCase):
             )
         expected_batch = {
             "kimi-k2.7-code": {"input": "0.57", "cached_input": "0.114", "output": "2.4"},
-            "kimi-k2.6": {"input": "0.57", "cached_input": "0.096", "output": "2.4"},
+            "kimi-k2.6": {"input": "0.57", "cached_input": "0.1", "output": "2.4"},
         }
         for model_id, expected in expected_batch.items():
             batch = self.prices[f"price:moonshot-ai/{model_id}:batch:short:current"]

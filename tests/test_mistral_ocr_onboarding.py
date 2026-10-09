@@ -51,7 +51,7 @@ class MistralOCROnboardingTests(unittest.TestCase):
         for model_id in OCR_IDS:
             with self.subTest(model_id=model_id):
                 row = self.canonical[("mistral-ai", model_id)]
-                self.assertEqual(row["status"], "deprecated" if model_id == "mistral-ocr-4-0" else "active")
+                self.assertEqual(row["status"], "retired" if model_id == "mistral-ocr-4-0" else "active")
                 self.assertEqual(row["release_stage"], "stable")
                 self.assertEqual(row["model_category"], "document_parsing")
                 self.assertTrue(all(row["pricing"].get(field) is None for field in (

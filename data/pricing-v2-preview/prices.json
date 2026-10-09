@@ -6922,24 +6922,25 @@
     "verifiedAt": "2026-10-09T06:29:38Z"
   },
   {
-    "billingNote": "Mistral marks the exact API ID mistral-ocr-4-0 Deprecated on 2026-09-29 and recommends OCR 4.1 for new integrations. No retirement date is published, so this record is not marked retired and no automatic redirect is asserted. The previously verified $4 per 1,000 basic OCR pages is retained without refreshing price verification: the current model page no longer publishes a price and the pricing page lists OCR 4.1 only. /v1/ocr and /v1/batch remain documented features. Annotated-page, cached-page and OCR Batch prices are not inferred from successor pricing.",
+    "billingNote": "The exact API ID mistral-ocr-4-0 is Deprecated in the model catalog. The official September 29 changelog and catalog metadata document retirement on 2026-09-30 and recommend OCR 4.1 at the same price. Dataset status retired normalizes that documented past schedule; actual authenticated API availability and HTTP 404 behavior have not been tested. No automatic redirect is asserted. The official model catalog itself retains the native historical Standard Basic OCR price of USD $4 per 1,000 pages and separately lists USD $5 per 1,000 Annotated Pages. This Basic OCR-only record preserves the $4 rate as historical through 2026-09-29, rather than substituting successor billing. The $5 annotated-page tariff is separate and is not an OCR surcharge or admitted component here. The current visible pricing table lists OCR 4.1 cached input at $0.40 per 1,000 pages; no OCR 4.0-specific cached or numeric Batch charge is inferred. /v1/batch is a documented feature, not proof of a Batch tariff. Native history is display-only and not eligible for current calculation.",
     "calculationDefault": false,
     "charges": [
       {
         "amount": "4",
-        "chargeId": "price:mistral-ai/mistral-ocr-4-0:standard:short:current:ocr_pages:document_page:document:per_1000_pages",
+        "chargeId": "price:mistral-ai/mistral-ocr-4-0:standard:short:historical:ocr_pages:document_page:document:per_1000_pages",
         "component": "document_page",
         "modality": "document",
         "unit": "per_1000_pages"
       }
     ],
+    "checkedAt": "2026-10-09T08:08:15Z",
     "contextClass": "short",
     "currency": "USD",
     "effectiveFrom": "2026-06-23",
-    "effectiveUntil": null,
+    "effectiveUntil": "2026-09-29",
     "modelInternalId": "mistral-ai/mistral-ocr-4-0",
-    "pricingId": "price:mistral-ai/mistral-ocr-4-0:standard:short:current:ocr_pages",
-    "pricingStatus": "current",
+    "pricingId": "price:mistral-ai/mistral-ocr-4-0:standard:short:historical:ocr_pages",
+    "pricingStatus": "historical",
     "processingMode": "standard",
     "promptTokenThreshold": null,
     "regionPolicy": "global",
@@ -6950,13 +6951,15 @@
       "websiteIds": []
     },
     "sourceRefs": [
+      "source:mistral-ai:docs-mistral-ai-_next-static-chunks-2894-55d10a7699b0ed26-js?dpl=dpl_CvrtyjMnMms",
       "source:mistral-ai:docs-mistral-ai-api-endpoint-ocr",
       "source:mistral-ai:docs-mistral-ai-inference-pricing",
       "source:mistral-ai:docs-mistral-ai-models-ocr-4-0",
       "source:mistral-ai:docs-mistral-ai-resources-changelogs",
       "source:mistral-ai:docs-mistral-ai-resources-known-limitations"
     ],
-    "verificationStatus": "verified"
+    "verificationStatus": "verified",
+    "verifiedAt": "2026-10-09T08:08:15Z"
   },
   {
     "billingNote": "Mistral OCR 4.1 is the current GA Premier OCR model with exact API ID mistral-ocr-4-1; mistral-ocr-latest and mistral-ocr-4 route to it. Standard basic OCR pricing is $4 per 1,000 pages. The model supports /v1/ocr and /v1/batch. The official sources do not define page edge-case billing or a minimum charge. The separately listed Document AI annotated-page price, cached-page price, and an OCR-specific numeric Batch price are not admitted because their billing relationships or applicability are not sufficiently explicit for a lossless canonical record.",
@@ -7141,7 +7144,7 @@
         "unit": "per_1m_tokens"
       }
     ],
-    "checkedAt": "2026-09-08T03:04:30Z",
+    "checkedAt": "2026-10-09T08:59:30Z",
     "contextClass": "short",
     "currency": "USD",
     "defaultAvailabilityStatus": "available",
@@ -7178,11 +7181,11 @@
       "source:moonshot-ai:platform-kimi-ai-docs-pricing-chat-k26"
     ],
     "verificationStatus": "verified",
-    "verifiedAt": "2026-09-08T03:04:30Z"
+    "verifiedAt": "2026-10-09T08:59:30Z"
   },
   {
     "availabilityRules": [],
-    "billingNote": "Moonshot Batch API explicitly supports kimi-k2.6 and charges 60% of the standard model price.",
+    "billingNote": "Published-rate reconciliation, not a provider price increase: the official Batch pricing table directly lists kimi-k2.6 cached input at USD $0.10 per 1M tokens. The same page states Batch inference costs are 60% of standard pricing; Standard cached input is USD $0.16 per 1M tokens, so the derived value is 0.16 x 0.60 = 0.096. The Dataset published price uses the explicit table value 0.10 instead of that derivation. BILLING PRECISION UNCONFIRMED: whether actual invoices retain three decimal places has not been verified. No internal rounding algorithm or invoice-verified settlement rate is asserted. Prices exclude applicable taxes. The observation time is not a new provider effective date.",
     "calculationDefault": false,
     "charges": [
       {
@@ -7193,7 +7196,7 @@
         "unit": "per_1m_tokens"
       },
       {
-        "amount": "0.096",
+        "amount": "0.1",
         "chargeId": "price:moonshot-ai/kimi-k2.6:batch:short:current:cached_input:text:per_1m_tokens",
         "component": "cached_input",
         "modality": "text",
@@ -7207,7 +7210,7 @@
         "unit": "per_1m_tokens"
       }
     ],
-    "checkedAt": "2026-09-08T03:04:30Z",
+    "checkedAt": "2026-10-09T08:59:30Z",
     "contextClass": "short",
     "currency": "USD",
     "defaultAvailabilityStatus": "available",
@@ -7242,7 +7245,7 @@
       "source:moonshot-ai:platform-kimi-ai-docs-pricing-chat-k26"
     ],
     "verificationStatus": "verified",
-    "verifiedAt": "2026-09-08T03:04:30Z"
+    "verifiedAt": "2026-10-09T08:59:30Z"
   },
   {
     "availabilityRules": [],

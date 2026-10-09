@@ -1,19 +1,25 @@
 {
-  "accessed_at": "2026-09-08T00:00:00Z",
+  "accessed_at": "2026-10-09T08:08:15Z",
   "display_name": "Mistral OCR 4.0",
   "effective_from": "2026-06-23",
-  "last_verified_at": "2026-09-08T00:00:00Z",
+  "last_verified_at": "2026-10-09T08:08:15Z",
+  "lifecycle": {
+    "deprecation_date": "2026-09-29",
+    "replacement_model_id": "mistral-ocr-4-1",
+    "retirement_date": "2026-09-30"
+  },
   "model_category": "document_parsing",
   "model_family": "Mistral OCR",
   "model_id": "mistral-ocr-4-0",
-  "notes": "Mistral marks the exact API ID mistral-ocr-4-0 Deprecated on 2026-09-29 and recommends OCR 4.1 for new integrations. No retirement date is published, so this record is not marked retired and no automatic redirect is asserted. The previously verified $4 per 1,000 basic OCR pages is retained without refreshing price verification: the current model page no longer publishes a price and the pricing page lists OCR 4.1 only. /v1/ocr and /v1/batch remain documented features. Annotated-page, cached-page and OCR Batch prices are not inferred from successor pricing.",
+  "notes": "The exact API ID mistral-ocr-4-0 is Deprecated in the model catalog. The official September 29 changelog and catalog metadata document retirement on 2026-09-30 and recommend OCR 4.1 at the same price. Dataset status retired normalizes that documented past schedule; actual authenticated API availability and HTTP 404 behavior have not been tested. No automatic redirect is asserted. The official model catalog itself retains the native historical Standard Basic OCR price of USD $4 per 1,000 pages and separately lists USD $5 per 1,000 Annotated Pages. This Basic OCR-only record preserves the $4 rate as historical through 2026-09-29, rather than substituting successor billing. The $5 annotated-page tariff is separate and is not an OCR surcharge or admitted component here. The current visible pricing table lists OCR 4.1 cached input at $0.40 per 1,000 pages; no OCR 4.0-specific cached or numeric Batch charge is inferred. /v1/batch is a documented feature, not proof of a Batch tariff. Native history is display-only and not eligible for current calculation.",
   "official_source_url": "https://docs.mistral.ai/inference/pricing",
   "official_source_urls": [
     "https://docs.mistral.ai/inference/pricing",
     "https://docs.mistral.ai/models/ocr-4-0",
     "https://docs.mistral.ai/resources/changelogs",
     "https://docs.mistral.ai/api/endpoint/ocr",
-    "https://docs.mistral.ai/resources/known-limitations"
+    "https://docs.mistral.ai/resources/known-limitations",
+    "https://docs.mistral.ai/_next/static/chunks/2894-55d10a7699b0ed26.js?dpl=dpl_CvrtyjMnMmsSXH8BWZNzFedusSRV"
   ],
   "pricing": {
     "batch_input": null,
@@ -33,15 +39,15 @@
       "component": "document_page",
       "currency": "USD",
       "effective_from": "2026-06-23",
-      "effective_until": null,
+      "effective_until": "2026-09-29",
       "id": "ocr_pages",
       "modality": "document",
-      "pricing_status": "current",
+      "pricing_status": "historical",
       "processing_mode": "standard",
       "unit": "per_1000_pages"
     }
   ],
   "provider_id": "mistral-ai",
   "release_stage": "stable",
-  "status": "deprecated"
+  "status": "retired"
 }

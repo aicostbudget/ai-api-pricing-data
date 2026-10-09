@@ -21,7 +21,10 @@ class FreshnessClosureTests(unittest.TestCase):
     def test_v1_prices_access_binding_and_identity_universe_are_preserved(self):
         self.assertEqual(set(self.models), set(self.old))
         for key, current in self.models.items():
-            self.assertEqual(current["pricing"], self.old[key]["pricing"], key)
+            expected = deepcopy(self.old[key]["pricing"])
+            if key == "moonshot-ai/kimi-k2.6":
+                expected["batch_cached_input"] = .10
+            self.assertEqual(current["pricing"], expected, key)
             for field in ("access_status", "access_evidence", "access_checked_at", "binding_status", "binding_evidence"):
                 self.assertEqual(current.get(field), self.old[key].get(field), (key, field))
 
@@ -30,14 +33,17 @@ class FreshnessClosureTests(unittest.TestCase):
         failed = next(r for r in sources if r["url"] == "https://openai.com/index/gpt-6-astra/")
         self.assertEqual(failed["verifiedAt"], "2026-09-04T17:34:11Z")
 
-    def test_conflicting_or_missing_price_evidence_does_not_refresh_record(self):
-        for key in ("moonshot-ai/kimi-k2.6", "mistral-ai/mistral-ocr-4-0"):
-            self.assertEqual(self.models[key]["last_verified_at"], self.old[key]["last_verified_at"])
-        self.assertEqual(self.models["moonshot-ai/kimi-k2.6"], self.old["moonshot-ai/kimi-k2.6"])
-        self.assertEqual(self.models["mistral-ai/mistral-ocr-4-0"]["pricing_components"], self.old["mistral-ai/mistral-ocr-4-0"]["pricing_components"])
+    def test_published_kimi_price_and_original_ocr_amount_are_preserved(self):
+        kimi = self.models["moonshot-ai/kimi-k2.6"]
+        self.assertEqual(kimi["pricing"]["batch_cached_input"], .10)
+        self.assertIn("BILLING PRECISION UNCONFIRMED", kimi["notes"])
+        component = self.models["mistral-ai/mistral-ocr-4-0"]["pricing_components"][0]
+        original = self.old["mistral-ai/mistral-ocr-4-0"]["pricing_components"][0]
+        for field in ("id", "amount", "unit", "component", "effective_from"):
+            self.assertEqual(component[field], original[field])
 
     def test_deprecated_is_neither_retired_nor_default_safe(self):
-        for key in ("openai/gpt-5", "openai/o3", "mistral-ai/mistral-ocr-4-0"):
+        for key in ("openai/gpt-5", "openai/o3"):
             self.assertEqual(self.models[key]["status"], "deprecated")
             row = self.projection[key]
             self.assertEqual(row["lifecycleStatus"], "deprecated")
@@ -51,7 +57,7 @@ class FreshnessClosureTests(unittest.TestCase):
     def test_shared_url_refresh_does_not_reverify_unchecked_models(self):
         baseline = json.loads(subprocess.check_output(["git", "show", BASELINE + ":data/pricing-v2-preview/generated/model-pricing.v2.json"], cwd=ROOT))
         before = {r["canonicalInternalId"]: r for r in baseline["models"]}
-        for key in ("google-gemini/gemini-3.8-flash-tts", "google-gemini/gemini-3.8-flash-lite-tts", "xai/grok-imagine-image-2.0", "xai/grok-voice-transcribe-2.0", "mistral-ai/mistral-ocr-4-0"):
+        for key in ("google-gemini/gemini-3.8-flash-tts", "google-gemini/gemini-3.8-flash-lite-tts", "xai/grok-imagine-image-2.0", "xai/grok-voice-transcribe-2.0"):
             self.assertEqual(self.projection[key]["verifiedAt"], before[key]["verifiedAt"], key)
 
     def test_gemini_modes_storage_and_year_boundary_are_lossless(self):
