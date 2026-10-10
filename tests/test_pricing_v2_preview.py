@@ -444,14 +444,14 @@ class PricingV2PreviewTests(unittest.TestCase):
 
         standard = self.price("price:anthropic/claude-sonnet-5-5:standard:short:current")
         batch = self.price("price:anthropic/claude-sonnet-5-5:batch:short:current")
-        self.assertEqual(standard["effectiveFrom"], "2026-09-28")
+        self.assertEqual(standard["effectiveFrom"], "2026-10-07")
         self.assertEqual(standard["verificationStatus"], "verified")
         self.assertTrue(standard["sourceRefs"])
         self.assertEqual(
             {charge["component"]: charge["amount"] for charge in standard["charges"]},
             {
                 "input": "2",
-                "cache_read": "0.2",
+                "cache_read": "0.1",
                 "cache_write_5m": "2.5",
                 "cache_write_1h": "4",
                 "output": "10",
@@ -573,7 +573,7 @@ class PricingV2PreviewTests(unittest.TestCase):
         self.assertFalse(self.phase2_readiness["safeToEnterWebsiteIntegrationPlanning"])
         self.assertEqual(
             self.phase2_conflict["unresolvedIdentitiesAfter"],
-            ["openai/gpt-4.1", "openai/gpt-4.1-mini", "openai/gpt-4.1-nano"],
+            ["google-gemini/gemini-2.5-flash-image", "openai/gpt-4.1", "openai/gpt-4.1-mini", "openai/gpt-4.1-nano"],
         )
         self.assertFalse(self.phase2_conflict["gpt4_1Family"]["safeDefaultCalculationPrice"])
         self.assertIsNone(self.phase2_conflict["grok3"]["replacementInternalId"])

@@ -1,18 +1,36 @@
 {
-  "accessed_at": "2026-10-05T02:42:02Z",
+  "accessed_at": "2026-10-09T12:39:41Z",
   "display_name": "Gemini 2.5 Flash Image",
   "effective_from": null,
   "last_verified_at": "2026-10-05T02:42:02Z",
-  "lifecycle": {
-    "replacement_model_id": "gemini-3.1-flash-image-preview",
-    "retirement_date": "2026-10-02"
+  "lifecycle_conflict": {
+    "authority_analysis": "Deprecations tracks earliest possible shutdown schedules, but no official revision or supersession evidence resolves the contradictory Pricing warning. No certain lifecycle or shutdown date normalized.",
+    "observed_at": "2026-10-09T12:39:41Z",
+    "previous_assertion": {
+      "replacement_model_id": "gemini-3.1-flash-image-preview",
+      "retirement_date": "2026-10-02"
+    },
+    "resolution": "unresolved",
+    "sources": [
+      {
+        "replacement_model_id": "gemini-3.1-flash-lite-image",
+        "shutdown_date": "2027-03-15",
+        "url": "https://ai.google.dev/gemini-api/docs/deprecations"
+      },
+      {
+        "replacement_model_id": "gemini-3.1-flash-image / gemini-3.1-flash-lite-image",
+        "shutdown_date": "2026-10-02",
+        "url": "https://ai.google.dev/gemini-api/docs/pricing"
+      }
+    ]
   },
   "model_family": "Gemini 2.5 Flash Image",
   "model_id": "gemini-2.5-flash-image",
-  "notes": "Google lists 2026-10-02 as the shutdown date and recommends gemini-3.1-flash-image-preview. Dataset status retired reflects that past shutdown date; Price is not asserted.",
+  "notes": "SOURCE CONFLICT \u2014 NOT RESOLVED. Deprecations currently lists March 15, 2027 and gemini-3.1-flash-lite-image; Pricing still warns October 2, 2026. Previous retired assertion is retained only as contested evidence. No current price or API availability asserted; excluded from calculator defaults.",
   "official_source_url": "https://ai.google.dev/gemini-api/docs/deprecations",
   "official_source_urls": [
-    "https://ai.google.dev/gemini-api/docs/deprecations"
+    "https://ai.google.dev/gemini-api/docs/deprecations",
+    "https://ai.google.dev/gemini-api/docs/pricing"
   ],
   "pricing": {
     "batch_input": null,
@@ -26,6 +44,6 @@
     "unit": null
   },
   "provider_id": "google-gemini",
-  "release_stage": "legacy",
-  "status": "retired"
+  "release_stage": "unknown",
+  "status": "unknown"
 }

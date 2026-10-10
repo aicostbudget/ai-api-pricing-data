@@ -21,6 +21,7 @@ sys.path.insert(0, str(ROOT))
 
 from scripts.export_huggingface import (  # noqa: E402
     PUBLIC_SCHEMA_VERSION,
+    SUPPORTED_PUBLIC_SCHEMA_VERSIONS,
     artifact_contents,
     build_export,
     load_website_models,
@@ -63,6 +64,8 @@ def commit(repo: Path, ref: str) -> str:
 
 
 def source(repo: Path, revision: str, path: str) -> bytes:
+    if revision == "WORKTREE":
+        return (repo / path).read_bytes()
     return git(repo, "show", f"{revision}:{path}")
 
 
@@ -81,7 +84,7 @@ def projection_stats(prices_json: bytes, prices_csv: bytes, meta_json: bytes, pr
         count_key = "model_count"
     elif projection == "pricing_v2":
         records = payload["records"]
-        if payload["metadata"] != meta or meta["schema_version"] != PUBLIC_SCHEMA_VERSION:
+        if payload["metadata"] != meta or meta["schema_version"] not in SUPPORTED_PUBLIC_SCHEMA_VERSIONS:
             raise ValueError("Pricing V2 metadata or export schema mismatch")
         count_key = "record_count"
     else:
@@ -120,9 +123,12 @@ def build_contents(dataset_ref: str, website_repo: Path, website_ref: str, snaps
         date.fromisoformat(release_date)
         if not release_version or not re.fullmatch(r"[A-Za-z0-9][A-Za-z0-9._-]*", release_version):
             raise ValueError("invalid release version")
-    dataset_sha = commit(ROOT, dataset_ref)
+    local_candidate = dataset_ref == "WORKTREE" or website_ref == "WORKTREE"
+    if local_candidate and (dataset_ref != "WORKTREE" or website_ref != "WORKTREE" or release_version is not None):
+        raise ValueError("local candidate requires two WORKTREE inputs and cannot claim a published release")
+    dataset_sha = "WORKTREE" if local_candidate else commit(ROOT, dataset_ref)
     website_repo = website_repo.resolve(strict=True)
-    website_sha = commit(website_repo, website_ref)
+    website_sha = "WORKTREE" if local_candidate else commit(website_repo, website_ref)
     v1 = {name: source(ROOT, dataset_sha, path) for name, path in V1_SOURCES.items()}
     for suffix in ("json", "csv"):
         if v1[f"github-pages-v1-prices.{suffix}"] != source(ROOT, dataset_sha, f"data/snapshots/{snapshot}/prices.{suffix}"):
@@ -137,7 +143,9 @@ def build_contents(dataset_ref: str, website_repo: Path, website_ref: str, snaps
         if canonical_values != website_values:
             raise ValueError("Website and Dataset Pricing V2 projections differ")
     metadata = parsed(v1["github-pages-v1-meta.json"])
-    payload = build_export(website, metadata, load_website_models(website_repo, website_sha))
+    pinned_mirror = parsed(source(ROOT, dataset_sha, HF_MIRRORS["pricing-v2-prices.json"]))
+    export_schema = PUBLIC_SCHEMA_VERSION if local_candidate else pinned_mirror["metadata"]["schema_version"]
+    payload = build_export(website, metadata, load_website_models(website_repo, website_sha), schema_version=export_schema)
     preserve_generated_at_for_timestamp_only_change(
         payload, parsed(source(ROOT, dataset_sha, HF_MIRRORS["pricing-v2-prices.json"]))
     )
@@ -153,16 +161,19 @@ def build_contents(dataset_ref: str, website_repo: Path, website_ref: str, snaps
         "status": "release" if release_version is not None else "candidate",
         "release_version": release_version,
         "release_date": release_date,
-        "git_commit": dataset_sha,
+        "git_commit": None if local_candidate else dataset_sha,
         "snapshot_date": snapshot,
         "snapshot_path": f"data/snapshots/{snapshot}/",
         "dataset_schema": {"source_path": "schema/dataset.schema.json", "sha256": digest(source(ROOT, dataset_sha, "schema/dataset.schema.json"))},
-        "website_source": {"git_commit": website_sha, "projection_path": "data/pricing-v2-projection/model-pricing.v2.json", "legacy_models_path": "data/model-pricing.json"},
+        "website_source": {"git_commit": None if local_candidate else website_sha, "projection_path": "data/pricing-v2-projection/model-pricing.v2.json", "legacy_models_path": "data/model-pricing.json"},
         "projections": {
             "github_pages_v1": {"role": "GitHub Pages V1 API and tracked snapshot", "schema": "schema/dataset.schema.json", **v1_stats, "assets": [asset(name, path, v1[name]) for name, path in V1_SOURCES.items()]},
-            "pricing_v2": {"role": "Website public Pricing V2 export; HF is parity target", "export_schema": PUBLIC_SCHEMA_VERSION, **v2_stats, "assets": [asset(name, path, v2[name]) for name, path in V2_SOURCES.items()]},
+            "pricing_v2": {"role": "Website public Pricing V2 export; HF is parity target", "export_schema": export_schema, **v2_stats, "assets": [asset(name, path, v2[name]) for name, path in V2_SOURCES.items()]},
         },
     }
+    if local_candidate:
+        manifest["source_scope"] = "LOCAL_CANDIDATE"
+        manifest["base_commits"] = {"dataset": commit(ROOT, "HEAD"), "website": commit(website_repo, "HEAD")}
     files = {**v1, **v2}
     files["release-manifest.json"] = (json.dumps(manifest, indent=2, ensure_ascii=False, sort_keys=True) + "\n").encode("utf-8")
     files["SHA256SUMS.txt"] = "".join(f"{digest(files[name])}  {name}\n" for name in sorted(files)).encode("ascii")
@@ -171,6 +182,11 @@ def build_contents(dataset_ref: str, website_repo: Path, website_ref: str, snaps
 
 def verify_contents(files: dict[str, bytes]) -> dict[str, Any]:
     manifest = parsed(files["release-manifest.json"])
+    if manifest.get("source_scope") == "LOCAL_CANDIDATE":
+        if manifest["status"] != "candidate" or manifest.get("git_commit") is not None or manifest["website_source"].get("git_commit") is not None:
+            raise ValueError("local candidate cannot assert published source commits")
+        if set(manifest["base_commits"]) != {"dataset", "website"} or not all(re.fullmatch(r"[0-9a-f]{40}", value) for value in manifest["base_commits"].values()):
+            raise ValueError("local candidate base commit is invalid")
     if manifest["status"] == "candidate":
         if manifest["release_version"] is not None or manifest["release_date"] is not None:
             raise ValueError("candidate manifest state mismatch")
@@ -216,9 +232,9 @@ def write_bundle(files: dict[str, bytes], output: Path) -> None:
 def main() -> None:
     parser = argparse.ArgumentParser(description=__doc__)
     parser.add_argument("--snapshot", required=True)
-    parser.add_argument("--dataset-ref", required=True, help="Exact Dataset tag or commit to read via git show")
+    parser.add_argument("--dataset-ref", required=True, help="Exact Dataset tag/commit, or WORKTREE for an explicitly local candidate")
     parser.add_argument("--website-repo", required=True, type=Path, help="Existing offline Website checkout")
-    parser.add_argument("--website-ref", required=True, help="Exact Website commit to read via git show")
+    parser.add_argument("--website-ref", required=True, help="Exact Website commit, or WORKTREE for an explicitly local candidate")
     parser.add_argument("--output", type=Path, default=ROOT / "dist" / "release-candidate")
     parser.add_argument("--release-version", help="Explicit version for a tag-derived final bundle")
     parser.add_argument("--release-date", help="Explicit YYYY-MM-DD date for a tag-derived final bundle")

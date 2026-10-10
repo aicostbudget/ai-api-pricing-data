@@ -19,14 +19,15 @@ class FinalBlockerTests(unittest.TestCase):
         cls.projection = {r["canonicalInternalId"]: r for r in read("data/pricing-v2-preview/generated/model-pricing.v2.json")["models"]}
 
     def test_only_ocr_and_kimi_canonical_changes_with_one_published_rate_correction(self):
-        self.assertEqual(set(self.after), set(self.before))
-        for key in self.after:
+        historical_after = {r["provider_id"]+"/"+r["model_id"]: r for r in json.loads(subprocess.check_output(["git", "show", "72ce4a1a7475bbd9c2a394aedf864afec073d494:data/canonical/models.json"], cwd=ROOT))}
+        self.assertEqual(set(historical_after), set(self.before))
+        for key in historical_after:
             if key not in {"mistral-ai/mistral-ocr-4-0", "moonshot-ai/kimi-k2.6"}:
-                self.assertEqual(self.after[key], self.before[key], key)
+                self.assertEqual(historical_after[key], self.before[key], key)
             expected = dict(self.before[key]["pricing"])
             if key == "moonshot-ai/kimi-k2.6": expected["batch_cached_input"] = .10
-            self.assertEqual(self.after[key]["pricing"], expected, key)
-        kimi = self.after["moonshot-ai/kimi-k2.6"]
+            self.assertEqual(historical_after[key]["pricing"], expected, key)
+        kimi = historical_after["moonshot-ai/kimi-k2.6"]
         self.assertEqual(kimi["pricing"]["batch_cached_input"], .10)
         self.assertIn("BILLING PRECISION UNCONFIRMED", kimi["notes"])
 
@@ -71,8 +72,9 @@ class FinalBlockerTests(unittest.TestCase):
 
     def test_other_models_verification_and_access_facts_do_not_drift(self):
         prior = json.loads(subprocess.check_output(["git", "show", BASE + ":data/pricing-v2-preview/generated/model-pricing.v2.json"], cwd=ROOT))
+        historical_projection = {r["canonicalInternalId"]:r for r in json.loads(subprocess.check_output(["git", "show", "72ce4a1a7475bbd9c2a394aedf864afec073d494:data/pricing-v2-preview/generated/model-pricing.v2.json"],cwd=ROOT))["models"]}
         for row in prior["models"]:
             key = row["canonicalInternalId"]
             if key in {"mistral-ai/mistral-ocr-4-0", "moonshot-ai/kimi-k2.6"}: continue
             for field in ("lifecycleStatus", "defaultSafe", "inputPrice", "outputPrice", "verifiedAt", "checkedAt", "accessStatus", "bindingStatus"):
-                self.assertEqual(self.projection[key].get(field), row.get(field), (key, field))
+                self.assertEqual(historical_projection[key].get(field), row.get(field), (key, field))

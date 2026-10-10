@@ -441,13 +441,13 @@ def build_phase2_conflict_report(
         "unresolvedIdentitiesBefore": report["unresolvedIdentities"],
         "unresolvedIdentitiesAfter": [
             internal_id
-            for internal_id in gpt_family
+            for internal_id in sorted(identity_by_id)
             if identity_by_id[internal_id]["verificationStatus"] == "review_required"
         ],
         "pricingConflictsBefore": report["pricingConflicts"],
         "pricingConflictsAfter": [
             {"internalId": internal_id, "resolution": "remain_review_required"}
-            for internal_id in gpt_family
+            for internal_id in sorted(identity_by_id)
             if identity_by_id[internal_id]["verificationStatus"] == "review_required"
         ],
         "verificationUpgrades": [],
@@ -1980,6 +1980,9 @@ def has_verified_price_record_evidence(public: dict[str, Any] | None) -> bool:
 
 def status_parts(provider_id: str, model_id: str, public: dict[str, Any] | None, website: dict[str, Any] | None,
                  *, mini_authority: dict[str, Any] | None = None) -> dict[str, Any]:
+    if (public or {}).get("lifecycle_conflict"):
+        lifecycle_authority.validate_unresolved_conflict(public)
+        return {"lifecycleStatus": "unknown", "releaseStage": "unknown", "availability": "Lifecycle source conflict", "verificationStatus": "review_required"}
     website_status = (website or {}).get("status")
     public_status = (public or {}).get("status")
     if (provider_id, model_id) in REVIEW_REQUIRED_IDS:
@@ -2874,6 +2877,7 @@ def main() -> None:
     verified_timestamps = [source["verifiedAt"] for source in sources if source.get("verifiedAt") and not set(source["supports"]) <= {"access", "binding"}]
     generated_at = max(verified_timestamps) if verified_timestamps else f"{date.today().isoformat()}T00:00:00Z"
 
+    previous_identity_authority = {row["internalId"]: row.get("accessAuthority") for row in read_json(PREVIEW / "model-identity-registry.json")}
     identities = []
     canonical_keys = []
     for provider_id, model_id in candidate_keys:
@@ -2939,6 +2943,10 @@ def main() -> None:
             "verificationStatus": parts["verificationStatus"],
             "sourceRefs": source_refs_for(provider_id, public, website, source_by_url),
         }
+        if (public or {}).get("lifecycle_conflict"):
+            identity["lifecycleConflict"] = public["lifecycle_conflict"]
+            identity["retirementDate"] = None
+            identity["replacementInternalId"] = None
         context_window_tokens = projected_context_window_tokens(public)
         if context_window_tokens is not None:
             identity["contextWindowTokens"] = context_window_tokens
@@ -2947,6 +2955,9 @@ def main() -> None:
         key = (provider_id, model_id)
         identity.update(project_facts(access_by_key[key], source_by_url, authority_by_key[key],
                                       canonical_revision if authority_by_key[key] == "canonical" else (website or {}).get("accessAuthorityRevision")))
+        prior_authority = previous_identity_authority.get(identity["internalId"])
+        if prior_authority and all(prior_authority.get(k) == identity["accessAuthority"].get(k) for k in ("kind", "factSha256")):
+            identity["accessAuthority"] = prior_authority
         identities.append(identity)
 
     apply_approved_aliases(identities, {s["sourceId"]:s for s in sources}, {internal_id(*key) for key in public_by_key})
@@ -3464,6 +3475,9 @@ def main() -> None:
         key = (provider_id, model_id)
         model_record.update(project_facts(access_by_key[key], source_by_url, authority_by_key[key],
                                           canonical_revision if authority_by_key[key] == "canonical" else (website or {}).get("accessAuthorityRevision")))
+        prior_authority = previous_identity_authority.get(model_record["internalId"])
+        if prior_authority and all(prior_authority.get(k) == model_record["accessAuthority"].get(k) for k in ("kind", "factSha256")):
+            model_record["accessAuthority"] = prior_authority
         models.append(model_record)
 
     exact_parity: list[str] = []

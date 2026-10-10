@@ -284,6 +284,340 @@
       "status": "active"
     },
     {
+      "access_checked_at": "2026-10-09T12:36:29Z",
+      "access_evidence": [
+        {
+          "claim_type": "official_access_public",
+          "official_model_id": "claude-haiku-5-5",
+          "scope": "Official exact API model ID available publicly.",
+          "title": "Claude Haiku 5.5 API availability",
+          "url": "https://platform.claude.com/docs/en/models/haiku-5-5/overview"
+        }
+      ],
+      "access_status": "public",
+      "accessed_at": "2026-10-09T12:36:29Z",
+      "binding_evidence": [
+        {
+          "claim_type": "official_identity_binding",
+          "official_model_id": "claude-haiku-5-5",
+          "reason": "Exact official API identifier.",
+          "title": "Claude Haiku 5.5 identity",
+          "url": "https://platform.claude.com/docs/en/models/haiku-5-5/overview"
+        }
+      ],
+      "binding_status": "approved",
+      "context_window_tokens": 1000000,
+      "display_name": "Claude Haiku 5.5",
+      "effective_from": "2026-10-07",
+      "input_modality": "text",
+      "last_verified_at": "2026-10-09T12:36:29Z",
+      "max_output_tokens": 128000,
+      "model_family": "Claude Haiku 5.5",
+      "model_id": "claude-haiku-5-5",
+      "notes": "Active (latest), released 2026-10-07; max output 128000 tokens. Prompt <=100000 uses short prices; >100000 uses long prices for the whole request. All input tokens including cache reads and writes count toward the threshold. Batch input/output use published 50% discount; no Batch cache components asserted.",
+      "official_source_url": "https://platform.claude.com/docs/en/models/haiku-5-5/overview",
+      "official_source_urls": [
+        "https://platform.claude.com/docs/en/models/haiku-5-5/overview",
+        "https://www.anthropic.com/claude-haiku-5-5",
+        "https://platform.claude.com/docs/en/about-claude/pricing",
+        "https://platform.claude.com/docs/en/build-with-claude/prompt-caching"
+      ],
+      "output_modality": "text",
+      "price_records": [
+        {
+          "billing_note": "Active (latest), released 2026-10-07; max output 128000 tokens. Prompt <=100000 uses short prices; >100000 uses long prices for the whole request. All input tokens including cache reads and writes count toward the threshold. Batch input/output use published 50% discount; no Batch cache components asserted.",
+          "calculation_default": true,
+          "charges": [
+            {
+              "amount": "0.1",
+              "component": "input",
+              "id": "price:anthropic/claude-haiku-5-5:standard:short:current:input:text:per_1m_tokens",
+              "modality": "text",
+              "unit": "per_1m_tokens"
+            },
+            {
+              "amount": "0.01",
+              "component": "cache_read",
+              "id": "price:anthropic/claude-haiku-5-5:standard:short:current:cache_read:text:per_1m_tokens",
+              "modality": "text",
+              "unit": "per_1m_tokens"
+            },
+            {
+              "amount": "0.125",
+              "component": "cache_write_5m",
+              "id": "price:anthropic/claude-haiku-5-5:standard:short:current:cache_write_5m:text:per_1m_tokens",
+              "modality": "text",
+              "unit": "per_1m_tokens"
+            },
+            {
+              "amount": "0.2",
+              "component": "cache_write_1h",
+              "id": "price:anthropic/claude-haiku-5-5:standard:short:current:cache_write_1h:text:per_1m_tokens",
+              "modality": "text",
+              "unit": "per_1m_tokens"
+            },
+            {
+              "amount": "0.5",
+              "component": "output",
+              "id": "price:anthropic/claude-haiku-5-5:standard:short:current:output:text:per_1m_tokens",
+              "modality": "text",
+              "unit": "per_1m_tokens"
+            }
+          ],
+          "checked_at": "2026-10-09T12:36:29Z",
+          "context_class": "short",
+          "currency": "USD",
+          "effective_from": "2026-10-07",
+          "effective_until": null,
+          "id": "price:anthropic/claude-haiku-5-5:standard:short:current",
+          "pricing_status": "current",
+          "processing_mode": "standard",
+          "prompt_token_threshold": 100000,
+          "region_policy": {
+            "availability": {
+              "default": "available",
+              "rules": []
+            },
+            "data_residencies": [
+              "global"
+            ],
+            "endpoint_geographies": [
+              "global"
+            ],
+            "price_adjustments": [],
+            "pricing_geography": "global_base"
+          },
+          "source_refs": [
+            "https://platform.claude.com/docs/en/models/haiku-5-5/overview",
+            "https://www.anthropic.com/claude-haiku-5-5",
+            "https://platform.claude.com/docs/en/about-claude/pricing",
+            "https://platform.claude.com/docs/en/build-with-claude/prompt-caching"
+          ],
+          "tier_selection": {
+            "cached_prompt_tokens_included": true,
+            "comparison": "less_than_or_equal",
+            "token_basis": "total_prompt_tokens",
+            "whole_request_pricing": true
+          },
+          "verification_status": "verified",
+          "verified_at": "2026-10-09T12:36:29Z"
+        },
+        {
+          "billing_note": "Active (latest), released 2026-10-07; max output 128000 tokens. Prompt <=100000 uses short prices; >100000 uses long prices for the whole request. All input tokens including cache reads and writes count toward the threshold. Batch input/output use published 50% discount; no Batch cache components asserted.",
+          "calculation_default": false,
+          "charges": [
+            {
+              "amount": "0.05",
+              "component": "input",
+              "id": "price:anthropic/claude-haiku-5-5:batch:short:current:input:text:per_1m_tokens",
+              "modality": "text",
+              "unit": "per_1m_tokens"
+            },
+            {
+              "amount": "0.25",
+              "component": "output",
+              "id": "price:anthropic/claude-haiku-5-5:batch:short:current:output:text:per_1m_tokens",
+              "modality": "text",
+              "unit": "per_1m_tokens"
+            }
+          ],
+          "checked_at": "2026-10-09T12:36:29Z",
+          "context_class": "short",
+          "currency": "USD",
+          "effective_from": "2026-10-07",
+          "effective_until": null,
+          "id": "price:anthropic/claude-haiku-5-5:batch:short:current",
+          "pricing_status": "current",
+          "processing_mode": "batch",
+          "prompt_token_threshold": 100000,
+          "region_policy": {
+            "availability": {
+              "default": "available",
+              "rules": []
+            },
+            "data_residencies": [
+              "global"
+            ],
+            "endpoint_geographies": [
+              "global"
+            ],
+            "price_adjustments": [],
+            "pricing_geography": "global_base"
+          },
+          "source_refs": [
+            "https://platform.claude.com/docs/en/models/haiku-5-5/overview",
+            "https://www.anthropic.com/claude-haiku-5-5",
+            "https://platform.claude.com/docs/en/about-claude/pricing",
+            "https://platform.claude.com/docs/en/build-with-claude/prompt-caching"
+          ],
+          "tier_selection": {
+            "cached_prompt_tokens_included": true,
+            "comparison": "less_than_or_equal",
+            "token_basis": "total_prompt_tokens",
+            "whole_request_pricing": true
+          },
+          "verification_status": "verified",
+          "verified_at": "2026-10-09T12:36:29Z"
+        },
+        {
+          "billing_note": "Active (latest), released 2026-10-07; max output 128000 tokens. Prompt <=100000 uses short prices; >100000 uses long prices for the whole request. All input tokens including cache reads and writes count toward the threshold. Batch input/output use published 50% discount; no Batch cache components asserted.",
+          "calculation_default": false,
+          "charges": [
+            {
+              "amount": "0.5",
+              "component": "input",
+              "id": "price:anthropic/claude-haiku-5-5:standard:long:current:input:text:per_1m_tokens",
+              "modality": "text",
+              "unit": "per_1m_tokens"
+            },
+            {
+              "amount": "0.05",
+              "component": "cache_read",
+              "id": "price:anthropic/claude-haiku-5-5:standard:long:current:cache_read:text:per_1m_tokens",
+              "modality": "text",
+              "unit": "per_1m_tokens"
+            },
+            {
+              "amount": "0.625",
+              "component": "cache_write_5m",
+              "id": "price:anthropic/claude-haiku-5-5:standard:long:current:cache_write_5m:text:per_1m_tokens",
+              "modality": "text",
+              "unit": "per_1m_tokens"
+            },
+            {
+              "amount": "1",
+              "component": "cache_write_1h",
+              "id": "price:anthropic/claude-haiku-5-5:standard:long:current:cache_write_1h:text:per_1m_tokens",
+              "modality": "text",
+              "unit": "per_1m_tokens"
+            },
+            {
+              "amount": "2.5",
+              "component": "output",
+              "id": "price:anthropic/claude-haiku-5-5:standard:long:current:output:text:per_1m_tokens",
+              "modality": "text",
+              "unit": "per_1m_tokens"
+            }
+          ],
+          "checked_at": "2026-10-09T12:36:29Z",
+          "context_class": "long",
+          "currency": "USD",
+          "effective_from": "2026-10-07",
+          "effective_until": null,
+          "id": "price:anthropic/claude-haiku-5-5:standard:long:current",
+          "pricing_status": "current",
+          "processing_mode": "standard",
+          "prompt_token_threshold": 100000,
+          "region_policy": {
+            "availability": {
+              "default": "available",
+              "rules": []
+            },
+            "data_residencies": [
+              "global"
+            ],
+            "endpoint_geographies": [
+              "global"
+            ],
+            "price_adjustments": [],
+            "pricing_geography": "global_base"
+          },
+          "source_refs": [
+            "https://platform.claude.com/docs/en/models/haiku-5-5/overview",
+            "https://www.anthropic.com/claude-haiku-5-5",
+            "https://platform.claude.com/docs/en/about-claude/pricing",
+            "https://platform.claude.com/docs/en/build-with-claude/prompt-caching"
+          ],
+          "tier_selection": {
+            "cached_prompt_tokens_included": true,
+            "comparison": "greater_than",
+            "token_basis": "total_prompt_tokens",
+            "whole_request_pricing": true
+          },
+          "verification_status": "verified",
+          "verified_at": "2026-10-09T12:36:29Z"
+        },
+        {
+          "billing_note": "Active (latest), released 2026-10-07; max output 128000 tokens. Prompt <=100000 uses short prices; >100000 uses long prices for the whole request. All input tokens including cache reads and writes count toward the threshold. Batch input/output use published 50% discount; no Batch cache components asserted.",
+          "calculation_default": false,
+          "charges": [
+            {
+              "amount": "0.25",
+              "component": "input",
+              "id": "price:anthropic/claude-haiku-5-5:batch:long:current:input:text:per_1m_tokens",
+              "modality": "text",
+              "unit": "per_1m_tokens"
+            },
+            {
+              "amount": "1.25",
+              "component": "output",
+              "id": "price:anthropic/claude-haiku-5-5:batch:long:current:output:text:per_1m_tokens",
+              "modality": "text",
+              "unit": "per_1m_tokens"
+            }
+          ],
+          "checked_at": "2026-10-09T12:36:29Z",
+          "context_class": "long",
+          "currency": "USD",
+          "effective_from": "2026-10-07",
+          "effective_until": null,
+          "id": "price:anthropic/claude-haiku-5-5:batch:long:current",
+          "pricing_status": "current",
+          "processing_mode": "batch",
+          "prompt_token_threshold": 100000,
+          "region_policy": {
+            "availability": {
+              "default": "available",
+              "rules": []
+            },
+            "data_residencies": [
+              "global"
+            ],
+            "endpoint_geographies": [
+              "global"
+            ],
+            "price_adjustments": [],
+            "pricing_geography": "global_base"
+          },
+          "source_refs": [
+            "https://platform.claude.com/docs/en/models/haiku-5-5/overview",
+            "https://www.anthropic.com/claude-haiku-5-5",
+            "https://platform.claude.com/docs/en/about-claude/pricing",
+            "https://platform.claude.com/docs/en/build-with-claude/prompt-caching"
+          ],
+          "tier_selection": {
+            "cached_prompt_tokens_included": true,
+            "comparison": "greater_than",
+            "token_basis": "total_prompt_tokens",
+            "whole_request_pricing": true
+          },
+          "verification_status": "verified",
+          "verified_at": "2026-10-09T12:36:29Z"
+        }
+      ],
+      "pricing": {
+        "batch_input": 0.05,
+        "batch_output": 0.25,
+        "cache_write": 0.125,
+        "cache_write_1h": 0.2,
+        "cached_input": 0.01,
+        "currency": "USD",
+        "input": 0.1,
+        "output": 0.5,
+        "unit": "1M tokens"
+      },
+      "project_context_window": true,
+      "provider_id": "anthropic",
+      "release_evidence": {
+        "source_type": "official_model_docs",
+        "title": "Claude Haiku 5.5 official release",
+        "url": "https://platform.claude.com/docs/en/models/haiku-5-5/overview"
+      },
+      "release_stage": "stable",
+      "released_at": "2026-10-07",
+      "status": "active"
+    },
+    {
       "access_checked_at": "2026-10-07T04:26:40Z",
       "access_evidence": [
         {
@@ -777,7 +1111,7 @@
         }
       ],
       "access_status": "public",
-      "accessed_at": "2026-09-30T03:25:59Z",
+      "accessed_at": "2026-10-09T12:36:29Z",
       "binding_evidence": [
         {
           "claim_type": "official_identity_binding",
@@ -829,24 +1163,30 @@
       ],
       "context_window_tokens": 1000000,
       "display_name": "Claude Sonnet 5.5",
-      "effective_from": "2026-09-28",
+      "effective_from": "2026-10-07",
       "input_modality": "text",
-      "last_verified_at": "2026-09-30T03:25:59Z",
+      "last_verified_at": "2026-10-09T12:36:29Z",
       "model_family": "Claude Sonnet",
       "model_id": "claude-sonnet-5-5",
-      "notes": "Released 2026-09-28 and listed as Active (latest), with retirement not sooner than 2027-09-28. Standard global Claude API pricing is $2 input, $0.20 cache read, $2.50 5-minute cache write, $4 1-hour cache write, and $10 output per 1M tokens. Batch input and output are 50% of Standard. The full 1M context window uses the same token rates. Regional and partner-cloud pricing differences are outside this global-base record.",
+      "notes": "Released 2026-09-28 and listed as Active (latest), with retirement not sooner than 2027-09-28. Standard global Claude API pricing is $2 input, $0.10 cache read, $2.50 5-minute cache write, $4 1-hour cache write, and $10 output per 1M tokens. Batch input and output are 50% of Standard. The full 1M context window uses the same token rates. Regional and partner-cloud pricing differences are outside this global-base record. Cache reads reduced from $0.20 to $0.10 effective 2026-10-07, announced with Haiku 5.5.",
       "official_source_url": "https://platform.claude.com/docs/en/models/sonnet-5-5/overview",
       "official_source_urls": [
         "https://platform.claude.com/docs/en/models/sonnet-5-5/overview",
         "https://www.anthropic.com/claude-sonnet-5-5",
         "https://platform.claude.com/docs/en/about-claude/pricing",
         "https://platform.claude.com/docs/en/build-with-claude/prompt-caching",
-        "https://platform.claude.com/docs/en/about-claude/model-deprecations"
+        "https://platform.claude.com/docs/en/about-claude/model-deprecations",
+        "https://www.anthropic.com/claude-haiku-5-5"
       ],
       "output_modality": "text",
+      "price_change_evidence": {
+        "claim": "Same-model Claude Sonnet 5.5 cache read reduced 50% from $0.20 to $0.10 per million tokens starting October 7, 2026; input, output, cache writes and Batch input/output unchanged.",
+        "effective_from": "2026-10-07",
+        "url": "https://www.anthropic.com/claude-haiku-5-5"
+      },
       "price_records": [
         {
-          "billing_note": "Standard global Claude API token and prompt-cache pricing; the full 1M context window uses the same rates, and 5-minute and 1-hour cache writes are distinct charge semantics.",
+          "billing_note": "Standard global Claude API token and prompt-cache pricing; the full 1M context window uses the same rates, and 5-minute and 1-hour cache writes are distinct charge semantics. Cache read changed on 2026-10-07; other components unchanged.",
           "calculation_default": true,
           "charges": [
             {
@@ -857,7 +1197,7 @@
               "unit": "per_1m_tokens"
             },
             {
-              "amount": "0.2",
+              "amount": "0.1",
               "component": "cache_read",
               "id": "price:anthropic/claude-sonnet-5-5:standard:short:current:cache_read:text:per_1m_tokens",
               "modality": "text",
@@ -885,10 +1225,10 @@
               "unit": "per_1m_tokens"
             }
           ],
-          "checked_at": "2026-09-30T03:25:59Z",
+          "checked_at": "2026-10-09T12:36:29Z",
           "context_class": "short",
           "currency": "USD",
-          "effective_from": "2026-09-28",
+          "effective_from": "2026-10-07",
           "effective_until": null,
           "id": "price:anthropic/claude-sonnet-5-5:standard:short:current",
           "pricing_status": "current",
@@ -910,10 +1250,11 @@
           },
           "source_refs": [
             "https://platform.claude.com/docs/en/models/sonnet-5-5/overview",
-            "https://platform.claude.com/docs/en/about-claude/pricing"
+            "https://platform.claude.com/docs/en/about-claude/pricing",
+            "https://www.anthropic.com/claude-haiku-5-5"
           ],
           "verification_status": "verified",
-          "verified_at": "2026-09-30T03:25:59Z"
+          "verified_at": "2026-10-09T12:36:29Z"
         },
         {
           "billing_note": "Batch API input and output pricing is the published 50% discount from Standard global token rates.",
@@ -970,7 +1311,7 @@
         "batch_output": 5.0,
         "cache_write": 2.5,
         "cache_write_1h": 4.0,
-        "cached_input": 0.2,
+        "cached_input": 0.1,
         "currency": "USD",
         "input": 2.0,
         "output": 10.0,

@@ -317,10 +317,13 @@ class HuggingFaceSafePublishTests(unittest.TestCase):
         self.assertIn("cancel-in-progress: false", workflow)
         self.assertIn("AUTH_FAILURE: HF_TOKEN is not configured", workflow)
         self.assertIn("VALIDATION_FAILURE", workflow)
-        self.assertIn("ref: main", workflow)
+        self.assertIn("ref: ${{ github.sha }}", workflow)
+        self.assertIn("environment: hf-release-review", workflow)
+        self.assertIn("--verify-production", workflow)
         self.assertIn("persist-credentials: false", workflow)
-        self.assertIn("GITHUB_SOURCE_SHA: ${{ steps.source.outputs.sha }}", workflow)
-        self.assertLess(workflow.index("Require Hugging Face write token"), workflow.index("actions/checkout@v5"))
+        self.assertIn("GITHUB_SOURCE_SHA: ${{ inputs.artifact_sha }}", workflow)
+        self.assertLess(workflow.index("Verify real maintainer dispatch authorization"), workflow.index("Require Hugging Face write token"))
+        self.assertLess(workflow.index("Require Hugging Face write token"), workflow.index("Publish allowlisted artifacts safely"))
 
     def test_production_checker_failure_stops_workflow(self):
         workflow = WORKFLOW.read_text(encoding="utf-8")
@@ -354,7 +357,7 @@ class HuggingFaceSafePublishTests(unittest.TestCase):
         workflow = WORKFLOW.read_text(encoding="utf-8")
         self.assertIn("dry_run:", workflow)
         self.assertIn("type: boolean", workflow)
-        self.assertIn("default: false", workflow)
+        self.assertIn("default: true", workflow)
         self.assertIn("python scripts/publish_huggingface.py --dry-run", workflow)
         self.assertIn("if: ${{ ! inputs.dry_run }}", workflow)
 

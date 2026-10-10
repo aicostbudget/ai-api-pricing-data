@@ -4,11 +4,30 @@ on:
   push:
     branches: ["main", "master"]
   workflow_dispatch:
+    inputs:
+      artifact_sha:
+        description: "Exact approved Dataset artifact S2 SHA on main"
+        required: true
+        type: string
+      source_sha:
+        description: "Exact real Dataset source S1 SHA"
+        required: true
+        type: string
+      website_sha:
+        description: "Exact approved Website W1 SHA on main"
+        required: true
+        type: string
+      release_tag:
+        description: "Existing reviewed tag resolving to S2"
+        required: true
+        type: string
+      release_date:
+        description: "Approved release date YYYY-MM-DD"
+        required: true
+        type: string
 
 permissions:
   contents: read
-  pages: write
-  id-token: write
 
 concurrency:
   group: pages
@@ -16,38 +35,143 @@ concurrency:
 
 jobs:
   build:
+    permissions:
+      contents: read
+      pages: read
     runs-on: ubuntu-latest
     outputs:
       source_sha: ${{ steps.artifact.outputs.source_sha }}
     steps:
       - uses: actions/checkout@v5
         with:
+          ref: ${{ github.sha }}
           fetch-depth: 0
+          persist-credentials: false
       - uses: actions/setup-python@v6
         with:
           python-version: "3.11"
+      - uses: actions/setup-node@v6
+        with:
+          node-version: "24"
+      - name: Checkout published Website main for ordinary preflight
+        uses: actions/checkout@v5
+        with:
+          repository: linqiang-max/aicostbudget
+          ref: main
+          fetch-depth: 0
+          path: website-source
+          token: ${{ secrets.WEBSITE_REPO_TOKEN }}
+          persist-credentials: false
+      - name: Install Website dependencies
+        run: npm ci --ignore-scripts --no-audit --no-fund
+        working-directory: website-source
       - name: Validate static dataset
         run: python scripts/validate.py
+      - name: Run complete Dataset suite
+        run: python -m unittest discover -s tests -p "test_*.py"
+      - name: Verify actual Website public export parity
+        run: node scripts/test-dataset-pricing-components-parity.mjs ../huggingface
+        working-directory: website-source
       - name: Prepare Pages artifact
+        if: github.event_name == 'workflow_dispatch' && github.ref == 'refs/heads/main'
         id: artifact
         run: python scripts/prepare_pages_artifact.py pages-dist --artifact-sha "${{ github.sha }}" --github-output "$GITHUB_OUTPUT"
       - uses: actions/configure-pages@v6
-      - uses: actions/upload-pages-artifact@v5
+        if: github.event_name == 'workflow_dispatch' && github.ref == 'refs/heads/main'
         with:
-          path: "pages-dist"
-  deploy:
-    environment:
-      name: github-pages
-      url: ${{ steps.deployment.outputs.page_url }}
-    runs-on: ubuntu-latest
+          enablement: false
+      - uses: actions/upload-pages-artifact@v5
+        if: github.event_name == 'workflow_dispatch' && github.ref == 'refs/heads/main'
+        with:
+          path: pages-dist
+  release-preflight:
+    if: github.event_name == 'workflow_dispatch' && github.ref == 'refs/heads/main'
     needs: build
+    environment: github-pages
+    permissions:
+      contents: read
+      actions: read
+    runs-on: ubuntu-latest
+    outputs:
+      eligible: ${{ steps.gate.outputs.eligible }}
     steps:
       - uses: actions/checkout@v5
         with:
+          ref: ${{ github.sha }}
           fetch-depth: 0
+          persist-credentials: false
       - uses: actions/setup-python@v6
         with:
           python-version: "3.11"
+      - uses: actions/setup-node@v6
+        with:
+          node-version: "24"
+      - name: Verify current maintainer dispatch and approved release source
+        env:
+          GITHUB_TOKEN: ${{ github.token }}
+          WEBSITE_REPO_TOKEN: ${{ secrets.WEBSITE_REPO_TOKEN }}
+          ARTIFACT_SHA: ${{ inputs.artifact_sha }}
+          SOURCE_SHA: ${{ inputs.source_sha }}
+          WEBSITE_SHA: ${{ inputs.website_sha }}
+          RELEASE_TAG: ${{ inputs.release_tag }}
+          RELEASE_DATE: ${{ inputs.release_date }}
+        run: python scripts/check_release_gate.py --kind pages
+      - name: Checkout approved committed Website
+        uses: actions/checkout@v5
+        with:
+          repository: linqiang-max/aicostbudget
+          ref: ${{ inputs.website_sha }}
+          fetch-depth: 0
+          path: website-source
+          token: ${{ secrets.WEBSITE_REPO_TOKEN }}
+          persist-credentials: false
+      - name: Install Website dependencies
+        run: npm ci --ignore-scripts --no-audit --no-fund
+        working-directory: website-source
+      - name: Verify formal committed release bundle
+        id: gate
+        env:
+          GITHUB_TOKEN: ${{ github.token }}
+          WEBSITE_REPO_TOKEN: ${{ secrets.WEBSITE_REPO_TOKEN }}
+          ARTIFACT_SHA: ${{ inputs.artifact_sha }}
+          SOURCE_SHA: ${{ inputs.source_sha }}
+          WEBSITE_SHA: ${{ inputs.website_sha }}
+          RELEASE_TAG: ${{ inputs.release_tag }}
+          RELEASE_DATE: ${{ inputs.release_date }}
+        run: |
+          python scripts/check_release_gate.py --kind pages --verify-local --website-repo website-source --bundle-output "$RUNNER_TEMP/pages-reviewed-bundle"
+          echo "eligible=true" >> "$GITHUB_OUTPUT"
+  deploy:
+    if: github.event_name == 'workflow_dispatch' && github.ref == 'refs/heads/main' && needs.build.result == 'success' && needs.release-preflight.result == 'success' && needs.release-preflight.outputs.eligible == 'true'
+    needs: [build, release-preflight]
+    environment:
+      name: github-pages
+      url: ${{ steps.deployment.outputs.page_url }}
+    permissions:
+      contents: read
+      actions: read
+      pages: write
+      id-token: write
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v5
+        with:
+          ref: ${{ github.sha }}
+          fetch-depth: 0
+          persist-credentials: false
+      - uses: actions/setup-python@v6
+        with:
+          python-version: "3.11"
+      - name: Recheck current source and maintainer dispatch authorization before production deployment
+        env:
+          GITHUB_TOKEN: ${{ github.token }}
+          WEBSITE_REPO_TOKEN: ${{ secrets.WEBSITE_REPO_TOKEN }}
+          ARTIFACT_SHA: ${{ inputs.artifact_sha }}
+          SOURCE_SHA: ${{ inputs.source_sha }}
+          WEBSITE_SHA: ${{ inputs.website_sha }}
+          RELEASE_TAG: ${{ inputs.release_tag }}
+          RELEASE_DATE: ${{ inputs.release_date }}
+        run: python scripts/check_release_gate.py --kind pages
       - id: deployment
         uses: actions/deploy-pages@v5
       - name: Verify public Pages deployment

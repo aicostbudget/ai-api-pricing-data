@@ -3,11 +3,31 @@ name: Hugging Face Safe Publish
 on:
   workflow_dispatch:
     inputs:
+      artifact_sha:
+        description: "Exact approved Dataset artifact S2 SHA on main"
+        required: true
+        type: string
+      source_sha:
+        description: "Exact real Dataset source S1 SHA"
+        required: true
+        type: string
+      website_sha:
+        description: "Exact approved Website W1 SHA on main"
+        required: true
+        type: string
+      release_tag:
+        description: "Existing reviewed tag resolving to S2"
+        required: true
+        type: string
+      release_date:
+        description: "Approved release date YYYY-MM-DD"
+        required: true
+        type: string
       dry_run:
-        description: Validate publish without committing or pushing
+        description: "Validate exact approved release without committing or pushing"
         required: false
         type: boolean
-        default: false
+        default: true
 
 permissions:
   contents: read
@@ -20,10 +40,122 @@ env:
   HF_REPO_ID: aicostbudget-ai/ai-api-pricing
 
 jobs:
+  release-preflight:
+    if: github.event_name == 'workflow_dispatch' && github.ref == 'refs/heads/main'
+    environment: hf-release-review
+    permissions:
+      contents: read
+      actions: read
+    runs-on: ubuntu-latest
+    outputs:
+      eligible: ${{ steps.gate.outputs.eligible }}
+    steps:
+      - uses: actions/checkout@v5
+        with:
+          ref: ${{ github.sha }}
+          fetch-depth: 0
+          persist-credentials: false
+      - uses: actions/setup-python@v6
+        with:
+          python-version: "3.11"
+      - uses: actions/setup-node@v6
+        with:
+          node-version: "24"
+      - name: Verify real maintainer dispatch authorization and pinned release identity
+        env:
+          GITHUB_TOKEN: ${{ github.token }}
+          WEBSITE_REPO_TOKEN: ${{ secrets.WEBSITE_REPO_TOKEN }}
+          ARTIFACT_SHA: ${{ inputs.artifact_sha }}
+          SOURCE_SHA: ${{ inputs.source_sha }}
+          WEBSITE_SHA: ${{ inputs.website_sha }}
+          RELEASE_TAG: ${{ inputs.release_tag }}
+          RELEASE_DATE: ${{ inputs.release_date }}
+        run: python scripts/check_release_gate.py --kind hf
+      - name: Checkout approved committed Website
+        uses: actions/checkout@v5
+        with:
+          repository: linqiang-max/aicostbudget
+          ref: ${{ inputs.website_sha }}
+          fetch-depth: 0
+          path: website-source
+          token: ${{ secrets.WEBSITE_REPO_TOKEN }}
+          persist-credentials: false
+      - name: Install Website dependencies
+        run: npm ci --ignore-scripts --no-audit --no-fund
+        working-directory: website-source
+      - name: Validate static dataset
+        run: python scripts/validate.py
+      - name: Run complete Dataset suite
+        run: python -m unittest discover -s tests -p "test_*.py"
+      - name: Verify actual Website public export parity
+        run: node scripts/test-dataset-pricing-components-parity.mjs ../huggingface
+        working-directory: website-source
+      - name: Verify committed bundle and production Website JSON/CSV/fingerprint
+        id: gate
+        env:
+          GITHUB_TOKEN: ${{ github.token }}
+          WEBSITE_REPO_TOKEN: ${{ secrets.WEBSITE_REPO_TOKEN }}
+          ARTIFACT_SHA: ${{ inputs.artifact_sha }}
+          SOURCE_SHA: ${{ inputs.source_sha }}
+          WEBSITE_SHA: ${{ inputs.website_sha }}
+          RELEASE_TAG: ${{ inputs.release_tag }}
+          RELEASE_DATE: ${{ inputs.release_date }}
+        run: |
+          python scripts/check_release_gate.py --kind hf --verify-local --verify-production --website-repo website-source --bundle-output "$RUNNER_TEMP/hf-reviewed-bundle"
+          echo "eligible=true" >> "$GITHUB_OUTPUT"
   publish-hugging-face:
+    if: github.event_name == 'workflow_dispatch' && github.ref == 'refs/heads/main' && needs.release-preflight.result == 'success' && needs.release-preflight.outputs.eligible == 'true'
+    needs: release-preflight
+    environment: hf-release-review
+    permissions:
+      contents: read
+      actions: read
     runs-on: ubuntu-latest
     timeout-minutes: 15
     steps:
+      - uses: actions/checkout@v5
+        with:
+          ref: ${{ github.sha }}
+          fetch-depth: 0
+          persist-credentials: false
+      - uses: actions/setup-python@v6
+        with:
+          python-version: "3.11"
+      - uses: actions/setup-node@v6
+        with:
+          node-version: "24"
+      - name: Recheck source and maintainer dispatch authorization before publication
+        env:
+          GITHUB_TOKEN: ${{ github.token }}
+          WEBSITE_REPO_TOKEN: ${{ secrets.WEBSITE_REPO_TOKEN }}
+          ARTIFACT_SHA: ${{ inputs.artifact_sha }}
+          SOURCE_SHA: ${{ inputs.source_sha }}
+          WEBSITE_SHA: ${{ inputs.website_sha }}
+          RELEASE_TAG: ${{ inputs.release_tag }}
+          RELEASE_DATE: ${{ inputs.release_date }}
+        run: python scripts/check_release_gate.py --kind hf
+      - name: Checkout approved committed Website
+        uses: actions/checkout@v5
+        with:
+          repository: linqiang-max/aicostbudget
+          ref: ${{ inputs.website_sha }}
+          fetch-depth: 0
+          path: website-source
+          token: ${{ secrets.WEBSITE_REPO_TOKEN }}
+          persist-credentials: false
+      - name: Install Website dependencies
+        run: npm ci --ignore-scripts --no-audit --no-fund
+        working-directory: website-source
+      - name: Recheck immutable inputs and production parity before publication
+        env:
+          GITHUB_TOKEN: ${{ github.token }}
+          WEBSITE_REPO_TOKEN: ${{ secrets.WEBSITE_REPO_TOKEN }}
+          ARTIFACT_SHA: ${{ inputs.artifact_sha }}
+          SOURCE_SHA: ${{ inputs.source_sha }}
+          WEBSITE_SHA: ${{ inputs.website_sha }}
+          RELEASE_TAG: ${{ inputs.release_tag }}
+          RELEASE_DATE: ${{ inputs.release_date }}
+        run: python scripts/check_release_gate.py --kind hf --verify-local --verify-production --website-repo website-source
       - name: Require Hugging Face write token
         env:
           HF_TOKEN: ${{ secrets.HF_TOKEN }}
@@ -32,16 +164,6 @@ jobs:
             echo "AUTH_FAILURE: HF_TOKEN is not configured" >&2
             exit 1
           fi
-      - uses: actions/checkout@v5
-        with:
-          ref: main
-          persist-credentials: false
-      - uses: actions/setup-python@v6
-        with:
-          python-version: "3.11"
-      - name: Resolve GitHub main source SHA
-        id: source
-        run: echo "sha=$(git rev-parse HEAD)" >> "$GITHUB_OUTPUT"
       - name: Validate approved Hugging Face artifacts
         run: |
           python -m unittest tests.test_huggingface_export || {
@@ -52,7 +174,7 @@ jobs:
         env:
           HF_TOKEN: ${{ secrets.HF_TOKEN }}
           DRY_RUN: ${{ inputs.dry_run }}
-          GITHUB_SOURCE_SHA: ${{ steps.source.outputs.sha }}
+          GITHUB_SOURCE_SHA: ${{ inputs.artifact_sha }}
         run: |
           if [ "$DRY_RUN" = "true" ]; then
             python scripts/publish_huggingface.py --dry-run
@@ -66,6 +188,17 @@ jobs:
             echo "PRODUCTION_PARITY_FAILURE"
             exit 1
           }
+      - name: Recheck approved source and production Website after publication
+        if: ${{ ! inputs.dry_run }}
+        env:
+          GITHUB_TOKEN: ${{ github.token }}
+          WEBSITE_REPO_TOKEN: ${{ secrets.WEBSITE_REPO_TOKEN }}
+          ARTIFACT_SHA: ${{ inputs.artifact_sha }}
+          SOURCE_SHA: ${{ inputs.source_sha }}
+          WEBSITE_SHA: ${{ inputs.website_sha }}
+          RELEASE_TAG: ${{ inputs.release_tag }}
+          RELEASE_DATE: ${{ inputs.release_date }}
+        run: python scripts/check_release_gate.py --kind hf --verify-local --verify-production --website-repo website-source
       - name: Report publish result
         env:
           DRY_RUN: ${{ inputs.dry_run }}

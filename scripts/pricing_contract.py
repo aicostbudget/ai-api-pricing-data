@@ -252,7 +252,7 @@ def validate_canonical_price_records(records: Any, *, production: bool = True) -
         "verified_at",
         "billing_note",
     }
-    allowed_record_fields = required_record_fields | {"tier_selection", "usage_tier", "transport"}
+    allowed_record_fields = required_record_fields | {"tier_selection", "usage_tier", "transport", "promotion"}
     for record in records:
         _require(isinstance(record, dict), "price record must be an object")
         _require(required_record_fields <= set(record), "price record is missing required fields")
@@ -276,6 +276,18 @@ def validate_canonical_price_records(records: Any, *, production: bool = True) -
 
         threshold = record.get("prompt_token_threshold")
         _require(threshold is None or (isinstance(threshold, int) and not isinstance(threshold, bool) and threshold >= 0), f"price record {record_id} prompt_token_threshold is invalid")
+        promotion = record.get("promotion")
+        if promotion is not None:
+            _require(isinstance(promotion, dict) and set(promotion) == {"label", "discount_percent", "duration_text", "list_charges"}, f"price record {record_id} promotion is invalid")
+            _require(isinstance(promotion["label"], str) and promotion["label"], "promotion label required")
+            _require(isinstance(promotion["duration_text"], str) and promotion["duration_text"], "provider duration text required")
+            discount = _decimal(promotion["discount_percent"], "promotion discount")
+            _require(0 < discount < 100, "promotion discount must be between 0 and 100")
+            listed = promotion["list_charges"]
+            _require(isinstance(listed, list) and len(listed) == len(record["charges"]), "promotion must retain all list charges")
+            for current, original in zip(record["charges"], listed, strict=True):
+                _require(set(original) == set(current) and all(original[k] == current[k] for k in current if k != "amount"), "promotion list charge identity mismatch")
+                _require(_decimal(current["amount"], "sale amount") == _decimal(original["amount"], "list amount") * (1 - discount / 100), "promotion rate does not match list price and discount")
         tier = record.get("tier_selection")
         if tier is not None:
             _require(isinstance(tier, dict), f"price record {record_id} tier_selection must be an object")
@@ -505,6 +517,12 @@ def project_v1_compatibility(records: list[dict[str, Any]]) -> dict[str, Any]:
 
 
 def validate_model_price_records(model: dict[str, Any]) -> None:
+    evidence = model.get("price_change_evidence")
+    if evidence is not None:
+        _require(isinstance(evidence, dict) and set(evidence) == {"effective_from", "url", "claim"}, "price change evidence is invalid")
+        _parse_date(evidence["effective_from"], "price change effective_from")
+        _require(evidence["url"] in model.get("official_source_urls", []), "price change requires an official source")
+        _require(isinstance(evidence["claim"], str) and evidence["claim"], "price change requires an explicit claim")
     model_selection = model.get("model_selection")
     if model_selection is not None:
         required_selection = {
@@ -666,6 +684,13 @@ def normalize_canonical_price_records(
             "verifiedAt": record["verified_at"],
             "calculationDefault": record["calculation_default"],
         }
+        if record.get("promotion") is not None:
+            promotion = record["promotion"]
+            item["promotion"] = {
+                "label": promotion["label"], "discountPercent": promotion["discount_percent"],
+                "durationText": promotion["duration_text"], "priceBasis": "promotional",
+                "listCharges": [{"chargeId": c["id"], "component": c["component"], "modality": c["modality"], "unit": c["unit"], "amount": _decimal_string(c["amount"], "list amount")} for c in promotion["list_charges"]],
+            }
         if record.get("transport") is not None:
             item["transport"] = record["transport"]
         if record.get("tier_selection") is not None:
@@ -947,6 +972,8 @@ def select_price_record(
             continue
         if transport is not None and record.get("transport") != transport:
             continue
+        if record.get("promotion") and record.get("effectiveUntil") is None and target_date.isoformat() != (record.get("verifiedAt") or "")[:10]:
+            continue  # An observed promotion quote does not prove future or historical coverage.
         pricing_status = record.get("pricingStatus", "current")
         if pricing_status != "current" and not (target_date < today and pricing_status == "historical"):
             continue

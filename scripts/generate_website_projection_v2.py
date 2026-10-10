@@ -263,6 +263,8 @@ def display_status(
     model: dict[str, Any] | None,
     website_row: dict[str, Any] | None,
 ) -> str:
+    if identity.get("lifecycleConflict"):
+        return "legacy"
     lifecycle = identity["lifecycleStatus"]
     release = identity["releaseStage"]
     if lifecycle == "retired":
@@ -722,6 +724,8 @@ def project_pricing_component(record: dict[str, Any], charge: dict[str, Any]) ->
         "effectiveFrom": record["effectiveFrom"],
         "effectiveUntil": record["effectiveUntil"],
     }
+    if record.get("promotion") is not None:
+        condition["promotion"] = record["promotion"]
     if record.get("temporalCondition") is not None:
         condition["temporalCondition"] = record["temporalCondition"]
     if record.get("usageTier") is not None:
@@ -884,6 +888,7 @@ def build_price_records(
     records = [
         {
             "pricingId": record["pricingId"],
+            **({"promotion": record["promotion"]} if record.get("promotion") else {}),
             "processingMode": record.get("processingMode"),
             "contextClass": record.get("contextClass"),
             "pricingStatus": record.get("pricingStatus"),
@@ -1393,6 +1398,10 @@ def projection_row(
         row["timePricing"] = time_pricing
 
 
+    if identity.get("lifecycleConflict"):
+        row["lifecycleConflict"] = identity["lifecycleConflict"]
+        row["governanceDetails"] = identity["lifecycleConflict"]["authority_analysis"]
+        row["availability"] = "Lifecycle source conflict"
     return row
 
 
@@ -2135,7 +2144,7 @@ def validate_price_records(row: dict[str, Any], generated_at: datetime) -> None:
     if len(pricing_ids) != len(set(pricing_ids)):
         raise ValueError(f"projection row {row['id']} has duplicate priceRecords")
     for record in records:
-        if set(record) != required:
+        if set(record) - {"promotion"} != required:
             raise ValueError(f"projection row {row['id']} priceRecord has unsupported fields")
         if not record["sourceRefs"]:
             raise ValueError(f"projection row {row['id']} priceRecord has no sourceRefs")

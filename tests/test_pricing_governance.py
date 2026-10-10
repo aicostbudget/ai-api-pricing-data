@@ -199,13 +199,21 @@ class PricingGovernanceTests(unittest.TestCase):
             "openai/tts-1",
             "openai/tts-1-hd",
             "openai/gpt-5.4-cyber",
-            "google-gemini/gemini-2.5-flash-image",
         })
         for internal_id in lifecycle_only:
             self.assertEqual(self.projection[internal_id]["pricingSourceType"], "none")
             self.assertIsNone(self.projection[internal_id]["selectedPriceRecordId"])
+
+        conflict = self.projection["google-gemini/gemini-2.5-flash-image"]
+        self.assertEqual(conflict["lifecycleStatus"], "unknown")
+        self.assertEqual(conflict["verificationStatus"], "review_required")
+        self.assertFalse(conflict["defaultSafe"])
+        self.assertIsNone(conflict["retirementDate"])
+        self.assertEqual(conflict["lifecycleConflict"]["resolution"], "unresolved")
+        conflict_only = {key for key in excluded if self.projection[key].get("lifecycleConflict", {}).get("resolution") == "unresolved"}
+        self.assertEqual(conflict_only, {"google-gemini/gemini-2.5-flash-image"})
         self.assertEqual(
-            excluded - contract_deferred - lifecycle_only,
+            excluded - contract_deferred - lifecycle_only - conflict_only,
             set(self.excluded_decisions),
             "EXCLUSION_DECISION_DRIFT: non-contract exclusions differ from Phase 2.6",
         )

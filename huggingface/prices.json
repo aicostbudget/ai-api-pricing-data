@@ -2,14 +2,14 @@
   "metadata": {
     "name": "AICostBudget AI API Pricing Dataset",
     "version": "1.0.0",
-    "schema_version": "1.8.0",
+    "schema_version": "1.10.0",
     "page_url": "https://aicostbudget.com/en/datasets/ai-api-pricing",
-    "last_updated": "2026-10-09T08:59:30Z",
-    "last_verified_at": "2026-10-09T08:59:30Z",
-    "generated_at": "2026-10-09T09:11:24Z",
+    "last_updated": "2026-10-09T12:36:29Z",
+    "last_verified_at": "2026-10-09T12:36:29Z",
+    "generated_at": "2026-10-09T13:15:36Z",
     "provider_count": 11,
-    "record_count": 83,
-    "official_source_count": 22,
+    "record_count": 86,
+    "official_source_count": 23,
     "currency": "USD",
     "pricing_unit": "Multiple billing units",
     "statistics_scope": "public pricing records returned by the public pricing adapter with Pricing V2 enabled",
@@ -868,6 +868,804 @@
           "sourceRef": "source:anthropic:platform-claude-com-docs-en-models-haiku-4-5-overview",
           "title": "claude-haiku-4-5 official identity documentation",
           "url": "https://platform.claude.com/docs/en/models/haiku-4-5/overview"
+        }
+      ],
+      "conditional_usage_allowances": [],
+      "model_selection": null
+    },
+    {
+      "provider_id": "anthropic",
+      "provider": "Anthropic",
+      "model_id": "claude-haiku-5-5",
+      "model": "Claude Haiku 5.5",
+      "input_price_per_1m_tokens": 0.1,
+      "cached_input_price_per_1m_tokens": 0.01,
+      "output_price_per_1m_tokens": 0.5,
+      "currency": "USD",
+      "pricing_unit": "1M tokens",
+      "status": "latest",
+      "availability": "active",
+      "official_source_url": "https://platform.claude.com/docs/en/about-claude/pricing",
+      "verification_status": "verified",
+      "last_verified_at": "2026-10-09",
+      "checked_at": "2026-10-09",
+      "effective_from": "2026-10-07",
+      "effective_until": null,
+      "notes": "",
+      "pricing_tier_count": 2,
+      "pricing_tiers": [
+        {
+          "id": "price:anthropic/claude-haiku-5-5:standard:long:current",
+          "pricing_id": "price:anthropic/claude-haiku-5-5:standard:long:current",
+          "label": "Long context",
+          "context_class": "long",
+          "calculation_default": false,
+          "prompt_token_threshold": 100000,
+          "comparison": "greater_than",
+          "token_basis": "total_prompt_tokens",
+          "cached_prompt_tokens_included": true,
+          "whole_request_pricing": true,
+          "processing_mode": "standard",
+          "input_price_per_1m_tokens": 0.5,
+          "cached_input_price_per_1m_tokens": 0.05,
+          "output_price_per_1m_tokens": 2.5,
+          "currency": "USD",
+          "pricing_unit": "1M tokens",
+          "official_source_url": "https://platform.claude.com/docs/en/about-claude/pricing",
+          "source_refs": [
+            "source:anthropic:platform-claude-com-docs-en-about-claude-pricing",
+            "source:anthropic:platform-claude-com-docs-en-build-with-claude-prompt-caching",
+            "source:anthropic:platform-claude-com-docs-en-models-haiku-5-5-overview",
+            "source:anthropic:www-anthropic-com-claude-haiku-5-5"
+          ],
+          "last_verified_at": "2026-10-09",
+          "checked_at": "2026-10-09",
+          "verification_status": "verified"
+        },
+        {
+          "id": "price:anthropic/claude-haiku-5-5:standard:short:current",
+          "pricing_id": "price:anthropic/claude-haiku-5-5:standard:short:current",
+          "label": "Short context",
+          "context_class": "short",
+          "calculation_default": true,
+          "prompt_token_threshold": 100000,
+          "comparison": "less_than_or_equal",
+          "token_basis": "total_prompt_tokens",
+          "cached_prompt_tokens_included": true,
+          "whole_request_pricing": true,
+          "processing_mode": "standard",
+          "input_price_per_1m_tokens": 0.1,
+          "cached_input_price_per_1m_tokens": 0.01,
+          "output_price_per_1m_tokens": 0.5,
+          "currency": "USD",
+          "pricing_unit": "1M tokens",
+          "official_source_url": "https://platform.claude.com/docs/en/about-claude/pricing",
+          "source_refs": [
+            "source:anthropic:platform-claude-com-docs-en-about-claude-pricing",
+            "source:anthropic:platform-claude-com-docs-en-build-with-claude-prompt-caching",
+            "source:anthropic:platform-claude-com-docs-en-models-haiku-5-5-overview",
+            "source:anthropic:www-anthropic-com-claude-haiku-5-5"
+          ],
+          "last_verified_at": "2026-10-09",
+          "checked_at": "2026-10-09",
+          "verification_status": "verified"
+        }
+      ],
+      "time_pricing": null,
+      "pricing_components": [
+        {
+          "pricing_id": "price:anthropic/claude-haiku-5-5:batch:long:current",
+          "charge_id": "price:anthropic/claude-haiku-5-5:batch:long:current:input:text:per_1m_tokens",
+          "component": "input",
+          "amount": "0.25",
+          "unit": "per_1m_tokens",
+          "currency": "USD",
+          "modality": "text",
+          "condition": {
+            "processing_mode": "batch",
+            "context_class": "long",
+            "prompt_token_threshold": 100000,
+            "tier_selection": {
+              "comparison": "greater_than",
+              "token_basis": "total_prompt_tokens",
+              "cached_prompt_tokens_included": true,
+              "whole_request_pricing": true
+            },
+            "region_policy": "global",
+            "effective_from": "2026-10-07",
+            "effective_until": null,
+            "region_selector": {
+              "dataResidencies": [
+                "global"
+              ],
+              "endpointGeographies": [
+                "global"
+              ],
+              "pricingGeography": "global_base"
+            },
+            "default_availability_status": "available",
+            "availability_rules": [],
+            "price_adjustments": []
+          },
+          "calculation_default": false,
+          "source_refs": [
+            "source:anthropic:platform-claude-com-docs-en-about-claude-pricing",
+            "source:anthropic:platform-claude-com-docs-en-build-with-claude-prompt-caching",
+            "source:anthropic:platform-claude-com-docs-en-models-haiku-5-5-overview",
+            "source:anthropic:www-anthropic-com-claude-haiku-5-5"
+          ],
+          "source_urls": [
+            "https://platform.claude.com/docs/en/about-claude/pricing",
+            "https://platform.claude.com/docs/en/build-with-claude/prompt-caching",
+            "https://platform.claude.com/docs/en/models/haiku-5-5/overview",
+            "https://www.anthropic.com/claude-haiku-5-5"
+          ],
+          "verification_status": "verified"
+        },
+        {
+          "pricing_id": "price:anthropic/claude-haiku-5-5:batch:long:current",
+          "charge_id": "price:anthropic/claude-haiku-5-5:batch:long:current:output:text:per_1m_tokens",
+          "component": "output",
+          "amount": "1.25",
+          "unit": "per_1m_tokens",
+          "currency": "USD",
+          "modality": "text",
+          "condition": {
+            "processing_mode": "batch",
+            "context_class": "long",
+            "prompt_token_threshold": 100000,
+            "tier_selection": {
+              "comparison": "greater_than",
+              "token_basis": "total_prompt_tokens",
+              "cached_prompt_tokens_included": true,
+              "whole_request_pricing": true
+            },
+            "region_policy": "global",
+            "effective_from": "2026-10-07",
+            "effective_until": null,
+            "region_selector": {
+              "dataResidencies": [
+                "global"
+              ],
+              "endpointGeographies": [
+                "global"
+              ],
+              "pricingGeography": "global_base"
+            },
+            "default_availability_status": "available",
+            "availability_rules": [],
+            "price_adjustments": []
+          },
+          "calculation_default": false,
+          "source_refs": [
+            "source:anthropic:platform-claude-com-docs-en-about-claude-pricing",
+            "source:anthropic:platform-claude-com-docs-en-build-with-claude-prompt-caching",
+            "source:anthropic:platform-claude-com-docs-en-models-haiku-5-5-overview",
+            "source:anthropic:www-anthropic-com-claude-haiku-5-5"
+          ],
+          "source_urls": [
+            "https://platform.claude.com/docs/en/about-claude/pricing",
+            "https://platform.claude.com/docs/en/build-with-claude/prompt-caching",
+            "https://platform.claude.com/docs/en/models/haiku-5-5/overview",
+            "https://www.anthropic.com/claude-haiku-5-5"
+          ],
+          "verification_status": "verified"
+        },
+        {
+          "pricing_id": "price:anthropic/claude-haiku-5-5:batch:short:current",
+          "charge_id": "price:anthropic/claude-haiku-5-5:batch:short:current:input:text:per_1m_tokens",
+          "component": "input",
+          "amount": "0.05",
+          "unit": "per_1m_tokens",
+          "currency": "USD",
+          "modality": "text",
+          "condition": {
+            "processing_mode": "batch",
+            "context_class": "short",
+            "prompt_token_threshold": 100000,
+            "tier_selection": {
+              "comparison": "less_than_or_equal",
+              "token_basis": "total_prompt_tokens",
+              "cached_prompt_tokens_included": true,
+              "whole_request_pricing": true
+            },
+            "region_policy": "global",
+            "effective_from": "2026-10-07",
+            "effective_until": null,
+            "region_selector": {
+              "dataResidencies": [
+                "global"
+              ],
+              "endpointGeographies": [
+                "global"
+              ],
+              "pricingGeography": "global_base"
+            },
+            "default_availability_status": "available",
+            "availability_rules": [],
+            "price_adjustments": []
+          },
+          "calculation_default": false,
+          "source_refs": [
+            "source:anthropic:platform-claude-com-docs-en-about-claude-pricing",
+            "source:anthropic:platform-claude-com-docs-en-build-with-claude-prompt-caching",
+            "source:anthropic:platform-claude-com-docs-en-models-haiku-5-5-overview",
+            "source:anthropic:www-anthropic-com-claude-haiku-5-5"
+          ],
+          "source_urls": [
+            "https://platform.claude.com/docs/en/about-claude/pricing",
+            "https://platform.claude.com/docs/en/build-with-claude/prompt-caching",
+            "https://platform.claude.com/docs/en/models/haiku-5-5/overview",
+            "https://www.anthropic.com/claude-haiku-5-5"
+          ],
+          "verification_status": "verified"
+        },
+        {
+          "pricing_id": "price:anthropic/claude-haiku-5-5:batch:short:current",
+          "charge_id": "price:anthropic/claude-haiku-5-5:batch:short:current:output:text:per_1m_tokens",
+          "component": "output",
+          "amount": "0.25",
+          "unit": "per_1m_tokens",
+          "currency": "USD",
+          "modality": "text",
+          "condition": {
+            "processing_mode": "batch",
+            "context_class": "short",
+            "prompt_token_threshold": 100000,
+            "tier_selection": {
+              "comparison": "less_than_or_equal",
+              "token_basis": "total_prompt_tokens",
+              "cached_prompt_tokens_included": true,
+              "whole_request_pricing": true
+            },
+            "region_policy": "global",
+            "effective_from": "2026-10-07",
+            "effective_until": null,
+            "region_selector": {
+              "dataResidencies": [
+                "global"
+              ],
+              "endpointGeographies": [
+                "global"
+              ],
+              "pricingGeography": "global_base"
+            },
+            "default_availability_status": "available",
+            "availability_rules": [],
+            "price_adjustments": []
+          },
+          "calculation_default": false,
+          "source_refs": [
+            "source:anthropic:platform-claude-com-docs-en-about-claude-pricing",
+            "source:anthropic:platform-claude-com-docs-en-build-with-claude-prompt-caching",
+            "source:anthropic:platform-claude-com-docs-en-models-haiku-5-5-overview",
+            "source:anthropic:www-anthropic-com-claude-haiku-5-5"
+          ],
+          "source_urls": [
+            "https://platform.claude.com/docs/en/about-claude/pricing",
+            "https://platform.claude.com/docs/en/build-with-claude/prompt-caching",
+            "https://platform.claude.com/docs/en/models/haiku-5-5/overview",
+            "https://www.anthropic.com/claude-haiku-5-5"
+          ],
+          "verification_status": "verified"
+        },
+        {
+          "pricing_id": "price:anthropic/claude-haiku-5-5:standard:long:current",
+          "charge_id": "price:anthropic/claude-haiku-5-5:standard:long:current:cache_read:text:per_1m_tokens",
+          "component": "cache_read",
+          "amount": "0.05",
+          "unit": "per_1m_tokens",
+          "currency": "USD",
+          "modality": "text",
+          "condition": {
+            "processing_mode": "standard",
+            "context_class": "long",
+            "prompt_token_threshold": 100000,
+            "tier_selection": {
+              "comparison": "greater_than",
+              "token_basis": "total_prompt_tokens",
+              "cached_prompt_tokens_included": true,
+              "whole_request_pricing": true
+            },
+            "region_policy": "global",
+            "effective_from": "2026-10-07",
+            "effective_until": null,
+            "region_selector": {
+              "dataResidencies": [
+                "global"
+              ],
+              "endpointGeographies": [
+                "global"
+              ],
+              "pricingGeography": "global_base"
+            },
+            "default_availability_status": "available",
+            "availability_rules": [],
+            "price_adjustments": []
+          },
+          "calculation_default": false,
+          "source_refs": [
+            "source:anthropic:platform-claude-com-docs-en-about-claude-pricing",
+            "source:anthropic:platform-claude-com-docs-en-build-with-claude-prompt-caching",
+            "source:anthropic:platform-claude-com-docs-en-models-haiku-5-5-overview",
+            "source:anthropic:www-anthropic-com-claude-haiku-5-5"
+          ],
+          "source_urls": [
+            "https://platform.claude.com/docs/en/about-claude/pricing",
+            "https://platform.claude.com/docs/en/build-with-claude/prompt-caching",
+            "https://platform.claude.com/docs/en/models/haiku-5-5/overview",
+            "https://www.anthropic.com/claude-haiku-5-5"
+          ],
+          "verification_status": "verified"
+        },
+        {
+          "pricing_id": "price:anthropic/claude-haiku-5-5:standard:long:current",
+          "charge_id": "price:anthropic/claude-haiku-5-5:standard:long:current:cache_write_1h:text:per_1m_tokens",
+          "component": "cache_write_1h",
+          "amount": "1",
+          "unit": "per_1m_tokens",
+          "currency": "USD",
+          "modality": "text",
+          "condition": {
+            "processing_mode": "standard",
+            "context_class": "long",
+            "prompt_token_threshold": 100000,
+            "tier_selection": {
+              "comparison": "greater_than",
+              "token_basis": "total_prompt_tokens",
+              "cached_prompt_tokens_included": true,
+              "whole_request_pricing": true
+            },
+            "region_policy": "global",
+            "effective_from": "2026-10-07",
+            "effective_until": null,
+            "region_selector": {
+              "dataResidencies": [
+                "global"
+              ],
+              "endpointGeographies": [
+                "global"
+              ],
+              "pricingGeography": "global_base"
+            },
+            "default_availability_status": "available",
+            "availability_rules": [],
+            "price_adjustments": []
+          },
+          "calculation_default": false,
+          "source_refs": [
+            "source:anthropic:platform-claude-com-docs-en-about-claude-pricing",
+            "source:anthropic:platform-claude-com-docs-en-build-with-claude-prompt-caching",
+            "source:anthropic:platform-claude-com-docs-en-models-haiku-5-5-overview",
+            "source:anthropic:www-anthropic-com-claude-haiku-5-5"
+          ],
+          "source_urls": [
+            "https://platform.claude.com/docs/en/about-claude/pricing",
+            "https://platform.claude.com/docs/en/build-with-claude/prompt-caching",
+            "https://platform.claude.com/docs/en/models/haiku-5-5/overview",
+            "https://www.anthropic.com/claude-haiku-5-5"
+          ],
+          "verification_status": "verified"
+        },
+        {
+          "pricing_id": "price:anthropic/claude-haiku-5-5:standard:long:current",
+          "charge_id": "price:anthropic/claude-haiku-5-5:standard:long:current:cache_write_5m:text:per_1m_tokens",
+          "component": "cache_write_5m",
+          "amount": "0.625",
+          "unit": "per_1m_tokens",
+          "currency": "USD",
+          "modality": "text",
+          "condition": {
+            "processing_mode": "standard",
+            "context_class": "long",
+            "prompt_token_threshold": 100000,
+            "tier_selection": {
+              "comparison": "greater_than",
+              "token_basis": "total_prompt_tokens",
+              "cached_prompt_tokens_included": true,
+              "whole_request_pricing": true
+            },
+            "region_policy": "global",
+            "effective_from": "2026-10-07",
+            "effective_until": null,
+            "region_selector": {
+              "dataResidencies": [
+                "global"
+              ],
+              "endpointGeographies": [
+                "global"
+              ],
+              "pricingGeography": "global_base"
+            },
+            "default_availability_status": "available",
+            "availability_rules": [],
+            "price_adjustments": []
+          },
+          "calculation_default": false,
+          "source_refs": [
+            "source:anthropic:platform-claude-com-docs-en-about-claude-pricing",
+            "source:anthropic:platform-claude-com-docs-en-build-with-claude-prompt-caching",
+            "source:anthropic:platform-claude-com-docs-en-models-haiku-5-5-overview",
+            "source:anthropic:www-anthropic-com-claude-haiku-5-5"
+          ],
+          "source_urls": [
+            "https://platform.claude.com/docs/en/about-claude/pricing",
+            "https://platform.claude.com/docs/en/build-with-claude/prompt-caching",
+            "https://platform.claude.com/docs/en/models/haiku-5-5/overview",
+            "https://www.anthropic.com/claude-haiku-5-5"
+          ],
+          "verification_status": "verified"
+        },
+        {
+          "pricing_id": "price:anthropic/claude-haiku-5-5:standard:long:current",
+          "charge_id": "price:anthropic/claude-haiku-5-5:standard:long:current:input:text:per_1m_tokens",
+          "component": "input",
+          "amount": "0.5",
+          "unit": "per_1m_tokens",
+          "currency": "USD",
+          "modality": "text",
+          "condition": {
+            "processing_mode": "standard",
+            "context_class": "long",
+            "prompt_token_threshold": 100000,
+            "tier_selection": {
+              "comparison": "greater_than",
+              "token_basis": "total_prompt_tokens",
+              "cached_prompt_tokens_included": true,
+              "whole_request_pricing": true
+            },
+            "region_policy": "global",
+            "effective_from": "2026-10-07",
+            "effective_until": null,
+            "region_selector": {
+              "dataResidencies": [
+                "global"
+              ],
+              "endpointGeographies": [
+                "global"
+              ],
+              "pricingGeography": "global_base"
+            },
+            "default_availability_status": "available",
+            "availability_rules": [],
+            "price_adjustments": []
+          },
+          "calculation_default": false,
+          "source_refs": [
+            "source:anthropic:platform-claude-com-docs-en-about-claude-pricing",
+            "source:anthropic:platform-claude-com-docs-en-build-with-claude-prompt-caching",
+            "source:anthropic:platform-claude-com-docs-en-models-haiku-5-5-overview",
+            "source:anthropic:www-anthropic-com-claude-haiku-5-5"
+          ],
+          "source_urls": [
+            "https://platform.claude.com/docs/en/about-claude/pricing",
+            "https://platform.claude.com/docs/en/build-with-claude/prompt-caching",
+            "https://platform.claude.com/docs/en/models/haiku-5-5/overview",
+            "https://www.anthropic.com/claude-haiku-5-5"
+          ],
+          "verification_status": "verified"
+        },
+        {
+          "pricing_id": "price:anthropic/claude-haiku-5-5:standard:long:current",
+          "charge_id": "price:anthropic/claude-haiku-5-5:standard:long:current:output:text:per_1m_tokens",
+          "component": "output",
+          "amount": "2.5",
+          "unit": "per_1m_tokens",
+          "currency": "USD",
+          "modality": "text",
+          "condition": {
+            "processing_mode": "standard",
+            "context_class": "long",
+            "prompt_token_threshold": 100000,
+            "tier_selection": {
+              "comparison": "greater_than",
+              "token_basis": "total_prompt_tokens",
+              "cached_prompt_tokens_included": true,
+              "whole_request_pricing": true
+            },
+            "region_policy": "global",
+            "effective_from": "2026-10-07",
+            "effective_until": null,
+            "region_selector": {
+              "dataResidencies": [
+                "global"
+              ],
+              "endpointGeographies": [
+                "global"
+              ],
+              "pricingGeography": "global_base"
+            },
+            "default_availability_status": "available",
+            "availability_rules": [],
+            "price_adjustments": []
+          },
+          "calculation_default": false,
+          "source_refs": [
+            "source:anthropic:platform-claude-com-docs-en-about-claude-pricing",
+            "source:anthropic:platform-claude-com-docs-en-build-with-claude-prompt-caching",
+            "source:anthropic:platform-claude-com-docs-en-models-haiku-5-5-overview",
+            "source:anthropic:www-anthropic-com-claude-haiku-5-5"
+          ],
+          "source_urls": [
+            "https://platform.claude.com/docs/en/about-claude/pricing",
+            "https://platform.claude.com/docs/en/build-with-claude/prompt-caching",
+            "https://platform.claude.com/docs/en/models/haiku-5-5/overview",
+            "https://www.anthropic.com/claude-haiku-5-5"
+          ],
+          "verification_status": "verified"
+        },
+        {
+          "pricing_id": "price:anthropic/claude-haiku-5-5:standard:short:current",
+          "charge_id": "price:anthropic/claude-haiku-5-5:standard:short:current:cache_read:text:per_1m_tokens",
+          "component": "cache_read",
+          "amount": "0.01",
+          "unit": "per_1m_tokens",
+          "currency": "USD",
+          "modality": "text",
+          "condition": {
+            "processing_mode": "standard",
+            "context_class": "short",
+            "prompt_token_threshold": 100000,
+            "tier_selection": {
+              "comparison": "less_than_or_equal",
+              "token_basis": "total_prompt_tokens",
+              "cached_prompt_tokens_included": true,
+              "whole_request_pricing": true
+            },
+            "region_policy": "global",
+            "effective_from": "2026-10-07",
+            "effective_until": null,
+            "region_selector": {
+              "dataResidencies": [
+                "global"
+              ],
+              "endpointGeographies": [
+                "global"
+              ],
+              "pricingGeography": "global_base"
+            },
+            "default_availability_status": "available",
+            "availability_rules": [],
+            "price_adjustments": []
+          },
+          "calculation_default": true,
+          "source_refs": [
+            "source:anthropic:platform-claude-com-docs-en-about-claude-pricing",
+            "source:anthropic:platform-claude-com-docs-en-build-with-claude-prompt-caching",
+            "source:anthropic:platform-claude-com-docs-en-models-haiku-5-5-overview",
+            "source:anthropic:www-anthropic-com-claude-haiku-5-5"
+          ],
+          "source_urls": [
+            "https://platform.claude.com/docs/en/about-claude/pricing",
+            "https://platform.claude.com/docs/en/build-with-claude/prompt-caching",
+            "https://platform.claude.com/docs/en/models/haiku-5-5/overview",
+            "https://www.anthropic.com/claude-haiku-5-5"
+          ],
+          "verification_status": "verified"
+        },
+        {
+          "pricing_id": "price:anthropic/claude-haiku-5-5:standard:short:current",
+          "charge_id": "price:anthropic/claude-haiku-5-5:standard:short:current:cache_write_1h:text:per_1m_tokens",
+          "component": "cache_write_1h",
+          "amount": "0.2",
+          "unit": "per_1m_tokens",
+          "currency": "USD",
+          "modality": "text",
+          "condition": {
+            "processing_mode": "standard",
+            "context_class": "short",
+            "prompt_token_threshold": 100000,
+            "tier_selection": {
+              "comparison": "less_than_or_equal",
+              "token_basis": "total_prompt_tokens",
+              "cached_prompt_tokens_included": true,
+              "whole_request_pricing": true
+            },
+            "region_policy": "global",
+            "effective_from": "2026-10-07",
+            "effective_until": null,
+            "region_selector": {
+              "dataResidencies": [
+                "global"
+              ],
+              "endpointGeographies": [
+                "global"
+              ],
+              "pricingGeography": "global_base"
+            },
+            "default_availability_status": "available",
+            "availability_rules": [],
+            "price_adjustments": []
+          },
+          "calculation_default": true,
+          "source_refs": [
+            "source:anthropic:platform-claude-com-docs-en-about-claude-pricing",
+            "source:anthropic:platform-claude-com-docs-en-build-with-claude-prompt-caching",
+            "source:anthropic:platform-claude-com-docs-en-models-haiku-5-5-overview",
+            "source:anthropic:www-anthropic-com-claude-haiku-5-5"
+          ],
+          "source_urls": [
+            "https://platform.claude.com/docs/en/about-claude/pricing",
+            "https://platform.claude.com/docs/en/build-with-claude/prompt-caching",
+            "https://platform.claude.com/docs/en/models/haiku-5-5/overview",
+            "https://www.anthropic.com/claude-haiku-5-5"
+          ],
+          "verification_status": "verified"
+        },
+        {
+          "pricing_id": "price:anthropic/claude-haiku-5-5:standard:short:current",
+          "charge_id": "price:anthropic/claude-haiku-5-5:standard:short:current:cache_write_5m:text:per_1m_tokens",
+          "component": "cache_write_5m",
+          "amount": "0.125",
+          "unit": "per_1m_tokens",
+          "currency": "USD",
+          "modality": "text",
+          "condition": {
+            "processing_mode": "standard",
+            "context_class": "short",
+            "prompt_token_threshold": 100000,
+            "tier_selection": {
+              "comparison": "less_than_or_equal",
+              "token_basis": "total_prompt_tokens",
+              "cached_prompt_tokens_included": true,
+              "whole_request_pricing": true
+            },
+            "region_policy": "global",
+            "effective_from": "2026-10-07",
+            "effective_until": null,
+            "region_selector": {
+              "dataResidencies": [
+                "global"
+              ],
+              "endpointGeographies": [
+                "global"
+              ],
+              "pricingGeography": "global_base"
+            },
+            "default_availability_status": "available",
+            "availability_rules": [],
+            "price_adjustments": []
+          },
+          "calculation_default": true,
+          "source_refs": [
+            "source:anthropic:platform-claude-com-docs-en-about-claude-pricing",
+            "source:anthropic:platform-claude-com-docs-en-build-with-claude-prompt-caching",
+            "source:anthropic:platform-claude-com-docs-en-models-haiku-5-5-overview",
+            "source:anthropic:www-anthropic-com-claude-haiku-5-5"
+          ],
+          "source_urls": [
+            "https://platform.claude.com/docs/en/about-claude/pricing",
+            "https://platform.claude.com/docs/en/build-with-claude/prompt-caching",
+            "https://platform.claude.com/docs/en/models/haiku-5-5/overview",
+            "https://www.anthropic.com/claude-haiku-5-5"
+          ],
+          "verification_status": "verified"
+        },
+        {
+          "pricing_id": "price:anthropic/claude-haiku-5-5:standard:short:current",
+          "charge_id": "price:anthropic/claude-haiku-5-5:standard:short:current:input:text:per_1m_tokens",
+          "component": "input",
+          "amount": "0.1",
+          "unit": "per_1m_tokens",
+          "currency": "USD",
+          "modality": "text",
+          "condition": {
+            "processing_mode": "standard",
+            "context_class": "short",
+            "prompt_token_threshold": 100000,
+            "tier_selection": {
+              "comparison": "less_than_or_equal",
+              "token_basis": "total_prompt_tokens",
+              "cached_prompt_tokens_included": true,
+              "whole_request_pricing": true
+            },
+            "region_policy": "global",
+            "effective_from": "2026-10-07",
+            "effective_until": null,
+            "region_selector": {
+              "dataResidencies": [
+                "global"
+              ],
+              "endpointGeographies": [
+                "global"
+              ],
+              "pricingGeography": "global_base"
+            },
+            "default_availability_status": "available",
+            "availability_rules": [],
+            "price_adjustments": []
+          },
+          "calculation_default": true,
+          "source_refs": [
+            "source:anthropic:platform-claude-com-docs-en-about-claude-pricing",
+            "source:anthropic:platform-claude-com-docs-en-build-with-claude-prompt-caching",
+            "source:anthropic:platform-claude-com-docs-en-models-haiku-5-5-overview",
+            "source:anthropic:www-anthropic-com-claude-haiku-5-5"
+          ],
+          "source_urls": [
+            "https://platform.claude.com/docs/en/about-claude/pricing",
+            "https://platform.claude.com/docs/en/build-with-claude/prompt-caching",
+            "https://platform.claude.com/docs/en/models/haiku-5-5/overview",
+            "https://www.anthropic.com/claude-haiku-5-5"
+          ],
+          "verification_status": "verified"
+        },
+        {
+          "pricing_id": "price:anthropic/claude-haiku-5-5:standard:short:current",
+          "charge_id": "price:anthropic/claude-haiku-5-5:standard:short:current:output:text:per_1m_tokens",
+          "component": "output",
+          "amount": "0.5",
+          "unit": "per_1m_tokens",
+          "currency": "USD",
+          "modality": "text",
+          "condition": {
+            "processing_mode": "standard",
+            "context_class": "short",
+            "prompt_token_threshold": 100000,
+            "tier_selection": {
+              "comparison": "less_than_or_equal",
+              "token_basis": "total_prompt_tokens",
+              "cached_prompt_tokens_included": true,
+              "whole_request_pricing": true
+            },
+            "region_policy": "global",
+            "effective_from": "2026-10-07",
+            "effective_until": null,
+            "region_selector": {
+              "dataResidencies": [
+                "global"
+              ],
+              "endpointGeographies": [
+                "global"
+              ],
+              "pricingGeography": "global_base"
+            },
+            "default_availability_status": "available",
+            "availability_rules": [],
+            "price_adjustments": []
+          },
+          "calculation_default": true,
+          "source_refs": [
+            "source:anthropic:platform-claude-com-docs-en-about-claude-pricing",
+            "source:anthropic:platform-claude-com-docs-en-build-with-claude-prompt-caching",
+            "source:anthropic:platform-claude-com-docs-en-models-haiku-5-5-overview",
+            "source:anthropic:www-anthropic-com-claude-haiku-5-5"
+          ],
+          "source_urls": [
+            "https://platform.claude.com/docs/en/about-claude/pricing",
+            "https://platform.claude.com/docs/en/build-with-claude/prompt-caching",
+            "https://platform.claude.com/docs/en/models/haiku-5-5/overview",
+            "https://www.anthropic.com/claude-haiku-5-5"
+          ],
+          "verification_status": "verified"
+        }
+      ],
+      "unit_price": null,
+      "billing_unit": null,
+      "billing_quantity": null,
+      "pricing_dimension": null,
+      "released_at": "2026-10-07",
+      "access_status": "public",
+      "access_checked_at": "2026-10-09T12:36:29Z",
+      "access_evidence": [
+        {
+          "claimType": "official_access_public",
+          "officialModelId": "claude-haiku-5-5",
+          "scope": "Official exact API model ID available publicly.",
+          "sourceRef": "source:anthropic:platform-claude-com-docs-en-models-haiku-5-5-overview",
+          "title": "Claude Haiku 5.5 API availability",
+          "url": "https://platform.claude.com/docs/en/models/haiku-5-5/overview"
+        }
+      ],
+      "binding_status": "approved",
+      "binding_evidence": [
+        {
+          "claimType": "official_identity_binding",
+          "officialModelId": "claude-haiku-5-5",
+          "reason": "Exact official API identifier.",
+          "sourceRef": "source:anthropic:platform-claude-com-docs-en-models-haiku-5-5-overview",
+          "title": "Claude Haiku 5.5 identity",
+          "url": "https://platform.claude.com/docs/en/models/haiku-5-5/overview"
         }
       ],
       "conditional_usage_allowances": [],
@@ -2741,7 +3539,7 @@
       "model_id": "claude-sonnet-5-5",
       "model": "Claude Sonnet 5.5",
       "input_price_per_1m_tokens": 2,
-      "cached_input_price_per_1m_tokens": 0.2,
+      "cached_input_price_per_1m_tokens": 0.1,
       "output_price_per_1m_tokens": 10,
       "currency": "USD",
       "pricing_unit": "1M tokens",
@@ -2749,9 +3547,9 @@
       "availability": "active",
       "official_source_url": "https://platform.claude.com/docs/en/about-claude/pricing",
       "verification_status": "verified",
-      "last_verified_at": "2026-09-30",
-      "checked_at": "2026-09-30",
-      "effective_from": "2026-09-28",
+      "last_verified_at": "2026-10-09",
+      "checked_at": "2026-10-09",
+      "effective_from": "2026-10-07",
       "effective_until": null,
       "notes": "",
       "pricing_tier_count": 0,
@@ -2842,7 +3640,7 @@
           "pricing_id": "price:anthropic/claude-sonnet-5-5:standard:short:current",
           "charge_id": "price:anthropic/claude-sonnet-5-5:standard:short:current:cache_read:text:per_1m_tokens",
           "component": "cache_read",
-          "amount": "0.2",
+          "amount": "0.1",
           "unit": "per_1m_tokens",
           "currency": "USD",
           "modality": "text",
@@ -2852,7 +3650,7 @@
             "prompt_token_threshold": null,
             "tier_selection": null,
             "region_policy": "global",
-            "effective_from": "2026-09-28",
+            "effective_from": "2026-10-07",
             "effective_until": null,
             "region_selector": {
               "dataResidencies": [
@@ -2870,11 +3668,13 @@
           "calculation_default": true,
           "source_refs": [
             "source:anthropic:platform-claude-com-docs-en-about-claude-pricing",
-            "source:anthropic:platform-claude-com-docs-en-models-sonnet-5-5-overview"
+            "source:anthropic:platform-claude-com-docs-en-models-sonnet-5-5-overview",
+            "source:anthropic:www-anthropic-com-claude-haiku-5-5"
           ],
           "source_urls": [
             "https://platform.claude.com/docs/en/about-claude/pricing",
-            "https://platform.claude.com/docs/en/models/sonnet-5-5/overview"
+            "https://platform.claude.com/docs/en/models/sonnet-5-5/overview",
+            "https://www.anthropic.com/claude-haiku-5-5"
           ],
           "verification_status": "verified"
         },
@@ -2892,7 +3692,7 @@
             "prompt_token_threshold": null,
             "tier_selection": null,
             "region_policy": "global",
-            "effective_from": "2026-09-28",
+            "effective_from": "2026-10-07",
             "effective_until": null,
             "region_selector": {
               "dataResidencies": [
@@ -2910,11 +3710,13 @@
           "calculation_default": true,
           "source_refs": [
             "source:anthropic:platform-claude-com-docs-en-about-claude-pricing",
-            "source:anthropic:platform-claude-com-docs-en-models-sonnet-5-5-overview"
+            "source:anthropic:platform-claude-com-docs-en-models-sonnet-5-5-overview",
+            "source:anthropic:www-anthropic-com-claude-haiku-5-5"
           ],
           "source_urls": [
             "https://platform.claude.com/docs/en/about-claude/pricing",
-            "https://platform.claude.com/docs/en/models/sonnet-5-5/overview"
+            "https://platform.claude.com/docs/en/models/sonnet-5-5/overview",
+            "https://www.anthropic.com/claude-haiku-5-5"
           ],
           "verification_status": "verified"
         },
@@ -2932,7 +3734,7 @@
             "prompt_token_threshold": null,
             "tier_selection": null,
             "region_policy": "global",
-            "effective_from": "2026-09-28",
+            "effective_from": "2026-10-07",
             "effective_until": null,
             "region_selector": {
               "dataResidencies": [
@@ -2950,11 +3752,13 @@
           "calculation_default": true,
           "source_refs": [
             "source:anthropic:platform-claude-com-docs-en-about-claude-pricing",
-            "source:anthropic:platform-claude-com-docs-en-models-sonnet-5-5-overview"
+            "source:anthropic:platform-claude-com-docs-en-models-sonnet-5-5-overview",
+            "source:anthropic:www-anthropic-com-claude-haiku-5-5"
           ],
           "source_urls": [
             "https://platform.claude.com/docs/en/about-claude/pricing",
-            "https://platform.claude.com/docs/en/models/sonnet-5-5/overview"
+            "https://platform.claude.com/docs/en/models/sonnet-5-5/overview",
+            "https://www.anthropic.com/claude-haiku-5-5"
           ],
           "verification_status": "verified"
         },
@@ -2972,7 +3776,7 @@
             "prompt_token_threshold": null,
             "tier_selection": null,
             "region_policy": "global",
-            "effective_from": "2026-09-28",
+            "effective_from": "2026-10-07",
             "effective_until": null,
             "region_selector": {
               "dataResidencies": [
@@ -2990,11 +3794,13 @@
           "calculation_default": true,
           "source_refs": [
             "source:anthropic:platform-claude-com-docs-en-about-claude-pricing",
-            "source:anthropic:platform-claude-com-docs-en-models-sonnet-5-5-overview"
+            "source:anthropic:platform-claude-com-docs-en-models-sonnet-5-5-overview",
+            "source:anthropic:www-anthropic-com-claude-haiku-5-5"
           ],
           "source_urls": [
             "https://platform.claude.com/docs/en/about-claude/pricing",
-            "https://platform.claude.com/docs/en/models/sonnet-5-5/overview"
+            "https://platform.claude.com/docs/en/models/sonnet-5-5/overview",
+            "https://www.anthropic.com/claude-haiku-5-5"
           ],
           "verification_status": "verified"
         },
@@ -3012,7 +3818,7 @@
             "prompt_token_threshold": null,
             "tier_selection": null,
             "region_policy": "global",
-            "effective_from": "2026-09-28",
+            "effective_from": "2026-10-07",
             "effective_until": null,
             "region_selector": {
               "dataResidencies": [
@@ -3030,11 +3836,13 @@
           "calculation_default": true,
           "source_refs": [
             "source:anthropic:platform-claude-com-docs-en-about-claude-pricing",
-            "source:anthropic:platform-claude-com-docs-en-models-sonnet-5-5-overview"
+            "source:anthropic:platform-claude-com-docs-en-models-sonnet-5-5-overview",
+            "source:anthropic:www-anthropic-com-claude-haiku-5-5"
           ],
           "source_urls": [
             "https://platform.claude.com/docs/en/about-claude/pricing",
-            "https://platform.claude.com/docs/en/models/sonnet-5-5/overview"
+            "https://platform.claude.com/docs/en/models/sonnet-5-5/overview",
+            "https://www.anthropic.com/claude-haiku-5-5"
           ],
           "verification_status": "verified"
         }
@@ -14040,6 +14848,481 @@
       "model_selection": null
     },
     {
+      "provider_id": "google-gemini",
+      "provider": "Google",
+      "model_id": "gemini-nano-banana-2.1",
+      "model": "Gemini Nano Banana 2.1",
+      "input_price_per_1m_tokens": 1.5,
+      "cached_input_price_per_1m_tokens": null,
+      "output_price_per_1m_tokens": 7.5,
+      "currency": "USD",
+      "pricing_unit": "1M tokens",
+      "status": "latest",
+      "availability": "active",
+      "official_source_url": "https://ai.google.dev/gemini-api/docs/pricing",
+      "verification_status": "verified",
+      "last_verified_at": "2026-10-09",
+      "checked_at": "2026-10-09",
+      "effective_from": "2026-10-06",
+      "effective_until": null,
+      "notes": "",
+      "pricing_tier_count": 0,
+      "pricing_tiers": [],
+      "time_pricing": null,
+      "pricing_components": [
+        {
+          "pricing_id": "price:google-gemini/gemini-nano-banana-2.1:batch:short:current",
+          "charge_id": "price:google-gemini/gemini-nano-banana-2.1:batch:short:current:input:image:per_1m_tokens",
+          "component": "input",
+          "amount": "0.75",
+          "unit": "per_1m_tokens",
+          "currency": "USD",
+          "modality": "image",
+          "condition": {
+            "processing_mode": "batch",
+            "context_class": "short",
+            "prompt_token_threshold": null,
+            "tier_selection": null,
+            "region_policy": "global",
+            "effective_from": "2026-10-06",
+            "effective_until": null,
+            "region_selector": {
+              "dataResidencies": [
+                "global"
+              ],
+              "endpointGeographies": [
+                "global"
+              ],
+              "pricingGeography": "global_base"
+            },
+            "default_availability_status": "available",
+            "availability_rules": [],
+            "price_adjustments": []
+          },
+          "calculation_default": false,
+          "source_refs": [
+            "source:google-gemini:ai-google-dev-gemini-api-docs-deprecations",
+            "source:google-gemini:ai-google-dev-gemini-api-docs-models-gemini-nano-banana-2-1",
+            "source:google-gemini:ai-google-dev-gemini-api-docs-pricing"
+          ],
+          "source_urls": [
+            "https://ai.google.dev/gemini-api/docs/deprecations",
+            "https://ai.google.dev/gemini-api/docs/models/gemini-nano-banana-2.1",
+            "https://ai.google.dev/gemini-api/docs/pricing"
+          ],
+          "verification_status": "verified"
+        },
+        {
+          "pricing_id": "price:google-gemini/gemini-nano-banana-2.1:batch:short:current",
+          "charge_id": "price:google-gemini/gemini-nano-banana-2.1:batch:short:current:input:text:per_1m_tokens",
+          "component": "input",
+          "amount": "0.75",
+          "unit": "per_1m_tokens",
+          "currency": "USD",
+          "modality": "text",
+          "condition": {
+            "processing_mode": "batch",
+            "context_class": "short",
+            "prompt_token_threshold": null,
+            "tier_selection": null,
+            "region_policy": "global",
+            "effective_from": "2026-10-06",
+            "effective_until": null,
+            "region_selector": {
+              "dataResidencies": [
+                "global"
+              ],
+              "endpointGeographies": [
+                "global"
+              ],
+              "pricingGeography": "global_base"
+            },
+            "default_availability_status": "available",
+            "availability_rules": [],
+            "price_adjustments": []
+          },
+          "calculation_default": false,
+          "source_refs": [
+            "source:google-gemini:ai-google-dev-gemini-api-docs-deprecations",
+            "source:google-gemini:ai-google-dev-gemini-api-docs-models-gemini-nano-banana-2-1",
+            "source:google-gemini:ai-google-dev-gemini-api-docs-pricing"
+          ],
+          "source_urls": [
+            "https://ai.google.dev/gemini-api/docs/deprecations",
+            "https://ai.google.dev/gemini-api/docs/models/gemini-nano-banana-2.1",
+            "https://ai.google.dev/gemini-api/docs/pricing"
+          ],
+          "verification_status": "verified"
+        },
+        {
+          "pricing_id": "price:google-gemini/gemini-nano-banana-2.1:batch:short:current",
+          "charge_id": "price:google-gemini/gemini-nano-banana-2.1:batch:short:current:input:video:per_1m_tokens",
+          "component": "input",
+          "amount": "0.75",
+          "unit": "per_1m_tokens",
+          "currency": "USD",
+          "modality": "video",
+          "condition": {
+            "processing_mode": "batch",
+            "context_class": "short",
+            "prompt_token_threshold": null,
+            "tier_selection": null,
+            "region_policy": "global",
+            "effective_from": "2026-10-06",
+            "effective_until": null,
+            "region_selector": {
+              "dataResidencies": [
+                "global"
+              ],
+              "endpointGeographies": [
+                "global"
+              ],
+              "pricingGeography": "global_base"
+            },
+            "default_availability_status": "available",
+            "availability_rules": [],
+            "price_adjustments": []
+          },
+          "calculation_default": false,
+          "source_refs": [
+            "source:google-gemini:ai-google-dev-gemini-api-docs-deprecations",
+            "source:google-gemini:ai-google-dev-gemini-api-docs-models-gemini-nano-banana-2-1",
+            "source:google-gemini:ai-google-dev-gemini-api-docs-pricing"
+          ],
+          "source_urls": [
+            "https://ai.google.dev/gemini-api/docs/deprecations",
+            "https://ai.google.dev/gemini-api/docs/models/gemini-nano-banana-2.1",
+            "https://ai.google.dev/gemini-api/docs/pricing"
+          ],
+          "verification_status": "verified"
+        },
+        {
+          "pricing_id": "price:google-gemini/gemini-nano-banana-2.1:batch:short:current",
+          "charge_id": "price:google-gemini/gemini-nano-banana-2.1:batch:short:current:output:image:per_1m_tokens",
+          "component": "output",
+          "amount": "15",
+          "unit": "per_1m_tokens",
+          "currency": "USD",
+          "modality": "image",
+          "condition": {
+            "processing_mode": "batch",
+            "context_class": "short",
+            "prompt_token_threshold": null,
+            "tier_selection": null,
+            "region_policy": "global",
+            "effective_from": "2026-10-06",
+            "effective_until": null,
+            "region_selector": {
+              "dataResidencies": [
+                "global"
+              ],
+              "endpointGeographies": [
+                "global"
+              ],
+              "pricingGeography": "global_base"
+            },
+            "default_availability_status": "available",
+            "availability_rules": [],
+            "price_adjustments": []
+          },
+          "calculation_default": false,
+          "source_refs": [
+            "source:google-gemini:ai-google-dev-gemini-api-docs-deprecations",
+            "source:google-gemini:ai-google-dev-gemini-api-docs-models-gemini-nano-banana-2-1",
+            "source:google-gemini:ai-google-dev-gemini-api-docs-pricing"
+          ],
+          "source_urls": [
+            "https://ai.google.dev/gemini-api/docs/deprecations",
+            "https://ai.google.dev/gemini-api/docs/models/gemini-nano-banana-2.1",
+            "https://ai.google.dev/gemini-api/docs/pricing"
+          ],
+          "verification_status": "verified"
+        },
+        {
+          "pricing_id": "price:google-gemini/gemini-nano-banana-2.1:batch:short:current",
+          "charge_id": "price:google-gemini/gemini-nano-banana-2.1:batch:short:current:output:text:per_1m_tokens",
+          "component": "output",
+          "amount": "3.75",
+          "unit": "per_1m_tokens",
+          "currency": "USD",
+          "modality": "text",
+          "condition": {
+            "processing_mode": "batch",
+            "context_class": "short",
+            "prompt_token_threshold": null,
+            "tier_selection": null,
+            "region_policy": "global",
+            "effective_from": "2026-10-06",
+            "effective_until": null,
+            "region_selector": {
+              "dataResidencies": [
+                "global"
+              ],
+              "endpointGeographies": [
+                "global"
+              ],
+              "pricingGeography": "global_base"
+            },
+            "default_availability_status": "available",
+            "availability_rules": [],
+            "price_adjustments": []
+          },
+          "calculation_default": false,
+          "source_refs": [
+            "source:google-gemini:ai-google-dev-gemini-api-docs-deprecations",
+            "source:google-gemini:ai-google-dev-gemini-api-docs-models-gemini-nano-banana-2-1",
+            "source:google-gemini:ai-google-dev-gemini-api-docs-pricing"
+          ],
+          "source_urls": [
+            "https://ai.google.dev/gemini-api/docs/deprecations",
+            "https://ai.google.dev/gemini-api/docs/models/gemini-nano-banana-2.1",
+            "https://ai.google.dev/gemini-api/docs/pricing"
+          ],
+          "verification_status": "verified"
+        },
+        {
+          "pricing_id": "price:google-gemini/gemini-nano-banana-2.1:standard:short:current",
+          "charge_id": "price:google-gemini/gemini-nano-banana-2.1:standard:short:current:input:image:per_1m_tokens",
+          "component": "input",
+          "amount": "1.5",
+          "unit": "per_1m_tokens",
+          "currency": "USD",
+          "modality": "image",
+          "condition": {
+            "processing_mode": "standard",
+            "context_class": "short",
+            "prompt_token_threshold": null,
+            "tier_selection": null,
+            "region_policy": "global",
+            "effective_from": "2026-10-06",
+            "effective_until": null,
+            "region_selector": {
+              "dataResidencies": [
+                "global"
+              ],
+              "endpointGeographies": [
+                "global"
+              ],
+              "pricingGeography": "global_base"
+            },
+            "default_availability_status": "available",
+            "availability_rules": [],
+            "price_adjustments": []
+          },
+          "calculation_default": true,
+          "source_refs": [
+            "source:google-gemini:ai-google-dev-gemini-api-docs-deprecations",
+            "source:google-gemini:ai-google-dev-gemini-api-docs-models-gemini-nano-banana-2-1",
+            "source:google-gemini:ai-google-dev-gemini-api-docs-pricing"
+          ],
+          "source_urls": [
+            "https://ai.google.dev/gemini-api/docs/deprecations",
+            "https://ai.google.dev/gemini-api/docs/models/gemini-nano-banana-2.1",
+            "https://ai.google.dev/gemini-api/docs/pricing"
+          ],
+          "verification_status": "verified"
+        },
+        {
+          "pricing_id": "price:google-gemini/gemini-nano-banana-2.1:standard:short:current",
+          "charge_id": "price:google-gemini/gemini-nano-banana-2.1:standard:short:current:input:text:per_1m_tokens",
+          "component": "input",
+          "amount": "1.5",
+          "unit": "per_1m_tokens",
+          "currency": "USD",
+          "modality": "text",
+          "condition": {
+            "processing_mode": "standard",
+            "context_class": "short",
+            "prompt_token_threshold": null,
+            "tier_selection": null,
+            "region_policy": "global",
+            "effective_from": "2026-10-06",
+            "effective_until": null,
+            "region_selector": {
+              "dataResidencies": [
+                "global"
+              ],
+              "endpointGeographies": [
+                "global"
+              ],
+              "pricingGeography": "global_base"
+            },
+            "default_availability_status": "available",
+            "availability_rules": [],
+            "price_adjustments": []
+          },
+          "calculation_default": true,
+          "source_refs": [
+            "source:google-gemini:ai-google-dev-gemini-api-docs-deprecations",
+            "source:google-gemini:ai-google-dev-gemini-api-docs-models-gemini-nano-banana-2-1",
+            "source:google-gemini:ai-google-dev-gemini-api-docs-pricing"
+          ],
+          "source_urls": [
+            "https://ai.google.dev/gemini-api/docs/deprecations",
+            "https://ai.google.dev/gemini-api/docs/models/gemini-nano-banana-2.1",
+            "https://ai.google.dev/gemini-api/docs/pricing"
+          ],
+          "verification_status": "verified"
+        },
+        {
+          "pricing_id": "price:google-gemini/gemini-nano-banana-2.1:standard:short:current",
+          "charge_id": "price:google-gemini/gemini-nano-banana-2.1:standard:short:current:input:video:per_1m_tokens",
+          "component": "input",
+          "amount": "1.5",
+          "unit": "per_1m_tokens",
+          "currency": "USD",
+          "modality": "video",
+          "condition": {
+            "processing_mode": "standard",
+            "context_class": "short",
+            "prompt_token_threshold": null,
+            "tier_selection": null,
+            "region_policy": "global",
+            "effective_from": "2026-10-06",
+            "effective_until": null,
+            "region_selector": {
+              "dataResidencies": [
+                "global"
+              ],
+              "endpointGeographies": [
+                "global"
+              ],
+              "pricingGeography": "global_base"
+            },
+            "default_availability_status": "available",
+            "availability_rules": [],
+            "price_adjustments": []
+          },
+          "calculation_default": true,
+          "source_refs": [
+            "source:google-gemini:ai-google-dev-gemini-api-docs-deprecations",
+            "source:google-gemini:ai-google-dev-gemini-api-docs-models-gemini-nano-banana-2-1",
+            "source:google-gemini:ai-google-dev-gemini-api-docs-pricing"
+          ],
+          "source_urls": [
+            "https://ai.google.dev/gemini-api/docs/deprecations",
+            "https://ai.google.dev/gemini-api/docs/models/gemini-nano-banana-2.1",
+            "https://ai.google.dev/gemini-api/docs/pricing"
+          ],
+          "verification_status": "verified"
+        },
+        {
+          "pricing_id": "price:google-gemini/gemini-nano-banana-2.1:standard:short:current",
+          "charge_id": "price:google-gemini/gemini-nano-banana-2.1:standard:short:current:output:image:per_1m_tokens",
+          "component": "output",
+          "amount": "30",
+          "unit": "per_1m_tokens",
+          "currency": "USD",
+          "modality": "image",
+          "condition": {
+            "processing_mode": "standard",
+            "context_class": "short",
+            "prompt_token_threshold": null,
+            "tier_selection": null,
+            "region_policy": "global",
+            "effective_from": "2026-10-06",
+            "effective_until": null,
+            "region_selector": {
+              "dataResidencies": [
+                "global"
+              ],
+              "endpointGeographies": [
+                "global"
+              ],
+              "pricingGeography": "global_base"
+            },
+            "default_availability_status": "available",
+            "availability_rules": [],
+            "price_adjustments": []
+          },
+          "calculation_default": true,
+          "source_refs": [
+            "source:google-gemini:ai-google-dev-gemini-api-docs-deprecations",
+            "source:google-gemini:ai-google-dev-gemini-api-docs-models-gemini-nano-banana-2-1",
+            "source:google-gemini:ai-google-dev-gemini-api-docs-pricing"
+          ],
+          "source_urls": [
+            "https://ai.google.dev/gemini-api/docs/deprecations",
+            "https://ai.google.dev/gemini-api/docs/models/gemini-nano-banana-2.1",
+            "https://ai.google.dev/gemini-api/docs/pricing"
+          ],
+          "verification_status": "verified"
+        },
+        {
+          "pricing_id": "price:google-gemini/gemini-nano-banana-2.1:standard:short:current",
+          "charge_id": "price:google-gemini/gemini-nano-banana-2.1:standard:short:current:output:text:per_1m_tokens",
+          "component": "output",
+          "amount": "7.5",
+          "unit": "per_1m_tokens",
+          "currency": "USD",
+          "modality": "text",
+          "condition": {
+            "processing_mode": "standard",
+            "context_class": "short",
+            "prompt_token_threshold": null,
+            "tier_selection": null,
+            "region_policy": "global",
+            "effective_from": "2026-10-06",
+            "effective_until": null,
+            "region_selector": {
+              "dataResidencies": [
+                "global"
+              ],
+              "endpointGeographies": [
+                "global"
+              ],
+              "pricingGeography": "global_base"
+            },
+            "default_availability_status": "available",
+            "availability_rules": [],
+            "price_adjustments": []
+          },
+          "calculation_default": true,
+          "source_refs": [
+            "source:google-gemini:ai-google-dev-gemini-api-docs-deprecations",
+            "source:google-gemini:ai-google-dev-gemini-api-docs-models-gemini-nano-banana-2-1",
+            "source:google-gemini:ai-google-dev-gemini-api-docs-pricing"
+          ],
+          "source_urls": [
+            "https://ai.google.dev/gemini-api/docs/deprecations",
+            "https://ai.google.dev/gemini-api/docs/models/gemini-nano-banana-2.1",
+            "https://ai.google.dev/gemini-api/docs/pricing"
+          ],
+          "verification_status": "verified"
+        }
+      ],
+      "unit_price": null,
+      "billing_unit": null,
+      "billing_quantity": null,
+      "pricing_dimension": null,
+      "released_at": "2026-10-06",
+      "access_status": "public",
+      "access_checked_at": "2026-10-09T12:36:29Z",
+      "access_evidence": [
+        {
+          "claimType": "official_access_public",
+          "officialModelId": "gemini-nano-banana-2.1",
+          "scope": "Official exact API model ID available publicly.",
+          "sourceRef": "source:google-gemini:ai-google-dev-gemini-api-docs-models-gemini-nano-banana-2-1",
+          "title": "Gemini Nano Banana 2.1 API availability",
+          "url": "https://ai.google.dev/gemini-api/docs/models/gemini-nano-banana-2.1"
+        }
+      ],
+      "binding_status": "approved",
+      "binding_evidence": [
+        {
+          "claimType": "official_identity_binding",
+          "officialModelId": "gemini-nano-banana-2.1",
+          "reason": "Exact official API identifier.",
+          "sourceRef": "source:google-gemini:ai-google-dev-gemini-api-docs-models-gemini-nano-banana-2-1",
+          "title": "Gemini Nano Banana 2.1 identity",
+          "url": "https://ai.google.dev/gemini-api/docs/models/gemini-nano-banana-2.1"
+        }
+      ],
+      "conditional_usage_allowances": [],
+      "model_selection": null
+    },
+    {
       "provider_id": "mistral-ai",
       "provider": "Mistral AI",
       "model_id": "codestral-2508",
@@ -15405,6 +16688,274 @@
           "sourceRef": "source:mistral-ai:docs-mistral-ai-models-mistral-large-3-25-12",
           "title": "mistral-large-2512 official identity documentation",
           "url": "https://docs.mistral.ai/models/mistral-large-3-25-12"
+        }
+      ],
+      "conditional_usage_allowances": [],
+      "model_selection": null
+    },
+    {
+      "provider_id": "mistral-ai",
+      "provider": "Mistral AI",
+      "model_id": "mistral-large-4",
+      "model": "Mistral Large 4",
+      "input_price_per_1m_tokens": 0.68,
+      "cached_input_price_per_1m_tokens": 0.07,
+      "output_price_per_1m_tokens": 2.09,
+      "currency": "USD",
+      "pricing_unit": "1M tokens",
+      "status": "preview",
+      "availability": "preview",
+      "official_source_url": "https://docs.mistral.ai/models/mistral-large-4-0",
+      "verification_status": "verified",
+      "last_verified_at": "2026-10-09",
+      "checked_at": "2026-10-09",
+      "effective_from": "2026-10-06",
+      "effective_until": null,
+      "notes": "",
+      "pricing_tier_count": 0,
+      "pricing_tiers": [],
+      "time_pricing": null,
+      "pricing_components": [
+        {
+          "pricing_id": "price:mistral-ai/mistral-large-4:standard:short:current",
+          "charge_id": "price:mistral-ai/mistral-large-4:standard:short:current:cached_input:text:per_1m_tokens",
+          "component": "cached_input",
+          "amount": "0.07",
+          "unit": "per_1m_tokens",
+          "currency": "USD",
+          "modality": "text",
+          "condition": {
+            "processing_mode": "standard",
+            "context_class": "short",
+            "prompt_token_threshold": null,
+            "tier_selection": null,
+            "region_policy": "global",
+            "effective_from": "2026-10-06",
+            "effective_until": null,
+            "promotion": {
+              "label": "Launch pricing",
+              "discount_percent": 50,
+              "duration_text": "2 weeks",
+              "price_basis": "promotional",
+              "list_charges": [
+                {
+                  "charge_id": "price:mistral-ai/mistral-large-4:standard:short:current:input:text:per_1m_tokens",
+                  "component": "input",
+                  "modality": "text",
+                  "unit": "per_1m_tokens",
+                  "amount": "1.36"
+                },
+                {
+                  "charge_id": "price:mistral-ai/mistral-large-4:standard:short:current:cached_input:text:per_1m_tokens",
+                  "component": "cached_input",
+                  "modality": "text",
+                  "unit": "per_1m_tokens",
+                  "amount": "0.14"
+                },
+                {
+                  "charge_id": "price:mistral-ai/mistral-large-4:standard:short:current:output:text:per_1m_tokens",
+                  "component": "output",
+                  "modality": "text",
+                  "unit": "per_1m_tokens",
+                  "amount": "4.18"
+                }
+              ]
+            },
+            "region_selector": {
+              "dataResidencies": [
+                "global"
+              ],
+              "endpointGeographies": [
+                "global"
+              ],
+              "pricingGeography": "global_base"
+            },
+            "default_availability_status": "available",
+            "availability_rules": [],
+            "price_adjustments": []
+          },
+          "calculation_default": true,
+          "source_refs": [
+            "source:mistral-ai:docs-mistral-ai-models-mistral-large-4-0",
+            "source:mistral-ai:docs-mistral-ai-resources-changelogs",
+            "source:mistral-ai:mistral-ai-news-mistral-large-4"
+          ],
+          "source_urls": [
+            "https://docs.mistral.ai/models/mistral-large-4-0",
+            "https://docs.mistral.ai/resources/changelogs",
+            "https://mistral.ai/news/mistral-large-4/"
+          ],
+          "verification_status": "verified"
+        },
+        {
+          "pricing_id": "price:mistral-ai/mistral-large-4:standard:short:current",
+          "charge_id": "price:mistral-ai/mistral-large-4:standard:short:current:input:text:per_1m_tokens",
+          "component": "input",
+          "amount": "0.68",
+          "unit": "per_1m_tokens",
+          "currency": "USD",
+          "modality": "text",
+          "condition": {
+            "processing_mode": "standard",
+            "context_class": "short",
+            "prompt_token_threshold": null,
+            "tier_selection": null,
+            "region_policy": "global",
+            "effective_from": "2026-10-06",
+            "effective_until": null,
+            "promotion": {
+              "label": "Launch pricing",
+              "discount_percent": 50,
+              "duration_text": "2 weeks",
+              "price_basis": "promotional",
+              "list_charges": [
+                {
+                  "charge_id": "price:mistral-ai/mistral-large-4:standard:short:current:input:text:per_1m_tokens",
+                  "component": "input",
+                  "modality": "text",
+                  "unit": "per_1m_tokens",
+                  "amount": "1.36"
+                },
+                {
+                  "charge_id": "price:mistral-ai/mistral-large-4:standard:short:current:cached_input:text:per_1m_tokens",
+                  "component": "cached_input",
+                  "modality": "text",
+                  "unit": "per_1m_tokens",
+                  "amount": "0.14"
+                },
+                {
+                  "charge_id": "price:mistral-ai/mistral-large-4:standard:short:current:output:text:per_1m_tokens",
+                  "component": "output",
+                  "modality": "text",
+                  "unit": "per_1m_tokens",
+                  "amount": "4.18"
+                }
+              ]
+            },
+            "region_selector": {
+              "dataResidencies": [
+                "global"
+              ],
+              "endpointGeographies": [
+                "global"
+              ],
+              "pricingGeography": "global_base"
+            },
+            "default_availability_status": "available",
+            "availability_rules": [],
+            "price_adjustments": []
+          },
+          "calculation_default": true,
+          "source_refs": [
+            "source:mistral-ai:docs-mistral-ai-models-mistral-large-4-0",
+            "source:mistral-ai:docs-mistral-ai-resources-changelogs",
+            "source:mistral-ai:mistral-ai-news-mistral-large-4"
+          ],
+          "source_urls": [
+            "https://docs.mistral.ai/models/mistral-large-4-0",
+            "https://docs.mistral.ai/resources/changelogs",
+            "https://mistral.ai/news/mistral-large-4/"
+          ],
+          "verification_status": "verified"
+        },
+        {
+          "pricing_id": "price:mistral-ai/mistral-large-4:standard:short:current",
+          "charge_id": "price:mistral-ai/mistral-large-4:standard:short:current:output:text:per_1m_tokens",
+          "component": "output",
+          "amount": "2.09",
+          "unit": "per_1m_tokens",
+          "currency": "USD",
+          "modality": "text",
+          "condition": {
+            "processing_mode": "standard",
+            "context_class": "short",
+            "prompt_token_threshold": null,
+            "tier_selection": null,
+            "region_policy": "global",
+            "effective_from": "2026-10-06",
+            "effective_until": null,
+            "promotion": {
+              "label": "Launch pricing",
+              "discount_percent": 50,
+              "duration_text": "2 weeks",
+              "price_basis": "promotional",
+              "list_charges": [
+                {
+                  "charge_id": "price:mistral-ai/mistral-large-4:standard:short:current:input:text:per_1m_tokens",
+                  "component": "input",
+                  "modality": "text",
+                  "unit": "per_1m_tokens",
+                  "amount": "1.36"
+                },
+                {
+                  "charge_id": "price:mistral-ai/mistral-large-4:standard:short:current:cached_input:text:per_1m_tokens",
+                  "component": "cached_input",
+                  "modality": "text",
+                  "unit": "per_1m_tokens",
+                  "amount": "0.14"
+                },
+                {
+                  "charge_id": "price:mistral-ai/mistral-large-4:standard:short:current:output:text:per_1m_tokens",
+                  "component": "output",
+                  "modality": "text",
+                  "unit": "per_1m_tokens",
+                  "amount": "4.18"
+                }
+              ]
+            },
+            "region_selector": {
+              "dataResidencies": [
+                "global"
+              ],
+              "endpointGeographies": [
+                "global"
+              ],
+              "pricingGeography": "global_base"
+            },
+            "default_availability_status": "available",
+            "availability_rules": [],
+            "price_adjustments": []
+          },
+          "calculation_default": true,
+          "source_refs": [
+            "source:mistral-ai:docs-mistral-ai-models-mistral-large-4-0",
+            "source:mistral-ai:docs-mistral-ai-resources-changelogs",
+            "source:mistral-ai:mistral-ai-news-mistral-large-4"
+          ],
+          "source_urls": [
+            "https://docs.mistral.ai/models/mistral-large-4-0",
+            "https://docs.mistral.ai/resources/changelogs",
+            "https://mistral.ai/news/mistral-large-4/"
+          ],
+          "verification_status": "verified"
+        }
+      ],
+      "unit_price": null,
+      "billing_unit": null,
+      "billing_quantity": null,
+      "pricing_dimension": null,
+      "released_at": "2026-10-06",
+      "access_status": "public",
+      "access_checked_at": "2026-10-09T12:36:29Z",
+      "access_evidence": [
+        {
+          "claimType": "official_access_public",
+          "officialModelId": "mistral-large-4",
+          "scope": "Official exact API model ID available publicly.",
+          "sourceRef": "source:mistral-ai:docs-mistral-ai-models-mistral-large-4-0",
+          "title": "Mistral Large 4 API availability",
+          "url": "https://docs.mistral.ai/models/mistral-large-4-0"
+        }
+      ],
+      "binding_status": "approved",
+      "binding_evidence": [
+        {
+          "claimType": "official_identity_binding",
+          "officialModelId": "mistral-large-4",
+          "reason": "Exact official API identifier.",
+          "sourceRef": "source:mistral-ai:docs-mistral-ai-models-mistral-large-4-0",
+          "title": "Mistral Large 4 identity",
+          "url": "https://docs.mistral.ai/models/mistral-large-4-0"
         }
       ],
       "conditional_usage_allowances": [],

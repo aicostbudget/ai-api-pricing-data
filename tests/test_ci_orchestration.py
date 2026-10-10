@@ -29,7 +29,13 @@ def child_mapping_keys(text, parent):
 class CiOrchestrationContractTests(unittest.TestCase):
     def test_validate_is_push_and_pull_request_local_ci(self):
         workflow = workflow_text("validate.yml")
-        self.assertEqual(child_mapping_keys(workflow, "on"), {"push", "pull_request"})
+        self.assertEqual(child_mapping_keys(workflow, "on"), {"push", "pull_request", "workflow_dispatch"})
+        normal, candidate = workflow.split("  reviewed-website-candidate:", 1)
+        self.assertIn("ref: main", normal)
+        self.assertIn("inputs.website_candidate_sha == ''", normal)
+        self.assertIn("environment: pricing-candidate-review", candidate)
+        self.assertIn("python scripts/check_website_candidate.py", candidate)
+        self.assertIn("python -m unittest discover -s tests", candidate)
         self.assertIn("python scripts/build.py", workflow)
         self.assertIn("python scripts/validate.py", workflow)
         self.assertIn("python -m unittest discover -s tests", workflow)

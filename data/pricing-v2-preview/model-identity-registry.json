@@ -213,6 +213,72 @@
   },
   {
     "accessAuthority": {
+      "baseRevision": "72ce4a1a7475bbd9c2a394aedf864afec073d494",
+      "factSha256": "7e5a94fe21d14579cc2182cc4fa41ecdb648735914dd3dfb5d7eeca60064cf1e",
+      "kind": "canonical",
+      "revisionScope": "base_revision_plus_fact_digest"
+    },
+    "accessCheckedAt": "2026-10-09T12:36:29Z",
+    "accessEvidence": [
+      {
+        "claimType": "official_access_public",
+        "officialModelId": "claude-haiku-5-5",
+        "scope": "Official exact API model ID available publicly.",
+        "sourceRef": "source:anthropic:platform-claude-com-docs-en-models-haiku-5-5-overview",
+        "title": "Claude Haiku 5.5 API availability"
+      }
+    ],
+    "accessStatus": "public",
+    "aliasTargetInternalId": null,
+    "availability": "active",
+    "billingModelInternalId": null,
+    "bindingEvidence": [
+      {
+        "claimType": "official_identity_binding",
+        "officialModelId": "claude-haiku-5-5",
+        "reason": "Exact official API identifier.",
+        "sourceRef": "source:anthropic:platform-claude-com-docs-en-models-haiku-5-5-overview",
+        "title": "Claude Haiku 5.5 identity"
+      }
+    ],
+    "bindingStatus": "approved",
+    "canonicalOfficialId": "claude-haiku-5-5",
+    "contextWindowTokens": 1000000,
+    "deprecationDate": null,
+    "displayName": "Claude Haiku 5.5",
+    "identityType": "canonical_model",
+    "internalId": "anthropic/claude-haiku-5-5",
+    "lifecycleStatus": "active",
+    "officialIds": [
+      {
+        "id": "claude-haiku-5-5",
+        "source": "public_dataset",
+        "type": "canonical"
+      }
+    ],
+    "providerId": "anthropic",
+    "publicDatasetIds": [
+      "claude-haiku-5-5"
+    ],
+    "redirectTargetInternalId": null,
+    "releaseSourceRef": "source:anthropic:platform-claude-com-docs-en-models-haiku-5-5-overview",
+    "releaseStage": "stable",
+    "releasedAt": "2026-10-07",
+    "replacementInternalId": null,
+    "retirementDate": null,
+    "routingBehavior": "direct",
+    "routingDetails": {},
+    "sourceRefs": [
+      "source:anthropic:platform-claude-com-docs-en-about-claude-pricing",
+      "source:anthropic:platform-claude-com-docs-en-build-with-claude-prompt-caching",
+      "source:anthropic:platform-claude-com-docs-en-models-haiku-5-5-overview",
+      "source:anthropic:www-anthropic-com-claude-haiku-5-5"
+    ],
+    "verificationStatus": "verified",
+    "websiteIds": []
+  },
+  {
+    "accessAuthority": {
       "baseRevision": "64adba20735ee089044da8bdfaa274cbe505375a",
       "factSha256": "f768016ce0ba0a9f62c55352351b9529176c0d48de8b8649d75b83636fb7ade4",
       "kind": "website_only_seed",
@@ -848,6 +914,7 @@
       "source:anthropic:platform-claude-com-docs-en-about-claude-pricing",
       "source:anthropic:platform-claude-com-docs-en-build-with-claude-prompt-caching",
       "source:anthropic:platform-claude-com-docs-en-models-sonnet-5-5-overview",
+      "source:anthropic:www-anthropic-com-claude-haiku-5-5",
       "source:anthropic:www-anthropic-com-claude-sonnet-5-5"
     ],
     "verificationStatus": "verified",
@@ -1789,7 +1856,7 @@
     "accessEvidence": [],
     "accessStatus": "unknown",
     "aliasTargetInternalId": null,
-    "availability": "retired",
+    "availability": "Lifecycle source conflict",
     "billingModelInternalId": null,
     "bindingEvidence": [],
     "bindingStatus": "unresolved",
@@ -1798,7 +1865,28 @@
     "displayName": "Gemini 2.5 Flash Image",
     "identityType": "canonical_model",
     "internalId": "google-gemini/gemini-2.5-flash-image",
-    "lifecycleStatus": "retired",
+    "lifecycleConflict": {
+      "authority_analysis": "Deprecations tracks earliest possible shutdown schedules, but no official revision or supersession evidence resolves the contradictory Pricing warning. No certain lifecycle or shutdown date normalized.",
+      "observed_at": "2026-10-09T12:39:41Z",
+      "previous_assertion": {
+        "replacement_model_id": "gemini-3.1-flash-image-preview",
+        "retirement_date": "2026-10-02"
+      },
+      "resolution": "unresolved",
+      "sources": [
+        {
+          "replacement_model_id": "gemini-3.1-flash-lite-image",
+          "shutdown_date": "2027-03-15",
+          "url": "https://ai.google.dev/gemini-api/docs/deprecations"
+        },
+        {
+          "replacement_model_id": "gemini-3.1-flash-image / gemini-3.1-flash-lite-image",
+          "shutdown_date": "2026-10-02",
+          "url": "https://ai.google.dev/gemini-api/docs/pricing"
+        }
+      ]
+    },
+    "lifecycleStatus": "unknown",
     "officialIds": [
       {
         "id": "gemini-2.5-flash-image",
@@ -1812,16 +1900,17 @@
     ],
     "redirectTargetInternalId": null,
     "releaseSourceRef": null,
-    "releaseStage": "legacy",
+    "releaseStage": "unknown",
     "releasedAt": null,
-    "replacementInternalId": "google-gemini/gemini-3.1-flash-image-preview",
-    "retirementDate": "2026-10-02",
+    "replacementInternalId": null,
+    "retirementDate": null,
     "routingBehavior": "direct",
     "routingDetails": {},
     "sourceRefs": [
-      "source:google-gemini:ai-google-dev-gemini-api-docs-deprecations"
+      "source:google-gemini:ai-google-dev-gemini-api-docs-deprecations",
+      "source:google-gemini:ai-google-dev-gemini-api-docs-pricing"
     ],
-    "verificationStatus": "partially_verified",
+    "verificationStatus": "review_required",
     "websiteIds": []
   },
   {
@@ -2773,6 +2862,71 @@
   },
   {
     "accessAuthority": {
+      "baseRevision": "72ce4a1a7475bbd9c2a394aedf864afec073d494",
+      "factSha256": "facb3908c8c560cdc384a4c4f9865bbebfb5b4db1bed150a788cb71d4f2c88a4",
+      "kind": "canonical",
+      "revisionScope": "base_revision_plus_fact_digest"
+    },
+    "accessCheckedAt": "2026-10-09T12:36:29Z",
+    "accessEvidence": [
+      {
+        "claimType": "official_access_public",
+        "officialModelId": "gemini-nano-banana-2.1",
+        "scope": "Official exact API model ID available publicly.",
+        "sourceRef": "source:google-gemini:ai-google-dev-gemini-api-docs-models-gemini-nano-banana-2-1",
+        "title": "Gemini Nano Banana 2.1 API availability"
+      }
+    ],
+    "accessStatus": "public",
+    "aliasTargetInternalId": null,
+    "availability": "active",
+    "billingModelInternalId": null,
+    "bindingEvidence": [
+      {
+        "claimType": "official_identity_binding",
+        "officialModelId": "gemini-nano-banana-2.1",
+        "reason": "Exact official API identifier.",
+        "sourceRef": "source:google-gemini:ai-google-dev-gemini-api-docs-models-gemini-nano-banana-2-1",
+        "title": "Gemini Nano Banana 2.1 identity"
+      }
+    ],
+    "bindingStatus": "approved",
+    "canonicalOfficialId": "gemini-nano-banana-2.1",
+    "contextWindowTokens": 131072,
+    "deprecationDate": null,
+    "displayName": "Gemini Nano Banana 2.1",
+    "identityType": "canonical_model",
+    "internalId": "google-gemini/gemini-nano-banana-2.1",
+    "lifecycleStatus": "active",
+    "officialIds": [
+      {
+        "id": "gemini-nano-banana-2.1",
+        "source": "public_dataset",
+        "type": "canonical"
+      }
+    ],
+    "providerId": "google-gemini",
+    "publicDatasetIds": [
+      "gemini-nano-banana-2.1"
+    ],
+    "redirectTargetInternalId": null,
+    "releaseSourceRef": "source:google-gemini:ai-google-dev-gemini-api-docs-deprecations",
+    "releaseStage": "stable",
+    "releasedAt": "2026-10-06",
+    "replacementInternalId": null,
+    "retirementDate": null,
+    "routingBehavior": "direct",
+    "routingDetails": {},
+    "sourceRefs": [
+      "source:google-gemini:ai-google-dev-gemini-api-docs-deprecations",
+      "source:google-gemini:ai-google-dev-gemini-api-docs-models-gemini-nano-banana-2-1",
+      "source:google-gemini:ai-google-dev-gemini-api-docs-pricing"
+    ],
+    "verificationStatus": "verified",
+    "websiteIds": []
+  },
+  {
+    "accessAuthority": {
       "baseRevision": "80c2ec4991bcaaf795fe9192946f5ec770d57f48",
       "factSha256": "4be3c25d19d5a8f760e4888c0cdebcd79cd38c284195c2052c7a04ac292c0a87",
       "kind": "canonical",
@@ -3153,6 +3307,71 @@
       "source:mistral-ai:docs-mistral-ai-studio-batch-processing",
       "source:mistral-ai:docs-mistral-ai-studio-conversations-advanced-prompt-caching",
       "source:mistral-ai:docs-mistral-ai-studio-conversations-function-calling"
+    ],
+    "verificationStatus": "verified",
+    "websiteIds": []
+  },
+  {
+    "accessAuthority": {
+      "baseRevision": "72ce4a1a7475bbd9c2a394aedf864afec073d494",
+      "factSha256": "d5efa5631f5a07abc622a141c235a14a9ae72b8dd84b693664a3767f84cfa23e",
+      "kind": "canonical",
+      "revisionScope": "base_revision_plus_fact_digest"
+    },
+    "accessCheckedAt": "2026-10-09T12:36:29Z",
+    "accessEvidence": [
+      {
+        "claimType": "official_access_public",
+        "officialModelId": "mistral-large-4",
+        "scope": "Official exact API model ID available publicly.",
+        "sourceRef": "source:mistral-ai:docs-mistral-ai-models-mistral-large-4-0",
+        "title": "Mistral Large 4 API availability"
+      }
+    ],
+    "accessStatus": "public",
+    "aliasTargetInternalId": null,
+    "availability": "preview",
+    "billingModelInternalId": null,
+    "bindingEvidence": [
+      {
+        "claimType": "official_identity_binding",
+        "officialModelId": "mistral-large-4",
+        "reason": "Exact official API identifier.",
+        "sourceRef": "source:mistral-ai:docs-mistral-ai-models-mistral-large-4-0",
+        "title": "Mistral Large 4 identity"
+      }
+    ],
+    "bindingStatus": "approved",
+    "canonicalOfficialId": "mistral-large-4",
+    "contextWindowTokens": 1000000,
+    "deprecationDate": null,
+    "displayName": "Mistral Large 4",
+    "identityType": "canonical_model",
+    "internalId": "mistral-ai/mistral-large-4",
+    "lifecycleStatus": "active",
+    "officialIds": [
+      {
+        "id": "mistral-large-4",
+        "source": "public_dataset",
+        "type": "canonical"
+      }
+    ],
+    "providerId": "mistral-ai",
+    "publicDatasetIds": [
+      "mistral-large-4"
+    ],
+    "redirectTargetInternalId": null,
+    "releaseSourceRef": "source:mistral-ai:docs-mistral-ai-models-mistral-large-4-0",
+    "releaseStage": "preview",
+    "releasedAt": "2026-10-06",
+    "replacementInternalId": null,
+    "retirementDate": null,
+    "routingBehavior": "direct",
+    "routingDetails": {},
+    "sourceRefs": [
+      "source:mistral-ai:docs-mistral-ai-models-mistral-large-4-0",
+      "source:mistral-ai:docs-mistral-ai-resources-changelogs",
+      "source:mistral-ai:mistral-ai-news-mistral-large-4"
     ],
     "verificationStatus": "verified",
     "websiteIds": []

@@ -10,7 +10,7 @@
     }
   ],
   "access_status": "public",
-  "accessed_at": "2026-09-30T03:25:59Z",
+  "accessed_at": "2026-10-09T12:36:29Z",
   "binding_evidence": [
     {
       "claim_type": "official_identity_binding",
@@ -62,24 +62,30 @@
   ],
   "context_window_tokens": 1000000,
   "display_name": "Claude Sonnet 5.5",
-  "effective_from": "2026-09-28",
+  "effective_from": "2026-10-07",
   "input_modality": "text",
-  "last_verified_at": "2026-09-30T03:25:59Z",
+  "last_verified_at": "2026-10-09T12:36:29Z",
   "model_family": "Claude Sonnet",
   "model_id": "claude-sonnet-5-5",
-  "notes": "Released 2026-09-28 and listed as Active (latest), with retirement not sooner than 2027-09-28. Standard global Claude API pricing is $2 input, $0.20 cache read, $2.50 5-minute cache write, $4 1-hour cache write, and $10 output per 1M tokens. Batch input and output are 50% of Standard. The full 1M context window uses the same token rates. Regional and partner-cloud pricing differences are outside this global-base record.",
+  "notes": "Released 2026-09-28 and listed as Active (latest), with retirement not sooner than 2027-09-28. Standard global Claude API pricing is $2 input, $0.10 cache read, $2.50 5-minute cache write, $4 1-hour cache write, and $10 output per 1M tokens. Batch input and output are 50% of Standard. The full 1M context window uses the same token rates. Regional and partner-cloud pricing differences are outside this global-base record. Cache reads reduced from $0.20 to $0.10 effective 2026-10-07, announced with Haiku 5.5.",
   "official_source_url": "https://platform.claude.com/docs/en/models/sonnet-5-5/overview",
   "official_source_urls": [
     "https://platform.claude.com/docs/en/models/sonnet-5-5/overview",
     "https://www.anthropic.com/claude-sonnet-5-5",
     "https://platform.claude.com/docs/en/about-claude/pricing",
     "https://platform.claude.com/docs/en/build-with-claude/prompt-caching",
-    "https://platform.claude.com/docs/en/about-claude/model-deprecations"
+    "https://platform.claude.com/docs/en/about-claude/model-deprecations",
+    "https://www.anthropic.com/claude-haiku-5-5"
   ],
   "output_modality": "text",
+  "price_change_evidence": {
+    "claim": "Same-model Claude Sonnet 5.5 cache read reduced 50% from $0.20 to $0.10 per million tokens starting October 7, 2026; input, output, cache writes and Batch input/output unchanged.",
+    "effective_from": "2026-10-07",
+    "url": "https://www.anthropic.com/claude-haiku-5-5"
+  },
   "price_records": [
     {
-      "billing_note": "Standard global Claude API token and prompt-cache pricing; the full 1M context window uses the same rates, and 5-minute and 1-hour cache writes are distinct charge semantics.",
+      "billing_note": "Standard global Claude API token and prompt-cache pricing; the full 1M context window uses the same rates, and 5-minute and 1-hour cache writes are distinct charge semantics. Cache read changed on 2026-10-07; other components unchanged.",
       "calculation_default": true,
       "charges": [
         {
@@ -90,7 +96,7 @@
           "unit": "per_1m_tokens"
         },
         {
-          "amount": "0.2",
+          "amount": "0.1",
           "component": "cache_read",
           "id": "price:anthropic/claude-sonnet-5-5:standard:short:current:cache_read:text:per_1m_tokens",
           "modality": "text",
@@ -118,10 +124,10 @@
           "unit": "per_1m_tokens"
         }
       ],
-      "checked_at": "2026-09-30T03:25:59Z",
+      "checked_at": "2026-10-09T12:36:29Z",
       "context_class": "short",
       "currency": "USD",
-      "effective_from": "2026-09-28",
+      "effective_from": "2026-10-07",
       "effective_until": null,
       "id": "price:anthropic/claude-sonnet-5-5:standard:short:current",
       "pricing_status": "current",
@@ -143,10 +149,11 @@
       },
       "source_refs": [
         "https://platform.claude.com/docs/en/models/sonnet-5-5/overview",
-        "https://platform.claude.com/docs/en/about-claude/pricing"
+        "https://platform.claude.com/docs/en/about-claude/pricing",
+        "https://www.anthropic.com/claude-haiku-5-5"
       ],
       "verification_status": "verified",
-      "verified_at": "2026-09-30T03:25:59Z"
+      "verified_at": "2026-10-09T12:36:29Z"
     },
     {
       "billing_note": "Batch API input and output pricing is the published 50% discount from Standard global token rates.",
@@ -203,7 +210,7 @@
     "batch_output": 5.0,
     "cache_write": 2.5,
     "cache_write_1h": 4.0,
-    "cached_input": 0.2,
+    "cached_input": 0.1,
     "currency": "USD",
     "input": 2.0,
     "output": 10.0,

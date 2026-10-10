@@ -8,9 +8,10 @@ from lib import DATA, build_dataset, load_models, utc_now, utc_today, write_csv,
 def main() -> None:
     parser = argparse.ArgumentParser(description="Create a dated data snapshot.")
     parser.add_argument("date", nargs="?", default=None, help="Snapshot date in YYYY-MM-DD format.")
+    parser.add_argument("--generated-at", help="Explicit UTC timestamp shared with the public dataset for deterministic candidate builds.")
     args = parser.parse_args()
     target = DATA / "snapshots" / (args.date or utc_today())
-    write_json(target / "prices.json", build_dataset(utc_now()))
+    write_json(target / "prices.json", build_dataset(args.generated_at or utc_now()))
     write_csv(target / "prices.csv", load_models())
 
 

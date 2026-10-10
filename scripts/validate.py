@@ -54,6 +54,13 @@ def parse_ts(value: str) -> datetime:
 
 def validate_pricing_contract(model: dict, item: tuple[str, str]) -> None:
     pricing = model["pricing"]
+    if model.get("lifecycle_conflict"):
+        try:
+            from lifecycle_authority import validate_unresolved_conflict
+        except ModuleNotFoundError:
+            from scripts.lifecycle_authority import validate_unresolved_conflict
+        validate_unresolved_conflict(model)
+        return
     if pricing["currency"] != "USD":
         fail(f"unsupported currency for {item[0]}/{item[1]}")
     for field in PRICE_FIELDS:

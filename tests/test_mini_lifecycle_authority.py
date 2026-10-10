@@ -6,7 +6,7 @@ from pathlib import Path
 from unittest.mock import patch
 
 from scripts import generate_pricing_v2_preview as g
-from tests.freshness_assertions import lifecycle_fixture
+from tests.freshness_assertions import lifecycle_fixture, BASELINE
 from scripts import lifecycle_authority as authority
 from scripts.sql_seed import parse_seed, render_sql_seed
 
@@ -124,7 +124,40 @@ class TargetedMiniLifecycleTests(unittest.TestCase):
         cls.candidate = g.mini_candidates(cls.baseline, cls.authority)
         cls.context = g.mini_context()
         cls.head = g.lifecycle_git_head()
-        cls.review = g.review_mini_candidate(cls.baseline, cls.candidate, cls.context, cls.head)
+        # Match the pinned 250-price V2 fixture with its actual canonical input.
+        # Only input loading is scoped; the complete validator and current mini
+        # authority remain unchanged and all mutation/safety assertions still run.
+        import subprocess
+        try:
+            import validate_pricing_v2_preview as validator
+        except ModuleNotFoundError:
+            from scripts import validate_pricing_v2_preview as validator
+        historical = json.loads(subprocess.check_output(["git", "show", BASELINE+":data/canonical/models.json"],cwd=g.ROOT))
+        original_read = validator.read_json
+        canonical_path = validator.ROOT / "data" / "canonical" / "models.json"
+        def fixture_read(path):
+            return copy.deepcopy(historical) if path == canonical_path else original_read(path)
+        with patch.object(validator, "read_json", side_effect=fixture_read):
+            cls.review = g.review_mini_candidate(cls.baseline, cls.candidate, cls.context, cls.head)
+
+    def setUp(self):
+        # Every operation in this class uses the same pinned historical fixture,
+        # including the CLI write/check path. Scope only canonical input loading.
+        import importlib, subprocess
+        historical = json.loads(subprocess.check_output(["git", "show", BASELINE+":data/canonical/models.json"],cwd=g.ROOT))
+        modules = [importlib.import_module("scripts.validate_pricing_v2_preview")]
+        try:
+            modules.append(importlib.import_module("validate_pricing_v2_preview"))
+        except ModuleNotFoundError:
+            pass
+        for validator in modules:
+            original = validator.read_json
+            canonical = validator.ROOT / "data" / "canonical" / "models.json"
+            def fixture_read(path, original=original, canonical=canonical):
+                return copy.deepcopy(historical) if path == canonical else original(path)
+            scoped = patch.object(validator, "read_json", side_effect=fixture_read)
+            scoped.start()
+            self.addCleanup(scoped.stop)
 
     def isolated(self, directory):
         preview = Path(directory) / "preview"
