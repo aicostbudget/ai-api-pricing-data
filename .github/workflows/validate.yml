@@ -3,6 +3,13 @@
 on:
   push:
   pull_request:
+  workflow_dispatch:
+    inputs:
+      website_candidate_sha:
+        description: "Exact reviewed Website candidate SHA; empty validates published main"
+        required: false
+        default: ""
+        type: string
 
 permissions:
   contents: read
