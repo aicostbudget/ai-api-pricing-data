@@ -66,7 +66,8 @@ VIEWER_OMITTED_FIELDS = frozenset(
     }
 )
 VIEWER_CSV_HEADERS = tuple(field for field in CSV_HEADERS if field not in VIEWER_OMITTED_FIELDS)
-PUBLIC_SCHEMA_VERSION = "1.8.0"
+PUBLIC_SCHEMA_VERSION = "1.10.0"
+SUPPORTED_PUBLIC_SCHEMA_VERSIONS = {"1.8.0", "1.9.0", PUBLIC_SCHEMA_VERSION}
 PUBLIC_VERIFICATION_STATUSES = {
     "verified",
     "partially_verified",
@@ -220,6 +221,13 @@ def public_pricing_components(row: dict[str, Any]) -> list[dict[str, Any]]:
             "effective_from": condition.get("effectiveFrom"),
             "effective_until": condition.get("effectiveUntil"),
         }
+        if condition.get("promotion") is not None:
+            promotion = condition["promotion"]
+            public_condition["promotion"] = {
+                "label": promotion["label"], "discount_percent": promotion["discountPercent"],
+                "duration_text": promotion["durationText"], "price_basis": promotion["priceBasis"],
+                "list_charges": [{"charge_id": c["chargeId"], "component": c["component"], "modality": c["modality"], "unit": c["unit"], "amount": c["amount"]} for c in promotion["listCharges"]],
+            }
         if condition.get("transport") is not None:
             public_condition["transport"] = condition["transport"]
         usage_tier = condition.get("usageTier")
@@ -518,7 +526,10 @@ def build_export(
     projection: dict[str, Any],
     metadata: dict[str, Any],
     legacy_models: list[dict[str, Any]],
+    *, schema_version: str = PUBLIC_SCHEMA_VERSION,
 ) -> dict[str, Any]:
+    if schema_version not in SUPPORTED_PUBLIC_SCHEMA_VERSIONS:
+        raise ValueError("Unsupported public export schema version")
     records = build_public_records(projection, legacy_models)
     provider_count = len({row["provider_id"] for row in records})
     source_count = len({row["official_source_url"] for row in records if row["official_source_url"]})
@@ -526,7 +537,7 @@ def build_export(
         "metadata": {
             "name": metadata["dataset_name"],
             "version": metadata["dataset_version"],
-            "schema_version": PUBLIC_SCHEMA_VERSION,
+            "schema_version": schema_version,
             "page_url": DATASET_PAGE_URL,
             "last_updated": metadata["last_verified_at"],
             "last_verified_at": metadata["last_verified_at"],

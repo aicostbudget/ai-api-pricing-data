@@ -111,3 +111,23 @@ def load_authority() -> dict[str, Any]:
         return validate_authority(parsed(AUTHORITY_PATH.read_bytes()))
     except OSError as exc:
         raise ValueError("LIFECYCLE_AUTHORITY: missing authority/schema input") from exc
+
+
+def validate_unresolved_conflict(model: dict[str, Any]) -> None:
+    try:
+        from access_metadata import official_hostname, checked_timestamp
+    except ModuleNotFoundError:
+        from scripts.access_metadata import official_hostname, checked_timestamp
+    conflict = model.get("lifecycle_conflict")
+    required = {"resolution", "observed_at", "sources", "previous_assertion", "authority_analysis"}
+    if not isinstance(conflict, dict) or set(conflict) != required or conflict["resolution"] != "unresolved":
+        raise ValueError("LIFECYCLE_CONFLICT: explicit unresolved evidence required")
+    checked_timestamp(conflict["observed_at"])
+    sources = conflict["sources"]
+    if not isinstance(sources, list) or len(sources) < 2 or len({s.get("shutdown_date") for s in sources}) < 2:
+        raise ValueError("LIFECYCLE_CONFLICT: conflicting dated official sources required")
+    for source in sources:
+        official_hostname(model["provider_id"], source["url"])
+        datetime.fromisoformat(source["shutdown_date"])
+    if model["status"] != "unknown" or model.get("lifecycle") or model.get("price_records") or any(model["pricing"].get(k) is not None for k in ("unit", "input", "output", "cached_input")):
+        raise ValueError("LIFECYCLE_CONFLICT: cannot assert certain lifecycle or unsupported prices")

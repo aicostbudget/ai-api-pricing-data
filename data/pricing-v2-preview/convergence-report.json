@@ -2,27 +2,27 @@
   "aliasCount": 2,
   "candidateDispositionCounts": {
     "alias": 2,
-    "canonical_identity": 91,
+    "canonical_identity": 94,
     "historical_reference": 1,
     "unresolved": 3
   },
-  "candidateUnionCount": 97,
+  "candidateUnionCount": 100,
   "commonCount": 38,
   "counts": {
-    "chargeRecordCount": 778,
-    "modelRecordCount": 94,
-    "priceRecordCount": 257,
-    "sourceRecordCount": 173
+    "chargeRecordCount": 805,
+    "modelRecordCount": 97,
+    "priceRecordCount": 264,
+    "sourceRecordCount": 178
   },
   "duplicateIdentityCount": 3,
-  "generatedAt": "2026-10-09T09:11:24Z",
+  "generatedAt": "2026-10-09T13:15:36Z",
   "lifecycleConflicts": [
     {
       "internalId": "xai/grok-3",
       "resolution": "retired identity retained; redirects to xai/grok-4.3 current billing"
     }
   ],
-  "normalizedCanonicalIdentityCount": 94,
+  "normalizedCanonicalIdentityCount": 97,
   "pricingConflicts": [
     {
       "internalId": "openai/gpt-4.1",
@@ -49,7 +49,7 @@
       "reason": "no safe default calculation price"
     }
   ],
-  "publicOnlyCount": 47,
+  "publicOnlyCount": 50,
   "sourceConflicts": [],
   "specialCases": {
     "claude-sonnet-5_pricing_policy": "Claude Sonnet 5 uses one permanent standard PriceRecord; the canceled 2026-09-01 increase is retained only in historical evidence.",
@@ -66,11 +66,16 @@
     "unresolvedIdentityCount": "count(candidate-disposition-map.json where disposition == 'unresolved'); unresolved identities remain normalized canonical identities."
   },
   "unresolvedIdentities": [
+    "google-gemini/gemini-2.5-flash-image",
     "openai/gpt-4.1",
     "openai/gpt-4.1-mini",
     "openai/gpt-4.1-nano"
   ],
   "verificationConflicts": [
+    {
+      "internalId": "google-gemini/gemini-2.5-flash-image",
+      "resolution": "review_required; no safe default calculation price"
+    },
     {
       "internalId": "openai/gpt-4.1",
       "resolution": "review_required; no safe default calculation price"
@@ -888,6 +893,18 @@
       },
       {
         "classification": "expected_difference",
+        "internalId": "anthropic/claude-haiku-5-5",
+        "modelId": "claude-haiku-5-5",
+        "oldWebsiteValue": null,
+        "reason": "Canonical-only multi-record contract is exposed through the rich Website projection.",
+        "v2PreviewValue": {
+          "cachedInputPrice": 0.01,
+          "inputPrice": 0.1,
+          "outputPrice": 0.5
+        }
+      },
+      {
+        "classification": "expected_difference",
         "internalId": "openai/gpt-6-astra",
         "modelId": "gpt-6-astra",
         "oldWebsiteValue": null,
@@ -987,6 +1004,10 @@
       {
         "internalId": "google-gemini/gemini-2.5-flash",
         "reason": "canonical V2 projection has richer condition/source metadata"
+      },
+      {
+        "internalId": "anthropic/claude-haiku-5-5",
+        "reason": "Canonical-only multi-record contract is exposed through the rich Website projection."
       },
       {
         "internalId": "openai/gpt-6-astra",

@@ -2,14 +2,14 @@
   "dataset_name": "AICostBudget AI API Pricing Dataset",
   "dataset_version": "1.0.0",
   "description": "Open, machine-readable pricing data for LLM and AI APIs.",
-  "generated_at": "2026-10-09T09:11:24Z",
+  "generated_at": "2026-10-09T13:15:36Z",
   "homepage": "https://aicostbudget.com",
-  "last_verified_at": "2026-10-09T08:59:30Z",
+  "last_verified_at": "2026-10-09T12:36:29Z",
   "licenses": {
     "code": "MIT",
     "data": "CC BY 4.0"
   },
-  "model_count": 85,
+  "model_count": 88,
   "models": [
     {
       "access_checked_at": "2026-10-07T04:26:40Z",
@@ -290,6 +290,340 @@
         "url": "https://platform.claude.com/docs/en/models/haiku-4-5/overview"
       },
       "released_at": "2025-10-15",
+      "status": "active"
+    },
+    {
+      "access_checked_at": "2026-10-09T12:36:29Z",
+      "access_evidence": [
+        {
+          "claim_type": "official_access_public",
+          "official_model_id": "claude-haiku-5-5",
+          "scope": "Official exact API model ID available publicly.",
+          "title": "Claude Haiku 5.5 API availability",
+          "url": "https://platform.claude.com/docs/en/models/haiku-5-5/overview"
+        }
+      ],
+      "access_status": "public",
+      "accessed_at": "2026-10-09T12:36:29Z",
+      "binding_evidence": [
+        {
+          "claim_type": "official_identity_binding",
+          "official_model_id": "claude-haiku-5-5",
+          "reason": "Exact official API identifier.",
+          "title": "Claude Haiku 5.5 identity",
+          "url": "https://platform.claude.com/docs/en/models/haiku-5-5/overview"
+        }
+      ],
+      "binding_status": "approved",
+      "context_window_tokens": 1000000,
+      "display_name": "Claude Haiku 5.5",
+      "effective_from": "2026-10-07",
+      "input_modality": "text",
+      "last_verified_at": "2026-10-09T12:36:29Z",
+      "max_output_tokens": 128000,
+      "model_family": "Claude Haiku 5.5",
+      "model_id": "claude-haiku-5-5",
+      "notes": "Active (latest), released 2026-10-07; max output 128000 tokens. Prompt <=100000 uses short prices; >100000 uses long prices for the whole request. All input tokens including cache reads and writes count toward the threshold. Batch input/output use published 50% discount; no Batch cache components asserted.",
+      "official_source_url": "https://platform.claude.com/docs/en/models/haiku-5-5/overview",
+      "official_source_urls": [
+        "https://platform.claude.com/docs/en/models/haiku-5-5/overview",
+        "https://www.anthropic.com/claude-haiku-5-5",
+        "https://platform.claude.com/docs/en/about-claude/pricing",
+        "https://platform.claude.com/docs/en/build-with-claude/prompt-caching"
+      ],
+      "output_modality": "text",
+      "price_records": [
+        {
+          "billing_note": "Active (latest), released 2026-10-07; max output 128000 tokens. Prompt <=100000 uses short prices; >100000 uses long prices for the whole request. All input tokens including cache reads and writes count toward the threshold. Batch input/output use published 50% discount; no Batch cache components asserted.",
+          "calculation_default": true,
+          "charges": [
+            {
+              "amount": "0.1",
+              "component": "input",
+              "id": "price:anthropic/claude-haiku-5-5:standard:short:current:input:text:per_1m_tokens",
+              "modality": "text",
+              "unit": "per_1m_tokens"
+            },
+            {
+              "amount": "0.01",
+              "component": "cache_read",
+              "id": "price:anthropic/claude-haiku-5-5:standard:short:current:cache_read:text:per_1m_tokens",
+              "modality": "text",
+              "unit": "per_1m_tokens"
+            },
+            {
+              "amount": "0.125",
+              "component": "cache_write_5m",
+              "id": "price:anthropic/claude-haiku-5-5:standard:short:current:cache_write_5m:text:per_1m_tokens",
+              "modality": "text",
+              "unit": "per_1m_tokens"
+            },
+            {
+              "amount": "0.2",
+              "component": "cache_write_1h",
+              "id": "price:anthropic/claude-haiku-5-5:standard:short:current:cache_write_1h:text:per_1m_tokens",
+              "modality": "text",
+              "unit": "per_1m_tokens"
+            },
+            {
+              "amount": "0.5",
+              "component": "output",
+              "id": "price:anthropic/claude-haiku-5-5:standard:short:current:output:text:per_1m_tokens",
+              "modality": "text",
+              "unit": "per_1m_tokens"
+            }
+          ],
+          "checked_at": "2026-10-09T12:36:29Z",
+          "context_class": "short",
+          "currency": "USD",
+          "effective_from": "2026-10-07",
+          "effective_until": null,
+          "id": "price:anthropic/claude-haiku-5-5:standard:short:current",
+          "pricing_status": "current",
+          "processing_mode": "standard",
+          "prompt_token_threshold": 100000,
+          "region_policy": {
+            "availability": {
+              "default": "available",
+              "rules": []
+            },
+            "data_residencies": [
+              "global"
+            ],
+            "endpoint_geographies": [
+              "global"
+            ],
+            "price_adjustments": [],
+            "pricing_geography": "global_base"
+          },
+          "source_refs": [
+            "https://platform.claude.com/docs/en/models/haiku-5-5/overview",
+            "https://www.anthropic.com/claude-haiku-5-5",
+            "https://platform.claude.com/docs/en/about-claude/pricing",
+            "https://platform.claude.com/docs/en/build-with-claude/prompt-caching"
+          ],
+          "tier_selection": {
+            "cached_prompt_tokens_included": true,
+            "comparison": "less_than_or_equal",
+            "token_basis": "total_prompt_tokens",
+            "whole_request_pricing": true
+          },
+          "verification_status": "verified",
+          "verified_at": "2026-10-09T12:36:29Z"
+        },
+        {
+          "billing_note": "Active (latest), released 2026-10-07; max output 128000 tokens. Prompt <=100000 uses short prices; >100000 uses long prices for the whole request. All input tokens including cache reads and writes count toward the threshold. Batch input/output use published 50% discount; no Batch cache components asserted.",
+          "calculation_default": false,
+          "charges": [
+            {
+              "amount": "0.05",
+              "component": "input",
+              "id": "price:anthropic/claude-haiku-5-5:batch:short:current:input:text:per_1m_tokens",
+              "modality": "text",
+              "unit": "per_1m_tokens"
+            },
+            {
+              "amount": "0.25",
+              "component": "output",
+              "id": "price:anthropic/claude-haiku-5-5:batch:short:current:output:text:per_1m_tokens",
+              "modality": "text",
+              "unit": "per_1m_tokens"
+            }
+          ],
+          "checked_at": "2026-10-09T12:36:29Z",
+          "context_class": "short",
+          "currency": "USD",
+          "effective_from": "2026-10-07",
+          "effective_until": null,
+          "id": "price:anthropic/claude-haiku-5-5:batch:short:current",
+          "pricing_status": "current",
+          "processing_mode": "batch",
+          "prompt_token_threshold": 100000,
+          "region_policy": {
+            "availability": {
+              "default": "available",
+              "rules": []
+            },
+            "data_residencies": [
+              "global"
+            ],
+            "endpoint_geographies": [
+              "global"
+            ],
+            "price_adjustments": [],
+            "pricing_geography": "global_base"
+          },
+          "source_refs": [
+            "https://platform.claude.com/docs/en/models/haiku-5-5/overview",
+            "https://www.anthropic.com/claude-haiku-5-5",
+            "https://platform.claude.com/docs/en/about-claude/pricing",
+            "https://platform.claude.com/docs/en/build-with-claude/prompt-caching"
+          ],
+          "tier_selection": {
+            "cached_prompt_tokens_included": true,
+            "comparison": "less_than_or_equal",
+            "token_basis": "total_prompt_tokens",
+            "whole_request_pricing": true
+          },
+          "verification_status": "verified",
+          "verified_at": "2026-10-09T12:36:29Z"
+        },
+        {
+          "billing_note": "Active (latest), released 2026-10-07; max output 128000 tokens. Prompt <=100000 uses short prices; >100000 uses long prices for the whole request. All input tokens including cache reads and writes count toward the threshold. Batch input/output use published 50% discount; no Batch cache components asserted.",
+          "calculation_default": false,
+          "charges": [
+            {
+              "amount": "0.5",
+              "component": "input",
+              "id": "price:anthropic/claude-haiku-5-5:standard:long:current:input:text:per_1m_tokens",
+              "modality": "text",
+              "unit": "per_1m_tokens"
+            },
+            {
+              "amount": "0.05",
+              "component": "cache_read",
+              "id": "price:anthropic/claude-haiku-5-5:standard:long:current:cache_read:text:per_1m_tokens",
+              "modality": "text",
+              "unit": "per_1m_tokens"
+            },
+            {
+              "amount": "0.625",
+              "component": "cache_write_5m",
+              "id": "price:anthropic/claude-haiku-5-5:standard:long:current:cache_write_5m:text:per_1m_tokens",
+              "modality": "text",
+              "unit": "per_1m_tokens"
+            },
+            {
+              "amount": "1",
+              "component": "cache_write_1h",
+              "id": "price:anthropic/claude-haiku-5-5:standard:long:current:cache_write_1h:text:per_1m_tokens",
+              "modality": "text",
+              "unit": "per_1m_tokens"
+            },
+            {
+              "amount": "2.5",
+              "component": "output",
+              "id": "price:anthropic/claude-haiku-5-5:standard:long:current:output:text:per_1m_tokens",
+              "modality": "text",
+              "unit": "per_1m_tokens"
+            }
+          ],
+          "checked_at": "2026-10-09T12:36:29Z",
+          "context_class": "long",
+          "currency": "USD",
+          "effective_from": "2026-10-07",
+          "effective_until": null,
+          "id": "price:anthropic/claude-haiku-5-5:standard:long:current",
+          "pricing_status": "current",
+          "processing_mode": "standard",
+          "prompt_token_threshold": 100000,
+          "region_policy": {
+            "availability": {
+              "default": "available",
+              "rules": []
+            },
+            "data_residencies": [
+              "global"
+            ],
+            "endpoint_geographies": [
+              "global"
+            ],
+            "price_adjustments": [],
+            "pricing_geography": "global_base"
+          },
+          "source_refs": [
+            "https://platform.claude.com/docs/en/models/haiku-5-5/overview",
+            "https://www.anthropic.com/claude-haiku-5-5",
+            "https://platform.claude.com/docs/en/about-claude/pricing",
+            "https://platform.claude.com/docs/en/build-with-claude/prompt-caching"
+          ],
+          "tier_selection": {
+            "cached_prompt_tokens_included": true,
+            "comparison": "greater_than",
+            "token_basis": "total_prompt_tokens",
+            "whole_request_pricing": true
+          },
+          "verification_status": "verified",
+          "verified_at": "2026-10-09T12:36:29Z"
+        },
+        {
+          "billing_note": "Active (latest), released 2026-10-07; max output 128000 tokens. Prompt <=100000 uses short prices; >100000 uses long prices for the whole request. All input tokens including cache reads and writes count toward the threshold. Batch input/output use published 50% discount; no Batch cache components asserted.",
+          "calculation_default": false,
+          "charges": [
+            {
+              "amount": "0.25",
+              "component": "input",
+              "id": "price:anthropic/claude-haiku-5-5:batch:long:current:input:text:per_1m_tokens",
+              "modality": "text",
+              "unit": "per_1m_tokens"
+            },
+            {
+              "amount": "1.25",
+              "component": "output",
+              "id": "price:anthropic/claude-haiku-5-5:batch:long:current:output:text:per_1m_tokens",
+              "modality": "text",
+              "unit": "per_1m_tokens"
+            }
+          ],
+          "checked_at": "2026-10-09T12:36:29Z",
+          "context_class": "long",
+          "currency": "USD",
+          "effective_from": "2026-10-07",
+          "effective_until": null,
+          "id": "price:anthropic/claude-haiku-5-5:batch:long:current",
+          "pricing_status": "current",
+          "processing_mode": "batch",
+          "prompt_token_threshold": 100000,
+          "region_policy": {
+            "availability": {
+              "default": "available",
+              "rules": []
+            },
+            "data_residencies": [
+              "global"
+            ],
+            "endpoint_geographies": [
+              "global"
+            ],
+            "price_adjustments": [],
+            "pricing_geography": "global_base"
+          },
+          "source_refs": [
+            "https://platform.claude.com/docs/en/models/haiku-5-5/overview",
+            "https://www.anthropic.com/claude-haiku-5-5",
+            "https://platform.claude.com/docs/en/about-claude/pricing",
+            "https://platform.claude.com/docs/en/build-with-claude/prompt-caching"
+          ],
+          "tier_selection": {
+            "cached_prompt_tokens_included": true,
+            "comparison": "greater_than",
+            "token_basis": "total_prompt_tokens",
+            "whole_request_pricing": true
+          },
+          "verification_status": "verified",
+          "verified_at": "2026-10-09T12:36:29Z"
+        }
+      ],
+      "pricing": {
+        "batch_input": 0.05,
+        "batch_output": 0.25,
+        "cache_write": 0.125,
+        "cache_write_1h": 0.2,
+        "cached_input": 0.01,
+        "currency": "USD",
+        "input": 0.1,
+        "output": 0.5,
+        "unit": "1M tokens"
+      },
+      "project_context_window": true,
+      "provider_id": "anthropic",
+      "release_evidence": {
+        "source_type": "official_model_docs",
+        "title": "Claude Haiku 5.5 official release",
+        "url": "https://platform.claude.com/docs/en/models/haiku-5-5/overview"
+      },
+      "release_stage": "stable",
+      "released_at": "2026-10-07",
       "status": "active"
     },
     {
@@ -786,7 +1120,7 @@
         }
       ],
       "access_status": "public",
-      "accessed_at": "2026-09-30T03:25:59Z",
+      "accessed_at": "2026-10-09T12:36:29Z",
       "binding_evidence": [
         {
           "claim_type": "official_identity_binding",
@@ -838,24 +1172,30 @@
       ],
       "context_window_tokens": 1000000,
       "display_name": "Claude Sonnet 5.5",
-      "effective_from": "2026-09-28",
+      "effective_from": "2026-10-07",
       "input_modality": "text",
-      "last_verified_at": "2026-09-30T03:25:59Z",
+      "last_verified_at": "2026-10-09T12:36:29Z",
       "model_family": "Claude Sonnet",
       "model_id": "claude-sonnet-5-5",
-      "notes": "Released 2026-09-28 and listed as Active (latest), with retirement not sooner than 2027-09-28. Standard global Claude API pricing is $2 input, $0.20 cache read, $2.50 5-minute cache write, $4 1-hour cache write, and $10 output per 1M tokens. Batch input and output are 50% of Standard. The full 1M context window uses the same token rates. Regional and partner-cloud pricing differences are outside this global-base record.",
+      "notes": "Released 2026-09-28 and listed as Active (latest), with retirement not sooner than 2027-09-28. Standard global Claude API pricing is $2 input, $0.10 cache read, $2.50 5-minute cache write, $4 1-hour cache write, and $10 output per 1M tokens. Batch input and output are 50% of Standard. The full 1M context window uses the same token rates. Regional and partner-cloud pricing differences are outside this global-base record. Cache reads reduced from $0.20 to $0.10 effective 2026-10-07, announced with Haiku 5.5.",
       "official_source_url": "https://platform.claude.com/docs/en/models/sonnet-5-5/overview",
       "official_source_urls": [
         "https://platform.claude.com/docs/en/models/sonnet-5-5/overview",
         "https://www.anthropic.com/claude-sonnet-5-5",
         "https://platform.claude.com/docs/en/about-claude/pricing",
         "https://platform.claude.com/docs/en/build-with-claude/prompt-caching",
-        "https://platform.claude.com/docs/en/about-claude/model-deprecations"
+        "https://platform.claude.com/docs/en/about-claude/model-deprecations",
+        "https://www.anthropic.com/claude-haiku-5-5"
       ],
       "output_modality": "text",
+      "price_change_evidence": {
+        "claim": "Same-model Claude Sonnet 5.5 cache read reduced 50% from $0.20 to $0.10 per million tokens starting October 7, 2026; input, output, cache writes and Batch input/output unchanged.",
+        "effective_from": "2026-10-07",
+        "url": "https://www.anthropic.com/claude-haiku-5-5"
+      },
       "price_records": [
         {
-          "billing_note": "Standard global Claude API token and prompt-cache pricing; the full 1M context window uses the same rates, and 5-minute and 1-hour cache writes are distinct charge semantics.",
+          "billing_note": "Standard global Claude API token and prompt-cache pricing; the full 1M context window uses the same rates, and 5-minute and 1-hour cache writes are distinct charge semantics. Cache read changed on 2026-10-07; other components unchanged.",
           "calculation_default": true,
           "charges": [
             {
@@ -866,7 +1206,7 @@
               "unit": "per_1m_tokens"
             },
             {
-              "amount": "0.2",
+              "amount": "0.1",
               "component": "cache_read",
               "id": "price:anthropic/claude-sonnet-5-5:standard:short:current:cache_read:text:per_1m_tokens",
               "modality": "text",
@@ -894,10 +1234,10 @@
               "unit": "per_1m_tokens"
             }
           ],
-          "checked_at": "2026-09-30T03:25:59Z",
+          "checked_at": "2026-10-09T12:36:29Z",
           "context_class": "short",
           "currency": "USD",
-          "effective_from": "2026-09-28",
+          "effective_from": "2026-10-07",
           "effective_until": null,
           "id": "price:anthropic/claude-sonnet-5-5:standard:short:current",
           "pricing_status": "current",
@@ -919,10 +1259,11 @@
           },
           "source_refs": [
             "https://platform.claude.com/docs/en/models/sonnet-5-5/overview",
-            "https://platform.claude.com/docs/en/about-claude/pricing"
+            "https://platform.claude.com/docs/en/about-claude/pricing",
+            "https://www.anthropic.com/claude-haiku-5-5"
           ],
           "verification_status": "verified",
-          "verified_at": "2026-09-30T03:25:59Z"
+          "verified_at": "2026-10-09T12:36:29Z"
         },
         {
           "billing_note": "Batch API input and output pricing is the published 50% discount from Standard global token rates.",
@@ -979,7 +1320,7 @@
         "batch_output": 5.0,
         "cache_write": 2.5,
         "cache_write_1h": 4.0,
-        "cached_input": 0.2,
+        "cached_input": 0.1,
         "currency": "USD",
         "input": 2.0,
         "output": 10.0,
@@ -2531,20 +2872,38 @@
       "status": "active"
     },
     {
-      "accessed_at": "2026-10-05T02:42:02Z",
+      "accessed_at": "2026-10-09T12:39:41Z",
       "display_name": "Gemini 2.5 Flash Image",
       "effective_from": null,
       "last_verified_at": "2026-10-05T02:42:02Z",
-      "lifecycle": {
-        "replacement_model_id": "gemini-3.1-flash-image-preview",
-        "retirement_date": "2026-10-02"
+      "lifecycle_conflict": {
+        "authority_analysis": "Deprecations tracks earliest possible shutdown schedules, but no official revision or supersession evidence resolves the contradictory Pricing warning. No certain lifecycle or shutdown date normalized.",
+        "observed_at": "2026-10-09T12:39:41Z",
+        "previous_assertion": {
+          "replacement_model_id": "gemini-3.1-flash-image-preview",
+          "retirement_date": "2026-10-02"
+        },
+        "resolution": "unresolved",
+        "sources": [
+          {
+            "replacement_model_id": "gemini-3.1-flash-lite-image",
+            "shutdown_date": "2027-03-15",
+            "url": "https://ai.google.dev/gemini-api/docs/deprecations"
+          },
+          {
+            "replacement_model_id": "gemini-3.1-flash-image / gemini-3.1-flash-lite-image",
+            "shutdown_date": "2026-10-02",
+            "url": "https://ai.google.dev/gemini-api/docs/pricing"
+          }
+        ]
       },
       "model_family": "Gemini 2.5 Flash Image",
       "model_id": "gemini-2.5-flash-image",
-      "notes": "Google lists 2026-10-02 as the shutdown date and recommends gemini-3.1-flash-image-preview. Dataset status retired reflects that past shutdown date; Price is not asserted.",
+      "notes": "SOURCE CONFLICT \u2014 NOT RESOLVED. Deprecations currently lists March 15, 2027 and gemini-3.1-flash-lite-image; Pricing still warns October 2, 2026. Previous retired assertion is retained only as contested evidence. No current price or API availability asserted; excluded from calculator defaults.",
       "official_source_url": "https://ai.google.dev/gemini-api/docs/deprecations",
       "official_source_urls": [
-        "https://ai.google.dev/gemini-api/docs/deprecations"
+        "https://ai.google.dev/gemini-api/docs/deprecations",
+        "https://ai.google.dev/gemini-api/docs/pricing"
       ],
       "pricing": {
         "batch_input": null,
@@ -2558,8 +2917,8 @@
         "unit": null
       },
       "provider_id": "google-gemini",
-      "release_stage": "legacy",
-      "status": "retired"
+      "release_stage": "unknown",
+      "status": "unknown"
     },
     {
       "access_checked_at": "2026-10-07T04:26:40Z",
@@ -5562,6 +5921,211 @@
       "status": "active"
     },
     {
+      "access_checked_at": "2026-10-09T12:36:29Z",
+      "access_evidence": [
+        {
+          "claim_type": "official_access_public",
+          "official_model_id": "gemini-nano-banana-2.1",
+          "scope": "Official exact API model ID available publicly.",
+          "title": "Gemini Nano Banana 2.1 API availability",
+          "url": "https://ai.google.dev/gemini-api/docs/models/gemini-nano-banana-2.1"
+        }
+      ],
+      "access_status": "public",
+      "accessed_at": "2026-10-09T12:36:29Z",
+      "binding_evidence": [
+        {
+          "claim_type": "official_identity_binding",
+          "official_model_id": "gemini-nano-banana-2.1",
+          "reason": "Exact official API identifier.",
+          "title": "Gemini Nano Banana 2.1 identity",
+          "url": "https://ai.google.dev/gemini-api/docs/models/gemini-nano-banana-2.1"
+        }
+      ],
+      "binding_status": "approved",
+      "context_window_tokens": 131072,
+      "display_name": "Gemini Nano Banana 2.1",
+      "effective_from": "2026-10-06",
+      "input_modality": "text",
+      "last_verified_at": "2026-10-09T12:36:29Z",
+      "max_output_tokens": 32768,
+      "model_family": "Gemini Nano Banana 2.1",
+      "model_id": "gemini-nano-banana-2.1",
+      "notes": "Stable, released 2026-10-06. Inputs: text, image, video, PDF; outputs: text and image. Max output 32768 tokens. Batch supported; caching, Flex and Priority unsupported. V1 output is text/thinking compatibility only; image output has a distinct structured price. Grounding fees are outside this token contract.",
+      "official_source_url": "https://ai.google.dev/gemini-api/docs/models/gemini-nano-banana-2.1",
+      "official_source_urls": [
+        "https://ai.google.dev/gemini-api/docs/models/gemini-nano-banana-2.1",
+        "https://ai.google.dev/gemini-api/docs/pricing",
+        "https://ai.google.dev/gemini-api/docs/deprecations"
+      ],
+      "output_modality": "text",
+      "price_records": [
+        {
+          "billing_note": "Stable, released 2026-10-06. Inputs: text, image, video, PDF; outputs: text and image. Max output 32768 tokens. Batch supported; caching, Flex and Priority unsupported. V1 output is text/thinking compatibility only; image output has a distinct structured price. Grounding fees are outside this token contract.",
+          "calculation_default": true,
+          "charges": [
+            {
+              "amount": "1.5",
+              "component": "input",
+              "id": "price:google-gemini/gemini-nano-banana-2.1:standard:short:current:input:text:per_1m_tokens",
+              "modality": "text",
+              "unit": "per_1m_tokens"
+            },
+            {
+              "amount": "1.5",
+              "component": "input",
+              "id": "price:google-gemini/gemini-nano-banana-2.1:standard:short:current:input:image:per_1m_tokens",
+              "modality": "image",
+              "unit": "per_1m_tokens"
+            },
+            {
+              "amount": "1.5",
+              "component": "input",
+              "id": "price:google-gemini/gemini-nano-banana-2.1:standard:short:current:input:video:per_1m_tokens",
+              "modality": "video",
+              "unit": "per_1m_tokens"
+            },
+            {
+              "amount": "7.5",
+              "component": "output",
+              "id": "price:google-gemini/gemini-nano-banana-2.1:standard:short:current:output:text:per_1m_tokens",
+              "modality": "text",
+              "unit": "per_1m_tokens"
+            },
+            {
+              "amount": "30",
+              "component": "output",
+              "id": "price:google-gemini/gemini-nano-banana-2.1:standard:short:current:output:image:per_1m_tokens",
+              "modality": "image",
+              "unit": "per_1m_tokens"
+            }
+          ],
+          "checked_at": "2026-10-09T12:36:29Z",
+          "context_class": "short",
+          "currency": "USD",
+          "effective_from": "2026-10-06",
+          "effective_until": null,
+          "id": "price:google-gemini/gemini-nano-banana-2.1:standard:short:current",
+          "pricing_status": "current",
+          "processing_mode": "standard",
+          "prompt_token_threshold": null,
+          "region_policy": {
+            "availability": {
+              "default": "available",
+              "rules": []
+            },
+            "data_residencies": [
+              "global"
+            ],
+            "endpoint_geographies": [
+              "global"
+            ],
+            "price_adjustments": [],
+            "pricing_geography": "global_base"
+          },
+          "source_refs": [
+            "https://ai.google.dev/gemini-api/docs/models/gemini-nano-banana-2.1",
+            "https://ai.google.dev/gemini-api/docs/pricing",
+            "https://ai.google.dev/gemini-api/docs/deprecations"
+          ],
+          "verification_status": "verified",
+          "verified_at": "2026-10-09T12:36:29Z"
+        },
+        {
+          "billing_note": "Stable, released 2026-10-06. Inputs: text, image, video, PDF; outputs: text and image. Max output 32768 tokens. Batch supported; caching, Flex and Priority unsupported. V1 output is text/thinking compatibility only; image output has a distinct structured price. Grounding fees are outside this token contract.",
+          "calculation_default": false,
+          "charges": [
+            {
+              "amount": "0.75",
+              "component": "input",
+              "id": "price:google-gemini/gemini-nano-banana-2.1:batch:short:current:input:text:per_1m_tokens",
+              "modality": "text",
+              "unit": "per_1m_tokens"
+            },
+            {
+              "amount": "0.75",
+              "component": "input",
+              "id": "price:google-gemini/gemini-nano-banana-2.1:batch:short:current:input:image:per_1m_tokens",
+              "modality": "image",
+              "unit": "per_1m_tokens"
+            },
+            {
+              "amount": "0.75",
+              "component": "input",
+              "id": "price:google-gemini/gemini-nano-banana-2.1:batch:short:current:input:video:per_1m_tokens",
+              "modality": "video",
+              "unit": "per_1m_tokens"
+            },
+            {
+              "amount": "3.75",
+              "component": "output",
+              "id": "price:google-gemini/gemini-nano-banana-2.1:batch:short:current:output:text:per_1m_tokens",
+              "modality": "text",
+              "unit": "per_1m_tokens"
+            },
+            {
+              "amount": "15",
+              "component": "output",
+              "id": "price:google-gemini/gemini-nano-banana-2.1:batch:short:current:output:image:per_1m_tokens",
+              "modality": "image",
+              "unit": "per_1m_tokens"
+            }
+          ],
+          "checked_at": "2026-10-09T12:36:29Z",
+          "context_class": "short",
+          "currency": "USD",
+          "effective_from": "2026-10-06",
+          "effective_until": null,
+          "id": "price:google-gemini/gemini-nano-banana-2.1:batch:short:current",
+          "pricing_status": "current",
+          "processing_mode": "batch",
+          "prompt_token_threshold": null,
+          "region_policy": {
+            "availability": {
+              "default": "available",
+              "rules": []
+            },
+            "data_residencies": [
+              "global"
+            ],
+            "endpoint_geographies": [
+              "global"
+            ],
+            "price_adjustments": [],
+            "pricing_geography": "global_base"
+          },
+          "source_refs": [
+            "https://ai.google.dev/gemini-api/docs/models/gemini-nano-banana-2.1",
+            "https://ai.google.dev/gemini-api/docs/pricing",
+            "https://ai.google.dev/gemini-api/docs/deprecations"
+          ],
+          "verification_status": "verified",
+          "verified_at": "2026-10-09T12:36:29Z"
+        }
+      ],
+      "pricing": {
+        "batch_input": 0.75,
+        "batch_output": 3.75,
+        "cache_write": null,
+        "cache_write_1h": null,
+        "cached_input": null,
+        "currency": "USD",
+        "input": 1.5,
+        "output": 7.5,
+        "unit": "1M tokens"
+      },
+      "project_context_window": true,
+      "provider_id": "google-gemini",
+      "release_evidence": {
+        "source_type": "official_model_docs",
+        "title": "Gemini Nano Banana 2.1 official release",
+        "url": "https://ai.google.dev/gemini-api/docs/deprecations"
+      },
+      "release_stage": "stable",
+      "released_at": "2026-10-06",
+      "status": "active"
+    },
+    {
       "access_checked_at": "2026-10-07T04:26:40Z",
       "access_evidence": [
         {
@@ -6442,6 +7006,153 @@
       },
       "provider_id": "mistral-ai",
       "status": "active"
+    },
+    {
+      "access_checked_at": "2026-10-09T12:36:29Z",
+      "access_evidence": [
+        {
+          "claim_type": "official_access_public",
+          "official_model_id": "mistral-large-4",
+          "scope": "Official exact API model ID available publicly.",
+          "title": "Mistral Large 4 API availability",
+          "url": "https://docs.mistral.ai/models/mistral-large-4-0"
+        }
+      ],
+      "access_status": "public",
+      "accessed_at": "2026-10-09T12:36:29Z",
+      "binding_evidence": [
+        {
+          "claim_type": "official_identity_binding",
+          "official_model_id": "mistral-large-4",
+          "reason": "Exact official API identifier.",
+          "title": "Mistral Large 4 identity",
+          "url": "https://docs.mistral.ai/models/mistral-large-4-0"
+        }
+      ],
+      "binding_status": "approved",
+      "context_window_tokens": 1000000,
+      "display_name": "Mistral Large 4",
+      "effective_from": "2026-10-06",
+      "input_modality": "text",
+      "last_verified_at": "2026-10-09T12:36:29Z",
+      "model_family": "Mistral Large 4",
+      "model_id": "mistral-large-4",
+      "notes": "Public Preview. Launch pricing: 50% off for 2 weeks. Standard list prices retained separately. No official absolute promotion end date asserted; current launch quote is verified as of 2026-10-09T12:36:29Z. Open weights coming soon, not currently asserted as downloadable. No predecessor/successor relationship asserted.",
+      "official_source_url": "https://docs.mistral.ai/models/mistral-large-4-0",
+      "official_source_urls": [
+        "https://docs.mistral.ai/models/mistral-large-4-0",
+        "https://docs.mistral.ai/resources/changelogs",
+        "https://mistral.ai/news/mistral-large-4/"
+      ],
+      "output_modality": "text",
+      "price_records": [
+        {
+          "billing_note": "Public Preview. Launch pricing: 50% off for 2 weeks. Standard list prices retained separately. No official absolute promotion end date asserted; current launch quote is verified as of 2026-10-09T12:36:29Z. Open weights coming soon, not currently asserted as downloadable. No predecessor/successor relationship asserted.",
+          "calculation_default": true,
+          "charges": [
+            {
+              "amount": "0.68",
+              "component": "input",
+              "id": "price:mistral-ai/mistral-large-4:standard:short:current:input:text:per_1m_tokens",
+              "modality": "text",
+              "unit": "per_1m_tokens"
+            },
+            {
+              "amount": "0.07",
+              "component": "cached_input",
+              "id": "price:mistral-ai/mistral-large-4:standard:short:current:cached_input:text:per_1m_tokens",
+              "modality": "text",
+              "unit": "per_1m_tokens"
+            },
+            {
+              "amount": "2.09",
+              "component": "output",
+              "id": "price:mistral-ai/mistral-large-4:standard:short:current:output:text:per_1m_tokens",
+              "modality": "text",
+              "unit": "per_1m_tokens"
+            }
+          ],
+          "checked_at": "2026-10-09T12:36:29Z",
+          "context_class": "short",
+          "currency": "USD",
+          "effective_from": "2026-10-06",
+          "effective_until": null,
+          "id": "price:mistral-ai/mistral-large-4:standard:short:current",
+          "pricing_status": "current",
+          "processing_mode": "standard",
+          "promotion": {
+            "discount_percent": 50,
+            "duration_text": "2 weeks",
+            "label": "Launch pricing",
+            "list_charges": [
+              {
+                "amount": "1.36",
+                "component": "input",
+                "id": "price:mistral-ai/mistral-large-4:standard:short:current:input:text:per_1m_tokens",
+                "modality": "text",
+                "unit": "per_1m_tokens"
+              },
+              {
+                "amount": "0.14",
+                "component": "cached_input",
+                "id": "price:mistral-ai/mistral-large-4:standard:short:current:cached_input:text:per_1m_tokens",
+                "modality": "text",
+                "unit": "per_1m_tokens"
+              },
+              {
+                "amount": "4.18",
+                "component": "output",
+                "id": "price:mistral-ai/mistral-large-4:standard:short:current:output:text:per_1m_tokens",
+                "modality": "text",
+                "unit": "per_1m_tokens"
+              }
+            ]
+          },
+          "prompt_token_threshold": null,
+          "region_policy": {
+            "availability": {
+              "default": "available",
+              "rules": []
+            },
+            "data_residencies": [
+              "global"
+            ],
+            "endpoint_geographies": [
+              "global"
+            ],
+            "price_adjustments": [],
+            "pricing_geography": "global_base"
+          },
+          "source_refs": [
+            "https://docs.mistral.ai/models/mistral-large-4-0",
+            "https://docs.mistral.ai/resources/changelogs",
+            "https://mistral.ai/news/mistral-large-4/"
+          ],
+          "verification_status": "verified",
+          "verified_at": "2026-10-09T12:36:29Z"
+        }
+      ],
+      "pricing": {
+        "batch_input": null,
+        "batch_output": null,
+        "cache_write": null,
+        "cache_write_1h": null,
+        "cached_input": 0.07,
+        "currency": "USD",
+        "input": 0.68,
+        "output": 2.09,
+        "unit": "1M tokens"
+      },
+      "project_context_window": true,
+      "provider_id": "mistral-ai",
+      "release_evidence": {
+        "source_type": "official_model_docs",
+        "title": "Mistral Large 4 official release",
+        "url": "https://docs.mistral.ai/models/mistral-large-4-0"
+      },
+      "release_stage": "preview",
+      "released_at": "2026-10-06",
+      "status": "preview"
     },
     {
       "access_checked_at": "2026-10-07T04:26:40Z",
@@ -16939,9 +17650,10 @@
       "status": "active"
     }
   ],
-  "official_source_count": 41,
+  "official_source_count": 44,
   "official_sources": [
     "https://ai.google.dev/gemini-api/docs/deprecations",
+    "https://ai.google.dev/gemini-api/docs/models/gemini-nano-banana-2.1",
     "https://ai.google.dev/gemini-api/docs/pricing",
     "https://api-docs.deepseek.com/quick_start/pricing",
     "https://aws.amazon.com/textract/pricing/",
@@ -16965,6 +17677,7 @@
     "https://docs.anthropic.com/en/docs/about-claude/pricing",
     "https://docs.cohere.com/docs/command-a-plus",
     "https://docs.mistral.ai/inference/pricing",
+    "https://docs.mistral.ai/models/mistral-large-4-0",
     "https://docs.x.ai/developers/models/grok-4.20-0309-non-reasoning",
     "https://docs.x.ai/developers/models/grok-4.20-0309-reasoning",
     "https://docs.x.ai/developers/models/grok-4.20-multi-agent-0309",
@@ -16976,6 +17689,7 @@
     "https://docs.x.ai/developers/pricing",
     "https://docs.x.ai/developers/release-notes",
     "https://platform.claude.com/docs/en/about-claude/pricing",
+    "https://platform.claude.com/docs/en/models/haiku-5-5/overview",
     "https://platform.claude.com/docs/en/models/opus-5-5/overview",
     "https://platform.claude.com/docs/en/models/sonnet-5-5/overview",
     "https://platform.kimi.ai/docs/pricing/chat-k26",

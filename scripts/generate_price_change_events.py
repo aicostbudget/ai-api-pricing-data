@@ -126,9 +126,18 @@ def normalized_component_amount(value: Any, field: str) -> str:
 
 
 def component_price_changes(before_model: dict[str, Any], after_model: dict[str, Any], label: str) -> list[dict[str, Any]]:
+    comparable_record_ids = ({r["id"] for r in before_model.get("price_records", [])} & {r["id"] for r in after_model.get("price_records", [])}) if after_model.get("price_change_evidence") else set()
     def indexed(model: dict[str, Any], side: str) -> dict[tuple[str, str], dict[str, Any]]:
         result = {}
-        for index, component in enumerate(model.get("pricing_components", [])):
+        components = list(model.get("pricing_components", []))
+        for record in model.get("price_records", []):
+            if record["id"] not in comparable_record_ids:
+                continue
+            for charge in record["charges"]:
+                components.append({"pricing_id": record["id"], "charge_id": charge["id"],
+                    "component": charge["component"], "amount": charge["amount"],
+                    "condition": {"processing_mode": record["processing_mode"], "context_class": record["context_class"], "modality": charge["modality"], "unit": charge["unit"]}})
+        for index, component in enumerate(components):
             key = (component.get("pricing_id"), component.get("charge_id"))
             if not all(key):
                 fail(
@@ -602,7 +611,7 @@ def redirect_billing_schedule_event(
     return event
 
 
-def generate_events(before: Path, after: Path, provider_id: str | None = None) -> list[dict[str, Any]]:
+def generate_events(before: Path, after: Path, provider_id: str | None = None, model_ids: set[str] | None = None) -> list[dict[str, Any]]:
     all_before_models = load_snapshot(before)
     all_after_models = load_snapshot(after)
     before_models = all_before_models
@@ -610,6 +619,9 @@ def generate_events(before: Path, after: Path, provider_id: str | None = None) -
     if provider_id:
         before_models = {key: value for key, value in before_models.items() if key[0] == provider_id}
         after_models = {key: value for key, value in after_models.items() if key[0] == provider_id}
+    if model_ids is not None:
+        before_models = {key: value for key, value in before_models.items() if key[1] in model_ids}
+        after_models = {key: value for key, value in after_models.items() if key[1] in model_ids}
     detected_at = snapshot_date(after)
     before_rel = repo_relative(before)
     after_rel = repo_relative(after)
@@ -617,6 +629,8 @@ def generate_events(before: Path, after: Path, provider_id: str | None = None) -
 
     for key in sorted(set(after_models) - set(before_models)):
         after_model = after_models[key]
+        if after_model.get("lifecycle_conflict"):
+            continue
         lifecycle = after_model.get("lifecycle") or {}
         lifecycle_date = (
             lifecycle.get("retirement_date") if after_model.get("status") == "retired"
@@ -630,6 +644,8 @@ def generate_events(before: Path, after: Path, provider_id: str | None = None) -
             )
 
     for mapping in load_successor_transitions():
+        if model_ids is not None and mapping["successor_model_id"] not in model_ids:
+            continue
         if provider_id and mapping["provider_id"] != provider_id:
             continue
         transition_event = successor_transition_event(
@@ -641,7 +657,7 @@ def generate_events(before: Path, after: Path, provider_id: str | None = None) -
     for key in sorted(set(before_models) & set(after_models)):
         before_model = before_models[key]
         after_model = after_models[key]
-        lifecycle_changed = (
+        lifecycle_changed = not after_model.get("lifecycle_conflict") and (
             before_model.get("status") != after_model.get("status")
             or before_model.get("lifecycle") != after_model.get("lifecycle")
         )
@@ -651,7 +667,7 @@ def generate_events(before: Path, after: Path, provider_id: str | None = None) -
         new_prices = normalize_prices(after_pricing, f"{key[0]}/{key[1]} new")
         component_changes = (
             []
-            if before_model.get("pricing_components", []) == after_model.get("pricing_components", [])
+            if before_model.get("pricing_components", []) == after_model.get("pricing_components", []) and before_model.get("price_records", []) == after_model.get("price_records", [])
             else component_price_changes(before_model, after_model, f"{key[0]}/{key[1]}")
         )
         old_time_pricing = before_model.get("time_pricing")
@@ -708,6 +724,12 @@ def generate_events(before: Path, after: Path, provider_id: str | None = None) -
         }
         if component_changes:
             event["component_changes"] = component_changes
+            if after_model.get("price_change_evidence"):
+                evidence = after_model["price_change_evidence"]
+                event["effective_from"] = evidence["effective_from"]
+                event["announcement_url"] = evidence["url"]
+                event["date_basis"] = "provider_announced"
+                event["notes"] = evidence["claim"]
         if temporal_changed:
             event["old_time_pricing"] = deepcopy(old_time_pricing)
             event["new_time_pricing"] = deepcopy(new_time_pricing)
@@ -1041,11 +1063,12 @@ def main() -> None:
     parser.add_argument("--after", required=True, type=Path, help="After snapshot prices.json path.")
     parser.add_argument("--output", type=Path, default=EVENTS_PATH, help="Output JSONL path.")
     parser.add_argument("--provider", help="Limit event generation to one provider_id.")
+    parser.add_argument("--model", action="append", help="Limit generation to exact model IDs; snapshot and event validations remain required.")
     parser.add_argument("--dry-run", action="store_true", help="Print generated events without writing.")
     args = parser.parse_args()
 
     ensure_source_snapshots_tracked(args.before, args.after)
-    generated = generate_events(args.before, args.after, provider_id=args.provider)
+    generated = generate_events(args.before, args.after, provider_id=args.provider, model_ids=set(args.model) if args.model else None)
     if args.dry_run:
         for event in generated:
             print(json.dumps(event, sort_keys=True))

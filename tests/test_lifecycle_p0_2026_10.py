@@ -37,6 +37,12 @@ class OctoberLifecycleTests(unittest.TestCase):
         for key, (status, date, replacement, redirect) in TARGETS.items():
             with self.subTest(key=key):
                 model = self.current[key]
+                if model.get("lifecycle_conflict"):
+                    self.assertEqual(model["status"], "unknown")
+                    self.assertNotIn("lifecycle", model)
+                    self.assertEqual(model["lifecycle_conflict"]["resolution"], "unresolved")
+                    self.assertEqual({s["shutdown_date"] for s in model["lifecycle_conflict"]["sources"]}, {"2026-10-02", "2027-03-15"})
+                    continue
                 lifecycle = model["lifecycle"]
                 self.assertEqual(model["status"], status)
                 self.assertEqual(lifecycle.get("replacement_model_id"), replacement)
@@ -61,9 +67,13 @@ class OctoberLifecycleTests(unittest.TestCase):
             after.write_text(json.dumps({"models": after_models}), encoding="utf-8")
             events = generate_events(before, after)
         by_key = {(event["provider_id"], event["model_id"]): event for event in events}
-        self.assertEqual(set(by_key), set(TARGETS))
+        conflicted = {key for key in TARGETS if self.current[key].get("lifecycle_conflict")}
+        self.assertEqual(set(by_key), set(TARGETS) - conflicted)
+        self.assertTrue(conflicted.isdisjoint(by_key))
         for key, (status, date, replacement, redirect) in TARGETS.items():
             with self.subTest(key=key):
+                if key in conflicted:
+                    continue
                 event = by_key[key]
                 self.assertEqual(event["change_type"], "lifecycle_update")
                 self.assertEqual(event["effective_from"], date)

@@ -42,7 +42,7 @@ class HuggingFaceExportTests(unittest.TestCase):
 
     def test_export_artifacts_are_internally_consistent(self):
         validate_huggingface_artifacts()
-        self.assertEqual(self.metadata["schema_version"], "1.8.0")
+        self.assertEqual(self.metadata["schema_version"], "1.10.0")
         self.assertEqual(self.metadata["last_verified_at"], self.metadata["last_updated"])
 
     def test_viewer_projection_preserves_rows_identities_providers_and_values(self):
@@ -365,11 +365,11 @@ class HuggingFaceExportTests(unittest.TestCase):
                          {"short": "75", "long": "150"})
         self.assertEqual(
             cache_write_count - phase_b_cache_write_count,
-            45 + len(expected_new_writes) + len(kimi_writes) + len(sonnet_55_writes) + len(ultrafast_writes),
+            45 + 4 + len(expected_new_writes) + len(kimi_writes) + len(sonnet_55_writes) + len(ultrafast_writes),
         )
         self.assertEqual(
             cache_write_count,
-            45 + len(expected_new_writes) + len(kimi_writes) + len(sonnet_55_writes) + phase_b_cache_write_count + len(ultrafast_writes),
+            45 + 4 + len(expected_new_writes) + len(kimi_writes) + len(sonnet_55_writes) + phase_b_cache_write_count + len(ultrafast_writes),
         )
         self.assertTrue(any(not record["pricing_components"] for record in self.records))
 
