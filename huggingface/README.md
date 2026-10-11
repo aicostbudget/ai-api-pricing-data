@@ -40,6 +40,14 @@ Prices change frequently. Verify production billing decisions against the provid
 
 Download `prices.json` or `prices.csv` from the [Hugging Face files](https://huggingface.co/datasets/aicostbudget-ai/ai-api-pricing/tree/main), or use the live dataset's [public JSON](https://aicostbudget.com/api/datasets/ai-api-pricing.json) and [public CSV](https://aicostbudget.com/api/datasets/ai-api-pricing.csv) downloads.
 
+## Compare pricing with your workload
+
+You can use the [Model Switch Cost Calculator](https://aicostbudget.com/en/model-switch-cost-calculator) to compare API costs for two models based on your input and output tokens, monthly request volume, and assumed success rates.
+
+It estimates monthly spending, cost per successful task, and the break-even success rate for a model switch.
+
+The results depend on your inputs and assumptions. The tool does not benchmark model quality, measure actual success rates, automate routing, or guarantee savings.
+
 ## Published files
 
 - `train.csv`: a lightweight CSV projection consumed by the Hugging Face Dataset Viewer
