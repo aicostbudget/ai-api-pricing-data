@@ -343,7 +343,10 @@
     "lifecycle": {
       "type": "object",
       "additionalProperties": false,
-      "required": ["retirement_date"],
+      "anyOf": [
+        {"required": ["deprecation_date"]},
+        {"required": ["retirement_date"]}
+      ],
       "properties": {
         "deprecation_date": {"type": "string", "format": "date"},
         "retirement_notice_date": {"type": "string", "format": "date"},

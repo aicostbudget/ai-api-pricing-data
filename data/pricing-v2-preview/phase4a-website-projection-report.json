@@ -1,7 +1,7 @@
 {
   "artifactPath": "data/pricing-v2-preview/generated/model-pricing.v2.json",
-  "defaultSafeModelCount": 63,
-  "generatedAt": "2026-10-09T13:15:36Z",
+  "defaultSafeModelCount": 61,
+  "generatedAt": "2026-10-13T13:24:09Z",
   "governanceClassCounts": {
     "COMPATIBILITY_FALLBACK": 0,
     "EXCLUDED": 8,
@@ -11,12 +11,12 @@
     "VERIFIED_CANONICAL": 71,
     "VERIFIED_PROJECTION": 5
   },
-  "nullPriceCount": 37,
+  "nullPriceCount": 39,
   "parity": {
     "counts": {
-      "exact_parity": 37,
+      "exact_parity": 35,
       "expected_difference": 2,
-      "unsafe_difference": 11
+      "unsafe_difference": 13
     },
     "details": [
       {
@@ -320,14 +320,14 @@
         }
       },
       {
-        "classification": "exact_parity",
+        "classification": "unsafe_difference",
         "modelId": "gemini-3.5-flash",
         "projection": {
-          "cachedInputPrice": 0.15,
-          "inputPrice": 1.5,
-          "outputPrice": 9
+          "cachedInputPrice": null,
+          "inputPrice": null,
+          "outputPrice": null
         },
-        "reason": "Legacy Website values match current projection values.",
+        "reason": "Projection blocks this row from default calculations.",
         "website": {
           "cachedInputPrice": 0.15,
           "inputPrice": 1.5,
@@ -365,14 +365,14 @@
         }
       },
       {
-        "classification": "exact_parity",
+        "classification": "unsafe_difference",
         "modelId": "gemini-3.7-flash",
         "projection": {
-          "cachedInputPrice": 0.075,
-          "inputPrice": 0.75,
-          "outputPrice": 3.75
+          "cachedInputPrice": null,
+          "inputPrice": null,
+          "outputPrice": null
         },
-        "reason": "Legacy Website values match current projection values.",
+        "reason": "Projection blocks this row from default calculations.",
         "website": {
           "cachedInputPrice": 0.075,
           "inputPrice": 0.75,
@@ -777,5 +777,5 @@
   "phase35Readiness": "ready",
   "projectionModelCount": 100,
   "runtimeNetworkDependency": "none",
-  "unsafeIdentityCount": 37
+  "unsafeIdentityCount": 39
 }

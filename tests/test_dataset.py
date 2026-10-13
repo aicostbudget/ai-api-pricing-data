@@ -182,10 +182,18 @@ class DatasetTests(unittest.TestCase):
                 values,
                 internal_id,
             )
-            self.assertEqual(row["status"], "deprecated" if internal_id == "openai/gpt-5.4-nano" else "active", internal_id)
+            deprecated_ids = {
+                "openai/gpt-5.4-nano",
+                "google-gemini/gemini-3.5-flash",
+                "google-gemini/gemini-3.7-flash",
+            }
+            self.assertEqual(row["status"], "deprecated" if internal_id in deprecated_ids else "active", internal_id)
             if internal_id == "openai/gpt-5.4-nano":
                 self.assertEqual(row["accessed_at"], row["last_verified_at"], internal_id)
                 self.assertGreaterEqual(row["last_verified_at"][:10], "2026-10-01", internal_id)
+            elif internal_id.startswith("google-gemini/gemini-3.") and row["status"] == "deprecated":
+                self.assertEqual(row["accessed_at"], expected_verified_at[internal_id], internal_id)
+                self.assertGreaterEqual(row["last_verified_at"][:10], "2026-10-08", internal_id)
             else:
                 self.assertEqual(row["accessed_at"], expected_verified_at[internal_id], internal_id)
                 self.assertEqual(row["last_verified_at"], expected_verified_at[internal_id], internal_id)

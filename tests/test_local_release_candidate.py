@@ -6,8 +6,8 @@ from tests.website_source import resolve_release_website_source
 WEBSITE=resolve_release_website_source(ROOT)
 class LocalCandidateTests(unittest.TestCase):
  def test_local_candidate_integrity_and_repeated_bytes(self):
-  first=bundle.build_contents('WORKTREE',WEBSITE,'WORKTREE','2026-10-09')
-  second=bundle.build_contents('WORKTREE',WEBSITE,'WORKTREE','2026-10-09')
+  first=bundle.build_contents('WORKTREE',WEBSITE,'WORKTREE','2026-10-13')
+  second=bundle.build_contents('WORKTREE',WEBSITE,'WORKTREE','2026-10-13')
   self.assertEqual(first,second)
   manifest=bundle.verify_contents(first)
   self.assertEqual(manifest['source_scope'],'LOCAL_CANDIDATE')
@@ -17,16 +17,16 @@ class LocalCandidateTests(unittest.TestCase):
   self.assertEqual(manifest['projections']['pricing_v2']['records'],len(json.loads((ROOT/'huggingface/prices.json').read_text(encoding='utf-8'))['records']))
  def test_local_candidate_cannot_claim_release_or_mix_committed_input(self):
   with self.assertRaisesRegex(ValueError,'local candidate'):
-   bundle.build_contents('WORKTREE',WEBSITE,'HEAD','2026-10-09')
+    bundle.build_contents('WORKTREE',WEBSITE,'HEAD','2026-10-13')
   with self.assertRaisesRegex(ValueError,'local candidate'):
-   bundle.build_contents('WORKTREE',WEBSITE,'WORKTREE','2026-10-09','vfake','2026-10-09')
+    bundle.build_contents('WORKTREE',WEBSITE,'WORKTREE','2026-10-13','vfake','2026-10-13')
  def test_local_candidate_tampered_source_commit_fails(self):
-  files=bundle.build_contents('WORKTREE',WEBSITE,'WORKTREE','2026-10-09')
+  files=bundle.build_contents('WORKTREE',WEBSITE,'WORKTREE','2026-10-13')
   manifest=json.loads(files['release-manifest.json']);manifest['git_commit']='f'*40
   files['release-manifest.json']=json.dumps(manifest).encode()
   with self.assertRaisesRegex(ValueError,'published source commits'):bundle.verify_contents(files)
  def test_snapshot_timestamp_matches_public_source(self):
   api=json.loads((ROOT/'api/v1/prices.json').read_text(encoding='utf-8'))
-  snapshot=json.loads((ROOT/'data/snapshots/2026-10-09/prices.json').read_text(encoding='utf-8'))
+  snapshot=json.loads((ROOT/'data/snapshots/2026-10-13/prices.json').read_text(encoding='utf-8'))
   self.assertEqual(api,snapshot)
 if __name__=='__main__':unittest.main()

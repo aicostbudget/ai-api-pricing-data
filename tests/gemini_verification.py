@@ -25,6 +25,20 @@ def assert_gemini_facts_and_verification(test_case, before, after):
             test_case.assertTrue(all(record["verification_status"] == "verified" for record in current["price_records"]))
             test_case.assertTrue(all(set(record["source_refs"]) <= set(current["official_source_urls"]) for record in current["price_records"]))
             continue
+        if current["model_id"] in {"gemini-3.5-flash", "gemini-3.7-flash"}:
+            allowed_lifecycle_updates = {
+                "last_verified_at", "accessed_at", "status", "notes", "lifecycle",
+                "official_source_urls", "released_at", "release_evidence", "access_status",
+                "access_evidence", "access_checked_at", "binding_status", "binding_evidence",
+            }
+            test_case.assertEqual(
+                {key: value for key, value in current.items() if key not in allowed_lifecycle_updates},
+                {key: value for key, value in old.items() if key not in allowed_lifecycle_updates},
+            )
+            test_case.assertEqual(current["status"], "deprecated")
+            test_case.assertEqual(current["lifecycle"]["deprecation_date"], "2026-10-08")
+            test_case.assertNotIn("retirement_date", current["lifecycle"])
+            continue
         test_case.assertEqual(
             {key: value for key, value in current.items() if key not in ("last_verified_at", "accessed_at", "released_at", "release_evidence", "access_status", "access_evidence", "access_checked_at", "binding_status", "binding_evidence")},
             {key: value for key, value in old.items() if key not in ("last_verified_at", "accessed_at", "released_at", "release_evidence", "access_status", "access_evidence", "access_checked_at", "binding_status", "binding_evidence")},

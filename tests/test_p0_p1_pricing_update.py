@@ -223,9 +223,13 @@ class P0P1PricingUpdateTests(unittest.TestCase):
         self.assertTrue(gemini_38_projection["defaultSafe"])
 
         gemini_37 = self.canonical_by_id["gemini-3.7-flash"]
-        self.assertEqual(gemini_37["status"], "active")
+        self.assertEqual(gemini_37["status"], "deprecated")
         self.assertEqual(gemini_37["release_stage"], "stable")
-        self.assertNotIn(gemini_37["status"], {"deprecated", "retired", "shutdown", "end_of_life"})
+        self.assertEqual(gemini_37["lifecycle"], {
+            "deprecation_date": "2026-10-08",
+            "replacement_model_id": "gemini-3.8-flash",
+        })
+        self.assertNotIn("retirement_date", gemini_37["lifecycle"])
 
     def test_claude_fable_and_mythos_5_1_pricing_and_lifecycle(self):
         expected_prices = {

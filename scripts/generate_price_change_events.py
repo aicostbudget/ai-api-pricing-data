@@ -230,6 +230,19 @@ def official_announcement_url(model: dict[str, Any]) -> str | None:
     )
 
 
+def lifecycle_source_urls(model: dict[str, Any]) -> tuple[str, str | None]:
+    urls = model.get("official_source_urls") or []
+    primary = next(
+        (url for url in urls if "/deprecations" in url),
+        next((url for url in urls if "/changelog" in url), model["official_source_url"]),
+    )
+    announcement = next(
+        (url for url in urls if "/changelog" in url and url != primary),
+        next((url for url in urls if url != primary and url != model["official_source_url"]), None),
+    )
+    return primary, announcement
+
+
 def load_snapshot(path: Path) -> dict[tuple[str, str], dict[str, Any]]:
     data = json.loads(path.read_text(encoding="utf-8"))
     models = {}
@@ -489,8 +502,14 @@ def lifecycle_event(
 ) -> dict[str, Any]:
     after_pricing = after_model["pricing"]
     effective_from = after_model.get("effective_from")
+    official_source_url = after_model["official_source_url"]
+    announcement_url = next(
+        (url for url in after_model.get("official_source_urls", []) if url != official_source_url),
+        None,
+    )
     if change_type == "lifecycle_update":
         lifecycle = after_model.get("lifecycle") or {}
+        official_source_url, announcement_url = lifecycle_source_urls(after_model)
         effective_from = (
             (lifecycle.get("scheduled_transition") or {}).get("effective_from")
             or (lifecycle.get("retirement_date") if after_model.get("status") == "retired" else None)
@@ -519,11 +538,8 @@ def lifecycle_event(
         "detected_at": detected_at,
         "verified_at": timestamp_to_date(after_model["last_verified_at"], "last_verified_at"),
         "date_basis": "provider_announced" if effective_from else "first_observed",
-        "official_source_url": after_model["official_source_url"],
-        "announcement_url": next(
-            (url for url in after_model.get("official_source_urls", []) if url != after_model["official_source_url"]),
-            None,
-        ),
+        "official_source_url": official_source_url,
+        "announcement_url": announcement_url,
         "source_snapshot_before": before_rel,
         "source_snapshot_after": after_rel,
         "dedupe_key": "",

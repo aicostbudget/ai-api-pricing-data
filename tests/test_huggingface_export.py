@@ -183,7 +183,7 @@ class HuggingFaceExportTests(unittest.TestCase):
                 fallback_count += 1
                 self.assertIn("legacy fallback", record["notes"], key)
                 self.assertNotIn("excluded_default_candidate", projected["blockedFromDefaultReasons"], key)
-        self.assertEqual(fallback_count, 9)
+        self.assertEqual(fallback_count, 11)
         fallback_by_id = {
             record["model_id"]: record
             for record in self.records if "legacy fallback" in (record.get("notes") or "")
@@ -191,6 +191,7 @@ class HuggingFaceExportTests(unittest.TestCase):
         self.assertEqual(set(fallback_by_id), {
             "claude-opus-4.1", "claude-sonnet-4", "deepseek-v4-flash", "gpt-4.1",
             "gpt-4.1-mini", "gpt-4.1-nano", "grok-3", "gpt-5.3-codex", "gpt-5.4-nano",
+            "gemini-3.5-flash", "gemini-3.7-flash",
         })
         self.assertEqual(fallback_by_id["deepseek-v4-flash"]["status"], "retired")
 
@@ -284,13 +285,14 @@ class HuggingFaceExportTests(unittest.TestCase):
             })
             self.assertEqual(len(writes), 2, model_id)
             self.assertTrue(all(item["unit"] == "per_1m_tokens" for item in writes))
-        expected_phase_b_openai_writes = {
-            (processing_mode, context_class)
-            for processing_mode in ("standard", "batch", "flex", "fast")
-            for context_class in ("short", "long")
-        }
         phase_b_cache_write_count = 0
         for model_id in ("gpt-6-sol", "gpt-6-luna", "gpt-6.1-sol"):
+            processing_modes = ("standard", "batch", "flex", "fast", "ultrafast") if model_id == "gpt-6.1-sol" else ("standard", "batch", "flex", "fast")
+            expected_phase_b_openai_writes = {
+                (processing_mode, context_class)
+                for processing_mode in processing_modes
+                for context_class in ("short", "long")
+            }
             record = next(row for row in self.records if row["model_id"] == model_id)
             writes = [
                 item
@@ -308,8 +310,8 @@ class HuggingFaceExportTests(unittest.TestCase):
                 expected_phase_b_openai_writes,
                 model_id,
             )
-            self.assertEqual(len(writes), 8, model_id)
-            self.assertEqual(len({item["charge_id"] for item in writes}), 8, model_id)
+            self.assertEqual(len(writes), len(expected_phase_b_openai_writes), model_id)
+            self.assertEqual(len({item["charge_id"] for item in writes}), len(expected_phase_b_openai_writes), model_id)
             phase_b_cache_write_count += len(writes)
         opus_record = next(
             row for row in self.records if row["model_id"] == "claude-opus-5-5"
@@ -332,7 +334,7 @@ class HuggingFaceExportTests(unittest.TestCase):
             )
         )
         phase_b_cache_write_count += len(opus_writes)
-        self.assertEqual(phase_b_cache_write_count, 26)
+        self.assertEqual(phase_b_cache_write_count, 28)
         kimi_record = next(row for row in self.records if row["model_id"] == "kimi-k3")
         kimi_writes = [
             item
@@ -499,6 +501,7 @@ class HuggingFaceExportTests(unittest.TestCase):
             "https://aicostbudget.com/en/datasets/ai-api-pricing",
             "https://aicostbudget.com/api/datasets/ai-api-pricing.json",
             "https://aicostbudget.com/api/datasets/ai-api-pricing.csv",
+            "https://aicostbudget.com/en/model-switch-cost-calculator",
         })
         self.assertNotIn("utm_", card)
         self.assertNotIn("/en/ai-api-cost-calculator", card)

@@ -668,7 +668,6 @@ class WebsiteProjectionV2Tests(unittest.TestCase):
     def test_new_models_statuses_and_batch_prices_are_projected(self):
         expected = {
             "google-gemini/gemini-3.6-flash": (0.75, 0.075, 3.75, 0.375, 1.875),
-            "google-gemini/gemini-3.7-flash": (0.75, 0.075, 3.75, 0.375, 1.875),
             "google-gemini/gemini-3.5-flash-lite": (0.3, 0.03, 2.5, 0.15, 1.25),
             "xai/grok-4.5": (2, 0.3, 6, None, None),
         }
@@ -689,12 +688,25 @@ class WebsiteProjectionV2Tests(unittest.TestCase):
                 ),
                 prices,
             )
-        for internal_id in (
-            "google-gemini/gemini-3.5-flash",
-            "google-gemini/gemini-3.1-flash-lite",
-            "xai/grok-4.3",
-        ):
+        for internal_id in ("google-gemini/gemini-3.1-flash-lite", "xai/grok-4.3"):
             self.assertEqual(self.by_internal[internal_id]["status"], "active")
+        for internal_id, replacement in (
+            ("google-gemini/gemini-3.5-flash", "google-gemini/gemini-3.6-flash"),
+            ("google-gemini/gemini-3.7-flash", "google-gemini/gemini-3.8-flash"),
+        ):
+            row = self.by_internal[internal_id]
+            self.assertEqual(row["status"], "legacy")
+            self.assertEqual(row["lifecycleStatus"], "deprecated")
+            self.assertFalse(row["defaultSafe"])
+            self.assertEqual(row["blockedFromDefaultReasons"], ["deprecated_identity"])
+            self.assertIsNone(row["selectedPriceRecordId"])
+            self.assertEqual(
+                (row["inputPrice"], row["cachedInputPrice"], row["outputPrice"], row["batchInputPrice"], row["batchOutputPrice"]),
+                (None, None, None, None, None),
+            )
+            self.assertEqual(row["deprecationDate"], "2026-10-08")
+            self.assertIsNone(row["retirementDate"])
+            self.assertEqual(row["replacementInternalId"], replacement)
 
     def test_artifact_paths_and_no_runtime_network_dependency(self):
         self.assertEqual(

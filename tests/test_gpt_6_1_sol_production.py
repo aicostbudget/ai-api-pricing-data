@@ -7,6 +7,7 @@ from pathlib import Path
 
 from scripts.generate_price_change_events import load_events
 from scripts.pricing_contract import (
+    PricingContractError,
     normalize_canonical_price_records,
     project_v1_compatibility,
     select_price_record,
@@ -28,6 +29,8 @@ EXPECTED_MATRIX = {
     ("flex", "long"): ("2", "0.1", "2.5", "7.5"),
     ("fast", "short"): ("4", "0.2", "5", "20"),
     ("fast", "long"): ("8", "0.4", "10", "30"),
+    ("ultrafast", "short"): ("12", "0.6", "15", "60"),
+    ("ultrafast", "long"): ("24", "1.2", "30", "90"),
 }
 COMPONENTS = ("input", "cached_input", "cache_write", "output")
 
@@ -79,6 +82,7 @@ class Gpt61SolProductionTests(unittest.TestCase):
         )
         self.assertIn("https://developers.openai.com/api/docs/pricing", self.model["official_source_urls"])
         self.assertIn("https://developers.openai.com/api/docs/changelog", self.model["official_source_urls"])
+        self.assertIn("https://developers.openai.com/api/docs/guides/ultrafast-mode", self.model["official_source_urls"])
         projected = project_v1_compatibility(self.records)
         projected.pop("batch_cached_input")
         expected = dict(self.model["pricing"])
@@ -86,14 +90,14 @@ class Gpt61SolProductionTests(unittest.TestCase):
         self.assertEqual(projected, expected)
 
     def test_exact_processing_context_matrix_and_tab_trap_prices(self) -> None:
-        self.assertEqual(len(self.records), 8)
+        self.assertEqual(len(self.records), 10)
         self.assertEqual(
             {(row["processing_mode"], row["context_class"]) for row in self.records},
             set(EXPECTED_MATRIX),
         )
         self.assertEqual(sum(row["calculation_default"] for row in self.records), 1)
         charge_ids = [charge["id"] for row in self.records for charge in row["charges"]]
-        self.assertEqual(len(charge_ids), 32)
+        self.assertEqual(len(charge_ids), 40)
         self.assertEqual(len(charge_ids), len(set(charge_ids)))
         for row in self.records:
             key = (row["processing_mode"], row["context_class"])
@@ -113,13 +117,13 @@ class Gpt61SolProductionTests(unittest.TestCase):
             self.assertEqual(row["tier_selection"]["token_basis"], "input_tokens")
             self.assertTrue(row["tier_selection"]["cached_prompt_tokens_included"])
             self.assertTrue(row["tier_selection"]["whole_request_pricing"])
-        for mode in ("standard", "batch", "flex", "fast"):
+        for mode in ("standard", "batch", "flex", "fast", "ultrafast"):
             for token_count, expected_context in ((THRESHOLD, "short"), (THRESHOLD + 1, "long")):
                 selected = select_price_record(
                     self.normalized,
                     processing_mode=mode,
                     prompt_tokens=token_count,
-                    at="2026-09-30",
+                    at="2026-10-08",
                 )
                 self.assertEqual(selected["selectionStatus"], "available")
                 self.assertEqual(selected["contextClass"], expected_context)
@@ -131,7 +135,8 @@ class Gpt61SolProductionTests(unittest.TestCase):
             for mode in ("batch", "flex"):
                 self.assertEqual(indexed[(mode, context)], {key: value * Decimal("0.5") for key, value in standard.items()})
             self.assertEqual(indexed[("fast", context)], {key: value * Decimal("2") for key, value in standard.items()})
-        for mode in ("standard", "batch", "flex", "fast"):
+            self.assertEqual(indexed[("ultrafast", context)], {key: value * Decimal("6") for key, value in standard.items()})
+        for mode in ("standard", "batch", "flex", "fast", "ultrafast"):
             short = indexed[(mode, "short")]
             long = indexed[(mode, "long")]
             for component in ("input", "cached_input", "cache_write"):
@@ -150,14 +155,14 @@ class Gpt61SolProductionTests(unittest.TestCase):
                 self.assertEqual(rules[0]["selector"]["data_residencies"], ["eu"])
             else:
                 self.assertEqual(rules, [])
-        for mode in ("standard", "batch", "flex"):
+        for mode in ("standard", "batch", "flex", "ultrafast"):
             selected = select_price_record(
                 self.normalized,
                 processing_mode=mode,
                 prompt_tokens=THRESHOLD,
                 endpoint_geography="regional",
                 data_residency="eu",
-                at="2026-09-30",
+                at="2026-10-08",
             )
             self.assertEqual(selected["selectionStatus"], "available")
         unavailable = select_price_record(
@@ -166,9 +171,27 @@ class Gpt61SolProductionTests(unittest.TestCase):
             prompt_tokens=THRESHOLD,
             endpoint_geography="regional",
             data_residency="eu",
-            at="2026-09-30",
+            at="2026-10-08",
         )
         self.assertEqual(unavailable["selectionStatus"], "unavailable")
+
+    def test_ultrafast_api_contract_and_fail_closed_lookup(self) -> None:
+        ultra = [row for row in self.records if row["processing_mode"] == "ultrafast"]
+        self.assertEqual(len(ultra), 2)
+        for row in ultra:
+            self.assertEqual(row["effective_from"], "2026-10-08")
+            self.assertFalse(row["calculation_default"])
+            self.assertIn("Responses API", row["billing_note"])
+            self.assertIn('service_tier="ultrafast"', row["billing_note"])
+            self.assertEqual(row["region_policy"]["data_residencies"], ["global", "us", "eu"])
+        missing = select_price_record(
+            [], processing_mode="ultrafast", prompt_tokens=1, at="2026-10-08"
+        )
+        self.assertEqual(missing["selectionStatus"], "unavailable")
+        with self.assertRaises(PricingContractError):
+            select_price_record(
+                self.normalized, processing_mode="unsupported", prompt_tokens=1, at="2026-10-08"
+            )
 
     def test_old_gpt_6_sol_is_unchanged_and_keeps_ten_percent_cache_rate(self) -> None:
         old_standard_short = exactly_one(
@@ -215,8 +238,8 @@ class Gpt61SolProductionTests(unittest.TestCase):
 
     def test_generated_v2_public_api_website_and_hf_contract(self) -> None:
         v2_prices = [row for row in read_json("data/pricing-v2-preview/prices.json") if row["modelInternalId"] == INTERNAL_ID]
-        self.assertEqual(len(v2_prices), 8)
-        self.assertEqual(sum(len(row["charges"]) for row in v2_prices), 32)
+        self.assertEqual(len(v2_prices), 10)
+        self.assertEqual(sum(len(row["charges"]) for row in v2_prices), 40)
         identity = exactly_one(
             read_json("data/pricing-v2-preview/model-identity-registry.json"),
             lambda row: row["internalId"] == INTERNAL_ID,
@@ -241,11 +264,11 @@ class Gpt61SolProductionTests(unittest.TestCase):
         self.assertEqual(website["inputPrice"], 2)
         self.assertEqual(website["cachedInputPrice"], 0.1)
         self.assertEqual(website["outputPrice"], 10)
-        self.assertEqual(len(website["pricingComponents"]), 32)
+        self.assertEqual(len(website["pricingComponents"]), 40)
         modes = {component["condition"]["processingMode"] for component in website["pricingComponents"]}
         contexts = {component["condition"]["contextClass"] for component in website["pricingComponents"]}
         components = {component["component"] for component in website["pricingComponents"]}
-        self.assertEqual(modes, {"standard", "batch", "flex", "fast"})
+        self.assertEqual(modes, {"standard", "batch", "flex", "fast", "ultrafast"})
         self.assertEqual(contexts, {"short", "long"})
         self.assertEqual(components, set(COMPONENTS))
 
@@ -257,7 +280,7 @@ class Gpt61SolProductionTests(unittest.TestCase):
         self.assertEqual(hf["input_price_per_1m_tokens"], 2)
         self.assertEqual(hf["cached_input_price_per_1m_tokens"], 0.1)
         self.assertEqual(hf["output_price_per_1m_tokens"], 10)
-        self.assertEqual(len(hf["pricing_components"]), 32)
+        self.assertEqual(len(hf["pricing_components"]), 40)
 
 
 if __name__ == "__main__":

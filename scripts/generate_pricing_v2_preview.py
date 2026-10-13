@@ -2936,7 +2936,7 @@ def main() -> None:
             ),
             "deprecationDate": (lifecycle or {}).get("deprecation_date"),
             "retirementDate": (
-                lifecycle["retirement_date"]
+                lifecycle.get("retirement_date")
                 if lifecycle
                 else (website or {}).get("retirementDate")
             ),

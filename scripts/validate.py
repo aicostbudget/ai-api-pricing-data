@@ -227,19 +227,26 @@ def validate_models(now: datetime | None = None) -> None:
                 "deprecation_date", "retirement_notice_date", "retirement_date",
                 "replacement_model_id", "scheduled_transition"
             }
-            if set(lifecycle) - allowed_lifecycle or "retirement_date" not in lifecycle:
+            if set(lifecycle) - allowed_lifecycle or not (
+                lifecycle.get("deprecation_date") or lifecycle.get("retirement_date")
+            ):
                 fail(f"invalid lifecycle fields for {item[0]}/{item[1]}")
             notice_value = lifecycle.get("deprecation_date") or lifecycle.get("retirement_notice_date")
             notice_date = date.fromisoformat(notice_value) if notice_value else None
-            retirement_date = date.fromisoformat(lifecycle["retirement_date"])
-            if notice_date and notice_date > retirement_date:
+            retirement_value = lifecycle.get("retirement_date")
+            retirement_date = date.fromisoformat(retirement_value) if retirement_value else None
+            if notice_date and retirement_date and notice_date > retirement_date:
                 fail(f"lifecycle retirement dates do not align for {item[0]}/{item[1]}")
-            if model["status"] == "deprecated" and retirement_date <= now.date():
+            if model["status"] == "deprecated" and retirement_date and retirement_date <= now.date():
                 fail(f"past retirement must not remain deprecated for {item[0]}/{item[1]}")
-            if model["status"] == "retired" and retirement_date > now.date():
+            if model["status"] == "retired" and (
+                retirement_date is None or retirement_date > now.date()
+            ):
                 fail(f"future retirement must not be marked retired for {item[0]}/{item[1]}")
             transition = lifecycle.get("scheduled_transition")
             if transition is not None:
+                if retirement_date is None:
+                    fail(f"scheduled lifecycle transition requires retirement date for {item[0]}/{item[1]}")
                 required_transition = {
                     "kind", "effective_from", "source_slug_remains_resolvable", "redirect_target_model_id",
                     "target_configuration", "billing_source", "billing_model_id", "billing_configuration",
