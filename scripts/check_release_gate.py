@@ -17,6 +17,10 @@ try:
 except ModuleNotFoundError:
     from scripts.review_gate import DATASET_REPO, WEBSITE_REPO, GateError, GitHubReader, exact_sha, require_manual_dispatch
 
+APPROVED_V1_RECORDS = 89
+APPROVED_V2_RECORDS = 87
+APPROVED_ADDITION = ("google-gemini", "gemini-4-argon")
+
 def check_release(context, get, kind):
     if kind not in ("pages", "hf"): raise GateError("Unknown release kind")
     environment = "github-pages" if kind == "pages" else "hf-release-review"
@@ -54,6 +58,19 @@ def assert_bundle_identity(manifest, identity):
     if manifest.get("projections", {}).get("pricing_v2", {}).get("export_schema") != "1.10.0":
         raise GateError("Release public contract must be 1.10.0")
 
+def assert_approved_pricing_universe(manifest, files):
+    if (
+        manifest["projections"]["github_pages_v1"]["records"] != APPROVED_V1_RECORDS
+        or manifest["projections"]["pricing_v2"]["records"] != APPROVED_V2_RECORDS
+    ):
+        raise GateError("Approved pricing universe changed; re-review required")
+    v1 = json.loads(files["github-pages-v1-prices.json"])["models"]
+    v2 = json.loads(files["pricing-v2-prices.json"])["records"]
+    for name, rows in (("GitHub Pages V1", v1), ("Pricing V2/HF", v2)):
+        matches = [row for row in rows if (row.get("provider_id"), row.get("model_id")) == APPROVED_ADDITION]
+        if len(matches) != 1:
+            raise GateError(f"{name} must contain exactly one approved Gemini 4 Argon record")
+
 def assert_clean_checkout(repo, nested_checkout=None, reader=None):
     repo = Path(repo).resolve()
     if reader is None:
@@ -85,8 +102,7 @@ def verify_local(identity, website_repo, release_date, output=None):
     meta=json.loads(pages["api/v1/meta.json"]);snapshot=meta["generated_at"][:10]
     files=bundle.build_contents(identity["artifact_sha"],website_repo,identity["website_sha"],snapshot,identity["release_tag"],release_date)
     manifest=bundle.verify_contents(files);assert_bundle_identity(manifest,identity)
-    if manifest["projections"]["github_pages_v1"]["records"]!=88 or manifest["projections"]["pricing_v2"]["records"]!=86:
-        raise GateError("Approved pricing universe changed; re-review required")
+    assert_approved_pricing_universe(manifest,files)
     if output: bundle.write_bundle(files,output)
     return manifest
 

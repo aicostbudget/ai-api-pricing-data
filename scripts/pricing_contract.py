@@ -974,11 +974,15 @@ def select_price_record(
             continue
         if record.get("promotion") and record.get("effectiveUntil") is None and target_date.isoformat() != (record.get("verifiedAt") or "")[:10]:
             continue  # An observed promotion quote does not prove future or historical coverage.
-        pricing_status = record.get("pricingStatus", "current")
-        if pricing_status != "current" and not (target_date < today and pricing_status == "historical"):
-            continue
         start = _parse_date(record.get("effectiveFrom"), "effectiveFrom") or date.min
         end = _parse_date(record.get("effectiveUntil"), "effectiveUntil") or date.max
+        pricing_status = record.get("pricingStatus", "current")
+        if not (
+            pricing_status == "current"
+            or (pricing_status == "future" and target_date >= start)
+            or (pricing_status == "historical" and target_date < today)
+        ):
+            continue
         if not (start <= target_date <= end):
             continue
         tier = record.get("tierSelection")

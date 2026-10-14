@@ -157,7 +157,7 @@ def source_refs_at_timestamp(
 
 
 def current_effective(price: dict[str, Any], effective_at: datetime) -> bool:
-    if price.get("pricingStatus", "current") != "current":
+    if price.get("pricingStatus", "current") not in {"current", "future"}:
         return False
     if price["effectiveFrom"]:
         start = price["effectiveFrom"]

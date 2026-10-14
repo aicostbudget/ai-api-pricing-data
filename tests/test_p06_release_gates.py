@@ -1,15 +1,25 @@
 import copy
 import json
+import subprocess
 import unittest
 from pathlib import Path
 from unittest.mock import patch
 from scripts.review_gate import DATASET_REPO, GateError, GitHubReader, require_manual_dispatch
-from scripts.check_release_gate import check_release, assert_bundle_identity, verify_production, assert_clean_checkout
+from scripts.check_release_gate import (
+    APPROVED_V1_RECORDS,
+    APPROVED_V2_RECORDS,
+    assert_approved_pricing_universe,
+    check_release,
+    assert_bundle_identity,
+    verify_production,
+    assert_clean_checkout,
+)
 
 ROOT=Path(__file__).resolve().parents[1]
 ARTIFACT="72ce4a1a7475bbd9c2a394aedf864afec073d494"
 SOURCE="80c2ec4991bcaaf795fe9192946f5ec770d57f48"
 WEBSITE="52c0e6f3094feeaf6812e1564aef4818ecdd372c"
+ARGON_BASE="53bfe8e68092d975d6a1c2e159ee5fffe2c3bbb8"
 
 class ReviewFixture:
     """Controlled API fixture using known existing SHAs, never creates commits/tags/reviews."""
@@ -121,6 +131,32 @@ class ReleaseIdentityTests(unittest.TestCase):
         for key,value in [("source_scope","LOCAL_CANDIDATE"),("status","candidate"),("git_commit",None),("release_version","other-tag")]:
             bad={**manifest,key:value}
             with self.assertRaises(GateError):assert_bundle_identity(bad,identity)
+
+class ApprovedPricingUniverseTests(unittest.TestCase):
+    def fixture(self):
+        v1=[{"provider_id":"fixture","model_id":f"v1-{index}"} for index in range(APPROVED_V1_RECORDS-1)]
+        v2=[{"provider_id":"fixture","model_id":f"v2-{index}"} for index in range(APPROVED_V2_RECORDS-1)]
+        argon={"provider_id":"google-gemini","model_id":"gemini-4-argon"}
+        manifest={"projections":{"github_pages_v1":{"records":APPROVED_V1_RECORDS},"pricing_v2":{"records":APPROVED_V2_RECORDS}}}
+        files={"github-pages-v1-prices.json":json.dumps({"models":[*v1,argon]}).encode(),"pricing-v2-prices.json":json.dumps({"records":[*v2,argon]}).encode()}
+        return manifest,files
+    def test_approved_counts_and_argon_identity_pass(self):
+        manifest,files=self.fixture();assert_approved_pricing_universe(manifest,files)
+    def test_count_or_argon_identity_drift_fails_closed(self):
+        manifest,files=self.fixture();manifest["projections"]["pricing_v2"]["records"]-=1
+        with self.assertRaisesRegex(GateError,"pricing universe changed"):assert_approved_pricing_universe(manifest,files)
+        manifest,files=self.fixture();files["pricing-v2-prices.json"]=json.dumps({"records":[]}).encode()
+        with self.assertRaisesRegex(GateError,"exactly one approved Gemini 4 Argon"):assert_approved_pricing_universe(manifest,files)
+    def test_candidate_delta_from_approved_base_is_only_argon(self):
+        baseline=json.loads(subprocess.check_output(["git","show",f"{ARGON_BASE}:data/canonical/models.json"],cwd=ROOT))
+        current=json.loads((ROOT/"data/canonical/models.json").read_text(encoding="utf-8"))
+        identity=lambda row:(row["provider_id"],row["model_id"])
+        self.assertEqual({identity(row) for row in current}-{identity(row) for row in baseline},{("google-gemini","gemini-4-argon")})
+        self.assertEqual(len(baseline),88);self.assertEqual(len(current),APPROVED_V1_RECORDS)
+        baseline_hf=json.loads(subprocess.check_output(["git","show",f"{ARGON_BASE}:huggingface/prices.json"],cwd=ROOT))["records"]
+        current_hf=json.loads((ROOT/"huggingface/prices.json").read_text(encoding="utf-8"))["records"]
+        self.assertEqual({identity(row) for row in current_hf}-{identity(row) for row in baseline_hf},{("google-gemini","gemini-4-argon")})
+        self.assertEqual(len(baseline_hf),86);self.assertEqual(len(current_hf),APPROVED_V2_RECORDS)
 
 class CleanInputTests(unittest.TestCase):
     def test_genuine_clean_checkout_and_exact_nested_consumer_allowed(self):
