@@ -5,6 +5,7 @@ def digest(row):return hashlib.sha256(json.dumps(row,sort_keys=True,separators=(
 def read(path):return json.loads((ROOT/path).read_text(encoding='utf-8'))
 SCOPE=read('tests/fixtures/official-pricing-repair-scope.json')
 CHECKPOINT=SCOPE['event_checkpoints'][-1]
+ARGON_EXTENSION=SCOPE['argon_event_extension']
 EVENTS_PATH='data/price-change-events/events.jsonl'
 
 def git_output(*args):
@@ -39,6 +40,35 @@ def verify_current_event_bytes(raw,checkpoint=CHECKPOINT):
  ids=[row['event_id'] for row in rows];keys=[row['dedupe_key'] for row in rows]
  assert len(set(ids))==len(ids),'duplicate event_id'
  assert len(set(keys))==len(keys),'duplicate dedupe_key'
+ return normalized,lines,rows
+def verify_release_event_bytes(raw):
+ normalized,lines,rows=event_lines_rows(raw)
+ assert ARGON_EXTENSION['canonical_source_commit']=='19ee35964833714b7891453ad1cb55adcf86a56c','unexpected Argon canonical source'
+ assert ARGON_EXTENSION['base_checkpoint_source_commit']==CHECKPOINT['source_commit'],'unexpected Argon base checkpoint'
+ assert hashlib.sha256(normalized).hexdigest()==ARGON_EXTENSION['full_events_sha256'],'unapproved release event content'
+ assert len(rows)==ARGON_EXTENSION['full_event_count'],'unexpected release event count'
+ ids=[row['event_id'] for row in rows];keys=[row['dedupe_key'] for row in rows]
+ assert len(set(ids))==len(ids),'duplicate event_id'
+ assert len(set(keys))==len(keys),'duplicate dedupe_key'
+ appended_ids=ARGON_EXTENSION['appended_event_ids'];appended_keys=ARGON_EXTENSION['appended_dedupe_keys'];id_set=set(appended_ids)
+ assert len(appended_ids)==len(id_set)==ARGON_EXTENSION['appended_event_count']==1
+ assert len(appended_keys)==len(set(appended_keys))==ARGON_EXTENSION['appended_event_count']
+ appended=[(line,row) for line,row in zip(lines,rows) if row['event_id'] in id_set]
+ rebuilt=b''.join(line for line,row in zip(lines,rows) if row['event_id'] not in id_set)
+ historical=checkpoint_event_bytes(CHECKPOINT);verify_current_event_bytes(historical,CHECKPOINT)
+ assert rebuilt==historical,'historical checkpoint bytes or order changed'
+ assert [row['event_id'] for _,row in appended]==appended_ids,'unexpected Argon event ID'
+ assert [row['dedupe_key'] for _,row in appended]==appended_keys,'unexpected Argon dedupe key'
+ assert len(rows)==ARGON_EXTENSION['base_event_count']+ARGON_EXTENSION['appended_event_count']
+ assert hashlib.sha256(b''.join(line for line,_ in appended)).hexdigest()==ARGON_EXTENSION['appended_events_sha256']
+ row=appended[0][1]
+ assert row['provider_id']=='google-gemini' and row['model_id']=='gemini-4-argon'
+ assert row['change_type']=='model_added' and row['old_status'] is None and row['new_status']=='active'
+ assert row['old_prices']=={'cached_input':None,'input':None,'output':None}
+ assert row['new_prices']=={'cached_input':0.1,'input':2,'output':10}
+ assert row['source_snapshot_before']=='data/snapshots/2026-10-13/prices.json'
+ assert row['source_snapshot_after']=='data/snapshots/2026-10-14/prices.json'
+ assert row['official_source_url']=='https://ai.google.dev/gemini-api/docs/pricing'
  return normalized,lines,rows
 def verify_checkpoint(checkpoint=CHECKPOINT,current_raw=None):
  assert re.fullmatch(r'[0-9a-f]{40}',checkpoint['source_commit']),'invalid checkpoint source commit'
@@ -96,7 +126,8 @@ class ClosureScopeTests(unittest.TestCase):
   mutated=copy.deepcopy(current);next(r for r in mutated if r['id']=='gemini-2.5-flash-image')['retirementDate']='2027-03-15'
   with self.assertRaisesRegex(AssertionError,'unapproved change'):verify_rows(old,mutated,SCOPE['projection'])
  def test_all_current_events_exact_and_correction_is_not_provider_event(self):
-  _,events=verify_checkpoint(CHECKPOINT,(ROOT/EVENTS_PATH).read_bytes())
+  verify_checkpoint(CHECKPOINT)
+  _,_,events=verify_release_event_bytes((ROOT/EVENTS_PATH).read_bytes())
   self.assertFalse(any(e['model_id']=='gemini-2.5-flash-image' and e['detected_at']=='2026-10-09' for e in events))
  def test_event_digest_pinned_to_approved_commit(self):
   self.assertEqual(SCOPE['events_source_commit'],'1c7ec3eca94f0bfdc99b7ae18616bdce38be8833')
@@ -105,9 +136,13 @@ class ClosureScopeTests(unittest.TestCase):
   raw=approved_event_bytes();self.assertNotIn(b'\r',raw);self.assertEqual(verify_event_bytes(raw),raw);self.assertEqual(len(raw.splitlines()),35)
  def test_e1_checkpoint_identity_scope_and_increment(self):
   self.assertEqual(len(SCOPE['event_checkpoints']),1);blob,rows=verify_checkpoint();self.assertEqual(len(blob.splitlines()),37);self.assertEqual(len(rows),37)
+ def test_argon_release_extension_is_the_only_38th_event(self):
+  current=(ROOT/EVENTS_PATH).read_bytes();normalized,_,rows=verify_release_event_bytes(current)
+  self.assertEqual(normalized,normalize_event_newlines(current));self.assertEqual(len(rows),38)
  def test_event_lf_and_crlf_have_same_approved_digest(self):
   historical=approved_event_bytes();self.assertEqual(verify_event_bytes(historical),historical);self.assertEqual(verify_event_bytes(historical.replace(b'\n',b'\r\n')),historical)
   current=checkpoint_event_bytes();self.assertEqual(verify_current_event_bytes(current)[0],current);self.assertEqual(verify_current_event_bytes(current.replace(b'\n',b'\r\n'))[0],current)
+  release=normalize_event_newlines((ROOT/EVENTS_PATH).read_bytes());self.assertEqual(verify_release_event_bytes(release)[0],release);self.assertEqual(verify_release_event_bytes(release.replace(b'\n',b'\r\n'))[0],release)
  def test_event_field_mutations_rejected(self):
   historical=approved_event_bytes();rows=[json.loads(line) for line in historical.splitlines()];self.assertEqual(encode(rows),historical)
   def fields(value,path=()):
@@ -131,7 +166,7 @@ class ClosureScopeTests(unittest.TestCase):
     with self.subTest(case=name,newline=newline):
      with self.assertRaisesRegex(AssertionError,'unapproved historical event content'):verify_event_bytes(raw.replace(b'\n',newline))
  def test_current_event_negative_mutations_rejected(self):
-  current=checkpoint_event_bytes();_,lines,rows=event_lines_rows(current);new_ids=set(CHECKPOINT['appended_event_ids'])
+  current=(ROOT/EVENTS_PATH).read_bytes();_,lines,rows=event_lines_rows(current);new_ids=set(ARGON_EXTENSION['appended_event_ids'])
   old_indexes=[i for i,row in enumerate(rows) if row['event_id'] not in new_ids];new_index=next(i for i,row in enumerate(rows) if row['event_id'] in new_ids)
   unexpected=copy.deepcopy(rows);extra=copy.deepcopy(unexpected[new_index]);extra['event_id']='google-gemini:unexpected:lifecycle_update:000000000000';extra['dedupe_key']='sha256:'+'0'*64;unexpected.append(extra)
   reordered=list(lines);first,second=old_indexes[:2];reordered[first],reordered[second]=reordered[second],reordered[first]
@@ -142,7 +177,7 @@ class ClosureScopeTests(unittest.TestCase):
   cases={'delete':b''.join(lines[1:]),'unexpected':encode(unexpected),'duplicate':current+lines[0],'historical-reorder':b''.join(reordered),'historical-field':encode(old_mutation),'appended-field':encode(new_mutation),'event-id':encode(id_mutation),'dedupe-key':encode(key_mutation)}
   for name,raw in cases.items():
    with self.subTest(case=name):
-    with self.assertRaises(AssertionError):verify_current_event_bytes(raw)
+    with self.assertRaises(AssertionError):verify_release_event_bytes(raw)
  def test_checkpoint_metadata_corruption_rejected(self):
   bad=copy.deepcopy(CHECKPOINT);bad['source_commit']='0'*40
   with self.assertRaisesRegex(AssertionError,'unresolvable git object'):verify_checkpoint(bad)
@@ -151,7 +186,7 @@ class ClosureScopeTests(unittest.TestCase):
   bad=copy.deepcopy(CHECKPOINT);bad['full_events_sha256']='0'*64
   with self.assertRaisesRegex(AssertionError,'unapproved current event content'):verify_checkpoint(bad)
  def test_event_invalid_or_mixed_newlines_rejected(self):
-  for contract,lf,verify in (('historical',approved_event_bytes(),verify_event_bytes),('current',checkpoint_event_bytes(),verify_current_event_bytes)):
+  for contract,lf,verify in (('historical',approved_event_bytes(),verify_event_bytes),('checkpoint',checkpoint_event_bytes(),verify_current_event_bytes),('release',(ROOT/EVENTS_PATH).read_bytes(),verify_release_event_bytes)):
    crlf=lf.replace(b'\n',b'\r\n');cases={'mixed-lf':lf.replace(b'\n',b'\r\n',1),'mixed-crlf':crlf.replace(b'\r\n',b'\n',1),'bare-cr':lf.replace(b'\n',b'\r'),'crcrlf':lf.replace(b'\n',b'\r\r\n'),'missing-final':lf[:-1],'blank-line':lf+b'\n','unicode-separator':lf.replace(b'\n',b'\xe2\x80\xa8',1)}
    for name,raw in cases.items():
     with self.subTest(contract=contract,case=name):
