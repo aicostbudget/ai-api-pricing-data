@@ -9,10 +9,10 @@ except ModuleNotFoundError:
 
 DATASET_REPO = "aicostbudget/ai-api-pricing-data"
 WEBSITE_REPO = "linqiang-max/aicostbudget"
-DATASET_BRANCH = "refs/heads/codex/issue26-dataset-candidate"
-WEBSITE_BRANCH = "codex/issue26-website-candidate"
+DATASET_BRANCH = "refs/heads/codex/p1-s1-source-20261013"
+WEBSITE_BRANCH = "codex/p1-w1-website-20261014"
 ENVIRONMENT = "pricing-candidate-review"
-APPROVED_BASE = "52c0e6f3094feeaf6812e1564aef4818ecdd372c"
+APPROVED_BASE = "50177d7c4f06d70fa4f0c429ac045e0c0cccef95"
 
 def check_candidate(context, get):
     if (context.get("GITHUB_EVENT_NAME"), context.get("GITHUB_REPOSITORY"), context.get("GITHUB_REF")) != ("workflow_dispatch", DATASET_REPO, DATASET_BRANCH):

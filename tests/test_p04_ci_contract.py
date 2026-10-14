@@ -62,14 +62,18 @@ class CandidatePolicyTests(unittest.TestCase):
     def get(self, path, purpose):
         if purpose == "review":
             if "/collaborators/" in path: return {"permission":"admin","role_name":"admin","user":{"login":"fixture-author","type":"User"}}
-            if path.endswith("/deployment-branch-policies"): return {"total_count":1,"branch_policies":[{"name":"codex/issue26-dataset-candidate","type":"branch"}]}
+            if path.endswith("/deployment-branch-policies"): return {"total_count":1,"branch_policies":[{"name":policy.DATASET_BRANCH.removeprefix("refs/heads/"),"type":"branch"}]}
             if path.endswith("/approvals"): return [{"state":"approved","user":{"id":9,"login":"fixture-reviewer"},"environments":[{"id":7,"name":policy.ENVIRONMENT}]}]
-            if "/actions/runs/" in path: return {"head_sha":self.context["GITHUB_SHA"],"head_branch":"codex/issue26-dataset-candidate","event":"workflow_dispatch","run_attempt":1,"actor":{"login":"fixture-author","type":"User"}}
+            if "/actions/runs/" in path: return {"head_sha":self.context["GITHUB_SHA"],"head_branch":policy.DATASET_BRANCH.removeprefix("refs/heads/"),"event":"workflow_dispatch","run_attempt":1,"actor":{"login":"fixture-author","type":"User"}}
             return self.environment
         if "/compare/" in path: return self.comparison
         return {"object": {"sha": self.main if path.endswith("/heads/main") else self.tip}}
     def test_exact_reviewed_sha_accepted(self):
         self.assertEqual(policy.check_candidate(self.context, self.get), self.sha)
+    def test_candidate_identity_is_pinned_to_current_reviewed_pair(self):
+        self.assertEqual(policy.DATASET_BRANCH, "refs/heads/codex/p1-s1-source-20261013")
+        self.assertEqual(policy.WEBSITE_BRANCH, "codex/p1-w1-website-20261014")
+        self.assertEqual(policy.APPROVED_BASE, "50177d7c4f06d70fa4f0c429ac045e0c0cccef95")
     def test_push_pr_main_other_repository_rejected(self):
         for key, values in {"GITHUB_EVENT_NAME": ["push", "pull_request"], "GITHUB_REF": ["refs/heads/main", "refs/heads/arbitrary"], "GITHUB_REPOSITORY": ["other/repo"]}.items():
             for value in values:
