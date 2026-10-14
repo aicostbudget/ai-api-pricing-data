@@ -2,9 +2,9 @@
   "dataset_name": "AICostBudget AI API Pricing Dataset",
   "dataset_version": "1.0.0",
   "description": "Open, machine-readable pricing data for LLM and AI APIs.",
-  "generated_at": "2026-10-09T13:15:36Z",
+  "generated_at": "2026-10-13T13:24:09Z",
   "homepage": "https://aicostbudget.com",
-  "last_verified_at": "2026-10-09T12:36:29Z",
+  "last_verified_at": "2026-10-13T13:24:09Z",
   "licenses": {
     "code": "MIT",
     "data": "CC BY 4.0"
@@ -3523,7 +3523,7 @@
       "status": "active"
     },
     {
-      "access_checked_at": "2026-10-07T04:26:40Z",
+      "access_checked_at": "2026-10-13T13:24:09Z",
       "access_evidence": [
         {
           "claim_type": "official_access_public",
@@ -3547,11 +3547,21 @@
       "binding_status": "approved",
       "display_name": "Gemini 3.5 Flash",
       "effective_from": "2026-07-03",
-      "last_verified_at": "2026-09-29T11:55:12Z",
+      "last_verified_at": "2026-10-13T13:24:09Z",
+      "lifecycle": {
+        "deprecation_date": "2026-10-08",
+        "replacement_model_id": "gemini-3.6-flash"
+      },
       "model_family": "Gemini 3.5",
       "model_id": "gemini-3.5-flash",
-      "notes": "V1 stores Standard input, context-cache, and output prices plus Batch input/output prices. Batch context caching is $0.075 per 1M tokens. Google also lists Flex and Priority tiers; those tiers are not represented in V1 pricing fields.",
+      "notes": "Deprecated on 2026-10-08. The gemini-3.5-flash endpoint is not shutting down; Gemini API requests are automatically routed to gemini-3.6-flash. The original model ID and historical price records remain preserved, but those historical rates must not be treated as proof of the routed request's settlement price. V1 stores Standard input, context-cache, and output prices plus Batch input/output prices. Batch context caching is $0.075 per 1M tokens. Google also lists Flex and Priority tiers; those tiers are not represented in V1 pricing fields.",
       "official_source_url": "https://ai.google.dev/gemini-api/docs/pricing",
+      "official_source_urls": [
+        "https://ai.google.dev/gemini-api/docs/pricing",
+        "https://ai.google.dev/gemini-api/docs/models/gemini-3.5-flash",
+        "https://ai.google.dev/gemini-api/docs/changelog",
+        "https://ai.google.dev/gemini-api/docs/deprecations"
+      ],
       "pricing": {
         "batch_input": 0.75,
         "batch_output": 4.5,
@@ -3570,7 +3580,7 @@
         "url": "https://ai.google.dev/gemini-api/docs/changelog"
       },
       "released_at": "2026-05-19",
-      "status": "active"
+      "status": "deprecated"
     },
     {
       "access_checked_at": "2026-10-07T04:26:40Z",
@@ -3784,7 +3794,7 @@
       "status": "active"
     },
     {
-      "access_checked_at": "2026-10-07T04:26:40Z",
+      "access_checked_at": "2026-10-13T13:24:09Z",
       "access_evidence": [
         {
           "claim_type": "official_access_public",
@@ -3808,16 +3818,21 @@
       "binding_status": "approved",
       "display_name": "Gemini 3.7 Flash",
       "effective_from": "2026-08-13",
-      "last_verified_at": "2026-09-29T12:39:28Z",
+      "last_verified_at": "2026-10-13T13:24:09Z",
+      "lifecycle": {
+        "deprecation_date": "2026-10-08",
+        "replacement_model_id": "gemini-3.8-flash"
+      },
       "model_family": "Gemini 3.7",
       "model_id": "gemini-3.7-flash",
-      "notes": "Generally available on 2026-08-13. V1 compatibility fields store introductory Standard and Batch token rates through 2026-12-31. Structured pricing_periods preserves the 2027-01-01 Standard and Batch rates. Separate audio input and cache-storage charges are not represented in V1 scalars.",
+      "notes": "Generally available on 2026-08-13 and deprecated on 2026-10-08. The gemini-3.7-flash endpoint is not shutting down; Gemini API requests are automatically routed to gemini-3.8-flash. The original model ID and historical price records remain preserved, but those historical rates must not be treated as proof of the routed request's settlement price. V1 compatibility fields store introductory Standard and Batch token rates through 2026-12-31. Structured pricing_periods preserves the 2027-01-01 Standard and Batch rates. Separate audio input and cache-storage charges are not represented in V1 scalars.",
       "official_source_url": "https://ai.google.dev/gemini-api/docs/pricing",
       "official_source_urls": [
         "https://ai.google.dev/gemini-api/docs/pricing",
         "https://ai.google.dev/gemini-api/docs/latest-model",
         "https://ai.google.dev/gemini-api/docs/models/gemini-3.7-flash",
-        "https://ai.google.dev/gemini-api/docs/changelog"
+        "https://ai.google.dev/gemini-api/docs/changelog",
+        "https://ai.google.dev/gemini-api/docs/deprecations"
       ],
       "pricing": {
         "batch_cached_input": 0.0375,
@@ -3879,7 +3894,7 @@
       },
       "release_stage": "stable",
       "released_at": "2026-08-13",
-      "status": "active"
+      "status": "deprecated"
     },
     {
       "access_checked_at": "2026-10-07T04:26:40Z",
@@ -13979,10 +13994,10 @@
       "display_name": "GPT-6.1 Sol",
       "effective_from": "2026-09-29",
       "input_modality": "text",
-      "last_verified_at": "2026-09-30T00:00:00Z",
+      "last_verified_at": "2026-10-13T13:24:09Z",
       "model_family": "GPT-6",
       "model_id": "gpt-6.1-sol",
-      "notes": "Released 2026-09-29. The official model contract has a 1,050,000-token context window and 128,000 max output tokens. Official absolute input, cached-input, cache-write, and output rates are stored for Standard, Batch, Flex, and Fast processing across both sides of the strict greater-than 272,000 input-token boundary. Regional processing uses the official 10% uplift. US and EU data residency support Standard, Batch, and Flex; Fast is unavailable with EU data residency.",
+      "notes": "Released 2026-09-29. Ultrafast processing was released 2026-10-08 for the existing gpt-6.1-sol identity through the Responses API with service_tier=\"ultrafast\". The official model contract has a 1,050,000-token context window and 128,000 max output tokens. Official absolute input, cached-input, cache-write, and output rates are stored for Standard, Batch, Flex, Fast, and Ultrafast processing across both sides of the strict greater-than 272,000 input-token boundary. Regional processing uses the official 10% uplift. Ultrafast supports global processing plus US and EU data residency; Fast remains unavailable with EU data residency.",
       "official_source_url": "https://developers.openai.com/api/docs/models/gpt-6.1-sol",
       "official_source_urls": [
         "https://developers.openai.com/api/docs/models/gpt-6.1-sol",
@@ -13992,6 +14007,7 @@
         "https://developers.openai.com/api/docs/guides/batch",
         "https://developers.openai.com/api/docs/guides/flex-processing",
         "https://developers.openai.com/api/docs/guides/fast-mode",
+        "https://developers.openai.com/api/docs/guides/ultrafast-mode",
         "https://developers.openai.com/api/docs/guides/your-data",
         "https://deploymentsafety.openai.com/gpt-6-1-sol/respecting-auto-review"
       ],
@@ -14720,6 +14736,182 @@
           },
           "verification_status": "verified",
           "verified_at": "2026-09-30T00:00:00Z"
+        },
+        {
+          "billing_note": "Ultrafast uses the existing gpt-6.1-sol model in the Responses API with service_tier=\"ultrafast\"; it is not a separate model identity or a Chat Completions processing mode. Short context includes 272,000 input tokens; above 272,000 tokens the long-context rates apply to the entire request, including cached prompt tokens. Global processing plus US and EU data residency are supported. Regional processing adds the published 10% uplift. Default Ultrafast limits are Build 1,000,000 TPM, Launch 4,000,000 TPM, and Grow 40,000,000 TPM; access remains subject to organization rate limits.",
+          "calculation_default": false,
+          "charges": [
+            {
+              "amount": "12",
+              "component": "input",
+              "id": "price:openai/gpt-6.1-sol:ultrafast:short:current:input:text:per_1m_tokens",
+              "modality": "text",
+              "unit": "per_1m_tokens"
+            },
+            {
+              "amount": "0.6",
+              "component": "cached_input",
+              "id": "price:openai/gpt-6.1-sol:ultrafast:short:current:cached_input:text:per_1m_tokens",
+              "modality": "text",
+              "unit": "per_1m_tokens"
+            },
+            {
+              "amount": "15",
+              "component": "cache_write",
+              "id": "price:openai/gpt-6.1-sol:ultrafast:short:current:cache_write:text:per_1m_tokens",
+              "modality": "text",
+              "unit": "per_1m_tokens"
+            },
+            {
+              "amount": "60",
+              "component": "output",
+              "id": "price:openai/gpt-6.1-sol:ultrafast:short:current:output:text:per_1m_tokens",
+              "modality": "text",
+              "unit": "per_1m_tokens"
+            }
+          ],
+          "checked_at": "2026-10-13T13:24:09Z",
+          "context_class": "short",
+          "currency": "USD",
+          "effective_from": "2026-10-08",
+          "effective_until": null,
+          "id": "price:openai/gpt-6.1-sol:ultrafast:short:current",
+          "pricing_status": "current",
+          "processing_mode": "ultrafast",
+          "prompt_token_threshold": 272000,
+          "region_policy": {
+            "availability": {
+              "default": "available",
+              "rules": []
+            },
+            "data_residencies": [
+              "global",
+              "us",
+              "eu"
+            ],
+            "endpoint_geographies": [
+              "global",
+              "regional"
+            ],
+            "price_adjustments": [
+              {
+                "factor": "1.10",
+                "id": "regional-data-residency-uplift",
+                "operation": "multiply",
+                "selector": {
+                  "endpoint_geographies": [
+                    "regional"
+                  ]
+                },
+                "source_refs": [
+                  "https://developers.openai.com/api/docs/pricing",
+                  "https://developers.openai.com/api/docs/guides/your-data"
+                ]
+              }
+            ],
+            "pricing_geography": "global_base"
+          },
+          "source_refs": [
+            "https://developers.openai.com/api/docs/models/gpt-6.1-sol",
+            "https://developers.openai.com/api/docs/pricing",
+            "https://developers.openai.com/api/docs/guides/ultrafast-mode"
+          ],
+          "tier_selection": {
+            "cached_prompt_tokens_included": true,
+            "comparison": "less_than_or_equal",
+            "token_basis": "input_tokens",
+            "whole_request_pricing": true
+          },
+          "verification_status": "verified",
+          "verified_at": "2026-10-13T13:24:09Z"
+        },
+        {
+          "billing_note": "Ultrafast uses the existing gpt-6.1-sol model in the Responses API with service_tier=\"ultrafast\"; it is not a separate model identity or a Chat Completions processing mode. Short context includes 272,000 input tokens; above 272,000 tokens the long-context rates apply to the entire request, including cached prompt tokens. Global processing plus US and EU data residency are supported. Regional processing adds the published 10% uplift. Default Ultrafast limits are Build 1,000,000 TPM, Launch 4,000,000 TPM, and Grow 40,000,000 TPM; access remains subject to organization rate limits.",
+          "calculation_default": false,
+          "charges": [
+            {
+              "amount": "24",
+              "component": "input",
+              "id": "price:openai/gpt-6.1-sol:ultrafast:long:current:input:text:per_1m_tokens",
+              "modality": "text",
+              "unit": "per_1m_tokens"
+            },
+            {
+              "amount": "1.2",
+              "component": "cached_input",
+              "id": "price:openai/gpt-6.1-sol:ultrafast:long:current:cached_input:text:per_1m_tokens",
+              "modality": "text",
+              "unit": "per_1m_tokens"
+            },
+            {
+              "amount": "30",
+              "component": "cache_write",
+              "id": "price:openai/gpt-6.1-sol:ultrafast:long:current:cache_write:text:per_1m_tokens",
+              "modality": "text",
+              "unit": "per_1m_tokens"
+            },
+            {
+              "amount": "90",
+              "component": "output",
+              "id": "price:openai/gpt-6.1-sol:ultrafast:long:current:output:text:per_1m_tokens",
+              "modality": "text",
+              "unit": "per_1m_tokens"
+            }
+          ],
+          "checked_at": "2026-10-13T13:24:09Z",
+          "context_class": "long",
+          "currency": "USD",
+          "effective_from": "2026-10-08",
+          "effective_until": null,
+          "id": "price:openai/gpt-6.1-sol:ultrafast:long:current",
+          "pricing_status": "current",
+          "processing_mode": "ultrafast",
+          "prompt_token_threshold": 272000,
+          "region_policy": {
+            "availability": {
+              "default": "available",
+              "rules": []
+            },
+            "data_residencies": [
+              "global",
+              "us",
+              "eu"
+            ],
+            "endpoint_geographies": [
+              "global",
+              "regional"
+            ],
+            "price_adjustments": [
+              {
+                "factor": "1.10",
+                "id": "regional-data-residency-uplift",
+                "operation": "multiply",
+                "selector": {
+                  "endpoint_geographies": [
+                    "regional"
+                  ]
+                },
+                "source_refs": [
+                  "https://developers.openai.com/api/docs/pricing",
+                  "https://developers.openai.com/api/docs/guides/your-data"
+                ]
+              }
+            ],
+            "pricing_geography": "global_base"
+          },
+          "source_refs": [
+            "https://developers.openai.com/api/docs/models/gpt-6.1-sol",
+            "https://developers.openai.com/api/docs/pricing",
+            "https://developers.openai.com/api/docs/guides/ultrafast-mode"
+          ],
+          "tier_selection": {
+            "cached_prompt_tokens_included": true,
+            "comparison": "greater_than",
+            "token_basis": "input_tokens",
+            "whole_request_pricing": true
+          },
+          "verification_status": "verified",
+          "verified_at": "2026-10-13T13:24:09Z"
         }
       ],
       "pricing": {
