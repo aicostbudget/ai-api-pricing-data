@@ -1,13 +1,24 @@
 import json, subprocess, unittest
+from datetime import datetime, timezone
 from pathlib import Path
 from scripts import build_release_bundle as bundle
 ROOT=Path(__file__).resolve().parents[1]
 from tests.website_source import resolve_release_website_source
 WEBSITE=resolve_release_website_source(ROOT)
+
+def release_snapshot_date():
+ metadata=json.loads((ROOT/'api/v1/meta.json').read_text(encoding='utf-8'))
+ generated_at=metadata['generated_at']
+ timestamp=datetime.fromisoformat(generated_at.replace('Z','+00:00'))
+ if timestamp.tzinfo is None:
+  raise ValueError('api/v1/meta.json generated_at must include a timezone')
+ return timestamp.astimezone(timezone.utc).date().isoformat()
+
+SNAPSHOT_DATE=release_snapshot_date()
 class LocalCandidateTests(unittest.TestCase):
  def test_local_candidate_integrity_and_repeated_bytes(self):
-  first=bundle.build_contents('WORKTREE',WEBSITE,'WORKTREE','2026-10-13')
-  second=bundle.build_contents('WORKTREE',WEBSITE,'WORKTREE','2026-10-13')
+  first=bundle.build_contents('WORKTREE',WEBSITE,'WORKTREE',SNAPSHOT_DATE)
+  second=bundle.build_contents('WORKTREE',WEBSITE,'WORKTREE',SNAPSHOT_DATE)
   self.assertEqual(first,second)
   manifest=bundle.verify_contents(first)
   self.assertEqual(manifest['source_scope'],'LOCAL_CANDIDATE')
@@ -17,16 +28,16 @@ class LocalCandidateTests(unittest.TestCase):
   self.assertEqual(manifest['projections']['pricing_v2']['records'],len(json.loads((ROOT/'huggingface/prices.json').read_text(encoding='utf-8'))['records']))
  def test_local_candidate_cannot_claim_release_or_mix_committed_input(self):
   with self.assertRaisesRegex(ValueError,'local candidate'):
-    bundle.build_contents('WORKTREE',WEBSITE,'HEAD','2026-10-13')
+    bundle.build_contents('WORKTREE',WEBSITE,'HEAD',SNAPSHOT_DATE)
   with self.assertRaisesRegex(ValueError,'local candidate'):
-    bundle.build_contents('WORKTREE',WEBSITE,'WORKTREE','2026-10-13','vfake','2026-10-13')
+    bundle.build_contents('WORKTREE',WEBSITE,'WORKTREE',SNAPSHOT_DATE,'vfake',SNAPSHOT_DATE)
  def test_local_candidate_tampered_source_commit_fails(self):
-  files=bundle.build_contents('WORKTREE',WEBSITE,'WORKTREE','2026-10-13')
+  files=bundle.build_contents('WORKTREE',WEBSITE,'WORKTREE',SNAPSHOT_DATE)
   manifest=json.loads(files['release-manifest.json']);manifest['git_commit']='f'*40
   files['release-manifest.json']=json.dumps(manifest).encode()
   with self.assertRaisesRegex(ValueError,'published source commits'):bundle.verify_contents(files)
  def test_snapshot_timestamp_matches_public_source(self):
   api=json.loads((ROOT/'api/v1/prices.json').read_text(encoding='utf-8'))
-  snapshot=json.loads((ROOT/'data/snapshots/2026-10-13/prices.json').read_text(encoding='utf-8'))
+  snapshot=json.loads((ROOT/'data/snapshots'/SNAPSHOT_DATE/'prices.json').read_text(encoding='utf-8'))
   self.assertEqual(api,snapshot)
 if __name__=='__main__':unittest.main()

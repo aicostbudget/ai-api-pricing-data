@@ -1,7 +1,6 @@
 from __future__ import annotations
 
 import json
-import os
 import unittest
 from decimal import Decimal
 from pathlib import Path
@@ -13,6 +12,7 @@ from scripts.pricing_contract import (
     select_price_record,
     validate_model_price_records,
 )
+from tests.website_source import resolve_release_website_source
 
 
 ROOT = Path(__file__).resolve().parents[1]
@@ -154,7 +154,7 @@ class Gemini4ArgonOnboardingTests(unittest.TestCase):
         self.assertEqual(len(hf["pricing_components"]), 24)
 
     def test_website_projection_switches_on_exact_effective_date(self) -> None:
-        website_root = Path(os.environ["WEBSITE_SOURCE_ROOT"])
+        website_root = resolve_release_website_source(ROOT)
         expected = {
             "2026-11-30T23:59:59Z": ("current:introductory_2026", 2, 0.1, 10),
             "2026-12-01T00:00:00Z": ("future:standard_2026_12", 4, 0.2, 20),
