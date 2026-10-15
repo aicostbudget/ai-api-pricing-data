@@ -7,7 +7,9 @@ Keep the public V1 token columns unchanged. Continue to use
 `output_price_per_1m_tokens` only for token prices. Extend the internal V2
 charge-unit vocabulary additively so later records can express
 `per_1000_pages`, `per_minute`, `per_second`, `per_image`, `per_request`, and
-`per_1m_tokens_per_hour`. The compound token-hour unit is reserved for prices
+`per_text_input`, plus `per_1m_tokens_per_hour`. `per_text_input` is reserved
+for an explicitly billed text input event inside a longer-lived session and
+must not be flattened to `per_request` or a token price. The compound token-hour unit is reserved for prices
 that explicitly depend on both stored token quantity and storage duration; it
 must not be flattened into either `per_1m_tokens` or `per_hour`.
 A future public schema can expose these records through structured pricing

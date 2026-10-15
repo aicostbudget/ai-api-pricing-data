@@ -9,7 +9,7 @@
     "review_required": "display only with warning; no default or recommendation placement",
     "unsafe": "exclude from default calculations and show warning only where explicitly allowed"
   },
-  "effectiveAt": "2026-10-14T13:10:03Z",
+  "effectiveAt": "2026-10-15T10:15:09Z",
   "effectiveTimezone": "UTC",
   "failureBehavior": {
     "atomicWrite": true,
@@ -18,7 +18,7 @@
     "partialJson": "not_written",
     "publicV1Mutation": "forbidden"
   },
-  "generatedAt": "2026-10-14T13:10:03Z",
+  "generatedAt": "2026-10-15T10:15:09Z",
   "generatedAtPolicy": "UTC artifact generation timestamp injected by the generation pipeline",
   "governancePolicy": {
     "classes": [
@@ -51407,6 +51407,411 @@
       "verifiedAt": "2026-10-09T06:29:38Z",
       "verifiedSourceRefs": [
         "source:xai:docs-x-ai-developers-pricing"
+      ]
+    },
+    {
+      "accessAuthority": {
+        "baseRevision": "fff06c723507d648cd3b325659803e28a897f831",
+        "factSha256": "15a96d71c4603a55b4241370b185aeaa05b824057015ec8b3a53ff517db7cee9",
+        "kind": "canonical",
+        "revisionScope": "base_revision_plus_fact_digest"
+      },
+      "accessCheckedAt": "2026-10-15T10:15:09Z",
+      "accessEvidence": [
+        {
+          "claimType": "official_access_public",
+          "officialModelId": "grok-voice-2.0",
+          "scope": "The official Speech to Speech documentation continues to list the exact versioned model as selectable while marking it deprecated.",
+          "sourceRef": "source:xai:docs-x-ai-developers-model-capabilities-audio-speech-to-speech",
+          "title": "xAI Speech to Speech model selection",
+          "url": "https://docs.x.ai/developers/model-capabilities/audio/speech-to-speech"
+        }
+      ],
+      "accessStatus": "public",
+      "aliasTargetInternalId": null,
+      "availability": "deprecated",
+      "batchInputPrice": null,
+      "batchOutputPrice": null,
+      "billingModelInternalId": null,
+      "billingNote": "Speech to Speech costs USD 0.08 per session minute plus USD 0.004 for each text input. These charges are additive when text input is used; the text-input charge is not token-priced.",
+      "bindingEvidence": [
+        {
+          "claimType": "official_identity_binding",
+          "officialModelId": "grok-voice-2.0",
+          "reason": "The official release notes identify the exact versioned model and its 2026-10-14 deprecation without announcing a retirement date.",
+          "sourceRef": "source:xai:docs-x-ai-developers-release-notes",
+          "title": "Grok Voice 2.0 official identity and deprecation",
+          "url": "https://docs.x.ai/developers/release-notes"
+        }
+      ],
+      "bindingStatus": "approved",
+      "blockedFromDefaultReasons": [
+        "deprecated_identity",
+        "missing_verified_current_price"
+      ],
+      "cachedInputPrice": null,
+      "canonicalInternalId": "xai/grok-voice-2.0",
+      "checkedAt": "2026-10-15T10:15:09Z",
+      "checkedSourceRefs": [
+        "source:xai:docs-x-ai-developers-model-capabilities-audio-speech-to-speech",
+        "source:xai:docs-x-ai-developers-pricing",
+        "source:xai:docs-x-ai-developers-release-notes"
+      ],
+      "contextWindow": null,
+      "contextWindowStatus": "unknown_not_guessed",
+      "defaultPriceSelectionRule": [
+        "current_effective_utc",
+        "verified",
+        "standard",
+        "text",
+        "default_context_class"
+      ],
+      "defaultSafe": false,
+      "deprecationDate": "2026-10-14",
+      "governanceClass": "VERIFIED_CANONICAL",
+      "governanceDetails": null,
+      "governanceReason": "canonical_verified_non_token_public_projection",
+      "governanceSourceCandidateIds": [
+        "xai/grok-voice-2.0"
+      ],
+      "id": "grok-voice-2.0",
+      "identityType": "canonical_model",
+      "inputPrice": null,
+      "lifecycleStatus": "deprecated",
+      "model": "Grok Voice 2.0",
+      "officialSourceUrl": "https://docs.x.ai/developers/pricing",
+      "outputPrice": null,
+      "priceRecords": [
+        {
+          "calculationDefault": true,
+          "checkedAt": "2026-10-15T10:15:09Z",
+          "contextClass": "short",
+          "effectiveFrom": "2026-07-29",
+          "effectiveUntil": null,
+          "pricingId": "price:xai/grok-voice-2.0:standard:short:current",
+          "pricingStatus": "current",
+          "processingMode": "standard",
+          "sourceRefs": [
+            "source:xai:docs-x-ai-developers-model-capabilities-audio-speech-to-speech",
+            "source:xai:docs-x-ai-developers-pricing",
+            "source:xai:docs-x-ai-developers-release-notes"
+          ],
+          "verificationStatus": "verified",
+          "verifiedAt": "2026-10-15T10:15:09Z"
+        }
+      ],
+      "pricingComponents": [
+        {
+          "amount": "0.004",
+          "calculationDefault": true,
+          "chargeId": "price:xai/grok-voice-2.0:standard:short:current:input:text:per_text_input",
+          "component": "input",
+          "condition": {
+            "availabilityRules": [],
+            "contextClass": "short",
+            "defaultAvailabilityStatus": "available",
+            "effectiveFrom": "2026-07-29",
+            "effectiveUntil": null,
+            "priceAdjustments": [],
+            "processingMode": "standard",
+            "promptTokenThreshold": null,
+            "regionPolicy": "global",
+            "regionSelector": {
+              "dataResidencies": [
+                "global"
+              ],
+              "endpointGeographies": [
+                "global"
+              ],
+              "pricingGeography": "global_base"
+            },
+            "tierSelection": null
+          },
+          "currency": "USD",
+          "modality": "text",
+          "pricingId": "price:xai/grok-voice-2.0:standard:short:current",
+          "sourceRefs": [
+            "source:xai:docs-x-ai-developers-model-capabilities-audio-speech-to-speech",
+            "source:xai:docs-x-ai-developers-pricing",
+            "source:xai:docs-x-ai-developers-release-notes"
+          ],
+          "unit": "per_text_input",
+          "verificationStatus": "verified"
+        },
+        {
+          "amount": "0.08",
+          "calculationDefault": true,
+          "chargeId": "price:xai/grok-voice-2.0:standard:short:current:session_duration:audio:per_minute",
+          "component": "session_duration",
+          "condition": {
+            "availabilityRules": [],
+            "contextClass": "short",
+            "defaultAvailabilityStatus": "available",
+            "effectiveFrom": "2026-07-29",
+            "effectiveUntil": null,
+            "priceAdjustments": [],
+            "processingMode": "standard",
+            "promptTokenThreshold": null,
+            "regionPolicy": "global",
+            "regionSelector": {
+              "dataResidencies": [
+                "global"
+              ],
+              "endpointGeographies": [
+                "global"
+              ],
+              "pricingGeography": "global_base"
+            },
+            "tierSelection": null
+          },
+          "currency": "USD",
+          "modality": "audio",
+          "pricingId": "price:xai/grok-voice-2.0:standard:short:current",
+          "sourceRefs": [
+            "source:xai:docs-x-ai-developers-model-capabilities-audio-speech-to-speech",
+            "source:xai:docs-x-ai-developers-pricing",
+            "source:xai:docs-x-ai-developers-release-notes"
+          ],
+          "unit": "per_minute",
+          "verificationStatus": "verified"
+        }
+      ],
+      "pricingSourceType": "canonical_verified_structured_price",
+      "provider": "xai",
+      "publicExposure": "public",
+      "redirectTargetInternalId": null,
+      "releaseSourceRef": "source:xai:docs-x-ai-developers-release-notes",
+      "releaseSourceUrl": "https://docs.x.ai/developers/release-notes",
+      "releaseStage": "stable",
+      "releasedAt": "2026-07-29",
+      "replacementInternalId": "xai/grok-voice-3.0",
+      "retirementDate": null,
+      "routingBehavior": "direct",
+      "routingDetails": {},
+      "selectedBatchPriceRecordId": null,
+      "selectedBillingPriceRecordId": "price:xai/grok-voice-2.0:standard:short:current",
+      "selectedPriceEffectiveFrom": "2026-07-29",
+      "selectedPriceEffectiveUntil": null,
+      "selectedPriceRecordId": null,
+      "sourceRefs": [
+        "source:xai:docs-x-ai-developers-model-capabilities-audio-speech-to-speech",
+        "source:xai:docs-x-ai-developers-pricing",
+        "source:xai:docs-x-ai-developers-release-notes"
+      ],
+      "sourceUrls": [
+        "https://docs.x.ai/developers/model-capabilities/audio/speech-to-speech",
+        "https://docs.x.ai/developers/pricing",
+        "https://docs.x.ai/developers/release-notes"
+      ],
+      "status": "legacy",
+      "verificationStatus": "verified",
+      "verifiedAt": "2026-10-15T10:15:09Z",
+      "verifiedSourceRefs": [
+        "source:xai:docs-x-ai-developers-model-capabilities-audio-speech-to-speech",
+        "source:xai:docs-x-ai-developers-pricing",
+        "source:xai:docs-x-ai-developers-release-notes"
+      ]
+    },
+    {
+      "accessAuthority": {
+        "baseRevision": "fff06c723507d648cd3b325659803e28a897f831",
+        "factSha256": "598c66be6cdc403ebd6d5e57dc33a82b70f371410186681d6611f9a3a7db7c92",
+        "kind": "canonical",
+        "revisionScope": "base_revision_plus_fact_digest"
+      },
+      "accessCheckedAt": "2026-10-15T10:15:09Z",
+      "accessEvidence": [
+        {
+          "claimType": "official_access_public",
+          "officialModelId": "grok-voice-3.0",
+          "scope": "The official Speech to Speech documentation lists the exact model as the flagship voice model and documents its public API selection value.",
+          "sourceRef": "source:xai:docs-x-ai-developers-model-capabilities-audio-speech-to-speech",
+          "title": "xAI Speech to Speech model selection",
+          "url": "https://docs.x.ai/developers/model-capabilities/audio/speech-to-speech"
+        }
+      ],
+      "accessStatus": "public",
+      "aliasTargetInternalId": null,
+      "availability": "active",
+      "batchInputPrice": null,
+      "batchOutputPrice": null,
+      "billingModelInternalId": null,
+      "billingNote": "Speech to Speech costs USD 0.08 per session minute plus USD 0.004 for each text input. These charges are additive when text input is used; the text-input charge is not token-priced.",
+      "bindingEvidence": [
+        {
+          "claimType": "official_identity_binding",
+          "officialModelId": "grok-voice-3.0",
+          "reason": "The official release notes and Speech to Speech documentation identify this exact model ID and bind grok-voice-latest to it.",
+          "sourceRef": "source:xai:docs-x-ai-developers-release-notes",
+          "title": "Grok Voice 3.0 official identity and alias",
+          "url": "https://docs.x.ai/developers/release-notes"
+        }
+      ],
+      "bindingStatus": "approved",
+      "blockedFromDefaultReasons": [
+        "missing_verified_current_price"
+      ],
+      "cachedInputPrice": null,
+      "canonicalInternalId": "xai/grok-voice-3.0",
+      "checkedAt": "2026-10-15T10:15:09Z",
+      "checkedSourceRefs": [
+        "source:xai:docs-x-ai-developers-model-capabilities-audio-speech-to-speech",
+        "source:xai:docs-x-ai-developers-pricing",
+        "source:xai:docs-x-ai-developers-release-notes"
+      ],
+      "contextWindow": null,
+      "contextWindowStatus": "unknown_not_guessed",
+      "defaultPriceSelectionRule": [
+        "current_effective_utc",
+        "verified",
+        "standard",
+        "text",
+        "default_context_class"
+      ],
+      "defaultSafe": false,
+      "deprecationDate": null,
+      "governanceClass": "VERIFIED_CANONICAL",
+      "governanceDetails": null,
+      "governanceReason": "canonical_verified_non_token_public_projection",
+      "governanceSourceCandidateIds": [
+        "xai/grok-voice-3.0"
+      ],
+      "id": "grok-voice-3.0",
+      "identityType": "canonical_model",
+      "inputPrice": null,
+      "lifecycleStatus": "active",
+      "model": "Grok Voice 3.0",
+      "officialSourceUrl": "https://docs.x.ai/developers/pricing",
+      "outputPrice": null,
+      "priceRecords": [
+        {
+          "calculationDefault": true,
+          "checkedAt": "2026-10-15T10:15:09Z",
+          "contextClass": "short",
+          "effectiveFrom": "2026-10-14",
+          "effectiveUntil": null,
+          "pricingId": "price:xai/grok-voice-3.0:standard:short:current",
+          "pricingStatus": "current",
+          "processingMode": "standard",
+          "sourceRefs": [
+            "source:xai:docs-x-ai-developers-model-capabilities-audio-speech-to-speech",
+            "source:xai:docs-x-ai-developers-pricing",
+            "source:xai:docs-x-ai-developers-release-notes"
+          ],
+          "verificationStatus": "verified",
+          "verifiedAt": "2026-10-15T10:15:09Z"
+        }
+      ],
+      "pricingComponents": [
+        {
+          "amount": "0.004",
+          "calculationDefault": true,
+          "chargeId": "price:xai/grok-voice-3.0:standard:short:current:input:text:per_text_input",
+          "component": "input",
+          "condition": {
+            "availabilityRules": [],
+            "contextClass": "short",
+            "defaultAvailabilityStatus": "available",
+            "effectiveFrom": "2026-10-14",
+            "effectiveUntil": null,
+            "priceAdjustments": [],
+            "processingMode": "standard",
+            "promptTokenThreshold": null,
+            "regionPolicy": "global",
+            "regionSelector": {
+              "dataResidencies": [
+                "global"
+              ],
+              "endpointGeographies": [
+                "global"
+              ],
+              "pricingGeography": "global_base"
+            },
+            "tierSelection": null
+          },
+          "currency": "USD",
+          "modality": "text",
+          "pricingId": "price:xai/grok-voice-3.0:standard:short:current",
+          "sourceRefs": [
+            "source:xai:docs-x-ai-developers-model-capabilities-audio-speech-to-speech",
+            "source:xai:docs-x-ai-developers-pricing",
+            "source:xai:docs-x-ai-developers-release-notes"
+          ],
+          "unit": "per_text_input",
+          "verificationStatus": "verified"
+        },
+        {
+          "amount": "0.08",
+          "calculationDefault": true,
+          "chargeId": "price:xai/grok-voice-3.0:standard:short:current:session_duration:audio:per_minute",
+          "component": "session_duration",
+          "condition": {
+            "availabilityRules": [],
+            "contextClass": "short",
+            "defaultAvailabilityStatus": "available",
+            "effectiveFrom": "2026-10-14",
+            "effectiveUntil": null,
+            "priceAdjustments": [],
+            "processingMode": "standard",
+            "promptTokenThreshold": null,
+            "regionPolicy": "global",
+            "regionSelector": {
+              "dataResidencies": [
+                "global"
+              ],
+              "endpointGeographies": [
+                "global"
+              ],
+              "pricingGeography": "global_base"
+            },
+            "tierSelection": null
+          },
+          "currency": "USD",
+          "modality": "audio",
+          "pricingId": "price:xai/grok-voice-3.0:standard:short:current",
+          "sourceRefs": [
+            "source:xai:docs-x-ai-developers-model-capabilities-audio-speech-to-speech",
+            "source:xai:docs-x-ai-developers-pricing",
+            "source:xai:docs-x-ai-developers-release-notes"
+          ],
+          "unit": "per_minute",
+          "verificationStatus": "verified"
+        }
+      ],
+      "pricingSourceType": "canonical_verified_structured_price",
+      "provider": "xai",
+      "publicExposure": "public",
+      "redirectTargetInternalId": null,
+      "releaseSourceRef": "source:xai:docs-x-ai-developers-release-notes",
+      "releaseSourceUrl": "https://docs.x.ai/developers/release-notes",
+      "releaseStage": "stable",
+      "releasedAt": "2026-10-14",
+      "replacementInternalId": null,
+      "retirementDate": null,
+      "routingBehavior": "direct",
+      "routingDetails": {},
+      "selectedBatchPriceRecordId": null,
+      "selectedBillingPriceRecordId": "price:xai/grok-voice-3.0:standard:short:current",
+      "selectedPriceEffectiveFrom": "2026-10-14",
+      "selectedPriceEffectiveUntil": null,
+      "selectedPriceRecordId": null,
+      "sourceRefs": [
+        "source:xai:docs-x-ai-developers-model-capabilities-audio-speech-to-speech",
+        "source:xai:docs-x-ai-developers-pricing",
+        "source:xai:docs-x-ai-developers-release-notes"
+      ],
+      "sourceUrls": [
+        "https://docs.x.ai/developers/model-capabilities/audio/speech-to-speech",
+        "https://docs.x.ai/developers/pricing",
+        "https://docs.x.ai/developers/release-notes"
+      ],
+      "status": "latest",
+      "verificationStatus": "verified",
+      "verifiedAt": "2026-10-15T10:15:09Z",
+      "verifiedSourceRefs": [
+        "source:xai:docs-x-ai-developers-model-capabilities-audio-speech-to-speech",
+        "source:xai:docs-x-ai-developers-pricing",
+        "source:xai:docs-x-ai-developers-release-notes"
       ]
     },
     {

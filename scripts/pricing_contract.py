@@ -47,6 +47,7 @@ UNITS = {
     "per_image",
     "per_second",
     "per_request",
+    "per_text_input",
 }
 AVAILABILITY_STATUSES = {"available", "unavailable"}
 SELECTOR_KEYS = {"endpoint_geographies", "data_residencies"}
@@ -1083,6 +1084,7 @@ def calculate_price_record_cost(
         "per_image": Decimal("1"),
         "per_second": Decimal("1"),
         "per_request": Decimal("1"),
+        "per_text_input": Decimal("1"),
     }
     charge_by_id = {charge["id"]: charge for charge in charges}
     for group_id, charge_id in alternative_selections.items():

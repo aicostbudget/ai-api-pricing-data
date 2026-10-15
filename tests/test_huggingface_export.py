@@ -111,6 +111,8 @@ class HuggingFaceExportTests(unittest.TestCase):
             "grok-4.6",
             "grok-4.7",
             "grok-build-0.1",
+            "grok-voice-2.0",
+            "grok-voice-3.0",
             "grok-voice-transcribe-1.0",
             "grok-voice-transcribe-2.0",
         })

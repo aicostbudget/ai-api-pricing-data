@@ -318,7 +318,15 @@ class P0P1PricingUpdateTests(unittest.TestCase):
         self.assertNotIn("gemini-omni-flash-preview", self.canonical_by_id)
         schema = read_json("schema/pricing-v2-preview.schema.json")
         units = schema["$defs"]["chargeRecord"]["properties"]["unit"]["enum"]
-        for unit in ("per_1m_tokens", "per_1000_pages", "per_minute", "per_second", "per_image", "per_request"):
+        for unit in (
+            "per_1m_tokens",
+            "per_1000_pages",
+            "per_minute",
+            "per_second",
+            "per_image",
+            "per_request",
+            "per_text_input",
+        ):
             self.assertIn(unit, units)
 
     def test_deepseek_price_change_events_are_temporal(self):

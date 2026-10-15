@@ -116,6 +116,12 @@ def verify_rows(old,current,targets):
  for id,row in current.items():assert digest(row)==(targets[id] if id in targets else digest(old[id])),'unapproved change: '+id
 def key(row):return row.get('canonicalInternalId') or row.get('provider_id','')+'/'+row.get('model_id','')
 class ClosureScopeTests(unittest.TestCase):
+ def test_grok_voice_identity_additions_are_exactly_authorized_without_rewriting_baseline(self):
+  approved={'xai/grok-voice-2.0','xai/grok-voice-3.0'}
+  self.assertTrue(approved <= set(SCOPE['canonical']))
+  self.assertTrue(approved <= set(SCOPE['projection']))
+  old={key(row) for row in pinned('data/canonical/models.json')}
+  self.assertTrue(approved.isdisjoint(old))
  def test_current_canonical_exact_scope_and_negative_mutation(self):
   old=pinned('data/canonical/models.json');current=read('data/canonical/models.json');verify_rows(old,current,SCOPE['canonical'])
   mutated=copy.deepcopy(current);next(r for r in mutated if r['model_id']=='gpt-6-sol')['pricing']['input']=999

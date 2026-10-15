@@ -11863,6 +11863,233 @@
   },
   {
     "provider_id": "xai",
+    "model_id": "grok-voice-2.0",
+    "display_name": "Grok Voice 2.0",
+    "model_family": "Grok Voice",
+    "model_category": "realtime_voice",
+    "status": "deprecated",
+    "release_stage": "stable",
+    "released_at": "2026-07-29",
+    "release_evidence": {
+      "url": "https://docs.x.ai/developers/release-notes",
+      "title": "xAI release notes: Grok Voice 2.0 is available",
+      "source_type": "official_changelog"
+    },
+    "output_modality": "audio",
+    "access_status": "public",
+    "access_evidence": [
+      {
+        "url": "https://docs.x.ai/developers/model-capabilities/audio/speech-to-speech",
+        "title": "xAI Speech to Speech model selection",
+        "claim_type": "official_access_public",
+        "official_model_id": "grok-voice-2.0",
+        "scope": "The official Speech to Speech documentation continues to list the exact versioned model as selectable while marking it deprecated."
+      }
+    ],
+    "access_checked_at": "2026-10-15T10:15:09Z",
+    "binding_status": "approved",
+    "binding_evidence": [
+      {
+        "url": "https://docs.x.ai/developers/release-notes",
+        "title": "Grok Voice 2.0 official identity and deprecation",
+        "claim_type": "official_identity_binding",
+        "official_model_id": "grok-voice-2.0",
+        "reason": "The official release notes identify the exact versioned model and its 2026-10-14 deprecation without announcing a retirement date."
+      }
+    ],
+    "pricing": {
+      "currency": "USD",
+      "unit": null,
+      "input": null,
+      "output": null,
+      "cached_input": null,
+      "cache_write": null,
+      "cache_write_1h": null,
+      "batch_input": null,
+      "batch_output": null
+    },
+    "lifecycle": {
+      "deprecation_date": "2026-10-14",
+      "replacement_model_id": "grok-voice-3.0"
+    },
+    "price_records": [
+      {
+        "id": "price:xai/grok-voice-2.0:standard:short:current",
+        "processing_mode": "standard",
+        "context_class": "short",
+        "pricing_status": "current",
+        "calculation_default": true,
+        "prompt_token_threshold": null,
+        "effective_from": "2026-07-29",
+        "effective_until": null,
+        "currency": "USD",
+        "charges": [
+          {
+            "id": "price:xai/grok-voice-2.0:standard:short:current:session_duration:audio:per_minute",
+            "component": "session_duration",
+            "modality": "audio",
+            "unit": "per_minute",
+            "amount": "0.08"
+          },
+          {
+            "id": "price:xai/grok-voice-2.0:standard:short:current:input:text:per_text_input",
+            "component": "input",
+            "modality": "text",
+            "unit": "per_text_input",
+            "amount": "0.004"
+          }
+        ],
+        "region_policy": {
+          "pricing_geography": "global_base",
+          "endpoint_geographies": [
+            "global"
+          ],
+          "data_residencies": [
+            "global"
+          ],
+          "availability": {
+            "default": "available",
+            "rules": []
+          },
+          "price_adjustments": []
+        },
+        "source_refs": [
+          "https://docs.x.ai/developers/model-capabilities/audio/speech-to-speech",
+          "https://docs.x.ai/developers/pricing",
+          "https://docs.x.ai/developers/release-notes"
+        ],
+        "verification_status": "verified",
+        "checked_at": "2026-10-15T10:15:09Z",
+        "verified_at": "2026-10-15T10:15:09Z",
+        "billing_note": "Speech to Speech costs USD 0.08 per session minute plus USD 0.004 for each text input. These charges are additive when text input is used; the text-input charge is not token-priced."
+      }
+    ],
+    "official_source_url": "https://docs.x.ai/developers/model-capabilities/audio/speech-to-speech",
+    "official_source_urls": [
+      "https://docs.x.ai/developers/model-capabilities/audio/speech-to-speech",
+      "https://docs.x.ai/developers/pricing",
+      "https://docs.x.ai/developers/release-notes"
+    ],
+    "accessed_at": "2026-10-15T10:15:09Z",
+    "last_verified_at": "2026-10-15T10:15:09Z",
+    "effective_from": "2026-07-29",
+    "notes": "Released on 2026-07-29 and deprecated on 2026-10-14. xAI recommends grok-voice-3.0 or the dynamic grok-voice-latest alias but has not announced an end-of-life date for grok-voice-2.0. Its published Speech to Speech price remains USD 0.08 per session minute plus USD 0.004 per text input. Null token-price fields mean not applicable, not free."
+  },
+  {
+    "provider_id": "xai",
+    "model_id": "grok-voice-3.0",
+    "display_name": "Grok Voice 3.0",
+    "model_family": "Grok Voice",
+    "model_category": "realtime_voice",
+    "status": "active",
+    "release_stage": "stable",
+    "released_at": "2026-10-14",
+    "release_evidence": {
+      "url": "https://docs.x.ai/developers/release-notes",
+      "title": "xAI release notes: Grok Voice 3.0 is available",
+      "source_type": "official_changelog"
+    },
+    "aliases": [
+      "grok-voice-latest"
+    ],
+    "output_modality": "audio",
+    "access_status": "public",
+    "access_evidence": [
+      {
+        "url": "https://docs.x.ai/developers/model-capabilities/audio/speech-to-speech",
+        "title": "xAI Speech to Speech model selection",
+        "claim_type": "official_access_public",
+        "official_model_id": "grok-voice-3.0",
+        "scope": "The official Speech to Speech documentation lists the exact model as the flagship voice model and documents its public API selection value."
+      }
+    ],
+    "access_checked_at": "2026-10-15T10:15:09Z",
+    "binding_status": "approved",
+    "binding_evidence": [
+      {
+        "url": "https://docs.x.ai/developers/release-notes",
+        "title": "Grok Voice 3.0 official identity and alias",
+        "claim_type": "official_identity_binding",
+        "official_model_id": "grok-voice-3.0",
+        "reason": "The official release notes and Speech to Speech documentation identify this exact model ID and bind grok-voice-latest to it."
+      }
+    ],
+    "pricing": {
+      "currency": "USD",
+      "unit": null,
+      "input": null,
+      "output": null,
+      "cached_input": null,
+      "cache_write": null,
+      "cache_write_1h": null,
+      "batch_input": null,
+      "batch_output": null
+    },
+    "price_records": [
+      {
+        "id": "price:xai/grok-voice-3.0:standard:short:current",
+        "processing_mode": "standard",
+        "context_class": "short",
+        "pricing_status": "current",
+        "calculation_default": true,
+        "prompt_token_threshold": null,
+        "effective_from": "2026-10-14",
+        "effective_until": null,
+        "currency": "USD",
+        "charges": [
+          {
+            "id": "price:xai/grok-voice-3.0:standard:short:current:session_duration:audio:per_minute",
+            "component": "session_duration",
+            "modality": "audio",
+            "unit": "per_minute",
+            "amount": "0.08"
+          },
+          {
+            "id": "price:xai/grok-voice-3.0:standard:short:current:input:text:per_text_input",
+            "component": "input",
+            "modality": "text",
+            "unit": "per_text_input",
+            "amount": "0.004"
+          }
+        ],
+        "region_policy": {
+          "pricing_geography": "global_base",
+          "endpoint_geographies": [
+            "global"
+          ],
+          "data_residencies": [
+            "global"
+          ],
+          "availability": {
+            "default": "available",
+            "rules": []
+          },
+          "price_adjustments": []
+        },
+        "source_refs": [
+          "https://docs.x.ai/developers/model-capabilities/audio/speech-to-speech",
+          "https://docs.x.ai/developers/pricing",
+          "https://docs.x.ai/developers/release-notes"
+        ],
+        "verification_status": "verified",
+        "checked_at": "2026-10-15T10:15:09Z",
+        "verified_at": "2026-10-15T10:15:09Z",
+        "billing_note": "Speech to Speech costs USD 0.08 per session minute plus USD 0.004 for each text input. These charges are additive when text input is used; the text-input charge is not token-priced."
+      }
+    ],
+    "official_source_url": "https://docs.x.ai/developers/model-capabilities/audio/speech-to-speech",
+    "official_source_urls": [
+      "https://docs.x.ai/developers/model-capabilities/audio/speech-to-speech",
+      "https://docs.x.ai/developers/pricing",
+      "https://docs.x.ai/developers/release-notes"
+    ],
+    "accessed_at": "2026-10-15T10:15:09Z",
+    "last_verified_at": "2026-10-15T10:15:09Z",
+    "effective_from": "2026-10-14",
+    "notes": "Speech to Speech pricing has two additive non-token components: USD 0.08 per session minute and USD 0.004 per text input. The text-input charge is an event unit, not a token rate or a whole-request rate. grok-voice-latest is a dynamic alias and points to this model as of 2026-10-15. Null token-price fields mean not applicable, not free."
+  },
+  {
+    "provider_id": "xai",
     "model_id": "grok-voice-transcribe-1.0",
     "display_name": "Grok Voice Transcribe 1.0",
     "model_family": "Grok Voice Transcribe",
