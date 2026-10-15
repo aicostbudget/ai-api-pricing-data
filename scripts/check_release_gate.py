@@ -45,6 +45,42 @@ def load_approved_plan(root,plan_id,digest):
     if plan.get("schema")!=PLAN_SCHEMA or plan.get("release_id")!=plan_id: raise GateError("Approved release plan identity mismatch")
     return plan
 
+def load_committed_approved_plan(root,plan_id,digest,source_sha,artifact_sha):
+    """Load the exact approved plan only when the same bytes exist in S1 and S2."""
+    if not re.fullmatch(r"[A-Za-z0-9][A-Za-z0-9._-]{0,127}",plan_id or "") or not re.fullmatch(r"[0-9a-f]{64}",digest or ""):
+        raise GateError("RELEASE PLAN MISSING — FORMAL TAG CREATION BLOCKED")
+    path="release-plans/"+plan_id+".json"
+    def committed(revision):
+        try:
+            return subprocess.check_output(["git","show",revision+":"+path],cwd=root,stderr=subprocess.DEVNULL)
+        except subprocess.CalledProcessError:
+            raise GateError("RELEASE PLAN MISSING — FORMAL TAG CREATION BLOCKED") from None
+    source_bytes=committed(source_sha);artifact_bytes=committed(artifact_sha)
+    if source_bytes!=artifact_bytes or hashlib.sha256(source_bytes).hexdigest()!=digest:
+        raise GateError("RELEASE PLAN MISSING — FORMAL TAG CREATION BLOCKED")
+    try: plan=json.loads(source_bytes.decode("utf-8"))
+    except (UnicodeDecodeError,json.JSONDecodeError):
+        raise GateError("RELEASE PLAN MISSING — FORMAL TAG CREATION BLOCKED") from None
+    if plan.get("schema")!=PLAN_SCHEMA or plan.get("release_id")!=plan_id:
+        raise GateError("RELEASE PLAN MISSING — FORMAL TAG CREATION BLOCKED")
+    return plan
+
+def assert_local_release_identity(identity,read_blob,is_ancestor):
+    source=exact_sha(identity.get("source_sha"),"Source SHA")
+    artifact=exact_sha(identity.get("artifact_sha"),"Artifact SHA")
+    website=exact_sha(identity.get("website_sha"),"Website SHA")
+    if source==artifact: raise GateError("SOURCE AND ARTIFACT SHA MUST BE DISTINCT")
+    if not is_ancestor(source,artifact): raise GateError("SOURCE SHA IS NOT A VALID ANCESTOR OF ARTIFACT SHA")
+    canonical=read_blob(source,"data/canonical/models.json")
+    if canonical!=read_blob(artifact,"data/canonical/models.json"):
+        raise GateError("ARTIFACT COMMIT ALTERED AUTHORITATIVE SOURCE FACTS")
+    try: meta=json.loads(read_blob(artifact,"api/v1/meta.json"))
+    except (UnicodeDecodeError,json.JSONDecodeError):
+        raise GateError("PUBLIC ARTIFACT SOURCE PROVENANCE MISMATCH") from None
+    if meta.get("source_commit_sha")!=source:
+        raise GateError("PUBLIC ARTIFACT SOURCE PROVENANCE MISMATCH")
+    return source,artifact,website,canonical
+
 def check_release(context, get, kind):
     if kind not in ("pages", "hf"): raise GateError("Unknown release kind")
     environment = "github-pages" if kind == "pages" else "hf-release-review"
@@ -112,20 +148,22 @@ def verify_local(identity, website_repo, release_date, output=None):
     from scripts import build_release_bundle as bundle
     from scripts.prepare_pages_artifact import committed_pages
     root = Path(__file__).resolve().parents[1]
-    assert_clean_checkout(root, website_repo)
+    website_repo=Path(website_repo).resolve()
+    nested=website_repo if website_repo.parent==root.resolve() and website_repo.name=="website-source" else None
+    assert_clean_checkout(root, nested)
     assert_clean_checkout(website_repo)
-    def git(repo,*args): return subprocess.check_output(["git",*args],cwd=repo)
+    def git(repo,*args): return subprocess.check_output(["git",*args],cwd=repo,stderr=subprocess.DEVNULL)
+    read_blob=lambda revision,path:git(root,"show",revision+":"+path)
+    is_ancestor=lambda source,artifact:subprocess.run(["git","merge-base","--is-ancestor",source,artifact],cwd=root,stdout=subprocess.DEVNULL,stderr=subprocess.DEVNULL).returncode==0
+    source,artifact,website,canonical=assert_local_release_identity(identity,read_blob,is_ancestor)
     if git(root,"rev-parse","HEAD").decode().strip()!=identity["artifact_sha"] or git(website_repo,"rev-parse","HEAD").decode().strip()!=identity["website_sha"]:
         raise GateError("Checkout SHA differs from approved committed input")
-    if git(root,"show",identity["source_sha"]+":data/canonical/models.json") != git(root,"show",identity["artifact_sha"]+":data/canonical/models.json"):
-        raise GateError("Artifact commit altered authoritative source facts")
-    plan=load_approved_plan(root,identity["release_plan_id"],identity["release_plan_digest"])
-    canonical=git(root,"show",identity["source_sha"]+":data/canonical/models.json")
+    plan=load_committed_approved_plan(root,identity["release_plan_id"],identity["release_plan_digest"],source,artifact)
     if hashlib.sha256(canonical).hexdigest()!=plan.get("canonical_sha256"): raise GateError("Canonical differs from the approved release plan")
     if plan.get("dataset_base_sha")!=git(root,"rev-parse",identity["source_sha"]+"^").decode().strip() or plan.get("website_base_sha")!=git(website_repo,"rev-parse",identity["website_sha"]+"^").decode().strip():
         raise GateError("Release commits do not descend directly from approved plan baselines")
-    pages,source,artifact = committed_pages(identity["artifact_sha"])
-    if (source,artifact)!=(identity["source_sha"],identity["artifact_sha"]): raise GateError("Committed API provenance differs from approved source/artifact")
+    pages,meta_source,meta_artifact = committed_pages(identity["artifact_sha"])
+    if (meta_source,meta_artifact)!=(source,artifact): raise GateError("PUBLIC ARTIFACT SOURCE PROVENANCE MISMATCH")
     meta=json.loads(pages["api/v1/meta.json"]);snapshot=meta["generated_at"][:10]
     files=bundle.build_contents(identity["artifact_sha"],website_repo,identity["website_sha"],snapshot,identity["release_tag"],release_date)
     manifest=bundle.verify_contents(files);assert_bundle_identity(manifest,identity)

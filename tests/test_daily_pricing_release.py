@@ -3,7 +3,7 @@ import json
 import tempfile
 import unittest
 from pathlib import Path
-from unittest.mock import patch
+from unittest.mock import Mock, patch
 
 from scripts.daily_pricing_release import (
     Backend,
@@ -17,6 +17,7 @@ from scripts.daily_pricing_release import (
     plan_digest,
     prepare_release,
     publish_release,
+    release_tag_name,
     row_contract,
     sha256_bytes,
     write_json,
@@ -48,11 +49,12 @@ class FakeBackend(Backend):
     def commit_website(self,p,s):return self.hit("website_committed","5"*40)
     def push_dataset(self,p,s):self.hit("dataset_pushed")
     def push_website(self,p,s):self.hit("website_pushed")
-    def push_tag(self,p,s):return self.hit("tag_pushed","dataset-2026-10-15-r1")
-    def verify_ci(self,a,w):return self.hit("ci_verified",[{"url":"ci"}])
-    def deploy_pages(self,s,p):return self.hit("pages_verified",{"url":"pages"})
+    def verify_pre_tag(self,p,d,s,a,w):return self.hit("pre_tag_verified","dataset-2026-10-15-m-aaaaaaaa")
+    def push_tag(self,p,s,t):return self.hit("tag_pushed",t)
+    def verify_ci(self,a,w):return self.hit("validate_verified",[{"url":"ci"}])
+    def deploy_pages(self,s,p):return self.hit("pages_release_gate_verified",{"url":"pages"})
     def verify_website_production(self,w):self.hit("website_production_verified")
-    def publish_hf(self,s,p,dry_run):return self.hit("hf_dry_run_verified" if dry_run else "hf_published",{"url":"hf-dry" if dry_run else "hf"})
+    def publish_hf(self,s,p,dry_run):return self.hit("hf_dry_run_verified" if dry_run else "hf_publish_verified",{"url":"hf-dry" if dry_run else "hf"})
     def verify_hf(self):self.hit("hf_production_verified")
 
 
@@ -83,6 +85,13 @@ class ChangePlanningTests(unittest.TestCase):
     def test_no_change_has_no_release(self):
         self.assertEqual(classify_changes([model("m")],[copy.deepcopy(model("m"))]),[])
 
+    def test_tag_name_is_readable_deterministic_and_collision_resistant(self):
+        single={"snapshot_date":"2026-10-15","canonical_sha256":"abcdef12"+"0"*56,"models":[{"model_id":"Grok Voice 3.0"}]}
+        multiple={**single,"models":[{"model_id":"a"},{"model_id":"b"}]}
+        self.assertEqual(release_tag_name(single),"dataset-2026-10-15-grok-voice-3-0-abcdef12")
+        self.assertEqual(release_tag_name(multiple),"dataset-2026-10-15-pricing-abcdef12")
+        self.assertNotEqual(release_tag_name(single),release_tag_name({**single,"canonical_sha256":"12345678"+"0"*56}))
+
     def test_same_day_snapshot_cannot_be_overwritten(self):
         with tempfile.TemporaryDirectory() as tmp:
             root=Path(tmp);(root/"api/v1").mkdir(parents=True);(root/"data/snapshots/2026-10-15").mkdir(parents=True)
@@ -111,6 +120,22 @@ class ChangePlanningTests(unittest.TestCase):
                 plan,path,digest=prepare_release(root,website,"2026-10-15T00:00:00Z",fake_generators,lambda repo,cwd:"1"*40 if repo.endswith("pricing-data") else "2"*40)
             self.assertEqual(plan["models"][0]["model_id"],"new");self.assertTrue(path.is_file());self.assertEqual(plan_digest(path),digest)
 
+    def test_prepare_rejects_no_canonical_diff_before_generators(self):
+        with tempfile.TemporaryDirectory() as tmp:
+            root=Path(tmp)/"dataset";website=Path(tmp)/"website"
+            (root/".git").mkdir(parents=True);(website/".git").mkdir(parents=True)
+            (root/"data/canonical").mkdir(parents=True);(website/"data").mkdir(parents=True)
+            rows=[model("unchanged")];write_json(root/"data/canonical/models.json",rows);write_json(website/"data/model-pricing.json",[])
+            def fake_git(repo,*args,**kwargs):
+                if args[:2]==("rev-parse","HEAD"):return "1"*40 if repo==root else "2"*40
+                if args[0]=="show":return json.dumps(rows)
+                raise AssertionError(args)
+            generators=Mock()
+            with patch("scripts.daily_pricing_release.git",side_effect=fake_git):
+                with self.assertRaisesRegex(ReleaseFailure,"No canonical model change"):
+                    prepare_release(root,website,"2026-10-15T00:00:00Z",generators,lambda repo,cwd:"1"*40 if repo.endswith("pricing-data") else "2"*40)
+            generators.assert_not_called()
+
 
 class PublishRecoveryTests(unittest.TestCase):
     def execute(self,tmp,backend):
@@ -120,7 +145,8 @@ class PublishRecoveryTests(unittest.TestCase):
     def test_happy_path_runs_every_stage_once(self):
         with tempfile.TemporaryDirectory() as tmp:
             backend=FakeBackend();result,store=self.execute(tmp,backend)
-            self.assertEqual(result["status"],"PRODUCTION VERIFIED");self.assertEqual(len(backend.calls),14)
+            self.assertEqual(result["status"],"PRODUCTION VERIFIED");self.assertEqual(len(backend.calls),15)
+            self.assertTrue(result["verification"]["pages_release_gate"])
 
     def test_remote_main_move_stops_before_source(self):
         with tempfile.TemporaryDirectory() as tmp:
@@ -137,20 +163,20 @@ class PublishRecoveryTests(unittest.TestCase):
 
     def test_ci_failure_is_not_treated_as_success(self):
         with tempfile.TemporaryDirectory() as tmp:
-            with self.assertRaisesRegex(ReleaseFailure,"fixture failure"):self.execute(tmp,FakeBackend("ci_verified"))
+            with self.assertRaisesRegex(ReleaseFailure,"fixture failure"):self.execute(tmp,FakeBackend("validate_verified"))
 
     def test_hostinger_lag_resumes_without_repush_or_redeploy(self):
         with tempfile.TemporaryDirectory() as tmp:
             plan,path,digest=plan_fixture(tmp);store=ReleaseStateStore(Path(tmp),plan["release_id"]);first=FakeBackend("website_production_verified")
             with self.assertRaises(ReleaseFailure):publish_release(plan,path,digest,store,first)
             second=FakeBackend();publish_release(plan,path,digest,store,second)
-            self.assertNotIn("dataset_pushed",second.calls);self.assertNotIn("pages_verified",second.calls);self.assertEqual(second.calls[0],"website_production_verified")
+            self.assertNotIn("dataset_pushed",second.calls);self.assertNotIn("pages_release_gate_verified",second.calls);self.assertEqual(second.calls[0],"website_production_verified")
 
     def test_hf_dry_run_failure_blocks_publish(self):
         with tempfile.TemporaryDirectory() as tmp:
             backend=FakeBackend("hf_dry_run_verified")
             with self.assertRaises(ReleaseFailure):self.execute(tmp,backend)
-            self.assertNotIn("hf_published",backend.calls)
+            self.assertNotIn("hf_publish_verified",backend.calls)
 
     def test_hf_successful_publish_is_not_repeated_after_parity_retry(self):
         with tempfile.TemporaryDirectory() as tmp:
@@ -161,22 +187,57 @@ class PublishRecoveryTests(unittest.TestCase):
 
     def test_existing_tag_stage_is_not_repeated(self):
         with tempfile.TemporaryDirectory() as tmp:
-            plan,path,digest=plan_fixture(tmp);store=ReleaseStateStore(Path(tmp),plan["release_id"]);first=FakeBackend("ci_verified")
+            plan,path,digest=plan_fixture(tmp);store=ReleaseStateStore(Path(tmp),plan["release_id"]);first=FakeBackend("validate_verified")
             with self.assertRaises(ReleaseFailure):publish_release(plan,path,digest,store,first)
             second=FakeBackend();publish_release(plan,path,digest,store,second)
             self.assertNotIn("tag_pushed",second.calls)
 
-    def test_existing_annotated_tag_is_verified_not_moved(self):
+    def test_existing_remote_tag_is_never_accepted_or_moved(self):
         with tempfile.TemporaryDirectory() as tmp:
             root=Path(tmp);website=root/"website";website.mkdir();plan,path,digest=plan_fixture(tmp);artifact="4"*40
-            backend=ShellBackend(root,website,path,digest);calls=[]
+            backend=ShellBackend(root,website,path,digest)
             def fake_run(args,cwd):
-                calls.append(args)
-                if args[:3]==["git","ls-remote","--tags"]:return artifact+"\trefs/tags/dataset-2026-10-15-"+plan["canonical_sha256"][:12]+"^{}"
+                if args[:3]==["git","ls-remote","--tags"]:return artifact+"\trefs/tags/"+release_tag_name(plan)
                 raise AssertionError(args)
-            with patch("scripts.daily_pricing_release.git",return_value=artifact),patch.object(backend,"_run",side_effect=fake_run):
-                self.assertEqual(backend.push_tag(plan,artifact),"dataset-2026-10-15-"+plan["canonical_sha256"][:12])
-            self.assertEqual(len(calls),1)
+            with patch("scripts.daily_pricing_release.git",return_value=""),patch.object(backend,"_run",side_effect=fake_run):
+                with self.assertRaisesRegex(ReleaseFailure,"REFUSING TO MOVE OR OVERWRITE"):
+                    backend.push_tag(plan,artifact,release_tag_name(plan))
+
+    def test_existing_local_tag_is_never_accepted_or_moved(self):
+        with tempfile.TemporaryDirectory() as tmp:
+            root=Path(tmp);website=root/"website";website.mkdir();plan,path,digest=plan_fixture(tmp);artifact="4"*40
+            backend=ShellBackend(root,website,path,digest)
+            with patch("scripts.daily_pricing_release.git",return_value=artifact),patch.object(backend,"_run",return_value=""):
+                with self.assertRaisesRegex(ReleaseFailure,"REFUSING TO MOVE OR OVERWRITE"):
+                    backend.push_tag(plan,artifact,release_tag_name(plan))
+
+    def test_pre_tag_failure_blocks_tag_validate_and_pages(self):
+        with tempfile.TemporaryDirectory() as tmp:
+            backend=FakeBackend("pre_tag_verified")
+            with self.assertRaises(ReleaseFailure):self.execute(tmp,backend)
+            self.assertNotIn("tag_pushed",backend.calls);self.assertNotIn("validate_verified",backend.calls);self.assertNotIn("pages_release_gate_verified",backend.calls)
+
+    def test_website_dataset_parity_failure_blocks_tag(self):
+        with tempfile.TemporaryDirectory() as tmp:
+            root=Path(tmp);website=root/"website";website.mkdir();plan,path,digest=plan_fixture(tmp);backend=ShellBackend(root,website,path,digest)
+            with patch("scripts.check_release_gate.verify_local"),patch.object(backend,"_remote_main",side_effect=["4"*40,"5"*40]),patch.object(backend,"_run",side_effect=ReleaseFailure("VALIDATION_SCRIPT_FAILURE","pre_tag_verified","fixture")):
+                with self.assertRaisesRegex(ReleaseFailure,"PRICING V2 PARITY FAILED"):
+                    backend.verify_pre_tag(plan,digest,"3"*40,"4"*40,"5"*40)
+
+    def test_official_tag_path_has_no_force_update(self):
+        source=Path(__file__).resolve().parents[1]/"scripts/daily_pricing_release.py"
+        text=source.read_text(encoding="utf-8")
+        self.assertNotIn('"--force"',text);self.assertNotIn('"-f", "refs/tags/',text)
+
+    def test_dispatched_workflows_keep_distinct_failure_stages(self):
+        with tempfile.TemporaryDirectory() as tmp:
+            root=Path(tmp);website=root/"website";website.mkdir();plan,path,digest=plan_fixture(tmp);backend=ShellBackend(root,website,path,digest)
+            cases=[("deploy-pages.yml",None,"release","pages_release_gate_verified"),("publish-huggingface.yml",["dry_run=true"],"dry","hf_dry_run_verified"),("publish-huggingface.yml",["dry_run=false"],"publish","hf_publish_verified")]
+            for workflow,extra,suffix,stage in cases:
+                state={"workflow_run_ids":{f"{workflow}:{suffix}":7}}
+                with patch.object(backend,"_wait_run_id",return_value={}) as wait:
+                    backend._dispatch(workflow,state,plan,extra)
+                    wait.assert_called_once_with(7,stage)
 
     def test_modified_plan_cannot_resume(self):
         with tempfile.TemporaryDirectory() as tmp:

@@ -15,6 +15,8 @@ from scripts.check_release_gate import (
     assert_clean_checkout,
     row_digests,
     load_approved_plan,
+    load_committed_approved_plan,
+    assert_local_release_identity,
 )
 
 ROOT=Path(__file__).resolve().parents[1]
@@ -135,6 +137,24 @@ class ReleaseIdentityTests(unittest.TestCase):
             bad={**manifest,key:value}
             with self.assertRaises(GateError):assert_bundle_identity(bad,identity)
 
+    def test_local_identity_contract_passes_and_each_identity_gate_fails_closed(self):
+        identity={"source_sha":SOURCE,"artifact_sha":ARTIFACT,"website_sha":WEBSITE}
+        blobs={(SOURCE,"data/canonical/models.json"):b"canonical",(ARTIFACT,"data/canonical/models.json"):b"canonical",(ARTIFACT,"api/v1/meta.json"):json.dumps({"source_commit_sha":SOURCE}).encode()}
+        read=lambda revision,path:blobs[(revision,path)]
+        self.assertEqual(assert_local_release_identity(identity,read,lambda source,artifact:True)[:3],(SOURCE,ARTIFACT,WEBSITE))
+        with self.assertRaisesRegex(GateError,"MUST BE DISTINCT"):
+            assert_local_release_identity({**identity,"source_sha":ARTIFACT},read,lambda source,artifact:True)
+        with self.assertRaisesRegex(GateError,"NOT A VALID ANCESTOR"):
+            assert_local_release_identity(identity,read,lambda source,artifact:False)
+        changed={**blobs,(ARTIFACT,"data/canonical/models.json"):b"changed"}
+        with self.assertRaisesRegex(GateError,"ALTERED AUTHORITATIVE SOURCE FACTS"):
+            assert_local_release_identity(identity,lambda revision,path:changed[(revision,path)],lambda source,artifact:True)
+        wrong_meta={**blobs,(ARTIFACT,"api/v1/meta.json"):json.dumps({"source_commit_sha":"0"*40}).encode()}
+        with self.assertRaisesRegex(GateError,"SOURCE PROVENANCE MISMATCH"):
+            assert_local_release_identity(identity,lambda revision,path:wrong_meta[(revision,path)],lambda source,artifact:True)
+        with self.assertRaisesRegex(GateError,"Website SHA"):
+            assert_local_release_identity({**identity,"website_sha":"main"},read,lambda source,artifact:True)
+
 class ApprovedPricingUniverseTests(unittest.TestCase):
     def fixture(self):
         v1=[{"provider_id":"fixture","model_id":"existing","input":1},{"provider_id":"fixture","model_id":"approved-new","input":2}]
@@ -155,6 +175,25 @@ class ApprovedPricingUniverseTests(unittest.TestCase):
             root=Path(tmp);path=root/"release-plans"/(PLAN_ID+".json");path.parent.mkdir();path.write_text(json.dumps({"schema":"aicostbudget-daily-pricing-release-plan-v1","release_id":PLAN_ID}),encoding="utf-8")
             digest=hashlib.sha256(path.read_bytes()).hexdigest();self.assertEqual(load_approved_plan(root,PLAN_ID,digest)["release_id"],PLAN_ID)
             with self.assertRaisesRegex(GateError,"digest mismatch"):load_approved_plan(root,PLAN_ID,"0"*64)
+
+    def test_same_plan_bytes_must_be_committed_in_both_s1_and_s2(self):
+        payload=json.dumps({"schema":"aicostbudget-daily-pricing-release-plan-v1","release_id":PLAN_ID}).encode()
+        digest=hashlib.sha256(payload).hexdigest()
+        with patch("scripts.check_release_gate.subprocess.check_output",return_value=payload):
+            self.assertEqual(load_committed_approved_plan(ROOT,PLAN_ID,digest,SOURCE,ARTIFACT)["release_id"],PLAN_ID)
+        with patch("scripts.check_release_gate.subprocess.check_output",side_effect=[payload,b"different"]):
+            with self.assertRaisesRegex(GateError,"RELEASE PLAN MISSING"):
+                load_committed_approved_plan(ROOT,PLAN_ID,digest,SOURCE,ARTIFACT)
+
+    def test_retroactive_or_recovery_schema_plan_cannot_authorize_a_tag(self):
+        missing=subprocess.CalledProcessError(128,["git","show"])
+        with patch("scripts.check_release_gate.subprocess.check_output",side_effect=missing):
+            with self.assertRaisesRegex(GateError,"FORMAL TAG CREATION BLOCKED"):
+                load_committed_approved_plan(ROOT,PLAN_ID,PLAN_DIGEST,SOURCE,ARTIFACT)
+        payload=json.dumps({"schema":"aicostbudget-recovery-plan-v1","release_id":PLAN_ID}).encode();digest=hashlib.sha256(payload).hexdigest()
+        with patch("scripts.check_release_gate.subprocess.check_output",return_value=payload):
+            with self.assertRaisesRegex(GateError,"FORMAL TAG CREATION BLOCKED"):
+                load_committed_approved_plan(ROOT,PLAN_ID,digest,SOURCE,ARTIFACT)
 
 class CleanInputTests(unittest.TestCase):
     def test_genuine_clean_checkout_and_exact_nested_consumer_allowed(self):

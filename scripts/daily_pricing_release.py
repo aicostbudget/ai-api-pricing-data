@@ -19,7 +19,7 @@ from typing import Any, Callable, Iterable, Mapping
 ROOT = Path(__file__).resolve().parents[1]
 STATE_DIR_NAME = ".daily-pricing-release"
 PLAN_SCHEMA = "aicostbudget-daily-pricing-release-plan-v1"
-STATE_SCHEMA = "aicostbudget-daily-pricing-release-state-v1"
+STATE_SCHEMA = "aicostbudget-daily-pricing-release-state-v2"
 DATASET_REPO = "aicostbudget/ai-api-pricing-data"
 WEBSITE_REPO = "linqiang-max/aicostbudget"
 ALLOWED_WEBSITE_OUTPUTS = {
@@ -39,9 +39,9 @@ ARTIFACT_PREFIXES = (
 )
 STAGES = (
     "plan_verified", "source_committed", "artifacts_generated", "artifact_committed",
-    "website_committed", "website_pushed", "dataset_pushed", "tag_pushed", "ci_verified",
-    "pages_verified", "website_production_verified", "hf_dry_run_verified",
-    "hf_published", "hf_production_verified",
+    "website_committed", "website_pushed", "dataset_pushed", "pre_tag_verified", "tag_pushed",
+    "validate_verified", "pages_release_gate_verified", "website_production_verified",
+    "hf_dry_run_verified", "hf_publish_verified", "hf_production_verified",
 )
 
 
@@ -97,6 +97,16 @@ def write_json(path: Path, value: Any) -> None:
 
 def plan_digest(path: Path) -> str:
     return sha256_bytes(path.read_bytes())
+
+
+def release_tag_name(plan: Mapping[str, Any]) -> str:
+    models = plan.get("models", [])
+    if len(models) == 1:
+        readable = re.sub(r"[^a-z0-9]+", "-", str(models[0].get("model_id", "")).lower()).strip("-")[:64]
+        subject = readable or "model"
+    else:
+        subject = "pricing"
+    return f"dataset-{plan['snapshot_date']}-{subject}-{plan['canonical_sha256'][:8]}"
 
 
 def git(repo: Path, *args: str, check: bool = True) -> str:
@@ -301,6 +311,8 @@ class ReleaseStateStore:
     def load(self, digest: str) -> dict[str, Any]:
         if self.path.exists():
             state = read_json(self.path)
+            if state.get("schema") != STATE_SCHEMA:
+                raise ReleaseFailure("DATA_MISMATCH", "plan_verified", "Release state schema changed; run Prepare again")
             if state.get("plan_digest") != digest:
                 raise ReleaseFailure("DATA_MISMATCH", "plan_verified", "Approved plan digest changed; run Prepare again")
             return state
@@ -319,7 +331,8 @@ class Backend:
     def commit_website(self, plan: dict[str, Any], source_sha: str) -> str: raise NotImplementedError
     def push_dataset(self, plan: dict[str, Any], artifact_sha: str) -> None: raise NotImplementedError
     def push_website(self, plan: dict[str, Any], website_sha: str) -> None: raise NotImplementedError
-    def push_tag(self, plan: dict[str, Any], artifact_sha: str) -> str: raise NotImplementedError
+    def verify_pre_tag(self, plan: dict[str, Any], digest: str, source_sha: str, artifact_sha: str, website_sha: str) -> str: raise NotImplementedError
+    def push_tag(self, plan: dict[str, Any], artifact_sha: str, tag: str) -> str: raise NotImplementedError
     def verify_ci(self, artifact_sha: str, website_sha: str) -> list[dict[str, Any]]: raise NotImplementedError
     def deploy_pages(self, state: dict[str, Any], plan: dict[str, Any]) -> dict[str, Any]: raise NotImplementedError
     def verify_website_production(self, website_sha: str) -> None: raise NotImplementedError
@@ -357,14 +370,15 @@ def publish_release(plan: dict[str, Any], plan_path: Path, digest: str, store: R
     website_sha = run("website_committed", lambda: backend.commit_website(plan, source_sha), "website_sha") or state["website_sha"]
     run("website_pushed", lambda: backend.push_website(plan, website_sha))
     run("dataset_pushed", lambda: backend.push_dataset(plan, artifact_sha))
-    tag = run("tag_pushed", lambda: backend.push_tag(plan, artifact_sha), "release_tag") or state["release_tag"]
-    runs = run("ci_verified", lambda: backend.verify_ci(artifact_sha, website_sha), "ci_runs") or state["ci_runs"]
-    pages = run("pages_verified", lambda: backend.deploy_pages(state, plan), "pages_run") or state["pages_run"]
+    tag = run("pre_tag_verified", lambda: backend.verify_pre_tag(plan, digest, source_sha, artifact_sha, website_sha), "release_tag") or state["release_tag"]
+    run("tag_pushed", lambda: backend.push_tag(plan, artifact_sha, tag))
+    runs = run("validate_verified", lambda: backend.verify_ci(artifact_sha, website_sha), "validate_runs") or state["validate_runs"]
+    pages = run("pages_release_gate_verified", lambda: backend.deploy_pages(state, plan), "pages_run") or state["pages_run"]
     run("website_production_verified", lambda: backend.verify_website_production(website_sha))
     hf_dry = run("hf_dry_run_verified", lambda: backend.publish_hf(state, plan, True), "hf_dry_run") or state["hf_dry_run"]
-    hf_publish = run("hf_published", lambda: backend.publish_hf(state, plan, False), "hf_publish") or state["hf_publish"]
+    hf_publish = run("hf_publish_verified", lambda: backend.publish_hf(state, plan, False), "hf_publish") or state["hf_publish"]
     run("hf_production_verified", backend.verify_hf)
-    state["result"] = {"status": "PRODUCTION VERIFIED", "source_sha": source_sha, "artifact_sha": artifact_sha, "website_sha": website_sha, "release_tag": tag, "ci_runs": runs, "pages_run": pages, "hf_dry_run": hf_dry, "hf_publish": hf_publish}
+    state["result"] = {"status": "PRODUCTION VERIFIED", "source_sha": source_sha, "artifact_sha": artifact_sha, "website_sha": website_sha, "release_tag": tag, "validate_runs": runs, "pages_run": pages, "hf_dry_run": hf_dry, "hf_publish": hf_publish, "verification": {"validate": True, "pages_release_gate": True, "website_production": True, "hf_dry_run": True, "hf_publish": True, "hf_production": True}}
     store.save(state)
     return state["result"]
 
@@ -450,16 +464,45 @@ class ShellBackend(Backend):
         if remote != plan["website_base_sha"]: raise ReleaseFailure("REMOTE_STATE_UNKNOWN", "website_pushed", "Website main moved")
         self._run(["git", "push", "origin", f"{website_sha}:main"], self.website)
 
-    def push_tag(self, plan: dict[str, Any], artifact_sha: str) -> str:
-        tag = f"dataset-{plan['snapshot_date']}-{plan['canonical_sha256'][:12]}"
-        local=git(self.root,"rev-parse","--verify",f"refs/tags/{tag}^{{commit}}",check=False)
-        if local and local!=artifact_sha: raise ReleaseFailure("DATA_MISMATCH","tag_pushed","Existing local release tag points to another commit")
-        remote=self._run(["git","ls-remote","--tags","origin",f"refs/tags/{tag}^{{}}"],self.root)
-        if remote:
-            target=remote.split()[0]
-            if target!=artifact_sha: raise ReleaseFailure("DATA_MISMATCH","tag_pushed","Existing remote release tag points to another commit")
-            return tag
-        if not local: self._run(["git", "tag", "-a", tag, artifact_sha, "-m", f"AICostBudget pricing release {plan['release_id']}"], self.root)
+    def _assert_tag_available(self, tag: str, stage: str) -> None:
+        local=git(self.root,"show-ref","--verify",f"refs/tags/{tag}",check=False)
+        remote=self._run(["git","ls-remote","--tags","origin",f"refs/tags/{tag}",f"refs/tags/{tag}^{{}}"],self.root)
+        if local or remote:
+            raise ReleaseFailure("DATA_MISMATCH",stage,"RELEASE TAG ALREADY EXISTS — REFUSING TO MOVE OR OVERWRITE")
+
+    def verify_pre_tag(self, plan: dict[str, Any], digest: str, source_sha: str, artifact_sha: str, website_sha: str) -> str:
+        from scripts.check_release_gate import verify_local
+        from scripts.review_gate import GateError, exact_sha
+        try:
+            source=exact_sha(source_sha,"Source SHA");artifact=exact_sha(artifact_sha,"Artifact SHA");website=exact_sha(website_sha,"Website SHA")
+        except GateError as error:
+            raise ReleaseFailure("DATA_MISMATCH","pre_tag_verified",str(error)) from None
+        if source==artifact:
+            raise ReleaseFailure("DATA_MISMATCH","pre_tag_verified","SOURCE AND ARTIFACT SHA MUST BE DISTINCT")
+        try:
+            dataset_main=exact_sha(self._remote_main(DATASET_REPO),"Dataset main SHA")
+            website_main=exact_sha(self._remote_main(WEBSITE_REPO),"Website main SHA")
+        except GateError as error:
+            raise ReleaseFailure("REMOTE_STATE_UNKNOWN","pre_tag_verified",str(error)) from None
+        if dataset_main!=artifact or website_main!=website:
+            raise ReleaseFailure("REMOTE_STATE_UNKNOWN","pre_tag_verified","PUSHED MAIN SHA DOES NOT MATCH APPROVED S2/W1")
+        tag=release_tag_name(plan)
+        identity={"source_sha":source,"artifact_sha":artifact,"website_sha":website,"release_tag":tag,"release_plan_id":plan["release_id"],"release_plan_digest":digest}
+        try:
+            verify_local(identity,self.website,plan["snapshot_date"])
+        except GateError as error:
+            raise ReleaseFailure("DATA_MISMATCH","pre_tag_verified",str(error)) from None
+        try:
+            self._run(["node","scripts/test-dataset-pricing-components-parity.mjs",str(self.root/"huggingface")],self.website)
+        except ReleaseFailure:
+            raise ReleaseFailure("DATA_MISMATCH","pre_tag_verified","WEBSITE / DATASET PRICING V2 PARITY FAILED") from None
+        self._assert_tag_available(tag,"pre_tag_verified")
+        return tag
+
+    def push_tag(self, plan: dict[str, Any], artifact_sha: str, tag: str) -> str:
+        if tag!=release_tag_name(plan): raise ReleaseFailure("DATA_MISMATCH","tag_pushed","Release tag changed after pre-tag verification")
+        self._assert_tag_available(tag,"tag_pushed")
+        self._run(["git", "tag", "-a", tag, artifact_sha, "-m", f"AICostBudget pricing release {plan['release_id']}"], self.root)
         self._run(["git", "push", "origin", f"refs/tags/{tag}"], self.root)
         return tag
 
@@ -470,21 +513,21 @@ class ShellBackend(Backend):
             runs = json.loads(raw)
             exact = [run for run in runs if run.get("headSha") == sha]
             failed = [run for run in exact if run.get("status") == "completed" and run.get("conclusion") != "success"]
-            if failed: raise ReleaseFailure("CI_FAILURE", "ci_verified", f"{workflow} failed: {failed[0].get('url')}")
+            if failed: raise ReleaseFailure("CI_FAILURE", "validate_verified", f"{workflow} failed: {failed[0].get('url')}")
             passed = [run for run in exact if run.get("status") == "completed" and run.get("conclusion") == "success"]
             if passed: return passed[0]
             time.sleep(15)
-        raise ReleaseFailure("CI_FAILURE", "ci_verified", f"Timed out waiting for {workflow} at {sha}")
+        raise ReleaseFailure("CI_FAILURE", "validate_verified", f"Timed out waiting for {workflow} at {sha}")
 
-    def _wait_run_id(self, run_id: int, timeout: int = 1800) -> dict[str, Any]:
+    def _wait_run_id(self, run_id: int, stage: str, timeout: int = 1800) -> dict[str, Any]:
         deadline=time.time()+timeout
         while time.time()<deadline:
             run=json.loads(self._run(["gh","run","view",str(run_id),"--repo",DATASET_REPO,"--json","databaseId,status,conclusion,url,headSha"],self.root))
             if run.get("status")=="completed":
-                if run.get("conclusion")!="success": raise ReleaseFailure("CI_FAILURE","ci_verified",f"Workflow failed: {run.get('url')}")
+                if run.get("conclusion")!="success": raise ReleaseFailure("CI_FAILURE",stage,f"Workflow failed: {run.get('url')}")
                 return run
             time.sleep(15)
-        raise ReleaseFailure("CI_FAILURE","ci_verified",f"Timed out waiting for workflow run {run_id}")
+        raise ReleaseFailure("CI_FAILURE",stage,f"Timed out waiting for workflow run {run_id}")
 
     def verify_ci(self, artifact_sha: str, website_sha: str) -> list[dict[str, Any]]:
         # Validate is push-triggered for the exact S2 SHA and checks the already-pushed Website main.
@@ -493,22 +536,23 @@ class ShellBackend(Backend):
 
     def _dispatch(self, workflow: str, state: dict[str, Any], plan: dict[str, Any], extra: list[str] | None = None) -> dict[str, Any]:
         suffix="publish" if extra and "dry_run=false" in extra else "dry" if extra else "release"
+        stage="hf_publish_verified" if suffix=="publish" else "hf_dry_run_verified" if suffix=="dry" else "pages_release_gate_verified"
         key=f"{workflow}:{suffix}";run_ids=state.setdefault("workflow_run_ids",{})
-        if key in run_ids:return self._wait_run_id(int(run_ids[key]))
+        if key in run_ids:return self._wait_run_id(int(run_ids[key]),stage)
         known={int(value) for value in run_ids.values()}
         existing=json.loads(self._run(["gh","run","list","--repo",DATASET_REPO,"--workflow",workflow,"--commit",state["artifact_sha"],"--event","workflow_dispatch","--json","databaseId,headSha","--limit","10"],self.root))
         recoverable=[run for run in existing if run.get("headSha")==state["artifact_sha"] and int(run["databaseId"]) not in known]
         if recoverable:
-            run_id=int(recoverable[0]["databaseId"]);run_ids[key]=run_id;write_json(self.root/STATE_DIR_NAME/"state"/f"{state['release_id']}.json",state);return self._wait_run_id(run_id)
+            run_id=int(recoverable[0]["databaseId"]);run_ids[key]=run_id;write_json(self.root/STATE_DIR_NAME/"state"/f"{state['release_id']}.json",state);return self._wait_run_id(run_id,stage)
         fields = ["-f", f"artifact_sha={state['artifact_sha']}", "-f", f"source_sha={state['source_sha']}", "-f", f"website_sha={state['website_sha']}", "-f", f"release_tag={state['release_tag']}", "-f", f"release_date={plan['snapshot_date']}", "-f", f"release_plan_id={plan['release_id']}", "-f", f"release_plan_digest={state['plan_digest']}"]
         self._run(["gh", "workflow", "run", workflow, "--repo", DATASET_REPO, "--ref", "main", *fields, *(extra or [])], self.root)
         for _ in range(20):
             runs=json.loads(self._run(["gh","run","list","--repo",DATASET_REPO,"--workflow",workflow,"--commit",state["artifact_sha"],"--event","workflow_dispatch","--json","databaseId,headSha","--limit","10"],self.root))
             fresh=[run for run in runs if run.get("headSha")==state["artifact_sha"] and int(run["databaseId"]) not in known]
             if fresh:
-                run_id=int(fresh[0]["databaseId"]);run_ids[key]=run_id;write_json(self.root/STATE_DIR_NAME/"state"/f"{state['release_id']}.json",state);return self._wait_run_id(run_id)
+                run_id=int(fresh[0]["databaseId"]);run_ids[key]=run_id;write_json(self.root/STATE_DIR_NAME/"state"/f"{state['release_id']}.json",state);return self._wait_run_id(run_id,stage)
             time.sleep(3)
-        raise ReleaseFailure("CI_FAILURE","ci_verified",f"Dispatched {workflow} but could not resolve its exact run ID")
+        raise ReleaseFailure("CI_FAILURE",stage,f"Dispatched {workflow} but could not resolve its exact run ID")
 
     def deploy_pages(self, state: dict[str, Any], plan: dict[str, Any]) -> dict[str, Any]: return self._dispatch("deploy-pages.yml", state, plan)
 
