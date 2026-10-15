@@ -25,6 +25,14 @@ on:
         description: "Approved release date YYYY-MM-DD"
         required: true
         type: string
+      release_plan_id:
+        description: "Reviewed daily release plan ID"
+        required: true
+        type: string
+      release_plan_digest:
+        description: "SHA-256 of the committed reviewed release plan"
+        required: true
+        type: string
 
 permissions:
   contents: read
@@ -115,6 +123,8 @@ jobs:
           WEBSITE_SHA: ${{ inputs.website_sha }}
           RELEASE_TAG: ${{ inputs.release_tag }}
           RELEASE_DATE: ${{ inputs.release_date }}
+          RELEASE_PLAN_ID: ${{ inputs.release_plan_id }}
+          RELEASE_PLAN_DIGEST: ${{ inputs.release_plan_digest }}
         run: python scripts/check_release_gate.py --kind pages
       - name: Checkout approved committed Website
         uses: actions/checkout@v5
@@ -138,6 +148,8 @@ jobs:
           WEBSITE_SHA: ${{ inputs.website_sha }}
           RELEASE_TAG: ${{ inputs.release_tag }}
           RELEASE_DATE: ${{ inputs.release_date }}
+          RELEASE_PLAN_ID: ${{ inputs.release_plan_id }}
+          RELEASE_PLAN_DIGEST: ${{ inputs.release_plan_digest }}
         run: |
           python scripts/check_release_gate.py --kind pages --verify-local --website-repo website-source --bundle-output "$RUNNER_TEMP/pages-reviewed-bundle"
           echo "eligible=true" >> "$GITHUB_OUTPUT"
@@ -171,6 +183,8 @@ jobs:
           WEBSITE_SHA: ${{ inputs.website_sha }}
           RELEASE_TAG: ${{ inputs.release_tag }}
           RELEASE_DATE: ${{ inputs.release_date }}
+          RELEASE_PLAN_ID: ${{ inputs.release_plan_id }}
+          RELEASE_PLAN_DIGEST: ${{ inputs.release_plan_digest }}
         run: python scripts/check_release_gate.py --kind pages
       - id: deployment
         uses: actions/deploy-pages@v5

@@ -1,6 +1,7 @@
 """Verify reviewed immutable release identity; never deploy or publish."""
 import argparse
 import csv
+import hashlib
 import io
 import json
 import os
@@ -17,9 +18,32 @@ try:
 except ModuleNotFoundError:
     from scripts.review_gate import DATASET_REPO, WEBSITE_REPO, GateError, GitHubReader, exact_sha, require_manual_dispatch
 
-APPROVED_V1_RECORDS = 89
-APPROVED_V2_RECORDS = 87
-APPROVED_ADDITION = ("google-gemini", "gemini-4-argon")
+PLAN_SCHEMA = "aicostbudget-daily-pricing-release-plan-v1"
+
+def canonical_bytes(value):
+    return (json.dumps(value,ensure_ascii=False,sort_keys=True,separators=(",",":"))+"\n").encode("utf-8")
+
+def row_identity(row):
+    provider=row.get("provider_id") or row.get("provider");model=row.get("model_id") or row.get("id")
+    if not isinstance(provider,str) or not isinstance(model,str) or not provider or not model: raise GateError("Pricing row lacks provider/model identity")
+    return provider+"/"+model
+
+def row_digests(rows):
+    result={}
+    for row in rows:
+        identity=row_identity(row)
+        if identity in result: raise GateError("Duplicate pricing identity: "+identity)
+        result[identity]=hashlib.sha256(canonical_bytes(row)).hexdigest()
+    return dict(sorted(result.items()))
+
+def load_approved_plan(root,plan_id,digest):
+    if not re.fullmatch(r"[A-Za-z0-9][A-Za-z0-9._-]{0,127}",plan_id or ""): raise GateError("Approved release plan ID is invalid")
+    if not re.fullmatch(r"[0-9a-f]{64}",digest or ""): raise GateError("Approved release plan digest is invalid")
+    path=Path(root)/"release-plans"/(plan_id+".json")
+    if not path.is_file() or hashlib.sha256(path.read_bytes()).hexdigest()!=digest: raise GateError("Approved release plan file/digest mismatch")
+    plan=json.loads(path.read_text(encoding="utf-8"))
+    if plan.get("schema")!=PLAN_SCHEMA or plan.get("release_id")!=plan_id: raise GateError("Approved release plan identity mismatch")
+    return plan
 
 def check_release(context, get, kind):
     if kind not in ("pages", "hf"): raise GateError("Unknown release kind")
@@ -48,7 +72,9 @@ def check_release(context, get, kind):
     ancestry = get(prefix + "/compare/" + source + "..." + artifact, "dataset")
     if ancestry.get("status") != "ahead" or ancestry.get("merge_base_commit", {}).get("sha") != source:
         raise GateError("Real source must be a distinct ancestor of artifact commit")
-    return {"artifact_sha":artifact,"source_sha":source,"website_sha":website,"release_tag":tag}
+    plan_id=context.get("RELEASE_PLAN_ID","");plan_digest=context.get("RELEASE_PLAN_DIGEST","")
+    if not re.fullmatch(r"[A-Za-z0-9][A-Za-z0-9._-]{0,127}",plan_id) or not re.fullmatch(r"[0-9a-f]{64}",plan_digest): raise GateError("Exact approved release plan identity is required")
+    return {"artifact_sha":artifact,"source_sha":source,"website_sha":website,"release_tag":tag,"release_plan_id":plan_id,"release_plan_digest":plan_digest}
 
 def assert_bundle_identity(manifest, identity):
     if manifest.get("source_scope") not in (None, "COMMITTED") or manifest.get("status") != "release":
@@ -58,18 +84,14 @@ def assert_bundle_identity(manifest, identity):
     if manifest.get("projections", {}).get("pricing_v2", {}).get("export_schema") != "1.10.0":
         raise GateError("Release public contract must be 1.10.0")
 
-def assert_approved_pricing_universe(manifest, files):
-    if (
-        manifest["projections"]["github_pages_v1"]["records"] != APPROVED_V1_RECORDS
-        or manifest["projections"]["pricing_v2"]["records"] != APPROVED_V2_RECORDS
-    ):
-        raise GateError("Approved pricing universe changed; re-review required")
+def assert_approved_pricing_universe(manifest, files, plan):
     v1 = json.loads(files["github-pages-v1-prices.json"])["models"]
     v2 = json.loads(files["pricing-v2-prices.json"])["records"]
-    for name, rows in (("GitHub Pages V1", v1), ("Pricing V2/HF", v2)):
-        matches = [row for row in rows if (row.get("provider_id"), row.get("model_id")) == APPROVED_ADDITION]
-        if len(matches) != 1:
-            raise GateError(f"{name} must contain exactly one approved Gemini 4 Argon record")
+    contracts=plan.get("projection_contracts",{})
+    for key,name,rows,manifest_key in (("v1","GitHub Pages V1",v1,"github_pages_v1"),("v2","Pricing V2/HF",v2,"pricing_v2")):
+        contract=contracts.get(key,{})
+        if manifest["projections"][manifest_key]["records"]!=contract.get("records") or len(rows)!=contract.get("records") or row_digests(rows)!=contract.get("row_digests"):
+            raise GateError(name+" differs from the approved release plan")
 
 def assert_clean_checkout(repo, nested_checkout=None, reader=None):
     repo = Path(repo).resolve()
@@ -97,12 +119,17 @@ def verify_local(identity, website_repo, release_date, output=None):
         raise GateError("Checkout SHA differs from approved committed input")
     if git(root,"show",identity["source_sha"]+":data/canonical/models.json") != git(root,"show",identity["artifact_sha"]+":data/canonical/models.json"):
         raise GateError("Artifact commit altered authoritative source facts")
+    plan=load_approved_plan(root,identity["release_plan_id"],identity["release_plan_digest"])
+    canonical=git(root,"show",identity["source_sha"]+":data/canonical/models.json")
+    if hashlib.sha256(canonical).hexdigest()!=plan.get("canonical_sha256"): raise GateError("Canonical differs from the approved release plan")
+    if plan.get("dataset_base_sha")!=git(root,"rev-parse",identity["source_sha"]+"^").decode().strip() or plan.get("website_base_sha")!=git(website_repo,"rev-parse",identity["website_sha"]+"^").decode().strip():
+        raise GateError("Release commits do not descend directly from approved plan baselines")
     pages,source,artifact = committed_pages(identity["artifact_sha"])
     if (source,artifact)!=(identity["source_sha"],identity["artifact_sha"]): raise GateError("Committed API provenance differs from approved source/artifact")
     meta=json.loads(pages["api/v1/meta.json"]);snapshot=meta["generated_at"][:10]
     files=bundle.build_contents(identity["artifact_sha"],website_repo,identity["website_sha"],snapshot,identity["release_tag"],release_date)
     manifest=bundle.verify_contents(files);assert_bundle_identity(manifest,identity)
-    assert_approved_pricing_universe(manifest,files)
+    assert_approved_pricing_universe(manifest,files,plan)
     if output: bundle.write_bundle(files,output)
     return manifest
 
