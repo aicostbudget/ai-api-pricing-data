@@ -16,6 +16,19 @@ from datetime import datetime, timezone
 from pathlib import Path
 from typing import Any, Callable, Iterable, Mapping
 
+try:
+    from forward_recovery import (
+        RECOVERY_PLAN_SCHEMA, RECOVERY_STATE_SCHEMA, RecoveryContractError,
+        assert_recovery_tag_available, is_recovery_artifact_path, recovery_tag_name,
+        validate_recovery_plan, validate_website_reuse_contract,
+    )
+except ModuleNotFoundError:
+    from scripts.forward_recovery import (
+        RECOVERY_PLAN_SCHEMA, RECOVERY_STATE_SCHEMA, RecoveryContractError,
+        assert_recovery_tag_available, is_recovery_artifact_path, recovery_tag_name,
+        validate_recovery_plan, validate_website_reuse_contract,
+    )
+
 ROOT = Path(__file__).resolve().parents[1]
 STATE_DIR_NAME = ".daily-pricing-release"
 PLAN_SCHEMA = "aicostbudget-daily-pricing-release-plan-v1"
@@ -341,6 +354,133 @@ class Backend:
     def verify_hf(self) -> None: raise NotImplementedError
 
 
+RECOVERY_STAGES = (
+    "recovery_plan_verified",
+    "recovery_source_committed",
+    "recovery_artifacts_generated",
+    "recovery_artifact_committed",
+    "recovery_website_verified",
+    "recovery_dataset_pushed",
+    "recovery_pre_tag_verified",
+    "recovery_tag_pushed",
+    "recovery_validate_verified",
+    "recovery_pages_preflight_verified",
+    "recovery_pages_deployed",
+    "recovery_pages_verified",
+    "recovery_website_production_verified",
+    "recovery_hf_dry_run_verified",
+    "recovery_hf_publish_verified",
+    "recovery_hf_production_verified",
+)
+
+
+@dataclass
+class RecoveryStateStore:
+    root: Path
+    recovery_id: str
+
+    @property
+    def path(self) -> Path:
+        return self.root / STATE_DIR_NAME / "recovery-state" / f"{self.recovery_id}.json"
+
+    def load(self, digest: str) -> dict[str, Any]:
+        if self.path.exists():
+            state = read_json(self.path)
+            if state.get("schema") != RECOVERY_STATE_SCHEMA:
+                raise ReleaseFailure("DATA_MISMATCH", "recovery_plan_verified", "Recovery state schema changed; obtain a new human approval")
+            if state.get("recovery_id") != self.recovery_id or state.get("plan_digest") != digest:
+                raise ReleaseFailure("DATA_MISMATCH", "recovery_plan_verified", "Recovery identity or approved plan digest changed")
+            if any(stage not in RECOVERY_STAGES for stage in state.get("completed_stages", [])):
+                raise ReleaseFailure("DATA_MISMATCH", "recovery_plan_verified", "Recovery state contains an unknown stage")
+            return state
+        return {"schema": RECOVERY_STATE_SCHEMA, "recovery_id": self.recovery_id, "plan_digest": digest, "completed_stages": [], "last_error": None}
+
+    def save(self, state: dict[str, Any]) -> None:
+        write_json(self.path, state)
+
+
+class RecoveryBackend:
+    """Independent side-effect boundary; recovery never falls through to Daily Release."""
+    def verify_plan(self, plan: dict[str, Any], digest: str) -> None: raise NotImplementedError
+    def commit_source(self, plan: dict[str, Any]) -> str: raise NotImplementedError
+    def generate_artifacts(self, plan: dict[str, Any], source_sha: str) -> None: raise NotImplementedError
+    def commit_artifact(self, plan: dict[str, Any], source_sha: str) -> str: raise NotImplementedError
+    def verify_website_reuse(self, plan: dict[str, Any]) -> str: raise NotImplementedError
+    def push_dataset(self, plan: dict[str, Any], artifact_sha: str) -> None: raise NotImplementedError
+    def verify_pre_tag(self, plan: dict[str, Any], digest: str, source_sha: str, artifact_sha: str, website_sha: str) -> str: raise NotImplementedError
+    def push_tag(self, plan: dict[str, Any], artifact_sha: str, tag: str) -> None: raise NotImplementedError
+    def verify_ci(self, artifact_sha: str, website_sha: str) -> list[dict[str, Any]]: raise NotImplementedError
+    def deploy_pages(self, state: dict[str, Any], plan: dict[str, Any]) -> dict[str, Any]: raise NotImplementedError
+    def verify_website_production(self, plan: dict[str, Any]) -> None: raise NotImplementedError
+    def publish_hf(self, state: dict[str, Any], plan: dict[str, Any], dry_run: bool) -> dict[str, Any]: raise NotImplementedError
+    def verify_hf(self, plan: dict[str, Any]) -> None: raise NotImplementedError
+
+
+def publish_recovery(plan: dict[str, Any], plan_path: Path, digest: str, store: RecoveryStateStore, backend: RecoveryBackend) -> dict[str, Any]:
+    try:
+        validate_recovery_plan(plan, store.recovery_id)
+    except RecoveryContractError as error:
+        raise ReleaseFailure("DATA_MISMATCH", "recovery_plan_verified", str(error)) from None
+    if plan.get("schema") != RECOVERY_PLAN_SCHEMA or plan_digest(plan_path) != digest:
+        raise ReleaseFailure("DATA_MISMATCH", "recovery_plan_verified", "Approved recovery plan identity does not match")
+    state = store.load(digest)
+
+    def run(stage: str, operation: Callable[[], Any], field: str | None = None) -> Any:
+        if stage in state["completed_stages"]:
+            return state.get(field) if field else None
+        state["active_stage"] = stage
+        store.save(state)
+        try:
+            value = operation()
+        except Exception as error:
+            failure = error if isinstance(error, ReleaseFailure) else ReleaseFailure("CODE_FAILURE", stage, str(error))
+            state["last_error"] = {"classification": failure.classification, "stage": stage, "message": str(failure)}
+            store.save(state)
+            raise failure
+        if field:
+            state[field] = value
+        state["completed_stages"].append(stage)
+        state.pop("active_stage", None)
+        state["last_error"] = None
+        store.save(state)
+        return value
+
+    run("recovery_plan_verified", lambda: backend.verify_plan(plan, digest))
+    source_sha = run("recovery_source_committed", lambda: backend.commit_source(plan), "source_sha") or state["source_sha"]
+    run("recovery_artifacts_generated", lambda: backend.generate_artifacts(plan, source_sha))
+    artifact_sha = run("recovery_artifact_committed", lambda: backend.commit_artifact(plan, source_sha), "artifact_sha") or state["artifact_sha"]
+    website_sha = run("recovery_website_verified", lambda: backend.verify_website_reuse(plan), "website_sha") or state["website_sha"]
+    run("recovery_dataset_pushed", lambda: backend.push_dataset(plan, artifact_sha))
+    tag = run("recovery_pre_tag_verified", lambda: backend.verify_pre_tag(plan, digest, source_sha, artifact_sha, website_sha), "release_tag") or state["release_tag"]
+    run("recovery_tag_pushed", lambda: backend.push_tag(plan, artifact_sha, tag))
+    runs = run("recovery_validate_verified", lambda: backend.verify_ci(artifact_sha, website_sha), "validate_runs") or state["validate_runs"]
+    pages = run("recovery_pages_preflight_verified", lambda: backend.deploy_pages(state, plan), "pages_run") or state["pages_run"]
+
+    def require_pages(field: str, stage: str) -> None:
+        if not isinstance(pages, dict) or pages.get(field) is not True:
+            raise ReleaseFailure("CI_FAILURE", stage, f"Pages run lacks {field} evidence")
+
+    run("recovery_pages_deployed", lambda: require_pages("production_deployed", "recovery_pages_deployed"))
+    run("recovery_pages_verified", lambda: require_pages("production_parity_verified", "recovery_pages_verified"))
+    run("recovery_website_production_verified", lambda: backend.verify_website_production(plan))
+    hf_dry = run("recovery_hf_dry_run_verified", lambda: backend.publish_hf(state, plan, True), "hf_dry_run") or state["hf_dry_run"]
+    hf_publish = run("recovery_hf_publish_verified", lambda: backend.publish_hf(state, plan, False), "hf_publish") or state["hf_publish"]
+    run("recovery_hf_production_verified", lambda: backend.verify_hf(plan))
+    state["result"] = {
+        "status": "PRODUCTION VERIFIED",
+        "source_sha": source_sha,
+        "artifact_sha": artifact_sha,
+        "website_sha": website_sha,
+        "release_tag": tag,
+        "validate_runs": runs,
+        "pages_run": pages,
+        "hf_dry_run": hf_dry,
+        "hf_publish": hf_publish,
+    }
+    store.save(state)
+    return state["result"]
+
+
 def publish_release(plan: dict[str, Any], plan_path: Path, digest: str, store: ReleaseStateStore, backend: Backend) -> dict[str, Any]:
     if plan.get("schema") != PLAN_SCHEMA or plan.get("release_id") != store.release_id or plan_digest(plan_path) != digest:
         raise ReleaseFailure("DATA_MISMATCH", "plan_verified", "Approved release plan identity does not match")
@@ -589,6 +729,156 @@ class ShellBackend(Backend):
     def verify_hf(self) -> None: self._run([sys.executable, "scripts/check_hf_production_parity.py"], self.root)
 
 
+class RecoveryShellBackend(ShellBackend, RecoveryBackend):
+    """Concrete forward-only backend. It accepts only a separately approved Recovery Plan."""
+
+    def _approved_website(self, plan: dict[str, Any], verify_public: bool) -> str:
+        try: from check_release_gate import expected_website_export, verify_production
+        except ModuleNotFoundError: from scripts.check_release_gate import expected_website_export, verify_production
+        contract = plan["website_contract"]
+        website_sha = contract["website_sha"]
+        if git(self.website, "rev-parse", "HEAD") != website_sha or self._remote_main(WEBSITE_REPO) != website_sha:
+            raise ReleaseFailure("REMOTE_STATE_UNKNOWN", "recovery_website_verified", "Website main moved from approved W1")
+        parent = git(self.website, "rev-parse", website_sha + "^")
+        expected = expected_website_export(self.website)
+        try:
+            validate_website_reuse_contract(contract, expected, website_sha, parent)
+            if verify_public:
+                verify_production(expected, approved_contract=contract)
+        except Exception as error:
+            raise ReleaseFailure("DATA_MISMATCH", "recovery_website_verified", str(error)) from None
+        return website_sha
+
+    def verify_plan(self, plan: dict[str, Any], digest: str) -> None:
+        if digest != self.digest or plan_digest(self.plan_path) != digest:
+            raise ReleaseFailure("DATA_MISMATCH", "recovery_plan_verified", "Recovery Plan digest changed")
+        if git(self.root, "rev-parse", "HEAD") != plan["dataset_base_sha"] or self._remote_main(DATASET_REPO) != plan["dataset_base_sha"]:
+            raise ReleaseFailure("REMOTE_STATE_UNKNOWN", "recovery_plan_verified", "Dataset main moved from approved C0")
+        if normalized_file_sha256(self.root / "data/canonical/models.json") != plan["canonical_sha256"]:
+            raise ReleaseFailure("DATA_MISMATCH", "recovery_plan_verified", "Canonical changed after Recovery Plan approval")
+        if git(self.root, "status", "--porcelain=v1", "--untracked-files=all"):
+            raise ReleaseFailure("DATA_MISMATCH", "recovery_plan_verified", "Recovery C0 checkout must be clean")
+        self._approved_website(plan, True)
+
+    def commit_source(self, plan: dict[str, Any]) -> str:
+        current = git(self.root, "rev-parse", "HEAD")
+        message = f"recovery: approve {plan['recovery_id']} plan"
+        if current != plan["dataset_base_sha"]:
+            if git(self.root, "rev-parse", "HEAD^") == plan["dataset_base_sha"] and git(self.root, "log", "-1", "--format=%s") == message:
+                return current
+            raise ReleaseFailure("DATA_MISMATCH", "recovery_source_committed", "Dataset HEAD is not approved C0 or resumable S1")
+        tracked_plan = self.root / "release-plans" / f"{plan['recovery_id']}.json"
+        tracked_plan.parent.mkdir(parents=True, exist_ok=True)
+        shutil.copyfile(self.plan_path, tracked_plan)
+        changed = sorted(filter(None, git(self.root, "status", "--porcelain=v1", "--untracked-files=all").splitlines()))
+        expected = "?? " + tracked_plan.relative_to(self.root).as_posix()
+        if changed != [expected]:
+            raise ReleaseFailure("DATA_MISMATCH", "recovery_source_committed", "Recovery S1 must contain only the approved Plan")
+        self._run(["git", "add", "--", tracked_plan.relative_to(self.root).as_posix()], self.root)
+        self._run(["git", "commit", "-m", message], self.root)
+        return git(self.root, "rev-parse", "HEAD")
+
+    def generate_artifacts(self, plan: dict[str, Any], source_sha: str) -> None:
+        if git(self.root, "rev-parse", "HEAD") != source_sha:
+            raise ReleaseFailure("DATA_MISMATCH", "recovery_artifacts_generated", "Recovery artifact generation must start at S1")
+        generated_at = plan["snapshot_generated_at"]
+        py = sys.executable
+        self._run([py, "scripts/build.py", "--generated-at", generated_at], self.root)
+        ensure_snapshot(self.root, generated_at)
+        self._run([py, "scripts/generate_pricing_v2_preview.py"], self.root)
+        self._run([py, "scripts/export_huggingface.py", "--website-repo", str(self.website), "--website-ref", plan["website_contract"]["website_sha"], "--generated-at", generated_at, "--write"], self.root)
+        self._run([py, "scripts/validate.py"], self.root)
+
+    def commit_artifact(self, plan: dict[str, Any], source_sha: str) -> str:
+        current = git(self.root, "rev-parse", "HEAD")
+        message = f"recovery: publish {plan['recovery_id']} artifacts"
+        if current != source_sha:
+            if git(self.root, "rev-parse", "HEAD^") == source_sha and git(self.root, "log", "-1", "--format=%s") == message:
+                return current
+            raise ReleaseFailure("DATA_MISMATCH", "recovery_artifact_committed", "Dataset HEAD is not approved S1 or resumable S2")
+        files = sorted(set(filter(None, git(self.root, "diff", "HEAD", "--name-only").splitlines())) | set(filter(None, git(self.root, "ls-files", "--others", "--exclude-standard").splitlines())))
+        if not files or any(not is_recovery_artifact_path(path) for path in files):
+            raise ReleaseFailure("DATA_MISMATCH", "recovery_artifact_committed", "Recovery S2 contains missing or non-artifact changes")
+        self._run(["git", "add", "--", *files], self.root)
+        self._run(["git", "commit", "-m", message], self.root)
+        return git(self.root, "rev-parse", "HEAD")
+
+    def verify_website_reuse(self, plan: dict[str, Any]) -> str:
+        return self._approved_website(plan, True)
+
+    def verify_pre_tag(self, plan: dict[str, Any], digest: str, source_sha: str, artifact_sha: str, website_sha: str) -> str:
+        try:
+            from check_release_gate import verify_local
+            from review_gate import GateError
+        except ModuleNotFoundError:
+            from scripts.check_release_gate import verify_local
+            from scripts.review_gate import GateError
+        if self._remote_main(DATASET_REPO) != artifact_sha or self._remote_main(WEBSITE_REPO) != website_sha:
+            raise ReleaseFailure("REMOTE_STATE_UNKNOWN", "recovery_pre_tag_verified", "Pushed main SHA does not match approved S2/W1")
+        tag = recovery_tag_name(plan)
+        identity = {"source_sha": source_sha, "artifact_sha": artifact_sha, "website_sha": website_sha, "release_tag": tag, "release_plan_id": plan["recovery_id"], "release_plan_digest": digest}
+        try:
+            verify_local(identity, self.website, plan["snapshot_generated_at"][:10])
+        except GateError as error:
+            raise ReleaseFailure("DATA_MISMATCH", "recovery_pre_tag_verified", str(error)) from None
+        self._run(["node", "scripts/test-dataset-pricing-components-parity.mjs", str(self.root / "huggingface")], self.website)
+        local = git(self.root, "show-ref", "--verify", f"refs/tags/{tag}", check=False)
+        remote = self._run(["git", "ls-remote", "--tags", "origin", f"refs/tags/{tag}", f"refs/tags/{tag}^{{}}"], self.root)
+        try:
+            return assert_recovery_tag_available(plan, local, remote)
+        except RecoveryContractError as error:
+            raise ReleaseFailure("DATA_MISMATCH", "recovery_pre_tag_verified", str(error)) from None
+
+    def push_tag(self, plan: dict[str, Any], artifact_sha: str, tag: str) -> None:
+        if tag != recovery_tag_name(plan):
+            raise ReleaseFailure("DATA_MISMATCH", "recovery_tag_pushed", "Recovery tag changed after pre-tag verification")
+        local = git(self.root, "show-ref", "--verify", f"refs/tags/{tag}", check=False)
+        remote = self._run(["git", "ls-remote", "--tags", "origin", f"refs/tags/{tag}", f"refs/tags/{tag}^{{}}"], self.root)
+        try:
+            assert_recovery_tag_available(plan, local, remote)
+        except RecoveryContractError as error:
+            raise ReleaseFailure("DATA_MISMATCH", "recovery_tag_pushed", str(error)) from None
+        self._run(["git", "tag", "-a", tag, artifact_sha, "-m", f"AICostBudget forward recovery {plan['recovery_id']}"], self.root)
+        self._run(["git", "push", "origin", f"refs/tags/{tag}"], self.root)
+
+    def _dispatch(self, workflow: str, state: dict[str, Any], plan: dict[str, Any], extra: list[str] | None = None) -> dict[str, Any]:
+        suffix = "publish" if extra and "dry_run=false" in extra else "dry" if extra else "release"
+        stage = "recovery_hf_publish_verified" if suffix == "publish" else "recovery_hf_dry_run_verified" if suffix == "dry" else "recovery_pages_preflight_verified"
+        key = f"{workflow}:{suffix}"
+        run_ids = state.setdefault("workflow_run_ids", {})
+        if key in run_ids:
+            return self._wait_run_id(int(run_ids[key]), stage)
+        known = {int(value) for value in run_ids.values()}
+        existing = json.loads(self._run(["gh", "run", "list", "--repo", DATASET_REPO, "--workflow", workflow, "--commit", state["artifact_sha"], "--event", "workflow_dispatch", "--json", "databaseId,headSha", "--limit", "10"], self.root))
+        recoverable = [run for run in existing if run.get("headSha") == state["artifact_sha"] and int(run["databaseId"]) not in known]
+        if recoverable:
+            run_id = int(recoverable[0]["databaseId"])
+            run_ids[key] = run_id
+            write_json(self.root / STATE_DIR_NAME / "recovery-state" / f"{state['recovery_id']}.json", state)
+            return self._wait_run_id(run_id, stage)
+        fields = ["-f", f"artifact_sha={state['artifact_sha']}", "-f", f"source_sha={state['source_sha']}", "-f", f"website_sha={state['website_sha']}", "-f", f"release_tag={state['release_tag']}", "-f", f"release_date={plan['snapshot_generated_at'][:10]}", "-f", f"release_plan_id={plan['recovery_id']}", "-f", f"release_plan_digest={state['plan_digest']}"]
+        self._run(["gh", "workflow", "run", workflow, "--repo", DATASET_REPO, "--ref", "main", *fields, *(extra or [])], self.root)
+        for _ in range(20):
+            runs = json.loads(self._run(["gh", "run", "list", "--repo", DATASET_REPO, "--workflow", workflow, "--commit", state["artifact_sha"], "--event", "workflow_dispatch", "--json", "databaseId,headSha", "--limit", "10"], self.root))
+            fresh = [run for run in runs if run.get("headSha") == state["artifact_sha"] and int(run["databaseId"]) not in known]
+            if fresh:
+                run_id = int(fresh[0]["databaseId"])
+                run_ids[key] = run_id
+                write_json(self.root / STATE_DIR_NAME / "recovery-state" / f"{state['recovery_id']}.json", state)
+                return self._wait_run_id(run_id, stage)
+            time.sleep(3)
+        raise ReleaseFailure("CI_FAILURE", stage, f"Dispatched {workflow} but could not resolve its exact run ID")
+
+    def verify_website_production(self, plan: dict[str, Any]) -> None:
+        self._approved_website(plan, True)
+
+    def publish_hf(self, state: dict[str, Any], plan: dict[str, Any], dry_run: bool) -> dict[str, Any]:
+        return self._dispatch("publish-huggingface.yml", state, plan, ["-f", f"dry_run={'true' if dry_run else 'false'}"])
+
+    def verify_hf(self, plan: dict[str, Any]) -> None:
+        self._run([sys.executable, "scripts/check_hf_production_parity.py"], self.root)
+
+
 def load_latest(root: Path) -> tuple[dict[str, Any], Path, str]:
     latest = read_json(root / STATE_DIR_NAME / "latest.json")
     path = Path(latest["plan_path"])
@@ -604,6 +894,11 @@ def main() -> None:
     for name in ("prepare", "publish"):
         item = sub.add_parser(name); item.add_argument("--dataset-root", type=Path, default=ROOT); item.add_argument("--website-root", type=Path, required=True)
         if name == "prepare": item.add_argument("--generated-at")
+    recovery = sub.add_parser("publish-recovery")
+    recovery.add_argument("--dataset-root", type=Path, default=ROOT)
+    recovery.add_argument("--website-root", type=Path, required=True)
+    recovery.add_argument("--plan", type=Path, required=True)
+    recovery.add_argument("--plan-digest", required=True)
     args = parser.parse_args()
     root, website = args.dataset_root.resolve(), args.website_root.resolve()
     try:
@@ -612,9 +907,20 @@ def main() -> None:
             ready = not plan["workspace"]["unrelated_files"] and bool(plan["models"]) and all(test["status"] == "PASS" for test in plan["tests"])
             print(json.dumps({"release_id": plan["release_id"], "plan_digest": digest, "models": [f"{row['provider_id']}/{row['model_id']}:{row['change_type']}" for row in plan["models"]], "v1_records": plan["projection_contracts"]["v1"]["records"], "v2_records": plan["projection_contracts"]["v2"]["records"], "plan": str(path), "ready_for_approval": ready}, ensure_ascii=False, indent=2))
             print("READY FOR APPROVAL: " + ("YES" if ready else "NO"))
-        else:
+        elif args.action == "publish":
             plan, path, digest = load_latest(root); store = ReleaseStateStore(root, plan["release_id"]); backend = ShellBackend(root, website, path, digest)
             print(json.dumps(publish_release(plan, path, digest, store, backend), ensure_ascii=False, indent=2)); print("PRODUCTION VERIFIED")
+        else:
+            path = args.plan.resolve()
+            digest = args.plan_digest
+            if not re.fullmatch(r"[0-9a-f]{64}", digest) or not path.is_file() or plan_digest(path) != digest:
+                raise ReleaseFailure("DATA_MISMATCH", "recovery_plan_verified", "Exact approved Recovery Plan path/digest is required")
+            plan = read_json(path)
+            try: validate_recovery_plan(plan)
+            except RecoveryContractError as error: raise ReleaseFailure("DATA_MISMATCH", "recovery_plan_verified", str(error)) from None
+            store = RecoveryStateStore(root, plan["recovery_id"])
+            backend = RecoveryShellBackend(root, website, path, digest)
+            print(json.dumps(publish_recovery(plan, path, digest, store, backend), ensure_ascii=False, indent=2)); print("PRODUCTION VERIFIED")
     except ReleaseFailure as error:
         print(f"{error.classification}: stage={error.stage}: {error}", file=sys.stderr)
         if args.action == "publish": print(f"Resume: .\\scripts\\daily-pricing-release.ps1 -Publish -DatasetPath \"{root}\" -WebsitePath \"{website}\"", file=sys.stderr)

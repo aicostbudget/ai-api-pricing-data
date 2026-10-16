@@ -17,6 +17,15 @@ try:
     from review_gate import DATASET_REPO, WEBSITE_REPO, GateError, GitHubReader, exact_sha, require_manual_dispatch
 except ModuleNotFoundError:
     from scripts.review_gate import DATASET_REPO, WEBSITE_REPO, GateError, GitHubReader, exact_sha, require_manual_dispatch
+from scripts.forward_recovery import (
+    RECOVERY_PLAN_SCHEMA,
+    RecoveryContractError,
+    load_committed_recovery_plan,
+    recovery_tag_name,
+    validate_projection_contract,
+    validate_recovery_chain,
+    validate_website_reuse_contract,
+)
 
 PLAN_SCHEMA = "aicostbudget-daily-pricing-release-plan-v1"
 
@@ -64,6 +73,16 @@ def load_committed_approved_plan(root,plan_id,digest,source_sha,artifact_sha):
     if plan.get("schema")!=PLAN_SCHEMA or plan.get("release_id")!=plan_id:
         raise GateError("RELEASE PLAN MISSING — FORMAL TAG CREATION BLOCKED")
     return plan
+
+def committed_plan_schema(root,plan_id,source_sha):
+    if not re.fullmatch(r"[A-Za-z0-9][A-Za-z0-9._-]{0,127}",plan_id or ""):
+        raise GateError("Exact approved release plan identity is required")
+    try:
+        raw=subprocess.check_output(["git","show",source_sha+":release-plans/"+plan_id+".json"],cwd=root,stderr=subprocess.DEVNULL)
+        plan=json.loads(raw.decode("utf-8"))
+    except (subprocess.CalledProcessError,UnicodeDecodeError,json.JSONDecodeError):
+        raise GateError("RELEASE PLAN MISSING - FORMAL TAG CREATION BLOCKED") from None
+    return plan.get("schema")
 
 def assert_local_release_identity(identity,read_blob,is_ancestor):
     source=exact_sha(identity.get("source_sha"),"Source SHA")
@@ -129,6 +148,16 @@ def assert_approved_pricing_universe(manifest, files, plan):
         if manifest["projections"][manifest_key]["records"]!=contract.get("records") or len(rows)!=contract.get("records") or row_digests(rows)!=contract.get("row_digests"):
             raise GateError(name+" differs from the approved release plan")
 
+def assert_recovery_pricing_universe(files,plan):
+    try:
+        v1=json.loads(files["github-pages-v1-prices.json"])["models"]
+        v2=json.loads(files["pricing-v2-prices.json"])["records"]
+        contracts=plan["projection_contracts"]
+        validate_projection_contract(contracts["pages_v1"],v1,files["github-pages-v1-prices.json"],files["github-pages-v1-prices.csv"],"Pages V1")
+        validate_projection_contract(contracts["pricing_v2_hf"],v2,files["pricing-v2-prices.json"],files["pricing-v2-prices.csv"],"Pricing V2/HF")
+    except (KeyError,TypeError,RecoveryContractError) as error:
+        raise GateError(str(error)) from None
+
 def assert_clean_checkout(repo, nested_checkout=None, reader=None):
     repo = Path(repo).resolve()
     if reader is None:
@@ -158,16 +187,42 @@ def verify_local(identity, website_repo, release_date, output=None):
     source,artifact,website,canonical=assert_local_release_identity(identity,read_blob,is_ancestor)
     if git(root,"rev-parse","HEAD").decode().strip()!=identity["artifact_sha"] or git(website_repo,"rev-parse","HEAD").decode().strip()!=identity["website_sha"]:
         raise GateError("Checkout SHA differs from approved committed input")
-    plan=load_committed_approved_plan(root,identity["release_plan_id"],identity["release_plan_digest"],source,artifact)
-    if hashlib.sha256(canonical).hexdigest()!=plan.get("canonical_sha256"): raise GateError("Canonical differs from the approved release plan")
-    if plan.get("dataset_base_sha")!=git(root,"rev-parse",identity["source_sha"]+"^").decode().strip() or plan.get("website_base_sha")!=git(website_repo,"rev-parse",identity["website_sha"]+"^").decode().strip():
-        raise GateError("Release commits do not descend directly from approved plan baselines")
+    schema=committed_plan_schema(root,identity["release_plan_id"],source)
+    if schema==PLAN_SCHEMA:
+        plan=load_committed_approved_plan(root,identity["release_plan_id"],identity["release_plan_digest"],source,artifact)
+        if hashlib.sha256(canonical).hexdigest()!=plan.get("canonical_sha256"): raise GateError("Canonical differs from the approved release plan")
+        if plan.get("dataset_base_sha")!=git(root,"rev-parse",identity["source_sha"]+"^").decode().strip() or plan.get("website_base_sha")!=git(website_repo,"rev-parse",identity["website_sha"]+"^").decode().strip():
+            raise GateError("Release commits do not descend directly from approved plan baselines")
+    elif schema==RECOVERY_PLAN_SCHEMA:
+        read_committed=lambda revision,path:git(root,"show",revision+":"+path)
+        try:
+            plan,source_plan,artifact_plan=load_committed_recovery_plan(root,identity["release_plan_id"],identity["release_plan_digest"],source,artifact,read_committed)
+            validate_recovery_chain(
+                plan,source_plan,artifact_plan,identity["release_plan_digest"],source,artifact,
+                lambda revision:git(root,"rev-parse",revision+"^").decode().strip(),
+                read_committed,
+                lambda before,after:git(root,"diff","--name-only",before,after).decode().splitlines(),
+                lambda tag:git(root,"rev-parse","refs/tags/"+tag).decode().strip(),
+                lambda tag:git(root,"rev-parse","refs/tags/"+tag+"^{}").decode().strip(),
+            )
+        except (subprocess.CalledProcessError,RecoveryContractError) as error:
+            raise GateError(str(error)) from None
+        website_contract=plan["website_contract"]
+        if website_contract.get("mode")!="reuse" or website_contract.get("website_sha")!=website:
+            raise GateError("Recovery Website identity differs from the approved reuse contract")
+        website_parent=git(website_repo,"rev-parse",website+"^").decode().strip()
+        try: validate_website_reuse_contract(website_contract,expected_website_export(website_repo),website,website_parent)
+        except RecoveryContractError as error: raise GateError(str(error)) from None
+        if identity["release_tag"]!=recovery_tag_name(plan): raise GateError("Recovery tag differs from the deterministic approved identity")
+    else:
+        raise GateError("Unsupported committed release plan schema")
     pages,meta_source,meta_artifact = committed_pages(identity["artifact_sha"])
     if (meta_source,meta_artifact)!=(source,artifact): raise GateError("PUBLIC ARTIFACT SOURCE PROVENANCE MISMATCH")
     meta=json.loads(pages["api/v1/meta.json"]);snapshot=meta["generated_at"][:10]
     files=bundle.build_contents(identity["artifact_sha"],website_repo,identity["website_sha"],snapshot,identity["release_tag"],release_date)
     manifest=bundle.verify_contents(files);assert_bundle_identity(manifest,identity)
-    assert_approved_pricing_universe(manifest,files,plan)
+    if schema==PLAN_SCHEMA: assert_approved_pricing_universe(manifest,files,plan)
+    else: assert_recovery_pricing_universe(files,plan)
     if output: bundle.write_bundle(files,output)
     return manifest
 
@@ -180,19 +235,27 @@ def fetch_public(url):
     with urlopen(Request(url,headers={"Cache-Control":"no-cache"}),timeout=20) as response:
         return response.status,response.headers.get("Content-Type",""),response.read()
 
-def verify_production(expected, fetch=fetch_public):
+def verify_production(expected, fetch=fetch_public, approved_contract=None):
     base="https://aicostbudget.com"
     for suffix,ctype in [("json","application/json"),("csv","text/csv")]:
         status,content_type,body=fetch(base+"/api/datasets/ai-api-pricing."+suffix)
         if status!=200 or ctype not in content_type: raise GateError("Production Website HTTP/content-type failed")
         if suffix=="json":
-            if json.loads(body)!=expected["json"]: raise GateError("Production JSON differs from committed Website consumer")
+            actual=json.loads(body)
+            if actual!=expected["json"]: raise GateError("Production JSON differs from committed Website consumer")
+            if approved_contract and hashlib.sha256(canonical_bytes(actual)).hexdigest()!=approved_contract.get("production_json_sha256"):
+                raise GateError("Production JSON digest differs from approved Website reuse contract")
         else:
             rows=lambda text:list(csv.DictReader(io.StringIO(text,newline="")))
             if rows(body.decode("utf-8-sig"))!=rows(expected["csv"]): raise GateError("Production CSV fields differ from committed Website consumer")
+            if approved_contract and hashlib.sha256(body).hexdigest()!=approved_contract.get("production_csv_sha256"):
+                raise GateError("Production CSV digest differs from approved Website reuse contract")
     status,ctype,body=fetch(base+"/api/pricing-version")
-    if status!=200 or "application/json" not in ctype or json.loads(body)!=expected["version"]:
+    version=json.loads(body) if status==200 and "application/json" in ctype else None
+    if version!=expected["version"]:
         raise GateError("Production pricing fingerprint does not match committed consumer")
+    if approved_contract and (version.get("pricing_fingerprint")!=approved_contract.get("pricing_fingerprint") or version.get("schema_version")!=approved_contract.get("schema_version") or hashlib.sha256(canonical_bytes(version)).hexdigest()!=approved_contract.get("pricing_manifest_sha256")):
+        raise GateError("Production pricing manifest differs from approved Website reuse contract")
 
 def main():
     parser=argparse.ArgumentParser(description=__doc__)
@@ -208,7 +271,15 @@ def main():
         verify_local(identity,args.website_repo,os.environ.get("RELEASE_DATE"),args.bundle_output)
     if args.verify_production:
         if not args.verify_local: raise GateError("Production parity requires prior committed bundle verification")
-        verify_production(expected_website_export(args.website_repo))
+        approved_contract=None
+        if committed_plan_schema(ROOT,identity["release_plan_id"],identity["source_sha"])==RECOVERY_PLAN_SCHEMA:
+            read_committed=lambda revision,path:subprocess.check_output(["git","show",revision+":"+path],cwd=ROOT,stderr=subprocess.DEVNULL)
+            try:
+                recovery_plan,_,_=load_committed_recovery_plan(ROOT,identity["release_plan_id"],identity["release_plan_digest"],identity["source_sha"],identity["artifact_sha"],read_committed)
+            except RecoveryContractError as error:
+                raise GateError(str(error)) from None
+            approved_contract=recovery_plan["website_contract"]
+        verify_production(expected_website_export(args.website_repo),approved_contract=approved_contract)
     print("Reviewed release preflight verified: "+json.dumps(identity))
 
 if __name__=="__main__": main()

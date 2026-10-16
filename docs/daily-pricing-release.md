@@ -49,7 +49,7 @@ Tag 创建前必须同时满足以下条件，否则立即停止，且不得把 
 
 Tag 名称由快照日期、单模型的可读 model ID（多模型使用 `pricing`）和 Canonical SHA-256 前 8 位确定，例如 `dataset-2026-10-15-grok-voice-3-0-1a2b3c4d`。旧 Tag 永远保持不变。
 
-普通 `aicostbudget-daily-pricing-release-plan-v1` 只能授权其 Plan 已在 S1 中提交的正常发布链，不能事后修复缺少审核来源的旧链。若未来确需恢复发布，必须另行设计、审核并实现独立的 recovery plan schema；当前流程明确不支持。
+普通 `aicostbudget-daily-pricing-release-plan-v1` 只能授权其 Plan 已在 S1 中提交的正常发布链，不能事后修复缺少审核来源的旧链。已经存在于 Canonical、但因旧发布链不满足当前身份门禁而未完整发布的事实，只能使用独立的 `aicostbudget-forward-recovery-plan-v1`，并遵循 [Forward-Only Recovery](forward-only-recovery.md)。Daily loader 不接受 Recovery Plan，Recovery loader 也不接受 Daily Plan。
 
 每个成功阶段都会写入本地状态，并分别记录 `validate_verified`、`pages_release_preflight_verified`、`pages_production_deployed`、`pages_production_verified`、`website_production_verified`、`hf_dry_run_verified`、`hf_publish_verified` 与 `hf_production_verified`，避免把测试、门禁、真实部署和生产 parity 混为一谈。Pages 的三个生产阶段只能由同一个人工 `workflow_dispatch` Run 中的 preflight、`actions/deploy-pages` 和公网 parity 步骤独立成功证据写入；普通 push 只能记为 build-only，不是 production deploy。失败后再次执行相同 Publish 命令会从失败阶段继续；不会重复提交、移动 Tag、重复部署 Pages、重复发布 HF 或重新生成已完成事件。若计划、Canonical、远端 main 或 Tag 可用性已变化，必须停止并人工核验真实远端状态。
 
