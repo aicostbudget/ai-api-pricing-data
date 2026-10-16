@@ -1,4 +1,5 @@
 name: Deploy Pages
+run-name: ${{ github.event_name == 'workflow_dispatch' && 'Pages Production Release' || 'PAGES BUILD ONLY - NO PRODUCTION DEPLOY' }}
 
 on:
   push:
@@ -186,7 +187,42 @@ jobs:
           RELEASE_PLAN_ID: ${{ inputs.release_plan_id }}
           RELEASE_PLAN_DIGEST: ${{ inputs.release_plan_digest }}
         run: python scripts/check_release_gate.py --kind pages
-      - id: deployment
+      - name: Deploy approved Pages artifact
+        id: deployment
         uses: actions/deploy-pages@v5
       - name: Verify public Pages deployment
         run: python scripts/verify_pages_deployment.py --expected-source-sha "${{ needs.build.outputs.source_sha }}" --artifact-sha "${{ github.sha }}"
+  deployment-status:
+    if: always()
+    needs: [build, release-preflight, deploy]
+    permissions:
+      contents: read
+    runs-on: ubuntu-latest
+    steps:
+      - name: Report explicit Pages release status
+        env:
+          EVENT_NAME: ${{ github.event_name }}
+          BUILD_RESULT: ${{ needs.build.result }}
+          PREFLIGHT_RESULT: ${{ needs.release-preflight.result }}
+          DEPLOY_RESULT: ${{ needs.deploy.result }}
+        run: |
+          if [ "$EVENT_NAME" = "push" ]; then
+            {
+              echo "## PAGES BUILD ONLY - NO PRODUCTION DEPLOY"
+              echo "- PAGES BUILD VERIFIED: $BUILD_RESULT"
+              echo "- RELEASE PREFLIGHT: NOT ATTEMPTED"
+              echo "- PRODUCTION DEPLOY: NOT ATTEMPTED"
+              echo "- PRODUCTION PARITY: NOT VERIFIED"
+            } >> "$GITHUB_STEP_SUMMARY"
+            [ "$BUILD_RESULT" = "success" ]
+            exit
+          fi
+
+          {
+            echo "## Pages production release status"
+            echo "- PAGES BUILD VERIFIED: $BUILD_RESULT"
+            echo "- RELEASE PREFLIGHT VERIFIED: $PREFLIGHT_RESULT"
+            echo "- PRODUCTION DEPLOYED: $DEPLOY_RESULT"
+            echo "- PRODUCTION PARITY VERIFIED: $DEPLOY_RESULT"
+          } >> "$GITHUB_STEP_SUMMARY"
+          [ "$BUILD_RESULT" = "success" ] && [ "$PREFLIGHT_RESULT" = "success" ] && [ "$DEPLOY_RESULT" = "success" ]

@@ -237,6 +237,10 @@ class WorkflowContractTests(unittest.TestCase):
         self.assertLess(deploy.index("check_release_gate.py"),deploy.index("actions/deploy-pages"))
         self.assertIn("verify_pages_deployment.py",deploy)
         self.assertIn("release_plan_id:",text);self.assertIn("RELEASE_PLAN_DIGEST: ${{ inputs.release_plan_digest }}",text)
+        self.assertIn("PAGES BUILD ONLY - NO PRODUCTION DEPLOY",text)
+        self.assertIn("PRODUCTION DEPLOY: NOT ATTEMPTED",text)
+        self.assertIn("PRODUCTION PARITY: NOT VERIFIED",text)
+        self.assertIn("needs: [build, release-preflight, deploy]",text)
         self.assertNotIn("continue-on-error",text);self.assertNotIn("|| true",text)
     def test_hf_is_manually_authorized_pinned_and_dry_by_default(self):
         text=(ROOT/".github/workflows/publish-huggingface.yml").read_text(encoding="utf-8")

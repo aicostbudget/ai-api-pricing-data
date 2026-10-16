@@ -51,7 +51,7 @@ Tag 名称由快照日期、单模型的可读 model ID（多模型使用 `prici
 
 普通 `aicostbudget-daily-pricing-release-plan-v1` 只能授权其 Plan 已在 S1 中提交的正常发布链，不能事后修复缺少审核来源的旧链。若未来确需恢复发布，必须另行设计、审核并实现独立的 recovery plan schema；当前流程明确不支持。
 
-每个成功阶段都会写入本地状态，并分别记录 `validate_verified`、`pages_release_gate_verified`、`website_production_verified`、`hf_dry_run_verified`、`hf_publish_verified` 与 `hf_production_verified`，避免把测试、门禁和生产状态混为一谈。失败后再次执行相同 Publish 命令会从失败阶段继续；不会重复提交、移动 Tag、重复部署 Pages、重复发布 HF 或重新生成已完成事件。若计划、Canonical、远端 main 或 Tag 可用性已变化，必须停止并人工核验真实远端状态。
+每个成功阶段都会写入本地状态，并分别记录 `validate_verified`、`pages_release_preflight_verified`、`pages_production_deployed`、`pages_production_verified`、`website_production_verified`、`hf_dry_run_verified`、`hf_publish_verified` 与 `hf_production_verified`，避免把测试、门禁、真实部署和生产 parity 混为一谈。Pages 的三个生产阶段只能由同一个人工 `workflow_dispatch` Run 中的 preflight、`actions/deploy-pages` 和公网 parity 步骤独立成功证据写入；普通 push 只能记为 build-only，不是 production deploy。失败后再次执行相同 Publish 命令会从失败阶段继续；不会重复提交、移动 Tag、重复部署 Pages、重复发布 HF 或重新生成已完成事件。若计划、Canonical、远端 main 或 Tag 可用性已变化，必须停止并人工核验真实远端状态。
 
 本地测试通过只代表 LOCAL VERIFIED；Validate workflow 成功只代表 CI VERIFIED；只有 Pages/Website/HF 各自的正式门禁和生产 parity 都成功后，才能报告对应的 PRODUCTION VERIFIED。Tag 存在本身不表示 Pages 或 HF 已发布。
 

@@ -1,6 +1,7 @@
 from __future__ import annotations
 
 import argparse
+import hashlib
 import json
 import re
 import subprocess
@@ -44,6 +45,66 @@ class FetchError(VerificationError):
     def __init__(self, url: str, status: str, detail: str) -> None:
         super().__init__(f"GET failed: endpoint={url} HTTP status={status} detail={detail}")
         self.status = status
+
+
+def _canonical_digest(value: Any) -> str:
+    payload = json.dumps(
+        value, ensure_ascii=False, sort_keys=True, separators=(",", ":")
+    ).encode("utf-8")
+    return hashlib.sha256(payload).hexdigest()
+
+
+def projection_contract(meta: Any, prices: Any) -> dict[str, Any]:
+    """Build an explicit V1 identity/content contract for repo or public payloads."""
+    validate_public_payloads(meta, prices, meta.get("source_commit_sha", ""))
+    identities: dict[str, str] = {}
+    provider_ids: set[str] = set()
+    model_ids: set[str] = set()
+    for index, row in enumerate(prices["models"]):
+        if not isinstance(row, dict):
+            raise VerificationError(f"prices.models[{index}] must be an object")
+        provider_id = row.get("provider_id")
+        model_id = row.get("model_id")
+        if not isinstance(provider_id, str) or not provider_id:
+            raise VerificationError(f"prices.models[{index}].provider_id must be a non-empty string")
+        if not isinstance(model_id, str) or not model_id:
+            raise VerificationError(f"prices.models[{index}].model_id must be a non-empty string")
+        identity = f"{provider_id}/{model_id}"
+        if identity in identities:
+            raise VerificationError(f"duplicate model identity: {identity}")
+        provider_ids.add(provider_id)
+        model_ids.add(model_id)
+        identities[identity] = _canonical_digest(row)
+    if meta["provider_count"] != len(provider_ids):
+        raise VerificationError(
+            f"provider count mismatch: meta={meta['provider_count']} actual provider IDs={len(provider_ids)}"
+        )
+    return {
+        "generated_at": meta["generated_at"],
+        "model_count": meta["model_count"],
+        "provider_count": meta["provider_count"],
+        "source_commit_sha": meta["source_commit_sha"],
+        "provider_ids": sorted(provider_ids),
+        "model_ids": sorted(model_ids),
+        "row_count": len(identities),
+        "row_digests": dict(sorted(identities.items())),
+    }
+
+
+def validate_projection_parity(
+    expected_meta: Any,
+    expected_prices: Any,
+    actual_meta: Any,
+    actual_prices: Any,
+) -> None:
+    expected = projection_contract(expected_meta, expected_prices)
+    actual = projection_contract(actual_meta, actual_prices)
+    for field in expected:
+        if expected[field] != actual[field]:
+            raise VerificationError(
+                f"projection parity mismatch for {field}: "
+                f"expected={expected[field]!r} actual={actual[field]!r}"
+            )
 
 
 def fetch_bytes(
@@ -147,7 +208,6 @@ def verify_public_deployment(
         try:
             meta, status = fetch_json(
                 META_URL, timeout, opener,
-                expected_files["api/v1/meta.json"] if expected_files is not None else None,
             )
             last_status = str(status)
             last_actual = meta.get("source_commit_sha", "missing") if isinstance(meta, dict) else "unavailable"
@@ -161,10 +221,12 @@ def verify_public_deployment(
             else:
                 prices, prices_status = fetch_json(
                     PRICES_URL, timeout, opener,
-                    expected_files["api/v1/prices.json"] if expected_files is not None else None,
                 )
                 validate_public_payloads(meta, prices, expected_sha)
                 if expected_files is not None:
+                    expected_meta = json.loads(expected_files["api/v1/meta.json"])
+                    expected_prices = json.loads(expected_files["api/v1/prices.json"])
+                    validate_projection_parity(expected_meta, expected_prices, meta, prices)
                     fetch_bytes(PRICES_CSV_URL, timeout, opener, expected_files["api/v1/prices.csv"])
                 print(
                     f"Pages verification passed: attempt={attempt}/{attempts} "

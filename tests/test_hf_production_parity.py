@@ -34,10 +34,10 @@ FULL_CSV_FIELDS = (
 )
 
 
-def record(model_id, *, status="verified", verified="2026-08-01", checked="2026-08-01"):
+def record(model_id, *, provider_id="openai", status="verified", verified="2026-08-01", checked="2026-08-01"):
     return {
-        "provider_id": "openai",
-        "provider": "OpenAI",
+        "provider_id": provider_id,
+        "provider": provider_id.title(),
         "model_id": model_id,
         "input_price_per_1m_tokens": 1.25,
         "official_source_url": "https://example.com/pricing",
@@ -55,8 +55,8 @@ def csv_bytes(records, fieldnames=CSV_FIELDS):
     return output.getvalue().encode()
 
 
-def build_snapshot():
-    records = [
+def build_snapshot(records=None):
+    records = records or [
         record("verified-model"),
         record(
             "review-model",
@@ -65,7 +65,11 @@ def build_snapshot():
             checked="2026-08-02",
         ),
     ]
-    metadata = {"record_count": 2, "generated_at": "2026-08-03T00:00:00Z"}
+    metadata = {
+        "record_count": len(records),
+        "provider_count": len({item["provider_id"] for item in records}),
+        "generated_at": "2026-08-03T00:00:00Z",
+    }
     prices = {"metadata": metadata, "records": records}
     full_csv_records = [
         {
@@ -144,6 +148,50 @@ class HuggingFaceProductionParityTests(unittest.TestCase):
         self.assertIn("semantic violations: 0", output)
         self.assertEqual(sleeps, [])
         self.assertTrue(all("cache_bust=unique" in url for url in state["urls"]))
+
+    def test_missing_grok_voice_models_fail_even_when_provider_count_matches(self):
+        base_records = [record("verified-model"), record("grok-base", provider_id="xai")]
+        expected = build_snapshot(
+            base_records
+            + [
+                record("grok-voice-2.0", provider_id="xai"),
+                record("grok-voice-3.0", provider_id="xai"),
+            ]
+        )
+        production = build_snapshot(base_records)
+        for name, content in expected.items():
+            (self.expected_dir / name).write_bytes(content)
+        drifts = self.assert_data_drift(production)
+        missing = {drift.model_id for drift in drifts if drift.actual is not None}
+        self.assertIn("grok-voice-2.0", missing)
+        self.assertIn("grok-voice-3.0", missing)
+        expected_meta = json.loads(expected["meta.json"])
+        production_meta = json.loads(production["meta.json"])
+        self.assertEqual(expected_meta["provider_count"], production_meta["provider_count"])
+
+    def test_same_provider_count_but_different_provider_id_set_fails(self):
+        expected = build_snapshot([record("one"), record("two", provider_id="xai")])
+        production = build_snapshot([record("one"), record("two", provider_id="anthropic")])
+        for name, content in expected.items():
+            (self.expected_dir / name).write_bytes(content)
+        drifts = self.assert_data_drift(production)
+        self.assertTrue(any(d.artifact == "projection" and d.field == "provider_ids" for d in drifts))
+
+    def test_same_provider_ids_but_different_model_id_set_fails(self):
+        snapshot = self.mutated_json(
+            "prices.json",
+            lambda payload: payload["records"][1].__setitem__("model_id", "different-model"),
+        )
+        drifts = self.assert_data_drift(snapshot)
+        self.assertTrue(any(d.artifact == "projection" and d.field == "model_ids" for d in drifts))
+
+    def test_same_count_and_identity_but_different_row_digest_fails(self):
+        snapshot = self.mutated_json(
+            "prices.json",
+            lambda payload: payload["records"][0].__setitem__("input_price_per_1m_tokens", 9.99),
+        )
+        drifts = self.assert_data_drift(snapshot)
+        self.assertTrue(any(d.artifact == "projection" and d.field == "row_digests" for d in drifts))
 
     def test_missing_verification_status_fails(self):
         snapshot = self.mutated_json(

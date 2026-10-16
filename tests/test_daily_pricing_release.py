@@ -52,7 +52,7 @@ class FakeBackend(Backend):
     def verify_pre_tag(self,p,d,s,a,w):return self.hit("pre_tag_verified","dataset-2026-10-15-m-aaaaaaaa")
     def push_tag(self,p,s,t):return self.hit("tag_pushed",t)
     def verify_ci(self,a,w):return self.hit("validate_verified",[{"url":"ci"}])
-    def deploy_pages(self,s,p):return self.hit("pages_release_gate_verified",{"url":"pages"})
+    def deploy_pages(self,s,p):return self.hit("pages_release_preflight_verified",{"url":"pages","release_preflight_verified":True,"production_deployed":True,"production_parity_verified":True})
     def verify_website_production(self,w):self.hit("website_production_verified")
     def publish_hf(self,s,p,dry_run):return self.hit("hf_dry_run_verified" if dry_run else "hf_publish_verified",{"url":"hf-dry" if dry_run else "hf"})
     def verify_hf(self):self.hit("hf_production_verified")
@@ -146,7 +146,9 @@ class PublishRecoveryTests(unittest.TestCase):
         with tempfile.TemporaryDirectory() as tmp:
             backend=FakeBackend();result,store=self.execute(tmp,backend)
             self.assertEqual(result["status"],"PRODUCTION VERIFIED");self.assertEqual(len(backend.calls),15)
-            self.assertTrue(result["verification"]["pages_release_gate"])
+            self.assertTrue(result["verification"]["pages_release_preflight"])
+            self.assertTrue(result["verification"]["pages_production_deployed"])
+            self.assertTrue(result["verification"]["pages_production_parity"])
 
     def test_remote_main_move_stops_before_source(self):
         with tempfile.TemporaryDirectory() as tmp:
@@ -170,7 +172,7 @@ class PublishRecoveryTests(unittest.TestCase):
             plan,path,digest=plan_fixture(tmp);store=ReleaseStateStore(Path(tmp),plan["release_id"]);first=FakeBackend("website_production_verified")
             with self.assertRaises(ReleaseFailure):publish_release(plan,path,digest,store,first)
             second=FakeBackend();publish_release(plan,path,digest,store,second)
-            self.assertNotIn("dataset_pushed",second.calls);self.assertNotIn("pages_release_gate_verified",second.calls);self.assertEqual(second.calls[0],"website_production_verified")
+            self.assertNotIn("dataset_pushed",second.calls);self.assertNotIn("pages_release_preflight_verified",second.calls);self.assertEqual(second.calls[0],"website_production_verified")
 
     def test_hf_dry_run_failure_blocks_publish(self):
         with tempfile.TemporaryDirectory() as tmp:
@@ -215,7 +217,7 @@ class PublishRecoveryTests(unittest.TestCase):
         with tempfile.TemporaryDirectory() as tmp:
             backend=FakeBackend("pre_tag_verified")
             with self.assertRaises(ReleaseFailure):self.execute(tmp,backend)
-            self.assertNotIn("tag_pushed",backend.calls);self.assertNotIn("validate_verified",backend.calls);self.assertNotIn("pages_release_gate_verified",backend.calls)
+            self.assertNotIn("tag_pushed",backend.calls);self.assertNotIn("validate_verified",backend.calls);self.assertNotIn("pages_release_preflight_verified",backend.calls)
 
     def test_website_dataset_parity_failure_blocks_tag(self):
         with tempfile.TemporaryDirectory() as tmp:
@@ -232,12 +234,30 @@ class PublishRecoveryTests(unittest.TestCase):
     def test_dispatched_workflows_keep_distinct_failure_stages(self):
         with tempfile.TemporaryDirectory() as tmp:
             root=Path(tmp);website=root/"website";website.mkdir();plan,path,digest=plan_fixture(tmp);backend=ShellBackend(root,website,path,digest)
-            cases=[("deploy-pages.yml",None,"release","pages_release_gate_verified"),("publish-huggingface.yml",["dry_run=true"],"dry","hf_dry_run_verified"),("publish-huggingface.yml",["dry_run=false"],"publish","hf_publish_verified")]
+            cases=[("deploy-pages.yml",None,"release","pages_release_preflight_verified"),("publish-huggingface.yml",["dry_run=true"],"dry","hf_dry_run_verified"),("publish-huggingface.yml",["dry_run=false"],"publish","hf_publish_verified")]
             for workflow,extra,suffix,stage in cases:
                 state={"workflow_run_ids":{f"{workflow}:{suffix}":7}}
                 with patch.object(backend,"_wait_run_id",return_value={}) as wait:
                     backend._dispatch(workflow,state,plan,extra)
                     wait.assert_called_once_with(7,stage)
+
+    def test_pages_workflow_success_without_deploy_or_parity_evidence_fails_closed(self):
+        with tempfile.TemporaryDirectory() as tmp:
+            root=Path(tmp);website=root/"website";website.mkdir();plan,path,digest=plan_fixture(tmp);backend=ShellBackend(root,website,path,digest)
+            push_only={"conclusion":"success","jobs":[{"name":"build","conclusion":"success","steps":[]},{"name":"release-preflight","conclusion":"skipped","steps":[]},{"name":"deploy","conclusion":"skipped","steps":[]}]}
+            with patch.object(backend,"_dispatch",return_value=push_only):
+                with self.assertRaisesRegex(ReleaseFailure,"without complete preflight/deploy/production parity evidence"):
+                    backend.deploy_pages({},plan)
+
+    def test_pages_manual_release_requires_successful_deploy_and_parity_steps(self):
+        with tempfile.TemporaryDirectory() as tmp:
+            root=Path(tmp);website=root/"website";website.mkdir();plan,path,digest=plan_fixture(tmp);backend=ShellBackend(root,website,path,digest)
+            release={"conclusion":"success","jobs":[{"name":"release-preflight","conclusion":"success","steps":[]},{"name":"deploy","conclusion":"success","steps":[{"name":"Deploy approved Pages artifact","conclusion":"success"},{"name":"Verify public Pages deployment","conclusion":"success"}]}]}
+            with patch.object(backend,"_dispatch",return_value=release):
+                evidence=backend.deploy_pages({},plan)
+            self.assertTrue(evidence["release_preflight_verified"])
+            self.assertTrue(evidence["production_deployed"])
+            self.assertTrue(evidence["production_parity_verified"])
 
     def test_modified_plan_cannot_resume(self):
         with tempfile.TemporaryDirectory() as tmp:

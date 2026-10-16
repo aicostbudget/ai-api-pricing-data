@@ -2,6 +2,7 @@ from __future__ import annotations
 
 import argparse
 import csv
+import hashlib
 import io
 import json
 import time
@@ -135,6 +136,76 @@ def _compare_value(
 
 def _record_identity(record: dict[str, Any]) -> tuple[Any, Any]:
     return record.get("provider_id", MISSING), record.get("model_id", MISSING)
+
+
+def _canonical_digest(value: Any) -> str:
+    payload = json.dumps(
+        value, ensure_ascii=False, sort_keys=True, separators=(",", ":")
+    ).encode("utf-8")
+    return hashlib.sha256(payload).hexdigest()
+
+
+def _projection_contract(prices: Any, meta: Any, side: str) -> dict[str, Any]:
+    if not isinstance(prices, dict) or not isinstance(prices.get("records"), list):
+        raise ValueError(f"{side} prices.json must contain a records array")
+    if not isinstance(meta, dict):
+        raise ValueError(f"{side} meta.json must be an object")
+    provider_ids: set[str] = set()
+    model_ids: set[str] = set()
+    row_digests: dict[str, str] = {}
+    for index, record in enumerate(prices["records"]):
+        if not isinstance(record, dict):
+            raise ValueError(f"{side} prices.json records[{index}] must be an object")
+        provider_id = record.get("provider_id")
+        model_id = record.get("model_id")
+        if not isinstance(provider_id, str) or not provider_id:
+            raise ValueError(f"{side} prices.json records[{index}].provider_id is invalid")
+        if not isinstance(model_id, str) or not model_id:
+            raise ValueError(f"{side} prices.json records[{index}].model_id is invalid")
+        identity = f"{provider_id}/{model_id}"
+        if identity in row_digests:
+            raise ValueError(f"{side} prices.json has duplicate identity: {identity}")
+        provider_ids.add(provider_id)
+        model_ids.add(model_id)
+        row_digests[identity] = _canonical_digest(record)
+    contract = {
+        "generated_at": meta.get("generated_at", MISSING),
+        "record_count": meta.get("record_count", MISSING),
+        "provider_count": meta.get("provider_count", MISSING),
+        "provider_ids": sorted(provider_ids),
+        "model_ids": sorted(model_ids),
+        "row_count": len(row_digests),
+        "row_digests": dict(sorted(row_digests.items())),
+    }
+    if contract["record_count"] != contract["row_count"]:
+        raise ValueError(
+            f"{side} record_count does not match projection rows: "
+            f"{contract['record_count']!r} != {contract['row_count']}"
+        )
+    if contract["provider_count"] != len(provider_ids):
+        raise ValueError(
+            f"{side} provider_count does not match provider ID set: "
+            f"{contract['provider_count']!r} != {len(provider_ids)}"
+        )
+    return contract
+
+
+def _compare_projection_contracts(
+    expected_prices: Any,
+    expected_meta: Any,
+    actual_prices: Any,
+    actual_meta: Any,
+) -> list[Drift]:
+    expected = _projection_contract(expected_prices, expected_meta, "local")
+    try:
+        actual = _projection_contract(actual_prices, actual_meta, "production")
+    except ValueError as error:
+        return [Drift("projection", "contract", "valid", str(error))]
+    return [
+        Drift("projection", field, expected[field], actual[field])
+        for field in expected
+        if expected[field] != actual[field]
+    ]
 
 
 def _compare_prices_json(expected_bytes: bytes, actual_bytes: bytes) -> tuple[list[Drift], int]:
@@ -305,7 +376,21 @@ def _compare_csv(expected_bytes: bytes, actual_bytes: bytes, artifact: str) -> l
 
 def compare_snapshot(expected_dir: Path, production: dict[str, bytes]) -> tuple[list[Drift], int, int]:
     expected = {name: (expected_dir / name).read_bytes() for name in ARTIFACTS}
-    drifts, semantic_count = _compare_prices_json(expected["prices.json"], production["prices.json"])
+    try:
+        expected_prices = json.loads(expected["prices.json"].decode("utf-8-sig"))
+        expected_meta = json.loads(expected["meta.json"].decode("utf-8-sig"))
+    except (UnicodeDecodeError, json.JSONDecodeError) as error:
+        raise ValueError(f"local Hugging Face projection is invalid: {error}") from error
+    try:
+        actual_prices = json.loads(production["prices.json"].decode("utf-8-sig"))
+        actual_meta = json.loads(production["meta.json"].decode("utf-8-sig"))
+    except (UnicodeDecodeError, json.JSONDecodeError):
+        actual_prices = actual_meta = None
+    drifts = _compare_projection_contracts(
+        expected_prices, expected_meta, actual_prices, actual_meta
+    )
+    content_drifts, semantic_count = _compare_prices_json(expected["prices.json"], production["prices.json"])
+    drifts.extend(content_drifts)
     for artifact in ("prices.csv", "train.csv"):
         drifts.extend(_compare_csv(expected[artifact], production[artifact], artifact))
     try:
@@ -319,7 +404,6 @@ def compare_snapshot(expected_dir: Path, production: dict[str, bytes]) -> tuple[
     else:
         drifts.extend(_compare_value(expected_meta, actual_meta, artifact="meta.json", field=""))
     record_count = len(expected_meta) if not isinstance(expected_meta, dict) else 0
-    expected_prices = json.loads(expected["prices.json"].decode("utf-8-sig"))
     if isinstance(expected_prices, dict) and isinstance(expected_prices.get("records"), list):
         record_count = len(expected_prices["records"])
     return drifts, semantic_count, record_count

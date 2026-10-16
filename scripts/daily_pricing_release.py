@@ -19,7 +19,7 @@ from typing import Any, Callable, Iterable, Mapping
 ROOT = Path(__file__).resolve().parents[1]
 STATE_DIR_NAME = ".daily-pricing-release"
 PLAN_SCHEMA = "aicostbudget-daily-pricing-release-plan-v1"
-STATE_SCHEMA = "aicostbudget-daily-pricing-release-state-v2"
+STATE_SCHEMA = "aicostbudget-daily-pricing-release-state-v3"
 DATASET_REPO = "aicostbudget/ai-api-pricing-data"
 WEBSITE_REPO = "linqiang-max/aicostbudget"
 ALLOWED_WEBSITE_OUTPUTS = {
@@ -40,7 +40,8 @@ ARTIFACT_PREFIXES = (
 STAGES = (
     "plan_verified", "source_committed", "artifacts_generated", "artifact_committed",
     "website_committed", "website_pushed", "dataset_pushed", "pre_tag_verified", "tag_pushed",
-    "validate_verified", "pages_release_gate_verified", "website_production_verified",
+    "validate_verified", "pages_release_preflight_verified", "pages_production_deployed",
+    "pages_production_verified", "website_production_verified",
     "hf_dry_run_verified", "hf_publish_verified", "hf_production_verified",
 )
 
@@ -373,12 +374,17 @@ def publish_release(plan: dict[str, Any], plan_path: Path, digest: str, store: R
     tag = run("pre_tag_verified", lambda: backend.verify_pre_tag(plan, digest, source_sha, artifact_sha, website_sha), "release_tag") or state["release_tag"]
     run("tag_pushed", lambda: backend.push_tag(plan, artifact_sha, tag))
     runs = run("validate_verified", lambda: backend.verify_ci(artifact_sha, website_sha), "validate_runs") or state["validate_runs"]
-    pages = run("pages_release_gate_verified", lambda: backend.deploy_pages(state, plan), "pages_run") or state["pages_run"]
+    pages = run("pages_release_preflight_verified", lambda: backend.deploy_pages(state, plan), "pages_run") or state["pages_run"]
+    def require_pages_evidence(field: str, stage: str) -> None:
+        if not isinstance(pages, dict) or pages.get(field) is not True:
+            raise ReleaseFailure("CI_FAILURE", stage, f"Pages run lacks {field} evidence")
+    run("pages_production_deployed", lambda: require_pages_evidence("production_deployed", "pages_production_deployed"))
+    run("pages_production_verified", lambda: require_pages_evidence("production_parity_verified", "pages_production_verified"))
     run("website_production_verified", lambda: backend.verify_website_production(website_sha))
     hf_dry = run("hf_dry_run_verified", lambda: backend.publish_hf(state, plan, True), "hf_dry_run") or state["hf_dry_run"]
     hf_publish = run("hf_publish_verified", lambda: backend.publish_hf(state, plan, False), "hf_publish") or state["hf_publish"]
     run("hf_production_verified", backend.verify_hf)
-    state["result"] = {"status": "PRODUCTION VERIFIED", "source_sha": source_sha, "artifact_sha": artifact_sha, "website_sha": website_sha, "release_tag": tag, "validate_runs": runs, "pages_run": pages, "hf_dry_run": hf_dry, "hf_publish": hf_publish, "verification": {"validate": True, "pages_release_gate": True, "website_production": True, "hf_dry_run": True, "hf_publish": True, "hf_production": True}}
+    state["result"] = {"status": "PRODUCTION VERIFIED", "source_sha": source_sha, "artifact_sha": artifact_sha, "website_sha": website_sha, "release_tag": tag, "validate_runs": runs, "pages_run": pages, "hf_dry_run": hf_dry, "hf_publish": hf_publish, "verification": {"validate": True, "pages_release_preflight": True, "pages_production_deployed": True, "pages_production_parity": True, "website_production": True, "hf_dry_run": True, "hf_publish": True, "hf_production": True}}
     store.save(state)
     return state["result"]
 
@@ -522,7 +528,7 @@ class ShellBackend(Backend):
     def _wait_run_id(self, run_id: int, stage: str, timeout: int = 1800) -> dict[str, Any]:
         deadline=time.time()+timeout
         while time.time()<deadline:
-            run=json.loads(self._run(["gh","run","view",str(run_id),"--repo",DATASET_REPO,"--json","databaseId,status,conclusion,url,headSha"],self.root))
+            run=json.loads(self._run(["gh","run","view",str(run_id),"--repo",DATASET_REPO,"--json","databaseId,status,conclusion,url,headSha,jobs"],self.root))
             if run.get("status")=="completed":
                 if run.get("conclusion")!="success": raise ReleaseFailure("CI_FAILURE",stage,f"Workflow failed: {run.get('url')}")
                 return run
@@ -536,7 +542,7 @@ class ShellBackend(Backend):
 
     def _dispatch(self, workflow: str, state: dict[str, Any], plan: dict[str, Any], extra: list[str] | None = None) -> dict[str, Any]:
         suffix="publish" if extra and "dry_run=false" in extra else "dry" if extra else "release"
-        stage="hf_publish_verified" if suffix=="publish" else "hf_dry_run_verified" if suffix=="dry" else "pages_release_gate_verified"
+        stage="hf_publish_verified" if suffix=="publish" else "hf_dry_run_verified" if suffix=="dry" else "pages_release_preflight_verified"
         key=f"{workflow}:{suffix}";run_ids=state.setdefault("workflow_run_ids",{})
         if key in run_ids:return self._wait_run_id(int(run_ids[key]),stage)
         known={int(value) for value in run_ids.values()}
@@ -554,7 +560,21 @@ class ShellBackend(Backend):
             time.sleep(3)
         raise ReleaseFailure("CI_FAILURE",stage,f"Dispatched {workflow} but could not resolve its exact run ID")
 
-    def deploy_pages(self, state: dict[str, Any], plan: dict[str, Any]) -> dict[str, Any]: return self._dispatch("deploy-pages.yml", state, plan)
+    def deploy_pages(self, state: dict[str, Any], plan: dict[str, Any]) -> dict[str, Any]:
+        run = self._dispatch("deploy-pages.yml", state, plan)
+        jobs = {job.get("name"): job for job in run.get("jobs", [])}
+        preflight = jobs.get("release-preflight", {})
+        deploy = jobs.get("deploy", {})
+        steps = {step.get("name"): step for step in deploy.get("steps", [])}
+        evidence = {
+            **run,
+            "release_preflight_verified": preflight.get("conclusion") == "success",
+            "production_deployed": steps.get("Deploy approved Pages artifact", {}).get("conclusion") == "success",
+            "production_parity_verified": steps.get("Verify public Pages deployment", {}).get("conclusion") == "success",
+        }
+        if not all(evidence[field] for field in ("release_preflight_verified", "production_deployed", "production_parity_verified")):
+            raise ReleaseFailure("CI_FAILURE", "pages_release_preflight_verified", "Pages workflow succeeded without complete preflight/deploy/production parity evidence")
+        return evidence
 
     def verify_website_production(self, website_sha: str) -> None:
         from scripts.check_release_gate import expected_website_export, verify_production

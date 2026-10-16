@@ -10,6 +10,7 @@ from scripts.verify_pages_deployment import (
     PRICES_URL,
     VerificationError,
     fetch_json,
+    validate_projection_parity,
     validate_public_payloads,
     verify_public_deployment,
 )
@@ -33,7 +34,10 @@ def valid_payloads(sha=EXPECTED_SHA):
         "model_count": 2,
         "provider_count": 1,
         "official_source_count": 2,
-        "models": [{"model_id": "one"}, {"model_id": "two"}],
+        "models": [
+            {"provider_id": "example", "model_id": "one", "price": 1},
+            {"provider_id": "example", "model_id": "two", "price": 2},
+        ],
     }
     return meta, prices
 
@@ -83,17 +87,55 @@ class PagesDeploymentVerificationTests(unittest.TestCase):
                 self.verify_responses(responses)
 
     def test_regenerated_metadata_with_same_source_sha_fails(self):
-        meta, _ = valid_payloads()
+        meta, prices = valid_payloads()
         meta["generated_at"] = "2026-09-15T00:00:00Z"
-        with self.assertRaisesRegex(VerificationError, "public bytes differ"):
-            self.verify_responses([FakeResponse(meta)])
+        prices["generated_at"] = "2026-09-15T00:00:00Z"
+        with self.assertRaisesRegex(VerificationError, "projection parity mismatch for generated_at"):
+            self.verify_responses([FakeResponse(meta), FakeResponse(prices)])
 
     def test_price_record_drift_with_same_counts_fails(self):
         files = self.expected_files()
         _, prices = valid_payloads()
         prices["models"][0]["model_id"] = "changed"
-        with self.assertRaisesRegex(VerificationError, "public bytes differ"):
+        with self.assertRaisesRegex(VerificationError, "projection parity mismatch for model_ids"):
             self.verify_responses([FakeResponse(files["api/v1/meta.json"], raw=True), FakeResponse(prices)])
+
+    def test_repo_91_public_89_equivalent_count_gap_fails(self):
+        expected_meta, expected_prices = valid_payloads()
+        expected_prices["models"].append({"provider_id": "example", "model_id": "three", "price": 3})
+        expected_meta["model_count"] = expected_prices["model_count"] = 3
+        actual_meta, actual_prices = valid_payloads()
+        with self.assertRaisesRegex(VerificationError, "projection parity mismatch for model_count"):
+            validate_projection_parity(expected_meta, expected_prices, actual_meta, actual_prices)
+
+    def test_same_provider_count_but_different_provider_ids_fails(self):
+        expected_meta, expected_prices = valid_payloads()
+        actual_meta, actual_prices = valid_payloads()
+        expected_prices["models"][1]["provider_id"] = "second"
+        actual_prices["models"][1]["provider_id"] = "other"
+        expected_meta["provider_count"] = expected_prices["provider_count"] = 2
+        actual_meta["provider_count"] = actual_prices["provider_count"] = 2
+        with self.assertRaisesRegex(VerificationError, "projection parity mismatch for provider_ids"):
+            validate_projection_parity(expected_meta, expected_prices, actual_meta, actual_prices)
+
+    def test_same_provider_ids_but_different_model_ids_fails(self):
+        expected_meta, expected_prices = valid_payloads()
+        actual_meta, actual_prices = valid_payloads()
+        actual_prices["models"][1]["model_id"] = "different"
+        with self.assertRaisesRegex(VerificationError, "projection parity mismatch for model_ids"):
+            validate_projection_parity(expected_meta, expected_prices, actual_meta, actual_prices)
+
+    def test_same_counts_and_identities_but_different_row_digest_fails(self):
+        expected_meta, expected_prices = valid_payloads()
+        actual_meta, actual_prices = valid_payloads()
+        actual_prices["models"][0]["price"] = 999
+        with self.assertRaisesRegex(VerificationError, "projection parity mismatch for row_digests"):
+            validate_projection_parity(expected_meta, expected_prices, actual_meta, actual_prices)
+
+    def test_exact_projection_contract_passes(self):
+        expected_meta, expected_prices = valid_payloads()
+        actual_meta, actual_prices = valid_payloads()
+        validate_projection_parity(expected_meta, expected_prices, actual_meta, actual_prices)
 
     def test_csv_bytes_and_http_status_are_checked(self):
         files = self.expected_files()
