@@ -15,9 +15,9 @@ from collections import defaultdict
 from pathlib import Path
 
 try:
-    from lib import ROOT, append_history_if_changed, build_dataset, history_entry, load_models, load_providers, utc_now, utc_today, write_csv, write_json
+    from lib import ROOT, append_history_if_changed, build_dataset, history_entry, load_models, load_providers, utc_now, write_csv, write_json
 except ModuleNotFoundError:
-    from scripts.lib import ROOT, append_history_if_changed, build_dataset, history_entry, load_models, load_providers, utc_now, utc_today, write_csv, write_json
+    from scripts.lib import ROOT, append_history_if_changed, build_dataset, history_entry, load_models, load_providers, utc_now, write_csv, write_json
 
 SOURCE_COMMIT_SHA_ENV = "SOURCE_COMMIT_SHA"
 FULL_GIT_SHA = re.compile(r"^[0-9a-f]{40}$")
@@ -81,7 +81,7 @@ def build_outputs(output_root: Path, generated_at_value: str | None = None) -> N
         history_path = data / "history" / provider_id / f"{model_id}.jsonl"
         append_history_if_changed(history_path, history_entry(model, generated_at))
 
-    snapshot_dir = data / "snapshots" / utc_today()
+    snapshot_dir = data / "snapshots" / generated_at[:10]
     write_json(snapshot_dir / "prices.json", dataset)
     write_csv(snapshot_dir / "prices.csv", models)
 

@@ -36,7 +36,8 @@ def read_json(path: Path) -> Any:
 
 def write_json(path: Path, value: Any) -> None:
     path.parent.mkdir(parents=True, exist_ok=True)
-    path.write_text(json.dumps(value, indent=2, sort_keys=True) + "\n", encoding="utf-8")
+    payload = (json.dumps(value, indent=2, sort_keys=True) + "\n").encode("utf-8")
+    path.write_bytes(payload)
 
 
 def load_providers() -> list[dict[str, Any]]:
@@ -230,6 +231,7 @@ def append_history_if_changed(path: Path, entry: dict[str, Any]) -> bool:
     if previous is not None and comparable_history(previous) == comparable_history(entry):
         return False
     path.parent.mkdir(parents=True, exist_ok=True)
-    with path.open("a", encoding="utf-8") as handle:
-        handle.write(json.dumps(entry, sort_keys=True) + "\n")
+    payload = json.dumps(entry, sort_keys=True).encode("utf-8") + b"\n"
+    with path.open("ab") as handle:
+        handle.write(payload)
     return True
