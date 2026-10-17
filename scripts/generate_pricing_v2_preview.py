@@ -2661,6 +2661,73 @@ def targeted_identity_lifecycle(model_id: str, write: bool) -> None:
         print("Targeted mini lifecycle artifacts are in sync.")
 
 
+RICH_COMPATIBILITY_REASON = (
+    "Canonical-only multi-record contract is exposed through the rich Website projection."
+)
+
+
+def reconcile_preserved_compatibility_rows(
+    website_projection: list[dict[str, Any]],
+    parity_details: list[dict[str, Any]],
+    expected_difference: list[dict[str, Any]],
+    existing_compatibility_rows: list[dict[str, Any]],
+    canonical_internal_ids: set[str],
+) -> tuple[list[dict[str, Any]], list[dict[str, Any]], list[dict[str, Any]]]:
+    """Preserve richer compatibility rows and keep their parity evidence in sync."""
+    existing_by_id = {row["id"]: row for row in existing_compatibility_rows}
+    projected_ids = {row["id"] for row in website_projection}
+
+    for index, row in enumerate(website_projection):
+        existing_row = existing_by_id.get(row["id"])
+        if (
+            existing_row is not None
+            and "canonicalInternalId" in existing_row
+            and "canonicalInternalId" not in row
+        ):
+            website_projection[index] = existing_row
+
+    preserved_rows = sorted(
+        (
+            row
+            for row in existing_by_id.values()
+            if row["id"] not in projected_ids
+            and row.get("canonicalInternalId") in canonical_internal_ids
+        ),
+        key=lambda row: (row["canonicalInternalId"], row["id"]),
+    )
+    website_projection.extend(preserved_rows)
+
+    preserved_internal_ids = {row["canonicalInternalId"] for row in preserved_rows}
+    parity_details[:] = [
+        item for item in parity_details if item["internalId"] not in preserved_internal_ids
+    ]
+    expected_difference[:] = [
+        item for item in expected_difference if item["internalId"] not in preserved_internal_ids
+    ]
+    for row in preserved_rows:
+        internal_id = row["canonicalInternalId"]
+        values = {
+            "inputPrice": row["inputPrice"],
+            "cachedInputPrice": row["cachedInputPrice"],
+            "outputPrice": row["outputPrice"],
+        }
+        parity_details.append(
+            {
+                "modelId": row["id"],
+                "internalId": internal_id,
+                "oldWebsiteValue": None,
+                "v2PreviewValue": values,
+                "classification": "expected_difference",
+                "reason": RICH_COMPATIBILITY_REASON,
+            }
+        )
+        expected_difference.append(
+            {"internalId": internal_id, "reason": RICH_COMPATIBILITY_REASON}
+        )
+
+    return website_projection, parity_details, expected_difference
+
+
 def main() -> None:
     parser = argparse.ArgumentParser(description="Generate the Pricing V2 preview artifacts.")
     parser.add_argument(
@@ -3559,24 +3626,13 @@ def main() -> None:
     # Astra's multi-record pricing contract).
     existing_compatibility_path = GENERATED / "model-pricing.website-preview.json"
     if existing_compatibility_path.exists():
-        existing_compatibility_by_id = {
-            item["id"]: item for item in read_json(existing_compatibility_path)
-        }
-        for index, row in enumerate(website_projection):
-            existing_row = existing_compatibility_by_id.get(row["id"])
-            if (
-                existing_row is not None
-                and "canonicalInternalId" in existing_row
-                and "canonicalInternalId" not in row
-            ):
-                website_projection[index] = existing_row
-        projected_ids = {row["id"] for row in website_projection}
         canonical_internal_ids = {row["internalId"] for row in models}
-        website_projection.extend(
-            existing_row
-            for existing_row in existing_compatibility_by_id.values()
-            if existing_row["id"] not in projected_ids
-            and existing_row.get("canonicalInternalId") in canonical_internal_ids
+        reconcile_preserved_compatibility_rows(
+            website_projection,
+            parity_details,
+            expected_difference,
+            read_json(existing_compatibility_path),
+            canonical_internal_ids,
         )
 
     existing_models_path = PREVIEW / "models.json"

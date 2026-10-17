@@ -5,6 +5,10 @@ from datetime import datetime, time, timedelta
 from unittest.mock import patch
 
 from scripts.lib import CANONICAL
+from scripts.generate_pricing_v2_preview import (
+    RICH_COMPATIBILITY_REASON,
+    reconcile_preserved_compatibility_rows,
+)
 from scripts import validate_pricing_v2_preview as pricing_validator
 from scripts.validate_pricing_v2_preview import PREVIEW, validate_preview
 
@@ -56,6 +60,89 @@ class PricingV2PreviewTests(unittest.TestCase):
 
     def projection_row(self, model_id):
         return next(item for item in self.projection if item["id"] == model_id)
+
+    def test_preserved_rich_compatibility_rows_keep_parity_idempotent(self):
+        legacy_row = {
+            "id": "legacy-model",
+            "inputPrice": 1.0,
+            "cachedInputPrice": None,
+            "outputPrice": 2.0,
+        }
+        rich_row = {
+            "id": "rich-model",
+            "canonicalInternalId": "provider/rich-model",
+            "inputPrice": 3.0,
+            "cachedInputPrice": 0.3,
+            "outputPrice": 6.0,
+        }
+        legacy_detail = {
+            "modelId": "legacy-model",
+            "internalId": "provider/legacy-model",
+            "oldWebsiteValue": {
+                "inputPrice": 1.0,
+                "cachedInputPrice": None,
+                "outputPrice": 2.0,
+            },
+            "v2PreviewValue": {
+                "inputPrice": 1.0,
+                "cachedInputPrice": None,
+                "outputPrice": 2.0,
+            },
+            "classification": "exact_parity",
+            "reason": "Website values match the selected V2 default calculation price.",
+        }
+
+        def generate(existing_rows):
+            return reconcile_preserved_compatibility_rows(
+                [copy.deepcopy(legacy_row)],
+                [copy.deepcopy(legacy_detail)],
+                [],
+                copy.deepcopy(existing_rows),
+                {"provider/legacy-model", "provider/rich-model"},
+            )
+
+        first = generate([legacy_row, rich_row])
+        second = generate(first[0])
+        self.assertEqual(first, second)
+        projection, details, expected = first
+        self.assertEqual(len(projection), len(details))
+        self.assertEqual([row["id"] for row in projection], ["legacy-model", "rich-model"])
+        rich_details = [row for row in details if row["internalId"] == "provider/rich-model"]
+        self.assertEqual(len(rich_details), 1)
+        self.assertEqual(
+            rich_details[0],
+            {
+                "modelId": "rich-model",
+                "internalId": "provider/rich-model",
+                "oldWebsiteValue": None,
+                "v2PreviewValue": {
+                    "inputPrice": 3.0,
+                    "cachedInputPrice": 0.3,
+                    "outputPrice": 6.0,
+                },
+                "classification": "expected_difference",
+                "reason": RICH_COMPATIBILITY_REASON,
+            },
+        )
+        self.assertEqual(
+            expected,
+            [{"internalId": "provider/rich-model", "reason": RICH_COMPATIBILITY_REASON}],
+        )
+
+        original_read_json = pricing_validator.read_json
+
+        def missing_parity_detail(path):
+            value = original_read_json(path)
+            if path.name == "convergence-report.json":
+                value = copy.deepcopy(value)
+                value["websiteCompatibilityPreviewParity"]["details"].pop()
+            return value
+
+        with patch.object(pricing_validator, "read_json", side_effect=missing_parity_detail):
+            with self.assertRaisesRegex(
+                SystemExit, "website parity details must cover every projection row"
+            ):
+                pricing_validator.validate_preview()
 
     def price(self, pricing_id):
         return next(item for item in self.prices if item["pricingId"] == pricing_id)
