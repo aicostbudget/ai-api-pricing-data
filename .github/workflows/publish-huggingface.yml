@@ -81,7 +81,7 @@ jobs:
         run: |
           GENERATED_AT=$(git show -s --format=%cI "${{ inputs.recovery_mode && inputs.recovery_artifact_sha || github.sha }}" | xargs -I{} date -u -d {} +%Y-%m-%dT%H:%M:%SZ)
           python scripts/build.py --generated-at "$GENERATED_AT"
-          python scripts/generate_pricing_v2_preview.py
+          python scripts/generate_pricing_v2_preview.py --website-dataset website-source/data/model-pricing.json
           python scripts/export_huggingface.py --website-repo website-source --website-ref "${{ inputs.recovery_mode && inputs.recovery_website_sha || 'main' }}" --generated-at "$GENERATED_AT" --write
       - name: Validate allowlisted Hugging Face artifacts
         run: python -m unittest tests.test_huggingface_export

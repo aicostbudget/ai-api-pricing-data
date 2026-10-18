@@ -317,6 +317,7 @@ class HuggingFaceSafePublishTests(unittest.TestCase):
         self.assertIn("cancel-in-progress: false", workflow)
         self.assertIn("AUTH_FAILURE: HF_TOKEN is not configured", workflow)
         self.assertIn("tests.test_huggingface_export", workflow)
+        self.assertIn("--website-dataset website-source/data/model-pricing.json", workflow)
         self.assertIn("environment: hf-release-review", workflow)
         self.assertIn("persist-credentials: false", workflow)
         self.assertIn("GITHUB_SOURCE_SHA:", workflow)
