@@ -136,6 +136,21 @@ class HuggingFaceProductionParityTests(unittest.TestCase):
         snapshot[artifact] = json.dumps(payload).encode()
         return snapshot
 
+    def write_expected(self, snapshot):
+        self.expected = snapshot
+        for name, content in snapshot.items():
+            (self.expected_dir / name).write_bytes(content)
+
+    def with_generated_at(self, snapshot, value):
+        changed = dict(snapshot)
+        prices = json.loads(changed["prices.json"])
+        meta = json.loads(changed["meta.json"])
+        prices["metadata"]["generated_at"] = value
+        meta["generated_at"] = value
+        changed["prices.json"] = json.dumps(prices).encode()
+        changed["meta.json"] = json.dumps(meta).encode()
+        return changed
+
     def assert_data_drift(self, snapshot):
         with self.assertRaises(DataDriftError) as caught:
             self.run_check(snapshot)
@@ -146,8 +161,96 @@ class HuggingFaceProductionParityTests(unittest.TestCase):
         self.assertEqual(result, 2)
         self.assertIn("HF production parity OK", output)
         self.assertIn("semantic violations: 0", output)
+        self.assertIn("BUSINESS_PARITY: PASS", output)
+        self.assertIn("METADATA_ONLY_DRIFT: NONE", output)
+        self.assertIn("BYTE_EXACT_PARITY: YES", output)
         self.assertEqual(sleeps, [])
         self.assertTrue(all("cache_bust=unique" in url for url in state["urls"]))
+
+    def test_generated_at_only_drift_passes_as_metadata_only(self):
+        snapshot = self.with_generated_at(
+            self.expected, "2026-08-03T02:38:19+00:00"
+        )
+        result, output, _state, sleeps = self.run_check(snapshot)
+        self.assertEqual(result, 2)
+        self.assertIn("BUSINESS_PARITY: PASS", output)
+        self.assertIn("METADATA_ONLY_DRIFT: generated_at", output)
+        self.assertIn("BYTE_EXACT_PARITY: NO", output)
+        self.assertEqual(sleeps, [])
+
+    def test_semantic_parity_does_not_claim_byte_exact_parity(self):
+        snapshot = dict(self.expected)
+        prices = json.loads(snapshot["prices.json"])
+        snapshot["prices.json"] = json.dumps(
+            prices, separators=(",", ":")
+        ).encode()
+        result, output, _state, _sleeps = self.run_check(snapshot)
+        self.assertEqual(result, 2)
+        self.assertIn("BUSINESS_PARITY: PASS", output)
+        self.assertIn("METADATA_ONLY_DRIFT: NONE", output)
+        self.assertIn("BYTE_EXACT_PARITY: NO", output)
+
+    def test_generated_at_must_agree_within_production_batch(self):
+        snapshot = self.with_generated_at(self.expected, "2026-08-03T02:38:19Z")
+        meta = json.loads(snapshot["meta.json"])
+        meta["generated_at"] = "2026-08-03T03:00:00Z"
+        snapshot["meta.json"] = json.dumps(meta).encode()
+        drifts = self.assert_data_drift(snapshot)
+        self.assertTrue(any(d.artifact == "projection" and d.field == "contract" for d in drifts))
+
+    def test_generated_at_missing_invalid_or_before_checked_at_fails(self):
+        for value in (None, "not-a-timestamp", "2026-08-03T02:38:19"):
+            with self.subTest(value=value):
+                snapshot = self.with_generated_at(self.expected, value)
+                drifts = self.assert_data_drift(snapshot)
+                self.assertTrue(
+                    any(d.artifact == "projection" and d.field == "contract" for d in drifts)
+                )
+        missing = dict(self.expected)
+        prices = json.loads(missing["prices.json"])
+        meta = json.loads(missing["meta.json"])
+        prices["metadata"].pop("generated_at")
+        meta.pop("generated_at")
+        missing["prices.json"] = json.dumps(prices).encode()
+        missing["meta.json"] = json.dumps(meta).encode()
+        self.assert_data_drift(missing)
+        before_checked = self.with_generated_at(
+            self.expected, "2026-07-31T23:59:59Z"
+        )
+        self.assert_data_drift(before_checked)
+
+    def test_89_vs_87_records_fails(self):
+        expected_records = [record(f"model-{index}") for index in range(89)]
+        self.write_expected(build_snapshot(expected_records))
+        drifts = self.assert_data_drift(build_snapshot(expected_records[:87]))
+        self.assertTrue(
+            any(
+                d.artifact == "projection"
+                and d.field in {"record_count", "model_ids", "row_count", "row_digests"}
+                for d in drifts
+            )
+        )
+
+    def test_pricing_components_drift_fails_and_changes_row_digest(self):
+        snapshot = self.mutated_json(
+            "prices.json",
+            lambda payload: payload["records"][0].__setitem__(
+                "pricing_components", [{"type": "input", "price": 8.75}]
+            ),
+        )
+        drifts = self.assert_data_drift(snapshot)
+        self.assertTrue(any(d.artifact == "projection" and d.field == "row_digests" for d in drifts))
+        self.assertTrue(any("pricing_components" in d.field for d in drifts))
+
+    def test_generated_at_does_not_mask_business_drift(self):
+        snapshot = self.with_generated_at(self.expected, "2026-08-03T02:38:19Z")
+        prices = json.loads(snapshot["prices.json"])
+        prices["records"][0]["input_price_per_1m_tokens"] = 9.99
+        snapshot["prices.json"] = json.dumps(prices).encode()
+        drifts = self.assert_data_drift(snapshot)
+        self.assertTrue(any(d.field == "generated_at" for d in drifts))
+        self.assertTrue(any(d.field == "row_digests" for d in drifts))
+        self.assertTrue(any(d.field == "input_price_per_1m_tokens" for d in drifts))
 
     def test_missing_grok_voice_models_fail_even_when_provider_count_matches(self):
         base_records = [record("verified-model"), record("grok-base", provider_id="xai")]

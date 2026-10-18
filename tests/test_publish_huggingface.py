@@ -1,4 +1,5 @@
 import io
+import json
 import os
 import subprocess
 import tempfile
@@ -32,6 +33,34 @@ ROOT = Path(__file__).resolve().parents[1]
 WORKFLOW = ROOT / ".github" / "workflows" / "publish-huggingface.yml"
 
 
+def valid_artifacts(generated_at="2026-10-18T04:29:11Z", price=1.25):
+    metadata = {
+        "record_count": 1,
+        "provider_count": 1,
+        "generated_at": generated_at,
+    }
+    prices = {
+        "metadata": metadata,
+        "records": [
+            {
+                "provider_id": "openai",
+                "model_id": "example-model",
+                "input_price_per_1m_tokens": price,
+            }
+        ],
+    }
+    csv_payload = (
+        "provider_id,model_id,input_price_per_1m_tokens\n"
+        f"openai,example-model,{price}\n"
+    ).encode()
+    return {
+        "prices.json": (json.dumps(prices, indent=2) + "\n").encode(),
+        "prices.csv": csv_payload,
+        "train.csv": csv_payload,
+        "meta.json": (json.dumps(metadata, indent=2) + "\n").encode(),
+    }
+
+
 def git(*args, cwd=None):
     return subprocess.run(
         ["git", *args],
@@ -51,12 +80,7 @@ class HuggingFaceSafePublishTests(unittest.TestCase):
         self.seed = self.root / "seed"
         self.source = self.root / "source"
         self.source.mkdir()
-        self.initial_artifacts = {
-            "prices.json": b'{"version":"old"}\n',
-            "prices.csv": b"model_id,price\nold,1\n",
-            "train.csv": b"model_id,price\nold,1\n",
-            "meta.json": b'{"version":"old"}\n',
-        }
+        self.initial_artifacts = valid_artifacts()
         self.write_source(self.initial_artifacts)
         self.init_remote(self.initial_artifacts)
 
@@ -144,6 +168,31 @@ class HuggingFaceSafePublishTests(unittest.TestCase):
         self.assertEqual(result.status, "HF_ALREADY_IN_SYNC")
         self.assertEqual(self.remote_head(), before)
         self.assertIn("HF_ALREADY_IN_SYNC", output)
+
+    def test_generated_at_only_change_is_auditable_no_op(self):
+        self.write_source(valid_artifacts("2026-10-18T07:07:30+00:00"))
+        before = self.remote_head()
+        with patch("scripts.publish_huggingface.commit_artifacts") as commit:
+            with patch("scripts.publish_huggingface.push_fast_forward") as push:
+                result, output = self.publish()
+        self.assertEqual(result.status, "HF_ALREADY_IN_SYNC")
+        self.assertEqual(set(result.changed_files), {"prices.json", "meta.json"})
+        self.assertEqual(self.remote_head(), before)
+        self.assertIn("METADATA_ONLY_NO_OP: generated_at", output)
+        commit.assert_not_called()
+        push.assert_not_called()
+
+    def test_business_change_keeps_publish_path(self):
+        self.write_source(valid_artifacts(price=2.50))
+        before = self.remote_head()
+        result, output = self.publish()
+        self.assertEqual(result.status, "HF_PUSHED")
+        self.assertNotEqual(self.remote_head(), before)
+        self.assertNotIn("METADATA_ONLY_NO_OP", output)
+        self.assertEqual(
+            self.remote_changed_files(),
+            {"prices.json", "prices.csv", "train.csv"},
+        )
 
     def test_clone_is_lf_deterministic_when_external_autocrlf_is_true(self):
         remote = self.init_remote_without_gitattributes()
