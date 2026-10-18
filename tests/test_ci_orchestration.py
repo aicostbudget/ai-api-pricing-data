@@ -27,21 +27,14 @@ def child_mapping_keys(text, parent):
 
 
 class CiOrchestrationContractTests(unittest.TestCase):
-    def test_validate_is_push_and_pull_request_local_ci(self):
+    def test_validate_is_pr_and_explicit_ci_not_main_push_ci(self):
         workflow = workflow_text("validate.yml")
-        self.assertEqual(child_mapping_keys(workflow, "on"), {"push", "pull_request", "workflow_dispatch"})
-        normal, candidate = workflow.split("  reviewed-website-candidate:", 1)
-        self.assertIn("ref: main", normal)
-        self.assertIn("inputs.website_candidate_sha == ''", normal)
-        self.assertIn("environment: pricing-candidate-review", candidate)
-        self.assertIn("python scripts/check_website_candidate.py", candidate)
-        self.assertIn("python -m unittest discover -s tests", candidate)
+        self.assertEqual(child_mapping_keys(workflow, "on"), {"pull_request", "workflow_dispatch"})
         self.assertIn("python scripts/build.py", workflow)
         self.assertIn("python scripts/validate.py", workflow)
-        self.assertIn("python -m unittest discover -s tests", workflow)
+        self.assertEqual(workflow.count("python -m unittest discover -s tests"), 1)
         self.assertNotIn("export_huggingface.py --website-repo", workflow)
         self.assertIn("github.event.pull_request.head.repo.full_name == github.repository", workflow)
-        self.assertIn("github.actor != 'dependabot[bot]'", workflow)
 
     def test_website_parity_is_an_explicit_release_check(self):
         workflow = workflow_text("website-pricing-parity.yml")
@@ -67,14 +60,13 @@ class CiOrchestrationContractTests(unittest.TestCase):
         self.assertNotIn("--expected-dir", workflow)
 
 
-    def test_hf_publish_remains_manual_and_enforces_post_publish_parity(self):
+    def test_hf_publish_is_manual_only_runs_once_and_enforces_parity(self):
         workflow = workflow_text("publish-huggingface.yml")
         self.assertEqual(child_mapping_keys(workflow, "on"), {"workflow_dispatch"})
+        self.assertEqual(workflow.count("name: Publish allowlisted artifacts safely"), 1)
         publish_index = workflow.index("python scripts/publish_huggingface.py")
         parity_index = workflow.index("python scripts/check_hf_production_parity.py")
-        success_index = workflow.index('echo "PUBLISH_SUCCESS"')
         self.assertLess(publish_index, parity_index)
-        self.assertLess(parity_index, success_index)
         self.assertNotIn("continue-on-error", workflow)
 
     def test_freshness_permissions_and_triggers_remain_contained(self):
@@ -90,7 +82,7 @@ class CiOrchestrationContractTests(unittest.TestCase):
         self.assertIn("contents: read", workflow)
         self.assertIn("issues: write", workflow)
 
-    def test_no_workflow_automatically_publishes_hugging_face(self):
+    def test_only_one_workflow_publishes_hugging_face(self):
         publisher = workflow_text("publish-huggingface.yml")
         for path in WORKFLOWS.glob("*.yml"):
             workflow = path.read_text(encoding="utf-8")

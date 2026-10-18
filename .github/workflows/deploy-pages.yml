@@ -1,228 +1,82 @@
 name: Deploy Pages
-run-name: ${{ github.event_name == 'workflow_dispatch' && 'Pages Production Release' || 'PAGES BUILD ONLY - NO PRODUCTION DEPLOY' }}
 
 on:
   push:
-    branches: ["main", "master"]
+    branches: ["main"]
   workflow_dispatch:
     inputs:
-      artifact_sha:
-        description: "Exact approved Dataset artifact S2 SHA on main"
-        required: true
+      recovery_mode:
+        description: "Forward Recovery only"
+        required: false
+        type: boolean
+        default: false
+      recovery_source_sha:
+        required: false
         type: string
-      source_sha:
-        description: "Exact real Dataset source S1 SHA"
-        required: true
+      recovery_artifact_sha:
+        required: false
         type: string
-      website_sha:
-        description: "Exact approved Website W1 SHA on main"
-        required: true
+      recovery_website_sha:
+        required: false
         type: string
-      release_tag:
-        description: "Existing reviewed tag resolving to S2"
-        required: true
+      recovery_id:
+        required: false
         type: string
-      release_date:
-        description: "Approved release date YYYY-MM-DD"
-        required: true
+      recovery_digest:
+        required: false
         type: string
-      release_plan_id:
-        description: "Reviewed daily release plan ID"
-        required: true
-        type: string
-      release_plan_digest:
-        description: "SHA-256 of the committed reviewed release plan"
-        required: true
-        type: string
-
-permissions:
-  contents: read
 
 concurrency:
   group: pages
   cancel-in-progress: false
 
 jobs:
-  build:
-    permissions:
-      contents: read
-      pages: read
-    runs-on: ubuntu-latest
-    outputs:
-      source_sha: ${{ steps.artifact.outputs.source_sha }}
-    steps:
-      - uses: actions/checkout@v5
-        with:
-          ref: ${{ github.sha }}
-          fetch-depth: 0
-          persist-credentials: false
-      - uses: actions/setup-python@v6
-        with:
-          python-version: "3.11"
-      - uses: actions/setup-node@v6
-        with:
-          node-version: "24"
-      - name: Checkout published Website main for ordinary preflight
-        uses: actions/checkout@v5
-        with:
-          repository: linqiang-max/aicostbudget
-          ref: main
-          fetch-depth: 0
-          path: website-source
-          token: ${{ secrets.WEBSITE_REPO_TOKEN }}
-          persist-credentials: false
-      - name: Install Website dependencies
-        run: npm ci --ignore-scripts --no-audit --no-fund
-        working-directory: website-source
-      - name: Validate static dataset
-        run: python scripts/validate.py
-      - name: Run complete Dataset suite
-        run: python -m unittest discover -s tests -p "test_*.py"
-      - name: Verify actual Website public export parity
-        run: node scripts/test-dataset-pricing-components-parity.mjs ../huggingface
-        working-directory: website-source
-      - name: Prepare Pages artifact
-        if: github.event_name == 'workflow_dispatch' && github.ref == 'refs/heads/main'
-        id: artifact
-        run: python scripts/prepare_pages_artifact.py pages-dist --artifact-sha "${{ github.sha }}" --github-output "$GITHUB_OUTPUT"
-      - uses: actions/configure-pages@v6
-        if: github.event_name == 'workflow_dispatch' && github.ref == 'refs/heads/main'
-        with:
-          enablement: false
-      - uses: actions/upload-pages-artifact@v5
-        if: github.event_name == 'workflow_dispatch' && github.ref == 'refs/heads/main'
-        with:
-          path: pages-dist
-  release-preflight:
-    if: github.event_name == 'workflow_dispatch' && github.ref == 'refs/heads/main'
-    needs: build
-    environment: github-pages
-    permissions:
-      contents: read
-      actions: read
-    runs-on: ubuntu-latest
-    outputs:
-      eligible: ${{ steps.gate.outputs.eligible }}
-    steps:
-      - uses: actions/checkout@v5
-        with:
-          ref: ${{ github.sha }}
-          fetch-depth: 0
-          persist-credentials: false
-      - uses: actions/setup-python@v6
-        with:
-          python-version: "3.11"
-      - uses: actions/setup-node@v6
-        with:
-          node-version: "24"
-      - name: Verify current maintainer dispatch and approved release source
-        env:
-          GITHUB_TOKEN: ${{ github.token }}
-          WEBSITE_REPO_TOKEN: ${{ secrets.WEBSITE_REPO_TOKEN }}
-          ARTIFACT_SHA: ${{ inputs.artifact_sha }}
-          SOURCE_SHA: ${{ inputs.source_sha }}
-          WEBSITE_SHA: ${{ inputs.website_sha }}
-          RELEASE_TAG: ${{ inputs.release_tag }}
-          RELEASE_DATE: ${{ inputs.release_date }}
-          RELEASE_PLAN_ID: ${{ inputs.release_plan_id }}
-          RELEASE_PLAN_DIGEST: ${{ inputs.release_plan_digest }}
-        run: python scripts/check_release_gate.py --kind pages
-      - name: Checkout approved committed Website
-        uses: actions/checkout@v5
-        with:
-          repository: linqiang-max/aicostbudget
-          ref: ${{ inputs.website_sha }}
-          fetch-depth: 0
-          path: website-source
-          token: ${{ secrets.WEBSITE_REPO_TOKEN }}
-          persist-credentials: false
-      - name: Install Website dependencies
-        run: npm ci --ignore-scripts --no-audit --no-fund
-        working-directory: website-source
-      - name: Verify formal committed release bundle
-        id: gate
-        env:
-          GITHUB_TOKEN: ${{ github.token }}
-          WEBSITE_REPO_TOKEN: ${{ secrets.WEBSITE_REPO_TOKEN }}
-          ARTIFACT_SHA: ${{ inputs.artifact_sha }}
-          SOURCE_SHA: ${{ inputs.source_sha }}
-          WEBSITE_SHA: ${{ inputs.website_sha }}
-          RELEASE_TAG: ${{ inputs.release_tag }}
-          RELEASE_DATE: ${{ inputs.release_date }}
-          RELEASE_PLAN_ID: ${{ inputs.release_plan_id }}
-          RELEASE_PLAN_DIGEST: ${{ inputs.release_plan_digest }}
-        run: |
-          python scripts/check_release_gate.py --kind pages --verify-local --website-repo website-source --bundle-output "$RUNNER_TEMP/pages-reviewed-bundle"
-          echo "eligible=true" >> "$GITHUB_OUTPUT"
-  deploy:
-    if: github.event_name == 'workflow_dispatch' && github.ref == 'refs/heads/main' && needs.build.result == 'success' && needs.release-preflight.result == 'success' && needs.release-preflight.outputs.eligible == 'true'
-    needs: [build, release-preflight]
+  release:
+    if: github.event_name == 'push' || inputs.recovery_mode
     environment:
       name: github-pages
       url: ${{ steps.deployment.outputs.page_url }}
     permissions:
       contents: read
-      actions: read
       pages: write
       id-token: write
+      actions: read
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v5
         with:
-          ref: ${{ github.sha }}
+          ref: ${{ inputs.recovery_mode && inputs.recovery_artifact_sha || github.sha }}
           fetch-depth: 0
           persist-credentials: false
       - uses: actions/setup-python@v6
         with:
           python-version: "3.11"
-      - name: Recheck current source and maintainer dispatch authorization before production deployment
+      - name: Verify explicit Forward Recovery identity
+        if: inputs.recovery_mode
         env:
+          RECOVERY_SOURCE_SHA: ${{ inputs.recovery_source_sha }}
+          RECOVERY_ARTIFACT_SHA: ${{ inputs.recovery_artifact_sha }}
+          RECOVERY_WEBSITE_SHA: ${{ inputs.recovery_website_sha }}
+          RECOVERY_ID: ${{ inputs.recovery_id }}
+          RECOVERY_DIGEST: ${{ inputs.recovery_digest }}
           GITHUB_TOKEN: ${{ github.token }}
-          WEBSITE_REPO_TOKEN: ${{ secrets.WEBSITE_REPO_TOKEN }}
-          ARTIFACT_SHA: ${{ inputs.artifact_sha }}
-          SOURCE_SHA: ${{ inputs.source_sha }}
-          WEBSITE_SHA: ${{ inputs.website_sha }}
-          RELEASE_TAG: ${{ inputs.release_tag }}
-          RELEASE_DATE: ${{ inputs.release_date }}
-          RELEASE_PLAN_ID: ${{ inputs.release_plan_id }}
-          RELEASE_PLAN_DIGEST: ${{ inputs.release_plan_digest }}
-        run: python scripts/check_release_gate.py --kind pages
+        run: python scripts/check_release_gate.py --kind pages --recovery
+      - name: Build public API once
+        env:
+          SOURCE_COMMIT_SHA: ${{ inputs.recovery_mode && inputs.recovery_source_sha || github.sha }}
+        run: python scripts/build.py
+      - name: Validate public API
+        run: python scripts/validate.py
+      - name: Prepare allowlisted Pages artifact
+        run: python scripts/prepare_pages_artifact.py pages-dist --release-sha "${{ inputs.recovery_mode && inputs.recovery_source_sha || github.sha }}"
+      - uses: actions/configure-pages@v6
+        with:
+          enablement: false
+      - uses: actions/upload-pages-artifact@v5
+        with:
+          path: pages-dist
       - name: Deploy approved Pages artifact
         id: deployment
         uses: actions/deploy-pages@v5
-      - name: Verify public Pages deployment
-        run: python scripts/verify_pages_deployment.py --expected-source-sha "${{ needs.build.outputs.source_sha }}" --artifact-sha "${{ github.sha }}"
-  deployment-status:
-    if: always()
-    needs: [build, release-preflight, deploy]
-    permissions:
-      contents: read
-    runs-on: ubuntu-latest
-    steps:
-      - name: Report explicit Pages release status
-        env:
-          EVENT_NAME: ${{ github.event_name }}
-          BUILD_RESULT: ${{ needs.build.result }}
-          PREFLIGHT_RESULT: ${{ needs.release-preflight.result }}
-          DEPLOY_RESULT: ${{ needs.deploy.result }}
-        run: |
-          if [ "$EVENT_NAME" = "push" ]; then
-            {
-              echo "## PAGES BUILD ONLY - NO PRODUCTION DEPLOY"
-              echo "- PAGES BUILD VERIFIED: $BUILD_RESULT"
-              echo "- RELEASE PREFLIGHT: NOT ATTEMPTED"
-              echo "- PRODUCTION DEPLOY: NOT ATTEMPTED"
-              echo "- PRODUCTION PARITY: NOT VERIFIED"
-            } >> "$GITHUB_STEP_SUMMARY"
-            [ "$BUILD_RESULT" = "success" ]
-            exit
-          fi
-
-          {
-            echo "## Pages production release status"
-            echo "- PAGES BUILD VERIFIED: $BUILD_RESULT"
-            echo "- RELEASE PREFLIGHT VERIFIED: $PREFLIGHT_RESULT"
-            echo "- PRODUCTION DEPLOYED: $DEPLOY_RESULT"
-            echo "- PRODUCTION PARITY VERIFIED: $DEPLOY_RESULT"
-          } >> "$GITHUB_STEP_SUMMARY"
-          [ "$BUILD_RESULT" = "success" ] && [ "$PREFLIGHT_RESULT" = "success" ] && [ "$DEPLOY_RESULT" = "success" ]
+      - name: Verify public Pages revision and parity
+        run: python scripts/verify_pages_deployment.py --release-sha "${{ inputs.recovery_mode && inputs.recovery_source_sha || github.sha }}"

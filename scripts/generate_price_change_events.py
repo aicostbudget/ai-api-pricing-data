@@ -837,7 +837,11 @@ def write_events(events: list[dict[str, Any]], path: Path = EVENTS_PATH) -> None
     path.parent.mkdir(parents=True, exist_ok=True)
     lines = [json.dumps(event, sort_keys=True, separators=(",", ":")) for event in events]
     tmp_path = path.with_name(f".{path.name}.tmp")
-    tmp_path.write_text("\n".join(lines) + ("\n" if lines else ""), encoding="utf-8")
+    tmp_path.write_text(
+        "\n".join(lines) + ("\n" if lines else ""),
+        encoding="utf-8",
+        newline="\n",
+    )
     os.replace(tmp_path, path)
 
 

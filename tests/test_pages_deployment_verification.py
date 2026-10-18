@@ -143,17 +143,15 @@ class PagesDeploymentVerificationTests(unittest.TestCase):
             with self.subTest(csv=csv), self.assertRaises(VerificationError):
                 self.verify_responses([FakeResponse(files["api/v1/meta.json"], raw=True), FakeResponse(files["api/v1/prices.json"], raw=True), csv])
 
-    def test_cli_uses_source_sha_and_artifact_bytes_separately(self):
-        artifact_sha = "c" * 40
+    def test_cli_uses_one_approved_release_revision(self):
         files = self.expected_files()
-        with patch.object(verifier, "committed_pages", return_value=(files, EXPECTED_SHA, artifact_sha)) as committed, patch.object(verifier, "verify_public_deployment") as verify, patch("sys.argv", ["verifier", "--expected-source-sha", EXPECTED_SHA, "--artifact-sha", artifact_sha]), patch("sys.stdout", io.StringIO()):
+        with patch.object(verifier, "workspace_pages", return_value=(files, EXPECTED_SHA)) as prepared, patch.object(verifier, "verify_public_deployment") as verify, patch("sys.argv", ["verifier", "--release-sha", EXPECTED_SHA]), patch("sys.stdout", io.StringIO()):
             verifier.main()
-        committed.assert_called_once_with(artifact_sha)
+        prepared.assert_called_once_with(verifier.ROOT, EXPECTED_SHA)
         verify.assert_called_once_with(EXPECTED_SHA, 8, 8, 3, expected_files=files)
 
-    def test_cli_artifact_sha_as_expected_source_fails_before_http(self):
-        artifact_sha = "c" * 40
-        with patch.object(verifier, "committed_pages", return_value=(self.expected_files(), EXPECTED_SHA, artifact_sha)), patch.object(verifier, "verify_public_deployment") as verify, patch("sys.argv", ["verifier", "--expected-source-sha", artifact_sha, "--artifact-sha", artifact_sha]), patch("sys.stderr", io.StringIO()), self.assertRaises(SystemExit) as error:
+    def test_cli_rejects_workspace_provenance_mismatch_before_http(self):
+        with patch.object(verifier, "workspace_pages", side_effect=ValueError("revision mismatch")), patch.object(verifier, "verify_public_deployment") as verify, patch("sys.argv", ["verifier", "--release-sha", EXPECTED_SHA]), patch("sys.stderr", io.StringIO()), self.assertRaises(SystemExit) as error:
             verifier.main()
         self.assertEqual(error.exception.code, 1)
         verify.assert_not_called()

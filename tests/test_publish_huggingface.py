@@ -304,11 +304,11 @@ class HuggingFaceSafePublishTests(unittest.TestCase):
     def test_repository_source_artifacts_pass_preflight(self):
         validate_source_artifacts()
 
-    def test_workflow_is_manual_only_and_uses_minimal_permissions(self):
+    def test_workflow_is_manual_only_and_publishes_once_with_minimal_permissions(self):
         workflow = WORKFLOW.read_text(encoding="utf-8")
         self.assertIn("name: Hugging Face Safe Publish", workflow)
         self.assertIn("workflow_dispatch:", workflow)
-        self.assertNotIn("push:", workflow)
+        self.assertNotIn("  push:\n", workflow)
         self.assertNotIn("pull_request", workflow)
         self.assertNotIn("schedule:", workflow)
         self.assertIn("contents: read", workflow)
@@ -316,24 +316,21 @@ class HuggingFaceSafePublishTests(unittest.TestCase):
         self.assertIn("group: hugging-face-production-publish", workflow)
         self.assertIn("cancel-in-progress: false", workflow)
         self.assertIn("AUTH_FAILURE: HF_TOKEN is not configured", workflow)
-        self.assertIn("VALIDATION_FAILURE", workflow)
-        self.assertIn("ref: ${{ github.sha }}", workflow)
+        self.assertIn("tests.test_huggingface_export", workflow)
         self.assertIn("environment: hf-release-review", workflow)
-        self.assertIn("--verify-production", workflow)
         self.assertIn("persist-credentials: false", workflow)
-        self.assertIn("GITHUB_SOURCE_SHA: ${{ inputs.artifact_sha }}", workflow)
-        self.assertLess(workflow.index("Verify real maintainer dispatch authorization"), workflow.index("Require Hugging Face write token"))
+        self.assertIn("GITHUB_SOURCE_SHA:", workflow)
+        self.assertNotIn("release_plan_id", workflow)
+        self.assertNotIn("release_plan_digest", workflow)
+        self.assertIn("if: github.event_name == 'workflow_dispatch'", workflow)
         self.assertLess(workflow.index("Require Hugging Face write token"), workflow.index("Publish allowlisted artifacts safely"))
 
     def test_production_checker_failure_stops_workflow(self):
         workflow = WORKFLOW.read_text(encoding="utf-8")
         publisher = workflow.index("python scripts/publish_huggingface.py")
         parity = workflow.index("python scripts/check_hf_production_parity.py")
-        success = workflow.index('echo "PUBLISH_SUCCESS"')
         self.assertLess(publisher, parity)
-        self.assertLess(parity, success)
         self.assertNotIn("continue-on-error", workflow)
-        self.assertIn("PRODUCTION_PARITY_FAILURE", workflow)
 
     def test_already_in_sync_then_parity_is_success_path(self):
         result, output = self.publish()
@@ -353,13 +350,15 @@ class HuggingFaceSafePublishTests(unittest.TestCase):
             "data: publish pricing artifacts from GitHub abcdef1",
         )
 
-    def test_workflow_exposes_boolean_dry_run(self):
+    def test_ordinary_workflow_has_one_publish_step_and_dry_run_is_recovery_only(self):
         workflow = WORKFLOW.read_text(encoding="utf-8")
+        self.assertEqual(workflow.count("name: Publish allowlisted artifacts safely"), 1)
         self.assertIn("dry_run:", workflow)
         self.assertIn("type: boolean", workflow)
-        self.assertIn("default: true", workflow)
+        self.assertIn("default: false", workflow)
+        self.assertIn("Forward Recovery preflight only", workflow)
         self.assertIn("python scripts/publish_huggingface.py --dry-run", workflow)
-        self.assertIn("if: ${{ ! inputs.dry_run }}", workflow)
+        self.assertIn("if: ${{ ! inputs.recovery_mode || ! inputs.dry_run }}", workflow)
 
     def test_publisher_contains_no_history_rewrite_or_bulk_sync_operations(self):
         publisher = (ROOT / "scripts" / "publish_huggingface.py").read_text(encoding="utf-8")

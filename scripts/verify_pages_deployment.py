@@ -9,12 +9,13 @@ import sys
 import time
 import urllib.error
 import urllib.request
+from pathlib import Path
 from typing import Any, Callable, TextIO
 
 try:
-    from prepare_pages_artifact import committed_pages
+    from prepare_pages_artifact import ROOT, workspace_pages
 except ModuleNotFoundError:
-    from scripts.prepare_pages_artifact import committed_pages
+    from scripts.prepare_pages_artifact import ROOT, workspace_pages
 
 META_URL = "https://aicostbudget.github.io/ai-api-pricing-data/api/v1/meta.json"
 PRICES_URL = "https://aicostbudget.github.io/ai-api-pricing-data/api/v1/prices.json"
@@ -254,19 +255,17 @@ def verify_public_deployment(
 
 def main() -> None:
     parser = argparse.ArgumentParser(description="Verify the deployed public GitHub Pages JSON.")
-    parser.add_argument("--expected-source-sha", "--expected-sha", dest="expected_source_sha", required=True)
-    parser.add_argument("--artifact-sha", required=True, help="Committed artifact whose API bytes must be public")
+    parser.add_argument("--release-sha", required=True, help="Approved main revision that produced the public API")
+    parser.add_argument("--source-root", type=Path, default=ROOT)
     parser.add_argument("--attempts", type=int, default=8)
     parser.add_argument("--interval", type=float, default=8)
     parser.add_argument("--timeout", type=float, default=3)
     args = parser.parse_args()
     try:
-        files, source_sha, artifact_sha = committed_pages(args.artifact_sha)
-        if args.expected_source_sha != source_sha:
-            raise VerificationError("Expected Source SHA does not match committed API provenance")
-        print(f"Pages provenance: Source SHA={source_sha} Artifact SHA={artifact_sha}")
+        files, release_sha = workspace_pages(args.source_root, args.release_sha)
+        print(f"Pages release revision: {release_sha}")
         verify_public_deployment(
-            source_sha, args.attempts, args.interval, args.timeout, expected_files=files,
+            release_sha, args.attempts, args.interval, args.timeout, expected_files=files,
         )
     except (ValueError, VerificationError, OSError, subprocess.SubprocessError) as exc:
         print(exc, file=sys.stderr)

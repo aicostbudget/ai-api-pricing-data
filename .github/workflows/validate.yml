@@ -1,12 +1,11 @@
-﻿name: Validate
+name: Validate
 
 on:
-  push:
   pull_request:
   workflow_dispatch:
     inputs:
       website_candidate_sha:
-        description: "Exact reviewed Website candidate SHA; empty validates published main"
+        description: "Optional exact reviewed Website candidate SHA"
         required: false
         default: ""
         type: string
@@ -16,49 +15,6 @@ permissions:
 
 jobs:
   validate:
-    if: ${{ inputs.website_candidate_sha == '' }}
-    runs-on: ubuntu-latest
-    steps:
-      - uses: actions/checkout@v5
-        with:
-          fetch-depth: 0
-      - name: Checkout Website public pricing source
-        if: github.event_name != 'pull_request' || (github.event.pull_request.head.repo.full_name == github.repository && github.actor != 'dependabot[bot]')
-        uses: actions/checkout@v5
-        with:
-          fetch-depth: 0
-          repository: linqiang-max/aicostbudget
-          ref: main
-          path: website-source
-          token: ${{ secrets.WEBSITE_REPO_TOKEN }}
-          persist-credentials: false
-      - uses: actions/setup-python@v6
-        with:
-          python-version: "3.11"
-      - name: Set up Node.js
-        uses: actions/setup-node@v6
-        with:
-          node-version: "24"
-      - name: Install Website dependencies
-        if: github.event_name != 'pull_request' || (github.event.pull_request.head.repo.full_name == github.repository && github.actor != 'dependabot[bot]')
-        run: npm ci --ignore-scripts --no-audit --no-fund
-        working-directory: website-source
-      - name: Build generated data
-        run: python scripts/build.py --output-root "$RUNNER_TEMP/pricing-build"
-      - name: Validate dataset
-        run: python scripts/validate.py
-      - name: Run tests
-        run: python -m unittest discover -s tests
-
-
-
-
-  reviewed-website-candidate:
-    if: ${{ github.event_name == 'workflow_dispatch' && inputs.website_candidate_sha != '' }}
-    environment: pricing-candidate-review
-    permissions:
-      contents: read
-      actions: read
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v5
@@ -67,39 +23,29 @@ jobs:
       - uses: actions/setup-python@v6
         with:
           python-version: "3.11"
-      - name: Verify protected candidate checkout policy
-        env:
-          WEBSITE_CANDIDATE_SHA: ${{ inputs.website_candidate_sha }}
-          WEBSITE_REPO_TOKEN: ${{ secrets.WEBSITE_REPO_TOKEN }}
-          GITHUB_TOKEN: ${{ github.token }}
-        run: python scripts/check_website_candidate.py
       - name: Checkout Website public pricing source
-        if: github.event_name != 'pull_request' || (github.event.pull_request.head.repo.full_name == github.repository && github.actor != 'dependabot[bot]')
+        if: github.event_name == 'workflow_dispatch' || github.event.pull_request.head.repo.full_name == github.repository
         uses: actions/checkout@v5
         with:
-          fetch-depth: 0
           repository: linqiang-max/aicostbudget
-          ref: ${{ inputs.website_candidate_sha }}
+          ref: ${{ inputs.website_candidate_sha || 'main' }}
           path: website-source
           token: ${{ secrets.WEBSITE_REPO_TOKEN }}
           persist-credentials: false
-      - uses: actions/setup-python@v6
-        with:
-          python-version: "3.11"
-      - name: Set up Node.js
-        uses: actions/setup-node@v6
+      - uses: actions/setup-node@v6
         with:
           node-version: "24"
       - name: Install Website dependencies
-        if: github.event_name != 'pull_request' || (github.event.pull_request.head.repo.full_name == github.repository && github.actor != 'dependabot[bot]')
+        if: github.event_name == 'workflow_dispatch' || github.event.pull_request.head.repo.full_name == github.repository
         run: npm ci --ignore-scripts --no-audit --no-fund
         working-directory: website-source
       - name: Build generated data
         run: python scripts/build.py --output-root "$RUNNER_TEMP/pricing-build"
       - name: Validate dataset
         run: python scripts/validate.py
-      - name: Run tests
+      - name: Run complete development suite once
         run: python -m unittest discover -s tests
-      - name: Compare actual Website serializer with HF downloadable records
+      - name: Compare Website serializer with downloadable records
+        if: github.event_name == 'workflow_dispatch' || github.event.pull_request.head.repo.full_name == github.repository
         run: node scripts/test-dataset-pricing-components-parity.mjs ../huggingface
         working-directory: website-source

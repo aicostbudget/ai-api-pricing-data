@@ -9,9 +9,8 @@ import unittest
 from pathlib import Path
 from unittest.mock import patch
 
-from scripts.check_release_gate import GateError, assert_local_release_identity, load_committed_approved_plan, verify_production
-from scripts.daily_pricing_release import (
-    PLAN_SCHEMA,
+from scripts.check_release_gate import GateError, assert_local_release_identity, verify_production
+from scripts.forward_recovery import (
     RecoveryBackend,
     RecoveryShellBackend,
     RecoveryStateStore,
@@ -19,8 +18,6 @@ from scripts.daily_pricing_release import (
     plan_digest,
     publish_recovery,
     write_json,
-)
-from scripts.forward_recovery import (
     HISTORICAL_FIELDS,
     RECOVERY_PLAN_SCHEMA,
     RecoveryContractError,
@@ -129,20 +126,14 @@ def chain_fixture(plan=None):
 
 
 class RecoverySchemaIsolationTests(unittest.TestCase):
-    def test_daily_plan_remains_accepted_by_daily_loader(self):
-        payload = json.dumps({"schema": PLAN_SCHEMA, "release_id": "daily-fixture"}).encode()
-        with patch("scripts.check_release_gate.subprocess.check_output", return_value=payload):
-            loaded = load_committed_approved_plan(ROOT, "daily-fixture", hashlib.sha256(payload).hexdigest(), S1, S2)
-        self.assertEqual(loaded["schema"], PLAN_SCHEMA)
+    def test_daily_and_recovery_modules_do_not_import_each_other(self):
+        daily = (ROOT / "scripts/daily_pricing_release.py").read_text(encoding="utf-8")
+        recovery = (ROOT / "scripts/forward_recovery.py").read_text(encoding="utf-8")
+        self.assertNotIn("forward_recovery", daily)
+        self.assertNotIn("daily_pricing_release", recovery)
 
-    def test_recovery_plan_is_rejected_by_daily_loader(self):
-        payload = canonical_bytes(recovery_plan())
-        with patch("scripts.check_release_gate.subprocess.check_output", return_value=payload):
-            with self.assertRaisesRegex(GateError, "FORMAL TAG CREATION BLOCKED"):
-                load_committed_approved_plan(ROOT, recovery_plan()["recovery_id"], sha256_bytes(payload), S1, S2)
-
-    def test_daily_plan_is_rejected_by_recovery_loader(self):
-        payload = json.dumps({"schema": PLAN_SCHEMA, "release_id": "daily-fixture"}).encode()
+    def test_non_recovery_plan_is_rejected_by_recovery_loader(self):
+        payload = json.dumps({"schema": "ordinary", "release_id": "daily-fixture"}).encode()
         with self.assertRaisesRegex(RecoveryContractError, "schema"):
             load_committed_recovery_plan(ROOT, "daily-fixture", sha256_bytes(payload), S1, S2, lambda revision, path: payload)
 
@@ -414,7 +405,7 @@ class RecoveryShellBackendTests(unittest.TestCase):
         with tempfile.TemporaryDirectory() as tmp:
             plan, backend = self.backend(tmp)
             calls = []
-            with patch("scripts.daily_pricing_release.git", return_value=S1), patch("scripts.daily_pricing_release.ensure_snapshot") as snapshot, patch.object(backend, "_run", side_effect=lambda args, cwd: calls.append(args) or ""):
+            with patch("scripts.forward_recovery.git", return_value=S1), patch("scripts.forward_recovery.ensure_snapshot") as snapshot, patch.object(backend, "_run", side_effect=lambda args, cwd: calls.append(args) or ""):
                 backend.generate_artifacts(plan, S1)
             snapshot.assert_called_once_with(backend.root, plan["snapshot_generated_at"])
             flattened = "\n".join(" ".join(call) for call in calls)
@@ -433,14 +424,14 @@ class RecoveryShellBackendTests(unittest.TestCase):
     def test_recovery_existing_tag_is_never_accepted_or_moved(self):
         with tempfile.TemporaryDirectory() as tmp:
             plan, backend = self.backend(tmp)
-            with patch("scripts.daily_pricing_release.git", return_value="existing"), patch.object(backend, "_run", return_value=""):
+            with patch("scripts.forward_recovery.git", return_value="existing"), patch.object(backend, "_run", return_value=""):
                 with self.assertRaisesRegex(ReleaseFailure, "ALREADY EXISTS"):
                     backend.push_tag(plan, S2, recovery_tag_name(plan))
 
     def test_recovery_cli_has_no_prepare_or_plan_backfill_path(self):
-        source = (ROOT / "scripts/daily_pricing_release.py").read_text(encoding="utf-8")
-        self.assertIn('sub.add_parser("publish-recovery")', source)
-        self.assertNotIn('sub.add_parser("prepare-recovery")', source)
+        source = (ROOT / "scripts/forward_recovery.py").read_text(encoding="utf-8")
+        self.assertIn('ArgumentParser(description="Run an explicitly approved forward-only recovery.")', source)
+        self.assertNotIn('"prepare-recovery"', source)
         self.assertNotIn('"--force"', source)
 
 

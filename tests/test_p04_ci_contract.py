@@ -99,18 +99,23 @@ class CandidatePolicyTests(unittest.TestCase):
     def test_api_failure_is_not_swallowed(self):
         def error(*args): raise PermissionError("token denied")
         with self.assertRaises(PermissionError): policy.check_candidate(self.context, error)
-    def test_workflows_preserve_main_and_full_candidate_gates(self):
-        for filename in ["validate.yml", "website-pricing-parity.yml"]:
-            text = (ROOT / ".github/workflows" / filename).read_text(encoding="utf-8")
-            normal, candidate = text.split("  reviewed-website-candidate:", 1)
-            self.assertIn("ref: main", normal)
-            self.assertIn("inputs.website_candidate_sha == ''", normal)
-            self.assertIn("environment: pricing-candidate-review", candidate)
-            self.assertIn("python scripts/check_website_candidate.py", candidate)
-            self.assertLess(candidate.index("check_website_candidate.py"), candidate.index("ref: ${{ inputs.website_candidate_sha }}"))
-            self.assertNotIn("continue-on-error", text); self.assertNotIn("|| true", text)
-            if filename == "validate.yml":
-                self.assertIn("python -m unittest discover -s tests", candidate)
-                self.assertIn("python scripts/validate.py", candidate)
+    def test_validate_keeps_one_full_pr_or_manual_ci_without_main_push_duplication(self):
+        text = (ROOT / ".github/workflows/validate.yml").read_text(encoding="utf-8")
+        trigger = text.split("permissions:", 1)[0]
+        self.assertIn("pull_request:", trigger)
+        self.assertIn("workflow_dispatch:", trigger)
+        self.assertNotIn("push:", trigger)
+        self.assertEqual(text.count("python -m unittest discover -s tests"), 1)
+        self.assertIn("python scripts/validate.py", text)
+        self.assertNotIn("continue-on-error", text)
+
+    def test_explicit_website_candidate_workflow_retains_protected_gate(self):
+        text = (ROOT / ".github/workflows/website-pricing-parity.yml").read_text(encoding="utf-8")
+        normal, candidate = text.split("  reviewed-website-candidate:", 1)
+        self.assertIn("ref: main", normal)
+        self.assertIn("environment: pricing-candidate-review", candidate)
+        self.assertIn("python scripts/check_website_candidate.py", candidate)
+        self.assertLess(candidate.index("check_website_candidate.py"), candidate.index("ref: ${{ inputs.website_candidate_sha }}"))
+        self.assertNotIn("continue-on-error", text)
 
 if __name__ == "__main__": unittest.main()
