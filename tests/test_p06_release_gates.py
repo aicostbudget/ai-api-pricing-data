@@ -142,10 +142,16 @@ class WorkflowContractTests(unittest.TestCase):
 
     def test_ordinary_hf_is_one_publish_then_parity_and_recovery_is_explicit(self):
         text = (ROOT / ".github/workflows/publish-huggingface.yml").read_text(encoding="utf-8")
-        self.assertIn('branches: ["main"]', text)
+        self.assertIn("  workflow_dispatch:", text)
+        self.assertNotIn("\n  push:", text)
+        self.assertIn("if: github.event_name == 'workflow_dispatch' && github.ref == 'refs/heads/main'", text)
         self.assertEqual(text.count("name: Publish allowlisted artifacts safely"), 1)
+        self.assertIn("name: Validate allowlisted Hugging Face artifacts", text)
+        self.assertIn("python -m unittest tests.test_huggingface_export", text)
         self.assertLess(text.index("python scripts/publish_huggingface.py"), text.index("python scripts/check_hf_production_parity.py"))
         self.assertIn("recovery_mode:", text)
+        self.assertIn("if: inputs.recovery_mode", text)
+        self.assertIn("python scripts/check_release_gate.py --kind hf --recovery", text)
         self.assertIn("environment: hf-release-review", text)
         self.assertNotIn("release_plan_id", text)
         self.assertNotIn("release_plan_digest", text)

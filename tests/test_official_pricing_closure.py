@@ -7,6 +7,18 @@ SCOPE=read('tests/fixtures/official-pricing-repair-scope.json')
 CHECKPOINT=SCOPE['event_checkpoints'][-1]
 ARGON_EXTENSION=SCOPE['argon_event_extension']
 EVENTS_PATH='data/price-change-events/events.jsonl'
+DEEPSEEK_METADATA_APPROVAL={
+ 'identity':'deepseek/deepseek-flash',
+ 'source_commit':'b62468ef02e503580d73d356b215544502f7b685',
+ 'release_source_commit':'e4afd15322288414ca21383e9e5423cb072cab98',
+ 'release_artifact_commit':'afaf948039137109d709a86cf2f7883b389c3cec',
+ 'release_plan':'release-plans/pricing-2026-10-18-e9949baa8651.json',
+ 'changed_file':'data/models/deepseek/deepseek-flash.json',
+ 'canonical_before_sha256':'eaa07a2dc89c6572ade345861d435b003fbb3dd83ccc0eb677c064f9e632d8a8',
+ 'canonical_after_sha256':'af2bf1d7a82930a7157a664dba986636668138e54661edeaeb2e75ec5624112c',
+ 'published_before_sha256':'d635ef5e4e259b1f8b01aeac9fa377318096cdcd5ee86f72d431840a6cadaa47',
+ 'published_after_sha256':'5af39b4dbc42bc7956e59fc17146a085bdfb313d0f8d90d17e211a863b84752d',
+}
 
 def git_output(*args):
  try:return subprocess.check_output(['git',*args],cwd=ROOT,stderr=subprocess.PIPE)
@@ -123,10 +135,34 @@ class ClosureScopeTests(unittest.TestCase):
   old={key(row) for row in pinned('data/canonical/models.json')}
   self.assertTrue(approved.isdisjoint(old))
  def test_current_canonical_exact_scope_and_negative_mutation(self):
-  old=pinned('data/canonical/models.json');current=read('data/canonical/models.json');verify_rows(old,current,SCOPE['canonical'])
+  approval=DEEPSEEK_METADATA_APPROVAL;identity=approval['identity']
+  self.assertEqual(git_output('rev-parse',approval['release_source_commit']+'^').decode().strip(),approval['source_commit'])
+  self.assertEqual(git_output('rev-parse',approval['release_artifact_commit']+'^').decode().strip(),approval['release_source_commit'])
+  changed=git_output('diff-tree','--no-commit-id','--name-only','-r',approval['source_commit']).decode().splitlines()
+  self.assertEqual(changed,[approval['changed_file']])
+  plan=read(approval['release_plan']);self.assertEqual(plan['dataset_base_sha'],approval['source_commit'])
+  self.assertEqual(len(plan['models']),1);released=plan['models'][0]
+  self.assertEqual((released['provider_id'],released['model_id'],released['change_type']),('deepseek','deepseek-flash','metadata'))
+  self.assertEqual(released['before_sha256'],approval['published_before_sha256'])
+  self.assertEqual(released['after_sha256'],approval['published_after_sha256'])
+  self.assertEqual(released['old_pricing'],released['new_pricing'])
+  old=pinned('data/canonical/models.json');current=read('data/canonical/models.json')
+  old_by_id={key(row):row for row in old};current_by_id={key(row):row for row in current}
+  old_deepseek=old_by_id[identity];current_deepseek=current_by_id[identity]
+  self.assertEqual(digest(old_deepseek),approval['canonical_before_sha256'])
+  self.assertEqual(digest(current_deepseek),approval['canonical_after_sha256'])
+  self.assertEqual({name for name in set(old_deepseek)|set(current_deepseek) if old_deepseek.get(name)!=current_deepseek.get(name)},{'notes'})
+  self.assertNotIn('-1017',old_deepseek['notes']);self.assertIn('DeepSeek-V4.1-Flash-1017',current_deepseek['notes'])
+  self.assertEqual(old_deepseek['pricing'],current_deepseek['pricing']);self.assertEqual(released['new_pricing'],current_deepseek['pricing'])
+  self.assertEqual(old_deepseek['official_source_urls'],current_deepseek['official_source_urls'])
+  self.assertEqual(current_deepseek['official_source_url'],'https://api-docs.deepseek.com/quick_start/pricing')
+  self.assertEqual(current_deepseek['release_evidence']['url'],'https://api-docs.deepseek.com/updates/')
+  approved=dict(SCOPE['canonical']);approved[identity]=approval['canonical_after_sha256'];verify_rows(old,current,approved)
   mutated=copy.deepcopy(current);next(r for r in mutated if r['model_id']=='gpt-6-sol')['pricing']['input']=999
-  with self.assertRaisesRegex(AssertionError,'unapproved change'):verify_rows(old,mutated,SCOPE['canonical'])
-  with self.assertRaisesRegex(AssertionError,'identity universe'):verify_rows(old,current+[{'provider_id':'fake','model_id':'unapproved'}],SCOPE['canonical'])
+  with self.assertRaisesRegex(AssertionError,'unapproved change'):verify_rows(old,mutated,approved)
+  mutated=copy.deepcopy(current);next(r for r in mutated if key(r)==identity)['pricing']['input']=999
+  with self.assertRaisesRegex(AssertionError,'unapproved change: '+identity):verify_rows(old,mutated,approved)
+  with self.assertRaisesRegex(AssertionError,'identity universe'):verify_rows(old,current+[{'provider_id':'fake','model_id':'unapproved'}],approved)
  def test_current_projection_exact_scope_and_negative_mutation(self):
   old=pinned('data/pricing-v2-preview/generated/model-pricing.v2.json')['models'];current=read('data/pricing-v2-preview/generated/model-pricing.v2.json')['models'];verify_rows(old,current,SCOPE['projection'])
   mutated=copy.deepcopy(current);next(r for r in mutated if r['id']=='gemini-2.5-flash-image')['retirementDate']='2027-03-15'

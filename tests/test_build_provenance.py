@@ -8,7 +8,7 @@ from pathlib import Path
 from unittest.mock import MagicMock, patch
 
 from scripts.build import build_outputs, source_commit_sha
-from scripts.daily_pricing_release import ensure_snapshot
+from scripts.daily_pricing_release import ReleaseFailure, _ensure_snapshot
 from scripts.lib import ROOT, append_history_if_changed, write_json
 
 EXPECTED_SHA = "c" * 40
@@ -57,27 +57,76 @@ class BuildProvenanceTests(unittest.TestCase):
             self.assertTrue((output / "data/snapshots/2001-02-03/prices.csv").is_file())
             self.assertFalse((output / "data/snapshots/2099-12-31").exists())
 
-    def test_same_day_lf_snapshot_remains_byte_identical(self):
+    def test_historical_2026_10_15_snapshot_sha256_is_unchanged(self):
+        expected = {
+            "prices.json": "7594ed948772905f4438ba086dc377dc54c98e153506fb59feded542a3f0af2d",
+            "prices.csv": "17c6cc40e44eb4b31aac0f956d4c04413d8141219417fe69d4af23e45dfee0da",
+        }
+        snapshot = ROOT / "data/snapshots/2026-10-15"
+        for name, expected_sha256 in expected.items():
+            content = (snapshot / name).read_bytes()
+            self.assertEqual(hashlib.sha256(content).hexdigest(), expected_sha256)
+            content.decode("utf-8")
+            self.assertNotIn(b"\r", content)
+            self.assertFalse(content.startswith(b"\xef\xbb\xbf"))
+
+    def test_current_build_is_byte_deterministic_with_explicit_generated_at(self):
         generated_at = "2026-10-15T10:15:09Z"
-        with tempfile.TemporaryDirectory() as temp_dir, patch.dict(
+        relative_paths = (
+            "api/v1/prices.json",
+            "api/v1/prices.csv",
+            "data/snapshots/2026-10-15/prices.json",
+            "data/snapshots/2026-10-15/prices.csv",
+        )
+        with tempfile.TemporaryDirectory() as first_dir, tempfile.TemporaryDirectory() as second_dir, patch.dict(
             os.environ, {"SOURCE_COMMIT_SHA": EXPECTED_SHA}
         ):
-            output = Path(temp_dir)
-            snapshot = output / "data/snapshots/2026-10-15"
-            snapshot.mkdir(parents=True)
-            for name in ("prices.json", "prices.csv"):
-                shutil.copyfile(ROOT / "data/snapshots/2026-10-15" / name, snapshot / name)
-            before = {name: hashlib.sha256((snapshot / name).read_bytes()).hexdigest() for name in ("prices.json", "prices.csv")}
+            first = Path(first_dir)
+            second = Path(second_dir)
+            build_outputs(first, generated_at)
+            build_outputs(second, generated_at)
 
-            build_outputs(output, generated_at)
-            self.assertEqual(ensure_snapshot(output, generated_at), "2026-10-15")
-            after = {name: hashlib.sha256((snapshot / name).read_bytes()).hexdigest() for name in ("prices.json", "prices.csv")}
+            first_bytes = {path: (first / path).read_bytes() for path in relative_paths}
+            second_bytes = {path: (second / path).read_bytes() for path in relative_paths}
+            self.assertEqual(first_bytes, second_bytes)
+            self.assertEqual(first_bytes["api/v1/prices.json"], first_bytes["data/snapshots/2026-10-15/prices.json"])
+            self.assertEqual(first_bytes["api/v1/prices.csv"], first_bytes["data/snapshots/2026-10-15/prices.csv"])
+            self.assertEqual(sorted(path.name for path in (first / "data/snapshots").iterdir()), ["2026-10-15"])
+            self.assertEqual(sorted(path.name for path in (second / "data/snapshots").iterdir()), ["2026-10-15"])
+            for path, content in first_bytes.items():
+                decoded = content.decode("utf-8")
+                self.assertTrue(decoded)
+                self.assertNotIn(b"\r", content, path)
+                self.assertFalse(content.startswith(b"\xef\xbb\xbf"), path)
+                self.assertTrue(content.endswith(b"\n"), path)
+                if path.endswith(".json"):
+                    json.loads(decoded)
 
-            self.assertEqual(before, after)
-            self.assertEqual(before["prices.json"], "7594ed948772905f4438ba086dc377dc54c98e153506fb59feded542a3f0af2d")
-            self.assertEqual(before["prices.csv"], "17c6cc40e44eb4b31aac0f956d4c04413d8141219417fe69d4af23e45dfee0da")
-            for path in (output / "api/v1/prices.json", output / "api/v1/meta.json", output / "data/prices.json", output / "api/v1/prices.csv"):
-                self.assertNotIn(b"\r", path.read_bytes())
+    def test_existing_snapshot_conflict_fails_closed(self):
+        generated_at = "2026-10-15T10:15:09Z"
+        for conflicting_name in ("prices.json", "prices.csv"):
+            with self.subTest(conflicting_name=conflicting_name), tempfile.TemporaryDirectory() as temp_dir:
+                output = Path(temp_dir)
+                prior_snapshot = output / "data/snapshots/2026-10-14"
+                target_snapshot = output / "data/snapshots/2026-10-15"
+                api = output / "api/v1"
+                prior_snapshot.mkdir(parents=True)
+                target_snapshot.mkdir(parents=True)
+                api.mkdir(parents=True)
+                for name in ("prices.json", "prices.csv"):
+                    shutil.copyfile(ROOT / "data/snapshots/2026-10-14" / name, prior_snapshot / name)
+                    shutil.copyfile(ROOT / "data/snapshots/2026-10-15" / name, target_snapshot / name)
+                    shutil.copyfile(target_snapshot / name, api / name)
+                (api / conflicting_name).write_bytes((api / conflicting_name).read_bytes() + b"conflict")
+                before = {name: (target_snapshot / name).read_bytes() for name in ("prices.json", "prices.csv")}
+
+                with self.assertRaises(ReleaseFailure) as raised:
+                    _ensure_snapshot(output, generated_at)
+
+                self.assertEqual(raised.exception.classification, "DATA_MISMATCH")
+                self.assertEqual(raised.exception.stage, "validate")
+                self.assertIn("Snapshot 2026-10-15 already has different bytes", str(raised.exception))
+                self.assertEqual(before, {name: (target_snapshot / name).read_bytes() for name in before})
 
     def test_environment_sha_is_written_to_public_meta_only(self):
         with tempfile.TemporaryDirectory() as temp_dir, patch.dict(
