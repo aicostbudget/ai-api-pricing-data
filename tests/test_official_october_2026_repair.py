@@ -1,4 +1,5 @@
 import copy, json, unittest
+from datetime import date
 from pathlib import Path
 from scripts.pricing_contract import normalize_canonical_price_records, select_price_record, validate_model_price_records, PricingContractError
 from scripts.generate_price_change_events import load_events, generate_events
@@ -52,8 +53,15 @@ class OctoberOfficialRepairTests(unittest.TestCase):
   self.assertTrue(all('promotion' not in r for r in row['priceRecords'])); self.assertTrue(all(c['condition'].get('promotion') is None for c in row['pricingComponents']))
  def test_promotion_is_an_observation_not_an_undated_future_rate(self):
   records=self.normalized('mistral-large-4')
-  self.assertEqual(select_price_record(records,processing_mode='standard',prompt_tokens=100,at='2026-10-09')['selectionStatus'],'available')
-  self.assertNotEqual(select_price_record(records,processing_mode='standard',prompt_tokens=100,at='2026-10-21')['selectionStatus'],'available')
+  launch='price:mistral-ai/mistral-large-4:standard:short:historical:launch_2026_10'
+  observed=select_price_record(records,processing_mode='standard',prompt_tokens=100,at='2026-10-09')
+  self.assertEqual((observed['selectionStatus'],observed.get('pricingId')),('available',launch))
+  # The launch quote was only observed on 2026-10-09; it never covers another date, whatever today is.
+  for at in ('2026-10-21','2026-10-22',date.today().isoformat()):
+   selected=select_price_record(records,processing_mode='standard',prompt_tokens=100,at=at)
+   self.assertNotEqual(selected.get('pricingId'),launch,at)
+  current=select_price_record(records,processing_mode='standard',prompt_tokens=100,at=date.today().isoformat())
+  self.assertEqual((current['selectionStatus'],current.get('pricingId')),('available','price:mistral-ai/mistral-large-4:standard:short:current'))
  def test_hf_publishes_current_list_price_without_expired_promotion(self):
   rows=json.loads((ROOT/'huggingface/prices.json').read_text(encoding='utf-8'))['records']
   record=next(r for r in rows if r['model_id']=='mistral-large-4')
