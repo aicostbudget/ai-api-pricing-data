@@ -35,6 +35,10 @@ Add this entry under `mcpServers` in `claude_desktop_config.json`:
 
 Restart Claude Desktop after saving the file.
 
+## Install in Claude Desktop (MCPB)
+
+The maintainer creates the GitHub Release and attaches `ai-api-pricing-mcp-<version>.mcpb`. Download the bundle from [GitHub Releases](https://github.com/aicostbudget/ai-api-pricing-data/releases), then double-click it or drag it into **Claude Desktop → Settings → Extensions** to install it.
+
 ## Claude Code
 
 ```bash
