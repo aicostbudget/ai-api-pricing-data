@@ -22,7 +22,9 @@ except ModuleNotFoundError:
 ROOT = Path(__file__).resolve().parents[1]
 SOURCE_PATH = "data/canonical/models.json"
 SNAPSHOTS_PATH = "data/snapshots"
+# Same four files the Website's own scheduled pricing sync may change.
 WEBSITE_OUTPUTS = (
+    "data/model-pricing.json",
     "data/pricing-v2-projection/model-pricing.v2.json",
     "data/pricing-v2-projection/price-change-events.v1.json",
     "data/pricing-v2-projection/pricing-meta.v1.json",
