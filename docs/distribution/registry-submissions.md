@@ -49,14 +49,45 @@ The official Registry is currently preview software. Confirm the live schema and
 
 ## Smithery
 
-Current Smithery CLI publication accepts a deployed MCP URL or an `.mcpb` bundle:
+Build and test the self-contained MCPB bundle from the repository root:
 
-```text
-smithery mcp publish <url> -n <org/server>
-smithery mcp publish <bundle.mcpb> -n <org/server>
+```powershell
+$ErrorActionPreference = "Stop"
+Set-Location -LiteralPath "D:\ai-api-pricing-data"
+npm.cmd ci
+if ($LASTEXITCODE -ne 0) { throw "npm ci failed with exit code $LASTEXITCODE" }
+npm.cmd run build:mcpb
+if ($LASTEXITCODE -ne 0) { throw "npm run build:mcpb failed with exit code $LASTEXITCODE" }
+npm.cmd run test:mcpb
+if ($LASTEXITCODE -ne 0) { throw "npm run test:mcpb failed with exit code $LASTEXITCODE" }
 ```
 
-This repository currently provides an npm stdio package, not a public remote MCP URL or MCPB artifact. A Smithery submission therefore needs a separately authorized choice: build and test an MCPB bundle, or deploy a public remote transport. Do not claim that the npm-only server is publishable through the current Smithery command until one of those artifacts exists.
+Log in to Smithery interactively (OAuth in the browser) and confirm the `aicostbudget` namespace, which is already claimed by the maintainer; do not put credentials in the repository. If `github.com`/`smithery.ai` are only reachable through a local proxy, set `$env:HTTPS_PROXY` first:
+
+```powershell
+$ErrorActionPreference = "Stop"
+Set-Location -LiteralPath "D:\ai-api-pricing-data"
+npx.cmd -y @smithery/cli auth login
+if ($LASTEXITCODE -ne 0) { throw "Smithery login failed with exit code $LASTEXITCODE" }
+npx.cmd -y @smithery/cli namespace use aicostbudget
+if ($LASTEXITCODE -ne 0) { throw "Smithery namespace selection failed with exit code $LASTEXITCODE" }
+```
+
+Publish the already-tested bundle (replace `0.1.0` when the package version changes):
+
+```powershell
+$ErrorActionPreference = "Stop"
+Set-Location -LiteralPath "D:\ai-api-pricing-data"
+npx.cmd -y @smithery/cli mcp publish ./dist-mcpb/ai-api-pricing-mcp-0.1.0.mcpb -n aicostbudget/ai-api-pricing-mcp
+if ($LASTEXITCODE -ne 0) { throw "Smithery MCPB publication failed with exit code $LASTEXITCODE" }
+```
+
+Manual GitHub Release checklist:
+
+1. Confirm the source commit and that `npm test`, `npm run build`, `npm run build:mcpb`, and `npm run test:mcpb` pass.
+2. Create the maintainer-approved GitHub Release `vX` for that exact commit.
+3. Attach `dist-mcpb/ai-api-pricing-mcp-X.mcpb` and record the build output's size and SHA-256.
+4. Verify the uploaded asset hash matches the local bundle. Never commit the `.mcpb` file.
 
 Suggested listing description after that prerequisite is met:
 
