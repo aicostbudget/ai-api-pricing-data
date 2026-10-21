@@ -1,0 +1,73 @@
+{
+  "manifest_version": "0.3",
+  "name": "ai-api-pricing-mcp",
+  "display_name": "AICostBudget AI API Pricing",
+  "version": "0.1.0",
+  "description": "Read-only AI API pricing lookup, comparison, cost-estimation, and price-change tools with source links.",
+  "long_description": "Provides five read-only tools to look up model prices, list and filter models, estimate monthly token costs, compare model costs, and inspect price-change events. Every successful pricing result includes the official provider source URL and verification date. No API key is required and no telemetry is collected. Runtime network access is limited to the GitHub Pages pricing dataset JSON, the price-change events file, and aicostbudget.com/sitemap.xml; bundled fallback data is used when those endpoints are unavailable.",
+  "author": {
+    "name": "AICostBudget",
+    "url": "https://aicostbudget.com"
+  },
+  "homepage": "https://aicostbudget.com/en/datasets/ai-api-pricing",
+  "documentation": "https://github.com/aicostbudget/ai-api-pricing-data/blob/main/packages/mcp-server/README.md",
+  "support": "https://github.com/aicostbudget/ai-api-pricing-data/issues",
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/aicostbudget/ai-api-pricing-data.git"
+  },
+  "license": "MIT",
+  "keywords": [
+    "ai-api-pricing",
+    "cost-estimation",
+    "finops",
+    "mcp",
+    "model-context-protocol"
+  ],
+  "icon": "icon.png",
+  "server": {
+    "type": "node",
+    "entry_point": "server/cli.js",
+    "mcp_config": {
+      "command": "node",
+      "args": [
+        "${__dirname}/server/cli.js"
+      ]
+    }
+  },
+  "tools": [
+    {
+      "name": "get_model_price",
+      "description": "Find a model by ID or display name and return source-linked prices."
+    },
+    {
+      "name": "list_models",
+      "description": "List source-linked models, optionally filtering by provider and maximum token prices."
+    },
+    {
+      "name": "estimate_monthly_cost",
+      "description": "Estimate monthly token cost from request volume, with optional cached-input and batch pricing."
+    },
+    {
+      "name": "compare_models",
+      "description": "Compare monthly costs for multiple models and sort them from lowest to highest total."
+    },
+    {
+      "name": "price_changes",
+      "description": "List up to 20 newest source-linked price-change events."
+    }
+  ],
+  "tools_generated": false,
+  "prompts": [],
+  "prompts_generated": false,
+  "compatibility": {
+    "platforms": [
+      "darwin",
+      "win32",
+      "linux"
+    ],
+    "runtimes": {
+      "node": ">=18.0.0"
+    }
+  }
+}

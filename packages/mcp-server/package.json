@@ -25,12 +25,17 @@
   "scripts": {
     "refresh-bundles": "node scripts/refresh-bundles.mjs",
     "build": "tsc -p tsconfig.json",
+    "build:mcpb": "node scripts/build-mcpb.mjs",
     "test": "npm run build && node --test test/*.test.mjs",
+    "test:mcpb": "node --test test/mcpb-smoke.mjs",
     "prepack": "npm run refresh-bundles && npm run build"
   },
   "dependencies": {
     "@modelcontextprotocol/sdk": "1.32.1",
     "ai-api-pricing": "^0.1.0",
     "zod": "4.6.7"
+  },
+  "devDependencies": {
+    "@anthropic-ai/mcpb": "2.1.2"
   }
 }
