@@ -24,8 +24,8 @@
   "sideEffects": false,
   "scripts": {
     "refresh-bundle": "node scripts/refresh-bundle.mjs",
-    "build": "npm run refresh-bundle && tsc -p tsconfig.esm.json && tsc -p tsconfig.cjs.json && node scripts/write-cjs-package.mjs",
+    "build": "tsc -p tsconfig.esm.json && tsc -p tsconfig.cjs.json && node scripts/write-cjs-package.mjs",
     "test": "npm run build && node --test test/*.test.mjs",
-    "prepack": "npm run build"
+    "prepack": "npm run refresh-bundle && npm run build"
   }
 }

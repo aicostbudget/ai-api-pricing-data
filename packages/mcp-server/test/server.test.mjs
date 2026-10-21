@@ -64,6 +64,7 @@ test("all five tools run through the SDK in-memory transport", async (t) => {
   });
   assertFooter(estimate);
   assert.equal(estimate.structuredContent.data.estimate.total, 2.425);
+  assert.match(estimate.content[0].text, /^Estimated monthly cost: \$2\.43$/m);
 
   const compared = await client.callTool({
     name: "compare_models",
@@ -96,4 +97,16 @@ test("fetch failure is disclosed as bundled fallback", async (t) => {
   assert.equal(result.structuredContent.bundled_fallback, true);
   assert.match(text(result), /Data source: bundled fallback \(offline\)/);
   assertFooter(result);
+});
+
+test("a model without a page on the website links to the models index", async (t) => {
+  const sitemapWithoutGpt41 = `<?xml version="1.0"?><urlset><url><loc>https://aicostbudget.com/en/models/claude-haiku-5-5-pricing</loc></url></urlset>`;
+  const fetchImpl = (input) => String(input).endsWith("/sitemap.xml")
+    ? Promise.resolve(new Response(sitemapWithoutGpt41, { status: 200 }))
+    : fetchFixture(input);
+  const { client, server } = await connectedClient({ fetchImpl });
+  t.after(async () => { await client.close(); await server.close(); });
+  const result = await client.callTool({ name: "get_model_price", arguments: { model: "gpt-4.1" } });
+  assert.match(text(result), /AICostBudget: https:\/\/aicostbudget\.com\/en\/models\n?$|AICostBudget: https:\/\/aicostbudget\.com\/en\/models(?!\/)/);
+  assert.doesNotMatch(text(result), /gpt-4-1-pricing/);
 });

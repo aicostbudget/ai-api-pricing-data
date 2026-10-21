@@ -92,7 +92,7 @@ User: List OpenAI models with input price at most $2 per million tokens.
 Assistant → list_models: Matching model IDs and source-linked rates.
 
 User: Estimate 1,000 monthly requests with 1,000 input and 100 output tokens on gpt-4.1.
-Assistant → estimate_monthly_cost: USD 2.800000 before taxes, contracts, credits, or provider rounding.
+Assistant → estimate_monthly_cost: $2.80 before taxes, contracts, credits, or provider rounding.
 
 User: Compare gpt-4.1 and claude-haiku-5-5 for that workload.
 Assistant → compare_models: Results sorted from lowest to highest estimated total.

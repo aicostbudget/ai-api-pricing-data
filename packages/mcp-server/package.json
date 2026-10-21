@@ -24,9 +24,9 @@
   },
   "scripts": {
     "refresh-bundles": "node scripts/refresh-bundles.mjs",
-    "build": "npm run refresh-bundles && tsc -p tsconfig.json",
+    "build": "tsc -p tsconfig.json",
     "test": "npm run build && node --test test/*.test.mjs",
-    "prepack": "npm run build"
+    "prepack": "npm run refresh-bundles && npm run build"
   },
   "dependencies": {
     "@modelcontextprotocol/sdk": "1.32.1",

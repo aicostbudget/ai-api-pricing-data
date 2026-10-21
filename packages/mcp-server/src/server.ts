@@ -57,6 +57,12 @@ function asRecord(value: unknown): RawRecord {
   return value as RawRecord;
 }
 
+// $2.43 for normal amounts; keep significant digits for sub-cent totals ($0.0042).
+function formatUsd(value: number): string {
+  const fractionDigits = value !== 0 && Math.abs(value) < 0.01 ? 6 : 2;
+  return new Intl.NumberFormat("en-US", { style: "currency", currency: "USD", minimumFractionDigits: 2, maximumFractionDigits: fractionDigits }).format(value);
+}
+
 function dateOnly(value: string): string {
   return value.slice(0, 10);
 }
@@ -295,7 +301,7 @@ export function createPricingMcpServer(options: PricingMcpServerOptions = {}): M
         aicostbudget_url: await modelPage(estimate.modelId),
       };
       return textResult(
-        `Estimated monthly cost: USD ${estimate.total.toFixed(6)}\n${JSON.stringify(estimate.breakdown, null, 2)}`,
+        `Estimated monthly cost: ${formatUsd(estimate.total)}\n${JSON.stringify(estimate.breakdown, null, 2)}`,
         envelope,
         estimate.source === "bundled" ? prices.fallbackReason : undefined,
       );
@@ -346,7 +352,7 @@ export function createPricingMcpServer(options: PricingMcpServerOptions = {}): M
         aicostbudget_url: MODELS_INDEX_URL,
       };
       return textResult(
-        comparisons.map((comparison) => `${comparison.modelId}: USD ${comparison.total.toFixed(6)}`).join("\n"),
+        comparisons.map((comparison) => `${comparison.modelId}: ${formatUsd(comparison.total)}`).join("\n"),
         envelope,
         comparisons[0]?.source === "bundled" ? prices.fallbackReason : undefined,
       );
