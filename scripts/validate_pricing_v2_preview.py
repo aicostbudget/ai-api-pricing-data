@@ -67,6 +67,7 @@ CHARGE_COMPONENTS = {
     "cache_write",
     "cache_write_5m",
     "cache_write_1h",
+    "cache_write_12h",
     "cache_read",
     "output",
     "storage",
@@ -551,7 +552,7 @@ def validate_preview() -> dict[str, Any]:
                 for price in prices
                 if price["modelInternalId"] == model["internalId"]
                 for charge in price["charges"]
-                if charge["component"] in {"cache_write", "cache_write_5m", "cache_write_1h"}
+                if charge["component"] in {"cache_write", "cache_write_5m", "cache_write_1h", "cache_write_12h"}
             }
             for mode in cache_lifetime_modes:
                 required_mode_fields = {
@@ -562,7 +563,7 @@ def validate_preview() -> dict[str, Any]:
                 if not isinstance(mode, dict) or set(mode) != required_mode_fields:
                     fail(f"invalid cache lifetime mode fields for {model['internalId']}")
                 component = mode["cacheWriteComponent"]
-                if component not in {"cache_write", "cache_write_5m", "cache_write_1h"}:
+                if component not in {"cache_write", "cache_write_5m", "cache_write_1h", "cache_write_12h"}:
                     fail(f"invalid cache lifetime write component for {model['internalId']}")
                 if component in seen_components:
                     fail(f"duplicate cache lifetime mode for {model['internalId']}: {component}")
@@ -579,7 +580,7 @@ def validate_preview() -> dict[str, Any]:
                 duration = mode["minimumLifetimeSeconds"]
                 if isinstance(duration, bool) or not isinstance(duration, int) or duration <= 0:
                     fail(f"invalid minimumLifetimeSeconds for {model['internalId']}: {component}")
-                expected_duration = {"cache_write_5m": 300, "cache_write_1h": 3600}.get(component)
+                expected_duration = {"cache_write_5m": 300, "cache_write_1h": 3600, "cache_write_12h": 43200}.get(component)
                 if expected_duration is not None and duration != expected_duration:
                     fail(
                         f"cache lifetime does not match write component for {model['internalId']}: {component}"

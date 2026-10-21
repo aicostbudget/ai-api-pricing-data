@@ -90,7 +90,7 @@
       "required": ["activationBehavior", "cacheWriteComponent", "isDefault", "minimumLifetimeSeconds", "renewalBehavior", "userSelectable", "verificationStatus", "checkedAt", "verifiedAt", "sourceRefs"],
       "properties": {
         "activationBehavior": {"type": "string", "enum": ["provider_automatic", "request_configured"]},
-        "cacheWriteComponent": {"type": "string", "enum": ["cache_write", "cache_write_5m", "cache_write_1h"]},
+        "cacheWriteComponent": {"type": "string", "enum": ["cache_write", "cache_write_5m", "cache_write_1h", "cache_write_12h"]},
         "isDefault": {"type": "boolean"},
         "minimumLifetimeSeconds": {"type": "integer", "minimum": 1},
         "renewalBehavior": {"type": "string", "enum": ["refresh_on_reuse"]},
@@ -451,7 +451,7 @@
         "chargeId": {"type": "string"},
         "component": {
           "type": "string",
-          "enum": ["input", "cached_input", "cache_write", "cache_write_5m", "cache_write_1h", "cache_read", "output", "storage", "request", "tool_call", "grounding", "document_page", "session_duration"]
+          "enum": ["input", "cached_input", "cache_write", "cache_write_5m", "cache_write_1h", "cache_write_12h", "cache_read", "output", "storage", "request", "tool_call", "grounding", "document_page", "session_duration"]
         },
         "modality": {"type": "string", "enum": ["text", "image", "audio", "video", "document"]},
         "unit": {"type": "string", "enum": ["per_1m_tokens", "per_1m_tokens_per_hour", "per_1k_calls", "per_1000_pages", "per_minute", "per_hour", "per_image", "per_second", "per_request", "per_text_input"]},

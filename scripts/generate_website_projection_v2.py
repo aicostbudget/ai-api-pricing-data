@@ -58,6 +58,7 @@ PRICING_COMPONENTS = {
     "cache_write",
     "cache_write_5m",
     "cache_write_1h",
+    "cache_write_12h",
     "output",
     "storage",
     "request",
@@ -373,7 +374,7 @@ def project_cache_lifetime_modes(
         if not isinstance(mode, dict) or set(mode) != required:
             raise ValueError(f"cacheLifetimeModes has unsupported fields: {(model or {}).get('internalId')}")
         component = mode["cacheWriteComponent"]
-        if component not in {"cache_write", "cache_write_5m", "cache_write_1h"} or component in seen_components:
+        if component not in {"cache_write", "cache_write_5m", "cache_write_1h", "cache_write_12h"} or component in seen_components:
             raise ValueError(f"cacheLifetimeModes component is invalid or duplicated: {(model or {}).get('internalId')}")
         seen_components.add(component)
         activation = mode["activationBehavior"]
@@ -386,7 +387,7 @@ def project_cache_lifetime_modes(
         duration = mode["minimumLifetimeSeconds"]
         if isinstance(duration, bool) or not isinstance(duration, int) or duration <= 0:
             raise ValueError(f"cache lifetime must be a positive integer: {(model or {}).get('internalId')}")
-        expected_duration = {"cache_write_5m": 300, "cache_write_1h": 3600}.get(component)
+        expected_duration = {"cache_write_5m": 300, "cache_write_1h": 3600, "cache_write_12h": 43200}.get(component)
         if expected_duration is not None and duration != expected_duration:
             raise ValueError(f"cache lifetime does not match write component: {(model or {}).get('internalId')}")
         if mode["renewalBehavior"] != "refresh_on_reuse" or mode["verificationStatus"] != "verified":
@@ -1283,7 +1284,7 @@ def projection_row(
         sources_by_id,
         {
             component["component"] for component in (pricing_components or [])
-            if component["component"] in {"cache_write", "cache_write_5m", "cache_write_1h"}
+            if component["component"] in {"cache_write", "cache_write_5m", "cache_write_1h", "cache_write_12h"}
         },
     )
     row = {
@@ -2041,7 +2042,7 @@ def validate_projection(artifact: dict[str, Any], report: dict[str, Any]) -> Non
                 raise ValueError(f"projection cacheLifetimeModes is invalid: {row['id']}")
             write_components = {
                 component["component"] for component in row.get("pricingComponents", [])
-                if component["component"] in {"cache_write", "cache_write_5m", "cache_write_1h"}
+                if component["component"] in {"cache_write", "cache_write_5m", "cache_write_1h", "cache_write_12h"}
             }
             seen_components = set()
             for mode in cache_lifetime_modes:
@@ -2065,7 +2066,7 @@ def validate_projection(artifact: dict[str, Any], report: dict[str, Any]) -> Non
                 duration = mode["minimumLifetimeSeconds"]
                 if isinstance(duration, bool) or not isinstance(duration, int) or duration <= 0:
                     raise ValueError(f"projection cache lifetime duration is invalid: {row['id']}")
-                expected_duration = {"cache_write_5m": 300, "cache_write_1h": 3600}.get(component)
+                expected_duration = {"cache_write_5m": 300, "cache_write_1h": 3600, "cache_write_12h": 43200}.get(component)
                 if expected_duration is not None and duration != expected_duration:
                     raise ValueError(f"projection cache lifetime does not match write component: {row['id']}")
                 if mode["renewalBehavior"] != "refresh_on_reuse" or mode["verificationStatus"] != "verified":

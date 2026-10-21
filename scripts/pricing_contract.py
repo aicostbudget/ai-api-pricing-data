@@ -27,6 +27,7 @@ CHARGE_COMPONENTS = {
     "cache_write",
     "cache_write_5m",
     "cache_write_1h",
+    "cache_write_12h",
     "cache_read",
     "output",
     "storage",
