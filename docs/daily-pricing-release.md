@@ -18,6 +18,8 @@ Canonical（`data/canonical/models.json`）仍是唯一 Source of Truth。普通
 
 快照目录按 UTC 日期命名：当天第一次发布用 `data/snapshots/YYYY-MM-DD/`；同一 UTC 日再次发布时依次使用 `YYYY-MM-DD-2`、`YYYY-MM-DD-3`……已有快照永不改写。快照按“日期、序号”排序，price-change event 的 `detected_at` 取日期部分。
 
+同一模型在同一 UTC 日只能有一条同类型 price-change event（validate 按 provider、model、change_type、detected_at 去重）。同一天两次修改同一模型的价格时，应把两次修改合并到一次发布。
+
 ## Validate（演练）
 
 ```powershell
