@@ -2,6 +2,7 @@ from __future__ import annotations
 
 import csv
 import json
+import re
 import shutil
 from datetime import datetime, timezone
 from pathlib import Path
@@ -54,6 +55,42 @@ def utc_now() -> str:
 
 def utc_today() -> str:
     return datetime.now(timezone.utc).date().isoformat()
+
+
+# Snapshot directories are named by UTC date. The first release of a day keeps the
+# plain date ("2026-10-21"); later releases on the same day add a sequence ("2026-10-21-2").
+SNAPSHOT_ID = re.compile(r"^(\d{4}-\d{2}-\d{2})(?:-([2-9]|[1-9]\d+))?$")
+
+
+def parse_snapshot_id(snapshot_id: str) -> tuple[str, int]:
+    match = SNAPSHOT_ID.fullmatch(snapshot_id)
+    if not match:
+        raise ValueError(f"snapshot id must be YYYY-MM-DD or YYYY-MM-DD-N (N >= 2): {snapshot_id}")
+    datetime.strptime(match.group(1), "%Y-%m-%d")
+    return match.group(1), int(match.group(2) or 1)
+
+
+def snapshot_sort_key(snapshot_id: str) -> tuple[str, int]:
+    return parse_snapshot_id(snapshot_id)
+
+
+def snapshot_ids(snapshots_dir: Path) -> list[str]:
+    if not snapshots_dir.is_dir():
+        return []
+    ids = [path.name for path in snapshots_dir.iterdir() if path.is_dir() and SNAPSHOT_ID.fullmatch(path.name)]
+    return sorted(ids, key=snapshot_sort_key)
+
+
+def latest_snapshot_id_for_date(ids: list[str], date: str) -> str | None:
+    same_day = [snapshot_id for snapshot_id in ids if parse_snapshot_id(snapshot_id)[0] == date]
+    return max(same_day, key=snapshot_sort_key) if same_day else None
+
+
+def next_snapshot_id(ids: list[str], date: str) -> str:
+    latest = latest_snapshot_id_for_date(ids, date)
+    if latest is None:
+        return date
+    return f"{date}-{parse_snapshot_id(latest)[1] + 1}"
 
 
 def select_time_pricing_period(

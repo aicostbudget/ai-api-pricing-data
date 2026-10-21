@@ -1,5 +1,7 @@
 import copy
 import json
+import subprocess
+import sys
 import tempfile
 import unittest
 from contextlib import contextmanager
@@ -8,17 +10,37 @@ from unittest.mock import Mock, patch
 
 from scripts.daily_pricing_release import (
     WEBSITE_OUTPUTS,
+    ReleaseFailure,
     ValidationRun,
     classify_changes,
+    command,
+    isolated_workspaces,
+    prepare_release,
     price_event_changes,
     publish_release,
     validate_release,
     website_business_changed,
 )
-from scripts.generate_price_change_events import write_events
+from scripts.generate_price_change_events import snapshot_date, write_events
+from scripts.lib import latest_snapshot_id_for_date, next_snapshot_id, parse_snapshot_id, snapshot_sort_key
+from scripts.prepare_pages_artifact import _latest_snapshot
 
 
 ROOT = Path(__file__).resolve().parents[1]
+
+# Stand-in for scripts/build.py inside throwaway repositories: writes the snapshot it is told to.
+FAKE_BUILD = """
+import argparse, json, pathlib
+parser = argparse.ArgumentParser()
+parser.add_argument("--generated-at")
+parser.add_argument("--snapshot-id")
+args = parser.parse_args()
+models = json.loads(pathlib.Path("data/canonical/models.json").read_text(encoding="utf-8"))
+body = json.dumps({"generated_at": args.generated_at, "models": models}, sort_keys=True) + "\\n"
+for target in (pathlib.Path("data/snapshots") / args.snapshot_id, pathlib.Path("api/v1")):
+    target.mkdir(parents=True, exist_ok=True)
+    (target / "prices.json").write_text(body, encoding="utf-8")
+"""
 
 
 def model(model_id="deepseek-flash", *, version="DeepSeek-V4.1-Flash", price=1):
@@ -31,11 +53,80 @@ def model(model_id="deepseek-flash", *, version="DeepSeek-V4.1-Flash", price=1):
     }
 
 
+def run(repo, *args, env=None):
+    return subprocess.run(["git", *args], cwd=repo, check=True, capture_output=True, text=True, env=env).stdout.strip()
+
+
+def make_dataset_repo(base: Path, existing_snapshots=("2026-10-18",)) -> Path:
+    repo = base / "dataset"
+    (repo / "data/canonical").mkdir(parents=True)
+    (repo / "scripts").mkdir()
+    (repo / "scripts/build.py").write_text(FAKE_BUILD, encoding="utf-8")
+    (repo / "data/canonical/models.json").write_text(json.dumps([model()]), encoding="utf-8")
+    for snapshot in existing_snapshots:
+        (repo / "data/snapshots" / snapshot).mkdir(parents=True)
+        (repo / "data/snapshots" / snapshot / "prices.json").write_text(f'{{"snapshot": "{snapshot}"}}\n', encoding="utf-8")
+    run(repo, "init", "-q", "-b", "main")
+    run(repo, "config", "user.name", "test")
+    run(repo, "config", "user.email", "test@example.com")
+    run(repo, "add", "-A")
+    run(repo, "commit", "-q", "-m", "base")
+    return repo
+
+
+def make_website_repo(base: Path) -> Path:
+    repo = base / "website"
+    (repo / "data").mkdir(parents=True)
+    (repo / "data/model-pricing.json").write_text("[]", encoding="utf-8")
+    run(repo, "init", "-q", "-b", "main")
+    run(repo, "config", "user.name", "test")
+    run(repo, "config", "user.email", "test@example.com")
+    run(repo, "add", "-A")
+    run(repo, "commit", "-q", "-m", "base")
+    return repo
+
+
+def fake_runner(dataset, _website, generated_at, _changes):
+    """Deterministic stand-in for the generation pipeline: one artifact derived from the source commit."""
+    snapshot = run(dataset, "diff-tree", "--no-commit-id", "--name-only", "-r", "HEAD", "--", "data/snapshots")
+    (dataset / "api/v1").mkdir(parents=True, exist_ok=True)
+    (dataset / "api/v1/meta.json").write_text(json.dumps({"generated_at": generated_at, "snapshot": snapshot}) + "\n", encoding="utf-8")
+    (dataset / "api/v1/prices.json").write_bytes((dataset / snapshot.splitlines()[0]).read_bytes())
+    paths = sorted(filter(None, run(dataset, "status", "--porcelain=v1", "--untracked-files=all").replace("?? ", "").replace(" M ", "").splitlines()))
+    return ValidationRun([path.strip() for path in paths], False)
+
+
+class SnapshotIdTests(unittest.TestCase):
+    def test_first_release_of_a_day_keeps_the_plain_date(self):
+        self.assertEqual(next_snapshot_id(["2026-10-18"], "2026-10-21"), "2026-10-21")
+
+    def test_later_same_day_releases_add_a_sequence(self):
+        self.assertEqual(next_snapshot_id(["2026-10-18", "2026-10-21"], "2026-10-21"), "2026-10-21-2")
+        self.assertEqual(next_snapshot_id(["2026-10-21", "2026-10-21-2"], "2026-10-21"), "2026-10-21-3")
+        self.assertEqual(latest_snapshot_id_for_date(["2026-10-21", "2026-10-21-10", "2026-10-21-2"], "2026-10-21"), "2026-10-21-10")
+
+    def test_order_is_date_then_sequence(self):
+        ids = ["2026-10-21-2", "2026-10-22", "2026-10-21", "2026-10-21-10"]
+        self.assertEqual(sorted(ids, key=snapshot_sort_key), ["2026-10-21", "2026-10-21-2", "2026-10-21-10", "2026-10-22"])
+
+    def test_invalid_ids_are_rejected(self):
+        for invalid in ("2026-10-21-1", "2026-10-21-01", "2026-10-21-x", "2026-13-01", "latest", "2026-10-21-0"):
+            with self.subTest(invalid=invalid), self.assertRaises(ValueError):
+                parse_snapshot_id(invalid)
+
+    def test_event_detected_date_is_the_date_part_and_same_day_order_is_valid(self):
+        self.assertEqual(snapshot_date(Path("data/snapshots/2026-10-21-2/prices.json")), "2026-10-21")
+        self.assertLess(snapshot_sort_key("2026-10-21"), snapshot_sort_key("2026-10-21-2"))
+
+    def test_pages_check_uses_the_latest_snapshot_of_the_api_date(self):
+        self.assertEqual(_latest_snapshot(["2026-10-18", "2026-10-21", "2026-10-21-2"], "2026-10-21"), "2026-10-21-2")
+        with self.assertRaises(FileNotFoundError):
+            _latest_snapshot(["2026-10-18"], "2026-10-21")
+
+
 class ChangeClassificationTests(unittest.TestCase):
     def test_metadata_only_version_update_has_no_price_event(self):
-        before = [model()]
-        after = [model(version="DeepSeek-V4.1-Flash-1017")]
-        changes = classify_changes(before, after)
+        changes = classify_changes([model()], [model(version="DeepSeek-V4.1-Flash-1017")])
         self.assertEqual(changes[0]["change_type"], "metadata")
         self.assertFalse(changes[0]["price_change"])
         self.assertEqual(price_event_changes(changes), [])
@@ -51,58 +142,112 @@ class ChangeClassificationTests(unittest.TestCase):
         self.assertEqual(changes[0]["change_type"], "added")
         self.assertFalse(changes[0]["price_change"])
 
-    def test_validate_runs_generation_and_validation_pipeline_once_without_remote_write(self):
+
+class CommandReportingTests(unittest.TestCase):
+    def test_failing_step_reports_its_own_error_even_with_undecodable_output(self):
+        script = "import sys; sys.stdout.buffer.write(b'\\xb2\\xe2\\xca\\xd4'); sys.stderr.write('real failure'); sys.exit(3)"
+        with self.assertRaises(ReleaseFailure) as raised:
+            command([sys.executable, "-c", script], ROOT)
+        self.assertEqual(str(raised.exception), "real failure")
+
+    def test_failing_step_without_output_still_names_the_step(self):
+        with self.assertRaises(ReleaseFailure) as raised:
+            command([sys.executable, "-c", "import sys; sys.exit(2)"], ROOT, stage="publish")
+        self.assertIn("exited with 2", str(raised.exception))
+        self.assertEqual(raised.exception.stage, "publish")
+
+
+class TwoCommitReleaseTests(unittest.TestCase):
+    def prepare(self, base: Path, existing=("2026-10-18",), generated_at="2026-10-21T16:35:00Z", price=2):
+        dataset = make_dataset_repo(base, existing)
+        website = make_website_repo(base)
+        (dataset / "data/canonical/models.json").write_text(json.dumps([model(price=price)]), encoding="utf-8")
+        report = prepare_release(dataset, website, generated_at, fake_runner, isolated_workspaces)
+        return dataset, website, report
+
+    def test_prepare_makes_a_dated_source_commit_then_an_artifact_commit_without_pushing(self):
         with tempfile.TemporaryDirectory() as tmp:
-            root = Path(tmp) / "dataset"
-            website = Path(tmp) / "website"
-            (root / ".git").mkdir(parents=True)
-            (root / "data/canonical").mkdir(parents=True)
-            (website / ".git").mkdir(parents=True)
-            (website / "data").mkdir(parents=True)
-            (root / "data/canonical/models.json").write_text(json.dumps([model(version="DeepSeek-V4.1-Flash-1017")]), encoding="utf-8")
-            (website / "data/model-pricing.json").write_text("[]", encoding="utf-8")
-            canonical_before = (root / "data/canonical/models.json").read_bytes()
-            website_before = (website / "data/model-pricing.json").read_bytes()
+            dataset, website, report = self.prepare(Path(tmp))
+            source, artifact = report["source_sha"], report["artifact_sha"]
+            self.assertEqual(run(dataset, "rev-parse", "HEAD"), artifact)
+            self.assertEqual(run(dataset, "rev-parse", "HEAD^"), source)
+            self.assertEqual(
+                sorted(run(dataset, "diff-tree", "--no-commit-id", "--name-only", "-r", source).splitlines()),
+                ["data/canonical/models.json", "data/snapshots/2026-10-21/prices.json"],
+            )
+            self.assertIn(run(dataset, "show", "-s", "--format=%cI", source), {"2026-10-21T16:35:00Z", "2026-10-21T16:35:00+00:00"})
+            artifact_paths = run(dataset, "diff-tree", "--no-commit-id", "--name-only", "-r", artifact).splitlines()
+            self.assertNotIn("data/canonical/models.json", artifact_paths)
+            self.assertIn("api/v1/prices.json", artifact_paths)
+            self.assertEqual(run(dataset, "status", "--porcelain"), "")
+            self.assertEqual(report["snapshot_id"], "2026-10-21")
+            self.assertEqual(report["status"], "PREPARED")
+            self.assertEqual(run(website, "log", "--oneline").count("\n"), 0, "prepare never commits to the website")
 
-            @contextmanager
-            def workspaces(_root, _website, dataset_ref, website_ref):
-                self.assertEqual(dataset_ref, "HEAD")
-                self.assertEqual(website_ref, "b" * 40)
-                candidate_root = Path(tmp) / "candidate-dataset"
-                candidate_website = Path(tmp) / "candidate-website"
-                (candidate_root / "data/canonical").mkdir(parents=True)
-                (candidate_website / "data").mkdir(parents=True)
-                yield candidate_root, candidate_website
+    def test_second_release_on_the_same_utc_day_gets_a_new_snapshot_and_keeps_the_first(self):
+        with tempfile.TemporaryDirectory() as tmp:
+            dataset, _website, report = self.prepare(Path(tmp), existing=("2026-10-18", "2026-10-21"), generated_at="2026-10-21T17:20:00Z")
+            self.assertEqual(report["snapshot_id"], "2026-10-21-2")
+            self.assertEqual((dataset / "data/snapshots/2026-10-21/prices.json").read_text(encoding="utf-8"), '{"snapshot": "2026-10-21"}\n')
+            self.assertEqual(run(dataset, "diff", "HEAD~2", "HEAD", "--name-only", "--", "data/snapshots/2026-10-21"), "")
+            self.assertTrue((dataset / "data/snapshots/2026-10-21-2/prices.json").is_file())
 
-            def run_candidate(candidate_root, candidate_website, _generated_at, _changes):
-                self.assertNotEqual(candidate_root, root)
-                self.assertNotEqual(candidate_website, website)
-                self.assertEqual((candidate_root / "data/canonical/models.json").read_bytes(), canonical_before)
-                (candidate_root / "generated.json").write_text("generated", encoding="utf-8")
-                (candidate_website / "data/generated.json").write_text("generated", encoding="utf-8")
-                return ValidationRun(["api/v1/prices.json"], False)
+    def test_prepare_refuses_anything_but_a_canonical_edit(self):
+        with tempfile.TemporaryDirectory() as tmp:
+            dataset = make_dataset_repo(Path(tmp))
+            website = make_website_repo(Path(tmp))
+            with self.assertRaisesRegex(ReleaseFailure, "Only data/canonical/models.json"):
+                prepare_release(dataset, website, "2026-10-21T16:35:00Z", fake_runner, isolated_workspaces)
+            (dataset / "data/canonical/models.json").write_text(json.dumps([model(price=2)]), encoding="utf-8")
+            (dataset / "stray.txt").write_text("x", encoding="utf-8")
+            with self.assertRaisesRegex(ReleaseFailure, "Only data/canonical/models.json"):
+                prepare_release(dataset, website, "2026-10-21T16:35:00Z", fake_runner, isolated_workspaces)
 
-            runner = Mock(side_effect=run_candidate)
+    def test_validate_is_a_dry_run(self):
+        with tempfile.TemporaryDirectory() as tmp:
+            dataset = make_dataset_repo(Path(tmp))
+            website = make_website_repo(Path(tmp))
+            (dataset / "data/canonical/models.json").write_text(json.dumps([model(price=2)]), encoding="utf-8")
+            head = run(dataset, "rev-parse", "HEAD")
+            report = validate_release(dataset, website, "2026-10-21T16:35:00Z", fake_runner, isolated_workspaces)
+            self.assertEqual(report["snapshot_id"], "2026-10-21")
+            self.assertTrue(report["price_change"])
+            self.assertEqual(run(dataset, "rev-parse", "HEAD"), head)
+            self.assertEqual(run(dataset, "status", "--porcelain"), "M data/canonical/models.json")
+            self.assertFalse((dataset / "data/snapshots/2026-10-21").exists())
 
-            def fake_git(repo, *args, **kwargs):
-                if args[0] == "show":
-                    return json.dumps([model()])
-                if repo == website and args == ("rev-parse", "HEAD"):
-                    return "b" * 40
-                raise AssertionError(args)
+    def test_publish_regenerates_from_the_source_commit_then_pushes_dataset_and_dispatches_hf(self):
+        with tempfile.TemporaryDirectory() as tmp:
+            dataset, website, report = self.prepare(Path(tmp))
+            calls = []
+            result = publish_release(
+                dataset, website, fake_runner, isolated_workspaces,
+                lambda repo, sha: calls.append(("dataset", sha)),
+                lambda repo, sha: calls.append(("website", sha)),
+                lambda repo: calls.append(("hf",)),
+            )
+            self.assertEqual(calls, [("dataset", report["artifact_sha"]), ("hf",)])
+            self.assertEqual(result["source_sha"], report["source_sha"])
+            self.assertEqual(result["snapshot_id"], "2026-10-21")
+            self.assertEqual(result["website_business_change"], "NO")
 
-            with patch("scripts.daily_pricing_release.git", side_effect=fake_git):
-                report = validate_release(
-                    root, website, "2026-10-18T00:00:00Z", runner, workspaces,
-                )
-            runner.assert_called_once()
-            self.assertEqual((root / "data/canonical/models.json").read_bytes(), canonical_before)
-            self.assertEqual((website / "data/model-pricing.json").read_bytes(), website_before)
-            self.assertFalse((root / "generated.json").exists())
-            self.assertFalse((website / "data/generated.json").exists())
-            self.assertEqual(report["changes"][0]["change_type"], "metadata")
-            self.assertFalse(report["price_change"])
-            self.assertTrue(report["ready_for_human_approval"])
+    def test_publish_refuses_an_artifact_commit_that_differs_from_regeneration(self):
+        with tempfile.TemporaryDirectory() as tmp:
+            dataset, website, _report = self.prepare(Path(tmp))
+            (dataset / "api/v1/prices.json").write_text('{"tampered": true}\n', encoding="utf-8")
+            run(dataset, "commit", "-q", "--amend", "-a", "--no-edit")
+            push = Mock()
+            with self.assertRaisesRegex(ReleaseFailure, "Artifact commit differs from regenerated output: api/v1/prices.json"):
+                publish_release(dataset, website, fake_runner, isolated_workspaces, push, push, push)
+            push.assert_not_called()
+
+    def test_publish_refuses_canonical_changes_in_the_artifact_commit(self):
+        with tempfile.TemporaryDirectory() as tmp:
+            dataset, website, _report = self.prepare(Path(tmp))
+            (dataset / "data/canonical/models.json").write_text(json.dumps([model(price=3)]), encoding="utf-8")
+            run(dataset, "commit", "-q", "--amend", "-a", "--no-edit")
+            with self.assertRaisesRegex(ReleaseFailure, "must not change canonical data"):
+                publish_release(dataset, website, fake_runner, isolated_workspaces, Mock(), Mock(), Mock())
 
 
 class StabilityAndFlowTests(unittest.TestCase):
@@ -124,116 +269,39 @@ class StabilityAndFlowTests(unittest.TestCase):
         self.assertFalse(website_business_changed(before, after))
         self.assertTrue(website_business_changed(before, b'{"records":[{"id":"y"}]}\n'))
 
-    def test_publish_generates_from_exact_clean_head_then_pushes_dataset_and_dispatches_hf_once(self):
-        root = Path("dataset")
-        website = Path("website")
-        release_sha = "a" * 40
-        website_sha = "b" * 40
-        calls = []
+    def test_publish_business_change_creates_and_pushes_one_website_commit_before_dataset_and_hf(self):
+        with tempfile.TemporaryDirectory() as tmp:
+            dataset, website, report = TwoCommitReleaseTests().prepare(Path(tmp))
+            remote_calls = []
 
-        @contextmanager
-        def workspaces(_root, _website, dataset_ref, website_ref):
-            self.assertEqual((dataset_ref, website_ref), (release_sha, website_sha))
-            yield Path("candidate-dataset"), Path("candidate-website")
+            def business_runner(*args):
+                return ValidationRun(fake_runner(*args).generated_files, True)
 
-        def fake_git(repo, *args, **kwargs):
-            if args[0] == "status":
-                return ""
-            if args == ("rev-parse", "HEAD"):
-                return release_sha if repo == root else website_sha
-            if args[:3] == ("show", "-s", "--format=%cI"):
-                return "2026-10-18T00:00:00+00:00"
-            if args == ("show", f"{release_sha}^:data/canonical/models.json"):
-                return json.dumps([model()])
-            if args == ("show", f"{release_sha}:data/canonical/models.json"):
-                return json.dumps([model(version="DeepSeek-V4.1-Flash-1017")])
-            raise AssertionError((repo, args))
+            def fake_sync(args, cwd, env=None, stage="validate"):
+                if args[:2] == ["node", "scripts/sync-pricing-artifacts.mjs"]:
+                    for path in WEBSITE_OUTPUTS:
+                        (website / path).parent.mkdir(parents=True, exist_ok=True)
+                        (website / path).write_text("{}\n", encoding="utf-8")
+                    return ""
+                return command(args, cwd, env, stage)
 
-        runner = Mock(return_value=ValidationRun(["api/v1/prices.json"], False))
-        dataset_push = Mock(side_effect=lambda repo, sha: calls.append(("dataset", repo, sha)))
-        website_push = Mock(side_effect=lambda repo, sha: calls.append(("website", repo, sha)))
-        hf_dispatch = Mock(side_effect=lambda repo: calls.append(("hf", repo)))
-        with patch("scripts.daily_pricing_release.require_checkout", side_effect=lambda path, _required: path), patch(
-            "scripts.daily_pricing_release.git", side_effect=fake_git
-        ):
-            result = publish_release(
-                root, website, runner, workspaces, dataset_push, website_push, hf_dispatch,
-            )
-        runner.assert_called_once_with(
-            Path("candidate-dataset"), Path("candidate-website"),
-            "2026-10-18T00:00:00Z", result_changes := runner.call_args.args[3],
-        )
-        self.assertEqual(result_changes[0]["change_type"], "metadata")
-        dataset_push.assert_called_once_with(root, release_sha)
-        website_push.assert_not_called()
-        hf_dispatch.assert_called_once_with(root)
-        self.assertEqual(calls, [("dataset", root, release_sha), ("hf", root)])
-        self.assertEqual(result["release_sha"], "a" * 40)
-        self.assertEqual(result["website_business_change"], "NO")
+            with patch("scripts.daily_pricing_release.command", side_effect=fake_sync):
+                result = publish_release(
+                    dataset, website, business_runner, isolated_workspaces,
+                    lambda repo, sha: remote_calls.append(("dataset", sha)),
+                    lambda repo, sha: remote_calls.append(("website", sha)),
+                    lambda repo: remote_calls.append(("hf",)),
+                )
+            website_head = run(website, "rev-parse", "HEAD")
+            self.assertEqual(run(website, "rev-list", "--count", "HEAD"), "2")
+            self.assertEqual(remote_calls, [("website", website_head), ("dataset", report["artifact_sha"]), ("hf",)])
+            self.assertEqual(result["website_business_change"], "YES")
 
-    def test_publish_business_change_creates_and_pushes_at_most_one_website_commit(self):
-        root = Path("dataset")
-        website = Path("website")
-        release_sha = "a" * 40
-        old_website_sha = "b" * 40
-        new_website_sha = "c" * 40
-        git_calls = []
-        remote_calls = []
-
-        @contextmanager
-        def workspaces(*_args):
-            yield Path("candidate-dataset"), Path("candidate-website")
-
-        def fake_git(repo, *args, **kwargs):
-            git_calls.append((repo, args))
-            if args[0] == "status":
-                return ""
-            if args == ("rev-parse", "HEAD"):
-                if repo == root:
-                    return release_sha
-                return new_website_sha if any(call[1][0] == "commit" for call in git_calls) else old_website_sha
-            if args[:3] == ("show", "-s", "--format=%cI"):
-                return "2026-10-18T00:00:00+00:00"
-            if args == ("show", f"{release_sha}^:data/canonical/models.json"):
-                return json.dumps([model()])
-            if args == ("show", f"{release_sha}:data/canonical/models.json"):
-                return json.dumps([model(version="DeepSeek-V4.1-Flash-1017")])
-            if args[0] in {"add", "commit"}:
-                return ""
-            raise AssertionError((repo, args))
-
-        with patch("scripts.daily_pricing_release.require_checkout", side_effect=lambda path, _required: path), patch(
-            "scripts.daily_pricing_release.git", side_effect=fake_git
-        ), patch("scripts.daily_pricing_release.command") as run, patch(
-            "scripts.daily_pricing_release.changed_paths", return_value=list(WEBSITE_OUTPUTS)
-        ):
-            result = publish_release(
-                root,
-                website,
-                Mock(return_value=ValidationRun(["api/v1/prices.json"], True)),
-                workspaces,
-                lambda repo, sha: remote_calls.append(("dataset", repo, sha)),
-                lambda repo, sha: remote_calls.append(("website", repo, sha)),
-                lambda repo: remote_calls.append(("hf", repo)),
-            )
-        self.assertEqual(sum(args[0] == "commit" for repo, args in git_calls if repo == website), 1)
-        run.assert_called_once()
-        self.assertEqual(
-            remote_calls,
-            [
-                ("website", website, new_website_sha),
-                ("dataset", root, release_sha),
-                ("hf", root),
-            ],
-        )
-        self.assertEqual(result["website_business_change"], "YES")
-
-    def test_ordinary_source_has_no_legacy_state_machine_or_recovery_runtime(self):
+    def test_ordinary_source_has_no_resumable_state_machine_or_recovery_runtime(self):
         source = (ROOT / "scripts/daily_pricing_release.py").read_text(encoding="utf-8")
         forbidden = (
-            "ReleaseStateStore", "STAGES", "source_committed", "artifact_committed",
-            "pre_tag_verified", "hf_dry_run_verified", "release_plan_id",
-            "release_plan_digest", ".daily-pricing-release", "forward_recovery",
+            "ReleaseStateStore", "STAGES", "pre_tag_verified", "hf_dry_run_verified",
+            "release_plan_id", "release_plan_digest", ".daily-pricing-release", "forward_recovery",
         )
         for token in forbidden:
             with self.subTest(token=token):
@@ -247,11 +315,13 @@ class StabilityAndFlowTests(unittest.TestCase):
             self.assertIn(symbol, recovery)
         self.assertNotIn("daily_pricing_release", recovery)
 
-    def test_powershell_uses_module_mode_and_only_validate_publish(self):
+    def test_powershell_uses_module_mode_and_only_validate_prepare_publish(self):
         source = (ROOT / "scripts/daily-pricing-release.ps1").read_text(encoding="utf-8")
         self.assertIn("python -m scripts.daily_pricing_release", source)
         self.assertNotIn("python scripts/daily_pricing_release.py", source)
-        for token in ("-Prepare", "-Resume", "-Plan", "-Digest", "-Recovery"):
+        for token in ("$Validate", "$Prepare", "$Publish"):
+            self.assertIn(token, source)
+        for token in ("-Resume", "-Plan", "-Digest", "-Recovery"):
             self.assertNotIn(token, source)
 
 

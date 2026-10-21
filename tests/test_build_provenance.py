@@ -7,9 +7,8 @@ import unittest
 from pathlib import Path
 from unittest.mock import MagicMock, patch
 
-from scripts.build import build_outputs, source_commit_sha
-from scripts.daily_pricing_release import ReleaseFailure, _ensure_snapshot
-from scripts.lib import ROOT, append_history_if_changed, write_json
+from scripts.build import build_outputs, resolve_snapshot_id, source_commit_sha
+from scripts.lib import ROOT, append_history_if_changed, next_snapshot_id, snapshot_ids, write_json
 
 EXPECTED_SHA = "c" * 40
 
@@ -102,31 +101,33 @@ class BuildProvenanceTests(unittest.TestCase):
                 if path.endswith(".json"):
                     json.loads(decoded)
 
-    def test_existing_snapshot_conflict_fails_closed(self):
-        generated_at = "2026-10-15T10:15:09Z"
-        for conflicting_name in ("prices.json", "prices.csv"):
-            with self.subTest(conflicting_name=conflicting_name), tempfile.TemporaryDirectory() as temp_dir:
-                output = Path(temp_dir)
-                prior_snapshot = output / "data/snapshots/2026-10-14"
-                target_snapshot = output / "data/snapshots/2026-10-15"
-                api = output / "api/v1"
-                prior_snapshot.mkdir(parents=True)
-                target_snapshot.mkdir(parents=True)
-                api.mkdir(parents=True)
-                for name in ("prices.json", "prices.csv"):
-                    shutil.copyfile(ROOT / "data/snapshots/2026-10-14" / name, prior_snapshot / name)
-                    shutil.copyfile(ROOT / "data/snapshots/2026-10-15" / name, target_snapshot / name)
-                    shutil.copyfile(target_snapshot / name, api / name)
-                (api / conflicting_name).write_bytes((api / conflicting_name).read_bytes() + b"conflict")
-                before = {name: (target_snapshot / name).read_bytes() for name in ("prices.json", "prices.csv")}
+    def test_same_day_release_writes_a_new_snapshot_and_never_rewrites_the_existing_one(self):
+        generated_at = "2026-10-15T18:00:00Z"
+        with tempfile.TemporaryDirectory() as temp_dir:
+            output = Path(temp_dir)
+            existing = output / "data/snapshots/2026-10-15"
+            existing.mkdir(parents=True)
+            for name in ("prices.json", "prices.csv"):
+                shutil.copyfile(ROOT / "data/snapshots/2026-10-15" / name, existing / name)
+            before = {name: (existing / name).read_bytes() for name in ("prices.json", "prices.csv")}
 
-                with self.assertRaises(ReleaseFailure) as raised:
-                    _ensure_snapshot(output, generated_at)
+            snapshot_id = next_snapshot_id(snapshot_ids(output / "data/snapshots"), generated_at[:10])
+            self.assertEqual(snapshot_id, "2026-10-15-2")
+            build_outputs(output, generated_at, snapshot_id)
 
-                self.assertEqual(raised.exception.classification, "DATA_MISMATCH")
-                self.assertEqual(raised.exception.stage, "validate")
-                self.assertIn("Snapshot 2026-10-15 already has different bytes", str(raised.exception))
-                self.assertEqual(before, {name: (target_snapshot / name).read_bytes() for name in before})
+            self.assertEqual(before, {name: (existing / name).read_bytes() for name in before})
+            for name in ("prices.json", "prices.csv"):
+                self.assertEqual((output / "data/snapshots/2026-10-15-2" / name).read_bytes(), (output / "api/v1" / name).read_bytes())
+
+    def test_default_build_targets_the_latest_snapshot_of_the_day(self):
+        with tempfile.TemporaryDirectory() as temp_dir:
+            snapshots = Path(temp_dir)
+            for name in ("2026-10-15", "2026-10-15-2"):
+                (snapshots / name).mkdir()
+            self.assertEqual(resolve_snapshot_id(snapshots, "2026-10-15", None), "2026-10-15-2")
+            self.assertEqual(resolve_snapshot_id(snapshots, "2026-10-16", None), "2026-10-16")
+            with self.assertRaisesRegex(ValueError, "does not match generated_at date"):
+                resolve_snapshot_id(snapshots, "2026-10-16", "2026-10-15-3")
 
     def test_environment_sha_is_written_to_public_meta_only(self):
         with tempfile.TemporaryDirectory() as temp_dir, patch.dict(

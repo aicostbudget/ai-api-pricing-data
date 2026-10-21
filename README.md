@@ -235,6 +235,8 @@ data/snapshots/<YYYY-MM-DD>/prices.json
 data/snapshots/<YYYY-MM-DD>/prices.csv
 ```
 
+The first pricing release of a UTC day uses the plain date. A later release on the same UTC day gets a sequence suffix (`2026-10-21-2`, `2026-10-21-3`, …) so earlier snapshots are never rewritten. Snapshots order by date, then sequence; the date part is the event `detected_at` date.
+
 ### Price Change Events
 
 Canonical price change events are stored in:

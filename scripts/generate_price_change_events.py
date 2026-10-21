@@ -11,6 +11,11 @@ from datetime import datetime
 from decimal import Decimal, InvalidOperation
 from pathlib import Path
 from typing import Any
+
+try:
+    from lib import parse_snapshot_id, snapshot_sort_key
+except ModuleNotFoundError:
+    from scripts.lib import parse_snapshot_id, snapshot_sort_key
 from urllib.parse import urlparse
 
 try:
@@ -60,9 +65,11 @@ def parsed_date(value: str, field: str) -> datetime:
 
 
 def snapshot_date(path: Path) -> str:
-    date = path.parent.name
-    parsed_date(date, "snapshot directory")
-    return date
+    """UTC date of a snapshot directory (YYYY-MM-DD or a same-day YYYY-MM-DD-N sequence)."""
+    try:
+        return parse_snapshot_id(path.parent.name)[0]
+    except ValueError as exc:
+        raise ValueError(f"snapshot directory must be YYYY-MM-DD or YYYY-MM-DD-N: {path.parent.name}") from exc
 
 
 def parse_date(value: str | None, field: str) -> None:
@@ -1050,10 +1057,10 @@ def validate_event(event: dict[str, Any], path: Path | None = None, line_number:
         after_path = resolve_source_snapshot(event.get("source_snapshot_after"), "source_snapshot_after")
         if before_path == after_path:
             fail("source snapshots must be different files")
-        before_date = snapshot_date(before_path)
-        after_date = snapshot_date(after_path)
-        if parsed_date(before_date, "source_snapshot_before date") >= parsed_date(after_date, "source_snapshot_after date"):
-            fail("source_snapshot_before date must be earlier than source_snapshot_after date")
+        snapshot_date(before_path)
+        snapshot_date(after_path)
+        if snapshot_sort_key(before_path.parent.name) >= snapshot_sort_key(after_path.parent.name):
+            fail("source_snapshot_before must be earlier than source_snapshot_after")
         expected_key = build_dedupe_key({**event, "old_prices": old_prices, "new_prices": new_prices, "component_changes": component_changes})
         if event["dedupe_key"] != expected_key:
             fail("dedupe_key does not match canonical price-change payload")
