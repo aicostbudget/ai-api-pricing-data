@@ -19,6 +19,7 @@ from typing import Any
 ROOT = Path(__file__).resolve().parents[1]
 sys.path.insert(0, str(ROOT))
 
+from scripts.lib import parse_snapshot_id  # noqa: E402
 from scripts.export_huggingface import (  # noqa: E402
     PUBLIC_SCHEMA_VERSION,
     SUPPORTED_PUBLIC_SCHEMA_VERSIONS,
@@ -115,8 +116,10 @@ def asset(filename: str, source_path: str, content: bytes) -> dict[str, Any]:
 
 
 def build_contents(dataset_ref: str, website_repo: Path, website_ref: str, snapshot: str, release_version: str | None = None, release_date: str | None = None) -> dict[str, bytes]:
-    if not re.fullmatch(r"\d{4}-\d{2}-\d{2}", snapshot):
-        raise ValueError("snapshot must be YYYY-MM-DD")
+    try:
+        parse_snapshot_id(snapshot)
+    except ValueError:
+        raise ValueError("snapshot must be YYYY-MM-DD or a same-day YYYY-MM-DD-N") from None
     if (release_version is None) != (release_date is None):
         raise ValueError("release version and date must be provided together")
     if release_date is not None:

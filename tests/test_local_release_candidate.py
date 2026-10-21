@@ -2,6 +2,7 @@ import json, subprocess, unittest
 from datetime import datetime, timezone
 from pathlib import Path
 from scripts import build_release_bundle as bundle
+from scripts.lib import latest_snapshot_id_for_date, snapshot_ids
 ROOT=Path(__file__).resolve().parents[1]
 from tests.website_source import resolve_release_website_source
 WEBSITE=resolve_release_website_source(ROOT)
@@ -12,7 +13,9 @@ def release_snapshot_date():
  timestamp=datetime.fromisoformat(generated_at.replace('Z','+00:00'))
  if timestamp.tzinfo is None:
   raise ValueError('api/v1/meta.json generated_at must include a timezone')
- return timestamp.astimezone(timezone.utc).date().isoformat()
+ date=timestamp.astimezone(timezone.utc).date().isoformat()
+ # The public API matches the latest snapshot of its UTC date (YYYY-MM-DD or YYYY-MM-DD-N).
+ return latest_snapshot_id_for_date(snapshot_ids(ROOT/'data/snapshots'),date) or date
 
 SNAPSHOT_DATE=release_snapshot_date()
 class LocalCandidateTests(unittest.TestCase):
@@ -30,7 +33,7 @@ class LocalCandidateTests(unittest.TestCase):
   with self.assertRaisesRegex(ValueError,'local candidate'):
     bundle.build_contents('WORKTREE',WEBSITE,'HEAD',SNAPSHOT_DATE)
   with self.assertRaisesRegex(ValueError,'local candidate'):
-    bundle.build_contents('WORKTREE',WEBSITE,'WORKTREE',SNAPSHOT_DATE,'vfake',SNAPSHOT_DATE)
+    bundle.build_contents('WORKTREE',WEBSITE,'WORKTREE',SNAPSHOT_DATE,'vfake',SNAPSHOT_DATE[:10])
  def test_local_candidate_tampered_source_commit_fails(self):
   files=bundle.build_contents('WORKTREE',WEBSITE,'WORKTREE',SNAPSHOT_DATE)
   manifest=json.loads(files['release-manifest.json']);manifest['git_commit']='f'*40
