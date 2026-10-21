@@ -73,12 +73,14 @@ npx.cmd -y @smithery/cli namespace use aicostbudget
 if ($LASTEXITCODE -ne 0) { throw "Smithery namespace selection failed with exit code $LASTEXITCODE" }
 ```
 
-Publish the already-tested bundle (replace `0.1.0` when the package version changes):
+Smithery's API requires each declared tool to include an MCP `inputSchema`, while the strict MCPB manifest schema permits only `name` and `description` in its `tools` entries. Publish the generated `.smithery.mcpb` variant, which differs from the standard bundle only in `manifest.json` and carries the full schemas reported by the server's live `tools/list` response. The standard `.mcpb` remains the only file for GitHub Releases and Claude Desktop.
+
+Publish the already-tested Smithery variant (replace `0.1.0` when the package version changes):
 
 ```powershell
 $ErrorActionPreference = "Stop"
 Set-Location -LiteralPath "D:\ai-api-pricing-data"
-npx.cmd -y @smithery/cli mcp publish ./dist-mcpb/ai-api-pricing-mcp-0.1.0.mcpb -n aicostbudget/ai-api-pricing-mcp
+npx.cmd -y @smithery/cli mcp publish ./dist-mcpb/ai-api-pricing-mcp-0.1.0.smithery.mcpb -n aicostbudget/ai-api-pricing-mcp
 if ($LASTEXITCODE -ne 0) { throw "Smithery MCPB publication failed with exit code $LASTEXITCODE" }
 ```
 
