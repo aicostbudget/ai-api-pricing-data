@@ -15,9 +15,9 @@ from collections import defaultdict
 from pathlib import Path
 
 try:
-    from lib import ROOT, append_history_if_changed, build_dataset, history_entry, load_models, load_providers, utc_now, write_csv, write_json
+    from lib import ROOT, append_history_if_changed, build_dataset, history_entry, load_models, load_providers, utc_now, write_csv, write_json, latest_snapshot_id_for_date, parse_snapshot_id, snapshot_ids
 except ModuleNotFoundError:
-    from scripts.lib import ROOT, append_history_if_changed, build_dataset, history_entry, load_models, load_providers, utc_now, write_csv, write_json
+    from scripts.lib import ROOT, append_history_if_changed, build_dataset, history_entry, load_models, load_providers, utc_now, write_csv, write_json, latest_snapshot_id_for_date, parse_snapshot_id, snapshot_ids
 
 SOURCE_COMMIT_SHA_ENV = "SOURCE_COMMIT_SHA"
 FULL_GIT_SHA = re.compile(r"^[0-9a-f]{40}$")
@@ -45,7 +45,7 @@ def source_commit_sha() -> str:
     return value
 
 
-def build_outputs(output_root: Path, generated_at_value: str | None = None) -> None:
+def build_outputs(output_root: Path, generated_at_value: str | None = None, snapshot_id: str | None = None) -> None:
     data = output_root / "data"
     api = output_root / "api" / "v1"
     for path in [data / "prices.json", data / "prices.csv", data / "providers", data / "models", api]:
@@ -81,7 +81,7 @@ def build_outputs(output_root: Path, generated_at_value: str | None = None) -> N
         history_path = data / "history" / provider_id / f"{model_id}.jsonl"
         append_history_if_changed(history_path, history_entry(model, generated_at))
 
-    snapshot_dir = data / "snapshots" / generated_at[:10]
+    snapshot_dir = data / "snapshots" / resolve_snapshot_id(data / "snapshots", generated_at[:10], snapshot_id)
     write_json(snapshot_dir / "prices.json", dataset)
     write_csv(snapshot_dir / "prices.csv", models)
 
@@ -118,6 +118,15 @@ def build_outputs(output_root: Path, generated_at_value: str | None = None) -> N
         write_json(api / "models" / model["provider_id"] / f"{model['model_id']}.json", model)
 
 
+def resolve_snapshot_id(snapshots_dir: Path, date: str, requested: str | None) -> str:
+    """An explicit id wins; otherwise rebuild the latest snapshot of the day, never an earlier one."""
+    if requested is not None:
+        if parse_snapshot_id(requested)[0] != date:
+            raise ValueError(f"snapshot id {requested} does not match generated_at date {date}")
+        return requested
+    return latest_snapshot_id_for_date(snapshot_ids(snapshots_dir), date) or date
+
+
 def main() -> None:
     parser = argparse.ArgumentParser(description="Build public dataset artifacts.")
     parser.add_argument(
@@ -130,8 +139,12 @@ def main() -> None:
         "--generated-at",
         help="Explicit UTC generation timestamp for reproducible release builds.",
     )
+    parser.add_argument(
+        "--snapshot-id",
+        help="Snapshot directory to write (YYYY-MM-DD or YYYY-MM-DD-N); defaults to the latest snapshot of the generated_at date.",
+    )
     args = parser.parse_args()
-    build_outputs(args.output_root.resolve(), args.generated_at)
+    build_outputs(args.output_root.resolve(), args.generated_at, args.snapshot_id)
 
 
 if __name__ == "__main__":

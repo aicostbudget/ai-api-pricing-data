@@ -10,9 +10,9 @@ from pathlib import Path
 from typing import Any
 
 try:
-    from lib import ROOT
+    from lib import ROOT, SNAPSHOT_ID, latest_snapshot_id_for_date, snapshot_ids
 except ModuleNotFoundError:
-    from scripts.lib import ROOT
+    from scripts.lib import ROOT, SNAPSHOT_ID, latest_snapshot_id_for_date, snapshot_ids
 
 RELEASE_SHA = re.compile(r"^[0-9a-f]{40}$")
 REQUIRED_PUBLIC_PATHS = (
@@ -48,6 +48,14 @@ def ensure_safe_output_dir(output_dir: Path) -> Path:
     return resolved
 
 
+def _latest_snapshot(ids: list[str], date: str) -> str:
+    """The public API must match the latest snapshot of its UTC date (YYYY-MM-DD or YYYY-MM-DD-N)."""
+    latest = latest_snapshot_id_for_date(ids, date)
+    if latest is None:
+        raise FileNotFoundError(f"No snapshot exists for {date}")
+    return latest
+
+
 def _validate_files(files: dict[str, bytes], release_sha: str, snapshot_reader) -> None:
     if not RELEASE_SHA.fullmatch(release_sha):
         raise ValueError("Approved release SHA must be a full lowercase Git SHA")
@@ -75,7 +83,9 @@ def workspace_pages(source_root: Path, release_sha: str) -> tuple[dict[str, byte
     }
     _validate_files(
         files, release_sha,
-        lambda date, suffix: (source_root / f"data/snapshots/{date}/prices.{suffix}").read_bytes(),
+        lambda date, suffix: (
+            source_root / f"data/snapshots/{_latest_snapshot(snapshot_ids(source_root / 'data/snapshots'), date)}/prices.{suffix}"
+        ).read_bytes(),
     )
     return files, release_sha
 
@@ -101,9 +111,13 @@ def recovery_committed_pages(artifact_ref: str = "HEAD") -> tuple[dict[str, byte
         raise ValueError("Recovery requires distinct valid source and artifact revisions")
     if subprocess.run(["git", "-C", str(ROOT), "merge-base", "--is-ancestor", source_sha, artifact_sha]).returncode:
         raise ValueError("Recovery source revision is not an ancestor of its artifact revision")
+    committed_ids = [
+        name for name in _git_bytes("ls-tree", "--name-only", f"{artifact_sha}:data/snapshots").decode("utf-8").splitlines()
+        if SNAPSHOT_ID.fullmatch(name)
+    ]
     _validate_files(
         files, source_sha,
-        lambda date, suffix: _git_bytes("show", f"{artifact_sha}:data/snapshots/{date}/prices.{suffix}"),
+        lambda date, suffix: _git_bytes("show", f"{artifact_sha}:data/snapshots/{_latest_snapshot(committed_ids, date)}/prices.{suffix}"),
     )
     return files, source_sha, artifact_sha
 
