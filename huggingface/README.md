@@ -40,7 +40,12 @@ Prices change frequently. Verify production billing decisions against the provid
 
 Download `prices.json` or `prices.csv` from the [Hugging Face files](https://huggingface.co/datasets/aicostbudget-ai/ai-api-pricing/tree/main), or use the live dataset's [public JSON](https://aicostbudget.com/api/datasets/ai-api-pricing.json) and [public CSV](https://aicostbudget.com/api/datasets/ai-api-pricing.csv) downloads.
 
-For JavaScript or TypeScript, the proposed `ai-api-pricing` npm package provides source-linked lookups and cost estimates. AI assistants can use the proposed read-only `ai-api-pricing-mcp` server for model prices, comparisons, monthly estimates, and price-change events. Both packages are developed in the [source repository](https://github.com/aicostbudget/ai-api-pricing-data/tree/main/packages); package and registry publication remain separate maintainer steps.
+## Use it from code or an AI assistant
+
+- **JavaScript / TypeScript:** `npm install ai-api-pricing` looks up prices, lists models, and estimates or compares workload costs. Every returned price includes its official source URL and verification date. ([npm package](https://www.npmjs.com/package/ai-api-pricing))
+- **AI assistants (MCP):** `npx -y ai-api-pricing-mcp` runs a read-only MCP server with tools for model prices, filtered model lists, monthly cost estimates, comparisons, and recent price changes. It is listed in the official MCP Registry as `io.github.aicostbudget/ai-api-pricing-mcp` and on [Glama](https://glama.ai/mcp/servers/aicostbudget/ai-api-pricing-data). ([npm package](https://www.npmjs.com/package/ai-api-pricing-mcp))
+
+Both packages read the GitHub Pages `/api/v1` compatibility projection described above. Source code: [packages/](https://github.com/aicostbudget/ai-api-pricing-data/tree/main/packages).
 
 ## Compare pricing with your workload
 
