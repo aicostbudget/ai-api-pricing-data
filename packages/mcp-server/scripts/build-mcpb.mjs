@@ -4,6 +4,9 @@ import { tmpdir } from "node:os";
 import { dirname, join, resolve } from "node:path";
 import { fileURLToPath } from "node:url";
 import { spawn } from "node:child_process";
+import { Client } from "@modelcontextprotocol/sdk/client/index.js";
+import { StdioClientTransport } from "@modelcontextprotocol/sdk/client/stdio.js";
+import { strToU8, unzipSync, zipSync } from "fflate";
 
 const packageDir = resolve(dirname(fileURLToPath(import.meta.url)), "..");
 const repoRoot = resolve(packageDir, "..", "..");
@@ -35,6 +38,58 @@ async function sha256(path) {
   return createHash("sha256").update(data).digest("hex");
 }
 
+function withTimeout(promise, label, timeoutMs = 5_000) {
+  let timer;
+  const timeout = new Promise((_, reject) => {
+    timer = setTimeout(() => reject(new Error(`${label} timed out after ${timeoutMs}ms`)), timeoutMs);
+    timer.unref?.();
+  });
+  return Promise.race([promise, timeout]).finally(() => clearTimeout(timer));
+}
+
+async function listStagedTools(stageDir, temporaryRoot, entryPoint) {
+  const wrapperPath = join(temporaryRoot, "offline-tools-list.mjs");
+  await writeFile(wrapperPath, [
+    "globalThis.fetch = async () => { throw new Error('offline MCPB build'); };",
+    "const { pathToFileURL } = await import('node:url');",
+    "await import(pathToFileURL(process.argv[2]).href);",
+    "",
+  ].join("\n"));
+
+  const transport = new StdioClientTransport({
+    command: process.execPath,
+    args: [wrapperPath, join(stageDir, entryPoint)],
+  });
+  const client = new Client({ name: "mcpb-build", version: "1.0.0" });
+  try {
+    await withTimeout(client.connect(transport), "staged MCP server connection");
+    const listed = await withTimeout(client.listTools(), "staged MCP tools/list");
+    return listed.tools;
+  } finally {
+    await client.close().catch(() => {});
+    await transport.close().catch(() => {});
+  }
+}
+
+async function packSmitheryVariant(standardPath, variantPath, variantManifest) {
+  const entries = unzipSync(await readFile(standardPath));
+  if (!("manifest.json" in entries)) throw new Error("Standard MCPB is missing manifest.json");
+  entries["manifest.json"] = strToU8(`${JSON.stringify(variantManifest, null, 2)}\n`);
+
+  // The strict MCPB schema rejects MCP Tool fields such as inputSchema. This
+  // Smithery-only variant intentionally skips mcpb validate/pack and uses the
+  // packer's own fflate settings while preserving the standard archive entries.
+  const zipData = zipSync(entries, { level: 9, mtime: new Date() });
+  await writeFile(variantPath, zipData);
+}
+
+async function printArtifact(label, path) {
+  const { size } = await stat(path);
+  console.log(`${label}: ${path}`);
+  console.log(`Size: ${size} bytes`);
+  console.log(`SHA-256: ${await sha256(path)}`);
+}
+
 async function removeSourceMaps(path) {
   for (const entry of await readdir(path, { withFileTypes: true })) {
     const child = join(path, entry.name);
@@ -57,6 +112,8 @@ const stageDir = join(temporaryRoot, "bundle");
 const packDir = join(temporaryRoot, "packs");
 const bundleName = `ai-api-pricing-mcp-${mcpPackage.version}.mcpb`;
 const outputPath = join(outputDir, bundleName);
+const variantName = `ai-api-pricing-mcp-${mcpPackage.version}.smithery.mcpb`;
+const variantOutputPath = join(outputDir, variantName);
 
 try {
   await run(process.execPath, [npmCli, "run", "build", "--workspace", "ai-api-pricing"]);
@@ -66,6 +123,7 @@ try {
   await mkdir(packDir, { recursive: true });
   await mkdir(outputDir, { recursive: true });
   await rm(outputPath, { force: true });
+  await rm(variantOutputPath, { force: true });
 
   await cp(manifestPath, join(stageDir, "manifest.json"));
   await cp(join(packageDir, "mcpb", "icon.png"), join(stageDir, "icon.png"));
@@ -121,10 +179,24 @@ try {
   await run(process.execPath, [mcpbCli, "pack", stageDir, outputPath]);
   await run(process.execPath, [mcpbCli, "info", outputPath]);
 
-  const { size } = await stat(outputPath);
-  console.log(`MCPB bundle: ${outputPath}`);
-  console.log(`Size: ${size} bytes`);
-  console.log(`SHA-256: ${await sha256(outputPath)}`);
+  const listedTools = await listStagedTools(stageDir, temporaryRoot, manifest.server.entry_point);
+  const expectedToolNames = manifest.tools.map((tool) => tool.name);
+  const listedToolNames = listedTools.map((tool) => tool.name);
+  if (JSON.stringify(listedToolNames) !== JSON.stringify(expectedToolNames)) {
+    throw new Error(`Staged tools/list names differ from manifest: ${JSON.stringify(listedToolNames)}`);
+  }
+  for (const tool of listedTools) {
+    if (!tool.inputSchema || typeof tool.inputSchema !== "object" || Array.isArray(tool.inputSchema)) {
+      throw new Error(`Tool ${tool.name} is missing an object inputSchema`);
+    }
+  }
+
+  const variantManifest = { ...manifest, tools: listedTools };
+  await writeFile(join(stageDir, "manifest.json"), `${JSON.stringify(variantManifest, null, 2)}\n`);
+  await packSmitheryVariant(outputPath, variantOutputPath, variantManifest);
+
+  await printArtifact("Standard MCPB bundle", outputPath);
+  await printArtifact("Smithery MCPB bundle", variantOutputPath);
 } finally {
   await rm(temporaryRoot, { recursive: true, force: true });
 }
