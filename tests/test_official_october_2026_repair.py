@@ -41,24 +41,27 @@ class OctoberOfficialRepairTests(unittest.TestCase):
   for mode,ip,op,img in [('standard','1.5','7.5','30'),('batch','0.75','3.75','15')]:
    self.assertEqual(self.amounts('gemini-nano-banana-2.1',mode),{('input',m):ip for m in ['text','image','video']} | {('output','text'):op,('output','image'):img})
   m=self.models['gemini-nano-banana-2.1']; self.assertIsNone(m['pricing']['cached_input']); self.assertEqual(len(m['price_records']),2); self.assertEqual(m['max_output_tokens'],32768)
- def test_mistral_list_and_sale_survive(self):
+ def test_mistral_launch_sale_is_history_and_list_price_is_current(self):
   m=self.models['mistral-large-4']; self.assertEqual((m['status'],m['release_stage'],m['context_window_tokens']),('preview','preview',1000000))
-  r=m['price_records'][0]; self.assertEqual([c['amount'] for c in r['charges']],['0.68','0.07','2.09']); self.assertEqual([c['amount'] for c in r['promotion']['list_charges']],['1.36','0.14','4.18']); self.assertIsNone(r['effective_until']); self.assertNotIn('2026-10-20',json.dumps(m))
-  row=self.projection[m['model_id']]; p=row['priceRecords'][0]['promotion']; self.assertEqual(p['priceBasis'],'promotional'); self.assertEqual(p['durationText'],'2 weeks'); self.assertEqual([c['amount'] for c in p['listCharges']],['1.36','0.14','4.18'])
-  self.assertTrue(all(c['condition']['promotion']==p for c in row['pricingComponents']))
+  current=[r for r in m['price_records'] if r['pricing_status']=='current']; self.assertEqual(len(current),1); r=current[0]
+  self.assertTrue(r['calculation_default']); self.assertNotIn('promotion',r); self.assertEqual([c['amount'] for c in r['charges']],['1.36','0.14','4.18']); self.assertIsNone(r['effective_from'])
+  history=[r for r in m['price_records'] if r['pricing_status']=='historical']; self.assertEqual(len(history),1); h=history[0]
+  self.assertFalse(h['calculation_default']); self.assertEqual([c['amount'] for c in h['charges']],['0.68','0.07','2.09']); self.assertEqual([c['amount'] for c in h['promotion']['list_charges']],['1.36','0.14','4.18']); self.assertEqual(h['effective_from'],'2026-10-06'); self.assertIsNone(h['effective_until'])
+  self.assertNotIn('2026-10-20',json.dumps(m)); self.assertEqual(m['pricing']['input'],1.36); self.assertEqual(m['pricing']['output'],4.18); self.assertEqual(m['pricing']['cached_input'],0.14)
+  row=self.projection[m['model_id']]; self.assertEqual((row['inputPrice'],row['cachedInputPrice'],row['outputPrice']),(1.36,0.14,4.18))
+  self.assertTrue(all('promotion' not in r for r in row['priceRecords'])); self.assertTrue(all(c['condition'].get('promotion') is None for c in row['pricingComponents']))
  def test_promotion_is_an_observation_not_an_undated_future_rate(self):
   records=self.normalized('mistral-large-4')
   self.assertEqual(select_price_record(records,processing_mode='standard',prompt_tokens=100,at='2026-10-09')['selectionStatus'],'available')
   self.assertNotEqual(select_price_record(records,processing_mode='standard',prompt_tokens=100,at='2026-10-21')['selectionStatus'],'available')
- def test_hf_retains_list_price_and_promotion(self):
+ def test_hf_publishes_current_list_price_without_expired_promotion(self):
   rows=json.loads((ROOT/'huggingface/prices.json').read_text(encoding='utf-8'))['records']
   record=next(r for r in rows if r['model_id']=='mistral-large-4')
-  p=record['pricing_components'][0]['condition']['promotion']
-  self.assertEqual([c['amount'] for c in p['list_charges']],['1.36','0.14','4.18'])
-  self.assertEqual(p['price_basis'],'promotional')
-  self.assertIsNone(record['pricing_components'][0]['condition']['effective_until'])
+  self.assertEqual({c['component']:c['amount'] for c in record['pricing_components']},{'input':'1.36','cached_input':'0.14','output':'4.18'})
+  self.assertTrue(all(c['condition'].get('promotion') is None for c in record['pricing_components']))
+  self.assertTrue(all(c['condition']['effective_until'] is None for c in record['pricing_components']))
  def test_invalid_sale_does_not_pass(self):
-  m=copy.deepcopy(self.models['mistral-large-4']); m['price_records'][0]['promotion']['list_charges'][0]['amount']='0.68'
+  m=copy.deepcopy(self.models['mistral-large-4']); next(r for r in m['price_records'] if r.get('promotion'))['promotion']['list_charges'][0]['amount']='0.68'
   with self.assertRaises(PricingContractError): validate_model_price_records(m)
  def test_unresolved_conflict_blocks_certain_facts(self):
   m=self.models['gemini-2.5-flash-image']; validate_unresolved_conflict(m)
@@ -68,7 +71,10 @@ class OctoberOfficialRepairTests(unittest.TestCase):
    with self.assertRaises(ValueError): validate_unresolved_conflict(bad)
  def test_events_are_additions_not_cross_model_cuts(self):
   for id in ['claude-haiku-5-5','gemini-nano-banana-2.1','mistral-large-4']:
-   events=[e for e in self.events if e['model_id']==id]; self.assertEqual(len(events),1); self.assertEqual(events[0]['change_type'],'model_added'); self.assertNotIn('predecessor_model_id',events[0])
+   events=[e for e in self.events if e['model_id']==id and e['change_type']=='model_added']; self.assertEqual(len(events),1); self.assertNotIn('predecessor_model_id',events[0])
+  for id in ['claude-haiku-5-5','gemini-nano-banana-2.1']: self.assertEqual(len([e for e in self.events if e['model_id']==id]),1)
+  later=[e for e in self.events if e['model_id']=='mistral-large-4' and e['change_type']!='model_added']; self.assertEqual(len(later),1)
+  self.assertEqual((later[0]['change_type'],later[0]['date_basis'],later[0]['effective_from']),('price_update','first_observed',None))
  def test_structured_projection_keeps_modalities_and_tiers(self):
   h=self.projection['claude-haiku-5-5']; self.assertEqual(len(h['pricingTiers']),2); self.assertEqual(len(h['pricingComponents']),14)
   n=self.projection['gemini-nano-banana-2.1']; self.assertEqual({(c['condition']['processingMode'],c['modality'],c['amount']) for c in n['pricingComponents'] if c['component']=='output'},{('standard','text','7.5'),('standard','image','30'),('batch','text','3.75'),('batch','image','15')})
