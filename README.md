@@ -15,6 +15,13 @@ Published as JSON, CSV, and a Hugging Face dataset, with machine-readable record
 - **Hugging Face mirror:** [aicostbudget-ai/ai-api-pricing](https://huggingface.co/datasets/aicostbudget-ai/ai-api-pricing)
 - **Schema and verification:** [model schema](schema/model.schema.json) | [pricing contract](docs/pricing-contract.md) | [methodology](METHODOLOGY.md)
 
+## Use it from code or an AI assistant
+
+- **JavaScript/TypeScript:** `npm install ai-api-pricing` for source-linked prices, model comparisons, and deterministic token-cost estimates.
+- **AI assistants:** `npx -y ai-api-pricing-mcp` exposes read-only MCP tools for prices, monthly estimates, comparisons, and price changes.
+
+Both packages return the official provider source URL and verification date with pricing results. See [package documentation](packages/ai-api-pricing/README.md) and [MCP client setup](packages/mcp-server/README.md).
+
 ## Interactive Tools
 
 - [Calculate your API cost](https://aicostbudget.com/en/ai-api-cost-calculator?utm_source=github&utm_medium=referral&utm_campaign=pricing_dataset&utm_content=readme_calculator)

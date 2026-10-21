@@ -1,0 +1,31 @@
+{
+  "name": "ai-api-pricing",
+  "version": "0.1.0",
+  "description": "Source-linked AI API pricing data and deterministic cost estimates.",
+  "license": "MIT",
+  "type": "module",
+  "engines": {
+    "node": ">=18"
+  },
+  "files": [
+    "dist",
+    "README.md"
+  ],
+  "main": "./dist/cjs/index.js",
+  "module": "./dist/esm/index.js",
+  "types": "./dist/esm/index.d.ts",
+  "exports": {
+    ".": {
+      "types": "./dist/esm/index.d.ts",
+      "import": "./dist/esm/index.js",
+      "require": "./dist/cjs/index.js"
+    }
+  },
+  "sideEffects": false,
+  "scripts": {
+    "refresh-bundle": "node scripts/refresh-bundle.mjs",
+    "build": "tsc -p tsconfig.esm.json && tsc -p tsconfig.cjs.json && node scripts/write-cjs-package.mjs",
+    "test": "npm run build && node --test test/*.test.mjs",
+    "prepack": "npm run refresh-bundle && npm run build"
+  }
+}

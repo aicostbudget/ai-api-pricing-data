@@ -1,0 +1,36 @@
+{
+  "name": "ai-api-pricing-mcp",
+  "version": "0.1.0",
+  "description": "Read-only MCP server for source-linked AI API pricing and cost estimates.",
+  "license": "MIT",
+  "type": "module",
+  "engines": {
+    "node": ">=18"
+  },
+  "mcpName": "io.github.aicostbudget/ai-api-pricing-mcp",
+  "bin": {
+    "ai-api-pricing-mcp": "./dist/cli.js"
+  },
+  "files": [
+    "dist",
+    "README.md",
+    "server.json"
+  ],
+  "exports": {
+    ".": {
+      "types": "./dist/server.d.ts",
+      "import": "./dist/server.js"
+    }
+  },
+  "scripts": {
+    "refresh-bundles": "node scripts/refresh-bundles.mjs",
+    "build": "tsc -p tsconfig.json",
+    "test": "npm run build && node --test test/*.test.mjs",
+    "prepack": "npm run refresh-bundles && npm run build"
+  },
+  "dependencies": {
+    "@modelcontextprotocol/sdk": "1.32.1",
+    "ai-api-pricing": "*",
+    "zod": "4.6.7"
+  }
+}
