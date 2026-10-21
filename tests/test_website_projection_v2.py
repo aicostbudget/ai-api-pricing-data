@@ -81,12 +81,14 @@ class WebsiteProjectionV2Tests(unittest.TestCase):
         openai = self.by_internal["openai/gpt-5.6-sol"]["cacheLifetimeModes"]
         fable = self.by_internal["anthropic/claude-fable-5"]["cacheLifetimeModes"]
         haiku = self.by_internal["anthropic/claude-haiku-4.5"]["cacheLifetimeModes"]
-        self.assertEqual([(mode["cacheWriteComponent"], mode["minimumLifetimeSeconds"]) for mode in openai], [("cache_write", 1800)])
+        self.assertEqual([(mode["cacheWriteComponent"], mode["minimumLifetimeSeconds"]) for mode in openai], [("cache_write", 1800), ("cache_write_12h", 43200)])
+        twelve_hour = next(mode for mode in openai if mode["cacheWriteComponent"] == "cache_write_12h")
+        self.assertEqual((twelve_hour["activationBehavior"], twelve_hour["userSelectable"], twelve_hour["isDefault"]), ("request_configured", True, False))
         self.assertEqual({(mode["cacheWriteComponent"], mode["minimumLifetimeSeconds"]) for mode in fable}, {("cache_write_5m", 300), ("cache_write_1h", 3600)})
         self.assertEqual([(mode["cacheWriteComponent"], mode["minimumLifetimeSeconds"]) for mode in haiku], [("cache_write_5m", 300)])
         self.assertEqual(
             [(mode["activationBehavior"], mode["userSelectable"], mode["isDefault"]) for mode in openai],
-            [("provider_automatic", False, True)],
+            [("provider_automatic", False, True), ("request_configured", True, False)],
         )
         self.assertEqual(
             {
@@ -488,8 +490,8 @@ class WebsiteProjectionV2Tests(unittest.TestCase):
             )
             for record in row["priceRecords"]:
                 self.assertEqual(record["pricingStatus"], "current")
-                self.assertEqual(record["verifiedAt"], "2026-09-29T16:30:47Z")
-                self.assertEqual(record["checkedAt"], "2026-09-29T16:30:47Z")
+                self.assertEqual(record["verifiedAt"], "2026-10-21T17:19:34Z")
+                self.assertEqual(record["checkedAt"], "2026-10-21T17:19:34Z")
                 self.assertTrue(record["sourceRefs"])
 
     def test_pricing_component_projection_preserves_supported_cache_variants(self):
@@ -547,8 +549,10 @@ class WebsiteProjectionV2Tests(unittest.TestCase):
         }
         for internal_id, expected_count in expected_write_counts.items():
             components = self.by_internal[internal_id]["pricingComponents"]
-            writes = [item for item in components if item["component"].startswith("cache_write")]
+            writes = [item for item in components if item["component"].startswith("cache_write") and item["component"] != "cache_write_12h"]
             self.assertEqual(len(writes), expected_count, internal_id)
+            twelve_hour = [item for item in components if item["component"] == "cache_write_12h"]
+            self.assertEqual(len(twelve_hour), expected_count if internal_id.startswith("openai/") else 0, internal_id)
             self.assertEqual(len({item["chargeId"] for item in writes}), expected_count, internal_id)
             self.assertTrue(all(item["verificationStatus"] == "verified" for item in writes))
             self.assertTrue(all(item["sourceRefs"] for item in writes))

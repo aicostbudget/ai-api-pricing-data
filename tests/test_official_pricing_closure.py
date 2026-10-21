@@ -7,6 +7,7 @@ SCOPE=read('tests/fixtures/official-pricing-repair-scope.json')
 CHECKPOINT=SCOPE['event_checkpoints'][-1]
 ARGON_EXTENSION=SCOPE['argon_event_extension']
 MISTRAL_EXTENSION=SCOPE['mistral_large_4_standard_extension']
+OPENAI_12H_EXTENSION=SCOPE['openai_12h_cache_write_extension']
 EVENTS_PATH='data/price-change-events/events.jsonl'
 DEEPSEEK_METADATA_APPROVAL={
  'identity':'deepseek/deepseek-flash',
@@ -186,7 +187,12 @@ class ClosureScopeTests(unittest.TestCase):
   self.assertEqual(current_deepseek['release_evidence']['url'],'https://api-docs.deepseek.com/updates/')
   mistral=MISTRAL_EXTENSION;self.assertEqual(git_output('rev-parse',mistral['canonical_source_commit']+'^').decode().strip(),'2287ffdf92245315781cfa4466d226393d2dc55b')
   self.assertEqual(SCOPE['canonical'][mistral['identity']],mistral['canonical_before_sha256'])
-  approved=dict(SCOPE['canonical']);approved[identity]=approval['canonical_after_sha256'];approved[mistral['identity']]=mistral['canonical_after_sha256'];verify_rows(old,current,approved)
+  approved=dict(SCOPE['canonical']);approved[identity]=approval['canonical_after_sha256'];approved[mistral['identity']]=mistral['canonical_after_sha256']
+  openai=OPENAI_12H_EXTENSION;self.assertEqual(git_output('rev-parse',openai['canonical_source_commit']+'^').decode().strip(),openai['base_commit'])
+  for identity_12h in openai['identities']:
+   self.assertEqual(SCOPE['canonical'].get(identity_12h,digest(old_by_id.get(identity_12h,{}))),openai['canonical_before_sha256'][identity_12h])
+   approved[identity_12h]=openai['canonical_after_sha256'][identity_12h]
+  verify_rows(old,current,approved)
   mutated=copy.deepcopy(current);next(r for r in mutated if r['model_id']=='gpt-6-sol')['pricing']['input']=999
   with self.assertRaisesRegex(AssertionError,'unapproved change'):verify_rows(old,mutated,approved)
   mutated=copy.deepcopy(current);next(r for r in mutated if key(r)==identity)['pricing']['input']=999
@@ -195,7 +201,14 @@ class ClosureScopeTests(unittest.TestCase):
  def test_current_projection_exact_scope_and_negative_mutation(self):
   old=pinned('data/pricing-v2-preview/generated/model-pricing.v2.json')['models'];current=read('data/pricing-v2-preview/generated/model-pricing.v2.json')['models']
   mistral=MISTRAL_EXTENSION;self.assertEqual(SCOPE['projection'][mistral['identity']],mistral['projection_before_sha256'])
-  approved=dict(SCOPE['projection']);approved[mistral['identity']]=mistral['projection_after_sha256'];verify_rows(old,current,approved)
+  approved=dict(SCOPE['projection']);approved[mistral['identity']]=mistral['projection_after_sha256']
+  old_projection={key(row):row for row in old}
+  for identity_12h in OPENAI_12H_EXTENSION['identities']:
+   self.assertEqual(SCOPE['projection'].get(identity_12h,digest(old_projection.get(identity_12h,{}))),OPENAI_12H_EXTENSION['projection_before_sha256'][identity_12h])
+   approved[identity_12h]=OPENAI_12H_EXTENSION['projection_after_sha256'][identity_12h]
+  verify_rows(old,current,approved)
+  mutated=copy.deepcopy(current);next(r for r in mutated if r['id']=='gpt-6-luna')['pricingComponents'][0]['amount']='999'
+  with self.assertRaisesRegex(AssertionError,'unapproved change: openai/gpt-6-luna'):verify_rows(old,mutated,approved)
   mutated=copy.deepcopy(current);next(r for r in mutated if r['id']=='gemini-2.5-flash-image')['retirementDate']='2027-03-15'
   with self.assertRaisesRegex(AssertionError,'unapproved change'):verify_rows(old,mutated,approved)
   mutated=copy.deepcopy(current);next(r for r in mutated if r['id']=='mistral-large-4')['inputPrice']=0.68

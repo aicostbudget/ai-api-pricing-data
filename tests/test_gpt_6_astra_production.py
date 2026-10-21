@@ -80,12 +80,13 @@ class Gpt6AstraProductionTests(unittest.TestCase):
         record_ids = [row["id"] for row in self.records]
         charge_ids = [charge["id"] for row in self.records for charge in row["charges"]]
         self.assertEqual(len(record_ids), len(set(record_ids)))
-        self.assertEqual(len(charge_ids), 40)
+        self.assertEqual(len(charge_ids), 50)
         self.assertEqual(len(charge_ids), len(set(charge_ids)))
         for row in self.records:
             key = (row["processing_mode"], row["context_class"])
             amounts = {charge["component"]: str(charge["amount"]) for charge in row["charges"]}
             self.assertEqual(tuple(amounts[name] for name in COMPONENTS), EXPECTED_MATRIX[key])
+            self.assertEqual(Decimal(amounts["cache_write_12h"]), Decimal(amounts["input"]) * Decimal("2.5"))
             self.assertEqual(row["prompt_token_threshold"], THRESHOLD)
             self.assertEqual(row["tier_selection"]["token_basis"], "input_tokens")
             self.assertTrue(row["tier_selection"]["cached_prompt_tokens_included"])
@@ -147,7 +148,7 @@ class Gpt6AstraProductionTests(unittest.TestCase):
             if row["modelInternalId"] == INTERNAL_ID
         ]
         self.assertEqual(len(v2_prices), 10)
-        self.assertEqual(sum(len(row["charges"]) for row in v2_prices), 40)
+        self.assertEqual(sum(len(row["charges"]) for row in v2_prices), 50)
         self.assertEqual(sum(row["calculationDefault"] for row in v2_prices), 1)
 
         for path in ("data/prices.json", "api/v1/prices.json"):
@@ -168,7 +169,7 @@ class Gpt6AstraProductionTests(unittest.TestCase):
         self.assertTrue(website["defaultSafe"])
         self.assertEqual(website["selectedPriceRecordId"], f"price:{INTERNAL_ID}:standard:short:current")
         self.assertEqual(website["selectedBatchPriceRecordId"], f"price:{INTERNAL_ID}:batch:short:current")
-        self.assertEqual(len(website["pricingComponents"]), 40)
+        self.assertEqual(len(website["pricingComponents"]), 50)
         self.assertEqual(len(website["pricingTiers"]), 2)
 
         compatibility_preview = exactly_one(
@@ -192,7 +193,7 @@ class Gpt6AstraProductionTests(unittest.TestCase):
         self.assertEqual(hf["input_price_per_1m_tokens"], 10)
         self.assertEqual(hf["cached_input_price_per_1m_tokens"], 1)
         self.assertEqual(hf["output_price_per_1m_tokens"], 50)
-        self.assertEqual(len(hf["pricing_components"]), 40)
+        self.assertEqual(len(hf["pricing_components"]), 50)
         self.assertEqual(hf["pricing_tier_count"], 2)
 
 

@@ -350,7 +350,7 @@ class PricingV2PreviewTests(unittest.TestCase):
             )
             self.assertEqual(
                 {charge["component"]: float(charge["amount"]) for charge in standard_short["charges"]},
-                base_prices,
+                {**base_prices, "cache_write_12h": base_prices["input"] * 2.5},
             )
 
     def test_openai_gpt56_family_uses_verified_declarative_price_records(self):
@@ -404,8 +404,8 @@ class PricingV2PreviewTests(unittest.TestCase):
             for record in projected_records:
                 key = (record["processingMode"], record["contextClass"])
                 self.assertEqual(record["pricingStatus"], "current")
-                self.assertEqual(record["verifiedAt"], "2026-09-29T16:30:47Z")
-                self.assertEqual(record["checkedAt"], "2026-09-29T16:30:47Z")
+                self.assertEqual(record["verifiedAt"], "2026-10-21T17:19:34Z")
+                self.assertEqual(record["checkedAt"], "2026-10-21T17:19:34Z")
                 self.assertTrue(record["sourceRefs"])
                 self.assertEqual(record["promptTokenThreshold"], 272000)
                 self.assertEqual(record["tierSelection"]["tokenBasis"], "total_prompt_tokens")

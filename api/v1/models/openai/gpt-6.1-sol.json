@@ -44,13 +44,27 @@
       "user_selectable": false,
       "verification_status": "verified",
       "verified_at": "2026-09-30T00:00:00Z"
+    },
+    {
+      "activation_behavior": "request_configured",
+      "cache_write_component": "cache_write_12h",
+      "checked_at": "2026-10-21T17:19:34Z",
+      "is_default": false,
+      "minimum_lifetime_seconds": 43200,
+      "renewal_behavior": "refresh_on_reuse",
+      "source_refs": [
+        "https://developers.openai.com/api/docs/guides/prompt-caching"
+      ],
+      "user_selectable": true,
+      "verification_status": "verified",
+      "verified_at": "2026-10-21T17:19:34Z"
     }
   ],
   "context_window_tokens": 1050000,
   "display_name": "GPT-6.1 Sol",
   "effective_from": "2026-09-29",
   "input_modality": "text",
-  "last_verified_at": "2026-10-13T13:24:09Z",
+  "last_verified_at": "2026-10-21T17:19:34Z",
   "model_family": "GPT-6",
   "model_id": "gpt-6.1-sol",
   "notes": "Released 2026-09-29. Ultrafast processing was released 2026-10-08 for the existing gpt-6.1-sol identity through the Responses API with service_tier=\"ultrafast\". The official model contract has a 1,050,000-token context window and 128,000 max output tokens. Official absolute input, cached-input, cache-write, and output rates are stored for Standard, Batch, Flex, Fast, and Ultrafast processing across both sides of the strict greater-than 272,000 input-token boundary. Regional processing uses the official 10% uplift. Ultrafast supports global processing plus US and EU data residency; Fast remains unavailable with EU data residency.",
@@ -95,6 +109,13 @@
           "unit": "per_1m_tokens"
         },
         {
+          "amount": "5",
+          "component": "cache_write_12h",
+          "id": "price:openai/gpt-6.1-sol:standard:short:current:cache_write_12h:text:per_1m_tokens",
+          "modality": "text",
+          "unit": "per_1m_tokens"
+        },
+        {
           "amount": "10",
           "component": "output",
           "id": "price:openai/gpt-6.1-sol:standard:short:current:output:text:per_1m_tokens",
@@ -102,7 +123,7 @@
           "unit": "per_1m_tokens"
         }
       ],
-      "checked_at": "2026-09-30T00:00:00Z",
+      "checked_at": "2026-10-21T17:19:34Z",
       "context_class": "short",
       "currency": "USD",
       "effective_from": "2026-09-29",
@@ -145,7 +166,8 @@
       },
       "source_refs": [
         "https://developers.openai.com/api/docs/models/gpt-6.1-sol",
-        "https://developers.openai.com/api/docs/pricing"
+        "https://developers.openai.com/api/docs/pricing",
+        "https://developers.openai.com/api/docs/guides/prompt-caching"
       ],
       "tier_selection": {
         "cached_prompt_tokens_included": true,
@@ -154,7 +176,7 @@
         "whole_request_pricing": true
       },
       "verification_status": "verified",
-      "verified_at": "2026-09-30T00:00:00Z"
+      "verified_at": "2026-10-21T17:19:34Z"
     },
     {
       "billing_note": "standard long-context pricing; the 272,000 threshold is based on input tokens, includes cached input tokens, and applies the selected tier to the full request.",
@@ -182,6 +204,13 @@
           "unit": "per_1m_tokens"
         },
         {
+          "amount": "10",
+          "component": "cache_write_12h",
+          "id": "price:openai/gpt-6.1-sol:standard:long:current:cache_write_12h:text:per_1m_tokens",
+          "modality": "text",
+          "unit": "per_1m_tokens"
+        },
+        {
           "amount": "15",
           "component": "output",
           "id": "price:openai/gpt-6.1-sol:standard:long:current:output:text:per_1m_tokens",
@@ -189,7 +218,7 @@
           "unit": "per_1m_tokens"
         }
       ],
-      "checked_at": "2026-09-30T00:00:00Z",
+      "checked_at": "2026-10-21T17:19:34Z",
       "context_class": "long",
       "currency": "USD",
       "effective_from": "2026-09-29",
@@ -232,7 +261,8 @@
       },
       "source_refs": [
         "https://developers.openai.com/api/docs/models/gpt-6.1-sol",
-        "https://developers.openai.com/api/docs/pricing"
+        "https://developers.openai.com/api/docs/pricing",
+        "https://developers.openai.com/api/docs/guides/prompt-caching"
       ],
       "tier_selection": {
         "cached_prompt_tokens_included": true,
@@ -241,7 +271,7 @@
         "whole_request_pricing": true
       },
       "verification_status": "verified",
-      "verified_at": "2026-09-30T00:00:00Z"
+      "verified_at": "2026-10-21T17:19:34Z"
     },
     {
       "billing_note": "batch short-context pricing; the 272,000 threshold is based on input tokens, includes cached input tokens, and applies the selected tier to the full request.",
@@ -269,6 +299,13 @@
           "unit": "per_1m_tokens"
         },
         {
+          "amount": "2.5",
+          "component": "cache_write_12h",
+          "id": "price:openai/gpt-6.1-sol:batch:short:current:cache_write_12h:text:per_1m_tokens",
+          "modality": "text",
+          "unit": "per_1m_tokens"
+        },
+        {
           "amount": "5",
           "component": "output",
           "id": "price:openai/gpt-6.1-sol:batch:short:current:output:text:per_1m_tokens",
@@ -276,7 +313,7 @@
           "unit": "per_1m_tokens"
         }
       ],
-      "checked_at": "2026-09-30T00:00:00Z",
+      "checked_at": "2026-10-21T17:19:34Z",
       "context_class": "short",
       "currency": "USD",
       "effective_from": "2026-09-29",
@@ -319,7 +356,8 @@
       },
       "source_refs": [
         "https://developers.openai.com/api/docs/pricing",
-        "https://developers.openai.com/api/docs/guides/batch"
+        "https://developers.openai.com/api/docs/guides/batch",
+        "https://developers.openai.com/api/docs/guides/prompt-caching"
       ],
       "tier_selection": {
         "cached_prompt_tokens_included": true,
@@ -328,7 +366,7 @@
         "whole_request_pricing": true
       },
       "verification_status": "verified",
-      "verified_at": "2026-09-30T00:00:00Z"
+      "verified_at": "2026-10-21T17:19:34Z"
     },
     {
       "billing_note": "batch long-context pricing; the 272,000 threshold is based on input tokens, includes cached input tokens, and applies the selected tier to the full request.",
@@ -356,6 +394,13 @@
           "unit": "per_1m_tokens"
         },
         {
+          "amount": "5",
+          "component": "cache_write_12h",
+          "id": "price:openai/gpt-6.1-sol:batch:long:current:cache_write_12h:text:per_1m_tokens",
+          "modality": "text",
+          "unit": "per_1m_tokens"
+        },
+        {
           "amount": "7.5",
           "component": "output",
           "id": "price:openai/gpt-6.1-sol:batch:long:current:output:text:per_1m_tokens",
@@ -363,7 +408,7 @@
           "unit": "per_1m_tokens"
         }
       ],
-      "checked_at": "2026-09-30T00:00:00Z",
+      "checked_at": "2026-10-21T17:19:34Z",
       "context_class": "long",
       "currency": "USD",
       "effective_from": "2026-09-29",
@@ -406,7 +451,8 @@
       },
       "source_refs": [
         "https://developers.openai.com/api/docs/pricing",
-        "https://developers.openai.com/api/docs/guides/batch"
+        "https://developers.openai.com/api/docs/guides/batch",
+        "https://developers.openai.com/api/docs/guides/prompt-caching"
       ],
       "tier_selection": {
         "cached_prompt_tokens_included": true,
@@ -415,7 +461,7 @@
         "whole_request_pricing": true
       },
       "verification_status": "verified",
-      "verified_at": "2026-09-30T00:00:00Z"
+      "verified_at": "2026-10-21T17:19:34Z"
     },
     {
       "billing_note": "flex short-context pricing; the 272,000 threshold is based on input tokens, includes cached input tokens, and applies the selected tier to the full request.",
@@ -443,6 +489,13 @@
           "unit": "per_1m_tokens"
         },
         {
+          "amount": "2.5",
+          "component": "cache_write_12h",
+          "id": "price:openai/gpt-6.1-sol:flex:short:current:cache_write_12h:text:per_1m_tokens",
+          "modality": "text",
+          "unit": "per_1m_tokens"
+        },
+        {
           "amount": "5",
           "component": "output",
           "id": "price:openai/gpt-6.1-sol:flex:short:current:output:text:per_1m_tokens",
@@ -450,7 +503,7 @@
           "unit": "per_1m_tokens"
         }
       ],
-      "checked_at": "2026-09-30T00:00:00Z",
+      "checked_at": "2026-10-21T17:19:34Z",
       "context_class": "short",
       "currency": "USD",
       "effective_from": "2026-09-29",
@@ -493,7 +546,8 @@
       },
       "source_refs": [
         "https://developers.openai.com/api/docs/pricing",
-        "https://developers.openai.com/api/docs/guides/flex-processing"
+        "https://developers.openai.com/api/docs/guides/flex-processing",
+        "https://developers.openai.com/api/docs/guides/prompt-caching"
       ],
       "tier_selection": {
         "cached_prompt_tokens_included": true,
@@ -502,7 +556,7 @@
         "whole_request_pricing": true
       },
       "verification_status": "verified",
-      "verified_at": "2026-09-30T00:00:00Z"
+      "verified_at": "2026-10-21T17:19:34Z"
     },
     {
       "billing_note": "flex long-context pricing; the 272,000 threshold is based on input tokens, includes cached input tokens, and applies the selected tier to the full request.",
@@ -530,6 +584,13 @@
           "unit": "per_1m_tokens"
         },
         {
+          "amount": "5",
+          "component": "cache_write_12h",
+          "id": "price:openai/gpt-6.1-sol:flex:long:current:cache_write_12h:text:per_1m_tokens",
+          "modality": "text",
+          "unit": "per_1m_tokens"
+        },
+        {
           "amount": "7.5",
           "component": "output",
           "id": "price:openai/gpt-6.1-sol:flex:long:current:output:text:per_1m_tokens",
@@ -537,7 +598,7 @@
           "unit": "per_1m_tokens"
         }
       ],
-      "checked_at": "2026-09-30T00:00:00Z",
+      "checked_at": "2026-10-21T17:19:34Z",
       "context_class": "long",
       "currency": "USD",
       "effective_from": "2026-09-29",
@@ -580,7 +641,8 @@
       },
       "source_refs": [
         "https://developers.openai.com/api/docs/pricing",
-        "https://developers.openai.com/api/docs/guides/flex-processing"
+        "https://developers.openai.com/api/docs/guides/flex-processing",
+        "https://developers.openai.com/api/docs/guides/prompt-caching"
       ],
       "tier_selection": {
         "cached_prompt_tokens_included": true,
@@ -589,7 +651,7 @@
         "whole_request_pricing": true
       },
       "verification_status": "verified",
-      "verified_at": "2026-09-30T00:00:00Z"
+      "verified_at": "2026-10-21T17:19:34Z"
     },
     {
       "billing_note": "fast short-context pricing; the 272,000 threshold is based on input tokens, includes cached input tokens, and applies the selected tier to the full request.",
@@ -617,6 +679,13 @@
           "unit": "per_1m_tokens"
         },
         {
+          "amount": "10",
+          "component": "cache_write_12h",
+          "id": "price:openai/gpt-6.1-sol:fast:short:current:cache_write_12h:text:per_1m_tokens",
+          "modality": "text",
+          "unit": "per_1m_tokens"
+        },
+        {
           "amount": "20",
           "component": "output",
           "id": "price:openai/gpt-6.1-sol:fast:short:current:output:text:per_1m_tokens",
@@ -624,7 +693,7 @@
           "unit": "per_1m_tokens"
         }
       ],
-      "checked_at": "2026-09-30T00:00:00Z",
+      "checked_at": "2026-10-21T17:19:34Z",
       "context_class": "short",
       "currency": "USD",
       "effective_from": "2026-09-29",
@@ -681,7 +750,8 @@
       },
       "source_refs": [
         "https://developers.openai.com/api/docs/pricing",
-        "https://developers.openai.com/api/docs/guides/fast-mode"
+        "https://developers.openai.com/api/docs/guides/fast-mode",
+        "https://developers.openai.com/api/docs/guides/prompt-caching"
       ],
       "tier_selection": {
         "cached_prompt_tokens_included": true,
@@ -690,7 +760,7 @@
         "whole_request_pricing": true
       },
       "verification_status": "verified",
-      "verified_at": "2026-09-30T00:00:00Z"
+      "verified_at": "2026-10-21T17:19:34Z"
     },
     {
       "billing_note": "fast long-context pricing; the 272,000 threshold is based on input tokens, includes cached input tokens, and applies the selected tier to the full request.",
@@ -718,6 +788,13 @@
           "unit": "per_1m_tokens"
         },
         {
+          "amount": "20",
+          "component": "cache_write_12h",
+          "id": "price:openai/gpt-6.1-sol:fast:long:current:cache_write_12h:text:per_1m_tokens",
+          "modality": "text",
+          "unit": "per_1m_tokens"
+        },
+        {
           "amount": "30",
           "component": "output",
           "id": "price:openai/gpt-6.1-sol:fast:long:current:output:text:per_1m_tokens",
@@ -725,7 +802,7 @@
           "unit": "per_1m_tokens"
         }
       ],
-      "checked_at": "2026-09-30T00:00:00Z",
+      "checked_at": "2026-10-21T17:19:34Z",
       "context_class": "long",
       "currency": "USD",
       "effective_from": "2026-09-29",
@@ -782,7 +859,8 @@
       },
       "source_refs": [
         "https://developers.openai.com/api/docs/pricing",
-        "https://developers.openai.com/api/docs/guides/fast-mode"
+        "https://developers.openai.com/api/docs/guides/fast-mode",
+        "https://developers.openai.com/api/docs/guides/prompt-caching"
       ],
       "tier_selection": {
         "cached_prompt_tokens_included": true,
@@ -791,7 +869,7 @@
         "whole_request_pricing": true
       },
       "verification_status": "verified",
-      "verified_at": "2026-09-30T00:00:00Z"
+      "verified_at": "2026-10-21T17:19:34Z"
     },
     {
       "billing_note": "Ultrafast uses the existing gpt-6.1-sol model in the Responses API with service_tier=\"ultrafast\"; it is not a separate model identity or a Chat Completions processing mode. Short context includes 272,000 input tokens; above 272,000 tokens the long-context rates apply to the entire request, including cached prompt tokens. Global processing plus US and EU data residency are supported. Regional processing adds the published 10% uplift. Default Ultrafast limits are Build 1,000,000 TPM, Launch 4,000,000 TPM, and Grow 40,000,000 TPM; access remains subject to organization rate limits.",
@@ -819,6 +897,13 @@
           "unit": "per_1m_tokens"
         },
         {
+          "amount": "30",
+          "component": "cache_write_12h",
+          "id": "price:openai/gpt-6.1-sol:ultrafast:short:current:cache_write_12h:text:per_1m_tokens",
+          "modality": "text",
+          "unit": "per_1m_tokens"
+        },
+        {
           "amount": "60",
           "component": "output",
           "id": "price:openai/gpt-6.1-sol:ultrafast:short:current:output:text:per_1m_tokens",
@@ -826,7 +911,7 @@
           "unit": "per_1m_tokens"
         }
       ],
-      "checked_at": "2026-10-13T13:24:09Z",
+      "checked_at": "2026-10-21T17:19:34Z",
       "context_class": "short",
       "currency": "USD",
       "effective_from": "2026-10-08",
@@ -870,7 +955,8 @@
       "source_refs": [
         "https://developers.openai.com/api/docs/models/gpt-6.1-sol",
         "https://developers.openai.com/api/docs/pricing",
-        "https://developers.openai.com/api/docs/guides/ultrafast-mode"
+        "https://developers.openai.com/api/docs/guides/ultrafast-mode",
+        "https://developers.openai.com/api/docs/guides/prompt-caching"
       ],
       "tier_selection": {
         "cached_prompt_tokens_included": true,
@@ -879,7 +965,7 @@
         "whole_request_pricing": true
       },
       "verification_status": "verified",
-      "verified_at": "2026-10-13T13:24:09Z"
+      "verified_at": "2026-10-21T17:19:34Z"
     },
     {
       "billing_note": "Ultrafast uses the existing gpt-6.1-sol model in the Responses API with service_tier=\"ultrafast\"; it is not a separate model identity or a Chat Completions processing mode. Short context includes 272,000 input tokens; above 272,000 tokens the long-context rates apply to the entire request, including cached prompt tokens. Global processing plus US and EU data residency are supported. Regional processing adds the published 10% uplift. Default Ultrafast limits are Build 1,000,000 TPM, Launch 4,000,000 TPM, and Grow 40,000,000 TPM; access remains subject to organization rate limits.",
@@ -907,6 +993,13 @@
           "unit": "per_1m_tokens"
         },
         {
+          "amount": "60",
+          "component": "cache_write_12h",
+          "id": "price:openai/gpt-6.1-sol:ultrafast:long:current:cache_write_12h:text:per_1m_tokens",
+          "modality": "text",
+          "unit": "per_1m_tokens"
+        },
+        {
           "amount": "90",
           "component": "output",
           "id": "price:openai/gpt-6.1-sol:ultrafast:long:current:output:text:per_1m_tokens",
@@ -914,7 +1007,7 @@
           "unit": "per_1m_tokens"
         }
       ],
-      "checked_at": "2026-10-13T13:24:09Z",
+      "checked_at": "2026-10-21T17:19:34Z",
       "context_class": "long",
       "currency": "USD",
       "effective_from": "2026-10-08",
@@ -958,7 +1051,8 @@
       "source_refs": [
         "https://developers.openai.com/api/docs/models/gpt-6.1-sol",
         "https://developers.openai.com/api/docs/pricing",
-        "https://developers.openai.com/api/docs/guides/ultrafast-mode"
+        "https://developers.openai.com/api/docs/guides/ultrafast-mode",
+        "https://developers.openai.com/api/docs/guides/prompt-caching"
       ],
       "tier_selection": {
         "cached_prompt_tokens_included": true,
@@ -967,7 +1061,7 @@
         "whole_request_pricing": true
       },
       "verification_status": "verified",
-      "verified_at": "2026-10-13T13:24:09Z"
+      "verified_at": "2026-10-21T17:19:34Z"
     }
   ],
   "pricing": {

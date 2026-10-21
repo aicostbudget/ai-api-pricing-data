@@ -97,12 +97,13 @@ class Gpt61SolProductionTests(unittest.TestCase):
         )
         self.assertEqual(sum(row["calculation_default"] for row in self.records), 1)
         charge_ids = [charge["id"] for row in self.records for charge in row["charges"]]
-        self.assertEqual(len(charge_ids), 40)
+        self.assertEqual(len(charge_ids), 50)
         self.assertEqual(len(charge_ids), len(set(charge_ids)))
         for row in self.records:
             key = (row["processing_mode"], row["context_class"])
             actual = {charge["component"]: str(charge["amount"]) for charge in row["charges"]}
             self.assertEqual(tuple(actual[name] for name in COMPONENTS), EXPECTED_MATRIX[key])
+            self.assertEqual(Decimal(actual["cache_write_12h"]), Decimal(actual["input"]) * Decimal("2.5"))
         self.assertEqual(EXPECTED_MATRIX[("standard", "short")], ("2", "0.1", "2.5", "10"))
         self.assertEqual(EXPECTED_MATRIX[("batch", "short")], ("1", "0.05", "1.25", "5"))
         self.assertEqual(EXPECTED_MATRIX[("flex", "short")], ("1", "0.05", "1.25", "5"))
@@ -239,7 +240,7 @@ class Gpt61SolProductionTests(unittest.TestCase):
     def test_generated_v2_public_api_website_and_hf_contract(self) -> None:
         v2_prices = [row for row in read_json("data/pricing-v2-preview/prices.json") if row["modelInternalId"] == INTERNAL_ID]
         self.assertEqual(len(v2_prices), 10)
-        self.assertEqual(sum(len(row["charges"]) for row in v2_prices), 40)
+        self.assertEqual(sum(len(row["charges"]) for row in v2_prices), 50)
         identity = exactly_one(
             read_json("data/pricing-v2-preview/model-identity-registry.json"),
             lambda row: row["internalId"] == INTERNAL_ID,
@@ -264,13 +265,13 @@ class Gpt61SolProductionTests(unittest.TestCase):
         self.assertEqual(website["inputPrice"], 2)
         self.assertEqual(website["cachedInputPrice"], 0.1)
         self.assertEqual(website["outputPrice"], 10)
-        self.assertEqual(len(website["pricingComponents"]), 40)
+        self.assertEqual(len(website["pricingComponents"]), 50)
         modes = {component["condition"]["processingMode"] for component in website["pricingComponents"]}
         contexts = {component["condition"]["contextClass"] for component in website["pricingComponents"]}
         components = {component["component"] for component in website["pricingComponents"]}
         self.assertEqual(modes, {"standard", "batch", "flex", "fast", "ultrafast"})
         self.assertEqual(contexts, {"short", "long"})
-        self.assertEqual(components, set(COMPONENTS))
+        self.assertEqual(components, set(COMPONENTS) | {"cache_write_12h"})
 
         hf = exactly_one(
             read_json("huggingface/prices.json")["records"],
@@ -280,7 +281,7 @@ class Gpt61SolProductionTests(unittest.TestCase):
         self.assertEqual(hf["input_price_per_1m_tokens"], 2)
         self.assertEqual(hf["cached_input_price_per_1m_tokens"], 0.1)
         self.assertEqual(hf["output_price_per_1m_tokens"], 10)
-        self.assertEqual(len(hf["pricing_components"]), 40)
+        self.assertEqual(len(hf["pricing_components"]), 50)
 
 
 if __name__ == "__main__":

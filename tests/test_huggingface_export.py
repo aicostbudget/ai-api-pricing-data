@@ -247,6 +247,7 @@ class HuggingFaceExportTests(unittest.TestCase):
         projection_by_key = {(row["provider"], row["id"]): row for row in self.projection["models"]}
         component_count = 0
         cache_write_count = 0
+        twelve_hour_writes = []
         with (HF_DIR / "prices.csv").open(encoding="utf-8", newline="") as handle:
             csv_rows = {(row["provider_id"], row["model_id"]): row for row in csv.DictReader(handle)}
             headers = list(next(iter(csv_rows.values())).keys())
@@ -268,7 +269,8 @@ class HuggingFaceExportTests(unittest.TestCase):
             self.assertEqual(record["pricing_components"], expected, key)
             self.assertEqual(json.loads(csv_rows[key]["pricing_components_json"]), expected, key)
             component_count += len(expected)
-            cache_write_count += sum(item["component"].startswith("cache_write") for item in expected)
+            cache_write_count += sum(item["component"].startswith("cache_write") and item["component"] != "cache_write_12h" for item in expected)
+            twelve_hour_writes.extend(item for item in expected if item["component"] == "cache_write_12h")
             for component in expected:
                 self.assertIsInstance(component["amount"], str, key)
                 self.assertEqual(len(component["source_refs"]), len(component["source_urls"]), key)
@@ -299,7 +301,7 @@ class HuggingFaceExportTests(unittest.TestCase):
             writes = [
                 item
                 for item in record["pricing_components"]
-                if item["component"].startswith("cache_write")
+                if item["component"].startswith("cache_write") and item["component"] != "cache_write_12h"
             ]
             self.assertEqual(
                 {
@@ -375,6 +377,10 @@ class HuggingFaceExportTests(unittest.TestCase):
             cache_write_count,
             45 + 4 + len(expected_new_writes) + len(kimi_writes) + len(sonnet_55_writes) + phase_b_cache_write_count + len(ultrafast_writes),
         )
+        # OpenAI 12-hour cache writes: every price record of the seven GPT-5.6+ models, at 2.5x input.
+        self.assertEqual(len(twelve_hour_writes), 60)
+        self.assertEqual(len({item["charge_id"] for item in twelve_hour_writes}), 60)
+        self.assertTrue(all(item["charge_id"].startswith("price:openai/gpt-") for item in twelve_hour_writes))
         self.assertTrue(any(not record["pricing_components"] for record in self.records))
 
     def test_twelve_cache_pricing_targets_have_component_contract(self):

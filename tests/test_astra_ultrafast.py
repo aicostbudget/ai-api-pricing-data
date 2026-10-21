@@ -16,8 +16,8 @@ from scripts.generate_website_projection_v2 import project_pricing_component
 ROOT = Path(__file__).resolve().parents[1]
 INTERNAL_ID = "openai/gpt-6-astra"
 URL = "https://developers.openai.com/api/docs/guides/ultrafast-mode"
-EXPECTED = {"short": ("60", "6", "75", "300"), "long": ("120", "12", "150", "450")}
-COMPONENTS = ("input", "cached_input", "cache_write", "output")
+EXPECTED = {"short": ("60", "6", "75", "150", "300"), "long": ("120", "12", "150", "300", "450")}
+COMPONENTS = ("input", "cached_input", "cache_write", "cache_write_12h", "output")
 
 
 def read(path):
@@ -57,7 +57,7 @@ class UltrafastContractTests(unittest.TestCase):
         validate_canonical_price_records(self.records)
         self.assertEqual({x["processingMode"] for x in self.normalized}, {"ultrafast"})
         self.assertEqual(len({x["pricingId"] for x in self.normalized}), 2)
-        self.assertEqual(len({c["chargeId"] for x in self.normalized for c in x["charges"]}), 8)
+        self.assertEqual(len({c["chargeId"] for x in self.normalized for c in x["charges"]}), 10)
         self.assertTrue(all(not x["calculationDefault"] for x in self.normalized))
         for x in self.normalized:
             validate_normalized_region_contract(x)
@@ -133,7 +133,7 @@ class UltrafastContractTests(unittest.TestCase):
         projected = [project_pricing_component(x, c) for x in self.normalized for c in x["charges"]]
         row = {"provider": "openai", "id": "gpt-6-astra", "pricingComponents": projected, "sourceRefs": [URL], "sourceUrls": [URL]}
         public = public_pricing_components(row)
-        self.assertEqual(len(public), 8)
+        self.assertEqual(len(public), 10)
         self.assertTrue(all(c["condition"]["processing_mode"] == "ultrafast" for c in public))
         self.assertTrue(all(c["source_urls"] == [URL] for c in public))
         self.assertTrue(all(c["condition"]["region_selector"]["dataResidencies"] == ["global", "us"] for c in public))
@@ -159,8 +159,8 @@ class UltrafastIntegrationTests(unittest.TestCase):
         projection = next(x for x in read("data/pricing-v2-preview/generated/model-pricing.v2.json")["models"] if x["id"] == "gpt-6-astra")
         hf = next(x for x in read("huggingface/prices.json")["records"] if x["model_id"] == "gpt-6-astra")
         self.assertEqual(len(projection["priceRecords"]), 10)
-        self.assertEqual(len(hf["pricing_components"]), 40)
-        self.assertEqual(len([c for c in hf["pricing_components"] if c["condition"]["processing_mode"] != "ultrafast"]), 32)
+        self.assertEqual(len(hf["pricing_components"]), 50)
+        self.assertEqual(len([c for c in hf["pricing_components"] if c["condition"]["processing_mode"] != "ultrafast"]), 40)
         self.assertEqual(projection["selectedPriceRecordId"], f"price:{INTERNAL_ID}:standard:short:current")
         for c in hf["pricing_components"]:
             if c["condition"]["processing_mode"] == "ultrafast":
