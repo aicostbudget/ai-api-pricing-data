@@ -1,0 +1,395 @@
+
+> aicostbudget-english@1.0.0 pretest
+> node scripts/test-sitemap-lastmod.mjs && node scripts/test-seo-infrastructure.mjs && node scripts/test-model-lifecycle-policy.mjs && node scripts/test-model-access-policy.mjs && node scripts/test-public-export-access-metadata.mjs && node scripts/test-access-policy-enforcement.mjs && node scripts/test-access-activation-blockers.mjs
+
+sitemap lastmod tests passed
+SEO infrastructure tests passed
+PASS lifecycle policy: 12 required contracts, 42 arbitrary-ID fixture assertions, mutation proof, actual API/fact integration
+PASS access policy: 36 arbitrary-ID mutation assertions; adapter roundtrip; production freeze; saved workload storage retained
+{"homepage":[51,48],"api":[54,51],"source":[31,30],"target":[30,29],"retry":[30,29]}
+PASS public schema strictly declares 1.9.0
+PASS schema and exact projected component evidence are the only JSON export deltas from HEAD
+PASS CSV remains the exact deployed 33-column contract
+PASS frozen Dataset release DOI snapshot and citations remain unchanged
+PASS current declarations use 1.9.0 and preserve 1.8.0 history
+PASS public JSON contains five authoritative metadata fields
+PASS all current public records roundtrip to projection by ID
+PASS CSV appends five columns after every existing column
+PASS old JSON facts and pricing provenance unchanged
+PASS old CSV column values and order unchanged for every ID
+PASS CSV parsing preserves all access/binding evidence and scalar values
+PASS known public/existing-only/restricted and approved/unresolved contracts
+PASS access mutation changes JSON/CSV without changing pricing sources
+PASS binding mutation changes JSON/CSV without changing pricing sources
+PASS missing metadata cannot become public or approved
+PASS known access missing evidence fails instead of inventing proof
+PASS known access missing checked time fails
+PASS approved binding missing evidence fails
+PASS unknown cannot retain public evidence
+PASS unknown with no successful claim remains unknown
+PASS CSV comma/quote/newline/URL escaping roundtrips defined evidence arrays
+PASS production selector counts and exact IDs unchanged
+PASS shadow exact ID sets unchanged
+PASS public export access metadata: 23 contract tests; JSON 83/83; CSV 83/83; negative fixtures; old-column compatibility; selector/shadow freeze
+PASS missing/empty/false/0/off/invalid flags fail safe
+PASS missing and explicit false exact IDs order groups defaults equality
+PASS OFF adapter and Homepage order equal task-start HEAD implementation
+PASS pinned pre-sync 59 to 58 transition retains identity and unchanged access/binding evidence
+Candidate baseline delta {"pinnedBaseline":"855eaa2e8ab39ea4b3f0ca28dbc41413be988d38","sets":{"api":{"beforeCount":58,"afterCount":58,"removed":[],"added":[]},"homepage":{"beforeCount":56,"afterCount":55,"removed":["gemini-3.8-flash"],"added":[]},"source":{"beforeCount":30,"afterCount":31,"removed":["gpt-5.3-codex"],"added":["gemini-3.8-flash","grok-4.6"]},"target":{"beforeCount":29,"afterCount":31,"removed":[],"added":["gemini-3.8-flash","grok-4.6"]},"shadow":{"beforeCount":59,"afterCount":58,"removed":["gpt-5.3-codex"],"added":[]}},"removedIdentity":{"before":{"lifecycleStatus":"deprecated","status":"legacy","verificationStatus":"verified","defaultSafe":true,"accessStatus":"public","bindingStatus":"approved","identityType":"canonical_model","availability":"Codex","selectedPriceRecordId":"price:openai/gpt-5.3-codex:standard:short:current","inputPrice":1.75,"cachedInputPrice":0.175,"outputPrice":14,"priceRecords":[{"calculationDefault":false,"checkedAt":"2026-10-04T15:36:06Z","contextClass":"short","effectiveFrom":null,"effectiveUntil":null,"pricingId":"price:openai/gpt-5.3-codex:fast:short:current","pricingStatus":"current","processingMode":"fast","sourceRefs":["source:openai:developers-openai-com-api-docs-pricing"],"verificationStatus":"verified","verifiedAt":"2026-10-04T15:36:06Z"},{"calculationDefault":true,"checkedAt":"2026-10-04T15:36:06Z","contextClass":"short","effectiveFrom":null,"effectiveUntil":null,"pricingId":"price:openai/gpt-5.3-codex:standard:short:current","pricingStatus":"current","processingMode":"standard","sourceRefs":["source:openai:developers-openai-com-api-docs-models-gpt-5-3-codex","source:openai:developers-openai-com-api-docs-pricing"],"verificationStatus":"verified","verifiedAt":"2026-10-04T15:36:06Z"}],"pricingComponents":[{"amount":"0.35","calculationDefault":false,"chargeId":"charge:openai/gpt-5.3-codex:fast:cached_input:text:tokens","component":"cached_input","condition":{"availabilityRules":[],"contextClass":"short","defaultAvailabilityStatus":"available","effectiveFrom":null,"effectiveUntil":null,"priceAdjustments":[],"processingMode":"fast","promptTokenThreshold":null,"regionPolicy":"global","regionSelector":{"dataResidencies":["global"],"endpointGeographies":["global"],"pricingGeography":"global_base"},"tierSelection":null},"currency":"USD","modality":"text","pricingId":"price:openai/gpt-5.3-codex:fast:short:current","sourceRefs":["source:openai:developers-openai-com-api-docs-pricing"],"unit":"per_1m_tokens","verificationStatus":"verified"},{"amount":"3.5","calculationDefault":false,"chargeId":"charge:openai/gpt-5.3-codex:fast:input:text:tokens","component":"input","condition":{"availabilityRules":[],"contextClass":"short","defaultAvailabilityStatus":"available","effectiveFrom":null,"effectiveUntil":null,"priceAdjustments":[],"processingMode":"fast","promptTokenThreshold":null,"regionPolicy":"global","regionSelector":{"dataResidencies":["global"],"endpointGeographies":["global"],"pricingGeography":"global_base"},"tierSelection":null},"currency":"USD","modality":"text","pricingId":"price:openai/gpt-5.3-codex:fast:short:current","sourceRefs":["source:openai:developers-openai-com-api-docs-pricing"],"unit":"per_1m_tokens","verificationStatus":"verified"},{"amount":"28","calculationDefault":false,"chargeId":"charge:openai/gpt-5.3-codex:fast:output:text:tokens","component":"output","condition":{"availabilityRules":[],"contextClass":"short","defaultAvailabilityStatus":"available","effectiveFrom":null,"effectiveUntil":null,"priceAdjustments":[],"processingMode":"fast","promptTokenThreshold":null,"regionPolicy":"global","regionSelector":{"dataResidencies":["global"],"endpointGeographies":["global"],"pricingGeography":"global_base"},"tierSelection":null},"currency":"USD","modality":"text","pricingId":"price:openai/gpt-5.3-codex:fast:short:current","sourceRefs":["source:openai:developers-openai-com-api-docs-pricing"],"unit":"per_1m_tokens","verificationStatus":"verified"},{"amount":"0.175","calculationDefault":true,"chargeId":"charge:openai/gpt-5.3-codex:standard:cached_input:text:tokens","component":"cached_input","condition":{"availabilityRules":[],"contextClass":"short","defaultAvailabilityStatus":"available","effectiveFrom":null,"effectiveUntil":null,"priceAdjustments":[],"processingMode":"standard","promptTokenThreshold":null,"regionPolicy":"global","regionSelector":{"dataResidencies":["global"],"endpointGeographies":["global"],"pricingGeography":"global_base"},"tierSelection":null},"currency":"USD","modality":"text","pricingId":"price:openai/gpt-5.3-codex:standard:short:current","sourceRefs":["source:openai:developers-openai-com-api-docs-models-gpt-5-3-codex","source:openai:developers-openai-com-api-docs-pricing"],"unit":"per_1m_tokens","verificationStatus":"verified"},{"amount":"1.75","calculationDefault":true,"chargeId":"charge:openai/gpt-5.3-codex:standard:input:text:tokens","component":"input","condition":{"availabilityRules":[],"contextClass":"short","defaultAvailabilityStatus":"available","effectiveFrom":null,"effectiveUntil":null,"priceAdjustments":[],"processingMode":"standard","promptTokenThreshold":null,"regionPolicy":"global","regionSelector":{"dataResidencies":["global"],"endpointGeographies":["global"],"pricingGeography":"global_base"},"tierSelection":null},"currency":"USD","modality":"text","pricingId":"price:openai/gpt-5.3-codex:standard:short:current","sourceRefs":["source:openai:developers-openai-com-api-docs-models-gpt-5-3-codex","source:openai:developers-openai-com-api-docs-pricing"],"unit":"per_1m_tokens","verificationStatus":"verified"},{"amount":"14","calculationDefault":true,"chargeId":"charge:openai/gpt-5.3-codex:standard:output:text:tokens","component":"output","condition":{"availabilityRules":[],"contextClass":"short","defaultAvailabilityStatus":"available","effectiveFrom":null,"effectiveUntil":null,"priceAdjustments":[],"processingMode":"standard","promptTokenThreshold":null,"regionPolicy":"global","regionSelector":{"dataResidencies":["global"],"endpointGeographies":["global"],"pricingGeography":"global_base"},"tierSelection":null},"currency":"USD","modality":"text","pricingId":"price:openai/gpt-5.3-codex:standard:short:current","sourceRefs":["source:openai:developers-openai-com-api-docs-models-gpt-5-3-codex","source:openai:developers-openai-com-api-docs-pricing"],"unit":"per_1m_tokens","verificationStatus":"verified"}]},"after":{"lifecycleStatus":"deprecated","status":"legacy","verificationStatus":"verified","defaultSafe":false,"accessStatus":"public","bindingStatus":"approved","identityType":"canonical_model","availability":"Codex","selectedPriceRecordId":null,"inputPrice":null,"cachedInputPrice":null,"outputPrice":null,"priceRecords":[{"calculationDefault":false,"checkedAt":"2026-10-04T15:36:06Z","contextClass":"short","effectiveFrom":null,"effectiveUntil":null,"pricingId":"price:openai/gpt-5.3-codex:fast:short:current","pricingStatus":"current","processingMode":"fast","sourceRefs":["source:openai:developers-openai-com-api-docs-pricing"],"verificationStatus":"verified","verifiedAt":"2026-10-04T15:36:06Z"},{"calculationDefault":true,"checkedAt":"2026-10-04T15:36:06Z","contextClass":"short","effectiveFrom":null,"effectiveUntil":null,"pricingId":"price:openai/gpt-5.3-codex:standard:short:current","pricingStatus":"current","processingMode":"standard","sourceRefs":["source:openai:developers-openai-com-api-docs-models-gpt-5-3-codex","source:openai:developers-openai-com-api-docs-pricing"],"verificationStatus":"verified","verifiedAt":"2026-10-04T15:36:06Z"}],"pricingComponents":[{"amount":"0.35","calculationDefault":false,"chargeId":"charge:openai/gpt-5.3-codex:fast:cached_input:text:tokens","component":"cached_input","condition":{"availabilityRules":[],"contextClass":"short","defaultAvailabilityStatus":"available","effectiveFrom":null,"effectiveUntil":null,"priceAdjustments":[],"processingMode":"fast","promptTokenThreshold":null,"regionPolicy":"global","regionSelector":{"dataResidencies":["global"],"endpointGeographies":["global"],"pricingGeography":"global_base"},"tierSelection":null},"currency":"USD","modality":"text","pricingId":"price:openai/gpt-5.3-codex:fast:short:current","sourceRefs":["source:openai:developers-openai-com-api-docs-pricing"],"unit":"per_1m_tokens","verificationStatus":"verified"},{"amount":"3.5","calculationDefault":false,"chargeId":"charge:openai/gpt-5.3-codex:fast:input:text:tokens","component":"input","condition":{"availabilityRules":[],"contextClass":"short","defaultAvailabilityStatus":"available","effectiveFrom":null,"effectiveUntil":null,"priceAdjustments":[],"processingMode":"fast","promptTokenThreshold":null,"regionPolicy":"global","regionSelector":{"dataResidencies":["global"],"endpointGeographies":["global"],"pricingGeography":"global_base"},"tierSelection":null},"currency":"USD","modality":"text","pricingId":"price:openai/gpt-5.3-codex:fast:short:current","sourceRefs":["source:openai:developers-openai-com-api-docs-pricing"],"unit":"per_1m_tokens","verificationStatus":"verified"},{"amount":"28","calculationDefault":false,"chargeId":"charge:openai/gpt-5.3-codex:fast:output:text:tokens","component":"output","condition":{"availabilityRules":[],"contextClass":"short","defaultAvailabilityStatus":"available","effectiveFrom":null,"effectiveUntil":null,"priceAdjustments":[],"processingMode":"fast","promptTokenThreshold":null,"regionPolicy":"global","regionSelector":{"dataResidencies":["global"],"endpointGeographies":["global"],"pricingGeography":"global_base"},"tierSelection":null},"currency":"USD","modality":"text","pricingId":"price:openai/gpt-5.3-codex:fast:short:current","sourceRefs":["source:openai:developers-openai-com-api-docs-pricing"],"unit":"per_1m_tokens","verificationStatus":"verified"},{"amount":"0.175","calculationDefault":true,"chargeId":"charge:openai/gpt-5.3-codex:standard:cached_input:text:tokens","component":"cached_input","condition":{"availabilityRules":[],"contextClass":"short","defaultAvailabilityStatus":"available","effectiveFrom":null,"effectiveUntil":null,"priceAdjustments":[],"processingMode":"standard","promptTokenThreshold":null,"regionPolicy":"global","regionSelector":{"dataResidencies":["global"],"endpointGeographies":["global"],"pricingGeography":"global_base"},"tierSelection":null},"currency":"USD","modality":"text","pricingId":"price:openai/gpt-5.3-codex:standard:short:current","sourceRefs":["source:openai:developers-openai-com-api-docs-models-gpt-5-3-codex","source:openai:developers-openai-com-api-docs-pricing"],"unit":"per_1m_tokens","verificationStatus":"verified"},{"amount":"1.75","calculationDefault":true,"chargeId":"charge:openai/gpt-5.3-codex:standard:input:text:tokens","component":"input","condition":{"availabilityRules":[],"contextClass":"short","defaultAvailabilityStatus":"available","effectiveFrom":null,"effectiveUntil":null,"priceAdjustments":[],"processingMode":"standard","promptTokenThreshold":null,"regionPolicy":"global","regionSelector":{"dataResidencies":["global"],"endpointGeographies":["global"],"pricingGeography":"global_base"},"tierSelection":null},"currency":"USD","modality":"text","pricingId":"price:openai/gpt-5.3-codex:standard:short:current","sourceRefs":["source:openai:developers-openai-com-api-docs-models-gpt-5-3-codex","source:openai:developers-openai-com-api-docs-pricing"],"unit":"per_1m_tokens","verificationStatus":"verified"},{"amount":"14","calculationDefault":true,"chargeId":"charge:openai/gpt-5.3-codex:standard:output:text:tokens","component":"output","condition":{"availabilityRules":[],"contextClass":"short","defaultAvailabilityStatus":"available","effectiveFrom":null,"effectiveUntil":null,"priceAdjustments":[],"processingMode":"standard","promptTokenThreshold":null,"regionPolicy":"global","regionSelector":{"dataResidencies":["global"],"endpointGeographies":["global"],"pricingGeography":"global_base"},"tierSelection":null},"currency":"USD","modality":"text","pricingId":"price:openai/gpt-5.3-codex:standard:short:current","sourceRefs":["source:openai:developers-openai-com-api-docs-models-gpt-5-3-codex","source:openai:developers-openai-com-api-docs-pricing"],"unit":"per_1m_tokens","verificationStatus":"verified"}]},"beforeAvailability":"safe","afterAvailability":"billing_semantics_unresolved","strictRecords":[{"pricingId":"price:openai/gpt-5.3-codex:fast:short:current","decision":{"eligible":false,"reason":"NOT_V2_PRICING"}},{"pricingId":"price:openai/gpt-5.3-codex:standard:short:current","decision":{"eligible":false,"reason":"NOT_V2_PRICING"}}]}}
+PASS 58 identities 174 shadow/enforcement decisions same engine
+PASS ON exact candidate/API/source/target sets from shadow decisions
+PASS Homepage filters before Top4 and Cohere has only Command R+
+PASS existing-user Google identity stays source-only; independently approved Google target remains eligible
+PASS public JSON/CSV unchanged in ON
+PASS arbitrary access lifecycle binding policy matrix
+PASS fresh default fallback deterministic, selected preferred stays
+PASS saved mutation matrix never writes replaces IDs or historical snapshot
+PASS explicit replacement and Save produces exactly one write
+PASS Retry rejects invalid primary AND unused historical fallback
+PASS future unknown safe priced model stays in facts but cannot calculate
+PASS real empty Switch and Retry selectors render explicit status
+PASS real selectors retain invalid saved IDs without replacement
+PASS API fresh default fallback requires resolved ON prop
+PASS OFF edge selectors keep legacy empty and invalid-state UI
+PASS OFF ON OFF exact semantic rollback in engine
+PASS preflight 20 contracts; 58 identities / 174 decisions; saved no-write mutations; OFF/ON/OFF export invariance
+PASS real webpack artifact false ignores raw missing/false/true
+{"compiled":false,"surfaces":{"api":{"count":58,"providers":8,"ids":["claude-fable-5","claude-fable-5-1","claude-haiku-4.5","claude-mythos-5","claude-mythos-5-1","claude-opus-4.8","claude-opus-5","claude-opus-5-5","claude-sonnet-4.6","claude-sonnet-5","claude-sonnet-5-5","aya-expanse-32b","command-r-plus-08-2024","deepseek-flash","deepseek-v4-pro","gemini-2.5-flash","gemini-2.5-pro","gemini-3-flash-preview","gemini-3.1-flash-lite","gemini-3.1-pro-preview","gemini-3.5-flash","gemini-3.5-flash-lite","gemini-3.6-flash","gemini-3.7-flash","gemini-3.8-flash","gemini-3.8-live","gemini-3.8-live-extended-thinking","codestral-2508","ministral-14b-2512","ministral-3b-2512","ministral-8b-2512","mistral-large","mistral-medium-3-5","mistral-small-2603","kimi-k2.6","kimi-k2.7-code","kimi-k3","chatgpt-chat-latest","gpt-5.4","gpt-5.4-mini","gpt-5.4-pro","gpt-5.5","gpt-5.5-pro","gpt-5.6-luna","gpt-5.6-sol","gpt-5.6-terra","gpt-6-astra","gpt-6-luna","gpt-6-sol","gpt-6.1-sol","grok-4.20-0309-non-reasoning","grok-4.20-0309-reasoning","grok-4.20-multi-agent-0309","grok-4.3","grok-4.5","grok-4.6","grok-4.7","grok-build-0.1"]},"homepage":{"count":55,"providers":8,"ids":["claude-fable-5","claude-fable-5-1","claude-haiku-4.5","claude-mythos-5","claude-mythos-5-1","claude-opus-4.8","claude-opus-5","claude-opus-5-5","claude-sonnet-4.6","claude-sonnet-5","claude-sonnet-5-5","aya-expanse-32b","command-r-plus-08-2024","deepseek-flash","deepseek-v4-pro","gemini-2.5-flash","gemini-2.5-pro","gemini-3-flash-preview","gemini-3.1-flash-lite","gemini-3.1-pro-preview","gemini-3.5-flash","gemini-3.5-flash-lite","gemini-3.6-flash","gemini-3.7-flash","codestral-2508","ministral-14b-2512","ministral-3b-2512","ministral-8b-2512","mistral-large","mistral-medium-3-5","mistral-small-2603","kimi-k2.6","kimi-k2.7-code","kimi-k3","chatgpt-chat-latest","gpt-5.4","gpt-5.4-mini","gpt-5.4-pro","gpt-5.5","gpt-5.5-pro","gpt-5.6-luna","gpt-5.6-sol","gpt-5.6-terra","gpt-6-astra","gpt-6-luna","gpt-6-sol","gpt-6.1-sol","grok-4.20-0309-non-reasoning","grok-4.20-0309-reasoning","grok-4.20-multi-agent-0309","grok-4.3","grok-4.5","grok-4.6","grok-4.7","grok-build-0.1"]},"displayed":{"count":27,"providers":8,"ids":["gpt-6.1-sol","gpt-6-sol","gpt-6-luna","gpt-6-astra","claude-sonnet-5-5","claude-opus-5-5","claude-fable-5-1","claude-opus-5","gemini-3.7-flash","gemini-3.6-flash","gemini-3.5-flash-lite","gemini-3.5-flash","grok-4.7","grok-4.6","grok-4.5","grok-4.20-0309-non-reasoning","aya-expanse-32b","command-r-plus-08-2024","deepseek-flash","deepseek-v4-pro","mistral-medium-3-5","mistral-small-2603","ministral-14b-2512","ministral-8b-2512","kimi-k3","kimi-k2.7-code","kimi-k2.6"]},"source":{"count":31,"providers":6,"ids":["claude-haiku-4.5","claude-opus-5-5","claude-sonnet-5-5","gemini-2.5-pro","gemini-3.8-flash","codestral-2508","ministral-14b-2512","ministral-3b-2512","ministral-8b-2512","mistral-large","mistral-medium-3-5","mistral-small-2603","kimi-k2.6","kimi-k2.7-code","kimi-k3","gpt-5.4-mini","gpt-5.5","gpt-5.6-luna","gpt-5.6-sol","gpt-5.6-terra","gpt-6-astra","gpt-6-luna","gpt-6-sol","gpt-6.1-sol","grok-4.20-0309-reasoning","grok-4.20-0309-non-reasoning","grok-4.20-multi-agent-0309","grok-4.3","grok-4.5","grok-4.6","grok-4.7"]},"target":{"count":31,"providers":6,"ids":["claude-haiku-4.5","claude-opus-5-5","claude-sonnet-5-5","gemini-2.5-pro","gemini-3.8-flash","codestral-2508","ministral-14b-2512","ministral-3b-2512","ministral-8b-2512","mistral-large","mistral-medium-3-5","mistral-small-2603","kimi-k2.6","kimi-k2.7-code","kimi-k3","gpt-5.4-mini","gpt-5.5","gpt-5.6-luna","gpt-5.6-sol","gpt-5.6-terra","gpt-6-astra","gpt-6-luna","gpt-6-sol","gpt-6.1-sol","grok-4.20-0309-reasoning","grok-4.20-0309-non-reasoning","grok-4.20-multi-agent-0309","grok-4.3","grok-4.5","grok-4.6","grok-4.7"]},"retry":{"count":31,"providers":6,"ids":["claude-haiku-4.5","claude-opus-5-5","claude-sonnet-5-5","gemini-2.5-pro","gemini-3.8-flash","codestral-2508","ministral-14b-2512","ministral-3b-2512","ministral-8b-2512","mistral-large","mistral-medium-3-5","mistral-small-2603","kimi-k2.6","kimi-k2.7-code","kimi-k3","gpt-5.4-mini","gpt-5.5","gpt-5.6-luna","gpt-5.6-sol","gpt-5.6-terra","gpt-6-astra","gpt-6-luna","gpt-6-sol","gpt-6.1-sol","grok-4.20-0309-reasoning","grok-4.20-0309-non-reasoning","grok-4.20-multi-agent-0309","grok-4.3","grok-4.5","grok-4.6","grok-4.7"]}}}
+PASS real webpack artifact true ignores raw missing/false/true
+{"compiled":true,"surfaces":{"api":{"count":51,"providers":8,"ids":["claude-fable-5","claude-fable-5-1","claude-haiku-4.5","claude-opus-4.8","claude-opus-5","claude-opus-5-5","claude-sonnet-4.6","claude-sonnet-5","claude-sonnet-5-5","command-r-plus-08-2024","deepseek-flash","deepseek-v4-pro","gemini-3-flash-preview","gemini-3.1-flash-lite","gemini-3.1-pro-preview","gemini-3.5-flash","gemini-3.5-flash-lite","gemini-3.6-flash","gemini-3.7-flash","gemini-3.8-flash","gemini-3.8-live","gemini-3.8-live-extended-thinking","codestral-2508","ministral-14b-2512","ministral-3b-2512","ministral-8b-2512","mistral-medium-3-5","mistral-small-2603","kimi-k2.6","kimi-k2.7-code","kimi-k3","gpt-5.4","gpt-5.4-mini","gpt-5.4-pro","gpt-5.5","gpt-5.5-pro","gpt-5.6-luna","gpt-5.6-sol","gpt-5.6-terra","gpt-6-astra","gpt-6-luna","gpt-6-sol","gpt-6.1-sol","grok-4.20-0309-non-reasoning","grok-4.20-0309-reasoning","grok-4.20-multi-agent-0309","grok-4.3","grok-4.5","grok-4.6","grok-4.7","grok-build-0.1"]},"homepage":{"count":48,"providers":8,"ids":["claude-fable-5","claude-fable-5-1","claude-haiku-4.5","claude-opus-4.8","claude-opus-5","claude-opus-5-5","claude-sonnet-4.6","claude-sonnet-5","claude-sonnet-5-5","command-r-plus-08-2024","deepseek-flash","deepseek-v4-pro","gemini-3-flash-preview","gemini-3.1-flash-lite","gemini-3.1-pro-preview","gemini-3.5-flash","gemini-3.5-flash-lite","gemini-3.6-flash","gemini-3.7-flash","codestral-2508","ministral-14b-2512","ministral-3b-2512","ministral-8b-2512","mistral-medium-3-5","mistral-small-2603","kimi-k2.6","kimi-k2.7-code","kimi-k3","gpt-5.4","gpt-5.4-mini","gpt-5.4-pro","gpt-5.5","gpt-5.5-pro","gpt-5.6-luna","gpt-5.6-sol","gpt-5.6-terra","gpt-6-astra","gpt-6-luna","gpt-6-sol","gpt-6.1-sol","grok-4.20-0309-non-reasoning","grok-4.20-0309-reasoning","grok-4.20-multi-agent-0309","grok-4.3","grok-4.5","grok-4.6","grok-4.7","grok-build-0.1"]},"displayed":{"count":26,"providers":8,"ids":["gpt-6.1-sol","gpt-6-sol","gpt-6-luna","gpt-6-astra","claude-sonnet-5-5","claude-opus-5-5","claude-fable-5-1","claude-opus-5","gemini-3.7-flash","gemini-3.6-flash","gemini-3.5-flash-lite","gemini-3.5-flash","grok-4.7","grok-4.6","grok-4.5","grok-4.20-0309-non-reasoning","command-r-plus-08-2024","deepseek-flash","deepseek-v4-pro","mistral-medium-3-5","mistral-small-2603","ministral-14b-2512","ministral-8b-2512","kimi-k3","kimi-k2.7-code","kimi-k2.6"]},"source":{"count":30,"providers":6,"ids":["claude-haiku-4.5","claude-opus-5-5","claude-sonnet-5-5","gemini-2.5-pro","gemini-3.8-flash","codestral-2508","ministral-14b-2512","ministral-3b-2512","ministral-8b-2512","mistral-medium-3-5","mistral-small-2603","kimi-k2.6","kimi-k2.7-code","kimi-k3","gpt-5.4-mini","gpt-5.5","gpt-5.6-luna","gpt-5.6-sol","gpt-5.6-terra","gpt-6-astra","gpt-6-luna","gpt-6-sol","gpt-6.1-sol","grok-4.20-0309-reasoning","grok-4.20-0309-non-reasoning","grok-4.20-multi-agent-0309","grok-4.3","grok-4.5","grok-4.6","grok-4.7"]},"target":{"count":29,"providers":6,"ids":["claude-haiku-4.5","claude-opus-5-5","claude-sonnet-5-5","gemini-3.8-flash","codestral-2508","ministral-14b-2512","ministral-3b-2512","ministral-8b-2512","mistral-medium-3-5","mistral-small-2603","kimi-k2.6","kimi-k2.7-code","kimi-k3","gpt-5.4-mini","gpt-5.5","gpt-5.6-luna","gpt-5.6-sol","gpt-5.6-terra","gpt-6-astra","gpt-6-luna","gpt-6-sol","gpt-6.1-sol","grok-4.20-0309-reasoning","grok-4.20-0309-non-reasoning","grok-4.20-multi-agent-0309","grok-4.3","grok-4.5","grok-4.6","grok-4.7"]},"retry":{"count":29,"providers":6,"ids":["claude-haiku-4.5","claude-opus-5-5","claude-sonnet-5-5","gemini-3.8-flash","codestral-2508","ministral-14b-2512","ministral-3b-2512","ministral-8b-2512","mistral-medium-3-5","mistral-small-2603","kimi-k2.6","kimi-k2.7-code","kimi-k3","gpt-5.4-mini","gpt-5.5","gpt-5.6-luna","gpt-5.6-sol","gpt-5.6-terra","gpt-6-astra","gpt-6-luna","gpt-6-sol","gpt-6.1-sol","grok-4.20-0309-reasoning","grok-4.20-0309-non-reasoning","grok-4.20-multi-agent-0309","grok-4.3","grok-4.5","grok-4.6","grok-4.7"]}}}
+PASS compiled ON public facts exact OFF equality
+PASS real webpack artifact false ignores raw missing/false/true
+{"compiled":false,"surfaces":{"api":{"count":58,"providers":8,"ids":["claude-fable-5","claude-fable-5-1","claude-haiku-4.5","claude-mythos-5","claude-mythos-5-1","claude-opus-4.8","claude-opus-5","claude-opus-5-5","claude-sonnet-4.6","claude-sonnet-5","claude-sonnet-5-5","aya-expanse-32b","command-r-plus-08-2024","deepseek-flash","deepseek-v4-pro","gemini-2.5-flash","gemini-2.5-pro","gemini-3-flash-preview","gemini-3.1-flash-lite","gemini-3.1-pro-preview","gemini-3.5-flash","gemini-3.5-flash-lite","gemini-3.6-flash","gemini-3.7-flash","gemini-3.8-flash","gemini-3.8-live","gemini-3.8-live-extended-thinking","codestral-2508","ministral-14b-2512","ministral-3b-2512","ministral-8b-2512","mistral-large","mistral-medium-3-5","mistral-small-2603","kimi-k2.6","kimi-k2.7-code","kimi-k3","chatgpt-chat-latest","gpt-5.4","gpt-5.4-mini","gpt-5.4-pro","gpt-5.5","gpt-5.5-pro","gpt-5.6-luna","gpt-5.6-sol","gpt-5.6-terra","gpt-6-astra","gpt-6-luna","gpt-6-sol","gpt-6.1-sol","grok-4.20-0309-non-reasoning","grok-4.20-0309-reasoning","grok-4.20-multi-agent-0309","grok-4.3","grok-4.5","grok-4.6","grok-4.7","grok-build-0.1"]},"homepage":{"count":55,"providers":8,"ids":["claude-fable-5","claude-fable-5-1","claude-haiku-4.5","claude-mythos-5","claude-mythos-5-1","claude-opus-4.8","claude-opus-5","claude-opus-5-5","claude-sonnet-4.6","claude-sonnet-5","claude-sonnet-5-5","aya-expanse-32b","command-r-plus-08-2024","deepseek-flash","deepseek-v4-pro","gemini-2.5-flash","gemini-2.5-pro","gemini-3-flash-preview","gemini-3.1-flash-lite","gemini-3.1-pro-preview","gemini-3.5-flash","gemini-3.5-flash-lite","gemini-3.6-flash","gemini-3.7-flash","codestral-2508","ministral-14b-2512","ministral-3b-2512","ministral-8b-2512","mistral-large","mistral-medium-3-5","mistral-small-2603","kimi-k2.6","kimi-k2.7-code","kimi-k3","chatgpt-chat-latest","gpt-5.4","gpt-5.4-mini","gpt-5.4-pro","gpt-5.5","gpt-5.5-pro","gpt-5.6-luna","gpt-5.6-sol","gpt-5.6-terra","gpt-6-astra","gpt-6-luna","gpt-6-sol","gpt-6.1-sol","grok-4.20-0309-non-reasoning","grok-4.20-0309-reasoning","grok-4.20-multi-agent-0309","grok-4.3","grok-4.5","grok-4.6","grok-4.7","grok-build-0.1"]},"displayed":{"count":27,"providers":8,"ids":["gpt-6.1-sol","gpt-6-sol","gpt-6-luna","gpt-6-astra","claude-sonnet-5-5","claude-opus-5-5","claude-fable-5-1","claude-opus-5","gemini-3.7-flash","gemini-3.6-flash","gemini-3.5-flash-lite","gemini-3.5-flash","grok-4.7","grok-4.6","grok-4.5","grok-4.20-0309-non-reasoning","aya-expanse-32b","command-r-plus-08-2024","deepseek-flash","deepseek-v4-pro","mistral-medium-3-5","mistral-small-2603","ministral-14b-2512","ministral-8b-2512","kimi-k3","kimi-k2.7-code","kimi-k2.6"]},"source":{"count":31,"providers":6,"ids":["claude-haiku-4.5","claude-opus-5-5","claude-sonnet-5-5","gemini-2.5-pro","gemini-3.8-flash","codestral-2508","ministral-14b-2512","ministral-3b-2512","ministral-8b-2512","mistral-large","mistral-medium-3-5","mistral-small-2603","kimi-k2.6","kimi-k2.7-code","kimi-k3","gpt-5.4-mini","gpt-5.5","gpt-5.6-luna","gpt-5.6-sol","gpt-5.6-terra","gpt-6-astra","gpt-6-luna","gpt-6-sol","gpt-6.1-sol","grok-4.20-0309-reasoning","grok-4.20-0309-non-reasoning","grok-4.20-multi-agent-0309","grok-4.3","grok-4.5","grok-4.6","grok-4.7"]},"target":{"count":31,"providers":6,"ids":["claude-haiku-4.5","claude-opus-5-5","claude-sonnet-5-5","gemini-2.5-pro","gemini-3.8-flash","codestral-2508","ministral-14b-2512","ministral-3b-2512","ministral-8b-2512","mistral-large","mistral-medium-3-5","mistral-small-2603","kimi-k2.6","kimi-k2.7-code","kimi-k3","gpt-5.4-mini","gpt-5.5","gpt-5.6-luna","gpt-5.6-sol","gpt-5.6-terra","gpt-6-astra","gpt-6-luna","gpt-6-sol","gpt-6.1-sol","grok-4.20-0309-reasoning","grok-4.20-0309-non-reasoning","grok-4.20-multi-agent-0309","grok-4.3","grok-4.5","grok-4.6","grok-4.7"]},"retry":{"count":31,"providers":6,"ids":["claude-haiku-4.5","claude-opus-5-5","claude-sonnet-5-5","gemini-2.5-pro","gemini-3.8-flash","codestral-2508","ministral-14b-2512","ministral-3b-2512","ministral-8b-2512","mistral-large","mistral-medium-3-5","mistral-small-2603","kimi-k2.6","kimi-k2.7-code","kimi-k3","gpt-5.4-mini","gpt-5.5","gpt-5.6-luna","gpt-5.6-sol","gpt-5.6-terra","gpt-6-astra","gpt-6-luna","gpt-6-sol","gpt-6.1-sol","grok-4.20-0309-reasoning","grok-4.20-0309-non-reasoning","grok-4.20-multi-agent-0309","grok-4.3","grok-4.5","grok-4.6","grok-4.7"]}}}
+PASS real webpack rollback exact IDs order metadata and exports
+PASS existing selection mistral-large preserves ID and reason
+PASS existing selection aya-expanse-32b preserves ID and reason
+PASS existing selection gemini-2.5-pro preserves ID and reason
+PASS existing selection claude-mythos-5 preserves ID and reason
+PASS fresh blocked default fallback differs from existing preservation
+PASS Google and Cohere fresh provider defaults use eligible options
+PASS Homepage real component existing state blocks without mounting live calculator
+PASS API real component existing state blocks without mounting live calculator
+PASS Workflow real component existing state blocks without mounting live calculator
+PASS Claude Code real component existing state blocks without mounting live calculator
+PASS Prompt Caching real component existing state blocks without mounting live calculator
+PASS Google provider real component existing state blocks without mounting live calculator
+PASS Cohere provider real component existing state blocks without mounting live calculator
+PASS Mistral provider real component existing state blocks without mounting live calculator
+PASS explicit eligible API replacement restores actual live estimate
+PASS OFF adapter metadata exactly equals HEAD
+PASS activation blocker repair: 21 contracts; actual webpack OFF/ON/OFF mismatch artifacts; eight component preservation paths
+
+> aicostbudget-english@1.0.0 test
+> node scripts/test-ga4-event-taxonomy.mjs && node scripts/test-google-analytics-consent.mjs && node scripts/test-security-headers.mjs && node scripts/test-numeric-input-empty-state.mjs && node scripts/test-model-pricing-pagination.mjs && node scripts/test-pricing-phase4b.mjs && node scripts/test-claude-opus-5-pricing.mjs && node scripts/test-pricing-phase4c.mjs && node scripts/test-pricing-phase4d.mjs && node scripts/test-pricing-phase4f.mjs && node scripts/test-pricing-phase4g.mjs && node scripts/test-pricing-phase4h.mjs && node scripts/test-pricing-phase4j.mjs && node scripts/test-pricing-phase4l.mjs && node scripts/test-token-calculator-harvest.mjs && node scripts/test-token-calculator-dictionary-payload.mjs && node scripts/test-pricing-phase4n.mjs && node scripts/test-pricing-phase4p.mjs && node scripts/test-pricing-phase4q.mjs && node scripts/test-pricing-phase4r.mjs && node scripts/test-pricing-phase4s.mjs && node scripts/test-pricing-phase4v.mjs && node scripts/test-batch-calculator-payload.mjs && node scripts/test-openai-key-internal-links.mjs && node scripts/test-breadcrumb-jsonld.mjs && node scripts/test-prompt-caching-savings-calculator.mjs && node scripts/test-ai-api-cost-dynamic-savings.mjs && node scripts/test-ai-api-cost-intent-separation.mjs && node scripts/test-ai-workflow-cost-calculator.mjs && node scripts/test-guides-page-cta.mjs && node scripts/test-budget-planner-hydration.mjs && node scripts/test-prelaunch-billing-trust-pages.mjs && node scripts/test-ai-api-pricing-data-hub.mjs && node scripts/test-claude-code-cost-article.mjs && node scripts/test-claude-code-responsive-css.mjs && node scripts/test-claude-code-internal-clipping-css.mjs && node scripts/test-claude-code-decision-tool.mjs && node scripts/test-claude-code-usage-summary.mjs && node scripts/test-agent-cost-evidence.mjs && node scripts/test-openinference-agent-cost-adapter.mjs && node scripts/test-openinference-technical-reference.mjs
+
+ga4 event taxonomy tests passed
+google analytics consent tests passed
+security header and cache policy tests passed
+numeric input empty-state tests passed
+model pricing pagination tests passed
+pricing phase4b tests passed
+claude opus 5 pricing sync tests passed
+pricing phase4c tests passed
+{
+  "shared": {
+    "present": 48,
+    "missing": 10,
+    "total": 58,
+    "percent": 82.8
+  },
+  "candidates": {
+    "present": 47,
+    "missing": 8,
+    "total": 55,
+    "percent": 85.5
+  },
+  "displayed": {
+    "present": 27,
+    "missing": 0,
+    "total": 27,
+    "percent": 100
+  },
+  "missingCandidateIds": [
+    "chatgpt-chat-latest",
+    "claude-mythos-5",
+    "claude-mythos-5-1",
+    "gemini-3-flash-preview",
+    "gemini-3.1-pro-preview",
+    "grok-4.3",
+    "grok-build-0.1",
+    "mistral-large"
+  ],
+  "providers": 8,
+  "beforeGroups": [
+    {
+      "provider": "OpenAI",
+      "ids": [
+        "gpt-6.1-sol",
+        "gpt-6-sol",
+        "gpt-6-luna",
+        "gpt-6-astra"
+      ]
+    },
+    {
+      "provider": "Anthropic",
+      "ids": [
+        "claude-sonnet-5-5",
+        "claude-sonnet-5",
+        "claude-sonnet-4.6",
+        "claude-opus-5-5"
+      ]
+    },
+    {
+      "provider": "Google",
+      "ids": [
+        "gemini-3.6-flash",
+        "gemini-3.5-flash-lite",
+        "gemini-2.5-pro",
+        "gemini-2.5-flash"
+      ]
+    },
+    {
+      "provider": "xAI",
+      "ids": [
+        "grok-4.7",
+        "grok-4.20-0309-non-reasoning",
+        "grok-4.20-0309-reasoning",
+        "grok-4.6"
+      ]
+    },
+    {
+      "provider": "Cohere",
+      "ids": [
+        "command-r-plus-08-2024",
+        "aya-expanse-32b"
+      ]
+    },
+    {
+      "provider": "DeepSeek",
+      "ids": [
+        "deepseek-flash",
+        "deepseek-v4-pro"
+      ]
+    },
+    {
+      "provider": "Mistral AI",
+      "ids": [
+        "mistral-small-2603",
+        "mistral-medium-3-5",
+        "mistral-large",
+        "ministral-14b-2512"
+      ]
+    },
+    {
+      "provider": "Moonshot AI",
+      "ids": [
+        "kimi-k3",
+        "kimi-k2.7-code",
+        "kimi-k2.6"
+      ]
+    }
+  ],
+  "groups": [
+    {
+      "provider": "OpenAI",
+      "models": [
+        [
+          "gpt-6.1-sol",
+          "GPT-6.1 Sol",
+          "2026-09-29"
+        ],
+        [
+          "gpt-6-sol",
+          "GPT-6 Sol",
+          "2026-09-22"
+        ],
+        [
+          "gpt-6-luna",
+          "GPT-6 Luna",
+          "2026-09-22"
+        ],
+        [
+          "gpt-6-astra",
+          "GPT-6 Astra",
+          "2026-09-03"
+        ]
+      ]
+    },
+    {
+      "provider": "Anthropic",
+      "models": [
+        [
+          "claude-sonnet-5-5",
+          "Claude Sonnet 5.5",
+          "2026-09-28"
+        ],
+        [
+          "claude-opus-5-5",
+          "Claude Opus 5.5",
+          "2026-09-22"
+        ],
+        [
+          "claude-fable-5-1",
+          "Claude Fable 5.1",
+          "2026-09-01"
+        ],
+        [
+          "claude-opus-5",
+          "Claude Opus 5",
+          "2026-07-24"
+        ]
+      ]
+    },
+    {
+      "provider": "Google",
+      "models": [
+        [
+          "gemini-3.7-flash",
+          "Gemini 3.7 Flash",
+          "2026-08-13"
+        ],
+        [
+          "gemini-3.6-flash",
+          "Gemini 3.6 Flash",
+          "2026-07-21"
+        ],
+        [
+          "gemini-3.5-flash-lite",
+          "Gemini 3.5 Flash-Lite",
+          "2026-07-21"
+        ],
+        [
+          "gemini-3.5-flash",
+          "Gemini 3.5 Flash",
+          "2026-05-19"
+        ]
+      ]
+    },
+    {
+      "provider": "xAI",
+      "models": [
+        [
+          "grok-4.7",
+          "Grok 4.7",
+          "2026-09-21"
+        ],
+        [
+          "grok-4.6",
+          "Grok 4.6",
+          "2026-08-12"
+        ],
+        [
+          "grok-4.5",
+          "Grok 4.5",
+          "2026-07-08"
+        ],
+        [
+          "grok-4.20-0309-non-reasoning",
+          "Grok 4.20 (Non-Reasoning)",
+          "2026-03-10"
+        ]
+      ]
+    },
+    {
+      "provider": "Cohere",
+      "models": [
+        [
+          "aya-expanse-32b",
+          "Aya Expanse 32B",
+          "2024-10-24"
+        ],
+        [
+          "command-r-plus-08-2024",
+          "Command R+ 08-2024",
+          "2024-08-30"
+        ]
+      ]
+    },
+    {
+      "provider": "DeepSeek",
+      "models": [
+        [
+          "deepseek-flash",
+          "DeepSeek V4.1 Flash",
+          "2026-09-10"
+        ],
+        [
+          "deepseek-v4-pro",
+          "DeepSeek V4 Pro",
+          "2026-04-24"
+        ]
+      ]
+    },
+    {
+      "provider": "Mistral AI",
+      "models": [
+        [
+          "mistral-medium-3-5",
+          "Mistral Medium 3.5",
+          "2026-04-28"
+        ],
+        [
+          "mistral-small-2603",
+          "Mistral Small 4",
+          "2026-03-16"
+        ],
+        [
+          "ministral-14b-2512",
+          "Ministral 3 14B",
+          "2025-12-02"
+        ],
+        [
+          "ministral-8b-2512",
+          "Ministral 3 8B",
+          "2025-12-02"
+        ]
+      ]
+    },
+    {
+      "provider": "Moonshot AI",
+      "models": [
+        [
+          "kimi-k3",
+          "Kimi K3",
+          "2026-07-16"
+        ],
+        [
+          "kimi-k2.7-code",
+          "Kimi K2.7 Code",
+          "2026-06-12"
+        ],
+        [
+          "kimi-k2.6",
+          "Kimi K2.6",
+          "2026-04-20"
+        ]
+      ]
+    }
+  ]
+}
+homepage model universe tests passed
+(node:17252) [MODULE_TYPELESS_PACKAGE_JSON] Warning: Module type of file:///D:/ai-cost-control-tool/aicostguard-english/src/lib/pricing-table-pagination.ts is not specified and it doesn't parse as CommonJS.
+Reparsing as ES module because module syntax was detected. This incurs a performance overhead.
+To eliminate this warning, add "type": "module" to \\?\D:\ai-cost-control-tool\aicostguard-english\package.json.
+(Use `node --trace-warnings ...` to show where the warning was created)
+node:internal/modules/run_main:107
+    triggerUncaughtException(
+    ^
+
+AssertionError [ERR_ASSERTION]: decimal price per-request parity
++ actual - expected
+
++ 0.010955250000000001
+- 0.039809250000000004
+     ^
+
+    at file:///D:/ai-cost-control-tool/aicostguard-english/scripts/test-pricing-phase4f.mjs:236:12 {
+  generatedMessage: false,
+  code: 'ERR_ASSERTION',
+  actual: 0.010955250000000001,
+  expected: 0.039809250000000004,
+  operator: 'strictEqual',
+  diff: 'simple'
+}
+
+Node.js v24.16.0

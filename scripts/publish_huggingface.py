@@ -13,6 +13,11 @@ from typing import Callable, Iterator, Mapping, TextIO
 from urllib.parse import quote
 
 try:
+    from check_hf_production_parity import (
+        ARTIFACTS,
+        DataDriftError,
+        compare_artifact_snapshots,
+    )
     from export_huggingface import (
         HF_DIR,
         PROJECTION_PATH,
@@ -21,6 +26,11 @@ try:
         validate_payload,
     )
 except ModuleNotFoundError:
+    from scripts.check_hf_production_parity import (
+        ARTIFACTS,
+        DataDriftError,
+        compare_artifact_snapshots,
+    )
     from scripts.export_huggingface import (
         HF_DIR,
         PROJECTION_PATH,
@@ -326,6 +336,18 @@ def copy_allowlisted_artifacts(source_dir: Path, hf_repo_dir: Path) -> tuple[str
     return audit_changed_files(hf_repo_dir)
 
 
+def metadata_only_generated_at_change(source_dir: Path, hf_repo_dir: Path) -> bool:
+    try:
+        source = {name: (source_dir / name).read_bytes() for name in ARTIFACTS}
+        current = {name: (hf_repo_dir / name).read_bytes() for name in ARTIFACTS}
+        comparison, _semantic_count, _record_count = compare_artifact_snapshots(
+            source, current
+        )
+    except (DataDriftError, OSError, ValueError):
+        return False
+    return comparison.metadata_only
+
+
 def source_sha_label(source_sha: str | None) -> str:
     value = (source_sha or "").strip()
     if re.fullmatch(r"[0-9a-fA-F]{7,64}", value):
@@ -415,6 +437,17 @@ def publish_huggingface(
                     "fresh Hugging Face clone was not clean:\n"
                     + "\n".join(f"file: {path}" for path in initial_changes)
                 )
+            if metadata_only_generated_at_change(source_dir, clone_dir):
+                changed = tuple(
+                    name
+                    for name in ALLOWED_ARTIFACTS
+                    if (source_dir / name).read_bytes() != (clone_dir / name).read_bytes()
+                )
+                print("HF_ALREADY_IN_SYNC", file=output)
+                print("METADATA_ONLY_NO_OP: generated_at", file=output)
+                for path in changed:
+                    print(f"file: {path}", file=output)
+                return PublishResult("HF_ALREADY_IN_SYNC", changed, head_before)
             changed = copy_allowlisted_artifacts(source_dir, clone_dir)
             if not changed:
                 print("HF_ALREADY_IN_SYNC", file=output)

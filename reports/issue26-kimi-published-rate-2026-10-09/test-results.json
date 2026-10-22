@@ -1,0 +1,79 @@
+[
+  {
+    "name": "validate",
+    "command": [
+      "python",
+      "scripts/validate.py"
+    ],
+    "exit_code": 0,
+    "output": "validation ok\n"
+  },
+  {
+    "name": "v2-validate",
+    "command": [
+      "python",
+      "scripts/validate_pricing_v2_preview.py"
+    ],
+    "exit_code": 0,
+    "output": "pricing v2 preview validation ok candidates=97 identities=97 models=94 prices=257 charges=778 sources=173\n"
+  },
+  {
+    "name": "sql-check",
+    "command": [
+      "python",
+      "scripts/sql_seed.py",
+      "--check"
+    ],
+    "exit_code": 0,
+    "output": "SQL seed matches persisted preview inputs.\n"
+  },
+  {
+    "name": "related-tests",
+    "command": [
+      "python",
+      "-m",
+      "unittest",
+      "tests.test_dataset",
+      "tests.test_pricing_governance",
+      "tests.test_source_reconciliation",
+      "tests.test_website_projection_v2",
+      "tests.test_release_bundle",
+      "tests.test_build_provenance",
+      "tests.test_declarative_pricing_contract",
+      "tests.test_price_change_events",
+      "tests.test_moonshot_ai_onboarding",
+      "tests.test_huggingface_export",
+      "tests.test_issue26_freshness_closure",
+      "tests.test_issue26_final_blockers",
+      "tests.test_issue26_kimi_published_rate"
+    ],
+    "exit_code": 0,
+    "output": "............................................................................................................................................................................\n----------------------------------------------------------------------\nRan 172 tests in 14.591s\n\nOK\n"
+  },
+  {
+    "name": "full-tests",
+    "command": [
+      "python",
+      "-m",
+      "unittest",
+      "discover",
+      "-s",
+      "tests"
+    ],
+    "exit_code": 0,
+    "output": "Grok 4.20 model verification: grok-4.20-0309-non-reasoning=verified, grok-4.20-0309-reasoning=verified, grok-4.20-multi-agent-0309=verified\n....................................................................................................................................................................................................................................................................................................................................................................................................................................................................................................................................................................\n----------------------------------------------------------------------\nRan 548 tests in 116.346s\n\nOK\n"
+  },
+  {
+    "name": "freshness",
+    "command": [
+      "python",
+      "scripts/validate.py",
+      "--freshness-report",
+      "--max-age-days",
+      "30",
+      "--check-urls"
+    ],
+    "exit_code": 0,
+    "output": ""
+  }
+]

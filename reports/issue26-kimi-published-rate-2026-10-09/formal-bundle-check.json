@@ -1,0 +1,19 @@
+{
+  "command": [
+    "python",
+    "scripts/build_release_bundle.py",
+    "--snapshot",
+    "2026-10-09",
+    "--dataset-ref",
+    "80c2ec4991bcaaf795fe9192946f5ec770d57f48",
+    "--website-repo",
+    "D:\\ai-cost-control-tool\\aicostguard-english",
+    "--website-ref",
+    "855eaa2e8ab39ea4b3f0ca28dbc41413be988d38",
+    "--output",
+    "D:\\ai-api-pricing-data\\dist\\release-candidate\\issue26-kimi-published-rate\\formal-bundle"
+  ],
+  "exit_code": 1,
+  "output": "Traceback (most recent call last):\n  File \"D:\\ai-api-pricing-data\\scripts\\build_release_bundle.py\", line 234, in <module>\n    main()\n  File \"D:\\ai-api-pricing-data\\scripts\\build_release_bundle.py\", line 226, in main\n    files = build_contents(args.dataset_ref, args.website_repo, args.website_ref, args.snapshot, args.release_version, args.release_date)\n            ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^\n  File \"D:\\ai-api-pricing-data\\scripts\\build_release_bundle.py\", line 138, in build_contents\n    raise ValueError(\"Website and Dataset Pricing V2 projections differ\")\nValueError: Website and Dataset Pricing V2 projections differ\n",
+  "interpretation": "pinned committed HEAD cannot include uncommitted corrections; same-version external projection gate remains in force"
+}

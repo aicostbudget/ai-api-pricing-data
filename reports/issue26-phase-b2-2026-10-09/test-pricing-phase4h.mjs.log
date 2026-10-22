@@ -1,0 +1,38 @@
+node:internal/modules/run_main:107
+    triggerUncaughtException(
+    ^
+
+AssertionError [ERR_ASSERTION]: getPromptCostOptimizerModels: unrelated unsafe-model scope expansion
+    at check (file:///D:/ai-cost-control-tool/aicostguard-english/scripts/test-legacy-fallback-eligibility.mjs:17:59)
+    at file:///D:/ai-cost-control-tool/aicostguard-english/scripts/test-legacy-fallback-eligibility.mjs:56:5
+    at ModuleJob.run (node:internal/modules/esm/module_job:439:25)
+    at async node:internal/modules/esm/loader:633:26
+    at async asyncRunEntryPointWithESMLoader (node:internal/modules/run_main:101:5) {
+  generatedMessage: false,
+  code: 'ERR_ASSERTION',
+  actual: false,
+  expected: true,
+  operator: '==',
+  diff: 'simple'
+}
+
+Node.js v24.16.0
+node:internal/errors:985
+  const err = new Error(message);
+              ^
+
+Error: Command failed: C:\Program Files\nodejs\node.exe scripts/test-legacy-fallback-eligibility.mjs
+    at genericNodeError (node:internal/errors:985:15)
+    at wrappedFn (node:internal/errors:539:14)
+    at checkExecSyncError (node:child_process:925:11)
+    at execFileSync (node:child_process:961:15)
+    at file:///D:/ai-cost-control-tool/aicostguard-english/scripts/test-pricing-phase4h.mjs:176:3 {
+  status: 1,
+  signal: null,
+  output: [ null, null, null ],
+  pid: 20820,
+  stdout: null,
+  stderr: null
+}
+
+Node.js v24.16.0

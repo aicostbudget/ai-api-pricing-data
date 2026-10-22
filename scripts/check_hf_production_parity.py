@@ -9,8 +9,9 @@ import urllib.error
 import urllib.request
 import uuid
 from dataclasses import dataclass
+from datetime import datetime, timedelta, timezone
 from pathlib import Path
-from typing import Any, Callable, TextIO
+from typing import Any, Callable, Mapping, TextIO
 
 try:
     from lib import ROOT
@@ -34,6 +35,18 @@ class Drift:
     actual: Any
     model_id: str | None = None
     semantic: bool = False
+
+
+@dataclass(frozen=True)
+class SnapshotComparison:
+    drifts: tuple[Drift, ...]
+    business_drifts: tuple[Drift, ...]
+    metadata_drifts: tuple[Drift, ...]
+    byte_exact: bool
+
+    @property
+    def metadata_only(self) -> bool:
+        return bool(self.metadata_drifts) and not self.business_drifts
 
 
 class DataDriftError(Exception):
@@ -135,6 +148,73 @@ def _compare_value(
 
 def _record_identity(record: dict[str, Any]) -> tuple[Any, Any]:
     return record.get("provider_id", MISSING), record.get("model_id", MISSING)
+
+
+GENERATED_AT_DRIFT_FIELDS = {
+    ("projection", "generated_at"),
+    ("prices.json", "metadata.generated_at"),
+    ("meta.json", "generated_at"),
+}
+
+
+def _is_valid_utc_timestamp(value: Any) -> bool:
+    if not isinstance(value, str) or not value.strip():
+        return False
+    try:
+        parsed = datetime.fromisoformat(value.replace("Z", "+00:00"))
+    except ValueError:
+        return False
+    return parsed.tzinfo is not None and parsed.utcoffset() == timedelta(0)
+
+
+def _parse_timestamp(value: str) -> datetime:
+    parsed = datetime.fromisoformat(value.replace("Z", "+00:00"))
+    if parsed.tzinfo is None:
+        parsed = parsed.replace(tzinfo=timezone.utc)
+    return parsed.astimezone(timezone.utc)
+
+
+def _generated_at_contract(prices: Any, meta: Any, side: str) -> str:
+    if not isinstance(prices, dict) or not isinstance(prices.get("metadata"), dict):
+        raise ValueError(f"{side} prices.json.metadata must be an object")
+    if not isinstance(meta, dict):
+        raise ValueError(f"{side} meta.json must be an object")
+    prices_generated_at = prices["metadata"].get("generated_at", MISSING)
+    meta_generated_at = meta.get("generated_at", MISSING)
+    if not _is_valid_utc_timestamp(prices_generated_at):
+        raise ValueError(
+            f"{side} prices.json.metadata.generated_at must be a valid UTC timestamp"
+        )
+    if not _is_valid_utc_timestamp(meta_generated_at):
+        raise ValueError(f"{side} meta.json.generated_at must be a valid UTC timestamp")
+    if prices_generated_at != meta_generated_at:
+        raise ValueError(
+            f"{side} generated_at is internally inconsistent: "
+            f"prices.json={prices_generated_at!r}, meta.json={meta_generated_at!r}"
+        )
+    generated_at = _parse_timestamp(prices_generated_at)
+    if generated_at > datetime.now(timezone.utc):
+        raise ValueError(f"{side} generated_at must not be in the future")
+    records = prices.get("records")
+    if isinstance(records, list):
+        for index, record in enumerate(records):
+            if not isinstance(record, dict):
+                continue
+            for field in ("checked_at", "last_verified_at"):
+                value = record.get(field)
+                if not value:
+                    continue
+                try:
+                    compared = _parse_timestamp(value)
+                except (TypeError, ValueError) as error:
+                    raise ValueError(
+                        f"{side} prices.json.records[{index}].{field} is invalid"
+                    ) from error
+                if generated_at < compared:
+                    raise ValueError(
+                        f"{side} generated_at precedes records[{index}].{field}"
+                    )
+    return prices_generated_at
 
 
 def _compare_prices_json(expected_bytes: bytes, actual_bytes: bytes) -> tuple[list[Drift], int]:
@@ -303,26 +383,101 @@ def _compare_csv(expected_bytes: bytes, actual_bytes: bytes, artifact: str) -> l
     return drifts
 
 
-def compare_snapshot(expected_dir: Path, production: dict[str, bytes]) -> tuple[list[Drift], int, int]:
-    expected = {name: (expected_dir / name).read_bytes() for name in ARTIFACTS}
-    drifts, semantic_count = _compare_prices_json(expected["prices.json"], production["prices.json"])
-    for artifact in ("prices.csv", "train.csv"):
-        drifts.extend(_compare_csv(expected[artifact], production[artifact], artifact))
+def compare_artifact_snapshots(
+    expected: Mapping[str, bytes], actual: Mapping[str, bytes]
+) -> tuple[SnapshotComparison, int, int]:
+    missing_expected = [name for name in ARTIFACTS if name not in expected]
+    missing_actual = [name for name in ARTIFACTS if name not in actual]
+    if missing_expected:
+        raise ValueError(f"local artifacts missing: {', '.join(missing_expected)}")
+    if missing_actual:
+        raise ValueError(f"production artifacts missing: {', '.join(missing_actual)}")
+
     try:
+        expected_prices = json.loads(expected["prices.json"].decode("utf-8-sig"))
         expected_meta = json.loads(expected["meta.json"].decode("utf-8-sig"))
     except (UnicodeDecodeError, json.JSONDecodeError) as error:
-        raise ValueError(f"local meta.json is invalid: {error}") from error
+        raise ValueError(f"local Hugging Face artifacts are invalid: {error}") from error
+    expected_generated_at = _generated_at_contract(
+        expected_prices, expected_meta, "local"
+    )
+
+    contract_drifts: list[Drift] = []
     try:
-        actual_meta = json.loads(production["meta.json"].decode("utf-8-sig"))
-    except (UnicodeDecodeError, json.JSONDecodeError) as error:
-        drifts.append(Drift("meta.json", "<document>", "valid JSON", f"invalid JSON: {error}"))
+        actual_prices = json.loads(actual["prices.json"].decode("utf-8-sig"))
+        actual_meta = json.loads(actual["meta.json"].decode("utf-8-sig"))
+    except (UnicodeDecodeError, json.JSONDecodeError):
+        pass
     else:
-        drifts.extend(_compare_value(expected_meta, actual_meta, artifact="meta.json", field=""))
+        try:
+            actual_generated_at = _generated_at_contract(
+                actual_prices, actual_meta, "production"
+            )
+        except ValueError as error:
+            contract_drifts.append(
+                Drift(
+                    "projection",
+                    "generated_at_contract",
+                    "valid UTC timestamps that agree within the artifact batch",
+                    str(error),
+                )
+            )
+        else:
+            if expected_generated_at != actual_generated_at:
+                contract_drifts.append(
+                    Drift(
+                        "projection",
+                        "generated_at",
+                        expected_generated_at,
+                        actual_generated_at,
+                    )
+                )
+
+    drifts, semantic_count = _compare_prices_json(
+        expected["prices.json"], actual["prices.json"]
+    )
+    for artifact in ("prices.csv", "train.csv"):
+        drifts.extend(_compare_csv(expected[artifact], actual[artifact], artifact))
+    try:
+        parsed_actual_meta = json.loads(actual["meta.json"].decode("utf-8-sig"))
+    except (UnicodeDecodeError, json.JSONDecodeError) as error:
+        drifts.append(
+            Drift("meta.json", "<document>", "valid JSON", f"invalid JSON: {error}")
+        )
+    else:
+        drifts.extend(
+            _compare_value(
+                expected_meta, parsed_actual_meta, artifact="meta.json", field=""
+            )
+        )
+    drifts = contract_drifts + drifts
+    metadata_drifts = tuple(
+        drift
+        for drift in drifts
+        if (drift.artifact, drift.field) in GENERATED_AT_DRIFT_FIELDS
+    )
+    business_drifts = tuple(
+        drift
+        for drift in drifts
+        if (drift.artifact, drift.field) not in GENERATED_AT_DRIFT_FIELDS
+    )
     record_count = len(expected_meta) if not isinstance(expected_meta, dict) else 0
-    expected_prices = json.loads(expected["prices.json"].decode("utf-8-sig"))
     if isinstance(expected_prices, dict) and isinstance(expected_prices.get("records"), list):
         record_count = len(expected_prices["records"])
-    return drifts, semantic_count, record_count
+    comparison = SnapshotComparison(
+        drifts=tuple(drifts),
+        business_drifts=business_drifts,
+        metadata_drifts=metadata_drifts,
+        byte_exact=all(expected[name] == actual[name] for name in ARTIFACTS),
+    )
+    return comparison, semantic_count, record_count
+
+
+def compare_snapshot(
+    expected_dir: Path, production: dict[str, bytes]
+) -> tuple[SnapshotComparison, int, int]:
+    expected = {name: (expected_dir / name).read_bytes() for name in ARTIFACTS}
+    return compare_artifact_snapshots(expected, production)
 
 
 def _print_drifts(drifts: list[Drift], output: TextIO, limit: int = 50) -> None:
@@ -362,7 +517,9 @@ def check_with_retry(
                 fetch_bytes=fetch_bytes,
                 cache_bust=cache_bust,
             )
-            drifts, semantic_count, record_count = compare_snapshot(expected_dir, production)
+            comparison, semantic_count, record_count = compare_snapshot(
+                expected_dir, production
+            )
         except NetworkFailureError as error:
             last_network_error = error
             last_drifts = None
@@ -373,17 +530,26 @@ def check_with_retry(
             print(f"attempt {attempt}/{attempts}: DATA_DRIFT", file=output)
             _print_drifts(last_drifts, output)
         else:
-            if not drifts:
+            if not comparison.business_drifts:
                 print("HF production parity OK", file=output)
+                print("BUSINESS_PARITY: PASS", file=output)
+                if comparison.metadata_only:
+                    print("METADATA_ONLY_DRIFT: generated_at", file=output)
+                else:
+                    print("METADATA_ONLY_DRIFT: NONE", file=output)
+                print(
+                    f"BYTE_EXACT_PARITY: {'YES' if comparison.byte_exact else 'NO'}",
+                    file=output,
+                )
                 print(f"records: {record_count}", file=output)
                 for artifact in ARTIFACTS:
                     print(f"{artifact}: PASS", file=output)
                 print(f"semantic violations: {semantic_count}", file=output)
                 return record_count
-            last_drifts = drifts
+            last_drifts = list(comparison.drifts)
             last_network_error = None
             print(f"attempt {attempt}/{attempts}: DATA_DRIFT", file=output)
-            _print_drifts(drifts, output)
+            _print_drifts(last_drifts, output)
         if attempt < attempts:
             print(f"retrying in {retry_delay:g} seconds", file=output)
             sleep(retry_delay)

@@ -1,0 +1,70 @@
+{
+  "input_provenance": "synthetic_example_not_production_measurement",
+  "attempts": [
+    {
+      "task_id": "anonymous-task-001",
+      "attempt_id": "attempt-001-a",
+      "attempt_type": "first_attempt",
+      "provider_id": "anthropic",
+      "model_id": "claude-haiku-4.5",
+      "success": false,
+      "billing_status": "billed",
+      "usage": {
+        "input": 100000,
+        "output": 10000
+      }
+    },
+    {
+      "task_id": "anonymous-task-001",
+      "attempt_id": "attempt-001-b",
+      "attempt_type": "retry",
+      "provider_id": "anthropic",
+      "model_id": "claude-haiku-4.5",
+      "success": true,
+      "billing_status": "billed",
+      "usage": {
+        "input": 100000,
+        "output": 10000
+      }
+    },
+    {
+      "task_id": "anonymous-task-002",
+      "attempt_id": "attempt-002-a",
+      "attempt_type": "first_attempt",
+      "provider_id": "google-gemini",
+      "model_id": "gemini-2.5-flash",
+      "success": false,
+      "billing_status": "billed",
+      "usage": {
+        "input": 200000,
+        "output": 20000
+      }
+    },
+    {
+      "task_id": "anonymous-task-002",
+      "attempt_id": "attempt-002-b",
+      "attempt_type": "fallback",
+      "provider_id": "anthropic",
+      "model_id": "claude-haiku-4.5",
+      "success": true,
+      "billing_status": "billed",
+      "usage": {
+        "input": 200000,
+        "output": 20000
+      }
+    },
+    {
+      "task_id": "anonymous-task-003",
+      "attempt_id": "attempt-003-a",
+      "attempt_type": "first_attempt",
+      "provider_id": "google-gemini",
+      "model_id": "gemini-2.5-flash",
+      "success": false,
+      "billing_status": "billed",
+      "usage": {
+        "input": 50000,
+        "output": 5000
+      }
+    }
+  ]
+}

@@ -1,0 +1,89 @@
+[
+  {
+    "script": "test-pricing-phase4f.mjs",
+    "assertion": "decimal price per-request parity",
+    "original_file_line": "scripts/test-pricing-phase4f.mjs:236",
+    "expected": "0.039809250000000004",
+    "actual": "0.010955250000000001",
+    "stack": [
+      "\n    at file:///D:/ai-cost-control-tool/aicostguard-english/scripts/test-pricing-phase4f.mjs:236:12 {"
+    ],
+    "consumer": "API Calculator",
+    "root_cause": "deprecated decimal fixture is not a Current Target; old expectation also omitted explicit veto/text-component requirements",
+    "related_to_lifecycle_change": true,
+    "root_contract": "test-pricing-phase4f.mjs"
+  },
+  {
+    "script": "test-pricing-phase4g.mjs",
+    "assertion": "scenario gpt-5.4-nano must exist in V2-safe active source",
+    "original_file_line": "scripts/test-pricing-phase4g.mjs:361 / caller82",
+    "expected": "true",
+    "actual": "false",
+    "stack": [
+      "    at assertV2Safe (file:///D:/ai-cost-control-tool/aicostguard-english/scripts/test-pricing-phase4g.mjs:361:10)",
+      "    at file:///D:/ai-cost-control-tool/aicostguard-english/scripts/test-pricing-phase4g.mjs:82:31 {"
+    ],
+    "consumer": "Budget Planner",
+    "root_cause": "deprecated fixture no longer safe; actual OFF/ON/degraded lists checked separately, no current runtime inactive option",
+    "related_to_lifecycle_change": true,
+    "root_contract": "test-pricing-phase4g.mjs"
+  },
+  {
+    "script": "test-pricing-phase4h.mjs",
+    "assertion": "child execFileSync legacy eligibility exited1",
+    "original_file_line": "scripts/test-pricing-phase4h.mjs:176",
+    "expected": "child exit0",
+    "actual": "child exit1",
+    "stack": [
+      "    at check (file:///D:/ai-cost-control-tool/aicostguard-english/scripts/test-legacy-fallback-eligibility.mjs:17:59)",
+      "    at file:///D:/ai-cost-control-tool/aicostguard-english/scripts/test-legacy-fallback-eligibility.mjs:56:5",
+      "    at ModuleJob.run (node:internal/modules/esm/module_job:439:25)",
+      "    at async node:internal/modules/esm/loader:633:26",
+      "    at async asyncRunEntryPointWithESMLoader (node:internal/modules/run_main:101:5) {",
+      "    at genericNodeError (node:internal/errors:985:15)",
+      "    at wrappedFn (node:internal/errors:539:14)",
+      "    at checkExecSyncError (node:child_process:925:11)",
+      "    at execFileSync (node:child_process:961:15)"
+    ],
+    "consumer": "degraded API/Budget resolver",
+    "root_cause": "parent wrapper of same legacy child failure",
+    "related_to_lifecycle_change": false,
+    "root_contract": "legacy_scope"
+  },
+  {
+    "script": "test-legacy-fallback-eligibility.mjs",
+    "assertion": "getPromptCostOptimizerModels: unrelated unsafe-model scope expansion",
+    "original_file_line": "scripts/test-legacy-fallback-eligibility.mjs:56",
+    "expected": "removedUnsafe entirely GPT4.1 family",
+    "actual": "false",
+    "stack": [
+      "    at check (file:///D:/ai-cost-control-tool/aicostguard-english/scripts/test-legacy-fallback-eligibility.mjs:17:59)",
+      "    at file:///D:/ai-cost-control-tool/aicostguard-english/scripts/test-legacy-fallback-eligibility.mjs:56:5",
+      "    at ModuleJob.run (node:internal/modules/esm/module_job:439:25)",
+      "    at async node:internal/modules/esm/loader:633:26",
+      "    at async asyncRunEntryPointWithESMLoader (node:internal/modules/run_main:101:5) {"
+    ],
+    "consumer": "legacy/degraded selectors",
+    "root_cause": "old single-fix HEAD scope was incorrectly applied to multi-model approved candidate",
+    "related_to_lifecycle_change": true,
+    "root_contract": "test-legacy-fallback-eligibility.mjs"
+  },
+  {
+    "script": "test-gpt41-mini-lifecycle-consumer.mjs",
+    "assertion": "only mini lifecycle can change; all prices, IDs, metadata, other records and order preserved",
+    "original_file_line": "scripts/test-gpt41-mini-lifecycle-consumer.mjs:47",
+    "expected": "restored projection equals HEAD",
+    "actual": "full object differs",
+    "stack": [
+      "\n    at equal (file:///D:/ai-cost-control-tool/aicostguard-english/scripts/test-gpt41-mini-lifecycle-consumer.mjs:19:54)",
+      "    at file:///D:/ai-cost-control-tool/aicostguard-english/scripts/test-gpt41-mini-lifecycle-consumer.mjs:47:1",
+      "    at ModuleJob.run (node:internal/modules/esm/module_job:439:25)",
+      "    at async node:internal/modules/esm/loader:633:26",
+      "    at async asyncRunEntryPointWithESMLoader (node:internal/modules/run_main:101:5) {"
+    ],
+    "consumer": "mini lifecycle/history/Saved Workload",
+    "root_cause": "old one-field mutation scope mixed with subsequent approved multi-model candidate and provenance",
+    "related_to_lifecycle_change": false,
+    "root_contract": "test-gpt41-mini-lifecycle-consumer.mjs"
+  }
+]

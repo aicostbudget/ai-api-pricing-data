@@ -1,0 +1,54 @@
+{
+  "checks": [
+    {
+      "command": [
+        "git",
+        "diff",
+        "--check"
+      ],
+      "exit_code": 0,
+      "stdout": ""
+    },
+    {
+      "command": [
+        "git",
+        "diff",
+        "--cached",
+        "--name-only"
+      ],
+      "exit_code": 0,
+      "stdout": ""
+    },
+    {
+      "command": [
+        "git",
+        "rev-parse",
+        "HEAD"
+      ],
+      "exit_code": 0,
+      "stdout": "80c2ec4991bcaaf795fe9192946f5ec770d57f48\n"
+    },
+    {
+      "command": [
+        "git",
+        "merge-base",
+        "--is-ancestor",
+        "3e75fa51bc1f7af01745345d03bc1a525e353158",
+        "HEAD"
+      ],
+      "exit_code": 0,
+      "stdout": ""
+    }
+  ],
+  "prior_report_files_preserved": [
+    "reports/issue26-final-blockers-2026-10-09/evidence.json",
+    "reports/issue26-final-blockers-2026-10-09/files-changed.txt",
+    "reports/issue26-final-blockers-2026-10-09/freshness-report.md",
+    "reports/issue26-final-blockers-2026-10-09/freshness.log",
+    "reports/issue26-final-blockers-2026-10-09/gates-final.json",
+    "reports/issue26-final-blockers-2026-10-09/report.md",
+    "reports/issue26-final-blockers-2026-10-09/unittest-final.log",
+    "reports/issue26-final-blockers-2026-10-09/website-consumer-compatibility.json"
+  ],
+  "preview_asset_hashes_match_final_sources": true
+}

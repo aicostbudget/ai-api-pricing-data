@@ -1,0 +1,38 @@
+[
+  {
+    "name": "validate",
+    "command": [
+      "python",
+      "scripts/validate.py"
+    ],
+    "exit": 0,
+    "output": "validation ok\n"
+  },
+  {
+    "name": "local-hf",
+    "command": [
+      "python",
+      "scripts/export_huggingface.py",
+      "--website-repo",
+      "D:/ai-cost-control-tool/aicostguard-english",
+      "--website-ref",
+      "WORKTREE",
+      "--check"
+    ],
+    "exit": 0,
+    "output": "Hugging Face export is in sync: 83 records\n"
+  },
+  {
+    "name": "freshness",
+    "command": [
+      "python",
+      "scripts/validate.py",
+      "--freshness-report",
+      "--max-age-days",
+      "30",
+      "--check-urls"
+    ],
+    "exit": 0,
+    "output": ""
+  }
+]

@@ -1,0 +1,59 @@
+[
+  {
+    "command": [
+      "status",
+      "--short"
+    ],
+    "exit": 0,
+    "stdout": " M api/v1/meta.json\n M api/v1/models/mistral-ai/mistral-ocr-4-0.json\n M api/v1/models/moonshot-ai/kimi-k2.6.json\n M api/v1/prices.csv\n M api/v1/prices.json\n M api/v1/providers/mistral-ai.json\n M api/v1/providers/moonshot-ai.json\n M data/canonical/models.json\n M data/history/mistral-ai/mistral-ocr-4-0.jsonl\n M data/history/moonshot-ai/kimi-k2.6.jsonl\n M data/models/mistral-ai/mistral-ocr-4-0.json\n M data/models/moonshot-ai/kimi-k2.6.json\n M data/prices.csv\n M data/prices.json\n M data/pricing-v2-preview/convergence-report.json\n M data/pricing-v2-preview/generated/model-pricing.v2.json\n M data/pricing-v2-preview/generated/model-pricing.website-preview.json\n M data/pricing-v2-preview/generated/seed-pricing.preview.sql\n M data/pricing-v2-preview/model-identity-registry.json\n M data/pricing-v2-preview/models.json\n M data/pricing-v2-preview/phase2-5-cutover-readiness.json\n M data/pricing-v2-preview/phase2-5-default-safe-report.json\n M data/pricing-v2-preview/phase2-5-evidence-completion.json\n M data/pricing-v2-preview/phase2-conflict-resolution-report.json\n M data/pricing-v2-preview/phase2-cutover-readiness.json\n M data/pricing-v2-preview/phase2-evidence-matrix.json\n M data/pricing-v2-preview/phase4a-5-context-window-audit.json\n M data/pricing-v2-preview/phase4a-5-projection-row-reconciliation.json\n M data/pricing-v2-preview/phase4a-5-safe-price-record-reconciliation.json\n M data/pricing-v2-preview/phase4a-5-unsafe-difference-audit.json\n M data/pricing-v2-preview/phase4a-website-projection-report.json\n M data/pricing-v2-preview/prices.json\n M data/pricing-v2-preview/sources.json\n M data/providers/mistral-ai.json\n M data/providers/moonshot-ai.json\n M data/snapshots/2026-10-09/prices.csv\n M data/snapshots/2026-10-09/prices.json\n M freshness-report.md\n M huggingface/meta.json\n M huggingface/prices.csv\n M huggingface/prices.json\n M huggingface/train.csv\n M scripts/generate_pricing_v2_preview.py\n M scripts/generate_website_projection_v2.py\n M tests/test_issue26_freshness_closure.py\n M tests/test_mistral_ocr_onboarding.py\n M tests/test_moonshot_ai_onboarding.py\n?? reports/issue26-final-blockers-2026-10-09/\n?? reports/issue26-kimi-published-rate-2026-10-09/\n?? reports/issue26-phase-b1-2026-10-09/\n?? reports/issue26-phase-b2-2026-10-09/\n?? reports/issue26-phase-b3-2026-10-09/\n?? tests/test_issue26_final_blockers.py\n?? tests/test_issue26_kimi_published_rate.py\n"
+  },
+  {
+    "command": [
+      "branch",
+      "--show-current"
+    ],
+    "exit": 0,
+    "stdout": "codex/issue26-dataset-candidate\n"
+  },
+  {
+    "command": [
+      "rev-parse",
+      "HEAD"
+    ],
+    "exit": 0,
+    "stdout": "80c2ec4991bcaaf795fe9192946f5ec770d57f48\n"
+  },
+  {
+    "command": [
+      "rev-parse",
+      "origin/main"
+    ],
+    "exit": 0,
+    "stdout": "4d4f32d971dc1d79bffc7ffd12a71049fbd701f6\n"
+  },
+  {
+    "command": [
+      "diff",
+      "--stat"
+    ],
+    "exit": 0,
+    "stdout": " api/v1/meta.json                                   | 176 +++++++--------\n api/v1/models/mistral-ai/mistral-ocr-4-0.json      |  20 +-\n api/v1/models/moonshot-ai/kimi-k2.6.json           |  20 +-\n api/v1/prices.csv                                  |   4 +-\n api/v1/prices.json                                 |  44 ++--\n api/v1/providers/mistral-ai.json                   |  20 +-\n api/v1/providers/moonshot-ai.json                  |  20 +-\n data/canonical/models.json                         |  40 ++--\n data/history/mistral-ai/mistral-ocr-4-0.jsonl      |   1 +\n data/history/moonshot-ai/kimi-k2.6.jsonl           |   2 +\n data/models/mistral-ai/mistral-ocr-4-0.json        |  20 +-\n data/models/moonshot-ai/kimi-k2.6.json             |  20 +-\n data/prices.csv                                    |   4 +-\n data/prices.json                                   |  44 ++--\n data/pricing-v2-preview/convergence-report.json    |   4 +-\n .../generated/model-pricing.v2.json                | 245 +++++++++++----------\n .../generated/model-pricing.website-preview.json   |   8 +-\n .../generated/seed-pricing.preview.sql             | 191 ++++++++--------\n .../model-identity-registry.json                   | 181 +++++++--------\n data/pricing-v2-preview/models.json                | 175 +++++++--------\n .../phase2-5-cutover-readiness.json                |   2 +-\n .../phase2-5-default-safe-report.json              |   2 +-\n .../phase2-5-evidence-completion.json              |  11 +-\n .../phase2-conflict-resolution-report.json         |   2 +-\n .../phase2-cutover-readiness.json                  |   4 +-\n .../pricing-v2-preview/phase2-evidence-matrix.json |  64 ++++--\n .../phase4a-5-context-window-audit.json            |   2 +-\n .../phase4a-5-projection-row-reconciliation.json   |   4 +-\n ...phase4a-5-safe-price-record-reconciliation.json |   2 +-\n .../phase4a-5-unsafe-difference-audit.json         |   2 +-\n .../phase4a-website-projection-report.json         |   6 +-\n data/pricing-v2-preview/prices.json                |  27 ++-\n data/pricing-v2-preview/sources.json               |  58 +++--\n data/providers/mistral-ai.json                     |  20 +-\n data/providers/moonshot-ai.json                    |  20 +-\n data/snapshots/2026-10-09/prices.csv               |   4 +-\n data/snapshots/2026-10-09/prices.json              |  44 ++--\n freshness-report.md                                |   3 +-\n huggingface/meta.json                              |   6 +-\n huggingface/prices.csv                             |   4 +-\n huggingface/prices.json                            |  46 ++--\n huggingface/train.csv                              |   4 +-\n scripts/generate_pricing_v2_preview.py             |   2 +\n scripts/generate_website_projection_v2.py          |  37 +++-\n tests/test_issue26_freshness_closure.py            |  22 +-\n tests/test_mistral_ocr_onboarding.py               |   2 +-\n tests/test_moonshot_ai_onboarding.py               |   2 +-\n 47 files changed, 890 insertions(+), 751 deletions(-)\n"
+  },
+  {
+    "command": [
+      "diff",
+      "--cached",
+      "--stat"
+    ],
+    "exit": 0,
+    "stdout": ""
+  },
+  {
+    "command": [
+      "diff",
+      "--check"
+    ],
+    "exit": 0,
+    "stdout": ""
+  }
+]

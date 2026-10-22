@@ -1,0 +1,39 @@
+[
+  {
+    "command": [
+      "python",
+      "scripts/build.py"
+    ],
+    "exit_code": 0,
+    "output": ""
+  },
+  {
+    "command": [
+      "python",
+      "scripts/generate_website_projection_v2.py",
+      "--effective-at",
+      "2026-10-05T02:47:26Z",
+      "--generated-at",
+      "2026-10-09T09:11:24Z",
+      "--existing-artifact",
+      "D:\\ai-api-pricing-data\\dist\\release-candidate\\issue26-kimi-published-rate\\before\\data\\pricing-v2-preview\\generated\\model-pricing.v2.json",
+      "--website-dataset",
+      "D:/ai-cost-control-tool/aicostguard-english/data/model-pricing.json"
+    ],
+    "exit_code": 0,
+    "output": "generated website projection: D:\\ai-api-pricing-data\\data\\pricing-v2-preview\\generated\\model-pricing.v2.json\ngenerated projection report: D:\\ai-api-pricing-data\\data\\pricing-v2-preview\\phase4a-website-projection-report.json\n"
+  },
+  {
+    "command": [
+      "python",
+      "scripts/sql_seed.py",
+      "--write"
+    ],
+    "exit_code": 0,
+    "output": "Generated SQL seed: D:\\ai-api-pricing-data\\data\\pricing-v2-preview\\generated\\seed-pricing.preview.sql\n"
+  },
+  {
+    "command": "existing build_export / artifact_contents / validate_huggingface_artifacts (local Dataset projection, unpublished candidate)",
+    "exit_code": 0
+  }
+]
