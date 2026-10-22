@@ -427,7 +427,16 @@ def publish_release(
         "website_sha": website_sha,
         "website_business_change": "YES" if result.website_business_change else "NO",
         "status": "PUBLISH STARTED",
+        "next_step": indexnow_next_step(website_sha) if result.website_business_change else "NONE",
     }
+
+
+def indexnow_next_step(website_sha: str) -> str:
+    """Pages only change after Hostinger deploys, so IndexNow is a separate, confirmed step."""
+    return (
+        f"After the Website deploy is live, in the Website checkout: npm.cmd run indexnow:pricing -- "
+        f"--commit {website_sha} --wait-live 600 (dry run), then rerun with --send once approved"
+    )
 
 
 def print_report(report: Mapping[str, Any]) -> None:

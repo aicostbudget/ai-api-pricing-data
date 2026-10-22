@@ -9,6 +9,7 @@ EDIT canonical
 → HUMAN APPROVAL（审阅、跑测试、补充审批测试）
 → PUBLISH ONCE
 → PRODUCTION VERIFY ONCE
+→ INDEXNOW（Website 有业务变化时；先 dry run，确认后 --send）
 → STOP
 ```
 
@@ -60,6 +61,19 @@ Publish 要求两个仓库工作区干净，HEAD 为生成提交、HEAD^ 为源�
 3. 最后触发 Hugging Face 发布（HF 导出会与已发布的 Website 比对，所以必须在 Website 之后）。
 
 失败即停止。普通流程不自动进入事故 Recovery。
+
+## IndexNow（Website 部署后）
+
+Publish 的 JSON 输出含 `website_sha` 与 `next_step`。Website 有业务变化时，等 Hostinger 部署完成后，在 Website 仓库（HEAD 为该提交）执行：
+
+```powershell
+$ErrorActionPreference = "Stop"
+Set-Location -LiteralPath "D:i-cost-control-toolicostguard-english"
+npm.cmd run indexnow:pricing -- --commit <website_sha> --wait-live 600
+if ($LASTEXITCODE -ne 0) { throw "IndexNow pricing dry run failed" }
+```
+
+脚本对比该提交与父提交的 v2 projection 与 price-change events（仅核验时间变化不算），用网站自身模块映射出受影响的模型页、服务商页、对比页、引用这些模型的博客文章及索引页；先确认线上数据集页已显示本次 `last_verified_at`，并跳过非 200 的 URL，然后打印 payload。审阅并获得确认后加 `--send` 重跑。IndexNow 向外部服务提交，每次都需要人工确认，因此不放进 Publish 自动执行。`next_step` 为 `NONE` 时无需提交。详见 Website 仓库 `docs/seo/geo-technical-checklist.md`。
 
 ## Forward Recovery
 

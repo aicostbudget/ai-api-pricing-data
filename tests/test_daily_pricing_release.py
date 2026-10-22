@@ -230,6 +230,7 @@ class TwoCommitReleaseTests(unittest.TestCase):
             self.assertEqual(result["source_sha"], report["source_sha"])
             self.assertEqual(result["snapshot_id"], "2026-10-21")
             self.assertEqual(result["website_business_change"], "NO")
+            self.assertEqual(result["next_step"], "NONE")
 
     def test_publish_refuses_an_artifact_commit_that_differs_from_regeneration(self):
         with tempfile.TemporaryDirectory() as tmp:
@@ -296,6 +297,8 @@ class StabilityAndFlowTests(unittest.TestCase):
             self.assertEqual(run(website, "rev-list", "--count", "HEAD"), "2")
             self.assertEqual(remote_calls, [("website", website_head), ("dataset", report["artifact_sha"]), ("hf",)])
             self.assertEqual(result["website_business_change"], "YES")
+            self.assertIn(f"npm.cmd run indexnow:pricing -- --commit {website_head}", result["next_step"])
+            self.assertIn("--send once approved", result["next_step"])
 
     def test_ordinary_source_has_no_resumable_state_machine_or_recovery_runtime(self):
         source = (ROOT / "scripts/daily_pricing_release.py").read_text(encoding="utf-8")
