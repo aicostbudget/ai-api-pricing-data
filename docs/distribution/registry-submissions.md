@@ -47,7 +47,7 @@ if ($LASTEXITCODE -ne 0) { throw "mcp-publisher publish failed with exit code $L
 
 The official Registry is currently preview software. Confirm the live schema and publisher release immediately before publication.
 
-## Smithery
+## MCPB bundle (GitHub Releases, Claude Desktop)
 
 Build and test the self-contained MCPB bundle from the repository root:
 
@@ -62,28 +62,6 @@ npm.cmd run test:mcpb
 if ($LASTEXITCODE -ne 0) { throw "npm run test:mcpb failed with exit code $LASTEXITCODE" }
 ```
 
-Log in to Smithery interactively (OAuth in the browser) and confirm the `aicostbudget` namespace, which is already claimed by the maintainer; do not put credentials in the repository. If `github.com`/`smithery.ai` are only reachable through a local proxy, set `$env:HTTPS_PROXY` first:
-
-```powershell
-$ErrorActionPreference = "Stop"
-Set-Location -LiteralPath "D:\ai-api-pricing-data"
-npx.cmd -y @smithery/cli auth login
-if ($LASTEXITCODE -ne 0) { throw "Smithery login failed with exit code $LASTEXITCODE" }
-npx.cmd -y @smithery/cli namespace use aicostbudget
-if ($LASTEXITCODE -ne 0) { throw "Smithery namespace selection failed with exit code $LASTEXITCODE" }
-```
-
-Smithery's API requires each declared tool to include an MCP `inputSchema`, while the strict MCPB manifest schema permits only `name` and `description` in its `tools` entries. Publish the generated `.smithery.mcpb` variant, which differs from the standard bundle only in `manifest.json` and carries the full schemas reported by the server's live `tools/list` response. The standard `.mcpb` remains the only file for GitHub Releases and Claude Desktop.
-
-Publish the already-tested Smithery variant (replace `0.1.0` when the package version changes):
-
-```powershell
-$ErrorActionPreference = "Stop"
-Set-Location -LiteralPath "D:\ai-api-pricing-data"
-npx.cmd -y @smithery/cli mcp publish ./dist-mcpb/ai-api-pricing-mcp-0.1.0.smithery.mcpb -n aicostbudget/ai-api-pricing-mcp
-if ($LASTEXITCODE -ne 0) { throw "Smithery MCPB publication failed with exit code $LASTEXITCODE" }
-```
-
 Manual GitHub Release checklist:
 
 1. Confirm the source commit and that `npm test`, `npm run build`, `npm run build:mcpb`, and `npm run test:mcpb` pass.
@@ -91,11 +69,11 @@ Manual GitHub Release checklist:
 3. Attach `dist-mcpb/ai-api-pricing-mcp-X.mcpb` and record the build output's size and SHA-256.
 4. Verify the uploaded asset hash matches the local bundle. Never commit the `.mcpb` file.
 
-Suggested listing description after that prerequisite is met:
+## Smithery (dropped 2026-10-22)
 
-```text
-Read-only AI API pricing tools backed by the AICostBudget dataset, with official provider source URLs and verification dates.
-```
+Not pursued. Smithery announced that on 2026-10-31 it shuts down its connection management services: server URLs on run.tools and server.smithery.ai, the Smithery API, Connect and Toolbox, Smithery accounts and API keys, and the CLI and SDKs (deprecated). smithery.ai remains only as a public, non-proxied directory that shows vendors' own MCP URLs ([notice](https://smithery.ai/future), checked 2026-10-22).
+
+This server is a local stdio package with no hosted MCP URL, so a directory-only listing adds little. A publish attempt on 2026-10-22 was also rejected with HTTP 403 ("Updating servers has been removed"). The `.smithery.mcpb` variant built by `build:mcpb` is no longer needed for distribution; the standard `.mcpb` above remains the bundle for GitHub Releases and Claude Desktop.
 
 ## Glama
 
