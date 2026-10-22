@@ -48,6 +48,41 @@ populated for it. The official sources are:
 - https://docs.cohere.com/v2/docs/parse
 - https://cohere.com/blog/parse
 
+## Voxtral 3 exclusions and Cohere Rerank 5
+
+Mistral documents `voxtral-mini-tts-3-0` at USD 13 per 1 million
+characters. The current `canonicalCharge.unit` vocabulary has no character
+billing unit, so the model is not added to canonical and the price is not
+converted into tokens, requests, or time. Mistral also documents the distinct
+`voxtral-mini-tts-realtime-3-0` model ID, but does not publish a separate
+official price for it. Its price therefore remains unproven and it is not
+added to canonical.
+
+The Mistral Voice Agents API is priced at USD 0.04 per minute when Mistral
+Small 4 performs reasoning and USD 0.08 per minute with a larger reasoning
+model. These rates describe an end-to-end workflow billing contract, not the
+price of one model, so they are not added to the model table.
+
+Official Mistral sources:
+
+- https://mistral.ai/news/voxtral-3
+- https://docs.mistral.ai/studio/audio/overview
+- https://docs.mistral.ai/studio/audio/text-to-speech/overview
+
+Cohere released `rerank-v5.0-pro` and `rerank-v5.0-fast` on 2026-10-21
+with a 32k-token context window and support for more than 100 languages.
+Cohere's public pricing page lists only Model Vault instance prices for both
+models: Medium at USD 4 per hour or USD 2,500 per month. It does not prove a
+direct API per-call price. The instance prices are not converted to a
+per-request rate and Rerank 4 pricing is not reused.
+
+`RERANK_5_DIRECT_API_PRICE = NOT PROVEN`
+
+Official Cohere sources:
+
+- https://docs.cohere.com/changelog
+- https://cohere.com/pricing
+
 ## Gemini Omni Flash
 
 Google released `gemini-omni-1.1-flash` GA on 2026-08-27 and announced that

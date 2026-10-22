@@ -4,12 +4,12 @@
     "version": "1.0.0",
     "schema_version": "1.10.0",
     "page_url": "https://aicostbudget.com/en/datasets/ai-api-pricing",
-    "last_updated": "2026-10-21T17:19:34Z",
-    "last_verified_at": "2026-10-21T17:19:34Z",
-    "generated_at": "2026-10-21T18:34:53Z",
+    "last_updated": "2026-10-22T17:45:42Z",
+    "last_verified_at": "2026-10-22T17:45:42Z",
+    "generated_at": "2026-10-22T17:48:37Z",
     "provider_count": 11,
-    "record_count": 89,
-    "official_source_count": 23,
+    "record_count": 92,
+    "official_source_count": 26,
     "currency": "USD",
     "pricing_unit": "Multiple billing units",
     "statistics_scope": "public pricing records returned by the public pricing adapter with Pricing V2 enabled",
@@ -18681,6 +18681,246 @@
           "url": "https://docs.mistral.ai/models/mistral-small-4-0-26-03"
         }
       ],
+      "conditional_usage_allowances": [],
+      "model_selection": null
+    },
+    {
+      "provider_id": "mistral-ai",
+      "provider": "Mistral AI",
+      "model_id": "voxtral-mini-transcribe-3-0",
+      "model": "Voxtral Mini Transcribe 3",
+      "input_price_per_1m_tokens": null,
+      "cached_input_price_per_1m_tokens": null,
+      "output_price_per_1m_tokens": null,
+      "currency": "USD",
+      "pricing_unit": null,
+      "status": "preview",
+      "availability": "preview",
+      "official_source_url": "https://docs.mistral.ai/models/voxtral-mini-transcribe-3-0",
+      "verification_status": "verified",
+      "last_verified_at": "2026-10-22",
+      "checked_at": "2026-10-22",
+      "effective_from": "2026-10-20",
+      "effective_until": null,
+      "notes": "Mistral API standard price. Batch transcription and realtime transcription use different model IDs; this record does not assert an asynchronous Batch API discount.",
+      "pricing_tier_count": 0,
+      "pricing_tiers": [],
+      "time_pricing": null,
+      "pricing_components": [
+        {
+          "pricing_id": "price:mistral-ai/voxtral-mini-transcribe-3-0:standard:short:current",
+          "charge_id": "price:mistral-ai/voxtral-mini-transcribe-3-0:standard:short:current:session_duration:audio:per_minute",
+          "component": "session_duration",
+          "amount": "0.0035",
+          "unit": "per_minute",
+          "currency": "USD",
+          "modality": "audio",
+          "condition": {
+            "processing_mode": "standard",
+            "context_class": "short",
+            "prompt_token_threshold": null,
+            "tier_selection": null,
+            "region_policy": "global",
+            "effective_from": "2026-10-20",
+            "effective_until": null,
+            "transport": "rest",
+            "region_selector": {
+              "dataResidencies": [
+                "global"
+              ],
+              "endpointGeographies": [
+                "global"
+              ],
+              "pricingGeography": "global_base"
+            },
+            "default_availability_status": "available",
+            "availability_rules": [],
+            "price_adjustments": []
+          },
+          "calculation_default": true,
+          "source_refs": [
+            "source:mistral-ai:docs-mistral-ai-en-studio-api-audio-overview",
+            "source:mistral-ai:docs-mistral-ai-models-voxtral-mini-transcribe-3-0",
+            "source:mistral-ai:mistral-ai-news-voxtral-3"
+          ],
+          "source_urls": [
+            "https://docs.mistral.ai/en/studio-api/audio/overview",
+            "https://docs.mistral.ai/models/voxtral-mini-transcribe-3-0",
+            "https://mistral.ai/news/voxtral-3"
+          ],
+          "verification_status": "verified"
+        }
+      ],
+      "unit_price": 0.0035,
+      "billing_unit": "per_minute",
+      "billing_quantity": 1,
+      "pricing_dimension": "session_duration",
+      "released_at": "2026-10-20",
+      "access_status": "unknown",
+      "access_checked_at": null,
+      "access_evidence": [],
+      "binding_status": "unresolved",
+      "binding_evidence": [],
+      "conditional_usage_allowances": [],
+      "model_selection": null
+    },
+    {
+      "provider_id": "mistral-ai",
+      "provider": "Mistral AI",
+      "model_id": "voxtral-mini-transcribe-realtime-3-0",
+      "model": "Voxtral Mini Transcribe Realtime 3",
+      "input_price_per_1m_tokens": null,
+      "cached_input_price_per_1m_tokens": null,
+      "output_price_per_1m_tokens": null,
+      "currency": "USD",
+      "pricing_unit": null,
+      "status": "preview",
+      "availability": "preview",
+      "official_source_url": "https://docs.mistral.ai/models/voxtral-mini-transcribe-realtime-3-0",
+      "verification_status": "verified",
+      "last_verified_at": "2026-10-22",
+      "checked_at": "2026-10-22",
+      "effective_from": "2026-10-20",
+      "effective_until": null,
+      "notes": "Mistral API standard price. Realtime transcription and batch transcription use different model IDs.",
+      "pricing_tier_count": 0,
+      "pricing_tiers": [],
+      "time_pricing": null,
+      "pricing_components": [
+        {
+          "pricing_id": "price:mistral-ai/voxtral-mini-transcribe-realtime-3-0:standard:short:current",
+          "charge_id": "price:mistral-ai/voxtral-mini-transcribe-realtime-3-0:standard:short:current:session_duration:audio:per_minute",
+          "component": "session_duration",
+          "amount": "0.008",
+          "unit": "per_minute",
+          "currency": "USD",
+          "modality": "audio",
+          "condition": {
+            "processing_mode": "standard",
+            "context_class": "short",
+            "prompt_token_threshold": null,
+            "tier_selection": null,
+            "region_policy": "global",
+            "effective_from": "2026-10-20",
+            "effective_until": null,
+            "transport": "streaming",
+            "region_selector": {
+              "dataResidencies": [
+                "global"
+              ],
+              "endpointGeographies": [
+                "global"
+              ],
+              "pricingGeography": "global_base"
+            },
+            "default_availability_status": "available",
+            "availability_rules": [],
+            "price_adjustments": []
+          },
+          "calculation_default": true,
+          "source_refs": [
+            "source:mistral-ai:docs-mistral-ai-en-studio-api-audio-overview",
+            "source:mistral-ai:docs-mistral-ai-models-voxtral-mini-transcribe-realtime-3-0",
+            "source:mistral-ai:mistral-ai-news-voxtral-3"
+          ],
+          "source_urls": [
+            "https://docs.mistral.ai/en/studio-api/audio/overview",
+            "https://docs.mistral.ai/models/voxtral-mini-transcribe-realtime-3-0",
+            "https://mistral.ai/news/voxtral-3"
+          ],
+          "verification_status": "verified"
+        }
+      ],
+      "unit_price": 0.008,
+      "billing_unit": "per_minute",
+      "billing_quantity": 1,
+      "pricing_dimension": "session_duration",
+      "released_at": "2026-10-20",
+      "access_status": "unknown",
+      "access_checked_at": null,
+      "access_evidence": [],
+      "binding_status": "unresolved",
+      "binding_evidence": [],
+      "conditional_usage_allowances": [],
+      "model_selection": null
+    },
+    {
+      "provider_id": "mistral-ai",
+      "provider": "Mistral AI",
+      "model_id": "voxtral-small-transcribe-3-0",
+      "model": "Voxtral Small Transcribe 3",
+      "input_price_per_1m_tokens": null,
+      "cached_input_price_per_1m_tokens": null,
+      "output_price_per_1m_tokens": null,
+      "currency": "USD",
+      "pricing_unit": null,
+      "status": "preview",
+      "availability": "preview",
+      "official_source_url": "https://docs.mistral.ai/models/voxtral-small-transcribe-3-0",
+      "verification_status": "verified",
+      "last_verified_at": "2026-10-22",
+      "checked_at": "2026-10-22",
+      "effective_from": "2026-10-20",
+      "effective_until": null,
+      "notes": "Mistral API standard price. Batch transcription and realtime transcription use different model IDs.",
+      "pricing_tier_count": 0,
+      "pricing_tiers": [],
+      "time_pricing": null,
+      "pricing_components": [
+        {
+          "pricing_id": "price:mistral-ai/voxtral-small-transcribe-3-0:standard:short:current",
+          "charge_id": "price:mistral-ai/voxtral-small-transcribe-3-0:standard:short:current:session_duration:audio:per_minute",
+          "component": "session_duration",
+          "amount": "0.004",
+          "unit": "per_minute",
+          "currency": "USD",
+          "modality": "audio",
+          "condition": {
+            "processing_mode": "standard",
+            "context_class": "short",
+            "prompt_token_threshold": null,
+            "tier_selection": null,
+            "region_policy": "global",
+            "effective_from": "2026-10-20",
+            "effective_until": null,
+            "transport": "rest",
+            "region_selector": {
+              "dataResidencies": [
+                "global"
+              ],
+              "endpointGeographies": [
+                "global"
+              ],
+              "pricingGeography": "global_base"
+            },
+            "default_availability_status": "available",
+            "availability_rules": [],
+            "price_adjustments": []
+          },
+          "calculation_default": true,
+          "source_refs": [
+            "source:mistral-ai:docs-mistral-ai-en-studio-api-audio-overview",
+            "source:mistral-ai:docs-mistral-ai-models-voxtral-small-transcribe-3-0",
+            "source:mistral-ai:mistral-ai-news-voxtral-3"
+          ],
+          "source_urls": [
+            "https://docs.mistral.ai/en/studio-api/audio/overview",
+            "https://docs.mistral.ai/models/voxtral-small-transcribe-3-0",
+            "https://mistral.ai/news/voxtral-3"
+          ],
+          "verification_status": "verified"
+        }
+      ],
+      "unit_price": 0.004,
+      "billing_unit": "per_minute",
+      "billing_quantity": 1,
+      "pricing_dimension": "session_duration",
+      "released_at": "2026-10-20",
+      "access_status": "unknown",
+      "access_checked_at": null,
+      "access_evidence": [],
+      "binding_status": "unresolved",
+      "binding_evidence": [],
       "conditional_usage_allowances": [],
       "model_selection": null
     },

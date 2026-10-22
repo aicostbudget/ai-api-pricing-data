@@ -8,6 +8,11 @@ from urllib.parse import urlparse
 
 ROOT = Path(__file__).resolve().parents[1]
 OCR_IDS = {"mistral-ocr-4-0", "mistral-ocr-4-1"}
+VOXTRAL_TRANSCRIBE_IDS = {
+    "voxtral-mini-transcribe-3-0",
+    "voxtral-mini-transcribe-realtime-3-0",
+    "voxtral-small-transcribe-3-0",
+}
 
 
 def read_json(path: str):
@@ -110,7 +115,10 @@ class MistralOCROnboardingTests(unittest.TestCase):
         model_ids = {
             model_id for provider_id, model_id in self.canonical if provider_id == "mistral-ai"
         }
-        self.assertFalse(any("voxtral" in model_id for model_id in model_ids))
+        self.assertEqual(
+            {model_id for model_id in model_ids if "voxtral" in model_id},
+            VOXTRAL_TRANSCRIBE_IDS,
+        )
         self.assertNotIn("mistral-moderation-2603", model_ids)
 
 
