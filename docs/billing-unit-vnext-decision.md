@@ -6,8 +6,9 @@ Keep the public V1 token columns unchanged. Continue to use
 `input_price_per_1m_tokens`, `cached_input_price_per_1m_tokens`, and
 `output_price_per_1m_tokens` only for token prices. Extend the internal V2
 charge-unit vocabulary additively so later records can express
-`per_1000_pages`, `per_minute`, `per_second`, `per_image`, `per_request`, and
-`per_text_input`, plus `per_1m_tokens_per_hour`. `per_text_input` is reserved
+`per_1m_characters`, `per_1000_pages`, `per_minute`, `per_second`, `per_image`,
+`per_request`, and `per_text_input`, plus `per_1m_tokens_per_hour`.
+`per_text_input` is reserved
 for an explicitly billed text input event inside a longer-lived session and
 must not be flattened to `per_request` or a token price. The compound token-hour unit is reserved for prices
 that explicitly depend on both stored token quantity and storage duration; it
@@ -15,6 +16,15 @@ must not be flattened into either `per_1m_tokens` or `per_hour`.
 A future public schema can expose these records through structured pricing
 components while retaining the V1 scalar columns as nullable compatibility
 fields.
+
+## Per-million-character billing
+
+`per_1m_characters` is reserved for prices billed from the number of input
+text characters, such as text-to-speech input. Its numeric quantity semantics
+match `per_1m_tokens`: a unit price represents 1,000,000 measured units, so
+`billing_quantity` is 1,000,000. The measured unit remains characters. It must
+not be converted to tokens or minutes, and it must not populate the V1 token
+price columns.
 
 ## Gemini 3.6 and 3.7 consumption-option coverage
 

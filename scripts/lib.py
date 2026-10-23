@@ -178,7 +178,7 @@ def csv_rows(models: list[dict[str, Any]]) -> list[dict[str, Any]]:
                 "notes": " ".join(model.get("notes", "").split()),
                 "unit_price": primary_component["amount"] if primary_component else None,
                 "billing_unit": primary_component["unit"] if primary_component else None,
-                "billing_quantity": (1000 if primary_component["unit"] == "per_1000_pages" else 1) if primary_component else None,
+                "billing_quantity": billing_quantity(primary_component["unit"]) if primary_component else None,
                 "pricing_dimension": primary_component["component"] if primary_component else None,
                 "pricing_components_json": json.dumps(components, separators=(",", ":")) if components else None,
                 "price_records_json": json.dumps(price_records, separators=(",", ":")) if price_records else None,
@@ -195,6 +195,16 @@ def csv_rows(models: list[dict[str, Any]]) -> list[dict[str, Any]]:
             }
         )
     return rows
+
+
+def billing_quantity(unit: str) -> int:
+    # Like per_1m_tokens, a per_1m_characters price represents one million
+    # underlying billed units; only the measured quantity differs.
+    if unit == "per_1m_characters":
+        return 1_000_000
+    if unit == "per_1000_pages":
+        return 1_000
+    return 1
 
 
 def write_csv(path: Path, models: list[dict[str, Any]]) -> None:
