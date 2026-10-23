@@ -63,6 +63,11 @@ def model(model_id="deepseek-flash", *, version="DeepSeek-V4.1-Flash", price=1):
     }
 
 
+def canonical_json(rows):
+    """The canonical file's one normalized serialization (scripts/format_canonical.py)."""
+    return json.dumps(rows, indent=2, ensure_ascii=False) + "\n"
+
+
 def run(repo, *args, env=None):
     return subprocess.run(["git", *args], cwd=repo, check=True, capture_output=True, text=True, env=env).stdout.strip()
 
@@ -72,7 +77,7 @@ def make_dataset_repo(base: Path, existing_snapshots=("2026-10-18",)) -> Path:
     (repo / "data/canonical").mkdir(parents=True)
     (repo / "scripts").mkdir()
     (repo / "scripts/build.py").write_text(FAKE_BUILD, encoding="utf-8")
-    (repo / "data/canonical/models.json").write_text(json.dumps([model()]), encoding="utf-8")
+    (repo / "data/canonical/models.json").write_text(canonical_json([model()]), encoding="utf-8")
     for snapshot in existing_snapshots:
         (repo / "data/snapshots" / snapshot).mkdir(parents=True)
         (repo / "data/snapshots" / snapshot / "prices.json").write_text(f'{{"snapshot": "{snapshot}"}}\n', encoding="utf-8")
@@ -171,7 +176,7 @@ class TwoCommitReleaseTests(unittest.TestCase):
     def prepare(self, base: Path, existing=("2026-10-18",), generated_at="2026-10-21T16:35:00Z", price=2):
         dataset = make_dataset_repo(base, existing)
         website = make_website_repo(base)
-        (dataset / "data/canonical/models.json").write_text(json.dumps([model(price=price)]), encoding="utf-8")
+        (dataset / "data/canonical/models.json").write_text(canonical_json([model(price=price)]), encoding="utf-8")
         report = prepare_release(dataset, website, generated_at, fake_runner, isolated_workspaces)
         return dataset, website, report
 
@@ -208,16 +213,24 @@ class TwoCommitReleaseTests(unittest.TestCase):
             website = make_website_repo(Path(tmp))
             with self.assertRaisesRegex(ReleaseFailure, "Only data/canonical/models.json"):
                 prepare_release(dataset, website, "2026-10-21T16:35:00Z", fake_runner, isolated_workspaces)
-            (dataset / "data/canonical/models.json").write_text(json.dumps([model(price=2)]), encoding="utf-8")
+            (dataset / "data/canonical/models.json").write_text(canonical_json([model(price=2)]), encoding="utf-8")
             (dataset / "stray.txt").write_text("x", encoding="utf-8")
             with self.assertRaisesRegex(ReleaseFailure, "Only data/canonical/models.json"):
                 prepare_release(dataset, website, "2026-10-21T16:35:00Z", fake_runner, isolated_workspaces)
+
+    def test_release_refuses_a_canonical_file_that_is_not_normalized(self):
+        with tempfile.TemporaryDirectory() as tmp:
+            dataset = make_dataset_repo(Path(tmp))
+            website = make_website_repo(Path(tmp))
+            (dataset / "data/canonical/models.json").write_text(json.dumps([model(price=2)]), encoding="utf-8")
+            with self.assertRaisesRegex(ReleaseFailure, "format_canonical.py"):
+                validate_release(dataset, website, "2026-10-21T16:35:00Z", fake_runner, isolated_workspaces)
 
     def test_validate_is_a_dry_run(self):
         with tempfile.TemporaryDirectory() as tmp:
             dataset = make_dataset_repo(Path(tmp))
             website = make_website_repo(Path(tmp))
-            (dataset / "data/canonical/models.json").write_text(json.dumps([model(price=2)]), encoding="utf-8")
+            (dataset / "data/canonical/models.json").write_text(canonical_json([model(price=2)]), encoding="utf-8")
             head = run(dataset, "rev-parse", "HEAD")
             report = validate_release(dataset, website, "2026-10-21T16:35:00Z", fake_runner, isolated_workspaces)
             self.assertEqual(report["snapshot_id"], "2026-10-21")
@@ -255,7 +268,7 @@ class TwoCommitReleaseTests(unittest.TestCase):
     def test_publish_refuses_canonical_changes_in_the_artifact_commit(self):
         with tempfile.TemporaryDirectory() as tmp:
             dataset, website, _report = self.prepare(Path(tmp))
-            (dataset / "data/canonical/models.json").write_text(json.dumps([model(price=3)]), encoding="utf-8")
+            (dataset / "data/canonical/models.json").write_text(canonical_json([model(price=3)]), encoding="utf-8")
             run(dataset, "commit", "-q", "--amend", "-a", "--no-edit")
             with self.assertRaisesRegex(ReleaseFailure, "must not change canonical data"):
                 publish_release(dataset, website, fake_runner, isolated_workspaces, Mock(), Mock(), Mock())

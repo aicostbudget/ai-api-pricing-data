@@ -16,8 +16,10 @@ from pathlib import Path
 from typing import Any, Callable, Mapping
 
 try:
+    from format_canonical import is_normalized
     from lib import next_snapshot_id, parse_snapshot_id, snapshot_ids, snapshot_sort_key
 except ModuleNotFoundError:
+    from scripts.format_canonical import is_normalized
     from scripts.lib import next_snapshot_id, parse_snapshot_id, snapshot_ids, snapshot_sort_key
 
 ROOT = Path(__file__).resolve().parents[1]
@@ -264,6 +266,11 @@ def working_tree_changes(root: Path) -> list[dict[str, Any]]:
     dirty = changed_paths(root)
     if dirty != [SOURCE_PATH]:
         raise ReleaseFailure("DATA_MISMATCH", "validate", f"Only {SOURCE_PATH} may be modified before a release, found: {dirty or 'no change'}")
+    if not is_normalized(root / SOURCE_PATH):
+        raise ReleaseFailure(
+            "DATA_MISMATCH", "validate",
+            f"{SOURCE_PATH} is not in its normalized form; run python scripts/format_canonical.py and review the diff",
+        )
     changes = classify_changes(json.loads(git(root, "show", f"HEAD:{SOURCE_PATH}")), read_json(root / SOURCE_PATH))
     if not changes:
         raise ReleaseFailure("DATA_MISMATCH", "validate", "No canonical model change")
