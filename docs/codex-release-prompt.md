@@ -18,7 +18,9 @@
 第 2 步：修改 canonical（只改 data/canonical/models.json）
 - <逐条写明要新增或修改的记录：provider_id、model_id、display_name、model_family、model_category、status/release_stage、released_at、模态、V1 pricing、price_records（component、modality、unit、amount、transport）、billing_note、notes、official_source_url 与 official_source_urls>
 - 结构参照同文件中的 <相近的现有模型 ID>。只做局部插入或修改，不要整体重排。
-- 价格只用官方来源中当前可复核的数值：<官方 URL 列表>。来源之间有冲突时停下来报告，不要自行选择。
+- 价格只用官方来源中当前可复核的数值：<官方 URL 列表>。改 canonical 之前，先对每个模型运行：
+  python scripts/capture_price_evidence.py --model <provider>/<model> --url <官方 URL> --expect '<价格文字>'
+  它必须成功（页面含该价格、HTTP 200）；它列出的"与上次相比的变化"要写进报告。来源之间有冲突时停下来报告，不要自行选择。
 - 改完运行：python scripts/format_canonical.py，并查看 diff，确认只改了预期的记录。
 - 不收录、只记录证据的内容：<例如没有标价的型号、工作流计费>，写进 docs/billing-unit-vnext-decision.md，但要等 Prepare 之后再改（Validate/Prepare 要求只有 canonical 一个文件有改动）。
 
@@ -31,6 +33,7 @@
 - 运行 python scripts/update_release_approvals.py，查看它写入的摘要和 Website 对照行。
 - 处理它在 STILL MANUAL 中列出的项目：价格变动的事件审批扩展、针对具体模型的断言（例如 provider onboarding 测试里的型号集合）。
 - 第 2 步中推迟的文档改动。
+- 第 2 步生成的 reports/price-evidence/ 存档。
 
 第 5 步：Rehearse（发布关卡）
 - .\scripts\daily-pricing-release.ps1 -Rehearse -WebsitePath "D:\ai-cost-control-tool\aicostguard-english"

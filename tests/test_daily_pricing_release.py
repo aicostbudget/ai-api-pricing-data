@@ -219,6 +219,22 @@ class TwoCommitReleaseTests(unittest.TestCase):
             with self.assertRaisesRegex(ReleaseFailure, "Only data/canonical/models.json"):
                 prepare_release(dataset, website, "2026-10-21T16:35:00Z", fake_runner, isolated_workspaces)
 
+    def test_pending_price_evidence_is_allowed_and_left_out_of_the_artifact_commit(self):
+        with tempfile.TemporaryDirectory() as tmp:
+            dataset = make_dataset_repo(Path(tmp))
+            website = make_website_repo(Path(tmp))
+            (dataset / "data/canonical/models.json").write_text(canonical_json([model(price=2)]), encoding="utf-8")
+            evidence = dataset / "reports/price-evidence/deepseek/deepseek-flash/20261021T160000Z.json"
+            evidence.parent.mkdir(parents=True)
+            evidence.write_text('{"pages": []}\n', encoding="utf-8")
+
+            report = prepare_release(dataset, website, "2026-10-21T16:35:00Z", fake_runner, isolated_workspaces)
+
+            committed = run(dataset, "diff-tree", "--no-commit-id", "--name-only", "-r", report["artifact_sha"]).splitlines()
+            self.assertNotIn("reports/price-evidence/deepseek/deepseek-flash/20261021T160000Z.json", committed)
+            self.assertTrue(evidence.is_file(), "evidence stays for the reviewer to amend in")
+            self.assertEqual(run(dataset, "status", "--porcelain"), "?? reports/")
+
     def test_release_refuses_a_canonical_file_that_is_not_normalized(self):
         with tempfile.TemporaryDirectory() as tmp:
             dataset = make_dataset_repo(Path(tmp))
