@@ -442,32 +442,43 @@ def publish_release(
     }
 
 
+# Release logs and scratch files live here (git-ignored), never in a drive root or the repo tree.
+RELEASE_LOGS = ".release-logs"
+
+
 @dataclass(frozen=True)
 class SuiteResult:
     name: str
     passed: bool
     output_tail: str
+    log_path: str | None = None
 
 
-def run_suite(name: str, args: list[str], cwd: Path, env: Mapping[str, str]) -> SuiteResult:
+def run_suite(name: str, args: list[str], cwd: Path, env: Mapping[str, str], log_dir: Path | None = None) -> SuiteResult:
     result = subprocess.run(
         args, cwd=cwd, text=True, encoding="utf-8", errors="replace", capture_output=True,
         env={**os.environ, **env, "PYTHONIOENCODING": "utf-8"},
     )
-    lines = ((result.stdout or "") + "\n" + (result.stderr or "")).strip().splitlines()
-    return SuiteResult(name, result.returncode == 0, "\n".join(lines[-25:]))
+    output = ((result.stdout or "") + "\n" + (result.stderr or "")).strip()
+    log_path = None
+    if log_dir is not None:
+        log_dir.mkdir(parents=True, exist_ok=True)
+        log_file = log_dir / (name.replace(" ", "-").replace(":", "-") + ".log")
+        log_file.write_text(output + "\n", encoding="utf-8")
+        log_path = str(log_file)
+    return SuiteResult(name, result.returncode == 0, "\n".join(output.splitlines()[-25:]), log_path)
 
 
-def run_cross_repo_suites(dataset: Path, website: Path) -> list[SuiteResult]:
+def run_cross_repo_suites(dataset: Path, website: Path, log_dir: Path | None = None) -> list[SuiteResult]:
     """Both complete suites against the synced pair, as the repositories will look after publish."""
     npm = "npm.cmd" if os.name == "nt" else "npm"
     return [
         run_suite("website test:all", [npm, "run", "test:all"], website, {
             "DATASET_ROOT": str(dataset), "DATASET_HF_DIR": str(dataset / "huggingface"),
-        }),
+        }, log_dir),
         run_suite("dataset unittest", [sys.executable, "-m", "unittest", "discover", "-s", "tests"], dataset, {
             "WEBSITE_SOURCE_ROOT": str(website),
-        }),
+        }, log_dir),
     ]
 
 
@@ -503,12 +514,16 @@ def rehearse_release(
     root: Path,
     website: Path,
     publish: Callable[..., dict[str, str]] = publish_release,
-    suites: Callable[[Path, Path], list[SuiteResult]] = run_cross_repo_suites,
+    suites: Callable[[Path, Path], list[SuiteResult]] | None = None,
     run_tests: bool = True,
 ) -> dict[str, Any]:
     """Publish the prepared commits into throwaway clones with recorded pushes, then run both
-    suites on the synced pair. Nothing is pushed and neither checkout changes."""
+    suites on the synced pair. Nothing is pushed and neither checkout changes; full suite logs go
+    to .release-logs/rehearse-<UTC time>/ in the Dataset checkout."""
     root = require_checkout(root, SOURCE_PATH)
+    if suites is None:
+        log_dir = root / RELEASE_LOGS / f"rehearse-{datetime.now(timezone.utc).strftime('%Y%m%dT%H%M%SZ')}"
+        suites = lambda dataset, website: run_cross_repo_suites(dataset, website, log_dir)
     website = require_checkout(website, "data/model-pricing.json")
     for repo, label in ((root, "Dataset"), (website, "Website")):
         if git(repo, "status", "--porcelain=v1", "--untracked-files=all"):
@@ -549,7 +564,10 @@ def rehearse_release(
         "snapshot_id": report["snapshot_id"],
         "website_business_change": report["website_business_change"],
         "push_order": calls,
-        "suites": [{"name": result.name, "passed": result.passed, "output_tail": result.output_tail} for result in results],
+        "suites": [
+            {"name": result.name, "passed": result.passed, "output_tail": result.output_tail, "log": result.log_path}
+            for result in results
+        ],
         "status": "REHEARSAL PASS" if all(result.passed for result in results) else "REHEARSAL FAIL",
     }
 

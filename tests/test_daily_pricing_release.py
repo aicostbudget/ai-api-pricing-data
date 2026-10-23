@@ -27,6 +27,7 @@ from scripts.daily_pricing_release import (
     price_event_changes,
     publish_release,
     rehearse_release,
+    run_suite,
     run_validation_pipeline,
     validate_release,
     website_business_changed,
@@ -385,6 +386,17 @@ class RehearsalTests(unittest.TestCase):
             self.assertEqual(run(website, "status", "--porcelain"), "")
             self.assertFalse(seen["clones"][1].exists(), "throwaway clones are removed")
             self.assertEqual((dependencies / "pkg/index.js").read_text(encoding="utf-8"), "keep\n")
+
+    def test_suite_keeps_the_full_log_and_reports_the_tail(self):
+        with tempfile.TemporaryDirectory() as tmp:
+            script = "import sys\nfor i in range(40): print(f'line {i}')\nsys.exit(1)"
+            result = run_suite("website test:all", [sys.executable, "-c", script], Path(tmp), {}, Path(tmp) / "logs")
+            self.assertFalse(result.passed)
+            self.assertEqual(len(result.output_tail.splitlines()), 25)
+            self.assertTrue(result.output_tail.endswith("line 39"))
+            log = Path(result.log_path)
+            self.assertEqual(log.name, "website-test-all.log")
+            self.assertEqual(len(log.read_text(encoding="utf-8").splitlines()), 40)
 
     def test_failing_suite_fails_the_rehearsal_and_keeps_the_real_dependencies(self):
         with tempfile.TemporaryDirectory() as tmp:
