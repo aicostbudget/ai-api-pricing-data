@@ -64,7 +64,7 @@ Prepare 之后、Publish 之前，直接在两个仓库里跑跨仓库测试必�
 ```powershell
 $ErrorActionPreference = "Stop"
 Set-Location -LiteralPath "D:\ai-api-pricing-data"
-.\scripts\daily-pricing-release.ps1 -Publish -WebsitePath "D:\ai-cost-control-tool\aicostguard-english"
+.\scripts\daily-pricing-release.ps1 -Publish -Follow -WebsitePath "D:\ai-cost-control-tool\aicostguard-english"
 if ($LASTEXITCODE -ne 0) { throw "Publish failed" }
 ```
 
@@ -75,6 +75,16 @@ Publish 要求两个仓库工作区干净，HEAD 为生成提交、HEAD^ 为源�
 3. 最后触发 Hugging Face 发布（HF 导出会与已发布的 Website 比对，所以必须在 Website 之后）。
 
 失败即停止。普通流程不自动进入事故 Recovery。
+
+`-Follow`（建议始终使用）在推送后继续完成发布后检查，最后输出 `"status": "PUBLISHED AND VERIFIED"`，否则为 `PUBLISHED, FOLLOW-UP NEEDS ATTENTION` 并以非零退出：
+
+1. Website 有业务变化时，在 Website 仓库运行 `npm run verify:live -- --commit <website_sha> --wait 900`：Hostinger 不向 GitHub 报告部署状态，脚本读取线上 JS 中 Sentry 注入的 `SENTRY_RELEASE` 提交号，直到它等于（或包含）本次 Website 提交；
+2. 等待本次 Dataset 提交触发的 Hugging Face 发布运行结束，并要求其日志含 `BUSINESS_PARITY: PASS`（发布工作流最后一步即生产 parity 检查），报告 HF 提交；
+3. Website 已上线时执行 IndexNow dry run（带 `--wait-live`），列出将提交的 URL，并给出 `--send` 命令。IndexNow 提交仍需人工确认。
+
+Follow 失败不会回滚已推送的提交；按报告中失败的步骤单独处理。
+
+契约类改动（新计费单位、导出 schema 升级）不经过本流程，而是先合并 Website PR、再合并 Dataset PR。Dataset `main` 上 `huggingface/` 变化且不是发布生成提交时，`hf-contract-republish.yml` 会运行生产 parity 检查，仅在 `DATA_DRIFT` 时自动触发 `publish-huggingface.yml`，无需手动重发。
 
 ## IndexNow（Website 部署后）
 

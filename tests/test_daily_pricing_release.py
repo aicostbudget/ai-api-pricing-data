@@ -18,6 +18,10 @@ from scripts.daily_pricing_release import (
     classify_changes,
     command,
     ensure_local_main,
+    follow_huggingface,
+    follow_indexnow,
+    follow_release,
+    follow_website_live,
     isolated_workspaces,
     prepare_release,
     price_event_changes,
@@ -418,6 +422,72 @@ class RehearsalTests(unittest.TestCase):
 
             with self.assertRaisesRegex(ReleaseFailure, "Publish order"):
                 rehearse_release(dataset, website, wrong_order, run_tests=False)
+
+
+class FollowTests(unittest.TestCase):
+    RELEASE = "a" * 40
+    WEBSITE = "b" * 40
+
+    def report(self, business="YES"):
+        return {"release_sha": self.RELEASE, "source_sha": "c" * 40, "snapshot_id": "2026-10-23",
+                "website_sha": self.WEBSITE, "website_business_change": business, "status": "PUBLISH STARTED"}
+
+    def test_website_live_reads_the_verify_live_verdict(self):
+        calls = []
+
+        def run(args, cwd):
+            calls.append(args)
+            return 0, f'{{"target":"{self.WEBSITE}","live":"{self.WEBSITE}","state":"live"}}'
+
+        result = follow_website_live(ROOT, self.WEBSITE, run)
+        self.assertEqual(result, {"passed": True, "state": "live", "live_commit": self.WEBSITE})
+        self.assertEqual(calls[0], ["node", "scripts/verify-live-deploy.mjs", "--commit", self.WEBSITE, "--wait", "900"])
+
+    def test_huggingface_waits_for_the_release_run_and_requires_parity(self):
+        listed = json.dumps([{"databaseId": 7, "headSha": "f" * 40}, {"databaseId": 9, "headSha": self.RELEASE}])
+        outputs = iter([(0, "[]"), (0, listed), (0, ""), (0, "HF_PUSHED: 469ac60\nBUSINESS_PARITY: PASS\n")])
+        sleeps = []
+        result = follow_huggingface(ROOT, self.RELEASE, lambda args, cwd: next(outputs), sleeps.append)
+        self.assertEqual(result, {"passed": True, "run_id": 9, "parity": "PASS", "hf_commit": "469ac60"})
+        self.assertEqual(sleeps, [10], "polls until the dispatched run appears")
+
+    def test_huggingface_without_a_run_or_parity_fails(self):
+        missing = follow_huggingface(ROOT, self.RELEASE, lambda args, cwd: (0, "[]"), lambda _s: None, attempts=2)
+        self.assertFalse(missing["passed"])
+        listed = json.dumps([{"databaseId": 9, "headSha": self.RELEASE}])
+        outputs = iter([(0, listed), (1, "failed"), (0, "DATA_DRIFT")])
+        failed = follow_huggingface(ROOT, self.RELEASE, lambda args, cwd: next(outputs), lambda _s: None)
+        self.assertEqual((failed["passed"], failed["parity"]), (False, "FAIL"))
+
+    def test_indexnow_is_only_a_dry_run(self):
+        calls = []
+        payload = '{\n  "urlList": [\n    "https://aicostbudget.com/en/models",\n    "https://aicostbudget.com/en/providers/mistral-ai-api-pricing"\n  ]\n}\nDry run: 2 URLs.'
+
+        def run(args, cwd):
+            calls.append(args)
+            return 0, payload
+
+        result = follow_indexnow(ROOT, self.WEBSITE, run)
+        self.assertNotIn("--send", calls[0])
+        self.assertIn("--wait-live", calls[0])
+        self.assertEqual(result["dry_run_urls"], ["https://aicostbudget.com/en/models", "https://aicostbudget.com/en/providers/mistral-ai-api-pricing"])
+        self.assertTrue(result["send"].endswith(f"--commit {self.WEBSITE} --send"))
+
+    def test_follow_orders_steps_and_reports_status(self):
+        order = []
+        ok = lambda name: (lambda *_: order.append(name) or {"passed": True})
+        result = follow_release(ROOT, ROOT, self.report(), ok("website"), ok("hf"), ok("indexnow"))
+        self.assertEqual(order, ["website", "hf", "indexnow"])
+        self.assertEqual(result["status"], "PUBLISHED AND VERIFIED")
+
+        order.clear()
+        no_site = follow_release(ROOT, ROOT, self.report("NO"), ok("website"), ok("hf"), ok("indexnow"))
+        self.assertEqual(order, ["hf"])
+        self.assertEqual(no_site["status"], "PUBLISHED AND VERIFIED")
+
+        down = follow_release(ROOT, ROOT, self.report(), lambda *_: {"passed": False}, ok("hf"), ok("indexnow"))
+        self.assertNotIn("indexnow", down["follow"], "no IndexNow before the Website is live")
+        self.assertEqual(down["status"], "PUBLISHED, FOLLOW-UP NEEDS ATTENTION")
 
 
 if __name__ == "__main__":
