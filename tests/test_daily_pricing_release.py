@@ -27,6 +27,7 @@ from scripts.daily_pricing_release import (
     price_event_changes,
     publish_release,
     rehearse_release,
+    run_validation_pipeline,
     validate_release,
     website_business_changed,
 )
@@ -422,6 +423,28 @@ class RehearsalTests(unittest.TestCase):
 
             with self.assertRaisesRegex(ReleaseFailure, "Publish order"):
                 rehearse_release(dataset, website, wrong_order, run_tests=False)
+
+
+class PipelineOrderTests(unittest.TestCase):
+    def test_api_meta_is_rewritten_after_the_identity_registry_is_regenerated(self):
+        # build.py reads model-identity-registry.json, which the Pricing V2 generator updates
+        # afterwards; without the rewrite new models reach modelAccess one release late.
+        with tempfile.TemporaryDirectory() as tmp:
+            dataset, website, report = TwoCommitReleaseTests().prepare(Path(tmp))
+            run(dataset, "checkout", "-q", "--detach", report["source_sha"])
+            steps = []
+
+            def record(args, cwd, env=None, stage="validate"):
+                steps.append(" ".join(Path(part).name if part.endswith(".py") or part.endswith(".mjs") else part for part in args[1:3]))
+                return ""
+
+            with patch("scripts.daily_pricing_release.command", side_effect=record):
+                run_validation_pipeline(dataset, website, "2026-10-21T16:35:00Z", [{"change_type": "added"}])
+            generator = steps.index("generate_pricing_v2_preview.py")
+            meta = next(index for index, step in enumerate(steps) if step == "build.py --generated-at" and index > generator)
+            sync = steps.index("sync-pricing-artifacts.mjs --write")
+            self.assertLess(generator, meta)
+            self.assertLess(meta, sync)
 
 
 class FollowTests(unittest.TestCase):

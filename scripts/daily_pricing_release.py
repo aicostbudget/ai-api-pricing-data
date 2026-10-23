@@ -233,6 +233,9 @@ def run_validation_pipeline(root: Path, website: Path, generated_at: str, change
             "--before", str(before_snapshot), "--after", str(after_snapshot),
         ], root, env)
     command([python, "scripts/generate_pricing_v2_preview.py"], root, env)
+    # build.py wrote api/v1/meta.json from the identity registry before the generator above
+    # updated it; rewrite it so new models get their access metadata in this release, not the next.
+    command([python, "scripts/build.py", "--generated-at", generated_at, "--meta-only"], root, env)
     command([
         python, "scripts/generate_website_projection_v2.py", "--effective-at", generated_at,
         "--generated-at", generated_at, "--website-dataset", str(website / "data/model-pricing.json"),
