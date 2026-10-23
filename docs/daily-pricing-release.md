@@ -3,18 +3,18 @@
 普通模型新增、价格更新、metadata 更新和生命周期更新统一使用以下流程：
 
 ```text
-EDIT canonical
+WORKTREE（scripts/release_worktree.py create）
+→ EDIT canonical（之后运行 scripts/format_canonical.py）
 → VALIDATE（可选的完整演练，不改任何仓库）
 → PREPARE（本地生成两个提交：源数据+快照，然后生成数据）
-→ HUMAN APPROVAL（审阅、补充审批测试）
+→ HUMAN APPROVAL（scripts/update_release_approvals.py + 人工补充，amend 进生成提交）
 → REHEARSE（临时克隆中打桩发布，并对同步后的两仓库跑完整测试）
-→ PUBLISH ONCE
-→ PRODUCTION VERIFY ONCE
-→ INDEXNOW（Website 有业务变化时；先 dry run，确认后 --send）
-→ STOP
+→ PUBLISH ONCE（-Follow：等待上线、HF 发布与 parity、IndexNow dry run）
+→ INDEXNOW --send（经人工确认）
+→ WORKTREE remove
 ```
 
-Canonical（`data/canonical/models.json`）仍是唯一 Source of Truth。普通流程不创建 Release Plan，不保存 checkpoint，不支持 resume。
+Canonical（`data/canonical/models.json`）仍是唯一 Source of Truth。普通流程不创建 Release Plan，不保存 checkpoint，不支持 resume。交给 Codex 执行时使用 `docs/codex-release-prompt.md` 中的提示词模板。
 
 ## 工作目录
 
