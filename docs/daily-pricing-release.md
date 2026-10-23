@@ -3,18 +3,19 @@
 普通模型新增、价格更新、metadata 更新和生命周期更新统一使用以下流程：
 
 ```text
-EDIT canonical
+WORKTREE（scripts/release_worktree.py create）
+→ EVIDENCE（scripts/capture_price_evidence.py：存档官方页面的价格原文，并与上次对比）
+→ EDIT canonical（之后运行 scripts/format_canonical.py）
 → VALIDATE（可选的完整演练，不改任何仓库）
 → PREPARE（本地生成两个提交：源数据+快照，然后生成数据）
-→ HUMAN APPROVAL（审阅、补充审批测试）
+→ HUMAN APPROVAL（scripts/update_release_approvals.py + 人工补充，amend 进生成提交）
 → REHEARSE（临时克隆中打桩发布，并对同步后的两仓库跑完整测试）
-→ PUBLISH ONCE
-→ PRODUCTION VERIFY ONCE
-→ INDEXNOW（Website 有业务变化时；先 dry run，确认后 --send）
-→ STOP
+→ PUBLISH ONCE（-Follow：等待上线、HF 发布与 parity、IndexNow dry run）
+→ INDEXNOW --send（经人工确认）
+→ WORKTREE remove
 ```
 
-Canonical（`data/canonical/models.json`）仍是唯一 Source of Truth。普通流程不创建 Release Plan，不保存 checkpoint，不支持 resume。
+Canonical（`data/canonical/models.json`）仍是唯一 Source of Truth。普通流程不创建 Release Plan，不保存 checkpoint，不支持 resume。交给 Codex 执行时使用 `docs/codex-release-prompt.md` 中的提示词模板。
 
 ## 工作目录
 
@@ -26,6 +27,18 @@ python scripts/release_worktree.py remove D:/ai-api-pricing-data-<名称> --dele
 ```
 
 需要 Website worktree 时加 `--repo D:/ai-cost-control-tool/aicostguard-english --link-node-modules D:/ai-cost-control-tool/aicostguard-english/node_modules`，依赖以目录链接共享。`remove` 会拒绝含未提交改动的 worktree（`--force` 才丢弃），先逐个拆除其中所有目录链接（不进入链接内部；Python 3.11 的 `rmtree`/`os.walk` 会沿 Windows junction 删除真实依赖），再删除 worktree，git 因路径过长失败时改用长路径删除。不要用 `rm -rf`、`Remove-Item -Recurse` 或 `rmtree` 直接删除含 `node_modules` 链接的目录。
+
+## 价格证据
+
+改 canonical 之前，对每个要发布的模型运行：
+
+```powershell
+python scripts/capture_price_evidence.py --model <provider>/<model> --url <官方页面> [--url <另一官方页面>] --expect '<将要发布的价格文字，如 $13>'
+```
+
+它把各页面文本中含价格的段落（带上下文，避免 `$13` 与 `/M Chars` 被拆开）、抓取时间和页面文本摘要存到 `reports/price-evidence/<provider>/<model>/<UTC 时间>.json`，并与该模型上一份存档比较，列出新出现和消失的价格段落；页面不含 `--expect` 的文字或返回非 200 时以非零退出。来源冲突（例如搜索摘要与官方页面价格不一致）以这里存档的官方页面原文为准。存档在 Validate/Prepare 时允许处于未提交状态，也不会被 Prepare 放进生成提交；审阅后与文档、测试改动一起 `git commit --amend` 进生成提交。
+
+临时文件与日志只放在 Dataset 检出下被 git 忽略的 `.release-logs/`（Rehearse 的完整测试日志写在 `.release-logs/rehearse-<UTC 时间>/`，报告里只截取末尾 25 行并给出日志路径），或系统临时目录；不要写到盘符根目录或仓库的已跟踪目录。
 
 ## 快照编号
 
