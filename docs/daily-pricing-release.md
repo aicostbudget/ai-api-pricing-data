@@ -6,7 +6,8 @@
 EDIT canonical
 → VALIDATE（可选的完整演练，不改任何仓库）
 → PREPARE（本地生成两个提交：源数据+快照，然后生成数据）
-→ HUMAN APPROVAL（审阅、跑测试、补充审批测试）
+→ HUMAN APPROVAL（审阅、补充审批测试）
+→ REHEARSE（临时克隆中打桩发布，并对同步后的两仓库跑完整测试）
 → PUBLISH ONCE
 → PRODUCTION VERIFY ONCE
 → INDEXNOW（Website 有业务变化时；先 dry run，确认后 --send）
@@ -45,6 +46,19 @@ if ($LASTEXITCODE -ne 0) { throw "Validate failed" }
 
 Prepare 不推送、不修改 Website 仓库。随后人工审阅、运行完整测试；需要新增审批记录（如 `tests/fixtures/official-pricing-repair-scope.json`）时，可以修改测试文件并 `git commit --amend` 到生成提交，但不得改动生成数据。
 
+## Rehearse（发布演练）
+
+```powershell
+$ErrorActionPreference = "Stop"
+Set-Location -LiteralPath "D:\ai-api-pricing-data"
+.\scripts\daily-pricing-release.ps1 -Rehearse -WebsitePath "D:\ai-cost-control-tool\aicostguard-english"
+if ($LASTEXITCODE -ne 0) { throw "Rehearsal failed" }
+```
+
+Prepare（含审批测试的 amend）之后、Publish 之前运行。要求两个仓库工作区干净，前提与 Publish 相同。它把两个仓库克隆到临时目录，在克隆里执行完整的 Publish（推送与 HF 触发全部替换为记录，不触碰远端），核对推送顺序（Website → Dataset → HF），然后在已同步的两份克隆上跑完整测试：Website `npm run test:all`（`DATASET_ROOT` 指向 Dataset 克隆）和 Dataset `python -m unittest discover -s tests`（`WEBSITE_SOURCE_ROOT` 指向 Website 克隆）。Website 依赖通过目录链接共享，结束时先拆链接再删除克隆，真实 `node_modules` 不受影响。
+
+Prepare 之后、Publish 之前，直接在两个仓库里跑跨仓库测试必然失败（Dataset 已含新数据而 Website 尚未同步），这类失败不能作为放行依据；以 Rehearse 的结果为准。输出 `"status": "REHEARSAL PASS"` 才进入 Publish；`REHEARSAL FAIL` 时 `suites[].output_tail` 给出失败摘要。只想核对发布步骤时可加 `-SkipTests`。
+
 ## Publish
 
 ```powershell
@@ -68,7 +82,7 @@ Publish 的 JSON 输出含 `website_sha` 与 `next_step`。Website 有业务变�
 
 ```powershell
 $ErrorActionPreference = "Stop"
-Set-Location -LiteralPath "D:i-cost-control-toolicostguard-english"
+Set-Location -LiteralPath "D:\ai-cost-control-tool\aicostguard-english"
 npm.cmd run indexnow:pricing -- --commit <website_sha> --wait-live 600
 if ($LASTEXITCODE -ne 0) { throw "IndexNow pricing dry run failed" }
 ```

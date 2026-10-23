@@ -3,6 +3,8 @@ param(
     [Parameter(ParameterSetName = "Validate")][switch]$Validate,
     [Parameter(ParameterSetName = "Prepare", Mandatory = $true)][switch]$Prepare,
     [Parameter(ParameterSetName = "Publish", Mandatory = $true)][switch]$Publish,
+    [Parameter(ParameterSetName = "Rehearse", Mandatory = $true)][switch]$Rehearse,
+    [Parameter(ParameterSetName = "Rehearse")][switch]$SkipTests,
     [string]$DatasetPath = (Split-Path -Parent $PSScriptRoot),
     [string]$WebsitePath
 )
@@ -12,6 +14,7 @@ Set-Location -LiteralPath $DatasetPath
 if (-not $WebsitePath) {
     $WebsitePath = Join-Path (Split-Path -Parent $DatasetPath) "ai-cost-control-tool\aicostguard-english"
 }
-$Action = if ($Publish) { "publish" } elseif ($Prepare) { "prepare" } else { "validate" }
-& python -m scripts.daily_pricing_release $Action --dataset-root $DatasetPath --website-root $WebsitePath
+$Action = if ($Publish) { "publish" } elseif ($Rehearse) { "rehearse" } elseif ($Prepare) { "prepare" } else { "validate" }
+$Extra = if ($SkipTests) { @("--skip-tests") } else { @() }
+& python -m scripts.daily_pricing_release $Action --dataset-root $DatasetPath --website-root $WebsitePath @Extra
 if ($LASTEXITCODE -ne 0) { throw "Daily pricing release $Action failed with exit code $LASTEXITCODE" }

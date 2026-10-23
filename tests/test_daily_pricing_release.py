@@ -8,16 +8,21 @@ from contextlib import contextmanager
 from pathlib import Path
 from unittest.mock import Mock, patch
 
+from functools import partial
+
 from scripts.daily_pricing_release import (
     WEBSITE_OUTPUTS,
     ReleaseFailure,
+    SuiteResult,
     ValidationRun,
     classify_changes,
     command,
+    ensure_local_main,
     isolated_workspaces,
     prepare_release,
     price_event_changes,
     publish_release,
+    rehearse_release,
     validate_release,
     website_business_changed,
 )
@@ -322,10 +327,97 @@ class StabilityAndFlowTests(unittest.TestCase):
         source = (ROOT / "scripts/daily-pricing-release.ps1").read_text(encoding="utf-8")
         self.assertIn("python -m scripts.daily_pricing_release", source)
         self.assertNotIn("python scripts/daily_pricing_release.py", source)
-        for token in ("$Validate", "$Prepare", "$Publish"):
+        for token in ("$Validate", "$Prepare", "$Publish", "$Rehearse"):
             self.assertIn(token, source)
         for token in ("-Resume", "-Plan", "-Digest", "-Recovery"):
             self.assertNotIn(token, source)
+
+
+class RehearsalTests(unittest.TestCase):
+    def prepared(self, base: Path):
+        dataset, website, report = TwoCommitReleaseTests().prepare(base)
+        (website / ".gitignore").write_text("node_modules/\n", encoding="utf-8")
+        run(website, "add", ".gitignore")
+        run(website, "commit", "-q", "-m", "ignore dependencies")
+        dependencies = website / "node_modules"
+        (dependencies / "pkg").mkdir(parents=True)
+        (dependencies / "pkg/index.js").write_text("keep\n", encoding="utf-8")
+        return dataset, website, report, dependencies
+
+    def test_rehearsal_publishes_into_clones_and_tests_the_synced_pair(self):
+        with tempfile.TemporaryDirectory() as tmp:
+            dataset, website, report, dependencies = self.prepared(Path(tmp))
+            heads = (run(dataset, "rev-parse", "HEAD"), run(website, "rev-parse", "HEAD"))
+            seen = {}
+
+            def suites(dataset_clone, website_clone):
+                seen["clones"] = (dataset_clone, website_clone)
+                seen["dataset_head"] = run(dataset_clone, "rev-parse", "HEAD")
+                seen["shared"] = (website_clone / "node_modules/pkg/index.js").read_text(encoding="utf-8")
+                return [SuiteResult("website test:all", True, "ok"), SuiteResult("dataset unittest", True, "ok")]
+
+            result = rehearse_release(dataset, website, partial(publish_release, runner=fake_runner), suites)
+            self.assertEqual(result["status"], "REHEARSAL PASS")
+            self.assertEqual(result["push_order"], ["dataset", "hf"])
+            self.assertEqual(result["release_sha"], report["artifact_sha"])
+            self.assertEqual(seen["dataset_head"], report["artifact_sha"])
+            self.assertEqual(seen["shared"], "keep\n")
+            self.assertNotIn(dataset, seen["clones"])
+            self.assertEqual((run(dataset, "rev-parse", "HEAD"), run(website, "rev-parse", "HEAD")), heads)
+            self.assertEqual(run(website, "status", "--porcelain"), "")
+            self.assertFalse(seen["clones"][1].exists(), "throwaway clones are removed")
+            self.assertEqual((dependencies / "pkg/index.js").read_text(encoding="utf-8"), "keep\n")
+
+    def test_failing_suite_fails_the_rehearsal_and_keeps_the_real_dependencies(self):
+        with tempfile.TemporaryDirectory() as tmp:
+            dataset, website, _report, dependencies = self.prepared(Path(tmp))
+            result = rehearse_release(
+                dataset, website, partial(publish_release, runner=fake_runner),
+                lambda *_: [SuiteResult("website test:all", False, "1 unexpected failure")],
+            )
+            self.assertEqual(result["status"], "REHEARSAL FAIL")
+            self.assertEqual(result["suites"][0]["output_tail"], "1 unexpected failure")
+            self.assertEqual((dependencies / "pkg/index.js").read_text(encoding="utf-8"), "keep\n")
+
+    def test_clone_of_a_feature_branch_gets_a_local_main(self):
+        with tempfile.TemporaryDirectory() as tmp:
+            base = Path(tmp)
+            website = make_website_repo(base)
+            main_sha = run(website, "rev-parse", "HEAD")
+            run(website, "switch", "-q", "-c", "feature")
+            (website / "data/model-pricing.json").write_text("[1]", encoding="utf-8")
+            run(website, "commit", "-q", "-am", "feature")
+            direct = base / "direct"
+            run(base, "clone", "-q", str(website), str(direct))
+            ensure_local_main(direct)
+            self.assertEqual(run(direct, "rev-parse", "main"), main_sha)
+            # A clone of such a clone has no origin/main; main comes from the source's origin/main.
+            run(direct, "branch", "-D", "main")
+            nested = base / "nested"
+            run(base, "clone", "-q", str(direct), str(nested))
+            ensure_local_main(nested)
+            self.assertEqual(run(nested, "rev-parse", "main"), main_sha)
+
+    def test_rehearsal_refuses_a_dirty_checkout(self):
+        with tempfile.TemporaryDirectory() as tmp:
+            dataset, website, _report, _dependencies = self.prepared(Path(tmp))
+            (website / "stray.txt").write_text("x", encoding="utf-8")
+            with self.assertRaisesRegex(ReleaseFailure, "Website checkout must be clean"):
+                rehearse_release(dataset, website, partial(publish_release, runner=fake_runner), Mock())
+
+    def test_rehearsal_rejects_a_publish_that_pushes_the_dataset_before_the_website(self):
+        with tempfile.TemporaryDirectory() as tmp:
+            dataset, website, report, _dependencies = self.prepared(Path(tmp))
+
+            def wrong_order(_dataset, _website, dataset_push, website_push, hf_dispatch):
+                dataset_push(_dataset, "sha")
+                website_push(_website, "sha")
+                hf_dispatch(_dataset)
+                return {"release_sha": report["artifact_sha"], "source_sha": report["source_sha"],
+                        "snapshot_id": report["snapshot_id"], "website_business_change": "YES"}
+
+            with self.assertRaisesRegex(ReleaseFailure, "Publish order"):
+                rehearse_release(dataset, website, wrong_order, run_tests=False)
 
 
 if __name__ == "__main__":

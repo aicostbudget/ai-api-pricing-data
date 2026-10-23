@@ -431,6 +431,118 @@ def publish_release(
     }
 
 
+@dataclass(frozen=True)
+class SuiteResult:
+    name: str
+    passed: bool
+    output_tail: str
+
+
+def run_suite(name: str, args: list[str], cwd: Path, env: Mapping[str, str]) -> SuiteResult:
+    result = subprocess.run(
+        args, cwd=cwd, text=True, encoding="utf-8", errors="replace", capture_output=True,
+        env={**os.environ, **env, "PYTHONIOENCODING": "utf-8"},
+    )
+    lines = ((result.stdout or "") + "\n" + (result.stderr or "")).strip().splitlines()
+    return SuiteResult(name, result.returncode == 0, "\n".join(lines[-25:]))
+
+
+def run_cross_repo_suites(dataset: Path, website: Path) -> list[SuiteResult]:
+    """Both complete suites against the synced pair, as the repositories will look after publish."""
+    npm = "npm.cmd" if os.name == "nt" else "npm"
+    return [
+        run_suite("website test:all", [npm, "run", "test:all"], website, {
+            "DATASET_ROOT": str(dataset), "DATASET_HF_DIR": str(dataset / "huggingface"),
+        }),
+        run_suite("dataset unittest", [sys.executable, "-m", "unittest", "discover", "-s", "tests"], dataset, {
+            "WEBSITE_SOURCE_ROOT": str(website),
+        }),
+    ]
+
+
+def link_directory(link: Path, target: Path) -> None:
+    """Share the Website dependencies with a throwaway clone instead of reinstalling them."""
+    if os.name == "nt":
+        command(["cmd", "/c", "mklink", "/J", str(link), str(target)], link.parent, stage="rehearse")
+    else:
+        link.symlink_to(target, target_is_directory=True)
+
+
+def unlink_directory(link: Path) -> None:
+    # shutil.rmtree in Python 3.11 follows Windows junctions and would delete the real
+    # dependencies, so the link itself is removed before the clone is cleaned up.
+    if os.name == "nt":
+        os.rmdir(link)
+    else:
+        link.unlink()
+
+
+def ensure_local_main(clone: Path) -> None:
+    """Some Website tests diff against the local main branch, which a clone of a feature branch
+    lacks: take it from the source's main, else from the source's origin/main."""
+    if git(clone, "rev-parse", "--verify", "--quiet", "refs/heads/main", check=False):
+        return
+    if git(clone, "rev-parse", "--verify", "--quiet", "refs/remotes/origin/main", check=False):
+        command(["git", "branch", "main", "origin/main"], clone, stage="rehearse")
+        return
+    git(clone, "fetch", "--quiet", "origin", "refs/remotes/origin/main:refs/heads/main", check=False)
+
+
+def rehearse_release(
+    root: Path,
+    website: Path,
+    publish: Callable[..., dict[str, str]] = publish_release,
+    suites: Callable[[Path, Path], list[SuiteResult]] = run_cross_repo_suites,
+    run_tests: bool = True,
+) -> dict[str, Any]:
+    """Publish the prepared commits into throwaway clones with recorded pushes, then run both
+    suites on the synced pair. Nothing is pushed and neither checkout changes."""
+    root = require_checkout(root, SOURCE_PATH)
+    website = require_checkout(website, "data/model-pricing.json")
+    for repo, label in ((root, "Dataset"), (website, "Website")):
+        if git(repo, "status", "--porcelain=v1", "--untracked-files=all"):
+            raise ReleaseFailure("DATA_MISMATCH", "rehearse", f"{label} checkout must be clean: the rehearsal publishes its HEAD")
+    dependencies = website / "node_modules"
+    if run_tests and not dependencies.is_dir():
+        raise ReleaseFailure("DATA_MISMATCH", "rehearse", f"Website dependencies are missing: run npm ci in {website}")
+    with tempfile.TemporaryDirectory(prefix="daily-pricing-rehearsal-", ignore_cleanup_errors=True) as tmp:
+        temporary = Path(tmp)
+        dataset_clone, website_clone = temporary / "dataset", temporary / "website"
+        for source, clone in ((root, dataset_clone), (website, website_clone)):
+            command(["git", "clone", "--quiet", "--no-hardlinks", str(source), str(clone)], temporary, stage="rehearse")
+            command(["git", "checkout", "--quiet", "--detach", git(source, "rev-parse", "HEAD")], clone, stage="rehearse")
+        for key in ("user.name", "user.email"):
+            command(["git", "config", key, git(website, "config", key, check=False) or "daily-pricing-rehearsal"], website_clone, stage="rehearse")
+        ensure_local_main(website_clone)
+        calls: list[str] = []
+        report = publish(
+            dataset_clone, website_clone,
+            dataset_push=lambda _repo, _sha: calls.append("dataset"),
+            website_push=lambda _repo, _sha: calls.append("website"),
+            hf_dispatch=lambda _repo: calls.append("hf"),
+        )
+        expected = (["website"] if report["website_business_change"] == "YES" else []) + ["dataset", "hf"]
+        if calls != expected:
+            raise ReleaseFailure("CODE_FAILURE", "rehearse", f"Publish order was {calls}, expected {expected}")
+        results: list[SuiteResult] = []
+        if run_tests:
+            link = website_clone / "node_modules"
+            link_directory(link, dependencies)
+            try:
+                results = suites(dataset_clone, website_clone)
+            finally:
+                unlink_directory(link)
+    return {
+        "release_sha": report["release_sha"],
+        "source_sha": report["source_sha"],
+        "snapshot_id": report["snapshot_id"],
+        "website_business_change": report["website_business_change"],
+        "push_order": calls,
+        "suites": [{"name": result.name, "passed": result.passed, "output_tail": result.output_tail} for result in results],
+        "status": "REHEARSAL PASS" if all(result.passed for result in results) else "REHEARSAL FAIL",
+    }
+
+
 def indexnow_next_step(website_sha: str) -> str:
     """Pages only change after Hostinger deploys, so IndexNow is a separate, confirmed step."""
     return (
@@ -466,12 +578,21 @@ def main() -> None:
     publish = subparsers.add_parser("publish")
     publish.add_argument("--dataset-root", type=Path, default=ROOT)
     publish.add_argument("--website-root", type=Path, required=True)
+    rehearse = subparsers.add_parser("rehearse")
+    rehearse.add_argument("--dataset-root", type=Path, default=ROOT)
+    rehearse.add_argument("--website-root", type=Path, required=True)
+    rehearse.add_argument("--skip-tests", action="store_true", help="only rehearse the publish steps")
     args = parser.parse_args()
     try:
         if args.action == "validate":
             print_report(validate_release(args.dataset_root, args.website_root, args.generated_at))
         elif args.action == "prepare":
             print_report(prepare_release(args.dataset_root, args.website_root, args.generated_at))
+        elif args.action == "rehearse":
+            report = rehearse_release(args.dataset_root, args.website_root, run_tests=not args.skip_tests)
+            print(json.dumps(report, indent=2))
+            if report["status"] != "REHEARSAL PASS":
+                raise SystemExit(1)
         else:
             print(json.dumps(publish_release(args.dataset_root, args.website_root), indent=2))
     except ReleaseFailure as error:

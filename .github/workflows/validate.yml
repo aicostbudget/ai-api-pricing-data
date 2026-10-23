@@ -50,3 +50,11 @@ jobs:
         if: github.event_name == 'workflow_dispatch' || github.event.pull_request.head.repo.full_name == github.repository
         run: node scripts/test-dataset-pricing-components-parity.mjs ../huggingface
         working-directory: website-source
+      - name: Check charge vocabulary matches the Website
+        if: github.event_name == 'workflow_dispatch' || github.event.pull_request.head.repo.full_name == github.repository
+        # A unit or component added only on the Dataset side makes every Website pricing sync
+        # reject the first row that uses it; merge the Website change first.
+        run: node scripts/test-pricing-vocabulary.mjs
+        working-directory: website-source
+        env:
+          DATASET_ROOT: ${{ github.workspace }}
