@@ -87,6 +87,16 @@ def build_outputs(output_root: Path, generated_at_value: str | None = None, snap
 
     write_json(api / "prices.json", dataset)
     write_csv(api / "prices.csv", models)
+    write_api_meta(api, dataset)
+    for provider in providers:
+        source = data / "providers" / f"{provider['provider_id']}.json"
+        write_json(api / "providers" / source.name, __import__("json").loads(source.read_text(encoding="utf-8")))
+    for model in models:
+        write_json(api / "models" / model["provider_id"] / f"{model['model_id']}.json", model)
+
+
+def write_api_meta(api: Path, dataset: dict) -> None:
+    """api/v1/meta.json, including modelAccess from the current model identity registry."""
     access_sources = {s["sourceId"]: s for s in json.loads((ROOT / "data/pricing-v2-preview/sources.json").read_text(encoding="utf-8"))}
     access_identities = json.loads((ROOT / "data/pricing-v2-preview/model-identity-registry.json").read_text(encoding="utf-8"))
     write_json(
@@ -111,11 +121,6 @@ def build_outputs(output_root: Path, generated_at_value: str | None = None, snap
             "price_monitor": "https://aicostbudget.com/en/model-price-monitor",
         },
     )
-    for provider in providers:
-        source = data / "providers" / f"{provider['provider_id']}.json"
-        write_json(api / "providers" / source.name, __import__("json").loads(source.read_text(encoding="utf-8")))
-    for model in models:
-        write_json(api / "models" / model["provider_id"] / f"{model['model_id']}.json", model)
 
 
 def resolve_snapshot_id(snapshots_dir: Path, date: str, requested: str | None) -> str:
@@ -143,7 +148,15 @@ def main() -> None:
         "--snapshot-id",
         help="Snapshot directory to write (YYYY-MM-DD or YYYY-MM-DD-N); defaults to the latest snapshot of the generated_at date.",
     )
+    parser.add_argument(
+        "--meta-only",
+        action="store_true",
+        help="Only rewrite api/v1/meta.json, for after the Pricing V2 generator has updated the model identity registry.",
+    )
     args = parser.parse_args()
+    if args.meta_only:
+        write_api_meta(args.output_root.resolve() / "api" / "v1", build_dataset(args.generated_at or utc_now()))
+        return
     build_outputs(args.output_root.resolve(), args.generated_at, args.snapshot_id)
 
 

@@ -16,6 +16,17 @@ EDIT canonical
 
 Canonical（`data/canonical/models.json`）仍是唯一 Source of Truth。普通流程不创建 Release Plan，不保存 checkpoint，不支持 resume。
 
+## 工作目录
+
+发布在独立 worktree 中进行，用 `scripts/release_worktree.py` 创建和删除：
+
+```powershell
+python scripts/release_worktree.py create D:/ai-api-pricing-data-<名称> --branch data/<名称>
+python scripts/release_worktree.py remove D:/ai-api-pricing-data-<名称> --delete-branch
+```
+
+需要 Website worktree 时加 `--repo D:/ai-cost-control-tool/aicostguard-english --link-node-modules D:/ai-cost-control-tool/aicostguard-english/node_modules`，依赖以目录链接共享。`remove` 会拒绝含未提交改动的 worktree（`--force` 才丢弃），先逐个拆除其中所有目录链接（不进入链接内部；Python 3.11 的 `rmtree`/`os.walk` 会沿 Windows junction 删除真实依赖），再删除 worktree，git 因路径过长失败时改用长路径删除。不要用 `rm -rf`、`Remove-Item -Recurse` 或 `rmtree` 直接删除含 `node_modules` 链接的目录。
+
 ## 快照编号
 
 快照目录按 UTC 日期命名：当天第一次发布用 `data/snapshots/YYYY-MM-DD/`；同一 UTC 日再次发布时依次使用 `YYYY-MM-DD-2`、`YYYY-MM-DD-3`……已有快照永不改写。快照按“日期、序号”排序，price-change event 的 `detected_at` 取日期部分。
@@ -45,6 +56,10 @@ if ($LASTEXITCODE -ne 0) { throw "Validate failed" }
 2. 生成提交 `data: publish pricing artifacts <快照编号>`：从源提交生成的全部数据（API、HF 导出、v2 projection、price-change events 等），`source_commit_sha` 指向源提交。
 
 Prepare 不推送、不修改 Website 仓库。随后人工审阅、运行完整测试；需要新增审批记录（如 `tests/fixtures/official-pricing-repair-scope.json`）时，可以修改测试文件并 `git commit --amend` 到生成提交，但不得改动生成数据。
+
+Prepare 之后先运行 `python scripts/update_release_approvals.py`：它为本次源提交改动的每个模型写入 `tests/fixtures/official-pricing-repair-scope.json` 的 canonical 与 projection 摘要，并为新增模型在 `tests/fixtures/website-model-pricing.json` 追加网站对照行（`tests/test_website_projection_v2.py` 的网站模型数由该文件推出，不再手改）。它不会代写价格变动事件的审批扩展或针对具体模型的断言，这些会在输出的 STILL MANUAL 中列出。审阅 diff、补齐人工部分、跑测试后 `git commit --amend` 到生成提交。
+
+canonical 编辑后须保持统一格式（两空格缩进、UTF-8、原 key 顺序）：编辑完运行 `python scripts/format_canonical.py`。Validate/Prepare 遇到未格式化的 canonical 会直接拒绝。
 
 ## Rehearse（发布演练）
 
