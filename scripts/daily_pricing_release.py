@@ -8,6 +8,7 @@ import shutil
 import subprocess
 import sys
 import tempfile
+import time
 from contextlib import contextmanager
 from dataclasses import dataclass
 from datetime import datetime, timezone
@@ -543,6 +544,77 @@ def rehearse_release(
     }
 
 
+def _run_capture(args: list[str], cwd: Path) -> tuple[int, str]:
+    result = subprocess.run(
+        args, cwd=cwd, text=True, encoding="utf-8", errors="replace", capture_output=True,
+        env={**os.environ, "PYTHONIOENCODING": "utf-8"},
+    )
+    return result.returncode, ((result.stdout or "") + (result.stderr or "")).strip()
+
+
+def follow_website_live(website: Path, website_sha: str, run: Callable[[list[str], Path], tuple[int, str]] = _run_capture) -> dict[str, Any]:
+    """Wait for Hostinger to serve the pushed commit (read from the live bundle's release id)."""
+    code, output = run(["node", "scripts/verify-live-deploy.mjs", "--commit", website_sha, "--wait", "900"], website)
+    state = next((json.loads(line) for line in output.splitlines() if line.startswith("{")), {})
+    return {"passed": code == 0, "state": state.get("state", "unknown"), "live_commit": state.get("live")}
+
+
+def follow_huggingface(
+    root: Path,
+    release_sha: str,
+    run: Callable[[list[str], Path], tuple[int, str]] = _run_capture,
+    sleep: Callable[[float], None] = time.sleep,
+    attempts: int = 12,
+) -> dict[str, Any]:
+    """Wait for the dispatched Hugging Face publish run; its last step is the production parity check."""
+    run_id = None
+    for _ in range(attempts):
+        code, output = run([
+            "gh", "run", "list", "--workflow", "publish-huggingface.yml", "--branch", "main",
+            "--event", "workflow_dispatch", "--limit", "10", "--json", "databaseId,headSha",
+        ], root)
+        if code == 0:
+            run_id = next((item["databaseId"] for item in json.loads(output or "[]") if item["headSha"] == release_sha), None)
+        if run_id:
+            break
+        sleep(10)
+    if not run_id:
+        return {"passed": False, "run_id": None, "parity": "unknown", "reason": "no Hugging Face publish run for the release commit"}
+    code, _ = run(["gh", "run", "watch", str(run_id), "--exit-status", "--interval", "15"], root)
+    _, log = run(["gh", "run", "view", str(run_id), "--log"], root)
+    parity = "PASS" if "BUSINESS_PARITY: PASS" in log else "FAIL"
+    pushed = next((line.split("HF_PUSHED: ", 1)[1].strip() for line in log.splitlines() if "HF_PUSHED: " in line), None)
+    return {"passed": code == 0 and parity == "PASS", "run_id": run_id, "parity": parity, "hf_commit": pushed}
+
+
+def follow_indexnow(website: Path, website_sha: str, run: Callable[[list[str], Path], tuple[int, str]] = _run_capture) -> dict[str, Any]:
+    """IndexNow dry run only: submitting to an external service needs a person's approval."""
+    npm = "npm.cmd" if os.name == "nt" else "npm"
+    code, output = run([npm, "run", "indexnow:pricing", "--", "--commit", website_sha, "--wait-live", "600"], website)
+    urls = [line.strip().strip('",') for line in output.splitlines() if line.strip().startswith('"https://')]
+    return {"passed": code == 0, "dry_run_urls": urls, "send": f"{npm} run indexnow:pricing -- --commit {website_sha} --send"}
+
+
+def follow_release(
+    root: Path,
+    website: Path,
+    report: Mapping[str, str],
+    website_live: Callable[[Path, str], dict[str, Any]] = follow_website_live,
+    huggingface: Callable[[Path, str], dict[str, Any]] = follow_huggingface,
+    indexnow: Callable[[Path, str], dict[str, Any]] = follow_indexnow,
+) -> dict[str, Any]:
+    """After publish: Website live, Hugging Face published with parity, IndexNow dry run."""
+    steps: dict[str, Any] = {}
+    business = report["website_business_change"] == "YES"
+    if business:
+        steps["website_live"] = website_live(website, report["website_sha"])
+    steps["huggingface"] = huggingface(root, report["release_sha"])
+    if business and steps["website_live"]["passed"]:
+        steps["indexnow"] = indexnow(website, report["website_sha"])
+    passed = all(step["passed"] for step in steps.values()) and (not business or "indexnow" in steps)
+    return {**report, "follow": steps, "status": "PUBLISHED AND VERIFIED" if passed else "PUBLISHED, FOLLOW-UP NEEDS ATTENTION"}
+
+
 def indexnow_next_step(website_sha: str) -> str:
     """Pages only change after Hostinger deploys, so IndexNow is a separate, confirmed step."""
     return (
@@ -578,6 +650,7 @@ def main() -> None:
     publish = subparsers.add_parser("publish")
     publish.add_argument("--dataset-root", type=Path, default=ROOT)
     publish.add_argument("--website-root", type=Path, required=True)
+    publish.add_argument("--follow", action="store_true", help="wait for the Website deploy and Hugging Face publish, then run the IndexNow dry run")
     rehearse = subparsers.add_parser("rehearse")
     rehearse.add_argument("--dataset-root", type=Path, default=ROOT)
     rehearse.add_argument("--website-root", type=Path, required=True)
@@ -594,7 +667,13 @@ def main() -> None:
             if report["status"] != "REHEARSAL PASS":
                 raise SystemExit(1)
         else:
-            print(json.dumps(publish_release(args.dataset_root, args.website_root), indent=2))
+            report = publish_release(args.dataset_root, args.website_root)
+            print(json.dumps(report, indent=2), flush=True)
+            if args.follow:
+                followed = follow_release(args.dataset_root.resolve(), args.website_root.resolve(), report)
+                print(json.dumps(followed, indent=2))
+                if followed["status"] != "PUBLISHED AND VERIFIED":
+                    raise SystemExit(1)
     except ReleaseFailure as error:
         print(f"{error.classification}: stage={error.stage}: {error}", file=sys.stderr)
         raise SystemExit(1) from None

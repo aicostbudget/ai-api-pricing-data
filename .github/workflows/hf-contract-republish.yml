@@ -1,0 +1,52 @@
+name: Hugging Face Contract Republish
+
+# When main changes the committed Hugging Face artifacts outside an ordinary pricing release
+# (for example a public export schema bump), Hugging Face production stays behind until someone
+# dispatches the publisher. This compares main with production after such a push and, only on
+# real data drift, dispatches the single publishing workflow. Ordinary releases dispatch Hugging
+# Face from the release script themselves, so their artifact commits are skipped here.
+on:
+  push:
+    branches: [main]
+    paths:
+      - "huggingface/**"
+
+permissions:
+  contents: read
+  actions: write
+
+concurrency:
+  group: hf-contract-republish
+  cancel-in-progress: false
+
+jobs:
+  republish-on-drift:
+    if: "${{ !startsWith(github.event.head_commit.message, 'data: publish pricing artifacts') }}"
+    runs-on: ubuntu-latest
+    timeout-minutes: 10
+    steps:
+      - uses: actions/checkout@v5
+      - uses: actions/setup-python@v6
+        with:
+          python-version: "3.11"
+      - name: Compare main with Hugging Face production
+        id: parity
+        shell: bash
+        run: |
+          set +e
+          python scripts/check_hf_production_parity.py --attempts 2 --retry-delay 30 | tee parity.log
+          status=${PIPESTATUS[0]}
+          set -e
+          if [ "$status" -eq 0 ]; then
+            echo "drift=false" >> "$GITHUB_OUTPUT"
+          elif grep -q '^DATA_DRIFT$' parity.log; then
+            echo "drift=true" >> "$GITHUB_OUTPUT"
+          else
+            echo "Parity check failed without a data drift verdict; not republishing." >&2
+            exit 1
+          fi
+      - name: Dispatch the Hugging Face publisher
+        if: steps.parity.outputs.drift == 'true'
+        env:
+          GH_TOKEN: ${{ github.token }}
+        run: gh workflow run publish-huggingface.yml --ref main -f recovery_mode=false
