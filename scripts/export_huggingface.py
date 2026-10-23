@@ -66,8 +66,8 @@ VIEWER_OMITTED_FIELDS = frozenset(
     }
 )
 VIEWER_CSV_HEADERS = tuple(field for field in CSV_HEADERS if field not in VIEWER_OMITTED_FIELDS)
-PUBLIC_SCHEMA_VERSION = "1.10.0"
-SUPPORTED_PUBLIC_SCHEMA_VERSIONS = {"1.8.0", "1.9.0", PUBLIC_SCHEMA_VERSION}
+PUBLIC_SCHEMA_VERSION = "1.11.0"
+SUPPORTED_PUBLIC_SCHEMA_VERSIONS = {"1.8.0", "1.9.0", "1.10.0", PUBLIC_SCHEMA_VERSION}
 PUBLIC_VERIFICATION_STATUSES = {
     "verified",
     "partially_verified",
@@ -338,9 +338,19 @@ def non_token_summary(components: list[dict[str, Any]]) -> dict[str, Any]:
     return {
         "unit_price": float(Decimal(component["amount"])),
         "billing_unit": component["unit"],
-        "billing_quantity": 1000 if component["unit"] == "per_1000_pages" else 1,
+        "billing_quantity": billing_quantity(component["unit"]),
         "pricing_dimension": component["component"],
     }
+
+
+def billing_quantity(unit: str) -> int:
+    # Like per_1m_tokens, a per_1m_characters price represents one million
+    # underlying billed units; only the measured quantity differs.
+    if unit == "per_1m_characters":
+        return 1_000_000
+    if unit == "per_1000_pages":
+        return 1_000
+    return 1
 
 
 

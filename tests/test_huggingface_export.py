@@ -42,7 +42,7 @@ class HuggingFaceExportTests(unittest.TestCase):
 
     def test_export_artifacts_are_internally_consistent(self):
         validate_huggingface_artifacts()
-        self.assertEqual(self.metadata["schema_version"], "1.10.0")
+        self.assertEqual(self.metadata["schema_version"], "1.11.0")
         self.assertEqual(self.metadata["last_verified_at"], self.metadata["last_updated"])
 
     def test_viewer_projection_preserves_rows_identities_providers_and_values(self):

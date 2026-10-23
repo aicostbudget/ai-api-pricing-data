@@ -78,12 +78,17 @@ CHARGE_COMPONENTS = {
     "session_duration",
 }
 MODALITIES = {"text", "image", "audio", "video", "document"}
-UNITS = {"per_1m_tokens", "per_1m_tokens_per_hour", "per_1k_calls", "per_1000_pages", "per_minute", "per_hour", "per_image", "per_second", "per_request", "per_text_input"}
+UNITS = {"per_1m_tokens", "per_1m_characters", "per_1m_tokens_per_hour", "per_1k_calls", "per_1000_pages", "per_minute", "per_hour", "per_image", "per_second", "per_request", "per_text_input"}
 DECIMAL_STRING = re.compile(r"^(0|[1-9]\d*)(\.\d+)?$")
 
 
 def fail(message: str) -> None:
     raise SystemExit(f"pricing v2 preview validation failed: {message}")
+
+
+def validate_charge_unit(unit: Any, pricing_id: str) -> None:
+    if unit not in UNITS:
+        fail(f"invalid charge unit in {pricing_id}")
 
 
 def read_json(path: Path) -> Any:
@@ -731,8 +736,7 @@ def validate_preview() -> dict[str, Any]:
                 fail(f"invalid charge component in {price['pricingId']}")
             if charge.get("modality") not in MODALITIES:
                 fail(f"invalid charge modality in {price['pricingId']}")
-            if charge.get("unit") not in UNITS:
-                fail(f"invalid charge unit in {price['pricingId']}")
+            validate_charge_unit(charge.get("unit"), price["pricingId"])
             amount = charge.get("amount")
             if not isinstance(amount, str) or not DECIMAL_STRING.match(amount):
                 fail(f"invalid decimal string in {price['pricingId']}: {amount}")
