@@ -8,9 +8,10 @@ from urllib.parse import urlparse
 
 ROOT = Path(__file__).resolve().parents[1]
 OCR_IDS = {"mistral-ocr-4-0", "mistral-ocr-4-1"}
-VOXTRAL_TRANSCRIBE_IDS = {
+VOXTRAL_IDS = {
     "voxtral-mini-transcribe-3-0",
     "voxtral-mini-transcribe-realtime-3-0",
+    "voxtral-mini-tts-3-0",
     "voxtral-small-transcribe-3-0",
 }
 
@@ -111,13 +112,62 @@ class MistralOCROnboardingTests(unittest.TestCase):
         hf = self.hf[("cohere", "parse-v5.0")]
         self.assertEqual((hf["unit_price"], hf["billing_unit"], hf["billing_quantity"]), (1.5, "per_1000_pages", 1000))
 
+    def test_voxtral_tts_uses_verified_character_pricing_without_token_projection(self):
+        model_id = "voxtral-mini-tts-3-0"
+        row = self.canonical[("mistral-ai", model_id)]
+        self.assertEqual(
+            (row["display_name"], row["model_family"], row["model_category"]),
+            ("Voxtral TTS 3", "Voxtral 3", "text_to_speech"),
+        )
+        self.assertEqual((row["status"], row["release_stage"]), ("preview", "preview"))
+        self.assertEqual((row["input_modality"], row["output_modality"]), ("text", "audio"))
+        self.assertTrue(all(row["pricing"].get(field) is None for field in (
+            "unit", "input", "output", "cached_input", "cache_write", "cache_write_1h",
+            "batch_input", "batch_output",
+        )))
+
+        record = row["price_records"][0]
+        self.assertEqual(len(row["price_records"]), 1)
+        self.assertEqual(
+            (record["processing_mode"], record["transport"], record["context_class"], record["calculation_default"]),
+            ("standard", "rest", "short", True),
+        )
+        self.assertEqual(len(record["charges"]), 1)
+        charge = record["charges"][0]
+        self.assertEqual(
+            (charge["component"], charge["modality"], charge["unit"], charge["amount"]),
+            ("input", "text", "per_1m_characters", "13"),
+        )
+
+        api = read_json(f"api/v1/models/mistral-ai/{model_id}.json")
+        self.assertEqual(api, row)
+        v2 = self.v2[("mistral-ai", model_id)]
+        self.assertIsNone(v2["inputPrice"])
+        self.assertIsNone(v2["cachedInputPrice"])
+        self.assertIsNone(v2["outputPrice"])
+        self.assertEqual(len(v2["pricingComponents"]), 1)
+        self.assertEqual(
+            (v2["pricingComponents"][0]["amount"], v2["pricingComponents"][0]["unit"]),
+            ("13", "per_1m_characters"),
+        )
+
+        hf = self.hf[("mistral-ai", model_id)]
+        self.assertIsNone(hf["pricing_unit"])
+        self.assertIsNone(hf["input_price_per_1m_tokens"])
+        self.assertIsNone(hf["cached_input_price_per_1m_tokens"])
+        self.assertIsNone(hf["output_price_per_1m_tokens"])
+        self.assertEqual(
+            (hf["unit_price"], hf["billing_unit"], hf["billing_quantity"], hf["pricing_dimension"]),
+            (13.0, "per_1m_characters", 1_000_000, "input"),
+        )
+
     def test_no_out_of_scope_mistral_mixed_billing_was_added(self):
         model_ids = {
             model_id for provider_id, model_id in self.canonical if provider_id == "mistral-ai"
         }
         self.assertEqual(
             {model_id for model_id in model_ids if "voxtral" in model_id},
-            VOXTRAL_TRANSCRIBE_IDS,
+            VOXTRAL_IDS,
         )
         self.assertNotIn("mistral-moderation-2603", model_ids)
 

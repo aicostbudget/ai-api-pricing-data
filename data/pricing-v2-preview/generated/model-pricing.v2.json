@@ -9,7 +9,7 @@
     "review_required": "display only with warning; no default or recommendation placement",
     "unsafe": "exclude from default calculations and show warning only where explicitly allowed"
   },
-  "effectiveAt": "2026-10-22T17:48:37Z",
+  "effectiveAt": "2026-10-23T06:31:47Z",
   "effectiveTimezone": "UTC",
   "failureBehavior": {
     "atomicWrite": true,
@@ -18,7 +18,7 @@
     "partialJson": "not_written",
     "publicV1Mutation": "forbidden"
   },
-  "generatedAt": "2026-10-22T17:48:37Z",
+  "generatedAt": "2026-10-23T06:31:47Z",
   "generatedAtPolicy": "UTC artifact generation timestamp injected by the generation pipeline",
   "governancePolicy": {
     "classes": [
@@ -23415,6 +23415,153 @@
       "verifiedSourceRefs": [
         "source:mistral-ai:docs-mistral-ai-en-studio-api-audio-overview",
         "source:mistral-ai:docs-mistral-ai-models-voxtral-mini-transcribe-realtime-3-0",
+        "source:mistral-ai:mistral-ai-news-voxtral-3"
+      ]
+    },
+    {
+      "accessAuthority": {
+        "baseRevision": "04c7e10b34eb791903656b9e796ab6f012ea693c",
+        "factSha256": "96ff893e6c3e833719098f61e87a8d7fe9a3b3899bddb56ee72dbc52e92ae756",
+        "kind": "canonical",
+        "revisionScope": "base_revision_plus_fact_digest"
+      },
+      "accessCheckedAt": null,
+      "accessEvidence": [],
+      "accessStatus": "unknown",
+      "aliasTargetInternalId": null,
+      "availability": "preview",
+      "batchInputPrice": null,
+      "batchOutputPrice": null,
+      "billingModelInternalId": null,
+      "bindingEvidence": [],
+      "bindingStatus": "unresolved",
+      "blockedFromDefaultReasons": [
+        "missing_verified_current_price"
+      ],
+      "cachedInputPrice": null,
+      "canonicalInternalId": "mistral-ai/voxtral-mini-tts-3-0",
+      "checkedAt": "2026-10-23T05:51:43Z",
+      "checkedSourceRefs": [
+        "source:mistral-ai:docs-mistral-ai-models-voxtral-mini-tts-3-0",
+        "source:mistral-ai:docs-mistral-ai-studio-audio-text-to-speech-overview",
+        "source:mistral-ai:mistral-ai-news-voxtral-3"
+      ],
+      "contextWindow": null,
+      "contextWindowStatus": "unknown_not_guessed",
+      "defaultPriceSelectionRule": [
+        "current_effective_utc",
+        "verified",
+        "standard",
+        "text",
+        "default_context_class"
+      ],
+      "defaultSafe": false,
+      "deprecationDate": null,
+      "governanceClass": "VERIFIED_CANONICAL",
+      "governanceDetails": null,
+      "governanceReason": "canonical_verified_non_token_public_projection",
+      "governanceSourceCandidateIds": [
+        "mistral-ai/voxtral-mini-tts-3-0"
+      ],
+      "id": "voxtral-mini-tts-3-0",
+      "identityType": "canonical_model",
+      "inputPrice": null,
+      "lifecycleStatus": "active",
+      "model": "Voxtral TTS 3",
+      "officialSourceUrl": "https://docs.mistral.ai/models/voxtral-mini-tts-3-0",
+      "outputPrice": null,
+      "priceRecords": [
+        {
+          "calculationDefault": true,
+          "checkedAt": "2026-10-23T05:51:43Z",
+          "contextClass": "short",
+          "effectiveFrom": "2026-10-20",
+          "effectiveUntil": null,
+          "pricingId": "price:mistral-ai/voxtral-mini-tts-3-0:standard:short:current",
+          "pricingStatus": "current",
+          "processingMode": "standard",
+          "sourceRefs": [
+            "source:mistral-ai:docs-mistral-ai-models-voxtral-mini-tts-3-0",
+            "source:mistral-ai:docs-mistral-ai-studio-audio-text-to-speech-overview",
+            "source:mistral-ai:mistral-ai-news-voxtral-3"
+          ],
+          "verificationStatus": "verified",
+          "verifiedAt": "2026-10-23T05:51:43Z"
+        }
+      ],
+      "pricingComponents": [
+        {
+          "amount": "13",
+          "calculationDefault": true,
+          "chargeId": "price:mistral-ai/voxtral-mini-tts-3-0:standard:short:current:input:text:per_1m_characters",
+          "component": "input",
+          "condition": {
+            "availabilityRules": [],
+            "contextClass": "short",
+            "defaultAvailabilityStatus": "available",
+            "effectiveFrom": "2026-10-20",
+            "effectiveUntil": null,
+            "priceAdjustments": [],
+            "processingMode": "standard",
+            "promptTokenThreshold": null,
+            "regionPolicy": "global",
+            "regionSelector": {
+              "dataResidencies": [
+                "global"
+              ],
+              "endpointGeographies": [
+                "global"
+              ],
+              "pricingGeography": "global_base"
+            },
+            "tierSelection": null,
+            "transport": "rest"
+          },
+          "currency": "USD",
+          "modality": "text",
+          "pricingId": "price:mistral-ai/voxtral-mini-tts-3-0:standard:short:current",
+          "sourceRefs": [
+            "source:mistral-ai:docs-mistral-ai-models-voxtral-mini-tts-3-0",
+            "source:mistral-ai:docs-mistral-ai-studio-audio-text-to-speech-overview",
+            "source:mistral-ai:mistral-ai-news-voxtral-3"
+          ],
+          "unit": "per_1m_characters",
+          "verificationStatus": "verified"
+        }
+      ],
+      "pricingSourceType": "canonical_verified_structured_price",
+      "provider": "mistral-ai",
+      "publicExposure": "public",
+      "redirectTargetInternalId": null,
+      "releaseSourceRef": "source:mistral-ai:docs-mistral-ai-models-voxtral-mini-tts-3-0",
+      "releaseSourceUrl": "https://docs.mistral.ai/models/voxtral-mini-tts-3-0",
+      "releaseStage": "preview",
+      "releasedAt": "2026-10-20",
+      "replacementInternalId": null,
+      "retirementDate": null,
+      "routingBehavior": "direct",
+      "routingDetails": {},
+      "selectedBatchPriceRecordId": null,
+      "selectedBillingPriceRecordId": "price:mistral-ai/voxtral-mini-tts-3-0:standard:short:current",
+      "selectedPriceEffectiveFrom": "2026-10-20",
+      "selectedPriceEffectiveUntil": null,
+      "selectedPriceRecordId": null,
+      "sourceRefs": [
+        "source:mistral-ai:docs-mistral-ai-models-voxtral-mini-tts-3-0",
+        "source:mistral-ai:docs-mistral-ai-studio-audio-text-to-speech-overview",
+        "source:mistral-ai:mistral-ai-news-voxtral-3"
+      ],
+      "sourceUrls": [
+        "https://docs.mistral.ai/models/voxtral-mini-tts-3-0",
+        "https://docs.mistral.ai/studio/audio/text-to-speech/overview",
+        "https://mistral.ai/news/voxtral-3"
+      ],
+      "status": "preview",
+      "verificationStatus": "verified",
+      "verifiedAt": "2026-10-23T05:51:43Z",
+      "verifiedSourceRefs": [
+        "source:mistral-ai:docs-mistral-ai-models-voxtral-mini-tts-3-0",
+        "source:mistral-ai:docs-mistral-ai-studio-audio-text-to-speech-overview",
         "source:mistral-ai:mistral-ai-news-voxtral-3"
       ]
     },

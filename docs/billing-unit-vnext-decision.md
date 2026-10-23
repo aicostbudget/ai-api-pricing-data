@@ -60,13 +60,12 @@ populated for it. The official sources are:
 
 ## Voxtral 3 exclusions and Cohere Rerank 5
 
-Mistral documents `voxtral-mini-tts-3-0` at USD 13 per 1 million
-characters. The current `canonicalCharge.unit` vocabulary has no character
-billing unit, so the model is not added to canonical and the price is not
-converted into tokens, requests, or time. Mistral also documents the distinct
-`voxtral-mini-tts-realtime-3-0` model ID, but does not publish a separate
-official price for it. Its price therefore remains unproven and it is not
-added to canonical.
+Mistral documents `voxtral-mini-tts-3-0` at USD 13 per 1 million characters.
+It is included in canonical using the `per_1m_characters` unit at USD 13 / 1M
+characters; the price is not converted into tokens, requests, or time.
+Mistral also documents the distinct `voxtral-mini-tts-realtime-3-0` model ID,
+but does not publish a separate official price for it. Its price therefore
+remains unproven and it is not added to canonical.
 
 The Mistral Voice Agents API is priced at USD 0.04 per minute when Mistral
 Small 4 performs reasoning and USD 0.08 per minute with a larger reasoning

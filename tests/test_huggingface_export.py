@@ -154,9 +154,13 @@ class HuggingFaceExportTests(unittest.TestCase):
                     and item["component"] == record["pricing_dimension"]
                 )
                 self.assertEqual(record["unit_price"], float(component["amount"]), key)
+                expected_billing_quantity = {
+                    "per_1000_pages": 1000,
+                    "per_1m_characters": 1_000_000,
+                }.get(component["unit"], 1)
                 self.assertEqual(
                     record["billing_quantity"],
-                    1000 if component["unit"] == "per_1000_pages" else 1,
+                    expected_billing_quantity,
                     key,
                 )
             elif any(
