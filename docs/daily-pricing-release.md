@@ -16,6 +16,17 @@ EDIT canonical
 
 Canonical（`data/canonical/models.json`）仍是唯一 Source of Truth。普通流程不创建 Release Plan，不保存 checkpoint，不支持 resume。
 
+## 工作目录
+
+发布在独立 worktree 中进行，用 `scripts/release_worktree.py` 创建和删除：
+
+```powershell
+python scripts/release_worktree.py create D:/ai-api-pricing-data-<名称> --branch data/<名称>
+python scripts/release_worktree.py remove D:/ai-api-pricing-data-<名称> --delete-branch
+```
+
+需要 Website worktree 时加 `--repo D:/ai-cost-control-tool/aicostguard-english --link-node-modules D:/ai-cost-control-tool/aicostguard-english/node_modules`，依赖以目录链接共享。`remove` 会拒绝含未提交改动的 worktree（`--force` 才丢弃），先逐个拆除其中所有目录链接（不进入链接内部；Python 3.11 的 `rmtree`/`os.walk` 会沿 Windows junction 删除真实依赖），再删除 worktree，git 因路径过长失败时改用长路径删除。不要用 `rm -rf`、`Remove-Item -Recurse` 或 `rmtree` 直接删除含 `node_modules` 链接的目录。
+
 ## 快照编号
 
 快照目录按 UTC 日期命名：当天第一次发布用 `data/snapshots/YYYY-MM-DD/`；同一 UTC 日再次发布时依次使用 `YYYY-MM-DD-2`、`YYYY-MM-DD-3`……已有快照永不改写。快照按“日期、序号”排序，price-change event 的 `detected_at` 取日期部分。
