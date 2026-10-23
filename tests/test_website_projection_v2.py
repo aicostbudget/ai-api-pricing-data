@@ -410,8 +410,10 @@ class WebsiteProjectionV2Tests(unittest.TestCase):
             self.report["projectionModelCount"],
         )
         self.assertEqual(self.report["nullPriceCount"], self.report["unsafeIdentityCount"])
-        self.assertEqual(self.report["parity"]["websiteModelCount"], 40)
-        self.assertEqual(sum(self.report["parity"]["counts"].values()), 40)
+        # The fixture is the approved Website model set (scripts/update_release_approvals.py adds rows).
+        website_model_count = len(json.loads(WEBSITE_FIXTURE.read_text(encoding="utf-8")))
+        self.assertEqual(self.report["parity"]["websiteModelCount"], website_model_count)
+        self.assertEqual(sum(self.report["parity"]["counts"].values()), website_model_count)
         unsafe_ids = {
             item["modelId"] for item in self.report["parity"]["details"]
             if item["classification"] == "unsafe_difference"

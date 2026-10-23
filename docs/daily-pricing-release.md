@@ -46,6 +46,10 @@ if ($LASTEXITCODE -ne 0) { throw "Validate failed" }
 
 Prepare 不推送、不修改 Website 仓库。随后人工审阅、运行完整测试；需要新增审批记录（如 `tests/fixtures/official-pricing-repair-scope.json`）时，可以修改测试文件并 `git commit --amend` 到生成提交，但不得改动生成数据。
 
+Prepare 之后先运行 `python scripts/update_release_approvals.py`：它为本次源提交改动的每个模型写入 `tests/fixtures/official-pricing-repair-scope.json` 的 canonical 与 projection 摘要，并为新增模型在 `tests/fixtures/website-model-pricing.json` 追加网站对照行（`tests/test_website_projection_v2.py` 的网站模型数由该文件推出，不再手改）。它不会代写价格变动事件的审批扩展或针对具体模型的断言，这些会在输出的 STILL MANUAL 中列出。审阅 diff、补齐人工部分、跑测试后 `git commit --amend` 到生成提交。
+
+canonical 编辑后须保持统一格式（两空格缩进、UTF-8、原 key 顺序）：编辑完运行 `python scripts/format_canonical.py`。Validate/Prepare 遇到未格式化的 canonical 会直接拒绝。
+
 ## Rehearse（发布演练）
 
 ```powershell
