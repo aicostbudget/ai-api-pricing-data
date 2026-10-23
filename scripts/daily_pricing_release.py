@@ -477,6 +477,17 @@ def unlink_directory(link: Path) -> None:
         link.unlink()
 
 
+def ensure_local_main(clone: Path) -> None:
+    """Some Website tests diff against the local main branch, which a clone of a feature branch
+    lacks: take it from the source's main, else from the source's origin/main."""
+    if git(clone, "rev-parse", "--verify", "--quiet", "refs/heads/main", check=False):
+        return
+    if git(clone, "rev-parse", "--verify", "--quiet", "refs/remotes/origin/main", check=False):
+        command(["git", "branch", "main", "origin/main"], clone, stage="rehearse")
+        return
+    git(clone, "fetch", "--quiet", "origin", "refs/remotes/origin/main:refs/heads/main", check=False)
+
+
 def rehearse_release(
     root: Path,
     website: Path,
@@ -502,6 +513,7 @@ def rehearse_release(
             command(["git", "checkout", "--quiet", "--detach", git(source, "rev-parse", "HEAD")], clone, stage="rehearse")
         for key in ("user.name", "user.email"):
             command(["git", "config", key, git(website, "config", key, check=False) or "daily-pricing-rehearsal"], website_clone, stage="rehearse")
+        ensure_local_main(website_clone)
         calls: list[str] = []
         report = publish(
             dataset_clone, website_clone,
@@ -578,7 +590,7 @@ def main() -> None:
             print_report(prepare_release(args.dataset_root, args.website_root, args.generated_at))
         elif args.action == "rehearse":
             report = rehearse_release(args.dataset_root, args.website_root, run_tests=not args.skip_tests)
-            print(json.dumps(report, indent=2, ensure_ascii=False))
+            print(json.dumps(report, indent=2))
             if report["status"] != "REHEARSAL PASS":
                 raise SystemExit(1)
         else:

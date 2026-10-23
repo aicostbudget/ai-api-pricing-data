@@ -17,6 +17,7 @@ from scripts.daily_pricing_release import (
     ValidationRun,
     classify_changes,
     command,
+    ensure_local_main,
     isolated_workspaces,
     prepare_release,
     price_event_changes,
@@ -377,6 +378,25 @@ class RehearsalTests(unittest.TestCase):
             self.assertEqual(result["status"], "REHEARSAL FAIL")
             self.assertEqual(result["suites"][0]["output_tail"], "1 unexpected failure")
             self.assertEqual((dependencies / "pkg/index.js").read_text(encoding="utf-8"), "keep\n")
+
+    def test_clone_of_a_feature_branch_gets_a_local_main(self):
+        with tempfile.TemporaryDirectory() as tmp:
+            base = Path(tmp)
+            website = make_website_repo(base)
+            main_sha = run(website, "rev-parse", "HEAD")
+            run(website, "switch", "-q", "-c", "feature")
+            (website / "data/model-pricing.json").write_text("[1]", encoding="utf-8")
+            run(website, "commit", "-q", "-am", "feature")
+            direct = base / "direct"
+            run(base, "clone", "-q", str(website), str(direct))
+            ensure_local_main(direct)
+            self.assertEqual(run(direct, "rev-parse", "main"), main_sha)
+            # A clone of such a clone has no origin/main; main comes from the source's origin/main.
+            run(direct, "branch", "-D", "main")
+            nested = base / "nested"
+            run(base, "clone", "-q", str(direct), str(nested))
+            ensure_local_main(nested)
+            self.assertEqual(run(nested, "rev-parse", "main"), main_sha)
 
     def test_rehearsal_refuses_a_dirty_checkout(self):
         with tempfile.TemporaryDirectory() as tmp:
