@@ -16,6 +16,7 @@ if (-not $WebsitePath) {
     $WebsitePath = Join-Path (Split-Path -Parent $DatasetPath) "ai-cost-control-tool\aicostguard-english"
 }
 $Action = if ($Publish) { "publish" } elseif ($Rehearse) { "rehearse" } elseif ($Prepare) { "prepare" } else { "validate" }
-$Extra = if ($SkipTests) { @("--skip-tests") } elseif ($Follow) { @("--follow") } else { @() }
+# @(...) keeps a one-flag result an array; a bare string would splat character by character.
+$Extra = @(if ($SkipTests) { "--skip-tests" } elseif ($Follow) { "--follow" })
 & python -m scripts.daily_pricing_release $Action --dataset-root $DatasetPath --website-root $WebsitePath @Extra
 if ($LASTEXITCODE -ne 0) { throw "Daily pricing release $Action failed with exit code $LASTEXITCODE" }
