@@ -1,5 +1,6 @@
 import copy
 import json
+import shutil
 import subprocess
 import sys
 import tempfile
@@ -366,6 +367,27 @@ class StabilityAndFlowTests(unittest.TestCase):
             self.assertIn(token, source)
         for token in ("-Resume", "-Plan", "-Digest", "-Recovery"):
             self.assertNotIn(token, source)
+
+    def test_powershell_extra_flags_splat_as_whole_arguments(self):
+        """A one-element `if` result unrolls to a string and `@Extra` splatted it as `- - f o l l o w`."""
+        shell = shutil.which("pwsh") or shutil.which("powershell")
+        if not shell:
+            self.skipTest("PowerShell is not available")
+        source = (ROOT / "scripts/daily-pricing-release.ps1").read_text(encoding="utf-8")
+        extra = next(line for line in source.splitlines() if line.startswith("$Extra = "))
+        printer = f"& '{sys.executable}' -c 'import json, sys; print(json.dumps(sys.argv[1:]))' @Extra"
+        cases = {
+            "$SkipTests = $true; $Follow = $false": ["--skip-tests"],
+            "$SkipTests = $false; $Follow = $true": ["--follow"],
+            "$SkipTests = $false; $Follow = $false": [],
+        }
+        for switches, expected in cases.items():
+            with self.subTest(switches=switches):
+                result = subprocess.run(
+                    [shell, "-NoProfile", "-NonInteractive", "-Command", f"{switches}; {extra}; {printer}"],
+                    capture_output=True, text=True, timeout=60, check=True,
+                )
+                self.assertEqual(json.loads(result.stdout.strip().splitlines()[-1]), expected)
 
 
 class RehearsalTests(unittest.TestCase):
