@@ -578,6 +578,292 @@
       "release_stage": "stable",
       "released_at": "2026-07-16",
       "status": "active"
+    },
+    {
+      "access_checked_at": "2026-10-24T11:44:50Z",
+      "access_evidence": [
+        {
+          "claim_type": "official_access_public",
+          "official_model_id": "kimi-k3.1-pro",
+          "scope": "Exact hosted API model under ordinary Kimi platform API key/account requirements.",
+          "title": "kimi-k3.1-pro official model access documentation",
+          "url": "https://platform.kimi.ai/docs/models"
+        },
+        {
+          "claim_type": "official_access_public",
+          "official_model_id": "kimi-k3.1-pro",
+          "scope": "Exact hosted API model under ordinary Kimi platform API key/account requirements.",
+          "title": "moonshot-ai ordinary API access requirements",
+          "url": "https://platform.kimi.ai/docs/overview"
+        }
+      ],
+      "access_status": "public",
+      "accessed_at": "2026-10-24T11:44:50Z",
+      "binding_evidence": [
+        {
+          "claim_type": "official_identity_binding",
+          "official_model_id": "kimi-k3.1-pro",
+          "reason": "Exact documented API ID or exact provider/version spelling; no entitlement inherited from billing target.",
+          "title": "kimi-k3.1-pro official identity documentation",
+          "url": "https://platform.kimi.ai/docs/models"
+        }
+      ],
+      "binding_status": "approved",
+      "context_window_tokens": 1048576,
+      "display_name": "Kimi K3.1 Pro",
+      "effective_from": null,
+      "last_verified_at": "2026-10-24T11:44:50Z",
+      "model_category": "multimodal reasoning",
+      "model_family": "Kimi",
+      "model_id": "kimi-k3.1-pro",
+      "notes": "Official API model ID kimi-k3.1-pro, the first K3.1-series model, released 2026-10-23. It has a 1,048,576-token context window, text/image/video input, tool calling, always-on reasoning, and low/high/max reasoning_effort with max as default. Cache writes cost $2 per 1M tokens for the default 5-minute TTL and $4 for the 1-hour TTL; cache hits cost $0.20. The official docs do not publish a separate reasoning-token rate, a K3.1 Pro Batch rate, or a verified maximum completion limit; unknown values are not represented as zero.",
+      "official_source_url": "https://platform.kimi.ai/docs/pricing/chat",
+      "official_source_urls": [
+        "https://platform.kimi.ai/docs/models",
+        "https://platform.kimi.ai/docs/pricing/chat",
+        "https://platform.kimi.ai/",
+        "https://platform.kimi.ai/docs/guide/kimi-k3-1-pro-quickstart",
+        "https://platform.kimi.ai/docs/guide/use-reasoning-effort",
+        "https://platform.kimi.ai/docs/guide/use-context-caching-feature-of-kimi-api"
+      ],
+      "price_records": [
+        {
+          "billing_note": "Standard Kimi API pricing. Cache-miss input is $2 per 1M tokens; 5-minute and 1-hour cache writes are $2 and $4; cached input is $0.20. K3.1 Pro always reasons, and reasoning content uses the normal billable output-token path with no separate surcharge published. Pricing is flat across the 1M-token context with no context-length tiers.",
+          "calculation_default": true,
+          "charges": [
+            {
+              "amount": "2",
+              "component": "input",
+              "id": "price:moonshot-ai/kimi-k3.1-pro:standard:short:current:input:text:per_1m_tokens",
+              "modality": "text",
+              "unit": "per_1m_tokens"
+            },
+            {
+              "amount": "2",
+              "component": "cache_write_5m",
+              "id": "price:moonshot-ai/kimi-k3.1-pro:standard:short:current:cache_write_5m:text:per_1m_tokens",
+              "modality": "text",
+              "unit": "per_1m_tokens"
+            },
+            {
+              "amount": "4",
+              "component": "cache_write_1h",
+              "id": "price:moonshot-ai/kimi-k3.1-pro:standard:short:current:cache_write_1h:text:per_1m_tokens",
+              "modality": "text",
+              "unit": "per_1m_tokens"
+            },
+            {
+              "amount": "0.2",
+              "component": "cached_input",
+              "id": "price:moonshot-ai/kimi-k3.1-pro:standard:short:current:cached_input:text:per_1m_tokens",
+              "modality": "text",
+              "unit": "per_1m_tokens"
+            },
+            {
+              "amount": "10",
+              "component": "output",
+              "id": "price:moonshot-ai/kimi-k3.1-pro:standard:short:current:output:text:per_1m_tokens",
+              "modality": "text",
+              "unit": "per_1m_tokens"
+            }
+          ],
+          "checked_at": "2026-10-24T11:44:50Z",
+          "context_class": "short",
+          "currency": "USD",
+          "effective_from": null,
+          "effective_until": null,
+          "id": "price:moonshot-ai/kimi-k3.1-pro:standard:short:current",
+          "pricing_status": "current",
+          "processing_mode": "standard",
+          "prompt_token_threshold": null,
+          "region_policy": {
+            "availability": {
+              "default": "available",
+              "rules": []
+            },
+            "data_residencies": [
+              "global"
+            ],
+            "endpoint_geographies": [
+              "global"
+            ],
+            "price_adjustments": [],
+            "pricing_geography": "global_base"
+          },
+          "source_refs": [
+            "https://platform.kimi.ai/docs/pricing/chat",
+            "https://platform.kimi.ai/",
+            "https://platform.kimi.ai/docs/guide/kimi-k3-1-pro-quickstart",
+            "https://platform.kimi.ai/docs/guide/use-context-caching-feature-of-kimi-api"
+          ],
+          "verification_status": "verified",
+          "verified_at": "2026-10-24T11:44:50Z"
+        }
+      ],
+      "pricing": {
+        "batch_input": null,
+        "batch_output": null,
+        "cache_write": 2,
+        "cache_write_1h": 4,
+        "cached_input": 0.2,
+        "currency": "USD",
+        "input": 2,
+        "output": 10,
+        "unit": "1M tokens"
+      },
+      "project_context_window": true,
+      "provider_id": "moonshot-ai",
+      "release_evidence": {
+        "source_type": "official_changelog",
+        "title": "Kimi Code What's New - K3.1 Pro Series is live",
+        "url": "https://www.kimi.com/code/docs/en/kimi-code/whats-new.html"
+      },
+      "release_stage": "stable",
+      "released_at": "2026-10-23",
+      "status": "active"
+    },
+    {
+      "access_checked_at": "2026-10-24T11:44:50Z",
+      "access_evidence": [
+        {
+          "claim_type": "official_access_public",
+          "official_model_id": "kimi-k3.1-pro-highspeed",
+          "scope": "Exact hosted API model under ordinary Kimi platform API key/account requirements.",
+          "title": "kimi-k3.1-pro-highspeed official model access documentation",
+          "url": "https://platform.kimi.ai/docs/models"
+        },
+        {
+          "claim_type": "official_access_public",
+          "official_model_id": "kimi-k3.1-pro-highspeed",
+          "scope": "Exact hosted API model under ordinary Kimi platform API key/account requirements.",
+          "title": "moonshot-ai ordinary API access requirements",
+          "url": "https://platform.kimi.ai/docs/overview"
+        }
+      ],
+      "access_status": "public",
+      "accessed_at": "2026-10-24T11:44:50Z",
+      "binding_evidence": [
+        {
+          "claim_type": "official_identity_binding",
+          "official_model_id": "kimi-k3.1-pro-highspeed",
+          "reason": "Exact documented API ID or exact provider/version spelling; no entitlement inherited from billing target.",
+          "title": "kimi-k3.1-pro-highspeed official identity documentation",
+          "url": "https://platform.kimi.ai/docs/models"
+        }
+      ],
+      "binding_status": "approved",
+      "context_window_tokens": 1048576,
+      "display_name": "Kimi K3.1 Pro Highspeed",
+      "effective_from": null,
+      "last_verified_at": "2026-10-24T11:44:50Z",
+      "model_category": "multimodal reasoning",
+      "model_family": "Kimi",
+      "model_id": "kimi-k3.1-pro-highspeed",
+      "notes": "Official API model ID kimi-k3.1-pro-highspeed, the high-speed variant of Kimi K3.1 Pro released 2026-10-23, with the same capabilities at about 2-3x the output speed and a 1,048,576-token context window. Cache writes cost $4 per 1M tokens for the default 5-minute TTL and $8 for the 1-hour TTL; cache hits cost $0.20, the same as K3.1 Pro. The official docs do not publish a separate reasoning-token rate, a Batch rate, or a verified maximum completion limit; unknown values are not represented as zero.",
+      "official_source_url": "https://platform.kimi.ai/docs/pricing/chat",
+      "official_source_urls": [
+        "https://platform.kimi.ai/docs/models",
+        "https://platform.kimi.ai/docs/pricing/chat",
+        "https://platform.kimi.ai/",
+        "https://platform.kimi.ai/docs/guide/kimi-k3-1-pro-quickstart",
+        "https://platform.kimi.ai/docs/guide/use-reasoning-effort",
+        "https://platform.kimi.ai/docs/guide/use-context-caching-feature-of-kimi-api"
+      ],
+      "price_records": [
+        {
+          "billing_note": "Standard Kimi API pricing. Cache-miss input is $4 per 1M tokens; 5-minute and 1-hour cache writes are $4 and $8; cached input is $0.20. K3.1 Pro Highspeed always reasons, and reasoning content uses the normal billable output-token path with no separate surcharge published. Pricing is flat across the 1M-token context with no context-length tiers.",
+          "calculation_default": true,
+          "charges": [
+            {
+              "amount": "4",
+              "component": "input",
+              "id": "price:moonshot-ai/kimi-k3.1-pro-highspeed:standard:short:current:input:text:per_1m_tokens",
+              "modality": "text",
+              "unit": "per_1m_tokens"
+            },
+            {
+              "amount": "4",
+              "component": "cache_write_5m",
+              "id": "price:moonshot-ai/kimi-k3.1-pro-highspeed:standard:short:current:cache_write_5m:text:per_1m_tokens",
+              "modality": "text",
+              "unit": "per_1m_tokens"
+            },
+            {
+              "amount": "8",
+              "component": "cache_write_1h",
+              "id": "price:moonshot-ai/kimi-k3.1-pro-highspeed:standard:short:current:cache_write_1h:text:per_1m_tokens",
+              "modality": "text",
+              "unit": "per_1m_tokens"
+            },
+            {
+              "amount": "0.2",
+              "component": "cached_input",
+              "id": "price:moonshot-ai/kimi-k3.1-pro-highspeed:standard:short:current:cached_input:text:per_1m_tokens",
+              "modality": "text",
+              "unit": "per_1m_tokens"
+            },
+            {
+              "amount": "20",
+              "component": "output",
+              "id": "price:moonshot-ai/kimi-k3.1-pro-highspeed:standard:short:current:output:text:per_1m_tokens",
+              "modality": "text",
+              "unit": "per_1m_tokens"
+            }
+          ],
+          "checked_at": "2026-10-24T11:44:50Z",
+          "context_class": "short",
+          "currency": "USD",
+          "effective_from": null,
+          "effective_until": null,
+          "id": "price:moonshot-ai/kimi-k3.1-pro-highspeed:standard:short:current",
+          "pricing_status": "current",
+          "processing_mode": "standard",
+          "prompt_token_threshold": null,
+          "region_policy": {
+            "availability": {
+              "default": "available",
+              "rules": []
+            },
+            "data_residencies": [
+              "global"
+            ],
+            "endpoint_geographies": [
+              "global"
+            ],
+            "price_adjustments": [],
+            "pricing_geography": "global_base"
+          },
+          "source_refs": [
+            "https://platform.kimi.ai/docs/pricing/chat",
+            "https://platform.kimi.ai/",
+            "https://platform.kimi.ai/docs/guide/kimi-k3-1-pro-quickstart",
+            "https://platform.kimi.ai/docs/guide/use-context-caching-feature-of-kimi-api"
+          ],
+          "verification_status": "verified",
+          "verified_at": "2026-10-24T11:44:50Z"
+        }
+      ],
+      "pricing": {
+        "batch_input": null,
+        "batch_output": null,
+        "cache_write": 4,
+        "cache_write_1h": 8,
+        "cached_input": 0.2,
+        "currency": "USD",
+        "input": 4,
+        "output": 20,
+        "unit": "1M tokens"
+      },
+      "project_context_window": true,
+      "provider_id": "moonshot-ai",
+      "release_evidence": {
+        "source_type": "official_changelog",
+        "title": "Kimi Code What's New - K3.1 Pro Series is live",
+        "url": "https://www.kimi.com/code/docs/en/kimi-code/whats-new.html"
+      },
+      "release_stage": "stable",
+      "released_at": "2026-10-23",
+      "status": "active"
     }
   ],
   "notes": "Official Moonshot AI Kimi API model and pricing documentation.",

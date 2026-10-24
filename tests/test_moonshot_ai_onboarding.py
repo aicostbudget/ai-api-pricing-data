@@ -40,7 +40,7 @@ class MoonshotAIOnboardingTests(unittest.TestCase):
         provider = self.providers["moonshot-ai"]
         self.assertEqual(provider["display_name"], "Moonshot AI")
         self.assertTrue(provider["pricing_url"].startswith("https://platform.kimi.ai/"))
-        expected = {"kimi-k3", "kimi-k2.7-code", "kimi-k2.6"}
+        expected = {"kimi-k3.1-pro", "kimi-k3.1-pro-highspeed", "kimi-k3", "kimi-k2.7-code", "kimi-k2.6"}
         self.assertEqual(
             {model_id for provider_id, model_id in self.canonical if provider_id == "moonshot-ai"},
             expected,
@@ -66,6 +66,20 @@ class MoonshotAIOnboardingTests(unittest.TestCase):
 
     def test_verified_standard_cache_and_batch_contracts(self):
         expected_standard = {
+            "kimi-k3.1-pro": {
+                "input": "2",
+                "cache_write_5m": "2",
+                "cache_write_1h": "4",
+                "cached_input": "0.2",
+                "output": "10",
+            },
+            "kimi-k3.1-pro-highspeed": {
+                "input": "4",
+                "cache_write_5m": "4",
+                "cache_write_1h": "8",
+                "cached_input": "0.2",
+                "output": "20",
+            },
             "kimi-k3": {
                 "input": "3",
                 "cache_write_5m": "3",
@@ -94,7 +108,8 @@ class MoonshotAIOnboardingTests(unittest.TestCase):
                 {charge["component"]: charge["amount"] for charge in batch["charges"]},
                 expected,
             )
-        self.assertNotIn("price:moonshot-ai/kimi-k3:batch:short:current", self.prices)
+        for model_id in ("kimi-k3.1-pro", "kimi-k3.1-pro-highspeed", "kimi-k3"):
+            self.assertNotIn(f"price:moonshot-ai/{model_id}:batch:short:current", self.prices)
         moonshot_charges = [
             charge
             for price in self.prices.values()
@@ -104,7 +119,7 @@ class MoonshotAIOnboardingTests(unittest.TestCase):
         self.assertFalse(any(charge["component"] == "tool_call" for charge in moonshot_charges))
 
     def test_public_projection_and_hugging_face_include_calculator_rows(self):
-        for model_id in ("kimi-k3", "kimi-k2.7-code", "kimi-k2.6"):
+        for model_id in ("kimi-k3.1-pro", "kimi-k3.1-pro-highspeed", "kimi-k3", "kimi-k2.7-code", "kimi-k2.6"):
             projected = self.projection[("moonshot-ai", model_id)]
             self.assertTrue(projected["defaultSafe"])
             self.assertIsNotNone(projected["inputPrice"])

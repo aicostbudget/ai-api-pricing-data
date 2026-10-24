@@ -354,6 +354,20 @@ class HuggingFaceExportTests(unittest.TestCase):
             {"cache_write_5m": "3", "cache_write_1h": "6"},
         )
         self.assertEqual(len(kimi_writes), 2)
+        kimi_k31_expected = {
+            "kimi-k3.1-pro": {"cache_write_5m": "2", "cache_write_1h": "4"},
+            "kimi-k3.1-pro-highspeed": {"cache_write_5m": "4", "cache_write_1h": "8"},
+        }
+        for model_id, expected in kimi_k31_expected.items():
+            record = next(row for row in self.records if row["model_id"] == model_id)
+            writes = [
+                item
+                for item in record["pricing_components"]
+                if item["component"].startswith("cache_write")
+            ]
+            self.assertEqual({item["component"]: item["amount"] for item in writes}, expected)
+            self.assertEqual(len(writes), 2)
+            kimi_writes.extend(writes)
         sonnet_55_record = next(
             row for row in self.records if row["model_id"] == "claude-sonnet-5-5"
         )
