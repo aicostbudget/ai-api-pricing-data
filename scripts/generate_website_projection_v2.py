@@ -250,7 +250,11 @@ def select_structured_price(
         if price["processingMode"] == "standard"
         and (price["verificationStatus"] == "verified" or price["pricingId"] in verified_price_by_id)
         and current_effective(price, effective_at)
-        and any(charge["unit"] != "per_1m_tokens" for charge in price["charges"])
+        # Structured: a non-token unit, or token-priced non-text output (TTS audio) the text scalars can't hold.
+        and any(
+            charge["unit"] != "per_1m_tokens" or (charge["component"] == "output" and charge["modality"] != "text")
+            for charge in price["charges"]
+        )
     ]
     candidates.sort(
         key=lambda price: (price["effectiveFrom"] or "0000-00-00", price["pricingId"]),
