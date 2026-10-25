@@ -10,7 +10,7 @@
     }
   ],
   "access_status": "public",
-  "accessed_at": "2026-09-20T11:07:05Z",
+  "accessed_at": "2026-10-25T06:08:19Z",
   "binding_evidence": [
     {
       "claim_type": "official_identity_binding",
@@ -23,19 +23,20 @@
   "binding_status": "approved",
   "display_name": "Grok 4.5",
   "effective_from": null,
-  "last_verified_at": "2026-09-20T11:07:05Z",
+  "last_verified_at": "2026-10-25T06:08:19Z",
   "model_family": "Grok 4",
   "model_id": "grok-4.5",
-  "notes": "Global Standard token rates; total prompt tokens include cached tokens. At 200,000 tokens or more, long rates apply to every input, cached, and output token in the request. The model detail page says Batch API is not supported. No distinct pricing effective date is published.",
+  "notes": "Global Standard token rates; total prompt tokens include cached tokens. At 200,000 tokens or more, long rates apply to every input, cached, and output token in the request. The model detail page lists Batch API as supported at a 20% discount on all token types. No distinct pricing effective date is published.",
   "official_source_url": "https://docs.x.ai/developers/models/grok-4.5",
   "official_source_urls": [
     "https://docs.x.ai/developers/models/grok-4.5",
     "https://docs.x.ai/developers/pricing",
-    "https://docs.x.ai/developers/advanced-api-usage/prompt-caching/usage-and-pricing"
+    "https://docs.x.ai/developers/advanced-api-usage/prompt-caching/usage-and-pricing",
+    "https://docs.x.ai/developers/advanced-api-usage/batch-api"
   ],
   "price_records": [
     {
-      "billing_note": "Global Standard token rates; total prompt tokens include cached tokens. At 200,000 tokens or more, long rates apply to every input, cached, and output token in the request. The model detail page says Batch API is not supported. No distinct pricing effective date is published.",
+      "billing_note": "Global Standard token rates; total prompt tokens include cached tokens. At 200,000 tokens or more, long rates apply to every input, cached, and output token in the request. Batch is priced in separate records. No distinct pricing effective date is published.",
       "calculation_default": true,
       "charges": [
         {
@@ -60,7 +61,7 @@
           "unit": "per_1m_tokens"
         }
       ],
-      "checked_at": "2026-09-20T11:07:05Z",
+      "checked_at": "2026-10-25T06:08:19Z",
       "context_class": "short",
       "currency": "USD",
       "effective_from": null,
@@ -95,10 +96,10 @@
         "whole_request_pricing": true
       },
       "verification_status": "verified",
-      "verified_at": "2026-09-20T11:07:05Z"
+      "verified_at": "2026-10-25T06:08:19Z"
     },
     {
-      "billing_note": "Global Standard token rates; total prompt tokens include cached tokens. At 200,000 tokens or more, long rates apply to every input, cached, and output token in the request. The model detail page says Batch API is not supported. No distinct pricing effective date is published.",
+      "billing_note": "Global Standard token rates; total prompt tokens include cached tokens. At 200,000 tokens or more, long rates apply to every input, cached, and output token in the request. Batch is priced in separate records. No distinct pricing effective date is published.",
       "calculation_default": false,
       "charges": [
         {
@@ -123,7 +124,7 @@
           "unit": "per_1m_tokens"
         }
       ],
-      "checked_at": "2026-09-20T11:07:05Z",
+      "checked_at": "2026-10-25T06:08:19Z",
       "context_class": "long",
       "currency": "USD",
       "effective_from": null,
@@ -158,12 +159,138 @@
         "whole_request_pricing": true
       },
       "verification_status": "verified",
-      "verified_at": "2026-09-20T11:07:05Z"
+      "verified_at": "2026-10-25T06:08:19Z"
+    },
+    {
+      "billing_note": "Batch API token rates are the published 20% discount on every Standard token type (input, cached input, output) with the same whole-request 200,000-token boundary; the Batch support date is not published.",
+      "calculation_default": false,
+      "charges": [
+        {
+          "amount": "1.6",
+          "component": "input",
+          "id": "price:xai/grok-4.5:batch:short:current:input:text:per_1m_tokens",
+          "modality": "text",
+          "unit": "per_1m_tokens"
+        },
+        {
+          "amount": "0.24",
+          "component": "cached_input",
+          "id": "price:xai/grok-4.5:batch:short:current:cached_input:text:per_1m_tokens",
+          "modality": "text",
+          "unit": "per_1m_tokens"
+        },
+        {
+          "amount": "4.8",
+          "component": "output",
+          "id": "price:xai/grok-4.5:batch:short:current:output:text:per_1m_tokens",
+          "modality": "text",
+          "unit": "per_1m_tokens"
+        }
+      ],
+      "checked_at": "2026-10-25T06:08:19Z",
+      "context_class": "short",
+      "currency": "USD",
+      "effective_from": null,
+      "effective_until": null,
+      "id": "price:xai/grok-4.5:batch:short:current",
+      "pricing_status": "current",
+      "processing_mode": "batch",
+      "prompt_token_threshold": 200000,
+      "region_policy": {
+        "availability": {
+          "default": "available",
+          "rules": []
+        },
+        "data_residencies": [
+          "global"
+        ],
+        "endpoint_geographies": [
+          "global"
+        ],
+        "price_adjustments": [],
+        "pricing_geography": "global_base"
+      },
+      "source_refs": [
+        "https://docs.x.ai/developers/models/grok-4.5",
+        "https://docs.x.ai/developers/pricing",
+        "https://docs.x.ai/developers/advanced-api-usage/batch-api"
+      ],
+      "tier_selection": {
+        "cached_prompt_tokens_included": true,
+        "comparison": "less_than",
+        "token_basis": "total_prompt_tokens",
+        "whole_request_pricing": true
+      },
+      "verification_status": "verified",
+      "verified_at": "2026-10-25T06:08:19Z"
+    },
+    {
+      "billing_note": "Batch API token rates are the published 20% discount on every Standard token type (input, cached input, output) with the same whole-request 200,000-token boundary; the Batch support date is not published.",
+      "calculation_default": false,
+      "charges": [
+        {
+          "amount": "3.2",
+          "component": "input",
+          "id": "price:xai/grok-4.5:batch:long:current:input:text:per_1m_tokens",
+          "modality": "text",
+          "unit": "per_1m_tokens"
+        },
+        {
+          "amount": "0.48",
+          "component": "cached_input",
+          "id": "price:xai/grok-4.5:batch:long:current:cached_input:text:per_1m_tokens",
+          "modality": "text",
+          "unit": "per_1m_tokens"
+        },
+        {
+          "amount": "9.6",
+          "component": "output",
+          "id": "price:xai/grok-4.5:batch:long:current:output:text:per_1m_tokens",
+          "modality": "text",
+          "unit": "per_1m_tokens"
+        }
+      ],
+      "checked_at": "2026-10-25T06:08:19Z",
+      "context_class": "long",
+      "currency": "USD",
+      "effective_from": null,
+      "effective_until": null,
+      "id": "price:xai/grok-4.5:batch:long:current",
+      "pricing_status": "current",
+      "processing_mode": "batch",
+      "prompt_token_threshold": 200000,
+      "region_policy": {
+        "availability": {
+          "default": "available",
+          "rules": []
+        },
+        "data_residencies": [
+          "global"
+        ],
+        "endpoint_geographies": [
+          "global"
+        ],
+        "price_adjustments": [],
+        "pricing_geography": "global_base"
+      },
+      "source_refs": [
+        "https://docs.x.ai/developers/models/grok-4.5",
+        "https://docs.x.ai/developers/pricing",
+        "https://docs.x.ai/developers/advanced-api-usage/batch-api"
+      ],
+      "tier_selection": {
+        "cached_prompt_tokens_included": true,
+        "comparison": "greater_than_or_equal",
+        "token_basis": "total_prompt_tokens",
+        "whole_request_pricing": true
+      },
+      "verification_status": "verified",
+      "verified_at": "2026-10-25T06:08:19Z"
     }
   ],
   "pricing": {
-    "batch_input": null,
-    "batch_output": null,
+    "batch_input": 1.6,
+    "batch_output": 4.8,
     "cache_write": null,
     "cache_write_1h": null,
     "cached_input": 0.3,

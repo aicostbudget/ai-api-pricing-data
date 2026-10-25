@@ -348,9 +348,8 @@ class WebsiteProjectionV2Tests(unittest.TestCase):
             (grok46["inputPrice"], grok46["cachedInputPrice"], grok46["outputPrice"]),
             (2, 0.5, 6),
         )
-        self.assertIsNone(grok46["batchInputPrice"])
-        self.assertIsNone(grok46["batchOutputPrice"])
-        self.assertIsNone(grok46["selectedBatchPriceRecordId"])
+        self.assertEqual((grok46["batchInputPrice"], grok46["batchOutputPrice"]), (1.6, 4.8))
+        self.assertEqual(grok46["selectedBatchPriceRecordId"], "price:xai/grok-4.6:batch:short:current")
         self.assertEqual(len(grok46["pricingTiers"]), 2)
         self.assertNotIn("redirectedBilling", grok46)
         self.assertEqual(self.by_internal["xai/grok-4.5"]["lifecycleStatus"], "active")
@@ -679,7 +678,7 @@ class WebsiteProjectionV2Tests(unittest.TestCase):
         expected = {
             "google-gemini/gemini-3.6-flash": (0.75, 0.075, 3.75, 0.375, 1.875),
             "google-gemini/gemini-3.5-flash-lite": (0.3, 0.03, 2.5, 0.15, 1.25),
-            "xai/grok-4.5": (2, 0.3, 6, None, None),
+            "xai/grok-4.5": (2, 0.3, 6, 1.6, 4.8),
         }
         for internal_id, prices in expected.items():
             row = self.by_internal[internal_id]

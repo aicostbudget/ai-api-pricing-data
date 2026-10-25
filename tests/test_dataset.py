@@ -90,7 +90,7 @@ class DatasetTests(unittest.TestCase):
             ("google-gemini", "gemini-3.7-flash"): (0.75, 0.075, 3.75, 0.375, 1.875, "2026-08-13"),
             ("google-gemini", "gemini-3.8-flash"): (0.75, 0.075, 3.75, 0.375, 1.875, "2026-09-02"),
             ("google-gemini", "gemini-3.5-flash-lite"): (0.3, 0.03, 2.5, 0.15, 1.25, None),
-            ("xai", "grok-4.5"): (2.0, 0.3, 6.0, None, None, None),
+            ("xai", "grok-4.5"): (2.0, 0.3, 6.0, 1.6, 4.8, None),
         }
         for key, values in expected.items():
             row = by_key[key]

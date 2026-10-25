@@ -9,18 +9,19 @@ from pathlib import Path
 ROOT = Path(__file__).resolve().parents[1]
 MODEL_IDS = ("gemini-3.8-flash-tts", "gemini-3.8-flash-lite-tts")
 MODES = ("standard", "batch", "flex", "priority")
+# Google dropped context caching for both models (pricing rows gone between 2026-10-08 and 2026-10-09).
 CURRENT = {
     "gemini-3.8-flash-tts": {
-        "standard": ("0.50", "0.125", "0.50", "9.00"),
-        "batch": ("0.25", "0.0625", "0.50", "4.50"),
-        "flex": ("0.25", "0.025", "0.50", "4.50"),
-        "priority": ("0.90", "0.225", "0.50", "16.20"),
+        "standard": ("0.50", "9.00"),
+        "batch": ("0.25", "4.50"),
+        "flex": ("0.25", "4.50"),
+        "priority": ("0.90", "16.20"),
     },
     "gemini-3.8-flash-lite-tts": {
-        "standard": ("0.50", "0.125", "0.50", "6.00"),
-        "batch": ("0.25", "0.0625", "0.50", "3.00"),
-        "flex": ("0.25", "0.025", "0.50", "3.00"),
-        "priority": ("0.90", "0.225", "0.50", "10.80"),
+        "standard": ("0.50", "6.00"),
+        "batch": ("0.25", "3.00"),
+        "flex": ("0.25", "3.00"),
+        "priority": ("0.90", "10.80"),
     },
 }
 
@@ -53,6 +54,9 @@ class Gemini38TtsCoverageTests(unittest.TestCase):
             self.assertIn("25 tokens per second", row["notes"])
             self.assertIsNone(row["pricing"]["output"])
             self.assertIsNone(row["pricing"]["batch_output"])
+            self.assertIsNone(row["pricing"]["cached_input"])
+            self.assertIsNone(row["pricing"]["batch_cached_input"])
+            self.assertIn("Context caching is not supported", row["notes"])
 
     def test_all_current_and_future_prices_are_exact(self):
         for model_id in MODEL_IDS:
@@ -69,25 +73,28 @@ class Gemini38TtsCoverageTests(unittest.TestCase):
                 for record, multiplier in ((current, 1), (future, 2)):
                     charges = {(item["component"], item["modality"], item["unit"]): item["amount"] for item in record["charges"]}
                     values = tuple(Decimal(value) * multiplier for value in expected)
+                    self.assertEqual(set(charges), {("input", "text", "per_1m_tokens"), ("output", "audio", "per_1m_tokens")})
                     self.assertEqual(Decimal(charges[("input", "text", "per_1m_tokens")]), values[0])
-                    self.assertEqual(Decimal(charges[("cached_input", "text", "per_1m_tokens")]), values[1])
-                    self.assertEqual(Decimal(charges[("storage", "text", "per_1m_tokens_per_hour")]), values[2])
-                    self.assertEqual(Decimal(charges[("output", "audio", "per_1m_tokens")]), values[3])
+                    self.assertEqual(Decimal(charges[("output", "audio", "per_1m_tokens")]), values[1])
 
     def test_projection_and_hugging_face_preserve_structured_containment(self):
         for model_id in MODEL_IDS:
             projection = self.v2[model_id]
             self.assertFalse(projection["defaultSafe"])
             self.assertIsNone(projection["selectedPriceRecordId"])
+            # Without cache-storage charges the audio-output record must still be the verified billing record.
+            self.assertEqual(projection["selectedBillingPriceRecordId"], f"price:google-gemini/{model_id}:standard:current")
+            self.assertEqual(projection["verifiedAt"], self.models[("google-gemini", model_id)]["last_verified_at"])
+            self.assertTrue(projection["verifiedSourceRefs"])
             self.assertIsNone(projection["inputPrice"])
             self.assertIsNone(projection["outputPrice"])
             self.assertEqual(len(projection["priceRecords"]), 8)
-            self.assertEqual(len(projection["pricingComponents"]), 32)
-            self.assertTrue(any(item["unit"] == "per_1m_tokens_per_hour" for item in projection["pricingComponents"]))
+            self.assertEqual(len(projection["pricingComponents"]), 16)
+            self.assertFalse(any(item["unit"] == "per_1m_tokens_per_hour" for item in projection["pricingComponents"]))
             exported = self.hf[model_id]
             self.assertIsNone(exported["input_price_per_1m_tokens"])
             self.assertIsNone(exported["output_price_per_1m_tokens"])
-            self.assertEqual(len(exported["pricing_components"]), 32)
+            self.assertEqual(len(exported["pricing_components"]), 16)
 
     def test_official_google_sources_are_unique_and_back_numeric_pricing(self):
         source_ids = [row["sourceId"] for row in self.sources]
@@ -111,10 +118,16 @@ class Gemini38TtsCoverageTests(unittest.TestCase):
                 self.assertIn(model_url, urls)
                 self.assertTrue(all(url.startswith("https://ai.google.dev/") for url in urls))
 
-    def test_monitor_records_additions_without_fake_successor_or_price_cut(self):
+    def test_monitor_records_additions_and_cache_removal_without_fake_successor_or_price_cut(self):
         events = [event for event in self.events if event["model_id"] in MODEL_IDS]
-        self.assertEqual({event["model_id"] for event in events}, set(MODEL_IDS))
-        self.assertTrue(all(event["change_type"] == "model_added" for event in events))
+        self.assertEqual(
+            sorted((event["model_id"], event["change_type"]) for event in events),
+            sorted((model_id, change_type) for model_id in MODEL_IDS for change_type in ("model_added", "cached_price_removed")),
+        )
+        for event in events:
+            if event["change_type"] == "cached_price_removed":
+                self.assertEqual(event["old_prices"], {"cached_input": 0.125, "input": 0.5, "output": None})
+                self.assertEqual(event["new_prices"], {"cached_input": None, "input": 0.5, "output": None})
         self.assertFalse(any("gemini-3.1-flash-tts-preview" in json.dumps(event) for event in self.events))
 
 

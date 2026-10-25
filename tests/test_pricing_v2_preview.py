@@ -262,8 +262,7 @@ class PricingV2PreviewTests(unittest.TestCase):
             {key: model["pricing"][key] for key in ("input", "cached_input", "output")},
             {"input": 2.0, "cached_input": 0.5, "output": 6.0},
         )
-        self.assertIsNone(model["pricing"]["batch_input"])
-        self.assertIsNone(model["pricing"]["batch_output"])
+        self.assertEqual((model["pricing"]["batch_input"], model["pricing"]["batch_output"]), (1.6, 4.8))
         from tests.freshness_assertions import assert_grok46_contract
         assert_grok46_contract(self, model)
 
@@ -271,8 +270,10 @@ class PricingV2PreviewTests(unittest.TestCase):
             price for price in self.prices
             if price["modelInternalId"] == "xai/grok-4.6"
         ]
-        self.assertEqual(len(records), 4)
-        self.assertFalse(any(record["processingMode"] == "batch" for record in records))
+        self.assertEqual(len(records), 6)
+        self.assertEqual(sorted(record["processingMode"] for record in records), ["batch", "batch", "priority", "priority", "standard", "standard"])
+        batch = {record["contextClass"]: {charge["component"]: charge["amount"] for charge in record["charges"]} for record in records if record["processingMode"] == "batch"}
+        self.assertEqual(batch, {"short": {"input": "1.6", "cached_input": "0.4", "output": "4.8"}, "long": {"input": "3.2", "cached_input": "0.8", "output": "9.6"}})
         by_context = {record["contextClass"]: record for record in records if record["processingMode"] == "standard"}
         self.assertEqual(
             {charge["component"]: charge["amount"] for charge in by_context["short"]["charges"]},

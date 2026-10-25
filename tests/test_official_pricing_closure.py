@@ -8,6 +8,7 @@ CHECKPOINT=SCOPE['event_checkpoints'][-1]
 ARGON_EXTENSION=SCOPE['argon_event_extension']
 MISTRAL_EXTENSION=SCOPE['mistral_large_4_standard_extension']
 OPENAI_12H_EXTENSION=SCOPE['openai_12h_cache_write_extension']
+TTS_CACHE_EXTENSION=SCOPE['gemini_38_tts_cache_removal_extension']
 EVENTS_PATH='data/price-change-events/events.jsonl'
 DEEPSEEK_METADATA_APPROVAL={
  'identity':'deepseek/deepseek-flash',
@@ -109,6 +110,32 @@ def verify_mistral_release_event_bytes(raw):
  assert row['source_snapshot_before']=='data/snapshots/2026-10-18/prices.json'
  assert row['source_snapshot_after']=='data/snapshots/2026-10-21/prices.json'
  assert row['official_source_url']=='https://docs.mistral.ai/models/mistral-large-4-0'
+ return normalized,lines,rows
+def verify_tts_cache_release_event_bytes(raw):
+ normalized,lines,rows=event_lines_rows(raw)
+ assert TTS_CACHE_EXTENSION['base_release']=='mistral_large_4_standard_extension','unexpected TTS cache base release'
+ assert hashlib.sha256(normalized).hexdigest()==TTS_CACHE_EXTENSION['full_events_sha256'],'unapproved TTS cache release event content'
+ assert len(rows)==TTS_CACHE_EXTENSION['full_event_count'],'unexpected TTS cache release event count'
+ ids=[row['event_id'] for row in rows];keys=[row['dedupe_key'] for row in rows]
+ assert len(set(ids))==len(ids),'duplicate event_id'
+ assert len(set(keys))==len(keys),'duplicate dedupe_key'
+ appended_ids=TTS_CACHE_EXTENSION['appended_event_ids'];appended_keys=TTS_CACHE_EXTENSION['appended_dedupe_keys'];id_set=set(appended_ids)
+ assert len(appended_ids)==len(id_set)==TTS_CACHE_EXTENSION['appended_event_count']==2
+ appended=[(line,row) for line,row in zip(lines,rows) if row['event_id'] in id_set]
+ rebuilt=b''.join(line for line,row in zip(lines,rows) if row['event_id'] not in id_set)
+ verify_mistral_release_event_bytes(rebuilt)
+ assert [row['event_id'] for _,row in appended]==appended_ids,'unexpected TTS cache event ID'
+ assert [row['dedupe_key'] for _,row in appended]==appended_keys,'unexpected TTS cache dedupe key'
+ assert len(rows)==TTS_CACHE_EXTENSION['base_event_count']+TTS_CACHE_EXTENSION['appended_event_count']
+ assert hashlib.sha256(b''.join(line for line,_ in appended)).hexdigest()==TTS_CACHE_EXTENSION['appended_events_sha256']
+ for _,row in appended:
+  assert row['provider_id']=='google-gemini' and row['provider_id']+'/'+row['model_id'] in TTS_CACHE_EXTENSION['identities']
+  assert row['change_type']=='cached_price_removed' and row['date_basis']=='first_observed' and row['effective_from'] is None
+  assert row['old_prices']=={'cached_input':0.125,'input':0.5,'output':None}
+  assert row['new_prices']=={'cached_input':None,'input':0.5,'output':None}
+  assert row['source_snapshot_before']=='data/snapshots/2026-10-25/prices.json'
+  assert row['source_snapshot_after']=='data/snapshots/2026-10-25-2/prices.json'
+  assert row['official_source_url']=='https://ai.google.dev/gemini-api/docs/pricing'
  return normalized,lines,rows
 def verify_checkpoint(checkpoint=CHECKPOINT,current_raw=None):
  assert re.fullmatch(r'[0-9a-f]{40}',checkpoint['source_commit']),'invalid checkpoint source commit'
@@ -215,7 +242,7 @@ class ClosureScopeTests(unittest.TestCase):
   with self.assertRaisesRegex(AssertionError,'unapproved change: '+mistral['identity']):verify_rows(old,mutated,approved)
  def test_all_current_events_exact_and_correction_is_not_provider_event(self):
   verify_checkpoint(CHECKPOINT)
-  _,_,events=verify_mistral_release_event_bytes((ROOT/EVENTS_PATH).read_bytes())
+  _,_,events=verify_tts_cache_release_event_bytes((ROOT/EVENTS_PATH).read_bytes())
   self.assertFalse(any(e['model_id']=='gemini-2.5-flash-image' and e['detected_at']=='2026-10-09' for e in events))
  def test_event_digest_pinned_to_approved_commit(self):
   self.assertEqual(SCOPE['events_source_commit'],'1c7ec3eca94f0bfdc99b7ae18616bdce38be8833')
@@ -225,14 +252,16 @@ class ClosureScopeTests(unittest.TestCase):
  def test_e1_checkpoint_identity_scope_and_increment(self):
   self.assertEqual(len(SCOPE['event_checkpoints']),1);blob,rows=verify_checkpoint();self.assertEqual(len(blob.splitlines()),37);self.assertEqual(len(rows),37)
  def test_argon_release_is_the_38_event_base_of_the_mistral_release(self):
-  current=(ROOT/EVENTS_PATH).read_bytes();normalized,lines,rows=verify_mistral_release_event_bytes(current)
-  self.assertEqual(normalized,normalize_event_newlines(current));self.assertEqual(len(rows),39)
+  current=(ROOT/EVENTS_PATH).read_bytes();normalized,lines,rows=verify_tts_cache_release_event_bytes(current)
+  self.assertEqual(normalized,normalize_event_newlines(current));self.assertEqual(len(rows),41)
+  tts_ids=set(TTS_CACHE_EXTENSION['appended_event_ids']);mistral_release=b''.join(line for line,row in zip(lines,rows) if row['event_id'] not in tts_ids)
+  _,lines,rows=verify_mistral_release_event_bytes(mistral_release);self.assertEqual(len(rows),39)
   mistral_ids=set(MISTRAL_EXTENSION['appended_event_ids']);argon_base=b''.join(line for line,row in zip(lines,rows) if row['event_id'] not in mistral_ids)
   _,_,argon_rows=verify_release_event_bytes(argon_base);self.assertEqual(len(argon_rows),38)
  def test_event_lf_and_crlf_have_same_approved_digest(self):
   historical=approved_event_bytes();self.assertEqual(verify_event_bytes(historical),historical);self.assertEqual(verify_event_bytes(historical.replace(b'\n',b'\r\n')),historical)
   current=checkpoint_event_bytes();self.assertEqual(verify_current_event_bytes(current)[0],current);self.assertEqual(verify_current_event_bytes(current.replace(b'\n',b'\r\n'))[0],current)
-  release=normalize_event_newlines((ROOT/EVENTS_PATH).read_bytes());self.assertEqual(verify_mistral_release_event_bytes(release)[0],release);self.assertEqual(verify_mistral_release_event_bytes(release.replace(b'\n',b'\r\n'))[0],release)
+  release=normalize_event_newlines((ROOT/EVENTS_PATH).read_bytes());self.assertEqual(verify_tts_cache_release_event_bytes(release)[0],release);self.assertEqual(verify_tts_cache_release_event_bytes(release.replace(b'\n',b'\r\n'))[0],release)
  def test_event_field_mutations_rejected(self):
   historical=approved_event_bytes();rows=[json.loads(line) for line in historical.splitlines()];self.assertEqual(encode(rows),historical)
   def fields(value,path=()):
@@ -256,9 +285,9 @@ class ClosureScopeTests(unittest.TestCase):
     with self.subTest(case=name,newline=newline):
      with self.assertRaisesRegex(AssertionError,'unapproved historical event content'):verify_event_bytes(raw.replace(b'\n',newline))
  def test_current_event_negative_mutations_rejected(self):
-  current=(ROOT/EVENTS_PATH).read_bytes();_,lines,rows=event_lines_rows(current);new_ids=set(MISTRAL_EXTENSION['appended_event_ids'])
+  current=(ROOT/EVENTS_PATH).read_bytes();_,lines,rows=event_lines_rows(current);new_ids=set(TTS_CACHE_EXTENSION['appended_event_ids'])
   old_indexes=[i for i,row in enumerate(rows) if row['event_id'] not in new_ids];new_index=next(i for i,row in enumerate(rows) if row['event_id'] in new_ids)
-  unexpected=copy.deepcopy(rows);extra=copy.deepcopy(unexpected[new_index]);extra['event_id']='mistral-ai:unexpected:price_update:000000000000';extra['dedupe_key']='sha256:'+'0'*64;unexpected.append(extra)
+  unexpected=copy.deepcopy(rows);extra=copy.deepcopy(unexpected[new_index]);extra['event_id']='google-gemini:unexpected:cached_price_removed:000000000000';extra['dedupe_key']='sha256:'+'0'*64;unexpected.append(extra)
   reordered=list(lines);first,second=old_indexes[:2];reordered[first],reordered[second]=reordered[second],reordered[first]
   old_mutation=copy.deepcopy(rows);old_mutation[old_indexes[0]]['notes']='P09_HISTORICAL_MUTATION'
   new_mutation=copy.deepcopy(rows);new_mutation[new_index]['notes']='P1_APPEND_MUTATION'
@@ -267,7 +296,7 @@ class ClosureScopeTests(unittest.TestCase):
   cases={'delete':b''.join(lines[1:]),'unexpected':encode(unexpected),'duplicate':current+lines[0],'historical-reorder':b''.join(reordered),'historical-field':encode(old_mutation),'appended-field':encode(new_mutation),'event-id':encode(id_mutation),'dedupe-key':encode(key_mutation)}
   for name,raw in cases.items():
    with self.subTest(case=name):
-    with self.assertRaises(AssertionError):verify_mistral_release_event_bytes(raw)
+    with self.assertRaises(AssertionError):verify_tts_cache_release_event_bytes(raw)
  def test_checkpoint_metadata_corruption_rejected(self):
   bad=copy.deepcopy(CHECKPOINT);bad['source_commit']='0'*40
   with self.assertRaisesRegex(AssertionError,'unresolvable git object'):verify_checkpoint(bad)
@@ -276,7 +305,7 @@ class ClosureScopeTests(unittest.TestCase):
   bad=copy.deepcopy(CHECKPOINT);bad['full_events_sha256']='0'*64
   with self.assertRaisesRegex(AssertionError,'unapproved current event content'):verify_checkpoint(bad)
  def test_event_invalid_or_mixed_newlines_rejected(self):
-  for contract,lf,verify in (('historical',approved_event_bytes(),verify_event_bytes),('checkpoint',checkpoint_event_bytes(),verify_current_event_bytes),('release',(ROOT/EVENTS_PATH).read_bytes(),verify_mistral_release_event_bytes)):
+  for contract,lf,verify in (('historical',approved_event_bytes(),verify_event_bytes),('checkpoint',checkpoint_event_bytes(),verify_current_event_bytes),('release',(ROOT/EVENTS_PATH).read_bytes(),verify_tts_cache_release_event_bytes)):
    crlf=lf.replace(b'\n',b'\r\n');cases={'mixed-lf':lf.replace(b'\n',b'\r\n',1),'mixed-crlf':crlf.replace(b'\r\n',b'\n',1),'bare-cr':lf.replace(b'\n',b'\r'),'crcrlf':lf.replace(b'\n',b'\r\r\n'),'missing-final':lf[:-1],'blank-line':lf+b'\n','unicode-separator':lf.replace(b'\n',b'\xe2\x80\xa8',1)}
    for name,raw in cases.items():
     with self.subTest(contract=contract,case=name):

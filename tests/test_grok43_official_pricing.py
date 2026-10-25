@@ -43,7 +43,10 @@ class Grok43OfficialPricingTests(unittest.TestCase):
 
     def test_unavailable_mode_and_other_grok_isolation(self):
         self.assertEqual(select_price_record(self.prices, processing_mode="flex", prompt_tokens=1)["selectionStatus"], "unavailable")
-        self.assertEqual(select_price_record(self.other_grok, processing_mode="batch", prompt_tokens=200000)["selectionStatus"], "unavailable")
+        # Grok 4.5 Batch (supported since the 2026-10-25 check) resolves to its own records, never Grok 4.3's.
+        self.assertEqual(select_price_record(self.other_grok, processing_mode="batch", prompt_tokens=200000)["pricingId"],
+                         "price:xai/grok-4.5:batch:long:current")
+        self.assertEqual(select_price_record(self.other_grok, processing_mode="priority", prompt_tokens=200000)["selectionStatus"], "unavailable")
         self.assertEqual(select_price_record(self.other_grok, processing_mode="standard", prompt_tokens=200000)["pricingId"],
                          "price:xai/grok-4.5:standard:long:current")
 

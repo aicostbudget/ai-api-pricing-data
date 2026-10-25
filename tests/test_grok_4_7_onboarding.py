@@ -11,8 +11,15 @@ from scripts.pricing_contract import normalize_canonical_price_records, select_p
 ROOT = Path(__file__).resolve().parents[1]
 MODEL_ID = "grok-4.7"
 EXPECTED = {
-    "short": {"input": "2", "cached_input": "0.5", "output": "6"},
-    "long": {"input": "4", "cached_input": "1", "output": "12"},
+    "standard": {
+        "short": {"input": "2", "cached_input": "0.5", "output": "6"},
+        "long": {"input": "4", "cached_input": "1", "output": "12"},
+    },
+    # Batch is 20% off every Standard token type.
+    "batch": {
+        "short": {"input": "1.6", "cached_input": "0.4", "output": "4.8"},
+        "long": {"input": "3.2", "cached_input": "0.8", "output": "9.6"},
+    },
 }
 
 
@@ -41,33 +48,35 @@ class Grok47OnboardingTests(unittest.TestCase):
         self.assertIn("Supports text and image input with text output", model["notes"])
         self.assertIn("reasoning efforts are low, medium, high (default), and xhigh", model["notes"])
         self.assertIn("not on the public xAI API", model["notes"])
-        self.assertIn("Batch API is not supported", model["notes"])
+        self.assertIn("Batch API is supported in us-east-1 and us-west-2", model["notes"])
         self.assertNotIn("grok-4.7-fast", {row["model_id"] for row in self.xai_models})
-        self.assertTrue(all(record["processing_mode"] == "standard" for record in model["price_records"]))
-        self.assertIsNone(model["pricing"]["batch_input"])
-        self.assertIsNone(model["pricing"]["batch_output"])
+        self.assertEqual(sorted(record["processing_mode"] for record in model["price_records"]), ["batch", "batch", "standard", "standard"])
+        self.assertEqual(model["pricing"]["batch_input"], 1.6)
+        self.assertEqual(model["pricing"]["batch_output"], 4.8)
         self.assertIsNone(model["pricing"]["cache_write"])
 
     def test_exact_200k_boundary_and_whole_request_rates(self):
-        self.assertEqual(len(self.records), 2)
-        for prompt_tokens, context in ((199_999, "short"), (200_000, "short"), (200_001, "long")):
-            selected = select_price_record(
-                self.records, processing_mode="standard", prompt_tokens=prompt_tokens
-            )
-            self.assertEqual(selected["selectionStatus"], "available")
-            self.assertEqual(selected["contextClass"], context)
-            self.assertEqual(selected["promptTokenThreshold"], 200_000)
-            self.assertEqual(
-                selected["tierSelection"],
-                {
-                    "comparison": "less_than_or_equal" if context == "short" else "greater_than",
-                    "tokenBasis": "total_prompt_tokens",
-                    "cachedPromptTokensIncluded": True,
-                    "wholeRequestPricing": True,
-                },
-            )
-            amounts = {charge["component"]: charge["amount"] for charge in selected["charges"]}
-            self.assertEqual(amounts, EXPECTED[context])
+        # Official tiers: "< 200k prompt tokens" short, "≥ 200k" long, so a 200,000-token prompt is long.
+        self.assertEqual(len(self.records), 4)
+        for mode in ("standard", "batch"):
+            for prompt_tokens, context in ((199_999, "short"), (200_000, "long"), (200_001, "long")):
+                selected = select_price_record(
+                    self.records, processing_mode=mode, prompt_tokens=prompt_tokens
+                )
+                self.assertEqual(selected["selectionStatus"], "available")
+                self.assertEqual(selected["contextClass"], context)
+                self.assertEqual(selected["promptTokenThreshold"], 200_000)
+                self.assertEqual(
+                    selected["tierSelection"],
+                    {
+                        "comparison": "less_than" if context == "short" else "greater_than_or_equal",
+                        "tokenBasis": "total_prompt_tokens",
+                        "cachedPromptTokensIncluded": True,
+                        "wholeRequestPricing": True,
+                    },
+                )
+                amounts = {charge["component"]: charge["amount"] for charge in selected["charges"]}
+                self.assertEqual(amounts, EXPECTED[mode][context])
 
     def test_us_regional_endpoint_is_a_multiplier_not_a_fake_model(self):
         for record in self.model["price_records"]:
@@ -115,14 +124,14 @@ class Grok47OnboardingTests(unittest.TestCase):
         self.assertEqual(row["contextWindow"], "500K")
         self.assertEqual(row["contextWindowTokens"], 500_000)
         self.assertEqual(len(row["pricingTiers"]), 2)
-        self.assertEqual(len(row["pricingComponents"]), 6)
-        self.assertIsNone(row["batchInputPrice"])
-        self.assertIsNone(row["batchOutputPrice"])
+        self.assertEqual(len(row["pricingComponents"]), 12)
+        self.assertEqual(row["batchInputPrice"], 1.6)
+        self.assertEqual(row["batchOutputPrice"], 4.8)
 
         hf = read("huggingface/prices.json")["records"]
         hf_row = next(item for item in hf if item["provider_id"] == "xai" and item["model_id"] == MODEL_ID)
         self.assertEqual(hf_row["pricing_tier_count"], 2)
-        self.assertEqual(len(hf_row["pricing_components"]), 6)
+        self.assertEqual(len(hf_row["pricing_components"]), 12)
 
     def test_grok_46_standard_facts_and_new_modifiers(self):
         from tests.freshness_assertions import assert_grok46_contract

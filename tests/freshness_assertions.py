@@ -30,8 +30,9 @@ def lifecycle_fixture(generator):
 
 def assert_grok46_contract(test, row):
     test.assertEqual((row["provider_id"], row["model_id"], row["status"], row["context_window_tokens"]), ("xai", "grok-4.6", "active", 500000))
-    test.assertEqual(tuple(row["pricing"][k] for k in ("input", "cached_input", "output", "batch_input", "batch_output")), (2, .5, 6, None, None))
-    expected = {("standard", "short"): ("2", "0.5", "6"), ("standard", "long"): ("4", "1", "12"), ("priority", "short"): ("4", "1", "12"), ("priority", "long"): ("8", "2", "24")}
+    test.assertEqual(tuple(row["pricing"][k] for k in ("input", "cached_input", "output", "batch_input", "batch_output")), (2, .5, 6, 1.6, 4.8))
+    # Batch (supported since the 2026-10-25 check) is 20% off every Standard token type.
+    expected = {("standard", "short"): ("2", "0.5", "6"), ("standard", "long"): ("4", "1", "12"), ("priority", "short"): ("4", "1", "12"), ("priority", "long"): ("8", "2", "24"), ("batch", "short"): ("1.6", "0.4", "4.8"), ("batch", "long"): ("3.2", "0.8", "9.6")}
     records = {(r["processing_mode"], r["context_class"]): r for r in row["price_records"]}
     test.assertEqual(set(records), set(expected))
     for key, values in expected.items():

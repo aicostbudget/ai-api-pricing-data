@@ -20,6 +20,7 @@ SPECS = {
     }),
     "xai/grok-4.5": (200000, True, {
         "standard": (("2", "0.3", "6"), ("4", "0.6", "12")),
+        "batch": (("1.6", "0.24", "4.8"), ("3.2", "0.48", "9.6")),
     }),
 }
 
@@ -56,7 +57,7 @@ class Issue22LongContextTests(unittest.TestCase):
                         selected = select_price_record(prices, processing_mode=mode, prompt_tokens=prompt_tokens)
                         self.assertEqual(selected["pricingId"], f"price:{model_id}:{mode}:{expected_context}:current")
                 if model_id == "xai/grok-4.5":
-                    self.assertEqual(select_price_record(prices, processing_mode="batch", prompt_tokens=200000)["selectionStatus"], "unavailable")
+                    self.assertEqual(select_price_record(prices, processing_mode="priority", prompt_tokens=200000)["selectionStatus"], "unavailable")
 
 
 if __name__ == "__main__":

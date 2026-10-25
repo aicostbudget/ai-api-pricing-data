@@ -44,7 +44,13 @@
     "openai/gpt-5.5-pro": "725959b095a906b280bdaab4babddd21ff920c4962cd563c4cf02f6c8e25f405",
     "xai/grok-4.3": "e74fefe234e407104c1cfb0c156bc013b22fe2c63c0c8e437b7fecf08144164d",
     "xai/grok-imagine-image-2.0": "996a9977670122d066abaf37ce01be575222d23422d3d4b85882f2112a8d249a",
-    "xai/grok-voice-transcribe-2.0": "dc928fc24d5459ea12bd75ad3a804c1834db6734f62081bd56610fab285c1037"
+    "xai/grok-voice-transcribe-2.0": "dc928fc24d5459ea12bd75ad3a804c1834db6734f62081bd56610fab285c1037",
+    "anthropic/claude-opus-5-5": "9e6b64fd05c52f6d8ee7fee3aa52114f3c7fd9ab768074477be9bc4e01fe6675",
+    "google-gemini/gemini-3.8-flash-lite-tts": "7bcc71dd62d786eec65df20358c1360a2eb13d2523487c403a0f1d653b6367e6",
+    "google-gemini/gemini-3.8-flash-tts": "66b46d27e7407a2527e0a41e58762c87cd1ba246f97c06f9dcc811621642a434",
+    "xai/grok-4.5": "275e29a0f684ac63d14106880ebfde98081e656887da854643011bc81907b1d4",
+    "xai/grok-4.6": "d1f1323a41d2d9a80ebbfba186ffffbd679310ee89beb4441607495d474c8e75",
+    "xai/grok-4.7": "c68debe93924f91df9156a2773311016eff500939aa7be57c6ded5c793eea021"
   },
   "projection": {
     "anthropic/claude-haiku-5-5": "90b4f7862c16baf9a9d7e9d65814e3251c11b079664b3b7f858020ff3eab3abc",
@@ -92,7 +98,13 @@
     "xai/grok-imagine-image-2.0": "572fc6a4f2fb852cef6a44d6c3166bbac4b6bd67f3f847a7e7cd3f2d7138aa32",
     "xai/grok-voice-transcribe-2.0": "d8e7f8753a496f3c01bd4502e22bed8145594fcb2e97e27475a48b73a0577562",
     "xai/grok-3": "d33b91737d4f2eb21448f3181a01094736b04bdc44c6999deec9069073e99c3f",
-    "xai/grok-voice-transcribe-1.0": "7194272c578dee1214fdb5ceffb25674768d680f76780b998bcb6fd690e6210a"
+    "xai/grok-voice-transcribe-1.0": "7194272c578dee1214fdb5ceffb25674768d680f76780b998bcb6fd690e6210a",
+    "anthropic/claude-opus-5-5": "e5ef0f3ad3a6d5a09df5df54e36ea72976952f4d4f637e40ef3ca78b7fa646c8",
+    "google-gemini/gemini-3.8-flash-lite-tts": "cd11ebac283d4a6d473db3dc5745be576543810c802470b7314660e907363e8f",
+    "google-gemini/gemini-3.8-flash-tts": "6def7c7b91590af88e54f41beac58db6425ee7e629fbe4f53af08a15c259d0ad",
+    "xai/grok-4.5": "1ff0ed74efe511a6fc94bc5ddbf57a5322ef1b75456ffa21f57507b9b73d2c1d",
+    "xai/grok-4.6": "174f4d069d9f8effbdbbde634fca27290f92b690208dc721e4adc58a319d0f4e",
+    "xai/grok-4.7": "43184d734aa17ff8bbffa2d30cca297b9370158990870a89e920a919a2310573"
   },
   "evidence_report": "official-pricing-repair-report.md",
   "events_sha256": "a04e3fbb1d4cb049f2d9cfcadfca3b6383fc1bcdc3df6ca0ee6cfddc38e706ed",
@@ -211,5 +223,27 @@
       "openai/gpt-5.6-luna": "4b2818663f9ffd462e10bceca52d44d9c61510b8221e4c8a6fc773070469ed4f"
     },
     "price_change_events_added": 0
+  },
+  "gemini_38_tts_cache_removal_extension": {
+    "identities": [
+      "google-gemini/gemini-3.8-flash-lite-tts",
+      "google-gemini/gemini-3.8-flash-tts"
+    ],
+    "canonical_source_commit": "2c3215161a338e3619d5aedde95782904bf0c08b",
+    "base_release": "mistral_large_4_standard_extension",
+    "base_event_count": 39,
+    "appended_event_count": 2,
+    "full_event_count": 41,
+    "full_events_sha256": "3a83b4beab1c58e985e982f1b7d56be64f2c5b2864422c9818c9393f9dcedd17",
+    "appended_events_sha256": "b777bc29804acb97dabc57c5680b4ee87d48dcaddf0c45211ffa7710024b24ba",
+    "appended_event_ids": [
+      "google-gemini:gemini-3.8-flash-lite-tts:cached_price_removed:936c6a7a9788",
+      "google-gemini:gemini-3.8-flash-tts:cached_price_removed:66a5cf0d7689"
+    ],
+    "appended_dedupe_keys": [
+      "sha256:936c6a7a9788e7dcc57bd9d098898dcb43a0034ecb94e66302126dfbb6004f0e",
+      "sha256:66a5cf0d76897a834f57b0a08ae16c0e6bdc032bc0ac840efaf742cd03509af7"
+    ],
+    "evidence": "Model pages say Caching: Not supported since their 2026-10-09 update; Wayback shows the pricing page listed TTS cache rates at 20261008T175440Z and not at 20261009T223330Z."
   }
 }
