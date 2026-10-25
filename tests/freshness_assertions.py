@@ -12,6 +12,16 @@ def assert_verified_timestamp(test, value, baseline):
     test.assertGreaterEqual(actual, datetime.fromisoformat(baseline.replace("Z", "+00:00")))
     test.assertLessEqual(actual, datetime.now(timezone.utc))
 
+def assert_evidence_backed_timestamp(test, internal_id, value, baseline):
+    """A pinned verification time may only move forward with a passing price evidence capture taken at that time."""
+    if value == baseline:
+        return
+    assert_verified_timestamp(test, value, baseline)
+    capture = ROOT / "reports/price-evidence" / internal_id / (value.replace("-", "").replace(":", "") + ".json")
+    test.assertTrue(capture.exists(), f"{internal_id} re-verified at {value} without {capture.relative_to(ROOT).as_posix()}")
+    pages = json.loads(capture.read_text(encoding="utf-8"))["pages"]
+    test.assertTrue(all(page["http_status"] == 200 and not page["missing_expected"] for page in pages), internal_id)
+
 def lifecycle_fixture(generator):
     # These transaction tools deliberately accept only their reviewed 250-price universe.
     paths = subprocess.check_output(["git", "ls-tree", "-r", "--name-only", BASELINE, "--", "data/pricing-v2-preview"], cwd=ROOT).decode().splitlines()

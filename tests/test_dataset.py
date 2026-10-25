@@ -22,6 +22,7 @@ from scripts.lib import (
     utc_now,
     utc_today,
 )
+from tests.freshness_assertions import assert_evidence_backed_timestamp
 
 
 def copy_build_fixture(output_root: Path) -> Path:
@@ -195,8 +196,8 @@ class DatasetTests(unittest.TestCase):
                 self.assertEqual(row["accessed_at"], expected_verified_at[internal_id], internal_id)
                 self.assertGreaterEqual(row["last_verified_at"][:10], "2026-10-08", internal_id)
             else:
-                self.assertEqual(row["accessed_at"], expected_verified_at[internal_id], internal_id)
-                self.assertEqual(row["last_verified_at"], expected_verified_at[internal_id], internal_id)
+                self.assertEqual(row["accessed_at"], row["last_verified_at"], internal_id)
+                assert_evidence_backed_timestamp(self, internal_id, row["last_verified_at"], expected_verified_at[internal_id])
             self.assertEqual(row["effective_from"], "2026-07-03", internal_id)
             self.assertTrue(row["official_source_url"].startswith("https://"), internal_id)
             self.assertTrue(row["notes"], internal_id)

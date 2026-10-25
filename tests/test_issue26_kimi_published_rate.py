@@ -8,10 +8,19 @@ from datetime import datetime, timezone
 from pathlib import Path
 
 from scripts.generate_price_change_events import generate_events
+from tests.freshness_assertions import assert_evidence_backed_timestamp
 
 ROOT = Path(__file__).resolve().parents[1]
 KEY = 'moonshot-ai/kimi-k2.6'
 BASE = '80c2ec4991bcaaf795fe9192946f5ec770d57f48'
+
+def without_check_times(value):
+    # Re-verification moves checkedAt/verifiedAt (checked separately); amounts and identities must not move.
+    if isinstance(value, list):
+        return [without_check_times(item) for item in value]
+    if isinstance(value, dict):
+        return {k: without_check_times(v) for k, v in value.items() if k not in ('checkedAt','verifiedAt')}
+    return value
 
 def read(path):
     return json.loads((ROOT / path).read_text(encoding='utf-8'))
@@ -113,5 +122,7 @@ class KimiPublishedRateTests(unittest.TestCase):
         for old in original['models']:
             key = old['canonicalInternalId']
             if key.startswith('moonshot-ai/') and key != KEY:
-                for field in ('verifiedAt','checkedAt','pricingComponents','priceRecords','accessStatus','bindingStatus'):
-                    self.assertEqual(current[key].get(field), old.get(field), (key,field))
+                for field in ('verifiedAt','checkedAt'):
+                    assert_evidence_backed_timestamp(self, key, current[key].get(field), old.get(field))
+                for field in ('pricingComponents','priceRecords','accessStatus','bindingStatus'):
+                    self.assertEqual(without_check_times(current[key].get(field)), without_check_times(old.get(field)), (key,field))

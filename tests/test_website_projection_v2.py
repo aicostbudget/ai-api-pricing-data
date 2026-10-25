@@ -20,6 +20,8 @@ from scripts.generate_website_projection_v2 import (
     row_effective_at,
     validate_projection,
 )
+from scripts.lib import load_models
+from tests.freshness_assertions import assert_evidence_backed_timestamp
 
 # Mirrors the 35-row legacy Website parity input captured in the committed Phase 4A report.
 WEBSITE_FIXTURE = Path(__file__).resolve().parent / "fixtures" / "website-model-pricing.json"
@@ -374,8 +376,10 @@ class WebsiteProjectionV2Tests(unittest.TestCase):
             "xai/grok-imagine-image-2.0": "2026-09-29T11:56:18Z",
         }.items():
             row = self.by_internal[internal_id]
-            self.assertEqual(row["verifiedAt"], timestamp)
-            self.assertEqual(row["checkedAt"], timestamp)
+            canonical = next(m for m in load_models() if f"{m['provider_id']}/{m['model_id']}" == internal_id)
+            self.assertEqual(row["verifiedAt"], canonical["last_verified_at"])
+            self.assertEqual(row["checkedAt"], canonical["last_verified_at"])
+            assert_evidence_backed_timestamp(self, internal_id, row["verifiedAt"], timestamp)
 
     def test_gpt_4_1_family_and_excluded_defaults_are_null(self):
         for internal_id in ("openai/gpt-4.1", "openai/gpt-4.1-mini", "openai/gpt-4.1-nano"):

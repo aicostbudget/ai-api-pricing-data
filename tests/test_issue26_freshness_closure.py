@@ -6,7 +6,7 @@ from pathlib import Path
 from datetime import date
 from unittest.mock import patch
 from scripts.pricing_contract import normalize_canonical_price_records, select_price_record, calculate_price_record_cost
-from tests.freshness_assertions import BASELINE, assert_grok46_contract
+from tests.freshness_assertions import BASELINE, assert_evidence_backed_timestamp, assert_grok46_contract
 
 ROOT = Path(__file__).resolve().parents[1]
 
@@ -61,7 +61,7 @@ class FreshnessClosureTests(unittest.TestCase):
         baseline = json.loads(subprocess.check_output(["git", "show", BASELINE + ":data/pricing-v2-preview/generated/model-pricing.v2.json"], cwd=ROOT))
         before = {r["canonicalInternalId"]: r for r in baseline["models"]}
         for key in ("google-gemini/gemini-3.8-flash-tts", "google-gemini/gemini-3.8-flash-lite-tts", "xai/grok-imagine-image-2.0", "xai/grok-voice-transcribe-2.0"):
-            self.assertEqual(self.projection[key]["verifiedAt"], before[key]["verifiedAt"], key)
+            assert_evidence_backed_timestamp(self, key, self.projection[key]["verifiedAt"], before[key]["verifiedAt"])
 
     def test_gemini_modes_storage_and_year_boundary_are_lossless(self):
         row = self.models["google-gemini/gemini-3.8-flash"]

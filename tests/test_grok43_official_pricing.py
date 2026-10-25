@@ -5,6 +5,7 @@ from datetime import date
 
 from scripts.lib import ROOT, load_models
 from scripts.pricing_contract import select_price_record
+from tests.freshness_assertions import assert_evidence_backed_timestamp
 
 
 class Grok43OfficialPricingTests(unittest.TestCase):
@@ -18,7 +19,7 @@ class Grok43OfficialPricingTests(unittest.TestCase):
     def test_verified_current_model_and_source_identity(self):
         self.assertEqual(self.model["status"], "active")
         self.assertIsNone(self.model["effective_from"])
-        self.assertEqual(self.model["last_verified_at"], "2026-09-20T13:28:36Z")
+        assert_evidence_backed_timestamp(self, "xai/grok-4.3", self.model["last_verified_at"], "2026-09-20T13:28:36Z")
         self.assertEqual(len(self.prices), 6)
         self.assertEqual(sum(row["calculationDefault"] for row in self.prices), 1)
         self.assertTrue(all(row["verificationStatus"] == "verified" and row["sourceRefs"] for row in self.prices))

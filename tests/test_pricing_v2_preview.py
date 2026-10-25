@@ -11,6 +11,7 @@ from scripts.generate_pricing_v2_preview import (
 )
 from scripts import validate_pricing_v2_preview as pricing_validator
 from scripts.validate_pricing_v2_preview import PREVIEW, validate_preview
+from tests.freshness_assertions import assert_evidence_backed_timestamp
 
 
 class PricingV2PreviewTests(unittest.TestCase):
@@ -173,8 +174,8 @@ class PricingV2PreviewTests(unittest.TestCase):
             self.assertEqual(record["calculation_default"], key == ("standard", "short"))
             self.assertTrue(all(c["unit"] == "per_1m_tokens" for c in record["charges"]))
             self.assertIsNone(record["effective_from"])
-        self.assertEqual(model["accessed_at"], "2026-09-20T13:28:36Z")
-        self.assertEqual(model["last_verified_at"], "2026-09-20T13:28:36Z")
+        self.assertEqual(model["accessed_at"], model["last_verified_at"])
+        assert_evidence_backed_timestamp(self, "xai/grok-4.3", model["last_verified_at"], "2026-09-20T13:28:36Z")
         self.assertIn("https://docs.x.ai/developers/advanced-api-usage/priority-processing", model["official_source_urls"])
 
     def test_grok_4_3_generated_v2_tiers_and_boundaries(self):
