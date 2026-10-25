@@ -6871,22 +6871,23 @@
       "cached_input": 0.3,
       "cache_write": null,
       "cache_write_1h": null,
-      "batch_input": null,
-      "batch_output": null
+      "batch_input": 1.6,
+      "batch_output": 4.8
     },
     "official_source_url": "https://docs.x.ai/developers/models/grok-4.5",
-    "accessed_at": "2026-09-20T11:07:05Z",
-    "last_verified_at": "2026-09-20T11:07:05Z",
+    "accessed_at": "2026-10-25T06:08:19Z",
+    "last_verified_at": "2026-10-25T06:08:19Z",
     "effective_from": null,
-    "notes": "Global Standard token rates; total prompt tokens include cached tokens. At 200,000 tokens or more, long rates apply to every input, cached, and output token in the request. The model detail page says Batch API is not supported. No distinct pricing effective date is published.",
+    "notes": "Global Standard token rates; total prompt tokens include cached tokens. At 200,000 tokens or more, long rates apply to every input, cached, and output token in the request. The model detail page lists Batch API as supported at a 20% discount on all token types. No distinct pricing effective date is published.",
     "official_source_urls": [
       "https://docs.x.ai/developers/models/grok-4.5",
       "https://docs.x.ai/developers/pricing",
-      "https://docs.x.ai/developers/advanced-api-usage/prompt-caching/usage-and-pricing"
+      "https://docs.x.ai/developers/advanced-api-usage/prompt-caching/usage-and-pricing",
+      "https://docs.x.ai/developers/advanced-api-usage/batch-api"
     ],
     "price_records": [
       {
-        "billing_note": "Global Standard token rates; total prompt tokens include cached tokens. At 200,000 tokens or more, long rates apply to every input, cached, and output token in the request. The model detail page says Batch API is not supported. No distinct pricing effective date is published.",
+        "billing_note": "Global Standard token rates; total prompt tokens include cached tokens. At 200,000 tokens or more, long rates apply to every input, cached, and output token in the request. Batch is priced in separate records. No distinct pricing effective date is published.",
         "calculation_default": true,
         "charges": [
           {
@@ -6911,7 +6912,7 @@
             "unit": "per_1m_tokens"
           }
         ],
-        "checked_at": "2026-09-20T11:07:05Z",
+        "checked_at": "2026-10-25T06:08:19Z",
         "context_class": "short",
         "currency": "USD",
         "effective_from": null,
@@ -6946,10 +6947,10 @@
           "whole_request_pricing": true
         },
         "verification_status": "verified",
-        "verified_at": "2026-09-20T11:07:05Z"
+        "verified_at": "2026-10-25T06:08:19Z"
       },
       {
-        "billing_note": "Global Standard token rates; total prompt tokens include cached tokens. At 200,000 tokens or more, long rates apply to every input, cached, and output token in the request. The model detail page says Batch API is not supported. No distinct pricing effective date is published.",
+        "billing_note": "Global Standard token rates; total prompt tokens include cached tokens. At 200,000 tokens or more, long rates apply to every input, cached, and output token in the request. Batch is priced in separate records. No distinct pricing effective date is published.",
         "calculation_default": false,
         "charges": [
           {
@@ -6974,7 +6975,7 @@
             "unit": "per_1m_tokens"
           }
         ],
-        "checked_at": "2026-09-20T11:07:05Z",
+        "checked_at": "2026-10-25T06:08:19Z",
         "context_class": "long",
         "currency": "USD",
         "effective_from": null,
@@ -7009,7 +7010,133 @@
           "whole_request_pricing": true
         },
         "verification_status": "verified",
-        "verified_at": "2026-09-20T11:07:05Z"
+        "verified_at": "2026-10-25T06:08:19Z"
+      },
+      {
+        "billing_note": "Batch API token rates are the published 20% discount on every Standard token type (input, cached input, output) with the same whole-request 200,000-token boundary; the Batch support date is not published.",
+        "calculation_default": false,
+        "charges": [
+          {
+            "amount": "1.6",
+            "component": "input",
+            "id": "price:xai/grok-4.5:batch:short:current:input:text:per_1m_tokens",
+            "modality": "text",
+            "unit": "per_1m_tokens"
+          },
+          {
+            "amount": "0.24",
+            "component": "cached_input",
+            "id": "price:xai/grok-4.5:batch:short:current:cached_input:text:per_1m_tokens",
+            "modality": "text",
+            "unit": "per_1m_tokens"
+          },
+          {
+            "amount": "4.8",
+            "component": "output",
+            "id": "price:xai/grok-4.5:batch:short:current:output:text:per_1m_tokens",
+            "modality": "text",
+            "unit": "per_1m_tokens"
+          }
+        ],
+        "checked_at": "2026-10-25T06:08:19Z",
+        "context_class": "short",
+        "currency": "USD",
+        "effective_from": null,
+        "effective_until": null,
+        "id": "price:xai/grok-4.5:batch:short:current",
+        "pricing_status": "current",
+        "processing_mode": "batch",
+        "prompt_token_threshold": 200000,
+        "region_policy": {
+          "availability": {
+            "default": "available",
+            "rules": []
+          },
+          "data_residencies": [
+            "global"
+          ],
+          "endpoint_geographies": [
+            "global"
+          ],
+          "price_adjustments": [],
+          "pricing_geography": "global_base"
+        },
+        "source_refs": [
+          "https://docs.x.ai/developers/models/grok-4.5",
+          "https://docs.x.ai/developers/pricing",
+          "https://docs.x.ai/developers/advanced-api-usage/batch-api"
+        ],
+        "tier_selection": {
+          "cached_prompt_tokens_included": true,
+          "comparison": "less_than",
+          "token_basis": "total_prompt_tokens",
+          "whole_request_pricing": true
+        },
+        "verification_status": "verified",
+        "verified_at": "2026-10-25T06:08:19Z"
+      },
+      {
+        "billing_note": "Batch API token rates are the published 20% discount on every Standard token type (input, cached input, output) with the same whole-request 200,000-token boundary; the Batch support date is not published.",
+        "calculation_default": false,
+        "charges": [
+          {
+            "amount": "3.2",
+            "component": "input",
+            "id": "price:xai/grok-4.5:batch:long:current:input:text:per_1m_tokens",
+            "modality": "text",
+            "unit": "per_1m_tokens"
+          },
+          {
+            "amount": "0.48",
+            "component": "cached_input",
+            "id": "price:xai/grok-4.5:batch:long:current:cached_input:text:per_1m_tokens",
+            "modality": "text",
+            "unit": "per_1m_tokens"
+          },
+          {
+            "amount": "9.6",
+            "component": "output",
+            "id": "price:xai/grok-4.5:batch:long:current:output:text:per_1m_tokens",
+            "modality": "text",
+            "unit": "per_1m_tokens"
+          }
+        ],
+        "checked_at": "2026-10-25T06:08:19Z",
+        "context_class": "long",
+        "currency": "USD",
+        "effective_from": null,
+        "effective_until": null,
+        "id": "price:xai/grok-4.5:batch:long:current",
+        "pricing_status": "current",
+        "processing_mode": "batch",
+        "prompt_token_threshold": 200000,
+        "region_policy": {
+          "availability": {
+            "default": "available",
+            "rules": []
+          },
+          "data_residencies": [
+            "global"
+          ],
+          "endpoint_geographies": [
+            "global"
+          ],
+          "price_adjustments": [],
+          "pricing_geography": "global_base"
+        },
+        "source_refs": [
+          "https://docs.x.ai/developers/models/grok-4.5",
+          "https://docs.x.ai/developers/pricing",
+          "https://docs.x.ai/developers/advanced-api-usage/batch-api"
+        ],
+        "tier_selection": {
+          "cached_prompt_tokens_included": true,
+          "comparison": "greater_than_or_equal",
+          "token_basis": "total_prompt_tokens",
+          "whole_request_pricing": true
+        },
+        "verification_status": "verified",
+        "verified_at": "2026-10-25T06:08:19Z"
       }
     ],
     "released_at": "2026-07-08",
@@ -7056,8 +7183,8 @@
       "cached_input": 0.5,
       "cache_write": null,
       "cache_write_1h": null,
-      "batch_input": null,
-      "batch_output": null
+      "batch_input": 1.6,
+      "batch_output": 4.8
     },
     "official_source_url": "https://docs.x.ai/developers/models/grok-4.6",
     "official_source_urls": [
@@ -7066,12 +7193,14 @@
       "https://docs.x.ai/developers/release-notes",
       "https://docs.x.ai/developers/advanced-api-usage/prompt-caching/usage-and-pricing.md",
       "https://docs.x.ai/developers/advanced-api-usage/regions",
-      "https://docs.x.ai/developers/advanced-api-usage/priority-processing"
+      "https://docs.x.ai/developers/advanced-api-usage/priority-processing",
+      "https://docs.x.ai/developers/pricing",
+      "https://docs.x.ai/developers/advanced-api-usage/batch-api"
     ],
-    "accessed_at": "2026-10-09T06:31:59Z",
-    "last_verified_at": "2026-10-09T06:31:59Z",
+    "accessed_at": "2026-10-25T06:08:24Z",
+    "last_verified_at": "2026-10-25T06:08:24Z",
     "effective_from": null,
-    "notes": "Available on the xAI API since 2026-08-12. V1 retains Global Standard short-context prices. Declarative records preserve Standard prompt tokens <200K and >=200K with whole-request pricing including cached tokens, add confirmed Priority pricing at 2x, and apply a 1.1x token-price multiplier for https://us.api.x.ai/v1. Priority is billed only when service_tier=priority is confirmed in the response. Batch remains unsupported. The US endpoint guarantee excludes Files, Collections, server-side tools and network paths; this pricing metadata does not approve access or assert comprehensive data residency.",
+    "notes": "Available on the xAI API since 2026-08-12. V1 retains Global Standard short-context prices. Declarative records preserve Standard prompt tokens <200K and >=200K with whole-request pricing including cached tokens, add confirmed Priority pricing at 2x, and apply a 1.1x token-price multiplier for https://us.api.x.ai/v1. Priority is billed only when service_tier=priority is confirmed in the response. Batch API is supported in us-east-1 and us-west-2 at a 20% discount on all token types. The US endpoint guarantee excludes Files, Collections, server-side tools and network paths; this pricing metadata does not approve access or assert comprehensive data residency.",
     "released_at": "2026-08-12",
     "release_evidence": {
       "url": "https://docs.x.ai/developers/release-notes",
@@ -7171,8 +7300,8 @@
           "https://docs.x.ai/developers/advanced-api-usage/priority-processing"
         ],
         "verification_status": "verified",
-        "checked_at": "2026-10-09T06:31:59Z",
-        "verified_at": "2026-10-09T06:31:59Z",
+        "checked_at": "2026-10-25T06:08:24Z",
+        "verified_at": "2026-10-25T06:08:24Z",
         "tier_selection": {
           "comparison": "less_than",
           "token_basis": "total_prompt_tokens",
@@ -7252,8 +7381,8 @@
           "https://docs.x.ai/developers/advanced-api-usage/priority-processing"
         ],
         "verification_status": "verified",
-        "checked_at": "2026-10-09T06:31:59Z",
-        "verified_at": "2026-10-09T06:31:59Z",
+        "checked_at": "2026-10-25T06:08:24Z",
+        "verified_at": "2026-10-25T06:08:24Z",
         "tier_selection": {
           "comparison": "less_than",
           "token_basis": "total_prompt_tokens",
@@ -7333,8 +7462,8 @@
           "https://docs.x.ai/developers/advanced-api-usage/priority-processing"
         ],
         "verification_status": "verified",
-        "checked_at": "2026-10-09T06:31:59Z",
-        "verified_at": "2026-10-09T06:31:59Z",
+        "checked_at": "2026-10-25T06:08:24Z",
+        "verified_at": "2026-10-25T06:08:24Z",
         "tier_selection": {
           "comparison": "greater_than_or_equal",
           "token_basis": "total_prompt_tokens",
@@ -7414,8 +7543,8 @@
           "https://docs.x.ai/developers/advanced-api-usage/priority-processing"
         ],
         "verification_status": "verified",
-        "checked_at": "2026-10-09T06:31:59Z",
-        "verified_at": "2026-10-09T06:31:59Z",
+        "checked_at": "2026-10-25T06:08:24Z",
+        "verified_at": "2026-10-25T06:08:24Z",
         "tier_selection": {
           "comparison": "greater_than_or_equal",
           "token_basis": "total_prompt_tokens",
@@ -7423,6 +7552,162 @@
           "whole_request_pricing": true
         },
         "billing_note": "Global Standard or confirmed Priority token rates with the whole-request 200,000-token boundary; US regional endpoint adds 10%. This price selector does not assert comprehensive data residency or new account access."
+      },
+      {
+        "id": "price:xai/grok-4.6:batch:short:current",
+        "processing_mode": "batch",
+        "context_class": "short",
+        "pricing_status": "current",
+        "calculation_default": false,
+        "prompt_token_threshold": 200000,
+        "effective_from": null,
+        "effective_until": null,
+        "currency": "USD",
+        "charges": [
+          {
+            "id": "price:xai/grok-4.6:batch:short:current:input:text:per_1m_tokens",
+            "component": "input",
+            "modality": "text",
+            "unit": "per_1m_tokens",
+            "amount": "1.6"
+          },
+          {
+            "id": "price:xai/grok-4.6:batch:short:current:cached_input:text:per_1m_tokens",
+            "component": "cached_input",
+            "modality": "text",
+            "unit": "per_1m_tokens",
+            "amount": "0.4"
+          },
+          {
+            "id": "price:xai/grok-4.6:batch:short:current:output:text:per_1m_tokens",
+            "component": "output",
+            "modality": "text",
+            "unit": "per_1m_tokens",
+            "amount": "4.8"
+          }
+        ],
+        "region_policy": {
+          "pricing_geography": "global_base",
+          "endpoint_geographies": [
+            "global",
+            "us"
+          ],
+          "data_residencies": [
+            "global"
+          ],
+          "availability": {
+            "default": "available",
+            "rules": []
+          },
+          "price_adjustments": [
+            {
+              "id": "us-regional-endpoint-uplift",
+              "selector": {
+                "endpoint_geographies": [
+                  "us"
+                ]
+              },
+              "operation": "multiply",
+              "factor": "1.1",
+              "source_refs": [
+                "https://docs.x.ai/developers/advanced-api-usage/regions"
+              ]
+            }
+          ]
+        },
+        "source_refs": [
+          "https://docs.x.ai/developers/models/grok-4.6",
+          "https://docs.x.ai/developers/pricing",
+          "https://docs.x.ai/developers/advanced-api-usage/batch-api"
+        ],
+        "verification_status": "verified",
+        "checked_at": "2026-10-25T06:08:24Z",
+        "verified_at": "2026-10-25T06:08:24Z",
+        "tier_selection": {
+          "comparison": "less_than",
+          "token_basis": "total_prompt_tokens",
+          "cached_prompt_tokens_included": true,
+          "whole_request_pricing": true
+        },
+        "billing_note": "Batch API token rates are the published 20% discount on every Standard token type (input, cached input, output) with the same whole-request 200,000-token boundary; the Batch support date is not published. Batch API is supported in us-east-1 and us-west-2."
+      },
+      {
+        "id": "price:xai/grok-4.6:batch:long:current",
+        "processing_mode": "batch",
+        "context_class": "long",
+        "pricing_status": "current",
+        "calculation_default": false,
+        "prompt_token_threshold": 200000,
+        "effective_from": null,
+        "effective_until": null,
+        "currency": "USD",
+        "charges": [
+          {
+            "id": "price:xai/grok-4.6:batch:long:current:input:text:per_1m_tokens",
+            "component": "input",
+            "modality": "text",
+            "unit": "per_1m_tokens",
+            "amount": "3.2"
+          },
+          {
+            "id": "price:xai/grok-4.6:batch:long:current:cached_input:text:per_1m_tokens",
+            "component": "cached_input",
+            "modality": "text",
+            "unit": "per_1m_tokens",
+            "amount": "0.8"
+          },
+          {
+            "id": "price:xai/grok-4.6:batch:long:current:output:text:per_1m_tokens",
+            "component": "output",
+            "modality": "text",
+            "unit": "per_1m_tokens",
+            "amount": "9.6"
+          }
+        ],
+        "region_policy": {
+          "pricing_geography": "global_base",
+          "endpoint_geographies": [
+            "global",
+            "us"
+          ],
+          "data_residencies": [
+            "global"
+          ],
+          "availability": {
+            "default": "available",
+            "rules": []
+          },
+          "price_adjustments": [
+            {
+              "id": "us-regional-endpoint-uplift",
+              "selector": {
+                "endpoint_geographies": [
+                  "us"
+                ]
+              },
+              "operation": "multiply",
+              "factor": "1.1",
+              "source_refs": [
+                "https://docs.x.ai/developers/advanced-api-usage/regions"
+              ]
+            }
+          ]
+        },
+        "source_refs": [
+          "https://docs.x.ai/developers/models/grok-4.6",
+          "https://docs.x.ai/developers/pricing",
+          "https://docs.x.ai/developers/advanced-api-usage/batch-api"
+        ],
+        "verification_status": "verified",
+        "checked_at": "2026-10-25T06:08:24Z",
+        "verified_at": "2026-10-25T06:08:24Z",
+        "tier_selection": {
+          "comparison": "greater_than_or_equal",
+          "token_basis": "total_prompt_tokens",
+          "cached_prompt_tokens_included": true,
+          "whole_request_pricing": true
+        },
+        "billing_note": "Batch API token rates are the published 20% discount on every Standard token type (input, cached input, output) with the same whole-request 200,000-token boundary; the Batch support date is not published. Batch API is supported in us-east-1 and us-west-2."
       }
     ]
   },
@@ -7443,25 +7728,26 @@
       "cached_input": 0.5,
       "cache_write": null,
       "cache_write_1h": null,
-      "batch_input": null,
-      "batch_output": null
+      "batch_input": 1.6,
+      "batch_output": 4.8
     },
     "official_source_url": "https://docs.x.ai/developers/models/grok-4.7",
-    "accessed_at": "2026-09-23T07:32:58Z",
-    "last_verified_at": "2026-09-23T07:32:58Z",
+    "accessed_at": "2026-10-25T06:08:28Z",
+    "last_verified_at": "2026-10-25T06:08:28Z",
     "effective_from": "2026-09-21",
-    "notes": "Released on 2026-09-21 and available on the public xAI API. Supports text and image input with text output; reasoning efforts are low, medium, high (default), and xhigh. Global Standard rates use the short tier through 200,000 total prompt tokens and the long tier above 200,000; cached prompt tokens count toward the threshold and the selected tier prices the whole request. Grok 4.7 Fast is twice the Standard token rates but is available only in Cursor and Grok Build, not on the public xAI API, so it is excluded from public pricing rows. Batch API is not supported, no separate cache-write price is published, and the US regional endpoint applies a 1.10x premium to input, cached input, and output tokens, including long-context rates.",
+    "notes": "Released on 2026-09-21 and available on the public xAI API. Supports text and image input with text output; reasoning efforts are low, medium, high (default), and xhigh. Global Standard rates use the short tier below 200,000 total prompt tokens and the long tier at 200,000 or more; cached prompt tokens count toward the threshold and the selected tier prices the whole request. Grok 4.7 Fast is twice the Standard token rates but is available only in Cursor and Grok Build, not on the public xAI API, so it is excluded from public pricing rows. Batch API is supported in us-east-1 and us-west-2 at a 20% discount on all token types, no separate cache-write price is published, and the US regional endpoint applies a 1.10x premium to input, cached input, and output tokens, including long-context rates.",
     "official_source_urls": [
       "https://docs.x.ai/developers/models/grok-4.7",
       "https://docs.x.ai/developers/release-notes",
       "https://x.ai/news/grok-4-7",
       "https://docs.x.ai/developers/pricing",
       "https://docs.x.ai/developers/advanced-api-usage/prompt-caching/usage-and-pricing",
-      "https://docs.x.ai/developers/advanced-api-usage/regions"
+      "https://docs.x.ai/developers/advanced-api-usage/regions",
+      "https://docs.x.ai/developers/advanced-api-usage/batch-api"
     ],
     "price_records": [
       {
-        "billing_note": "Global Standard token rates for prompts of 200,000 total tokens or fewer. Cached prompt tokens count toward the threshold, and the selected tier prices the whole request. The US regional endpoint applies a 1.10x premium. Fast is not available on the public xAI API and Batch API is not supported.",
+        "billing_note": "Global Standard token rates for prompts below 200,000 total tokens. Cached prompt tokens count toward the threshold, and the selected tier prices the whole request. The US regional endpoint applies a 1.10x premium. Fast is not available on the public xAI API; Batch is priced in separate records.",
         "calculation_default": true,
         "charges": [
           {
@@ -7486,7 +7772,7 @@
             "unit": "per_1m_tokens"
           }
         ],
-        "checked_at": "2026-09-23T07:32:58Z",
+        "checked_at": "2026-10-25T06:08:28Z",
         "context_class": "short",
         "currency": "USD",
         "effective_from": "2026-09-21",
@@ -7534,15 +7820,15 @@
         ],
         "tier_selection": {
           "cached_prompt_tokens_included": true,
-          "comparison": "less_than_or_equal",
+          "comparison": "less_than",
           "token_basis": "total_prompt_tokens",
           "whole_request_pricing": true
         },
         "verification_status": "verified",
-        "verified_at": "2026-09-23T07:32:58Z"
+        "verified_at": "2026-10-25T06:08:28Z"
       },
       {
-        "billing_note": "Global Standard token rates for prompts above 200,000 total tokens. Cached prompt tokens count toward the threshold, and the selected tier prices the whole request. The US regional endpoint applies a 1.10x premium. Fast is not available on the public xAI API and Batch API is not supported.",
+        "billing_note": "Global Standard token rates for prompts of 200,000 total tokens or more. Cached prompt tokens count toward the threshold, and the selected tier prices the whole request. The US regional endpoint applies a 1.10x premium. Fast is not available on the public xAI API; Batch is priced in separate records.",
         "calculation_default": false,
         "charges": [
           {
@@ -7567,7 +7853,7 @@
             "unit": "per_1m_tokens"
           }
         ],
-        "checked_at": "2026-09-23T07:32:58Z",
+        "checked_at": "2026-10-25T06:08:28Z",
         "context_class": "long",
         "currency": "USD",
         "effective_from": "2026-09-21",
@@ -7615,12 +7901,172 @@
         ],
         "tier_selection": {
           "cached_prompt_tokens_included": true,
-          "comparison": "greater_than",
+          "comparison": "greater_than_or_equal",
           "token_basis": "total_prompt_tokens",
           "whole_request_pricing": true
         },
         "verification_status": "verified",
-        "verified_at": "2026-09-23T07:32:58Z"
+        "verified_at": "2026-10-25T06:08:28Z"
+      },
+      {
+        "billing_note": "Batch API token rates are the published 20% discount on every Standard token type (input, cached input, output) with the same whole-request 200,000-token boundary; the Batch support date is not published. Batch API is supported in us-east-1 and us-west-2.",
+        "calculation_default": false,
+        "charges": [
+          {
+            "amount": "1.6",
+            "component": "input",
+            "id": "price:xai/grok-4.7:batch:short:current:input:text:per_1m_tokens",
+            "modality": "text",
+            "unit": "per_1m_tokens"
+          },
+          {
+            "amount": "0.4",
+            "component": "cached_input",
+            "id": "price:xai/grok-4.7:batch:short:current:cached_input:text:per_1m_tokens",
+            "modality": "text",
+            "unit": "per_1m_tokens"
+          },
+          {
+            "amount": "4.8",
+            "component": "output",
+            "id": "price:xai/grok-4.7:batch:short:current:output:text:per_1m_tokens",
+            "modality": "text",
+            "unit": "per_1m_tokens"
+          }
+        ],
+        "checked_at": "2026-10-25T06:08:28Z",
+        "context_class": "short",
+        "currency": "USD",
+        "effective_from": null,
+        "effective_until": null,
+        "id": "price:xai/grok-4.7:batch:short:current",
+        "pricing_status": "current",
+        "processing_mode": "batch",
+        "prompt_token_threshold": 200000,
+        "region_policy": {
+          "availability": {
+            "default": "available",
+            "rules": []
+          },
+          "data_residencies": [
+            "global",
+            "us"
+          ],
+          "endpoint_geographies": [
+            "global",
+            "regional"
+          ],
+          "price_adjustments": [
+            {
+              "id": "us-regional-endpoint-premium",
+              "selector": {
+                "endpoint_geographies": [
+                  "regional"
+                ]
+              },
+              "operation": "multiply",
+              "factor": "1.10",
+              "source_refs": [
+                "https://docs.x.ai/developers/advanced-api-usage/regions",
+                "https://docs.x.ai/developers/pricing"
+              ]
+            }
+          ],
+          "pricing_geography": "global_base"
+        },
+        "source_refs": [
+          "https://docs.x.ai/developers/models/grok-4.7",
+          "https://docs.x.ai/developers/pricing",
+          "https://docs.x.ai/developers/advanced-api-usage/batch-api"
+        ],
+        "tier_selection": {
+          "cached_prompt_tokens_included": true,
+          "comparison": "less_than",
+          "token_basis": "total_prompt_tokens",
+          "whole_request_pricing": true
+        },
+        "verification_status": "verified",
+        "verified_at": "2026-10-25T06:08:28Z"
+      },
+      {
+        "billing_note": "Batch API token rates are the published 20% discount on every Standard token type (input, cached input, output) with the same whole-request 200,000-token boundary; the Batch support date is not published. Batch API is supported in us-east-1 and us-west-2.",
+        "calculation_default": false,
+        "charges": [
+          {
+            "amount": "3.2",
+            "component": "input",
+            "id": "price:xai/grok-4.7:batch:long:current:input:text:per_1m_tokens",
+            "modality": "text",
+            "unit": "per_1m_tokens"
+          },
+          {
+            "amount": "0.8",
+            "component": "cached_input",
+            "id": "price:xai/grok-4.7:batch:long:current:cached_input:text:per_1m_tokens",
+            "modality": "text",
+            "unit": "per_1m_tokens"
+          },
+          {
+            "amount": "9.6",
+            "component": "output",
+            "id": "price:xai/grok-4.7:batch:long:current:output:text:per_1m_tokens",
+            "modality": "text",
+            "unit": "per_1m_tokens"
+          }
+        ],
+        "checked_at": "2026-10-25T06:08:28Z",
+        "context_class": "long",
+        "currency": "USD",
+        "effective_from": null,
+        "effective_until": null,
+        "id": "price:xai/grok-4.7:batch:long:current",
+        "pricing_status": "current",
+        "processing_mode": "batch",
+        "prompt_token_threshold": 200000,
+        "region_policy": {
+          "availability": {
+            "default": "available",
+            "rules": []
+          },
+          "data_residencies": [
+            "global",
+            "us"
+          ],
+          "endpoint_geographies": [
+            "global",
+            "regional"
+          ],
+          "price_adjustments": [
+            {
+              "id": "us-regional-endpoint-premium",
+              "selector": {
+                "endpoint_geographies": [
+                  "regional"
+                ]
+              },
+              "operation": "multiply",
+              "factor": "1.10",
+              "source_refs": [
+                "https://docs.x.ai/developers/advanced-api-usage/regions",
+                "https://docs.x.ai/developers/pricing"
+              ]
+            }
+          ],
+          "pricing_geography": "global_base"
+        },
+        "source_refs": [
+          "https://docs.x.ai/developers/models/grok-4.7",
+          "https://docs.x.ai/developers/pricing",
+          "https://docs.x.ai/developers/advanced-api-usage/batch-api"
+        ],
+        "tier_selection": {
+          "cached_prompt_tokens_included": true,
+          "comparison": "greater_than_or_equal",
+          "token_basis": "total_prompt_tokens",
+          "whole_request_pricing": true
+        },
+        "verification_status": "verified",
+        "verified_at": "2026-10-25T06:08:28Z"
       }
     ],
     "released_at": "2026-09-21",
@@ -15173,8 +15619,8 @@
       "cached_input": 0.2,
       "cache_write": 5,
       "cache_write_1h": 8,
-      "batch_input": null,
-      "batch_output": null
+      "batch_input": 2,
+      "batch_output": 10
     },
     "price_records": [
       {
@@ -15243,9 +15689,57 @@
           "https://platform.claude.com/docs/en/about-claude/pricing"
         ],
         "verification_status": "verified",
-        "checked_at": "2026-09-23T00:00:00Z",
-        "verified_at": "2026-09-23T00:00:00Z",
+        "checked_at": "2026-10-25T06:08:12Z",
+        "verified_at": "2026-10-25T06:08:12Z",
         "billing_note": "Standard token and prompt-cache pricing; 5-minute and 1-hour cache writes are distinct charge semantics."
+      },
+      {
+        "id": "price:anthropic/claude-opus-5-5:batch:short:current",
+        "processing_mode": "batch",
+        "context_class": "short",
+        "pricing_status": "current",
+        "calculation_default": false,
+        "prompt_token_threshold": null,
+        "effective_from": null,
+        "effective_until": null,
+        "currency": "USD",
+        "charges": [
+          {
+            "id": "price:anthropic/claude-opus-5-5:batch:short:current:input:text:per_1m_tokens",
+            "component": "input",
+            "modality": "text",
+            "unit": "per_1m_tokens",
+            "amount": "2"
+          },
+          {
+            "id": "price:anthropic/claude-opus-5-5:batch:short:current:output:text:per_1m_tokens",
+            "component": "output",
+            "modality": "text",
+            "unit": "per_1m_tokens",
+            "amount": "10"
+          }
+        ],
+        "region_policy": {
+          "pricing_geography": "global_base",
+          "endpoint_geographies": [
+            "global"
+          ],
+          "data_residencies": [
+            "global"
+          ],
+          "availability": {
+            "default": "available",
+            "rules": []
+          },
+          "price_adjustments": []
+        },
+        "source_refs": [
+          "https://platform.claude.com/docs/en/about-claude/pricing"
+        ],
+        "verification_status": "verified",
+        "checked_at": "2026-10-25T06:08:12Z",
+        "verified_at": "2026-10-25T06:08:12Z",
+        "billing_note": "Batch API input and output pricing is the published 50% discount from Standard global token rates. Fast mode is not available with the Batch API, and the Batch availability date is not published."
       },
       {
         "id": "price:anthropic/claude-opus-5-5:fast:short:current",
@@ -15292,8 +15786,8 @@
           "https://platform.claude.com/docs/en/about-claude/pricing"
         ],
         "verification_status": "verified",
-        "checked_at": "2026-09-23T00:00:00Z",
-        "verified_at": "2026-09-23T00:00:00Z",
+        "checked_at": "2026-10-25T06:08:12Z",
+        "verified_at": "2026-10-25T06:08:12Z",
         "billing_note": "Fast-mode input and output pricing. No absent predecessor Fast price is inferred."
       }
     ],
@@ -15343,10 +15837,10 @@
       "https://platform.claude.com/docs/en/build-with-claude/prompt-caching",
       "https://www.anthropic.com/claude-opus-5-5"
     ],
-    "accessed_at": "2026-09-23T00:00:00Z",
-    "last_verified_at": "2026-09-23T00:00:00Z",
+    "accessed_at": "2026-10-25T06:08:12Z",
+    "last_verified_at": "2026-10-25T06:08:12Z",
     "effective_from": "2026-09-22",
-    "notes": "Released 2026-09-22. Standard prices preserve distinct cache-read, 5-minute cache-write, and 1-hour cache-write charges. Fast is an independently published processing mode with input/output prices; it is not inferred for Claude Opus 5.",
+    "notes": "Released 2026-09-22. Standard prices preserve distinct cache-read, 5-minute cache-write, and 1-hour cache-write charges. Fast is an independently published processing mode with input/output prices; it is not inferred for Claude Opus 5. Batch API input and output are 50% of Standard ($2 and $10 per 1M tokens); the Batch availability date is not published.",
     "released_at": "2026-09-22",
     "release_evidence": {
       "url": "https://platform.claude.com/docs/en/models/opus-5-5/overview",
@@ -15392,11 +15886,11 @@
       "unit": "1M tokens",
       "input": 0.5,
       "output": null,
-      "cached_input": 0.125,
+      "cached_input": null,
       "cache_write": null,
       "cache_write_1h": null,
       "batch_input": 0.25,
-      "batch_cached_input": 0.0625,
+      "batch_cached_input": null,
       "batch_output": null
     },
     "price_records": [
@@ -15416,20 +15910,6 @@
             "component": "input",
             "modality": "text",
             "unit": "per_1m_tokens",
-            "amount": "0.50"
-          },
-          {
-            "id": "price:google-gemini/gemini-3.8-flash-tts:standard:current:cached_input:text:per_1m_tokens",
-            "component": "cached_input",
-            "modality": "text",
-            "unit": "per_1m_tokens",
-            "amount": "0.125"
-          },
-          {
-            "id": "price:google-gemini/gemini-3.8-flash-tts:standard:current:storage:text:per_1m_tokens_per_hour",
-            "component": "storage",
-            "modality": "text",
-            "unit": "per_1m_tokens_per_hour",
             "amount": "0.50"
           },
           {
@@ -15459,9 +15939,9 @@
           "https://ai.google.dev/gemini-api/docs/models/gemini-3.8-flash-tts"
         ],
         "verification_status": "verified",
-        "checked_at": "2026-09-24T14:27:54Z",
-        "verified_at": "2026-09-24T14:27:54Z",
-        "billing_note": "Standard text-input, cached-input, cache-storage, and audio-output token pricing. Cache storage is billed per 1M cached tokens per hour; audio output is tokenized at 25 tokens per second."
+        "checked_at": "2026-10-25T06:08:03Z",
+        "verified_at": "2026-10-25T06:08:03Z",
+        "billing_note": "Standard text-input and audio-output token pricing; context caching is not supported. Audio output is tokenized at 25 tokens per second."
       },
       {
         "id": "price:google-gemini/gemini-3.8-flash-tts:standard:future",
@@ -15479,20 +15959,6 @@
             "component": "input",
             "modality": "text",
             "unit": "per_1m_tokens",
-            "amount": "1"
-          },
-          {
-            "id": "price:google-gemini/gemini-3.8-flash-tts:standard:future:cached_input:text:per_1m_tokens",
-            "component": "cached_input",
-            "modality": "text",
-            "unit": "per_1m_tokens",
-            "amount": "0.25"
-          },
-          {
-            "id": "price:google-gemini/gemini-3.8-flash-tts:standard:future:storage:text:per_1m_tokens_per_hour",
-            "component": "storage",
-            "modality": "text",
-            "unit": "per_1m_tokens_per_hour",
             "amount": "1"
           },
           {
@@ -15522,9 +15988,9 @@
           "https://ai.google.dev/gemini-api/docs/models/gemini-3.8-flash-tts"
         ],
         "verification_status": "verified",
-        "checked_at": "2026-09-24T14:27:54Z",
-        "verified_at": "2026-09-24T14:27:54Z",
-        "billing_note": "Standard text-input, cached-input, cache-storage, and audio-output token pricing. Cache storage is billed per 1M cached tokens per hour; audio output is tokenized at 25 tokens per second."
+        "checked_at": "2026-10-25T06:08:03Z",
+        "verified_at": "2026-10-25T06:08:03Z",
+        "billing_note": "Standard text-input and audio-output token pricing; context caching is not supported. Audio output is tokenized at 25 tokens per second."
       },
       {
         "id": "price:google-gemini/gemini-3.8-flash-tts:batch:current",
@@ -15543,20 +16009,6 @@
             "modality": "text",
             "unit": "per_1m_tokens",
             "amount": "0.25"
-          },
-          {
-            "id": "price:google-gemini/gemini-3.8-flash-tts:batch:current:cached_input:text:per_1m_tokens",
-            "component": "cached_input",
-            "modality": "text",
-            "unit": "per_1m_tokens",
-            "amount": "0.0625"
-          },
-          {
-            "id": "price:google-gemini/gemini-3.8-flash-tts:batch:current:storage:text:per_1m_tokens_per_hour",
-            "component": "storage",
-            "modality": "text",
-            "unit": "per_1m_tokens_per_hour",
-            "amount": "0.50"
           },
           {
             "id": "price:google-gemini/gemini-3.8-flash-tts:batch:current:output:audio:per_1m_tokens",
@@ -15585,9 +16037,9 @@
           "https://ai.google.dev/gemini-api/docs/models/gemini-3.8-flash-tts"
         ],
         "verification_status": "verified",
-        "checked_at": "2026-09-24T14:27:54Z",
-        "verified_at": "2026-09-24T14:27:54Z",
-        "billing_note": "Batch text-input, cached-input, cache-storage, and audio-output token pricing. Cache storage is billed per 1M cached tokens per hour; audio output is tokenized at 25 tokens per second."
+        "checked_at": "2026-10-25T06:08:03Z",
+        "verified_at": "2026-10-25T06:08:03Z",
+        "billing_note": "Batch text-input and audio-output token pricing; context caching is not supported. Audio output is tokenized at 25 tokens per second."
       },
       {
         "id": "price:google-gemini/gemini-3.8-flash-tts:batch:future",
@@ -15606,20 +16058,6 @@
             "modality": "text",
             "unit": "per_1m_tokens",
             "amount": "0.5"
-          },
-          {
-            "id": "price:google-gemini/gemini-3.8-flash-tts:batch:future:cached_input:text:per_1m_tokens",
-            "component": "cached_input",
-            "modality": "text",
-            "unit": "per_1m_tokens",
-            "amount": "0.125"
-          },
-          {
-            "id": "price:google-gemini/gemini-3.8-flash-tts:batch:future:storage:text:per_1m_tokens_per_hour",
-            "component": "storage",
-            "modality": "text",
-            "unit": "per_1m_tokens_per_hour",
-            "amount": "1"
           },
           {
             "id": "price:google-gemini/gemini-3.8-flash-tts:batch:future:output:audio:per_1m_tokens",
@@ -15648,9 +16086,9 @@
           "https://ai.google.dev/gemini-api/docs/models/gemini-3.8-flash-tts"
         ],
         "verification_status": "verified",
-        "checked_at": "2026-09-24T14:27:54Z",
-        "verified_at": "2026-09-24T14:27:54Z",
-        "billing_note": "Batch text-input, cached-input, cache-storage, and audio-output token pricing. Cache storage is billed per 1M cached tokens per hour; audio output is tokenized at 25 tokens per second."
+        "checked_at": "2026-10-25T06:08:03Z",
+        "verified_at": "2026-10-25T06:08:03Z",
+        "billing_note": "Batch text-input and audio-output token pricing; context caching is not supported. Audio output is tokenized at 25 tokens per second."
       },
       {
         "id": "price:google-gemini/gemini-3.8-flash-tts:flex:current",
@@ -15669,20 +16107,6 @@
             "modality": "text",
             "unit": "per_1m_tokens",
             "amount": "0.25"
-          },
-          {
-            "id": "price:google-gemini/gemini-3.8-flash-tts:flex:current:cached_input:text:per_1m_tokens",
-            "component": "cached_input",
-            "modality": "text",
-            "unit": "per_1m_tokens",
-            "amount": "0.025"
-          },
-          {
-            "id": "price:google-gemini/gemini-3.8-flash-tts:flex:current:storage:text:per_1m_tokens_per_hour",
-            "component": "storage",
-            "modality": "text",
-            "unit": "per_1m_tokens_per_hour",
-            "amount": "0.50"
           },
           {
             "id": "price:google-gemini/gemini-3.8-flash-tts:flex:current:output:audio:per_1m_tokens",
@@ -15711,9 +16135,9 @@
           "https://ai.google.dev/gemini-api/docs/models/gemini-3.8-flash-tts"
         ],
         "verification_status": "verified",
-        "checked_at": "2026-09-24T14:27:54Z",
-        "verified_at": "2026-09-24T14:27:54Z",
-        "billing_note": "Flex text-input, cached-input, cache-storage, and audio-output token pricing. Cache storage is billed per 1M cached tokens per hour; audio output is tokenized at 25 tokens per second."
+        "checked_at": "2026-10-25T06:08:03Z",
+        "verified_at": "2026-10-25T06:08:03Z",
+        "billing_note": "Flex text-input and audio-output token pricing; context caching is not supported. Audio output is tokenized at 25 tokens per second."
       },
       {
         "id": "price:google-gemini/gemini-3.8-flash-tts:flex:future",
@@ -15732,20 +16156,6 @@
             "modality": "text",
             "unit": "per_1m_tokens",
             "amount": "0.5"
-          },
-          {
-            "id": "price:google-gemini/gemini-3.8-flash-tts:flex:future:cached_input:text:per_1m_tokens",
-            "component": "cached_input",
-            "modality": "text",
-            "unit": "per_1m_tokens",
-            "amount": "0.05"
-          },
-          {
-            "id": "price:google-gemini/gemini-3.8-flash-tts:flex:future:storage:text:per_1m_tokens_per_hour",
-            "component": "storage",
-            "modality": "text",
-            "unit": "per_1m_tokens_per_hour",
-            "amount": "1"
           },
           {
             "id": "price:google-gemini/gemini-3.8-flash-tts:flex:future:output:audio:per_1m_tokens",
@@ -15774,9 +16184,9 @@
           "https://ai.google.dev/gemini-api/docs/models/gemini-3.8-flash-tts"
         ],
         "verification_status": "verified",
-        "checked_at": "2026-09-24T14:27:54Z",
-        "verified_at": "2026-09-24T14:27:54Z",
-        "billing_note": "Flex text-input, cached-input, cache-storage, and audio-output token pricing. Cache storage is billed per 1M cached tokens per hour; audio output is tokenized at 25 tokens per second."
+        "checked_at": "2026-10-25T06:08:03Z",
+        "verified_at": "2026-10-25T06:08:03Z",
+        "billing_note": "Flex text-input and audio-output token pricing; context caching is not supported. Audio output is tokenized at 25 tokens per second."
       },
       {
         "id": "price:google-gemini/gemini-3.8-flash-tts:priority:current",
@@ -15795,20 +16205,6 @@
             "modality": "text",
             "unit": "per_1m_tokens",
             "amount": "0.90"
-          },
-          {
-            "id": "price:google-gemini/gemini-3.8-flash-tts:priority:current:cached_input:text:per_1m_tokens",
-            "component": "cached_input",
-            "modality": "text",
-            "unit": "per_1m_tokens",
-            "amount": "0.225"
-          },
-          {
-            "id": "price:google-gemini/gemini-3.8-flash-tts:priority:current:storage:text:per_1m_tokens_per_hour",
-            "component": "storage",
-            "modality": "text",
-            "unit": "per_1m_tokens_per_hour",
-            "amount": "0.50"
           },
           {
             "id": "price:google-gemini/gemini-3.8-flash-tts:priority:current:output:audio:per_1m_tokens",
@@ -15837,9 +16233,9 @@
           "https://ai.google.dev/gemini-api/docs/models/gemini-3.8-flash-tts"
         ],
         "verification_status": "verified",
-        "checked_at": "2026-09-24T14:27:54Z",
-        "verified_at": "2026-09-24T14:27:54Z",
-        "billing_note": "Priority text-input, cached-input, cache-storage, and audio-output token pricing. Cache storage is billed per 1M cached tokens per hour; audio output is tokenized at 25 tokens per second."
+        "checked_at": "2026-10-25T06:08:03Z",
+        "verified_at": "2026-10-25T06:08:03Z",
+        "billing_note": "Priority text-input and audio-output token pricing; context caching is not supported. Audio output is tokenized at 25 tokens per second."
       },
       {
         "id": "price:google-gemini/gemini-3.8-flash-tts:priority:future",
@@ -15858,20 +16254,6 @@
             "modality": "text",
             "unit": "per_1m_tokens",
             "amount": "1.8"
-          },
-          {
-            "id": "price:google-gemini/gemini-3.8-flash-tts:priority:future:cached_input:text:per_1m_tokens",
-            "component": "cached_input",
-            "modality": "text",
-            "unit": "per_1m_tokens",
-            "amount": "0.45"
-          },
-          {
-            "id": "price:google-gemini/gemini-3.8-flash-tts:priority:future:storage:text:per_1m_tokens_per_hour",
-            "component": "storage",
-            "modality": "text",
-            "unit": "per_1m_tokens_per_hour",
-            "amount": "1"
           },
           {
             "id": "price:google-gemini/gemini-3.8-flash-tts:priority:future:output:audio:per_1m_tokens",
@@ -15900,9 +16282,9 @@
           "https://ai.google.dev/gemini-api/docs/models/gemini-3.8-flash-tts"
         ],
         "verification_status": "verified",
-        "checked_at": "2026-09-24T14:27:54Z",
-        "verified_at": "2026-09-24T14:27:54Z",
-        "billing_note": "Priority text-input, cached-input, cache-storage, and audio-output token pricing. Cache storage is billed per 1M cached tokens per hour; audio output is tokenized at 25 tokens per second."
+        "checked_at": "2026-10-25T06:08:03Z",
+        "verified_at": "2026-10-25T06:08:03Z",
+        "billing_note": "Priority text-input and audio-output token pricing; context caching is not supported. Audio output is tokenized at 25 tokens per second."
       }
     ],
     "official_source_url": "https://ai.google.dev/gemini-api/docs/pricing",
@@ -15912,10 +16294,10 @@
       "https://ai.google.dev/gemini-api/docs/deprecations",
       "https://blog.google/innovation-and-ai/models-and-research/gemini-models/gemini-3-8-text-to-speech/"
     ],
-    "accessed_at": "2026-09-24T14:27:54Z",
-    "last_verified_at": "2026-09-24T14:27:54Z",
+    "accessed_at": "2026-10-25T06:08:03Z",
+    "last_verified_at": "2026-10-25T06:08:03Z",
     "effective_from": "2026-09-22",
-    "notes": "Flagship creative TTS model for studio-grade fidelity, expressive acting, accents, and stable long-form multi-turn speech. Stable Gemini API model released 2026-09-22 with no shutdown date announced. Official input and output token limits are 8,192 and 16,384. Supports Caching, Batch API, Flex inference, and Priority inference. Current prices are effective through 2026-12-31; separately stored future records take effect 2027-01-01. Audio output is 25 tokens per second. The legacy V1 output scalar remains null because the published output price is for audio tokens, not text tokens."
+    "notes": "Flagship creative TTS model for studio-grade fidelity, expressive acting, accents, and stable long-form multi-turn speech. Stable Gemini API model released 2026-09-22 with no shutdown date announced. Official input and output token limits are 8,192 and 16,384. Supports Batch API, Flex inference, and Priority inference. Context caching is not supported: the model page says so since its 2026-10-09 update, and the pricing page dropped the cached-input and cache-storage rates between 2026-10-08 and 2026-10-09 without a published effective date. Current prices are effective through 2026-12-31; separately stored future records take effect 2027-01-01. Audio output is 25 tokens per second. The legacy V1 output scalar remains null because the published output price is for audio tokens, not text tokens."
   },
   {
     "provider_id": "google-gemini",
@@ -15934,11 +16316,11 @@
       "unit": "1M tokens",
       "input": 0.5,
       "output": null,
-      "cached_input": 0.125,
+      "cached_input": null,
       "cache_write": null,
       "cache_write_1h": null,
       "batch_input": 0.25,
-      "batch_cached_input": 0.0625,
+      "batch_cached_input": null,
       "batch_output": null
     },
     "price_records": [
@@ -15958,20 +16340,6 @@
             "component": "input",
             "modality": "text",
             "unit": "per_1m_tokens",
-            "amount": "0.50"
-          },
-          {
-            "id": "price:google-gemini/gemini-3.8-flash-lite-tts:standard:current:cached_input:text:per_1m_tokens",
-            "component": "cached_input",
-            "modality": "text",
-            "unit": "per_1m_tokens",
-            "amount": "0.125"
-          },
-          {
-            "id": "price:google-gemini/gemini-3.8-flash-lite-tts:standard:current:storage:text:per_1m_tokens_per_hour",
-            "component": "storage",
-            "modality": "text",
-            "unit": "per_1m_tokens_per_hour",
             "amount": "0.50"
           },
           {
@@ -16001,9 +16369,9 @@
           "https://ai.google.dev/gemini-api/docs/models/gemini-3.8-flash-lite-tts"
         ],
         "verification_status": "verified",
-        "checked_at": "2026-09-24T14:27:54Z",
-        "verified_at": "2026-09-24T14:27:54Z",
-        "billing_note": "Standard text-input, cached-input, cache-storage, and audio-output token pricing. Cache storage is billed per 1M cached tokens per hour; audio output is tokenized at 25 tokens per second."
+        "checked_at": "2026-10-25T06:08:08Z",
+        "verified_at": "2026-10-25T06:08:08Z",
+        "billing_note": "Standard text-input and audio-output token pricing; context caching is not supported. Audio output is tokenized at 25 tokens per second."
       },
       {
         "id": "price:google-gemini/gemini-3.8-flash-lite-tts:standard:future",
@@ -16021,20 +16389,6 @@
             "component": "input",
             "modality": "text",
             "unit": "per_1m_tokens",
-            "amount": "1"
-          },
-          {
-            "id": "price:google-gemini/gemini-3.8-flash-lite-tts:standard:future:cached_input:text:per_1m_tokens",
-            "component": "cached_input",
-            "modality": "text",
-            "unit": "per_1m_tokens",
-            "amount": "0.25"
-          },
-          {
-            "id": "price:google-gemini/gemini-3.8-flash-lite-tts:standard:future:storage:text:per_1m_tokens_per_hour",
-            "component": "storage",
-            "modality": "text",
-            "unit": "per_1m_tokens_per_hour",
             "amount": "1"
           },
           {
@@ -16064,9 +16418,9 @@
           "https://ai.google.dev/gemini-api/docs/models/gemini-3.8-flash-lite-tts"
         ],
         "verification_status": "verified",
-        "checked_at": "2026-09-24T14:27:54Z",
-        "verified_at": "2026-09-24T14:27:54Z",
-        "billing_note": "Standard text-input, cached-input, cache-storage, and audio-output token pricing. Cache storage is billed per 1M cached tokens per hour; audio output is tokenized at 25 tokens per second."
+        "checked_at": "2026-10-25T06:08:08Z",
+        "verified_at": "2026-10-25T06:08:08Z",
+        "billing_note": "Standard text-input and audio-output token pricing; context caching is not supported. Audio output is tokenized at 25 tokens per second."
       },
       {
         "id": "price:google-gemini/gemini-3.8-flash-lite-tts:batch:current",
@@ -16085,20 +16439,6 @@
             "modality": "text",
             "unit": "per_1m_tokens",
             "amount": "0.25"
-          },
-          {
-            "id": "price:google-gemini/gemini-3.8-flash-lite-tts:batch:current:cached_input:text:per_1m_tokens",
-            "component": "cached_input",
-            "modality": "text",
-            "unit": "per_1m_tokens",
-            "amount": "0.0625"
-          },
-          {
-            "id": "price:google-gemini/gemini-3.8-flash-lite-tts:batch:current:storage:text:per_1m_tokens_per_hour",
-            "component": "storage",
-            "modality": "text",
-            "unit": "per_1m_tokens_per_hour",
-            "amount": "0.50"
           },
           {
             "id": "price:google-gemini/gemini-3.8-flash-lite-tts:batch:current:output:audio:per_1m_tokens",
@@ -16127,9 +16467,9 @@
           "https://ai.google.dev/gemini-api/docs/models/gemini-3.8-flash-lite-tts"
         ],
         "verification_status": "verified",
-        "checked_at": "2026-09-24T14:27:54Z",
-        "verified_at": "2026-09-24T14:27:54Z",
-        "billing_note": "Batch text-input, cached-input, cache-storage, and audio-output token pricing. Cache storage is billed per 1M cached tokens per hour; audio output is tokenized at 25 tokens per second."
+        "checked_at": "2026-10-25T06:08:08Z",
+        "verified_at": "2026-10-25T06:08:08Z",
+        "billing_note": "Batch text-input and audio-output token pricing; context caching is not supported. Audio output is tokenized at 25 tokens per second."
       },
       {
         "id": "price:google-gemini/gemini-3.8-flash-lite-tts:batch:future",
@@ -16148,20 +16488,6 @@
             "modality": "text",
             "unit": "per_1m_tokens",
             "amount": "0.5"
-          },
-          {
-            "id": "price:google-gemini/gemini-3.8-flash-lite-tts:batch:future:cached_input:text:per_1m_tokens",
-            "component": "cached_input",
-            "modality": "text",
-            "unit": "per_1m_tokens",
-            "amount": "0.125"
-          },
-          {
-            "id": "price:google-gemini/gemini-3.8-flash-lite-tts:batch:future:storage:text:per_1m_tokens_per_hour",
-            "component": "storage",
-            "modality": "text",
-            "unit": "per_1m_tokens_per_hour",
-            "amount": "1"
           },
           {
             "id": "price:google-gemini/gemini-3.8-flash-lite-tts:batch:future:output:audio:per_1m_tokens",
@@ -16190,9 +16516,9 @@
           "https://ai.google.dev/gemini-api/docs/models/gemini-3.8-flash-lite-tts"
         ],
         "verification_status": "verified",
-        "checked_at": "2026-09-24T14:27:54Z",
-        "verified_at": "2026-09-24T14:27:54Z",
-        "billing_note": "Batch text-input, cached-input, cache-storage, and audio-output token pricing. Cache storage is billed per 1M cached tokens per hour; audio output is tokenized at 25 tokens per second."
+        "checked_at": "2026-10-25T06:08:08Z",
+        "verified_at": "2026-10-25T06:08:08Z",
+        "billing_note": "Batch text-input and audio-output token pricing; context caching is not supported. Audio output is tokenized at 25 tokens per second."
       },
       {
         "id": "price:google-gemini/gemini-3.8-flash-lite-tts:flex:current",
@@ -16211,20 +16537,6 @@
             "modality": "text",
             "unit": "per_1m_tokens",
             "amount": "0.25"
-          },
-          {
-            "id": "price:google-gemini/gemini-3.8-flash-lite-tts:flex:current:cached_input:text:per_1m_tokens",
-            "component": "cached_input",
-            "modality": "text",
-            "unit": "per_1m_tokens",
-            "amount": "0.025"
-          },
-          {
-            "id": "price:google-gemini/gemini-3.8-flash-lite-tts:flex:current:storage:text:per_1m_tokens_per_hour",
-            "component": "storage",
-            "modality": "text",
-            "unit": "per_1m_tokens_per_hour",
-            "amount": "0.50"
           },
           {
             "id": "price:google-gemini/gemini-3.8-flash-lite-tts:flex:current:output:audio:per_1m_tokens",
@@ -16253,9 +16565,9 @@
           "https://ai.google.dev/gemini-api/docs/models/gemini-3.8-flash-lite-tts"
         ],
         "verification_status": "verified",
-        "checked_at": "2026-09-24T14:27:54Z",
-        "verified_at": "2026-09-24T14:27:54Z",
-        "billing_note": "Flex text-input, cached-input, cache-storage, and audio-output token pricing. Cache storage is billed per 1M cached tokens per hour; audio output is tokenized at 25 tokens per second."
+        "checked_at": "2026-10-25T06:08:08Z",
+        "verified_at": "2026-10-25T06:08:08Z",
+        "billing_note": "Flex text-input and audio-output token pricing; context caching is not supported. Audio output is tokenized at 25 tokens per second."
       },
       {
         "id": "price:google-gemini/gemini-3.8-flash-lite-tts:flex:future",
@@ -16274,20 +16586,6 @@
             "modality": "text",
             "unit": "per_1m_tokens",
             "amount": "0.5"
-          },
-          {
-            "id": "price:google-gemini/gemini-3.8-flash-lite-tts:flex:future:cached_input:text:per_1m_tokens",
-            "component": "cached_input",
-            "modality": "text",
-            "unit": "per_1m_tokens",
-            "amount": "0.05"
-          },
-          {
-            "id": "price:google-gemini/gemini-3.8-flash-lite-tts:flex:future:storage:text:per_1m_tokens_per_hour",
-            "component": "storage",
-            "modality": "text",
-            "unit": "per_1m_tokens_per_hour",
-            "amount": "1"
           },
           {
             "id": "price:google-gemini/gemini-3.8-flash-lite-tts:flex:future:output:audio:per_1m_tokens",
@@ -16316,9 +16614,9 @@
           "https://ai.google.dev/gemini-api/docs/models/gemini-3.8-flash-lite-tts"
         ],
         "verification_status": "verified",
-        "checked_at": "2026-09-24T14:27:54Z",
-        "verified_at": "2026-09-24T14:27:54Z",
-        "billing_note": "Flex text-input, cached-input, cache-storage, and audio-output token pricing. Cache storage is billed per 1M cached tokens per hour; audio output is tokenized at 25 tokens per second."
+        "checked_at": "2026-10-25T06:08:08Z",
+        "verified_at": "2026-10-25T06:08:08Z",
+        "billing_note": "Flex text-input and audio-output token pricing; context caching is not supported. Audio output is tokenized at 25 tokens per second."
       },
       {
         "id": "price:google-gemini/gemini-3.8-flash-lite-tts:priority:current",
@@ -16337,20 +16635,6 @@
             "modality": "text",
             "unit": "per_1m_tokens",
             "amount": "0.90"
-          },
-          {
-            "id": "price:google-gemini/gemini-3.8-flash-lite-tts:priority:current:cached_input:text:per_1m_tokens",
-            "component": "cached_input",
-            "modality": "text",
-            "unit": "per_1m_tokens",
-            "amount": "0.225"
-          },
-          {
-            "id": "price:google-gemini/gemini-3.8-flash-lite-tts:priority:current:storage:text:per_1m_tokens_per_hour",
-            "component": "storage",
-            "modality": "text",
-            "unit": "per_1m_tokens_per_hour",
-            "amount": "0.50"
           },
           {
             "id": "price:google-gemini/gemini-3.8-flash-lite-tts:priority:current:output:audio:per_1m_tokens",
@@ -16379,9 +16663,9 @@
           "https://ai.google.dev/gemini-api/docs/models/gemini-3.8-flash-lite-tts"
         ],
         "verification_status": "verified",
-        "checked_at": "2026-09-24T14:27:54Z",
-        "verified_at": "2026-09-24T14:27:54Z",
-        "billing_note": "Priority text-input, cached-input, cache-storage, and audio-output token pricing. Cache storage is billed per 1M cached tokens per hour; audio output is tokenized at 25 tokens per second."
+        "checked_at": "2026-10-25T06:08:08Z",
+        "verified_at": "2026-10-25T06:08:08Z",
+        "billing_note": "Priority text-input and audio-output token pricing; context caching is not supported. Audio output is tokenized at 25 tokens per second."
       },
       {
         "id": "price:google-gemini/gemini-3.8-flash-lite-tts:priority:future",
@@ -16400,20 +16684,6 @@
             "modality": "text",
             "unit": "per_1m_tokens",
             "amount": "1.8"
-          },
-          {
-            "id": "price:google-gemini/gemini-3.8-flash-lite-tts:priority:future:cached_input:text:per_1m_tokens",
-            "component": "cached_input",
-            "modality": "text",
-            "unit": "per_1m_tokens",
-            "amount": "0.45"
-          },
-          {
-            "id": "price:google-gemini/gemini-3.8-flash-lite-tts:priority:future:storage:text:per_1m_tokens_per_hour",
-            "component": "storage",
-            "modality": "text",
-            "unit": "per_1m_tokens_per_hour",
-            "amount": "1"
           },
           {
             "id": "price:google-gemini/gemini-3.8-flash-lite-tts:priority:future:output:audio:per_1m_tokens",
@@ -16442,9 +16712,9 @@
           "https://ai.google.dev/gemini-api/docs/models/gemini-3.8-flash-lite-tts"
         ],
         "verification_status": "verified",
-        "checked_at": "2026-09-24T14:27:54Z",
-        "verified_at": "2026-09-24T14:27:54Z",
-        "billing_note": "Priority text-input, cached-input, cache-storage, and audio-output token pricing. Cache storage is billed per 1M cached tokens per hour; audio output is tokenized at 25 tokens per second."
+        "checked_at": "2026-10-25T06:08:08Z",
+        "verified_at": "2026-10-25T06:08:08Z",
+        "billing_note": "Priority text-input and audio-output token pricing; context caching is not supported. Audio output is tokenized at 25 tokens per second."
       }
     ],
     "official_source_url": "https://ai.google.dev/gemini-api/docs/pricing",
@@ -16454,10 +16724,10 @@
       "https://ai.google.dev/gemini-api/docs/deprecations",
       "https://blog.google/innovation-and-ai/models-and-research/gemini-models/gemini-3-8-text-to-speech/"
     ],
-    "accessed_at": "2026-09-24T14:27:54Z",
-    "last_verified_at": "2026-09-24T14:27:54Z",
+    "accessed_at": "2026-10-25T06:08:08Z",
+    "last_verified_at": "2026-10-25T06:08:08Z",
     "effective_from": "2026-09-22",
-    "notes": "High-throughput, low-latency, cost-efficient TTS model for conversational voice and production workloads. Stable Gemini API model released 2026-09-22 with no shutdown date announced. Official input and output token limits are 8,192 and 16,384. Supports Caching, Batch API, Flex inference, and Priority inference. Current prices are effective through 2026-12-31; separately stored future records take effect 2027-01-01. Audio output is 25 tokens per second. The legacy V1 output scalar remains null because the published output price is for audio tokens, not text tokens."
+    "notes": "High-throughput, low-latency, cost-efficient TTS model for conversational voice and production workloads. Stable Gemini API model released 2026-09-22 with no shutdown date announced. Official input and output token limits are 8,192 and 16,384. Supports Batch API, Flex inference, and Priority inference. Context caching is not supported: the model page says so since its 2026-10-09 update, and the pricing page dropped the cached-input and cache-storage rates between 2026-10-08 and 2026-10-09 without a published effective date. Current prices are effective through 2026-12-31; separately stored future records take effect 2027-01-01. Audio output is 25 tokens per second. The legacy V1 output scalar remains null because the published output price is for audio tokens, not text tokens."
   },
   {
     "provider_id": "openai",
