@@ -45,7 +45,14 @@ class MoonshotAIOnboardingTests(unittest.TestCase):
             {model_id for provider_id, model_id in self.canonical if provider_id == "moonshot-ai"},
             expected,
         )
-        self.assertTrue(all(self.canonical[("moonshot-ai", model_id)]["status"] == "active" for model_id in expected))
+        for model_id in expected:
+            model = self.canonical[("moonshot-ai", model_id)]
+            deprecated = model_id in {"kimi-k2.6", "kimi-k2.7-code"}
+            self.assertEqual(model["status"], "deprecated" if deprecated else "active")
+            if deprecated:
+                self.assertNotIn("release_stage", model)
+                self.assertNotIn("lifecycle", model)
+                self.assertIn("no exact retirement date has been published", model["notes"])
 
     def test_k2_7_highspeed_is_alias_with_fast_pricing_not_a_fourth_model(self):
         model = self.canonical[("moonshot-ai", "kimi-k2.7-code")]
@@ -121,10 +128,17 @@ class MoonshotAIOnboardingTests(unittest.TestCase):
     def test_public_projection_and_hugging_face_include_calculator_rows(self):
         for model_id in ("kimi-k3.1-pro", "kimi-k3.1-pro-highspeed", "kimi-k3", "kimi-k2.7-code", "kimi-k2.6"):
             projected = self.projection[("moonshot-ai", model_id)]
-            self.assertTrue(projected["defaultSafe"])
-            self.assertIsNotNone(projected["inputPrice"])
-            self.assertIsNotNone(projected["cachedInputPrice"])
-            self.assertIsNotNone(projected["outputPrice"])
+            deprecated = model_id in {"kimi-k2.6", "kimi-k2.7-code"}
+            self.assertEqual(projected["defaultSafe"], not deprecated)
+            self.assertEqual(projected["lifecycleStatus"], "deprecated" if deprecated else "active")
+            if deprecated:
+                self.assertEqual(projected["status"], "deprecated")
+            for field in ("inputPrice", "cachedInputPrice", "outputPrice"):
+                if deprecated:
+                    self.assertIsNone(projected[field])
+                else:
+                    self.assertIsNotNone(projected[field])
+            self.assertTrue(projected["pricingComponents"])
             self.assertEqual(projected["verificationStatus"], "verified")
             self.assertIn(("moonshot-ai", model_id), self.hf_records)
 

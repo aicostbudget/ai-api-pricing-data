@@ -704,7 +704,7 @@ class WebsiteProjectionV2Tests(unittest.TestCase):
             ("google-gemini/gemini-3.7-flash", "google-gemini/gemini-3.8-flash"),
         ):
             row = self.by_internal[internal_id]
-            self.assertEqual(row["status"], "legacy")
+            self.assertEqual(row["status"], "deprecated")
             self.assertEqual(row["lifecycleStatus"], "deprecated")
             self.assertFalse(row["defaultSafe"])
             self.assertEqual(row["blockedFromDefaultReasons"], ["deprecated_identity"])

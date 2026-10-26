@@ -30,6 +30,9 @@ class KimiPublishedRateTests(unittest.TestCase):
     def setUpClass(cls):
         cls.models = read('data/canonical/models.json')
         cls.current = next(m for m in cls.models if m['provider_id'] + '/' + m['model_id'] == KEY)
+        # Freeze the published-rate correction at its historical snapshot; later lifecycle
+        # releases must not be retroactively compared as if they were part of that correction.
+        cls.reconciled = next(m for m in read('data/snapshots/2026-10-09/prices.json')['models'] if m['provider_id'] + '/' + m['model_id'] == KEY)
         cls.original = next(m for m in json.loads(subprocess.check_output(['git', 'show', BASE + ':data/canonical/models.json'], cwd=ROOT)) if m['provider_id'] + '/' + m['model_id'] == KEY)
 
     def test_official_saved_table_maps_exact_batch_cache_hit_cell(self):
@@ -45,7 +48,7 @@ class KimiPublishedRateTests(unittest.TestCase):
         self.assertIn('1M = 1,000,000', doc)
 
     def test_only_batch_cached_amount_sources_notes_and_observation_time_change(self):
-        before, after = copy.deepcopy(self.original), copy.deepcopy(self.current)
+        before, after = copy.deepcopy(self.original), copy.deepcopy(self.reconciled)
         self.assertEqual(after['pricing'], {**before['pricing'], 'batch_cached_input': .10})
         after['pricing'] = before['pricing']
         for field in ('accessed_at', 'last_verified_at'):
@@ -58,8 +61,8 @@ class KimiPublishedRateTests(unittest.TestCase):
         self.assertEqual(after['official_source_urls'], before['official_source_urls'])
         after['official_source_urls'] = before['official_source_urls']
         for old, new in zip(before['price_records'], after['price_records']):
-            self.assertEqual(new['checked_at'], self.current['accessed_at'])
-            self.assertEqual(new['verified_at'], self.current['last_verified_at'])
+            self.assertEqual(new['checked_at'], self.reconciled['accessed_at'])
+            self.assertEqual(new['verified_at'], self.reconciled['last_verified_at'])
             new['checked_at'], new['verified_at'] = old['checked_at'], old['verified_at']
             self.assertEqual(new['source_refs'], old['source_refs'])
             new['source_refs'] = old['source_refs']
@@ -80,10 +83,15 @@ class KimiPublishedRateTests(unittest.TestCase):
             self.assertIn(fact, note)
 
     def test_v1_v2_api_hf_projection_and_history_agree(self):
-        for path in ('data/prices.json', 'api/v1/prices.json', 'data/snapshots/2026-10-09/prices.json'):
+        for path in ('data/prices.json', 'api/v1/prices.json'):
             m = next(m for m in read(path)['models'] if m['provider_id'] + '/' + m['model_id'] == KEY)
             self.assertEqual(m, self.current)
         self.assertEqual(read('api/v1/models/moonshot-ai/kimi-k2.6.json'), self.current)
+        self.assertEqual(self.current['pricing'], self.reconciled['pricing'])
+        self.assertEqual(self.current['price_records'], self.reconciled['price_records'])
+        self.assertEqual(self.reconciled['status'], 'active')
+        self.assertEqual(self.current['status'], 'deprecated')
+        self.assertNotIn('lifecycle', self.current)
         prices = [r for r in read('data/pricing-v2-preview/prices.json') if r['modelInternalId'] == KEY]
         batch = next(r for r in prices if r['processingMode'] == 'batch')
         self.assertEqual(next(c['amount'] for c in batch['charges'] if c['component'] == 'cached_input'), '0.1')
@@ -106,7 +114,7 @@ class KimiPublishedRateTests(unittest.TestCase):
             before, after = Path(tmp)/'2026-10-08/prices.json', Path(tmp)/'2026-10-09/prices.json'
             before.parent.mkdir(); after.parent.mkdir()
             before.write_text(json.dumps({'models':[self.original]}), encoding='utf-8')
-            after.write_text(json.dumps({'models':[self.current]}), encoding='utf-8')
+            after.write_text(json.dumps({'models':[self.reconciled]}), encoding='utf-8')
             self.assertEqual(generate_events(before, after), [])
         prior = subprocess.check_output(['git','show', BASE+':data/price-change-events/events.jsonl'],cwd=ROOT)
         # The correction's historical event file remains immutable; subsequent

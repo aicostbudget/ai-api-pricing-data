@@ -189,7 +189,7 @@ class HuggingFaceExportTests(unittest.TestCase):
                 fallback_count += 1
                 self.assertIn("legacy fallback", record["notes"], key)
                 self.assertNotIn("excluded_default_candidate", projected["blockedFromDefaultReasons"], key)
-        self.assertEqual(fallback_count, 11)
+        self.assertEqual(fallback_count, 13)
         fallback_by_id = {
             record["model_id"]: record
             for record in self.records if "legacy fallback" in (record.get("notes") or "")
@@ -197,7 +197,7 @@ class HuggingFaceExportTests(unittest.TestCase):
         self.assertEqual(set(fallback_by_id), {
             "claude-opus-4.1", "claude-sonnet-4", "deepseek-v4-flash", "gpt-4.1",
             "gpt-4.1-mini", "gpt-4.1-nano", "grok-3", "gpt-5.3-codex", "gpt-5.4-nano",
-            "gemini-3.5-flash", "gemini-3.7-flash",
+            "gemini-3.5-flash", "gemini-3.7-flash", "kimi-k2.6", "kimi-k2.7-code",
         })
         self.assertEqual(fallback_by_id["deepseek-v4-flash"]["status"], "retired")
 
