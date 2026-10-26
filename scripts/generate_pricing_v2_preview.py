@@ -3635,6 +3635,13 @@ def main() -> None:
             canonical_internal_ids,
         )
 
+    # Canonical lifecycle overrides stale Website editorial status in both newly
+    # built and preserved compatibility rows. Prices and other editorial facts stay intact.
+    for row in website_projection:
+        canonical = public_by_key.get((website_provider_id(row), row["id"]))
+        if canonical and canonical.get("status") == "deprecated":
+            row["status"] = "deprecated"
+
     existing_models_path = PREVIEW / "models.json"
     if existing_models_path.exists():
         existing_models_by_id = {

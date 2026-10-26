@@ -1351,6 +1351,11 @@ def projection_row(
     }
     if existing_row and existing_row.get("lifecycleStatus") == identity["lifecycleStatus"]:
         row["status"] = existing_row["status"]
+    # Explicit canonical deprecation overrides preserved Website editorial status.
+    # Historical identities without a canonical declaration keep their prior mapping.
+    canonical = public_verification_by_internal_id.get(identity["internalId"], {})
+    if canonical.get("status") == "deprecated":
+        row["status"] = "deprecated"
     if context_window_tokens is not None:
         row["contextWindowTokens"] = context_window_tokens
     if cache_eligibility is not None:
