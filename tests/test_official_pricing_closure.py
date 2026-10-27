@@ -8,6 +8,7 @@ CHECKPOINT=SCOPE['event_checkpoints'][-1]
 ARGON_EXTENSION=SCOPE['argon_event_extension']
 MISTRAL_EXTENSION=SCOPE['mistral_large_4_standard_extension']
 OPENAI_12H_EXTENSION=SCOPE['openai_12h_cache_write_extension']
+OPENAI_EU_EXTENSION=SCOPE['openai_eu_residency_extension']
 TTS_CACHE_EXTENSION=SCOPE['gemini_38_tts_cache_removal_extension']
 EVENTS_PATH='data/price-change-events/events.jsonl'
 DEEPSEEK_METADATA_APPROVAL={
@@ -225,6 +226,10 @@ class ClosureScopeTests(unittest.TestCase):
   for identity_12h in openai['identities']:
    self.assertEqual(SCOPE['canonical'].get(identity_12h,digest(old_by_id.get(identity_12h,{}))),openai['canonical_before_sha256'][identity_12h])
    approved[identity_12h]=openai['canonical_after_sha256'][identity_12h]
+  eu=OPENAI_EU_EXTENSION
+  for identity_eu in eu['identities']:
+   self.assertEqual(approved[identity_eu],eu['canonical_before_sha256'][identity_eu])
+   approved[identity_eu]=eu['canonical_after_sha256'][identity_eu]
   verify_rows(old,current,approved)
   mutated=copy.deepcopy(current);next(r for r in mutated if r['model_id']=='gpt-6-sol')['pricing']['input']=999
   with self.assertRaisesRegex(AssertionError,'unapproved change'):verify_rows(old,mutated,approved)
@@ -239,6 +244,9 @@ class ClosureScopeTests(unittest.TestCase):
   for identity_12h in OPENAI_12H_EXTENSION['identities']:
    self.assertEqual(SCOPE['projection'].get(identity_12h,digest(old_projection.get(identity_12h,{}))),OPENAI_12H_EXTENSION['projection_before_sha256'][identity_12h])
    approved[identity_12h]=OPENAI_12H_EXTENSION['projection_after_sha256'][identity_12h]
+  for identity_eu in OPENAI_EU_EXTENSION['identities']:
+   self.assertEqual(approved[identity_eu],OPENAI_EU_EXTENSION['projection_before_sha256'][identity_eu])
+   approved[identity_eu]=OPENAI_EU_EXTENSION['projection_after_sha256'][identity_eu]
   verify_rows(old,current,approved)
   mutated=copy.deepcopy(current);next(r for r in mutated if r['id']=='gpt-6-luna')['pricingComponents'][0]['amount']='999'
   with self.assertRaisesRegex(AssertionError,'unapproved change: openai/gpt-6-luna'):verify_rows(old,mutated,approved)

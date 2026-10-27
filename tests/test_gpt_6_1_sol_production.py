@@ -149,14 +149,9 @@ class Gpt61SolProductionTests(unittest.TestCase):
             adjustments = row["region_policy"]["price_adjustments"]
             self.assertEqual(len(adjustments), 1)
             self.assertEqual(adjustments[0]["factor"], "1.10")
-            rules = row["region_policy"]["availability"]["rules"]
-            if row["processing_mode"] == "fast":
-                self.assertEqual(len(rules), 1)
-                self.assertEqual(rules[0]["status"], "unavailable")
-                self.assertEqual(rules[0]["selector"]["data_residencies"], ["eu"])
-            else:
-                self.assertEqual(rules, [])
-        for mode in ("standard", "batch", "flex", "ultrafast"):
+            # OpenAI's data-residency guide (checked 2026-10-27) lists Fast with EU residency for GPT-6.1 Sol.
+            self.assertEqual(row["region_policy"]["availability"]["rules"], [])
+        for mode in ("standard", "batch", "flex", "fast", "ultrafast"):
             selected = select_price_record(
                 self.normalized,
                 processing_mode=mode,
@@ -166,15 +161,6 @@ class Gpt61SolProductionTests(unittest.TestCase):
                 at="2026-10-08",
             )
             self.assertEqual(selected["selectionStatus"], "available")
-        unavailable = select_price_record(
-            self.normalized,
-            processing_mode="fast",
-            prompt_tokens=THRESHOLD,
-            endpoint_geography="regional",
-            data_residency="eu",
-            at="2026-10-08",
-        )
-        self.assertEqual(unavailable["selectionStatus"], "unavailable")
 
     def test_ultrafast_api_contract_and_fail_closed_lookup(self) -> None:
         ultra = [row for row in self.records if row["processing_mode"] == "ultrafast"]
