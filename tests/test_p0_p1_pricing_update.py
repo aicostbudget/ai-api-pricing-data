@@ -159,7 +159,7 @@ class P0P1PricingUpdateTests(unittest.TestCase):
                 {field: canonical["pricing"][field] for field in ("input", "cached_input", "output", "batch_input", "batch_cached_input", "batch_output")},
                 {"input": 0.75, "cached_input": 0.075, "output": 3.75, "batch_input": 0.375, "batch_cached_input": 0.0375, "batch_output": 1.875},
             )
-            if model_id == "gemini-3.8-flash":
+            if canonical.get("price_records"):
                 periods = {}
                 for period_id, status in (("introductory_2026", "current"), ("standard_2027", "future")):
                     records = {r["processing_mode"]: r for r in canonical["price_records"] if r["pricing_status"] == status}

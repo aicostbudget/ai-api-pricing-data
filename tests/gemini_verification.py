@@ -40,6 +40,38 @@ def assert_gemini_facts_and_verification(test_case, before, after):
             official = set(current.get("official_source_urls") or [current["official_source_url"]])
             test_case.assertTrue(all(set(record["source_refs"]) <= official for record in records))
             continue
+        # Gemini 3.6 Flash moved its two pricing_periods into equivalent current and future
+        # Standard/Batch price_records (2026-10-27); only that notes sentence may change.
+        if current["model_id"] == "gemini-3.6-flash" and "pricing_periods" not in current:
+            ignored = {"price_records", "pricing_periods", "notes", "last_verified_at", "accessed_at", "released_at",
+                       "release_evidence", "access_status", "access_evidence", "access_checked_at", "binding_status",
+                       "binding_evidence"}
+            test_case.assertEqual(
+                {key: value for key, value in current.items() if key not in ignored},
+                {key: value for key, value in old.items() if key not in ignored},
+            )
+            test_case.assertEqual(
+                current["notes"],
+                old["notes"].replace(
+                    "Structured pricing_periods preserves the 2027-01-01 Standard and Batch rates.",
+                    "Structured price records preserve the 2027-01-01 Standard and Batch rates as future records.",
+                ),
+            )
+            expected = []
+            for period in old["pricing_periods"]:
+                for mode, prefix in (("standard", ""), ("batch", "batch_")):
+                    expected.append((mode, period["pricing_status"], period["effective_from"], period["effective_until"],
+                                     tuple(float(period["pricing"][prefix + name]) for name in ("input", "cached_input", "output"))))
+            actual = []
+            for record in current["price_records"]:
+                amounts = {charge["component"]: float(charge["amount"]) for charge in record["charges"]}
+                actual.append((record["processing_mode"], record["pricing_status"], record["effective_from"], record["effective_until"],
+                               tuple(amounts[name] for name in ("input", "cached_input", "output"))))
+            test_case.assertEqual(sorted(actual), sorted(expected))
+            test_case.assertTrue(all(record["verification_status"] == "verified" for record in current["price_records"]))
+            official = set(current.get("official_source_urls") or [current["official_source_url"]])
+            test_case.assertTrue(all(set(record["source_refs"]) <= official for record in current["price_records"]))
+            continue
         if current["model_id"] in {"gemini-3.5-flash", "gemini-3.7-flash"}:
             allowed_lifecycle_updates = {
                 "last_verified_at", "accessed_at", "status", "notes", "lifecycle",
