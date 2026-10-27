@@ -25,6 +25,21 @@ def assert_gemini_facts_and_verification(test_case, before, after):
             test_case.assertTrue(all(record["verification_status"] == "verified" for record in current["price_records"]))
             test_case.assertTrue(all(set(record["source_refs"]) <= set(current["official_source_urls"]) for record in current["price_records"]))
             continue
+        # These models gained record-level verified Standard and Batch records (2026-10-27);
+        # every other fact, including the V1 pricing block, must stay unchanged.
+        if current["model_id"] in {"gemini-2.5-flash", "gemini-3.1-flash-lite", "gemini-3.5-flash-lite"}:
+            ignored = {"price_records", "last_verified_at", "accessed_at", "released_at", "release_evidence",
+                       "access_status", "access_evidence", "access_checked_at", "binding_status", "binding_evidence"}
+            test_case.assertEqual(
+                {key: value for key, value in current.items() if key not in ignored},
+                {key: value for key, value in old.items() if key not in ignored},
+            )
+            records = current["price_records"]
+            test_case.assertEqual(sorted(record["processing_mode"] for record in records), ["batch", "standard"])
+            test_case.assertTrue(all(record["verification_status"] == "verified" for record in records))
+            official = set(current.get("official_source_urls") or [current["official_source_url"]])
+            test_case.assertTrue(all(set(record["source_refs"]) <= official for record in records))
+            continue
         if current["model_id"] in {"gemini-3.5-flash", "gemini-3.7-flash"}:
             allowed_lifecycle_updates = {
                 "last_verified_at", "accessed_at", "status", "notes", "lifecycle",

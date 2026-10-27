@@ -9,7 +9,7 @@
     "review_required": "display only with warning; no default or recommendation placement",
     "unsafe": "exclude from default calculations and show warning only where explicitly allowed"
   },
-  "effectiveAt": "2026-10-27T05:28:25Z",
+  "effectiveAt": "2026-10-27T06:00:26Z",
   "effectiveTimezone": "UTC",
   "failureBehavior": {
     "atomicWrite": true,
@@ -18,7 +18,7 @@
     "partialJson": "not_written",
     "publicV1Mutation": "forbidden"
   },
-  "generatedAt": "2026-10-27T05:28:25Z",
+  "generatedAt": "2026-10-27T06:00:26Z",
   "generatedAtPolicy": "UTC artifact generation timestamp injected by the generation pipeline",
   "governancePolicy": {
     "classes": [
@@ -9708,7 +9708,7 @@
       "blockedFromDefaultReasons": [],
       "cachedInputPrice": 0.03,
       "canonicalInternalId": "google-gemini/gemini-2.5-flash",
-      "checkedAt": "2026-10-25T05:02:36Z",
+      "checkedAt": "2026-10-27T05:59:36Z",
       "checkedSourceRefs": [
         "source:google-gemini:ai-google-dev-gemini-api-docs-pricing"
       ],
@@ -9739,48 +9739,95 @@
       "priceRecords": [
         {
           "calculationDefault": false,
-          "checkedAt": null,
+          "checkedAt": "2026-10-27T05:59:36Z",
           "contextClass": "short",
           "effectiveFrom": null,
           "effectiveUntil": null,
           "pricingId": "price:google-gemini/gemini-2.5-flash:batch:short:current",
-          "pricingStatus": null,
+          "pricingStatus": "current",
           "processingMode": "batch",
           "sourceRefs": [
             "source:google-gemini:ai-google-dev-gemini-api-docs-pricing"
           ],
           "verificationStatus": "verified",
-          "verifiedAt": null
+          "verifiedAt": "2026-10-27T05:59:36Z"
         },
         {
           "calculationDefault": true,
-          "checkedAt": null,
+          "checkedAt": "2026-10-27T05:59:36Z",
           "contextClass": "short",
           "effectiveFrom": null,
           "effectiveUntil": null,
           "pricingId": "price:google-gemini/gemini-2.5-flash:standard:short:current",
-          "pricingStatus": null,
+          "pricingStatus": "current",
           "processingMode": "standard",
           "sourceRefs": [
             "source:google-gemini:ai-google-dev-gemini-api-docs-pricing"
           ],
           "verificationStatus": "verified",
-          "verifiedAt": null
+          "verifiedAt": "2026-10-27T05:59:36Z"
         }
       ],
       "pricingComponents": [
+        {
+          "amount": "0.03",
+          "calculationDefault": false,
+          "chargeId": "price:google-gemini/gemini-2.5-flash:batch:short:current:cached_input:text:per_1m_tokens",
+          "component": "cached_input",
+          "condition": {
+            "availabilityRules": [],
+            "contextClass": "short",
+            "defaultAvailabilityStatus": "available",
+            "effectiveFrom": null,
+            "effectiveUntil": null,
+            "priceAdjustments": [],
+            "processingMode": "batch",
+            "promptTokenThreshold": null,
+            "regionPolicy": "global",
+            "regionSelector": {
+              "dataResidencies": [
+                "global"
+              ],
+              "endpointGeographies": [
+                "global"
+              ],
+              "pricingGeography": "global_base"
+            },
+            "tierSelection": null
+          },
+          "currency": "USD",
+          "modality": "text",
+          "pricingId": "price:google-gemini/gemini-2.5-flash:batch:short:current",
+          "sourceRefs": [
+            "source:google-gemini:ai-google-dev-gemini-api-docs-pricing"
+          ],
+          "unit": "per_1m_tokens",
+          "verificationStatus": "verified"
+        },
         {
           "amount": "0.15",
           "calculationDefault": false,
           "chargeId": "price:google-gemini/gemini-2.5-flash:batch:short:current:input:text:per_1m_tokens",
           "component": "input",
           "condition": {
+            "availabilityRules": [],
             "contextClass": "short",
+            "defaultAvailabilityStatus": "available",
             "effectiveFrom": null,
             "effectiveUntil": null,
+            "priceAdjustments": [],
             "processingMode": "batch",
             "promptTokenThreshold": null,
             "regionPolicy": "global",
+            "regionSelector": {
+              "dataResidencies": [
+                "global"
+              ],
+              "endpointGeographies": [
+                "global"
+              ],
+              "pricingGeography": "global_base"
+            },
             "tierSelection": null
           },
           "currency": "USD",
@@ -9798,12 +9845,24 @@
           "chargeId": "price:google-gemini/gemini-2.5-flash:batch:short:current:output:text:per_1m_tokens",
           "component": "output",
           "condition": {
+            "availabilityRules": [],
             "contextClass": "short",
+            "defaultAvailabilityStatus": "available",
             "effectiveFrom": null,
             "effectiveUntil": null,
+            "priceAdjustments": [],
             "processingMode": "batch",
             "promptTokenThreshold": null,
             "regionPolicy": "global",
+            "regionSelector": {
+              "dataResidencies": [
+                "global"
+              ],
+              "endpointGeographies": [
+                "global"
+              ],
+              "pricingGeography": "global_base"
+            },
             "tierSelection": null
           },
           "currency": "USD",
@@ -9821,12 +9880,24 @@
           "chargeId": "price:google-gemini/gemini-2.5-flash:standard:short:current:cached_input:text:per_1m_tokens",
           "component": "cached_input",
           "condition": {
+            "availabilityRules": [],
             "contextClass": "short",
+            "defaultAvailabilityStatus": "available",
             "effectiveFrom": null,
             "effectiveUntil": null,
+            "priceAdjustments": [],
             "processingMode": "standard",
             "promptTokenThreshold": null,
             "regionPolicy": "global",
+            "regionSelector": {
+              "dataResidencies": [
+                "global"
+              ],
+              "endpointGeographies": [
+                "global"
+              ],
+              "pricingGeography": "global_base"
+            },
             "tierSelection": null
           },
           "currency": "USD",
@@ -9844,12 +9915,24 @@
           "chargeId": "price:google-gemini/gemini-2.5-flash:standard:short:current:input:text:per_1m_tokens",
           "component": "input",
           "condition": {
+            "availabilityRules": [],
             "contextClass": "short",
+            "defaultAvailabilityStatus": "available",
             "effectiveFrom": null,
             "effectiveUntil": null,
+            "priceAdjustments": [],
             "processingMode": "standard",
             "promptTokenThreshold": null,
             "regionPolicy": "global",
+            "regionSelector": {
+              "dataResidencies": [
+                "global"
+              ],
+              "endpointGeographies": [
+                "global"
+              ],
+              "pricingGeography": "global_base"
+            },
             "tierSelection": null
           },
           "currency": "USD",
@@ -9867,12 +9950,24 @@
           "chargeId": "price:google-gemini/gemini-2.5-flash:standard:short:current:output:text:per_1m_tokens",
           "component": "output",
           "condition": {
+            "availabilityRules": [],
             "contextClass": "short",
+            "defaultAvailabilityStatus": "available",
             "effectiveFrom": null,
             "effectiveUntil": null,
+            "priceAdjustments": [],
             "processingMode": "standard",
             "promptTokenThreshold": null,
             "regionPolicy": "global",
+            "regionSelector": {
+              "dataResidencies": [
+                "global"
+              ],
+              "endpointGeographies": [
+                "global"
+              ],
+              "pricingGeography": "global_base"
+            },
             "tierSelection": null
           },
           "currency": "USD",
@@ -9910,7 +10005,7 @@
       ],
       "status": "latest",
       "verificationStatus": "verified",
-      "verifiedAt": "2026-10-25T05:02:36Z",
+      "verifiedAt": "2026-10-27T05:59:36Z",
       "verifiedSourceRefs": [
         "source:google-gemini:ai-google-dev-gemini-api-docs-pricing"
       ]
@@ -11503,7 +11598,7 @@
       "blockedFromDefaultReasons": [],
       "cachedInputPrice": 0.025,
       "canonicalInternalId": "google-gemini/gemini-3.1-flash-lite",
-      "checkedAt": "2026-08-24T08:42:53Z",
+      "checkedAt": "2026-10-27T05:59:36Z",
       "checkedSourceRefs": [
         "source:google-gemini:ai-google-dev-gemini-api-docs-pricing"
       ],
@@ -11534,48 +11629,95 @@
       "priceRecords": [
         {
           "calculationDefault": false,
-          "checkedAt": null,
+          "checkedAt": "2026-10-27T05:59:36Z",
           "contextClass": "short",
           "effectiveFrom": "2026-07-03",
           "effectiveUntil": null,
           "pricingId": "price:google-gemini/gemini-3.1-flash-lite:batch:short:current",
-          "pricingStatus": null,
+          "pricingStatus": "current",
           "processingMode": "batch",
           "sourceRefs": [
             "source:google-gemini:ai-google-dev-gemini-api-docs-pricing"
           ],
           "verificationStatus": "verified",
-          "verifiedAt": null
+          "verifiedAt": "2026-10-27T05:59:36Z"
         },
         {
           "calculationDefault": true,
-          "checkedAt": null,
+          "checkedAt": "2026-10-27T05:59:36Z",
           "contextClass": "short",
           "effectiveFrom": "2026-07-03",
           "effectiveUntil": null,
           "pricingId": "price:google-gemini/gemini-3.1-flash-lite:standard:short:current",
-          "pricingStatus": null,
+          "pricingStatus": "current",
           "processingMode": "standard",
           "sourceRefs": [
             "source:google-gemini:ai-google-dev-gemini-api-docs-pricing"
           ],
           "verificationStatus": "verified",
-          "verifiedAt": null
+          "verifiedAt": "2026-10-27T05:59:36Z"
         }
       ],
       "pricingComponents": [
+        {
+          "amount": "0.0125",
+          "calculationDefault": false,
+          "chargeId": "price:google-gemini/gemini-3.1-flash-lite:batch:short:current:cached_input:text:per_1m_tokens",
+          "component": "cached_input",
+          "condition": {
+            "availabilityRules": [],
+            "contextClass": "short",
+            "defaultAvailabilityStatus": "available",
+            "effectiveFrom": "2026-07-03",
+            "effectiveUntil": null,
+            "priceAdjustments": [],
+            "processingMode": "batch",
+            "promptTokenThreshold": null,
+            "regionPolicy": "global",
+            "regionSelector": {
+              "dataResidencies": [
+                "global"
+              ],
+              "endpointGeographies": [
+                "global"
+              ],
+              "pricingGeography": "global_base"
+            },
+            "tierSelection": null
+          },
+          "currency": "USD",
+          "modality": "text",
+          "pricingId": "price:google-gemini/gemini-3.1-flash-lite:batch:short:current",
+          "sourceRefs": [
+            "source:google-gemini:ai-google-dev-gemini-api-docs-pricing"
+          ],
+          "unit": "per_1m_tokens",
+          "verificationStatus": "verified"
+        },
         {
           "amount": "0.125",
           "calculationDefault": false,
           "chargeId": "price:google-gemini/gemini-3.1-flash-lite:batch:short:current:input:text:per_1m_tokens",
           "component": "input",
           "condition": {
+            "availabilityRules": [],
             "contextClass": "short",
+            "defaultAvailabilityStatus": "available",
             "effectiveFrom": "2026-07-03",
             "effectiveUntil": null,
+            "priceAdjustments": [],
             "processingMode": "batch",
             "promptTokenThreshold": null,
             "regionPolicy": "global",
+            "regionSelector": {
+              "dataResidencies": [
+                "global"
+              ],
+              "endpointGeographies": [
+                "global"
+              ],
+              "pricingGeography": "global_base"
+            },
             "tierSelection": null
           },
           "currency": "USD",
@@ -11593,12 +11735,24 @@
           "chargeId": "price:google-gemini/gemini-3.1-flash-lite:batch:short:current:output:text:per_1m_tokens",
           "component": "output",
           "condition": {
+            "availabilityRules": [],
             "contextClass": "short",
+            "defaultAvailabilityStatus": "available",
             "effectiveFrom": "2026-07-03",
             "effectiveUntil": null,
+            "priceAdjustments": [],
             "processingMode": "batch",
             "promptTokenThreshold": null,
             "regionPolicy": "global",
+            "regionSelector": {
+              "dataResidencies": [
+                "global"
+              ],
+              "endpointGeographies": [
+                "global"
+              ],
+              "pricingGeography": "global_base"
+            },
             "tierSelection": null
           },
           "currency": "USD",
@@ -11616,12 +11770,24 @@
           "chargeId": "price:google-gemini/gemini-3.1-flash-lite:standard:short:current:cached_input:text:per_1m_tokens",
           "component": "cached_input",
           "condition": {
+            "availabilityRules": [],
             "contextClass": "short",
+            "defaultAvailabilityStatus": "available",
             "effectiveFrom": "2026-07-03",
             "effectiveUntil": null,
+            "priceAdjustments": [],
             "processingMode": "standard",
             "promptTokenThreshold": null,
             "regionPolicy": "global",
+            "regionSelector": {
+              "dataResidencies": [
+                "global"
+              ],
+              "endpointGeographies": [
+                "global"
+              ],
+              "pricingGeography": "global_base"
+            },
             "tierSelection": null
           },
           "currency": "USD",
@@ -11639,12 +11805,24 @@
           "chargeId": "price:google-gemini/gemini-3.1-flash-lite:standard:short:current:input:text:per_1m_tokens",
           "component": "input",
           "condition": {
+            "availabilityRules": [],
             "contextClass": "short",
+            "defaultAvailabilityStatus": "available",
             "effectiveFrom": "2026-07-03",
             "effectiveUntil": null,
+            "priceAdjustments": [],
             "processingMode": "standard",
             "promptTokenThreshold": null,
             "regionPolicy": "global",
+            "regionSelector": {
+              "dataResidencies": [
+                "global"
+              ],
+              "endpointGeographies": [
+                "global"
+              ],
+              "pricingGeography": "global_base"
+            },
             "tierSelection": null
           },
           "currency": "USD",
@@ -11662,12 +11840,24 @@
           "chargeId": "price:google-gemini/gemini-3.1-flash-lite:standard:short:current:output:text:per_1m_tokens",
           "component": "output",
           "condition": {
+            "availabilityRules": [],
             "contextClass": "short",
+            "defaultAvailabilityStatus": "available",
             "effectiveFrom": "2026-07-03",
             "effectiveUntil": null,
+            "priceAdjustments": [],
             "processingMode": "standard",
             "promptTokenThreshold": null,
             "regionPolicy": "global",
+            "regionSelector": {
+              "dataResidencies": [
+                "global"
+              ],
+              "endpointGeographies": [
+                "global"
+              ],
+              "pricingGeography": "global_base"
+            },
             "tierSelection": null
           },
           "currency": "USD",
@@ -11705,7 +11895,7 @@
       ],
       "status": "active",
       "verificationStatus": "verified",
-      "verifiedAt": "2026-08-24T08:42:53Z",
+      "verifiedAt": "2026-10-27T05:59:36Z",
       "verifiedSourceRefs": [
         "source:google-gemini:ai-google-dev-gemini-api-docs-pricing"
       ]
@@ -12290,7 +12480,7 @@
       "blockedFromDefaultReasons": [],
       "cachedInputPrice": 0.03,
       "canonicalInternalId": "google-gemini/gemini-3.5-flash-lite",
-      "checkedAt": "2026-10-25T05:02:41Z",
+      "checkedAt": "2026-10-27T05:59:36Z",
       "checkedSourceRefs": [
         "source:google-gemini:ai-google-dev-gemini-api-docs-pricing"
       ],
@@ -12321,48 +12511,95 @@
       "priceRecords": [
         {
           "calculationDefault": false,
-          "checkedAt": null,
+          "checkedAt": "2026-10-27T05:59:36Z",
           "contextClass": "short",
           "effectiveFrom": null,
           "effectiveUntil": null,
           "pricingId": "price:google-gemini/gemini-3.5-flash-lite:batch:short:current",
-          "pricingStatus": null,
+          "pricingStatus": "current",
           "processingMode": "batch",
           "sourceRefs": [
             "source:google-gemini:ai-google-dev-gemini-api-docs-pricing"
           ],
           "verificationStatus": "verified",
-          "verifiedAt": null
+          "verifiedAt": "2026-10-27T05:59:36Z"
         },
         {
           "calculationDefault": true,
-          "checkedAt": null,
+          "checkedAt": "2026-10-27T05:59:36Z",
           "contextClass": "short",
           "effectiveFrom": null,
           "effectiveUntil": null,
           "pricingId": "price:google-gemini/gemini-3.5-flash-lite:standard:short:current",
-          "pricingStatus": null,
+          "pricingStatus": "current",
           "processingMode": "standard",
           "sourceRefs": [
             "source:google-gemini:ai-google-dev-gemini-api-docs-pricing"
           ],
           "verificationStatus": "verified",
-          "verifiedAt": null
+          "verifiedAt": "2026-10-27T05:59:36Z"
         }
       ],
       "pricingComponents": [
+        {
+          "amount": "0.02",
+          "calculationDefault": false,
+          "chargeId": "price:google-gemini/gemini-3.5-flash-lite:batch:short:current:cached_input:text:per_1m_tokens",
+          "component": "cached_input",
+          "condition": {
+            "availabilityRules": [],
+            "contextClass": "short",
+            "defaultAvailabilityStatus": "available",
+            "effectiveFrom": null,
+            "effectiveUntil": null,
+            "priceAdjustments": [],
+            "processingMode": "batch",
+            "promptTokenThreshold": null,
+            "regionPolicy": "global",
+            "regionSelector": {
+              "dataResidencies": [
+                "global"
+              ],
+              "endpointGeographies": [
+                "global"
+              ],
+              "pricingGeography": "global_base"
+            },
+            "tierSelection": null
+          },
+          "currency": "USD",
+          "modality": "text",
+          "pricingId": "price:google-gemini/gemini-3.5-flash-lite:batch:short:current",
+          "sourceRefs": [
+            "source:google-gemini:ai-google-dev-gemini-api-docs-pricing"
+          ],
+          "unit": "per_1m_tokens",
+          "verificationStatus": "verified"
+        },
         {
           "amount": "0.15",
           "calculationDefault": false,
           "chargeId": "price:google-gemini/gemini-3.5-flash-lite:batch:short:current:input:text:per_1m_tokens",
           "component": "input",
           "condition": {
+            "availabilityRules": [],
             "contextClass": "short",
+            "defaultAvailabilityStatus": "available",
             "effectiveFrom": null,
             "effectiveUntil": null,
+            "priceAdjustments": [],
             "processingMode": "batch",
             "promptTokenThreshold": null,
             "regionPolicy": "global",
+            "regionSelector": {
+              "dataResidencies": [
+                "global"
+              ],
+              "endpointGeographies": [
+                "global"
+              ],
+              "pricingGeography": "global_base"
+            },
             "tierSelection": null
           },
           "currency": "USD",
@@ -12380,12 +12617,24 @@
           "chargeId": "price:google-gemini/gemini-3.5-flash-lite:batch:short:current:output:text:per_1m_tokens",
           "component": "output",
           "condition": {
+            "availabilityRules": [],
             "contextClass": "short",
+            "defaultAvailabilityStatus": "available",
             "effectiveFrom": null,
             "effectiveUntil": null,
+            "priceAdjustments": [],
             "processingMode": "batch",
             "promptTokenThreshold": null,
             "regionPolicy": "global",
+            "regionSelector": {
+              "dataResidencies": [
+                "global"
+              ],
+              "endpointGeographies": [
+                "global"
+              ],
+              "pricingGeography": "global_base"
+            },
             "tierSelection": null
           },
           "currency": "USD",
@@ -12403,12 +12652,24 @@
           "chargeId": "price:google-gemini/gemini-3.5-flash-lite:standard:short:current:cached_input:text:per_1m_tokens",
           "component": "cached_input",
           "condition": {
+            "availabilityRules": [],
             "contextClass": "short",
+            "defaultAvailabilityStatus": "available",
             "effectiveFrom": null,
             "effectiveUntil": null,
+            "priceAdjustments": [],
             "processingMode": "standard",
             "promptTokenThreshold": null,
             "regionPolicy": "global",
+            "regionSelector": {
+              "dataResidencies": [
+                "global"
+              ],
+              "endpointGeographies": [
+                "global"
+              ],
+              "pricingGeography": "global_base"
+            },
             "tierSelection": null
           },
           "currency": "USD",
@@ -12426,12 +12687,24 @@
           "chargeId": "price:google-gemini/gemini-3.5-flash-lite:standard:short:current:input:text:per_1m_tokens",
           "component": "input",
           "condition": {
+            "availabilityRules": [],
             "contextClass": "short",
+            "defaultAvailabilityStatus": "available",
             "effectiveFrom": null,
             "effectiveUntil": null,
+            "priceAdjustments": [],
             "processingMode": "standard",
             "promptTokenThreshold": null,
             "regionPolicy": "global",
+            "regionSelector": {
+              "dataResidencies": [
+                "global"
+              ],
+              "endpointGeographies": [
+                "global"
+              ],
+              "pricingGeography": "global_base"
+            },
             "tierSelection": null
           },
           "currency": "USD",
@@ -12449,12 +12722,24 @@
           "chargeId": "price:google-gemini/gemini-3.5-flash-lite:standard:short:current:output:text:per_1m_tokens",
           "component": "output",
           "condition": {
+            "availabilityRules": [],
             "contextClass": "short",
+            "defaultAvailabilityStatus": "available",
             "effectiveFrom": null,
             "effectiveUntil": null,
+            "priceAdjustments": [],
             "processingMode": "standard",
             "promptTokenThreshold": null,
             "regionPolicy": "global",
+            "regionSelector": {
+              "dataResidencies": [
+                "global"
+              ],
+              "endpointGeographies": [
+                "global"
+              ],
+              "pricingGeography": "global_base"
+            },
             "tierSelection": null
           },
           "currency": "USD",
@@ -12492,7 +12777,7 @@
       ],
       "status": "latest",
       "verificationStatus": "verified",
-      "verifiedAt": "2026-10-25T05:02:41Z",
+      "verifiedAt": "2026-10-27T05:59:36Z",
       "verifiedSourceRefs": [
         "source:google-gemini:ai-google-dev-gemini-api-docs-pricing"
       ]
