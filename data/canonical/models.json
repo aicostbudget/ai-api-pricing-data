@@ -19499,6 +19499,873 @@
   },
   {
     "provider_id": "openai",
+    "model_id": "gpt-6.1-terra",
+    "display_name": "GPT-6.1 Terra",
+    "model_family": "GPT-6",
+    "status": "active",
+    "release_stage": "stable",
+    "context_window_tokens": 1050000,
+    "project_context_window": true,
+    "input_modality": "text",
+    "output_modality": "text",
+    "pricing": {
+      "currency": "USD",
+      "unit": "1M tokens",
+      "input": 1,
+      "output": 5,
+      "cached_input": 0.05,
+      "cache_write": 1.25,
+      "cache_write_1h": null,
+      "batch_input": 0.5,
+      "batch_cached_input": 0.025,
+      "batch_output": 2.5
+    },
+    "price_records": [
+      {
+        "id": "price:openai/gpt-6.1-terra:standard:short:current",
+        "processing_mode": "standard",
+        "context_class": "short",
+        "pricing_status": "current",
+        "calculation_default": true,
+        "prompt_token_threshold": 272000,
+        "tier_selection": {
+          "comparison": "less_than_or_equal",
+          "token_basis": "input_tokens",
+          "cached_prompt_tokens_included": true,
+          "whole_request_pricing": true
+        },
+        "effective_from": "2026-10-26",
+        "effective_until": null,
+        "currency": "USD",
+        "charges": [
+          {
+            "id": "price:openai/gpt-6.1-terra:standard:short:current:input:text:per_1m_tokens",
+            "component": "input",
+            "modality": "text",
+            "unit": "per_1m_tokens",
+            "amount": "1"
+          },
+          {
+            "id": "price:openai/gpt-6.1-terra:standard:short:current:cached_input:text:per_1m_tokens",
+            "component": "cached_input",
+            "modality": "text",
+            "unit": "per_1m_tokens",
+            "amount": "0.05"
+          },
+          {
+            "id": "price:openai/gpt-6.1-terra:standard:short:current:cache_write:text:per_1m_tokens",
+            "component": "cache_write",
+            "modality": "text",
+            "unit": "per_1m_tokens",
+            "amount": "1.25"
+          },
+          {
+            "id": "price:openai/gpt-6.1-terra:standard:short:current:cache_write_12h:text:per_1m_tokens",
+            "component": "cache_write_12h",
+            "modality": "text",
+            "unit": "per_1m_tokens",
+            "amount": "2.5"
+          },
+          {
+            "id": "price:openai/gpt-6.1-terra:standard:short:current:output:text:per_1m_tokens",
+            "component": "output",
+            "modality": "text",
+            "unit": "per_1m_tokens",
+            "amount": "5"
+          }
+        ],
+        "region_policy": {
+          "pricing_geography": "global_base",
+          "endpoint_geographies": [
+            "global",
+            "regional"
+          ],
+          "data_residencies": [
+            "global",
+            "us",
+            "eu"
+          ],
+          "availability": {
+            "default": "available",
+            "rules": []
+          },
+          "price_adjustments": [
+            {
+              "id": "regional-data-residency-uplift",
+              "selector": {
+                "endpoint_geographies": [
+                  "regional"
+                ]
+              },
+              "operation": "multiply",
+              "factor": "1.10",
+              "source_refs": [
+                "https://developers.openai.com/api/docs/pricing",
+                "https://developers.openai.com/api/docs/guides/your-data"
+              ]
+            }
+          ]
+        },
+        "source_refs": [
+          "https://developers.openai.com/api/docs/models/gpt-6.1-terra",
+          "https://developers.openai.com/api/docs/pricing",
+          "https://developers.openai.com/api/docs/guides/prompt-caching"
+        ],
+        "verification_status": "verified",
+        "checked_at": "2026-10-27T09:42:39Z",
+        "verified_at": "2026-10-27T09:42:39Z",
+        "billing_note": "standard short-context pricing; the 272,000 threshold is based on input tokens, includes cached input tokens, and applies the selected tier to the full request."
+      },
+      {
+        "id": "price:openai/gpt-6.1-terra:standard:long:current",
+        "processing_mode": "standard",
+        "context_class": "long",
+        "pricing_status": "current",
+        "calculation_default": false,
+        "prompt_token_threshold": 272000,
+        "tier_selection": {
+          "comparison": "greater_than",
+          "token_basis": "input_tokens",
+          "cached_prompt_tokens_included": true,
+          "whole_request_pricing": true
+        },
+        "effective_from": "2026-10-26",
+        "effective_until": null,
+        "currency": "USD",
+        "charges": [
+          {
+            "id": "price:openai/gpt-6.1-terra:standard:long:current:input:text:per_1m_tokens",
+            "component": "input",
+            "modality": "text",
+            "unit": "per_1m_tokens",
+            "amount": "2"
+          },
+          {
+            "id": "price:openai/gpt-6.1-terra:standard:long:current:cached_input:text:per_1m_tokens",
+            "component": "cached_input",
+            "modality": "text",
+            "unit": "per_1m_tokens",
+            "amount": "0.1"
+          },
+          {
+            "id": "price:openai/gpt-6.1-terra:standard:long:current:cache_write:text:per_1m_tokens",
+            "component": "cache_write",
+            "modality": "text",
+            "unit": "per_1m_tokens",
+            "amount": "2.5"
+          },
+          {
+            "id": "price:openai/gpt-6.1-terra:standard:long:current:cache_write_12h:text:per_1m_tokens",
+            "component": "cache_write_12h",
+            "modality": "text",
+            "unit": "per_1m_tokens",
+            "amount": "5"
+          },
+          {
+            "id": "price:openai/gpt-6.1-terra:standard:long:current:output:text:per_1m_tokens",
+            "component": "output",
+            "modality": "text",
+            "unit": "per_1m_tokens",
+            "amount": "7.5"
+          }
+        ],
+        "region_policy": {
+          "pricing_geography": "global_base",
+          "endpoint_geographies": [
+            "global",
+            "regional"
+          ],
+          "data_residencies": [
+            "global",
+            "us",
+            "eu"
+          ],
+          "availability": {
+            "default": "available",
+            "rules": []
+          },
+          "price_adjustments": [
+            {
+              "id": "regional-data-residency-uplift",
+              "selector": {
+                "endpoint_geographies": [
+                  "regional"
+                ]
+              },
+              "operation": "multiply",
+              "factor": "1.10",
+              "source_refs": [
+                "https://developers.openai.com/api/docs/pricing",
+                "https://developers.openai.com/api/docs/guides/your-data"
+              ]
+            }
+          ]
+        },
+        "source_refs": [
+          "https://developers.openai.com/api/docs/models/gpt-6.1-terra",
+          "https://developers.openai.com/api/docs/pricing",
+          "https://developers.openai.com/api/docs/guides/prompt-caching"
+        ],
+        "verification_status": "verified",
+        "checked_at": "2026-10-27T09:42:39Z",
+        "verified_at": "2026-10-27T09:42:39Z",
+        "billing_note": "standard long-context pricing; the 272,000 threshold is based on input tokens, includes cached input tokens, and applies the selected tier to the full request."
+      },
+      {
+        "id": "price:openai/gpt-6.1-terra:batch:short:current",
+        "processing_mode": "batch",
+        "context_class": "short",
+        "pricing_status": "current",
+        "calculation_default": false,
+        "prompt_token_threshold": 272000,
+        "tier_selection": {
+          "comparison": "less_than_or_equal",
+          "token_basis": "input_tokens",
+          "cached_prompt_tokens_included": true,
+          "whole_request_pricing": true
+        },
+        "effective_from": "2026-10-26",
+        "effective_until": null,
+        "currency": "USD",
+        "charges": [
+          {
+            "id": "price:openai/gpt-6.1-terra:batch:short:current:input:text:per_1m_tokens",
+            "component": "input",
+            "modality": "text",
+            "unit": "per_1m_tokens",
+            "amount": "0.5"
+          },
+          {
+            "id": "price:openai/gpt-6.1-terra:batch:short:current:cached_input:text:per_1m_tokens",
+            "component": "cached_input",
+            "modality": "text",
+            "unit": "per_1m_tokens",
+            "amount": "0.025"
+          },
+          {
+            "id": "price:openai/gpt-6.1-terra:batch:short:current:cache_write:text:per_1m_tokens",
+            "component": "cache_write",
+            "modality": "text",
+            "unit": "per_1m_tokens",
+            "amount": "0.625"
+          },
+          {
+            "id": "price:openai/gpt-6.1-terra:batch:short:current:cache_write_12h:text:per_1m_tokens",
+            "component": "cache_write_12h",
+            "modality": "text",
+            "unit": "per_1m_tokens",
+            "amount": "1.25"
+          },
+          {
+            "id": "price:openai/gpt-6.1-terra:batch:short:current:output:text:per_1m_tokens",
+            "component": "output",
+            "modality": "text",
+            "unit": "per_1m_tokens",
+            "amount": "2.5"
+          }
+        ],
+        "region_policy": {
+          "pricing_geography": "global_base",
+          "endpoint_geographies": [
+            "global",
+            "regional"
+          ],
+          "data_residencies": [
+            "global",
+            "us",
+            "eu"
+          ],
+          "availability": {
+            "default": "available",
+            "rules": []
+          },
+          "price_adjustments": [
+            {
+              "id": "regional-data-residency-uplift",
+              "selector": {
+                "endpoint_geographies": [
+                  "regional"
+                ]
+              },
+              "operation": "multiply",
+              "factor": "1.10",
+              "source_refs": [
+                "https://developers.openai.com/api/docs/pricing",
+                "https://developers.openai.com/api/docs/guides/your-data"
+              ]
+            }
+          ]
+        },
+        "source_refs": [
+          "https://developers.openai.com/api/docs/pricing",
+          "https://developers.openai.com/api/docs/guides/batch",
+          "https://developers.openai.com/api/docs/guides/prompt-caching"
+        ],
+        "verification_status": "verified",
+        "checked_at": "2026-10-27T09:42:39Z",
+        "verified_at": "2026-10-27T09:42:39Z",
+        "billing_note": "batch short-context pricing; the 272,000 threshold is based on input tokens, includes cached input tokens, and applies the selected tier to the full request."
+      },
+      {
+        "id": "price:openai/gpt-6.1-terra:batch:long:current",
+        "processing_mode": "batch",
+        "context_class": "long",
+        "pricing_status": "current",
+        "calculation_default": false,
+        "prompt_token_threshold": 272000,
+        "tier_selection": {
+          "comparison": "greater_than",
+          "token_basis": "input_tokens",
+          "cached_prompt_tokens_included": true,
+          "whole_request_pricing": true
+        },
+        "effective_from": "2026-10-26",
+        "effective_until": null,
+        "currency": "USD",
+        "charges": [
+          {
+            "id": "price:openai/gpt-6.1-terra:batch:long:current:input:text:per_1m_tokens",
+            "component": "input",
+            "modality": "text",
+            "unit": "per_1m_tokens",
+            "amount": "1"
+          },
+          {
+            "id": "price:openai/gpt-6.1-terra:batch:long:current:cached_input:text:per_1m_tokens",
+            "component": "cached_input",
+            "modality": "text",
+            "unit": "per_1m_tokens",
+            "amount": "0.05"
+          },
+          {
+            "id": "price:openai/gpt-6.1-terra:batch:long:current:cache_write:text:per_1m_tokens",
+            "component": "cache_write",
+            "modality": "text",
+            "unit": "per_1m_tokens",
+            "amount": "1.25"
+          },
+          {
+            "id": "price:openai/gpt-6.1-terra:batch:long:current:cache_write_12h:text:per_1m_tokens",
+            "component": "cache_write_12h",
+            "modality": "text",
+            "unit": "per_1m_tokens",
+            "amount": "2.5"
+          },
+          {
+            "id": "price:openai/gpt-6.1-terra:batch:long:current:output:text:per_1m_tokens",
+            "component": "output",
+            "modality": "text",
+            "unit": "per_1m_tokens",
+            "amount": "3.75"
+          }
+        ],
+        "region_policy": {
+          "pricing_geography": "global_base",
+          "endpoint_geographies": [
+            "global",
+            "regional"
+          ],
+          "data_residencies": [
+            "global",
+            "us",
+            "eu"
+          ],
+          "availability": {
+            "default": "available",
+            "rules": []
+          },
+          "price_adjustments": [
+            {
+              "id": "regional-data-residency-uplift",
+              "selector": {
+                "endpoint_geographies": [
+                  "regional"
+                ]
+              },
+              "operation": "multiply",
+              "factor": "1.10",
+              "source_refs": [
+                "https://developers.openai.com/api/docs/pricing",
+                "https://developers.openai.com/api/docs/guides/your-data"
+              ]
+            }
+          ]
+        },
+        "source_refs": [
+          "https://developers.openai.com/api/docs/pricing",
+          "https://developers.openai.com/api/docs/guides/batch",
+          "https://developers.openai.com/api/docs/guides/prompt-caching"
+        ],
+        "verification_status": "verified",
+        "checked_at": "2026-10-27T09:42:39Z",
+        "verified_at": "2026-10-27T09:42:39Z",
+        "billing_note": "batch long-context pricing; the 272,000 threshold is based on input tokens, includes cached input tokens, and applies the selected tier to the full request."
+      },
+      {
+        "id": "price:openai/gpt-6.1-terra:flex:short:current",
+        "processing_mode": "flex",
+        "context_class": "short",
+        "pricing_status": "current",
+        "calculation_default": false,
+        "prompt_token_threshold": 272000,
+        "tier_selection": {
+          "comparison": "less_than_or_equal",
+          "token_basis": "input_tokens",
+          "cached_prompt_tokens_included": true,
+          "whole_request_pricing": true
+        },
+        "effective_from": "2026-10-26",
+        "effective_until": null,
+        "currency": "USD",
+        "charges": [
+          {
+            "id": "price:openai/gpt-6.1-terra:flex:short:current:input:text:per_1m_tokens",
+            "component": "input",
+            "modality": "text",
+            "unit": "per_1m_tokens",
+            "amount": "0.5"
+          },
+          {
+            "id": "price:openai/gpt-6.1-terra:flex:short:current:cached_input:text:per_1m_tokens",
+            "component": "cached_input",
+            "modality": "text",
+            "unit": "per_1m_tokens",
+            "amount": "0.025"
+          },
+          {
+            "id": "price:openai/gpt-6.1-terra:flex:short:current:cache_write:text:per_1m_tokens",
+            "component": "cache_write",
+            "modality": "text",
+            "unit": "per_1m_tokens",
+            "amount": "0.625"
+          },
+          {
+            "id": "price:openai/gpt-6.1-terra:flex:short:current:cache_write_12h:text:per_1m_tokens",
+            "component": "cache_write_12h",
+            "modality": "text",
+            "unit": "per_1m_tokens",
+            "amount": "1.25"
+          },
+          {
+            "id": "price:openai/gpt-6.1-terra:flex:short:current:output:text:per_1m_tokens",
+            "component": "output",
+            "modality": "text",
+            "unit": "per_1m_tokens",
+            "amount": "2.5"
+          }
+        ],
+        "region_policy": {
+          "pricing_geography": "global_base",
+          "endpoint_geographies": [
+            "global",
+            "regional"
+          ],
+          "data_residencies": [
+            "global",
+            "us",
+            "eu"
+          ],
+          "availability": {
+            "default": "available",
+            "rules": []
+          },
+          "price_adjustments": [
+            {
+              "id": "regional-data-residency-uplift",
+              "selector": {
+                "endpoint_geographies": [
+                  "regional"
+                ]
+              },
+              "operation": "multiply",
+              "factor": "1.10",
+              "source_refs": [
+                "https://developers.openai.com/api/docs/pricing",
+                "https://developers.openai.com/api/docs/guides/your-data"
+              ]
+            }
+          ]
+        },
+        "source_refs": [
+          "https://developers.openai.com/api/docs/pricing",
+          "https://developers.openai.com/api/docs/guides/flex-processing",
+          "https://developers.openai.com/api/docs/guides/prompt-caching"
+        ],
+        "verification_status": "verified",
+        "checked_at": "2026-10-27T09:42:39Z",
+        "verified_at": "2026-10-27T09:42:39Z",
+        "billing_note": "flex short-context pricing; the 272,000 threshold is based on input tokens, includes cached input tokens, and applies the selected tier to the full request."
+      },
+      {
+        "id": "price:openai/gpt-6.1-terra:flex:long:current",
+        "processing_mode": "flex",
+        "context_class": "long",
+        "pricing_status": "current",
+        "calculation_default": false,
+        "prompt_token_threshold": 272000,
+        "tier_selection": {
+          "comparison": "greater_than",
+          "token_basis": "input_tokens",
+          "cached_prompt_tokens_included": true,
+          "whole_request_pricing": true
+        },
+        "effective_from": "2026-10-26",
+        "effective_until": null,
+        "currency": "USD",
+        "charges": [
+          {
+            "id": "price:openai/gpt-6.1-terra:flex:long:current:input:text:per_1m_tokens",
+            "component": "input",
+            "modality": "text",
+            "unit": "per_1m_tokens",
+            "amount": "1"
+          },
+          {
+            "id": "price:openai/gpt-6.1-terra:flex:long:current:cached_input:text:per_1m_tokens",
+            "component": "cached_input",
+            "modality": "text",
+            "unit": "per_1m_tokens",
+            "amount": "0.05"
+          },
+          {
+            "id": "price:openai/gpt-6.1-terra:flex:long:current:cache_write:text:per_1m_tokens",
+            "component": "cache_write",
+            "modality": "text",
+            "unit": "per_1m_tokens",
+            "amount": "1.25"
+          },
+          {
+            "id": "price:openai/gpt-6.1-terra:flex:long:current:cache_write_12h:text:per_1m_tokens",
+            "component": "cache_write_12h",
+            "modality": "text",
+            "unit": "per_1m_tokens",
+            "amount": "2.5"
+          },
+          {
+            "id": "price:openai/gpt-6.1-terra:flex:long:current:output:text:per_1m_tokens",
+            "component": "output",
+            "modality": "text",
+            "unit": "per_1m_tokens",
+            "amount": "3.75"
+          }
+        ],
+        "region_policy": {
+          "pricing_geography": "global_base",
+          "endpoint_geographies": [
+            "global",
+            "regional"
+          ],
+          "data_residencies": [
+            "global",
+            "us",
+            "eu"
+          ],
+          "availability": {
+            "default": "available",
+            "rules": []
+          },
+          "price_adjustments": [
+            {
+              "id": "regional-data-residency-uplift",
+              "selector": {
+                "endpoint_geographies": [
+                  "regional"
+                ]
+              },
+              "operation": "multiply",
+              "factor": "1.10",
+              "source_refs": [
+                "https://developers.openai.com/api/docs/pricing",
+                "https://developers.openai.com/api/docs/guides/your-data"
+              ]
+            }
+          ]
+        },
+        "source_refs": [
+          "https://developers.openai.com/api/docs/pricing",
+          "https://developers.openai.com/api/docs/guides/flex-processing",
+          "https://developers.openai.com/api/docs/guides/prompt-caching"
+        ],
+        "verification_status": "verified",
+        "checked_at": "2026-10-27T09:42:39Z",
+        "verified_at": "2026-10-27T09:42:39Z",
+        "billing_note": "flex long-context pricing; the 272,000 threshold is based on input tokens, includes cached input tokens, and applies the selected tier to the full request."
+      },
+      {
+        "id": "price:openai/gpt-6.1-terra:fast:short:current",
+        "processing_mode": "fast",
+        "context_class": "short",
+        "pricing_status": "current",
+        "calculation_default": false,
+        "prompt_token_threshold": 272000,
+        "tier_selection": {
+          "comparison": "less_than_or_equal",
+          "token_basis": "input_tokens",
+          "cached_prompt_tokens_included": true,
+          "whole_request_pricing": true
+        },
+        "effective_from": "2026-10-26",
+        "effective_until": null,
+        "currency": "USD",
+        "charges": [
+          {
+            "id": "price:openai/gpt-6.1-terra:fast:short:current:input:text:per_1m_tokens",
+            "component": "input",
+            "modality": "text",
+            "unit": "per_1m_tokens",
+            "amount": "2"
+          },
+          {
+            "id": "price:openai/gpt-6.1-terra:fast:short:current:cached_input:text:per_1m_tokens",
+            "component": "cached_input",
+            "modality": "text",
+            "unit": "per_1m_tokens",
+            "amount": "0.1"
+          },
+          {
+            "id": "price:openai/gpt-6.1-terra:fast:short:current:cache_write:text:per_1m_tokens",
+            "component": "cache_write",
+            "modality": "text",
+            "unit": "per_1m_tokens",
+            "amount": "2.5"
+          },
+          {
+            "id": "price:openai/gpt-6.1-terra:fast:short:current:cache_write_12h:text:per_1m_tokens",
+            "component": "cache_write_12h",
+            "modality": "text",
+            "unit": "per_1m_tokens",
+            "amount": "5"
+          },
+          {
+            "id": "price:openai/gpt-6.1-terra:fast:short:current:output:text:per_1m_tokens",
+            "component": "output",
+            "modality": "text",
+            "unit": "per_1m_tokens",
+            "amount": "10"
+          }
+        ],
+        "region_policy": {
+          "pricing_geography": "global_base",
+          "endpoint_geographies": [
+            "global",
+            "regional"
+          ],
+          "data_residencies": [
+            "global",
+            "us",
+            "eu"
+          ],
+          "availability": {
+            "default": "available",
+            "rules": []
+          },
+          "price_adjustments": [
+            {
+              "id": "regional-data-residency-uplift",
+              "selector": {
+                "endpoint_geographies": [
+                  "regional"
+                ]
+              },
+              "operation": "multiply",
+              "factor": "1.10",
+              "source_refs": [
+                "https://developers.openai.com/api/docs/pricing",
+                "https://developers.openai.com/api/docs/guides/your-data"
+              ]
+            }
+          ]
+        },
+        "source_refs": [
+          "https://developers.openai.com/api/docs/pricing",
+          "https://developers.openai.com/api/docs/guides/fast-mode",
+          "https://developers.openai.com/api/docs/guides/prompt-caching"
+        ],
+        "verification_status": "verified",
+        "checked_at": "2026-10-27T09:42:39Z",
+        "verified_at": "2026-10-27T09:42:39Z",
+        "billing_note": "fast short-context pricing; the 272,000 threshold is based on input tokens, includes cached input tokens, and applies the selected tier to the full request."
+      },
+      {
+        "id": "price:openai/gpt-6.1-terra:fast:long:current",
+        "processing_mode": "fast",
+        "context_class": "long",
+        "pricing_status": "current",
+        "calculation_default": false,
+        "prompt_token_threshold": 272000,
+        "tier_selection": {
+          "comparison": "greater_than",
+          "token_basis": "input_tokens",
+          "cached_prompt_tokens_included": true,
+          "whole_request_pricing": true
+        },
+        "effective_from": "2026-10-26",
+        "effective_until": null,
+        "currency": "USD",
+        "charges": [
+          {
+            "id": "price:openai/gpt-6.1-terra:fast:long:current:input:text:per_1m_tokens",
+            "component": "input",
+            "modality": "text",
+            "unit": "per_1m_tokens",
+            "amount": "4"
+          },
+          {
+            "id": "price:openai/gpt-6.1-terra:fast:long:current:cached_input:text:per_1m_tokens",
+            "component": "cached_input",
+            "modality": "text",
+            "unit": "per_1m_tokens",
+            "amount": "0.2"
+          },
+          {
+            "id": "price:openai/gpt-6.1-terra:fast:long:current:cache_write:text:per_1m_tokens",
+            "component": "cache_write",
+            "modality": "text",
+            "unit": "per_1m_tokens",
+            "amount": "5"
+          },
+          {
+            "id": "price:openai/gpt-6.1-terra:fast:long:current:cache_write_12h:text:per_1m_tokens",
+            "component": "cache_write_12h",
+            "modality": "text",
+            "unit": "per_1m_tokens",
+            "amount": "10"
+          },
+          {
+            "id": "price:openai/gpt-6.1-terra:fast:long:current:output:text:per_1m_tokens",
+            "component": "output",
+            "modality": "text",
+            "unit": "per_1m_tokens",
+            "amount": "15"
+          }
+        ],
+        "region_policy": {
+          "pricing_geography": "global_base",
+          "endpoint_geographies": [
+            "global",
+            "regional"
+          ],
+          "data_residencies": [
+            "global",
+            "us",
+            "eu"
+          ],
+          "availability": {
+            "default": "available",
+            "rules": []
+          },
+          "price_adjustments": [
+            {
+              "id": "regional-data-residency-uplift",
+              "selector": {
+                "endpoint_geographies": [
+                  "regional"
+                ]
+              },
+              "operation": "multiply",
+              "factor": "1.10",
+              "source_refs": [
+                "https://developers.openai.com/api/docs/pricing",
+                "https://developers.openai.com/api/docs/guides/your-data"
+              ]
+            }
+          ]
+        },
+        "source_refs": [
+          "https://developers.openai.com/api/docs/pricing",
+          "https://developers.openai.com/api/docs/guides/fast-mode",
+          "https://developers.openai.com/api/docs/guides/prompt-caching"
+        ],
+        "verification_status": "verified",
+        "checked_at": "2026-10-27T09:42:39Z",
+        "verified_at": "2026-10-27T09:42:39Z",
+        "billing_note": "fast long-context pricing; the 272,000 threshold is based on input tokens, includes cached input tokens, and applies the selected tier to the full request."
+      }
+    ],
+    "cache_eligibility": {
+      "minimum_cacheable_prefix_tokens": 1024,
+      "source_refs": [
+        "https://developers.openai.com/api/docs/guides/prompt-caching"
+      ],
+      "verification_status": "verified",
+      "checked_at": "2026-10-27T09:42:39Z",
+      "verified_at": "2026-10-27T09:42:39Z"
+    },
+    "cache_lifetime_modes": [
+      {
+        "activation_behavior": "provider_automatic",
+        "cache_write_component": "cache_write",
+        "is_default": true,
+        "minimum_lifetime_seconds": 1800,
+        "renewal_behavior": "refresh_on_reuse",
+        "user_selectable": false,
+        "source_refs": [
+          "https://developers.openai.com/api/docs/guides/prompt-caching"
+        ],
+        "verification_status": "verified",
+        "checked_at": "2026-10-27T09:42:39Z",
+        "verified_at": "2026-10-27T09:42:39Z"
+      },
+      {
+        "activation_behavior": "request_configured",
+        "cache_write_component": "cache_write_12h",
+        "is_default": false,
+        "minimum_lifetime_seconds": 43200,
+        "renewal_behavior": "refresh_on_reuse",
+        "user_selectable": true,
+        "source_refs": [
+          "https://developers.openai.com/api/docs/guides/prompt-caching"
+        ],
+        "verification_status": "verified",
+        "checked_at": "2026-10-27T09:42:39Z",
+        "verified_at": "2026-10-27T09:42:39Z"
+      }
+    ],
+    "official_source_url": "https://developers.openai.com/api/docs/models/gpt-6.1-terra",
+    "official_source_urls": [
+      "https://developers.openai.com/api/docs/models/gpt-6.1-terra",
+      "https://developers.openai.com/api/docs/pricing",
+      "https://developers.openai.com/api/docs/changelog",
+      "https://developers.openai.com/api/docs/guides/prompt-caching",
+      "https://developers.openai.com/api/docs/guides/batch",
+      "https://developers.openai.com/api/docs/guides/flex-processing",
+      "https://developers.openai.com/api/docs/guides/fast-mode",
+      "https://developers.openai.com/api/docs/guides/your-data"
+    ],
+    "accessed_at": "2026-10-27T09:42:39Z",
+    "last_verified_at": "2026-10-27T09:42:39Z",
+    "effective_from": "2026-10-26",
+    "notes": "Released 2026-10-26 through the Responses and Chat Completions APIs. The official model contract has a 1,050,000-token context window and 128,000 max output tokens, with text and image input and text output. Official absolute input, cached-input, cache-write, and output rates are stored for Standard, Batch, Flex, and Fast processing across both sides of the strict greater-than 272,000 input-token boundary. Regional processing uses the official 10% uplift. Global processing plus US and EU data residency are supported, including Fast mode with EU data residency. Ultrafast is not offered for this model.",
+    "released_at": "2026-10-26",
+    "release_evidence": {
+      "url": "https://developers.openai.com/api/docs/changelog",
+      "title": "OpenAI API Changelog - GPT-6.1 Terra",
+      "source_type": "official_changelog"
+    },
+    "access_status": "public",
+    "access_evidence": [
+      {
+        "url": "https://developers.openai.com/api/docs/models/gpt-6.1-terra",
+        "title": "gpt-6.1-terra official model access documentation",
+        "claim_type": "official_access_public",
+        "official_model_id": "gpt-6.1-terra",
+        "scope": "Documented API endpoint with positive ordinary paid API usage tiers; account verification and standard tier limits are ordinary account requirements."
+      }
+    ],
+    "access_checked_at": "2026-10-27T09:42:39Z",
+    "binding_status": "approved",
+    "binding_evidence": [
+      {
+        "url": "https://developers.openai.com/api/docs/models/gpt-6.1-terra",
+        "title": "gpt-6.1-terra official identity documentation",
+        "claim_type": "official_identity_binding",
+        "official_model_id": "gpt-6.1-terra",
+        "reason": "Exact documented API ID or exact provider/version spelling; no entitlement inherited from billing target."
+      }
+    ]
+  },
+  {
+    "provider_id": "openai",
     "model_id": "gpt-5.3-codex",
     "display_name": "GPT-5.3 Codex",
     "model_family": "GPT-5.3",
