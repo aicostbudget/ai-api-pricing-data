@@ -2,27 +2,27 @@
   "aliasCount": 2,
   "candidateDispositionCounts": {
     "alias": 2,
-    "canonical_identity": 103,
+    "canonical_identity": 104,
     "historical_reference": 1,
     "unresolved": 3
   },
-  "candidateUnionCount": 109,
+  "candidateUnionCount": 110,
   "commonCount": 38,
   "counts": {
-    "chargeRecordCount": 916,
-    "modelRecordCount": 106,
-    "priceRecordCount": 292,
-    "sourceRecordCount": 193
+    "chargeRecordCount": 956,
+    "modelRecordCount": 107,
+    "priceRecordCount": 300,
+    "sourceRecordCount": 194
   },
   "duplicateIdentityCount": 3,
-  "generatedAt": "2026-10-27T08:45:27Z",
+  "generatedAt": "2026-10-27T09:43:41Z",
   "lifecycleConflicts": [
     {
       "internalId": "xai/grok-3",
       "resolution": "retired identity retained; redirects to xai/grok-4.3 current billing"
     }
   ],
-  "normalizedCanonicalIdentityCount": 106,
+  "normalizedCanonicalIdentityCount": 107,
   "pricingConflicts": [
     {
       "internalId": "openai/gpt-4.1",
@@ -49,7 +49,7 @@
       "reason": "no safe default calculation price"
     }
   ],
-  "publicOnlyCount": 59,
+  "publicOnlyCount": 60,
   "sourceConflicts": [],
   "specialCases": {
     "claude-sonnet-5_pricing_policy": "Claude Sonnet 5 uses one permanent standard PriceRecord; the canceled 2026-09-01 increase is retained only in historical evidence.",
@@ -950,6 +950,18 @@
           "inputPrice": 2,
           "outputPrice": 10
         }
+      },
+      {
+        "classification": "expected_difference",
+        "internalId": "openai/gpt-6.1-terra",
+        "modelId": "gpt-6.1-terra",
+        "oldWebsiteValue": null,
+        "reason": "Canonical-only multi-record contract is exposed through the rich Website projection.",
+        "v2PreviewValue": {
+          "cachedInputPrice": 0.05,
+          "inputPrice": 1,
+          "outputPrice": 5
+        }
       }
     ],
     "exact_parity": [
@@ -1023,6 +1035,10 @@
       },
       {
         "internalId": "openai/gpt-6.1-sol",
+        "reason": "Canonical-only multi-record contract is exposed through the rich Website projection."
+      },
+      {
+        "internalId": "openai/gpt-6.1-terra",
         "reason": "Canonical-only multi-record contract is exposed through the rich Website projection."
       }
     ],
