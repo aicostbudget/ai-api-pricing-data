@@ -171,7 +171,17 @@ def isolated_workspaces(root: Path, website: Path, dataset_ref: str, website_ref
         command(["git", "checkout", "--detach", dataset_ref], dataset_candidate)
         command(["git", "clone", "--no-hardlinks", str(website), str(website_candidate)], temporary)
         command(["git", "checkout", "--detach", website_ref], website_candidate)
-        yield dataset_candidate, website_candidate
+        # The Website sync regenerates model page redirects through TypeScript, so the
+        # clone needs the checkout's installed dependencies (as rehearse already links).
+        dependencies = website / "node_modules"
+        link = website_candidate / "node_modules"
+        if dependencies.is_dir():
+            link_directory(link, dependencies)
+        try:
+            yield dataset_candidate, website_candidate
+        finally:
+            if dependencies.is_dir() and (link.is_symlink() or link.exists()):
+                unlink_directory(link)
 
 
 def _head_bytes(repo: Path, path: str) -> bytes | None:
@@ -549,22 +559,26 @@ def rehearse_release(
             command(["git", "config", key, git(website, "config", key, check=False) or "daily-pricing-rehearsal"], website_clone, stage="rehearse")
         ensure_local_main(website_clone)
         calls: list[str] = []
-        report = publish(
-            dataset_clone, website_clone,
-            dataset_push=lambda _repo, _sha: calls.append("dataset"),
-            website_push=lambda _repo, _sha: calls.append("website"),
-            hf_dispatch=lambda _repo: calls.append("hf"),
-        )
-        expected = (["website"] if report["website_business_change"] == "YES" else []) + ["dataset", "hf"]
-        if calls != expected:
-            raise ReleaseFailure("CODE_FAILURE", "rehearse", f"Publish order was {calls}, expected {expected}")
-        results: list[SuiteResult] = []
-        if run_tests:
-            link = website_clone / "node_modules"
+        # The publish step's Website sync already needs the dependencies, not just the suites.
+        link = website_clone / "node_modules"
+        linked = dependencies.is_dir()
+        if linked:
             link_directory(link, dependencies)
-            try:
+        try:
+            report = publish(
+                dataset_clone, website_clone,
+                dataset_push=lambda _repo, _sha: calls.append("dataset"),
+                website_push=lambda _repo, _sha: calls.append("website"),
+                hf_dispatch=lambda _repo: calls.append("hf"),
+            )
+            expected = (["website"] if report["website_business_change"] == "YES" else []) + ["dataset", "hf"]
+            if calls != expected:
+                raise ReleaseFailure("CODE_FAILURE", "rehearse", f"Publish order was {calls}, expected {expected}")
+            results: list[SuiteResult] = []
+            if run_tests:
                 results = suites(dataset_clone, website_clone)
-            finally:
+        finally:
+            if linked:
                 unlink_directory(link)
     return {
         "release_sha": report["release_sha"],
