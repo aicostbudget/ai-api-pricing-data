@@ -203,7 +203,13 @@ class ClosureScopeTests(unittest.TestCase):
   self.assertEqual(released['old_pricing'],released['new_pricing'])
   old=pinned('data/canonical/models.json');current=read('data/canonical/models.json')
   old_by_id={key(row):row for row in old};current_by_id={key(row):row for row in current}
-  old_deepseek=old_by_id[identity];current_deepseek=current_by_id[identity]
+  old_deepseek=old_by_id[identity];refreshed_deepseek=current_by_id[identity]
+  # A later re-verification may only advance the time_pricing schedule timestamps;
+  # every other fact must still equal the approved metadata release.
+  current_deepseek=copy.deepcopy(refreshed_deepseek)
+  for field in ('schedule_accessed_at','schedule_verified_at'):
+   self.assertGreaterEqual(refreshed_deepseek['time_pricing'][field],old_deepseek['time_pricing'][field])
+   current_deepseek['time_pricing'][field]=old_deepseek['time_pricing'][field]
   self.assertEqual(digest(old_deepseek),approval['canonical_before_sha256'])
   self.assertEqual(digest(current_deepseek),approval['canonical_after_sha256'])
   self.assertEqual({name for name in set(old_deepseek)|set(current_deepseek) if old_deepseek.get(name)!=current_deepseek.get(name)},{'notes'})
@@ -214,7 +220,7 @@ class ClosureScopeTests(unittest.TestCase):
   self.assertEqual(current_deepseek['release_evidence']['url'],'https://api-docs.deepseek.com/updates/')
   mistral=MISTRAL_EXTENSION;self.assertEqual(git_output('rev-parse',mistral['canonical_source_commit']+'^').decode().strip(),'2287ffdf92245315781cfa4466d226393d2dc55b')
   self.assertEqual(SCOPE['canonical'][mistral['identity']],mistral['canonical_before_sha256'])
-  approved=dict(SCOPE['canonical']);approved[identity]=approval['canonical_after_sha256'];approved[mistral['identity']]=mistral['canonical_after_sha256']
+  approved=dict(SCOPE['canonical']);approved[identity]=digest(refreshed_deepseek);approved[mistral['identity']]=mistral['canonical_after_sha256']
   openai=OPENAI_12H_EXTENSION;self.assertEqual(git_output('rev-parse',openai['canonical_source_commit']+'^').decode().strip(),openai['base_commit'])
   for identity_12h in openai['identities']:
    self.assertEqual(SCOPE['canonical'].get(identity_12h,digest(old_by_id.get(identity_12h,{}))),openai['canonical_before_sha256'][identity_12h])

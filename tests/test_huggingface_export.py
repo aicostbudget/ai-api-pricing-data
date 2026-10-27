@@ -223,7 +223,19 @@ class HuggingFaceExportTests(unittest.TestCase):
             for row in self.projection["models"]
         ))
         non_verified_ids = {record["model_id"] for record in non_verified}
-        self.assertTrue({"deepseek-v4-flash", "deepseek-v4-flash-vision-exp"}.issubset(non_verified_ids))
+        # Retired DeepSeek identities billed through deepseek-flash inherit its record-level
+        # verification, like grok-3 below.
+        for model_id in ("deepseek-v4-flash", "deepseek-v4-flash-vision-exp"):
+            projected = projection_by_key[("deepseek", model_id)]
+            self.assertEqual(
+                projected.get("verifiedAt"),
+                next(
+                    record["verifiedAt"]
+                    for record in projected["priceRecords"]
+                    if record["pricingId"] == projected["redirectedBilling"]["currentBillingPriceRecordId"]
+                ),
+            )
+            self.assertNotIn(model_id, non_verified_ids)
         grok3_projection = projection_by_key[("xai", "grok-3")]
         self.assertIsNotNone(grok3_projection.get("verifiedAt"))
         self.assertNotIn("grok-3", non_verified_ids)
