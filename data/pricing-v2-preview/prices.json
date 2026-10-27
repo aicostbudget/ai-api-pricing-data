@@ -9646,6 +9646,7 @@
     "verifiedAt": "2026-10-04T15:36:06Z"
   },
   {
+    "availabilityRules": [],
     "billingNote": "V1 stores Standard short-context prices and Batch short-context input/output prices. Batch cached input is $0.125 per 1M tokens. Above 272K input tokens, Standard pricing is $5 input, $0.50 cached input, and $22.50 output per 1M tokens; Batch pricing is $2.50 input, $0.25 cached input, and $11.25 output per 1M tokens.",
     "calculationDefault": true,
     "charges": [
@@ -9671,15 +9672,46 @@
         "unit": "per_1m_tokens"
       }
     ],
+    "checkedAt": "2026-10-27T06:43:35Z",
     "contextClass": "short",
     "currency": "USD",
+    "defaultAvailabilityStatus": "available",
     "effectiveFrom": "2026-07-03",
     "effectiveUntil": null,
     "modelInternalId": "openai/gpt-5.4",
+    "priceAdjustments": [
+      {
+        "factor": "1.1",
+        "operation": "multiply",
+        "priceAdjustmentId": "regional-data-residency-uplift",
+        "selector": {
+          "endpointGeographies": [
+            "regional"
+          ]
+        },
+        "sourceRefs": [
+          "source:openai:developers-openai-com-api-docs-guides-your-data",
+          "source:openai:developers-openai-com-api-docs-pricing"
+        ]
+      }
+    ],
     "pricingId": "price:openai/gpt-5.4:standard:short:current",
+    "pricingStatus": "current",
     "processingMode": "standard",
-    "promptTokenThreshold": null,
+    "promptTokenThreshold": 272000,
     "regionPolicy": "global",
+    "regionSelector": {
+      "dataResidencies": [
+        "global",
+        "us",
+        "eu"
+      ],
+      "endpointGeographies": [
+        "global",
+        "regional"
+      ],
+      "pricingGeography": "global_base"
+    },
     "sourceDatasetIds": {
       "publicDatasetIds": [
         "gpt-5.4"
@@ -9689,18 +9721,122 @@
       ]
     },
     "sourceRefs": [
+      "source:openai:developers-openai-com-api-docs-guides-prompt-caching",
       "source:openai:developers-openai-com-api-docs-pricing"
     ],
-    "verificationStatus": "verified"
+    "tierSelection": {
+      "cachedPromptTokensIncluded": true,
+      "comparison": "less_than_or_equal",
+      "tokenBasis": "input_tokens",
+      "wholeRequestPricing": true
+    },
+    "verificationStatus": "verified",
+    "verifiedAt": "2026-10-27T06:43:35Z"
   },
   {
-    "billingNote": "Batch projection derived from explicit Public V1 batch fields for openai/gpt-5.4.",
+    "availabilityRules": [],
+    "billingNote": "V1 stores Standard short-context prices and Batch short-context input/output prices. Batch cached input is $0.125 per 1M tokens. Above 272K input tokens, Standard pricing is $5 input, $0.50 cached input, and $22.50 output per 1M tokens; Batch pricing is $2.50 input, $0.25 cached input, and $11.25 output per 1M tokens.",
+    "calculationDefault": false,
+    "charges": [
+      {
+        "amount": "5",
+        "chargeId": "price:openai/gpt-5.4:standard:long:current:input:text:per_1m_tokens",
+        "component": "input",
+        "modality": "text",
+        "unit": "per_1m_tokens"
+      },
+      {
+        "amount": "0.5",
+        "chargeId": "price:openai/gpt-5.4:standard:long:current:cached_input:text:per_1m_tokens",
+        "component": "cached_input",
+        "modality": "text",
+        "unit": "per_1m_tokens"
+      },
+      {
+        "amount": "22.5",
+        "chargeId": "price:openai/gpt-5.4:standard:long:current:output:text:per_1m_tokens",
+        "component": "output",
+        "modality": "text",
+        "unit": "per_1m_tokens"
+      }
+    ],
+    "checkedAt": "2026-10-27T06:43:35Z",
+    "contextClass": "long",
+    "currency": "USD",
+    "defaultAvailabilityStatus": "available",
+    "effectiveFrom": "2026-07-03",
+    "effectiveUntil": null,
+    "modelInternalId": "openai/gpt-5.4",
+    "priceAdjustments": [
+      {
+        "factor": "1.1",
+        "operation": "multiply",
+        "priceAdjustmentId": "regional-data-residency-uplift",
+        "selector": {
+          "endpointGeographies": [
+            "regional"
+          ]
+        },
+        "sourceRefs": [
+          "source:openai:developers-openai-com-api-docs-guides-your-data",
+          "source:openai:developers-openai-com-api-docs-pricing"
+        ]
+      }
+    ],
+    "pricingId": "price:openai/gpt-5.4:standard:long:current",
+    "pricingStatus": "current",
+    "processingMode": "standard",
+    "promptTokenThreshold": 272000,
+    "regionPolicy": "global",
+    "regionSelector": {
+      "dataResidencies": [
+        "global",
+        "us",
+        "eu"
+      ],
+      "endpointGeographies": [
+        "global",
+        "regional"
+      ],
+      "pricingGeography": "global_base"
+    },
+    "sourceDatasetIds": {
+      "publicDatasetIds": [
+        "gpt-5.4"
+      ],
+      "websiteIds": [
+        "gpt-5.4"
+      ]
+    },
+    "sourceRefs": [
+      "source:openai:developers-openai-com-api-docs-guides-prompt-caching",
+      "source:openai:developers-openai-com-api-docs-pricing"
+    ],
+    "tierSelection": {
+      "cachedPromptTokensIncluded": true,
+      "comparison": "greater_than",
+      "tokenBasis": "input_tokens",
+      "wholeRequestPricing": true
+    },
+    "verificationStatus": "verified",
+    "verifiedAt": "2026-10-27T06:43:35Z"
+  },
+  {
+    "availabilityRules": [],
+    "billingNote": "V1 stores Standard short-context prices and Batch short-context input/output prices. Batch cached input is $0.125 per 1M tokens. Above 272K input tokens, Standard pricing is $5 input, $0.50 cached input, and $22.50 output per 1M tokens; Batch pricing is $2.50 input, $0.25 cached input, and $11.25 output per 1M tokens.",
     "calculationDefault": false,
     "charges": [
       {
         "amount": "1.25",
         "chargeId": "price:openai/gpt-5.4:batch:short:current:input:text:per_1m_tokens",
         "component": "input",
+        "modality": "text",
+        "unit": "per_1m_tokens"
+      },
+      {
+        "amount": "0.125",
+        "chargeId": "price:openai/gpt-5.4:batch:short:current:cached_input:text:per_1m_tokens",
+        "component": "cached_input",
         "modality": "text",
         "unit": "per_1m_tokens"
       },
@@ -9712,15 +9848,46 @@
         "unit": "per_1m_tokens"
       }
     ],
+    "checkedAt": "2026-10-27T06:43:35Z",
     "contextClass": "short",
     "currency": "USD",
+    "defaultAvailabilityStatus": "available",
     "effectiveFrom": "2026-07-03",
     "effectiveUntil": null,
     "modelInternalId": "openai/gpt-5.4",
+    "priceAdjustments": [
+      {
+        "factor": "1.1",
+        "operation": "multiply",
+        "priceAdjustmentId": "regional-data-residency-uplift",
+        "selector": {
+          "endpointGeographies": [
+            "regional"
+          ]
+        },
+        "sourceRefs": [
+          "source:openai:developers-openai-com-api-docs-guides-your-data",
+          "source:openai:developers-openai-com-api-docs-pricing"
+        ]
+      }
+    ],
     "pricingId": "price:openai/gpt-5.4:batch:short:current",
+    "pricingStatus": "current",
     "processingMode": "batch",
-    "promptTokenThreshold": null,
+    "promptTokenThreshold": 272000,
     "regionPolicy": "global",
+    "regionSelector": {
+      "dataResidencies": [
+        "global",
+        "us",
+        "eu"
+      ],
+      "endpointGeographies": [
+        "global",
+        "regional"
+      ],
+      "pricingGeography": "global_base"
+    },
     "sourceDatasetIds": {
       "publicDatasetIds": [
         "gpt-5.4"
@@ -9730,9 +9897,107 @@
       ]
     },
     "sourceRefs": [
+      "source:openai:developers-openai-com-api-docs-guides-batch",
+      "source:openai:developers-openai-com-api-docs-guides-prompt-caching",
       "source:openai:developers-openai-com-api-docs-pricing"
     ],
-    "verificationStatus": "verified"
+    "tierSelection": {
+      "cachedPromptTokensIncluded": true,
+      "comparison": "less_than_or_equal",
+      "tokenBasis": "input_tokens",
+      "wholeRequestPricing": true
+    },
+    "verificationStatus": "verified",
+    "verifiedAt": "2026-10-27T06:43:35Z"
+  },
+  {
+    "availabilityRules": [],
+    "billingNote": "V1 stores Standard short-context prices and Batch short-context input/output prices. Batch cached input is $0.125 per 1M tokens. Above 272K input tokens, Standard pricing is $5 input, $0.50 cached input, and $22.50 output per 1M tokens; Batch pricing is $2.50 input, $0.25 cached input, and $11.25 output per 1M tokens.",
+    "calculationDefault": false,
+    "charges": [
+      {
+        "amount": "2.5",
+        "chargeId": "price:openai/gpt-5.4:batch:long:current:input:text:per_1m_tokens",
+        "component": "input",
+        "modality": "text",
+        "unit": "per_1m_tokens"
+      },
+      {
+        "amount": "0.25",
+        "chargeId": "price:openai/gpt-5.4:batch:long:current:cached_input:text:per_1m_tokens",
+        "component": "cached_input",
+        "modality": "text",
+        "unit": "per_1m_tokens"
+      },
+      {
+        "amount": "11.25",
+        "chargeId": "price:openai/gpt-5.4:batch:long:current:output:text:per_1m_tokens",
+        "component": "output",
+        "modality": "text",
+        "unit": "per_1m_tokens"
+      }
+    ],
+    "checkedAt": "2026-10-27T06:43:35Z",
+    "contextClass": "long",
+    "currency": "USD",
+    "defaultAvailabilityStatus": "available",
+    "effectiveFrom": "2026-07-03",
+    "effectiveUntil": null,
+    "modelInternalId": "openai/gpt-5.4",
+    "priceAdjustments": [
+      {
+        "factor": "1.1",
+        "operation": "multiply",
+        "priceAdjustmentId": "regional-data-residency-uplift",
+        "selector": {
+          "endpointGeographies": [
+            "regional"
+          ]
+        },
+        "sourceRefs": [
+          "source:openai:developers-openai-com-api-docs-guides-your-data",
+          "source:openai:developers-openai-com-api-docs-pricing"
+        ]
+      }
+    ],
+    "pricingId": "price:openai/gpt-5.4:batch:long:current",
+    "pricingStatus": "current",
+    "processingMode": "batch",
+    "promptTokenThreshold": 272000,
+    "regionPolicy": "global",
+    "regionSelector": {
+      "dataResidencies": [
+        "global",
+        "us",
+        "eu"
+      ],
+      "endpointGeographies": [
+        "global",
+        "regional"
+      ],
+      "pricingGeography": "global_base"
+    },
+    "sourceDatasetIds": {
+      "publicDatasetIds": [
+        "gpt-5.4"
+      ],
+      "websiteIds": [
+        "gpt-5.4"
+      ]
+    },
+    "sourceRefs": [
+      "source:openai:developers-openai-com-api-docs-guides-batch",
+      "source:openai:developers-openai-com-api-docs-guides-prompt-caching",
+      "source:openai:developers-openai-com-api-docs-pricing"
+    ],
+    "tierSelection": {
+      "cachedPromptTokensIncluded": true,
+      "comparison": "greater_than",
+      "tokenBasis": "input_tokens",
+      "wholeRequestPricing": true
+    },
+    "verificationStatus": "verified",
+    "verifiedAt": "2026-10-27T06:43:35Z"
   },
   {
     "billingNote": "Deprecated 2026-09-11 and shut down 2026-10-01. OpenAI recommends the most capable cyber model available to the customer without naming a replacement ID. No public price is asserted.",
