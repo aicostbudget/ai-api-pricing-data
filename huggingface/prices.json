@@ -4,9 +4,9 @@
     "version": "1.0.0",
     "schema_version": "1.11.0",
     "page_url": "https://aicostbudget.com/en/datasets/ai-api-pricing",
-    "last_updated": "2026-10-27T09:42:39Z",
-    "last_verified_at": "2026-10-27T09:42:39Z",
-    "generated_at": "2026-10-27T10:19:25Z",
+    "last_updated": "2026-10-27T13:00:19Z",
+    "last_verified_at": "2026-10-27T13:00:19Z",
+    "generated_at": "2026-10-27T13:02:09Z",
     "provider_count": 11,
     "record_count": 96,
     "official_source_count": 28,
@@ -4938,8 +4938,8 @@
       "availability": "active",
       "official_source_url": "https://cohere.com/pricing",
       "verification_status": "verified",
-      "last_verified_at": "2026-08-08",
-      "checked_at": "2026-08-08",
+      "last_verified_at": "2026-10-27",
+      "checked_at": "2026-10-27",
       "effective_from": null,
       "effective_until": null,
       "notes": "",
@@ -4962,7 +4962,19 @@
             "tier_selection": null,
             "region_policy": "global",
             "effective_from": null,
-            "effective_until": null
+            "effective_until": null,
+            "region_selector": {
+              "dataResidencies": [
+                "global"
+              ],
+              "endpointGeographies": [
+                "global"
+              ],
+              "pricingGeography": "global_base"
+            },
+            "default_availability_status": "available",
+            "availability_rules": [],
+            "price_adjustments": []
           },
           "calculation_default": true,
           "source_refs": [
@@ -4988,7 +5000,19 @@
             "tier_selection": null,
             "region_policy": "global",
             "effective_from": null,
-            "effective_until": null
+            "effective_until": null,
+            "region_selector": {
+              "dataResidencies": [
+                "global"
+              ],
+              "endpointGeographies": [
+                "global"
+              ],
+              "pricingGeography": "global_base"
+            },
+            "default_availability_status": "available",
+            "availability_rules": [],
+            "price_adjustments": []
           },
           "calculation_default": true,
           "source_refs": [
@@ -5053,8 +5077,8 @@
       "availability": "active",
       "official_source_url": "https://cohere.com/pricing",
       "verification_status": "verified",
-      "last_verified_at": "2026-08-08",
-      "checked_at": "2026-08-08",
+      "last_verified_at": "2026-10-27",
+      "checked_at": "2026-10-27",
       "effective_from": null,
       "effective_until": null,
       "notes": "",
@@ -5077,7 +5101,19 @@
             "tier_selection": null,
             "region_policy": "global",
             "effective_from": null,
-            "effective_until": null
+            "effective_until": null,
+            "region_selector": {
+              "dataResidencies": [
+                "global"
+              ],
+              "endpointGeographies": [
+                "global"
+              ],
+              "pricingGeography": "global_base"
+            },
+            "default_availability_status": "available",
+            "availability_rules": [],
+            "price_adjustments": []
           },
           "calculation_default": true,
           "source_refs": [
@@ -5103,7 +5139,19 @@
             "tier_selection": null,
             "region_policy": "global",
             "effective_from": null,
-            "effective_until": null
+            "effective_until": null,
+            "region_selector": {
+              "dataResidencies": [
+                "global"
+              ],
+              "endpointGeographies": [
+                "global"
+              ],
+              "pricingGeography": "global_base"
+            },
+            "default_availability_status": "available",
+            "availability_rules": [],
+            "price_adjustments": []
           },
           "calculation_default": true,
           "source_refs": [
@@ -22158,15 +22206,200 @@
       "availability": "Premium",
       "official_source_url": "https://developers.openai.com/api/docs/pricing",
       "verification_status": "verified",
-      "last_verified_at": "2026-08-24",
-      "checked_at": "2026-07-07",
+      "last_verified_at": "2026-10-27",
+      "checked_at": "2026-10-27",
       "effective_from": "2026-07-03",
       "effective_until": null,
       "notes": "Long-context standard pricing is higher: $60 input and $270 output per 1M tokens. Cached input is not listed for this tier.",
-      "pricing_tier_count": 0,
-      "pricing_tiers": [],
+      "pricing_tier_count": 2,
+      "pricing_tiers": [
+        {
+          "id": "price:openai/gpt-5.4-pro:standard:long:current",
+          "pricing_id": "price:openai/gpt-5.4-pro:standard:long:current",
+          "label": "Long context",
+          "context_class": "long",
+          "calculation_default": false,
+          "prompt_token_threshold": 272000,
+          "comparison": "greater_than",
+          "token_basis": "input_tokens",
+          "cached_prompt_tokens_included": true,
+          "whole_request_pricing": true,
+          "processing_mode": "standard",
+          "input_price_per_1m_tokens": 60,
+          "cached_input_price_per_1m_tokens": null,
+          "output_price_per_1m_tokens": 270,
+          "currency": "USD",
+          "pricing_unit": "1M tokens",
+          "official_source_url": "https://developers.openai.com/api/docs/pricing",
+          "source_refs": [
+            "source:openai:developers-openai-com-api-docs-guides-batch",
+            "source:openai:developers-openai-com-api-docs-guides-your-data",
+            "source:openai:developers-openai-com-api-docs-pricing"
+          ],
+          "last_verified_at": "2026-10-27",
+          "checked_at": "2026-10-27",
+          "verification_status": "verified"
+        },
+        {
+          "id": "price:openai/gpt-5.4-pro:standard:short:current",
+          "pricing_id": "price:openai/gpt-5.4-pro:standard:short:current",
+          "label": "Short context",
+          "context_class": "short",
+          "calculation_default": true,
+          "prompt_token_threshold": 272000,
+          "comparison": "less_than_or_equal",
+          "token_basis": "input_tokens",
+          "cached_prompt_tokens_included": true,
+          "whole_request_pricing": true,
+          "processing_mode": "standard",
+          "input_price_per_1m_tokens": 30,
+          "cached_input_price_per_1m_tokens": null,
+          "output_price_per_1m_tokens": 180,
+          "currency": "USD",
+          "pricing_unit": "1M tokens",
+          "official_source_url": "https://developers.openai.com/api/docs/pricing",
+          "source_refs": [
+            "source:openai:developers-openai-com-api-docs-guides-batch",
+            "source:openai:developers-openai-com-api-docs-guides-your-data",
+            "source:openai:developers-openai-com-api-docs-pricing"
+          ],
+          "last_verified_at": "2026-10-27",
+          "checked_at": "2026-10-27",
+          "verification_status": "verified"
+        }
+      ],
       "time_pricing": null,
       "pricing_components": [
+        {
+          "pricing_id": "price:openai/gpt-5.4-pro:batch:long:current",
+          "charge_id": "price:openai/gpt-5.4-pro:batch:long:current:input:text:per_1m_tokens",
+          "component": "input",
+          "amount": "30",
+          "unit": "per_1m_tokens",
+          "currency": "USD",
+          "modality": "text",
+          "condition": {
+            "processing_mode": "batch",
+            "context_class": "long",
+            "prompt_token_threshold": 272000,
+            "tier_selection": {
+              "comparison": "greater_than",
+              "token_basis": "input_tokens",
+              "cached_prompt_tokens_included": true,
+              "whole_request_pricing": true
+            },
+            "region_policy": "global",
+            "effective_from": "2026-07-03",
+            "effective_until": null,
+            "region_selector": {
+              "dataResidencies": [
+                "global",
+                "us",
+                "eu"
+              ],
+              "endpointGeographies": [
+                "global",
+                "regional"
+              ],
+              "pricingGeography": "global_base"
+            },
+            "default_availability_status": "available",
+            "availability_rules": [],
+            "price_adjustments": [
+              {
+                "factor": "1.1",
+                "operation": "multiply",
+                "priceAdjustmentId": "regional-data-residency-uplift",
+                "selector": {
+                  "endpointGeographies": [
+                    "regional"
+                  ]
+                },
+                "sourceRefs": [
+                  "source:openai:developers-openai-com-api-docs-guides-your-data",
+                  "source:openai:developers-openai-com-api-docs-pricing"
+                ]
+              }
+            ]
+          },
+          "calculation_default": false,
+          "source_refs": [
+            "source:openai:developers-openai-com-api-docs-guides-batch",
+            "source:openai:developers-openai-com-api-docs-guides-your-data",
+            "source:openai:developers-openai-com-api-docs-pricing"
+          ],
+          "source_urls": [
+            "https://developers.openai.com/api/docs/guides/batch",
+            "https://developers.openai.com/api/docs/guides/your-data",
+            "https://developers.openai.com/api/docs/pricing"
+          ],
+          "verification_status": "verified"
+        },
+        {
+          "pricing_id": "price:openai/gpt-5.4-pro:batch:long:current",
+          "charge_id": "price:openai/gpt-5.4-pro:batch:long:current:output:text:per_1m_tokens",
+          "component": "output",
+          "amount": "135",
+          "unit": "per_1m_tokens",
+          "currency": "USD",
+          "modality": "text",
+          "condition": {
+            "processing_mode": "batch",
+            "context_class": "long",
+            "prompt_token_threshold": 272000,
+            "tier_selection": {
+              "comparison": "greater_than",
+              "token_basis": "input_tokens",
+              "cached_prompt_tokens_included": true,
+              "whole_request_pricing": true
+            },
+            "region_policy": "global",
+            "effective_from": "2026-07-03",
+            "effective_until": null,
+            "region_selector": {
+              "dataResidencies": [
+                "global",
+                "us",
+                "eu"
+              ],
+              "endpointGeographies": [
+                "global",
+                "regional"
+              ],
+              "pricingGeography": "global_base"
+            },
+            "default_availability_status": "available",
+            "availability_rules": [],
+            "price_adjustments": [
+              {
+                "factor": "1.1",
+                "operation": "multiply",
+                "priceAdjustmentId": "regional-data-residency-uplift",
+                "selector": {
+                  "endpointGeographies": [
+                    "regional"
+                  ]
+                },
+                "sourceRefs": [
+                  "source:openai:developers-openai-com-api-docs-guides-your-data",
+                  "source:openai:developers-openai-com-api-docs-pricing"
+                ]
+              }
+            ]
+          },
+          "calculation_default": false,
+          "source_refs": [
+            "source:openai:developers-openai-com-api-docs-guides-batch",
+            "source:openai:developers-openai-com-api-docs-guides-your-data",
+            "source:openai:developers-openai-com-api-docs-pricing"
+          ],
+          "source_urls": [
+            "https://developers.openai.com/api/docs/guides/batch",
+            "https://developers.openai.com/api/docs/guides/your-data",
+            "https://developers.openai.com/api/docs/pricing"
+          ],
+          "verification_status": "verified"
+        },
         {
           "pricing_id": "price:openai/gpt-5.4-pro:batch:short:current",
           "charge_id": "price:openai/gpt-5.4-pro:batch:short:current:input:text:per_1m_tokens",
@@ -22178,17 +22411,56 @@
           "condition": {
             "processing_mode": "batch",
             "context_class": "short",
-            "prompt_token_threshold": null,
-            "tier_selection": null,
+            "prompt_token_threshold": 272000,
+            "tier_selection": {
+              "comparison": "less_than_or_equal",
+              "token_basis": "input_tokens",
+              "cached_prompt_tokens_included": true,
+              "whole_request_pricing": true
+            },
             "region_policy": "global",
             "effective_from": "2026-07-03",
-            "effective_until": null
+            "effective_until": null,
+            "region_selector": {
+              "dataResidencies": [
+                "global",
+                "us",
+                "eu"
+              ],
+              "endpointGeographies": [
+                "global",
+                "regional"
+              ],
+              "pricingGeography": "global_base"
+            },
+            "default_availability_status": "available",
+            "availability_rules": [],
+            "price_adjustments": [
+              {
+                "factor": "1.1",
+                "operation": "multiply",
+                "priceAdjustmentId": "regional-data-residency-uplift",
+                "selector": {
+                  "endpointGeographies": [
+                    "regional"
+                  ]
+                },
+                "sourceRefs": [
+                  "source:openai:developers-openai-com-api-docs-guides-your-data",
+                  "source:openai:developers-openai-com-api-docs-pricing"
+                ]
+              }
+            ]
           },
           "calculation_default": false,
           "source_refs": [
+            "source:openai:developers-openai-com-api-docs-guides-batch",
+            "source:openai:developers-openai-com-api-docs-guides-your-data",
             "source:openai:developers-openai-com-api-docs-pricing"
           ],
           "source_urls": [
+            "https://developers.openai.com/api/docs/guides/batch",
+            "https://developers.openai.com/api/docs/guides/your-data",
             "https://developers.openai.com/api/docs/pricing"
           ],
           "verification_status": "verified"
@@ -22204,17 +22476,186 @@
           "condition": {
             "processing_mode": "batch",
             "context_class": "short",
-            "prompt_token_threshold": null,
-            "tier_selection": null,
+            "prompt_token_threshold": 272000,
+            "tier_selection": {
+              "comparison": "less_than_or_equal",
+              "token_basis": "input_tokens",
+              "cached_prompt_tokens_included": true,
+              "whole_request_pricing": true
+            },
             "region_policy": "global",
             "effective_from": "2026-07-03",
-            "effective_until": null
+            "effective_until": null,
+            "region_selector": {
+              "dataResidencies": [
+                "global",
+                "us",
+                "eu"
+              ],
+              "endpointGeographies": [
+                "global",
+                "regional"
+              ],
+              "pricingGeography": "global_base"
+            },
+            "default_availability_status": "available",
+            "availability_rules": [],
+            "price_adjustments": [
+              {
+                "factor": "1.1",
+                "operation": "multiply",
+                "priceAdjustmentId": "regional-data-residency-uplift",
+                "selector": {
+                  "endpointGeographies": [
+                    "regional"
+                  ]
+                },
+                "sourceRefs": [
+                  "source:openai:developers-openai-com-api-docs-guides-your-data",
+                  "source:openai:developers-openai-com-api-docs-pricing"
+                ]
+              }
+            ]
           },
           "calculation_default": false,
           "source_refs": [
+            "source:openai:developers-openai-com-api-docs-guides-batch",
+            "source:openai:developers-openai-com-api-docs-guides-your-data",
             "source:openai:developers-openai-com-api-docs-pricing"
           ],
           "source_urls": [
+            "https://developers.openai.com/api/docs/guides/batch",
+            "https://developers.openai.com/api/docs/guides/your-data",
+            "https://developers.openai.com/api/docs/pricing"
+          ],
+          "verification_status": "verified"
+        },
+        {
+          "pricing_id": "price:openai/gpt-5.4-pro:standard:long:current",
+          "charge_id": "price:openai/gpt-5.4-pro:standard:long:current:input:text:per_1m_tokens",
+          "component": "input",
+          "amount": "60",
+          "unit": "per_1m_tokens",
+          "currency": "USD",
+          "modality": "text",
+          "condition": {
+            "processing_mode": "standard",
+            "context_class": "long",
+            "prompt_token_threshold": 272000,
+            "tier_selection": {
+              "comparison": "greater_than",
+              "token_basis": "input_tokens",
+              "cached_prompt_tokens_included": true,
+              "whole_request_pricing": true
+            },
+            "region_policy": "global",
+            "effective_from": "2026-07-03",
+            "effective_until": null,
+            "region_selector": {
+              "dataResidencies": [
+                "global",
+                "us",
+                "eu"
+              ],
+              "endpointGeographies": [
+                "global",
+                "regional"
+              ],
+              "pricingGeography": "global_base"
+            },
+            "default_availability_status": "available",
+            "availability_rules": [],
+            "price_adjustments": [
+              {
+                "factor": "1.1",
+                "operation": "multiply",
+                "priceAdjustmentId": "regional-data-residency-uplift",
+                "selector": {
+                  "endpointGeographies": [
+                    "regional"
+                  ]
+                },
+                "sourceRefs": [
+                  "source:openai:developers-openai-com-api-docs-guides-your-data",
+                  "source:openai:developers-openai-com-api-docs-pricing"
+                ]
+              }
+            ]
+          },
+          "calculation_default": false,
+          "source_refs": [
+            "source:openai:developers-openai-com-api-docs-guides-batch",
+            "source:openai:developers-openai-com-api-docs-guides-your-data",
+            "source:openai:developers-openai-com-api-docs-pricing"
+          ],
+          "source_urls": [
+            "https://developers.openai.com/api/docs/guides/batch",
+            "https://developers.openai.com/api/docs/guides/your-data",
+            "https://developers.openai.com/api/docs/pricing"
+          ],
+          "verification_status": "verified"
+        },
+        {
+          "pricing_id": "price:openai/gpt-5.4-pro:standard:long:current",
+          "charge_id": "price:openai/gpt-5.4-pro:standard:long:current:output:text:per_1m_tokens",
+          "component": "output",
+          "amount": "270",
+          "unit": "per_1m_tokens",
+          "currency": "USD",
+          "modality": "text",
+          "condition": {
+            "processing_mode": "standard",
+            "context_class": "long",
+            "prompt_token_threshold": 272000,
+            "tier_selection": {
+              "comparison": "greater_than",
+              "token_basis": "input_tokens",
+              "cached_prompt_tokens_included": true,
+              "whole_request_pricing": true
+            },
+            "region_policy": "global",
+            "effective_from": "2026-07-03",
+            "effective_until": null,
+            "region_selector": {
+              "dataResidencies": [
+                "global",
+                "us",
+                "eu"
+              ],
+              "endpointGeographies": [
+                "global",
+                "regional"
+              ],
+              "pricingGeography": "global_base"
+            },
+            "default_availability_status": "available",
+            "availability_rules": [],
+            "price_adjustments": [
+              {
+                "factor": "1.1",
+                "operation": "multiply",
+                "priceAdjustmentId": "regional-data-residency-uplift",
+                "selector": {
+                  "endpointGeographies": [
+                    "regional"
+                  ]
+                },
+                "sourceRefs": [
+                  "source:openai:developers-openai-com-api-docs-guides-your-data",
+                  "source:openai:developers-openai-com-api-docs-pricing"
+                ]
+              }
+            ]
+          },
+          "calculation_default": false,
+          "source_refs": [
+            "source:openai:developers-openai-com-api-docs-guides-batch",
+            "source:openai:developers-openai-com-api-docs-guides-your-data",
+            "source:openai:developers-openai-com-api-docs-pricing"
+          ],
+          "source_urls": [
+            "https://developers.openai.com/api/docs/guides/batch",
+            "https://developers.openai.com/api/docs/guides/your-data",
             "https://developers.openai.com/api/docs/pricing"
           ],
           "verification_status": "verified"
@@ -22230,17 +22671,56 @@
           "condition": {
             "processing_mode": "standard",
             "context_class": "short",
-            "prompt_token_threshold": null,
-            "tier_selection": null,
+            "prompt_token_threshold": 272000,
+            "tier_selection": {
+              "comparison": "less_than_or_equal",
+              "token_basis": "input_tokens",
+              "cached_prompt_tokens_included": true,
+              "whole_request_pricing": true
+            },
             "region_policy": "global",
             "effective_from": "2026-07-03",
-            "effective_until": null
+            "effective_until": null,
+            "region_selector": {
+              "dataResidencies": [
+                "global",
+                "us",
+                "eu"
+              ],
+              "endpointGeographies": [
+                "global",
+                "regional"
+              ],
+              "pricingGeography": "global_base"
+            },
+            "default_availability_status": "available",
+            "availability_rules": [],
+            "price_adjustments": [
+              {
+                "factor": "1.1",
+                "operation": "multiply",
+                "priceAdjustmentId": "regional-data-residency-uplift",
+                "selector": {
+                  "endpointGeographies": [
+                    "regional"
+                  ]
+                },
+                "sourceRefs": [
+                  "source:openai:developers-openai-com-api-docs-guides-your-data",
+                  "source:openai:developers-openai-com-api-docs-pricing"
+                ]
+              }
+            ]
           },
           "calculation_default": true,
           "source_refs": [
+            "source:openai:developers-openai-com-api-docs-guides-batch",
+            "source:openai:developers-openai-com-api-docs-guides-your-data",
             "source:openai:developers-openai-com-api-docs-pricing"
           ],
           "source_urls": [
+            "https://developers.openai.com/api/docs/guides/batch",
+            "https://developers.openai.com/api/docs/guides/your-data",
             "https://developers.openai.com/api/docs/pricing"
           ],
           "verification_status": "verified"
@@ -22256,17 +22736,56 @@
           "condition": {
             "processing_mode": "standard",
             "context_class": "short",
-            "prompt_token_threshold": null,
-            "tier_selection": null,
+            "prompt_token_threshold": 272000,
+            "tier_selection": {
+              "comparison": "less_than_or_equal",
+              "token_basis": "input_tokens",
+              "cached_prompt_tokens_included": true,
+              "whole_request_pricing": true
+            },
             "region_policy": "global",
             "effective_from": "2026-07-03",
-            "effective_until": null
+            "effective_until": null,
+            "region_selector": {
+              "dataResidencies": [
+                "global",
+                "us",
+                "eu"
+              ],
+              "endpointGeographies": [
+                "global",
+                "regional"
+              ],
+              "pricingGeography": "global_base"
+            },
+            "default_availability_status": "available",
+            "availability_rules": [],
+            "price_adjustments": [
+              {
+                "factor": "1.1",
+                "operation": "multiply",
+                "priceAdjustmentId": "regional-data-residency-uplift",
+                "selector": {
+                  "endpointGeographies": [
+                    "regional"
+                  ]
+                },
+                "sourceRefs": [
+                  "source:openai:developers-openai-com-api-docs-guides-your-data",
+                  "source:openai:developers-openai-com-api-docs-pricing"
+                ]
+              }
+            ]
           },
           "calculation_default": true,
           "source_refs": [
+            "source:openai:developers-openai-com-api-docs-guides-batch",
+            "source:openai:developers-openai-com-api-docs-guides-your-data",
             "source:openai:developers-openai-com-api-docs-pricing"
           ],
           "source_urls": [
+            "https://developers.openai.com/api/docs/guides/batch",
+            "https://developers.openai.com/api/docs/guides/your-data",
             "https://developers.openai.com/api/docs/pricing"
           ],
           "verification_status": "verified"
@@ -23259,13 +23778,68 @@
       "availability": "Premium",
       "official_source_url": "https://developers.openai.com/api/docs/pricing",
       "verification_status": "verified",
-      "last_verified_at": "2026-08-24",
-      "checked_at": "2026-07-07",
+      "last_verified_at": "2026-10-27",
+      "checked_at": "2026-10-27",
       "effective_from": "2026-07-03",
       "effective_until": null,
       "notes": "Long-context standard pricing is higher: $60 input and $270 output per 1M tokens. Cached input is not listed for this tier.",
-      "pricing_tier_count": 0,
-      "pricing_tiers": [],
+      "pricing_tier_count": 2,
+      "pricing_tiers": [
+        {
+          "id": "price:openai/gpt-5.5-pro:standard:long:current",
+          "pricing_id": "price:openai/gpt-5.5-pro:standard:long:current",
+          "label": "Long context",
+          "context_class": "long",
+          "calculation_default": false,
+          "prompt_token_threshold": 272000,
+          "comparison": "greater_than",
+          "token_basis": "input_tokens",
+          "cached_prompt_tokens_included": true,
+          "whole_request_pricing": true,
+          "processing_mode": "standard",
+          "input_price_per_1m_tokens": 60,
+          "cached_input_price_per_1m_tokens": null,
+          "output_price_per_1m_tokens": 270,
+          "currency": "USD",
+          "pricing_unit": "1M tokens",
+          "official_source_url": "https://developers.openai.com/api/docs/pricing",
+          "source_refs": [
+            "source:openai:developers-openai-com-api-docs-guides-batch",
+            "source:openai:developers-openai-com-api-docs-guides-your-data",
+            "source:openai:developers-openai-com-api-docs-pricing"
+          ],
+          "last_verified_at": "2026-10-27",
+          "checked_at": "2026-10-27",
+          "verification_status": "verified"
+        },
+        {
+          "id": "price:openai/gpt-5.5-pro:standard:short:current",
+          "pricing_id": "price:openai/gpt-5.5-pro:standard:short:current",
+          "label": "Short context",
+          "context_class": "short",
+          "calculation_default": true,
+          "prompt_token_threshold": 272000,
+          "comparison": "less_than_or_equal",
+          "token_basis": "input_tokens",
+          "cached_prompt_tokens_included": true,
+          "whole_request_pricing": true,
+          "processing_mode": "standard",
+          "input_price_per_1m_tokens": 30,
+          "cached_input_price_per_1m_tokens": null,
+          "output_price_per_1m_tokens": 180,
+          "currency": "USD",
+          "pricing_unit": "1M tokens",
+          "official_source_url": "https://developers.openai.com/api/docs/pricing",
+          "source_refs": [
+            "source:openai:developers-openai-com-api-docs-guides-batch",
+            "source:openai:developers-openai-com-api-docs-guides-your-data",
+            "source:openai:developers-openai-com-api-docs-pricing"
+          ],
+          "last_verified_at": "2026-10-27",
+          "checked_at": "2026-10-27",
+          "verification_status": "verified"
+        }
+      ],
       "time_pricing": null,
       "pricing_components": [
         {
@@ -23283,13 +23857,47 @@
             "tier_selection": null,
             "region_policy": "global",
             "effective_from": "2026-07-03",
-            "effective_until": null
+            "effective_until": null,
+            "region_selector": {
+              "dataResidencies": [
+                "global",
+                "us",
+                "eu"
+              ],
+              "endpointGeographies": [
+                "global",
+                "regional"
+              ],
+              "pricingGeography": "global_base"
+            },
+            "default_availability_status": "available",
+            "availability_rules": [],
+            "price_adjustments": [
+              {
+                "factor": "1.1",
+                "operation": "multiply",
+                "priceAdjustmentId": "regional-data-residency-uplift",
+                "selector": {
+                  "endpointGeographies": [
+                    "regional"
+                  ]
+                },
+                "sourceRefs": [
+                  "source:openai:developers-openai-com-api-docs-guides-your-data",
+                  "source:openai:developers-openai-com-api-docs-pricing"
+                ]
+              }
+            ]
           },
           "calculation_default": false,
           "source_refs": [
+            "source:openai:developers-openai-com-api-docs-guides-batch",
+            "source:openai:developers-openai-com-api-docs-guides-your-data",
             "source:openai:developers-openai-com-api-docs-pricing"
           ],
           "source_urls": [
+            "https://developers.openai.com/api/docs/guides/batch",
+            "https://developers.openai.com/api/docs/guides/your-data",
             "https://developers.openai.com/api/docs/pricing"
           ],
           "verification_status": "verified"
@@ -23309,13 +23917,177 @@
             "tier_selection": null,
             "region_policy": "global",
             "effective_from": "2026-07-03",
-            "effective_until": null
+            "effective_until": null,
+            "region_selector": {
+              "dataResidencies": [
+                "global",
+                "us",
+                "eu"
+              ],
+              "endpointGeographies": [
+                "global",
+                "regional"
+              ],
+              "pricingGeography": "global_base"
+            },
+            "default_availability_status": "available",
+            "availability_rules": [],
+            "price_adjustments": [
+              {
+                "factor": "1.1",
+                "operation": "multiply",
+                "priceAdjustmentId": "regional-data-residency-uplift",
+                "selector": {
+                  "endpointGeographies": [
+                    "regional"
+                  ]
+                },
+                "sourceRefs": [
+                  "source:openai:developers-openai-com-api-docs-guides-your-data",
+                  "source:openai:developers-openai-com-api-docs-pricing"
+                ]
+              }
+            ]
           },
           "calculation_default": false,
           "source_refs": [
+            "source:openai:developers-openai-com-api-docs-guides-batch",
+            "source:openai:developers-openai-com-api-docs-guides-your-data",
             "source:openai:developers-openai-com-api-docs-pricing"
           ],
           "source_urls": [
+            "https://developers.openai.com/api/docs/guides/batch",
+            "https://developers.openai.com/api/docs/guides/your-data",
+            "https://developers.openai.com/api/docs/pricing"
+          ],
+          "verification_status": "verified"
+        },
+        {
+          "pricing_id": "price:openai/gpt-5.5-pro:standard:long:current",
+          "charge_id": "price:openai/gpt-5.5-pro:standard:long:current:input:text:per_1m_tokens",
+          "component": "input",
+          "amount": "60",
+          "unit": "per_1m_tokens",
+          "currency": "USD",
+          "modality": "text",
+          "condition": {
+            "processing_mode": "standard",
+            "context_class": "long",
+            "prompt_token_threshold": 272000,
+            "tier_selection": {
+              "comparison": "greater_than",
+              "token_basis": "input_tokens",
+              "cached_prompt_tokens_included": true,
+              "whole_request_pricing": true
+            },
+            "region_policy": "global",
+            "effective_from": "2026-07-03",
+            "effective_until": null,
+            "region_selector": {
+              "dataResidencies": [
+                "global",
+                "us",
+                "eu"
+              ],
+              "endpointGeographies": [
+                "global",
+                "regional"
+              ],
+              "pricingGeography": "global_base"
+            },
+            "default_availability_status": "available",
+            "availability_rules": [],
+            "price_adjustments": [
+              {
+                "factor": "1.1",
+                "operation": "multiply",
+                "priceAdjustmentId": "regional-data-residency-uplift",
+                "selector": {
+                  "endpointGeographies": [
+                    "regional"
+                  ]
+                },
+                "sourceRefs": [
+                  "source:openai:developers-openai-com-api-docs-guides-your-data",
+                  "source:openai:developers-openai-com-api-docs-pricing"
+                ]
+              }
+            ]
+          },
+          "calculation_default": false,
+          "source_refs": [
+            "source:openai:developers-openai-com-api-docs-guides-batch",
+            "source:openai:developers-openai-com-api-docs-guides-your-data",
+            "source:openai:developers-openai-com-api-docs-pricing"
+          ],
+          "source_urls": [
+            "https://developers.openai.com/api/docs/guides/batch",
+            "https://developers.openai.com/api/docs/guides/your-data",
+            "https://developers.openai.com/api/docs/pricing"
+          ],
+          "verification_status": "verified"
+        },
+        {
+          "pricing_id": "price:openai/gpt-5.5-pro:standard:long:current",
+          "charge_id": "price:openai/gpt-5.5-pro:standard:long:current:output:text:per_1m_tokens",
+          "component": "output",
+          "amount": "270",
+          "unit": "per_1m_tokens",
+          "currency": "USD",
+          "modality": "text",
+          "condition": {
+            "processing_mode": "standard",
+            "context_class": "long",
+            "prompt_token_threshold": 272000,
+            "tier_selection": {
+              "comparison": "greater_than",
+              "token_basis": "input_tokens",
+              "cached_prompt_tokens_included": true,
+              "whole_request_pricing": true
+            },
+            "region_policy": "global",
+            "effective_from": "2026-07-03",
+            "effective_until": null,
+            "region_selector": {
+              "dataResidencies": [
+                "global",
+                "us",
+                "eu"
+              ],
+              "endpointGeographies": [
+                "global",
+                "regional"
+              ],
+              "pricingGeography": "global_base"
+            },
+            "default_availability_status": "available",
+            "availability_rules": [],
+            "price_adjustments": [
+              {
+                "factor": "1.1",
+                "operation": "multiply",
+                "priceAdjustmentId": "regional-data-residency-uplift",
+                "selector": {
+                  "endpointGeographies": [
+                    "regional"
+                  ]
+                },
+                "sourceRefs": [
+                  "source:openai:developers-openai-com-api-docs-guides-your-data",
+                  "source:openai:developers-openai-com-api-docs-pricing"
+                ]
+              }
+            ]
+          },
+          "calculation_default": false,
+          "source_refs": [
+            "source:openai:developers-openai-com-api-docs-guides-batch",
+            "source:openai:developers-openai-com-api-docs-guides-your-data",
+            "source:openai:developers-openai-com-api-docs-pricing"
+          ],
+          "source_urls": [
+            "https://developers.openai.com/api/docs/guides/batch",
+            "https://developers.openai.com/api/docs/guides/your-data",
             "https://developers.openai.com/api/docs/pricing"
           ],
           "verification_status": "verified"
@@ -23331,17 +24103,56 @@
           "condition": {
             "processing_mode": "standard",
             "context_class": "short",
-            "prompt_token_threshold": null,
-            "tier_selection": null,
+            "prompt_token_threshold": 272000,
+            "tier_selection": {
+              "comparison": "less_than_or_equal",
+              "token_basis": "input_tokens",
+              "cached_prompt_tokens_included": true,
+              "whole_request_pricing": true
+            },
             "region_policy": "global",
             "effective_from": "2026-07-03",
-            "effective_until": null
+            "effective_until": null,
+            "region_selector": {
+              "dataResidencies": [
+                "global",
+                "us",
+                "eu"
+              ],
+              "endpointGeographies": [
+                "global",
+                "regional"
+              ],
+              "pricingGeography": "global_base"
+            },
+            "default_availability_status": "available",
+            "availability_rules": [],
+            "price_adjustments": [
+              {
+                "factor": "1.1",
+                "operation": "multiply",
+                "priceAdjustmentId": "regional-data-residency-uplift",
+                "selector": {
+                  "endpointGeographies": [
+                    "regional"
+                  ]
+                },
+                "sourceRefs": [
+                  "source:openai:developers-openai-com-api-docs-guides-your-data",
+                  "source:openai:developers-openai-com-api-docs-pricing"
+                ]
+              }
+            ]
           },
           "calculation_default": true,
           "source_refs": [
+            "source:openai:developers-openai-com-api-docs-guides-batch",
+            "source:openai:developers-openai-com-api-docs-guides-your-data",
             "source:openai:developers-openai-com-api-docs-pricing"
           ],
           "source_urls": [
+            "https://developers.openai.com/api/docs/guides/batch",
+            "https://developers.openai.com/api/docs/guides/your-data",
             "https://developers.openai.com/api/docs/pricing"
           ],
           "verification_status": "verified"
@@ -23357,17 +24168,56 @@
           "condition": {
             "processing_mode": "standard",
             "context_class": "short",
-            "prompt_token_threshold": null,
-            "tier_selection": null,
+            "prompt_token_threshold": 272000,
+            "tier_selection": {
+              "comparison": "less_than_or_equal",
+              "token_basis": "input_tokens",
+              "cached_prompt_tokens_included": true,
+              "whole_request_pricing": true
+            },
             "region_policy": "global",
             "effective_from": "2026-07-03",
-            "effective_until": null
+            "effective_until": null,
+            "region_selector": {
+              "dataResidencies": [
+                "global",
+                "us",
+                "eu"
+              ],
+              "endpointGeographies": [
+                "global",
+                "regional"
+              ],
+              "pricingGeography": "global_base"
+            },
+            "default_availability_status": "available",
+            "availability_rules": [],
+            "price_adjustments": [
+              {
+                "factor": "1.1",
+                "operation": "multiply",
+                "priceAdjustmentId": "regional-data-residency-uplift",
+                "selector": {
+                  "endpointGeographies": [
+                    "regional"
+                  ]
+                },
+                "sourceRefs": [
+                  "source:openai:developers-openai-com-api-docs-guides-your-data",
+                  "source:openai:developers-openai-com-api-docs-pricing"
+                ]
+              }
+            ]
           },
           "calculation_default": true,
           "source_refs": [
+            "source:openai:developers-openai-com-api-docs-guides-batch",
+            "source:openai:developers-openai-com-api-docs-guides-your-data",
             "source:openai:developers-openai-com-api-docs-pricing"
           ],
           "source_urls": [
+            "https://developers.openai.com/api/docs/guides/batch",
+            "https://developers.openai.com/api/docs/guides/your-data",
             "https://developers.openai.com/api/docs/pricing"
           ],
           "verification_status": "verified"

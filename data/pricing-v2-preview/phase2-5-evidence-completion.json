@@ -930,8 +930,8 @@
   {
     "afterEvidenceCompleteness": "complete",
     "afterVerificationStatus": "verified",
-    "beforeEvidenceCompleteness": "partial",
-    "beforeVerificationStatus": "partially_verified",
+    "beforeEvidenceCompleteness": "complete",
+    "beforeVerificationStatus": "verified",
     "blocker": [],
     "businessCriticality": "production_default_candidate",
     "currentEffective": true,
@@ -947,7 +947,7 @@
     ],
     "phase25VerifiedAt": "2026-08-08T18:00:00Z",
     "pricingId": "price:cohere/aya-expanse-32b:standard:short:current",
-    "priorityClass": "P0",
+    "priorityClass": "not_partial",
     "provider": "cohere",
     "reason": "Default-safe gate passed.",
     "sourceRefs": [
@@ -997,8 +997,8 @@
   {
     "afterEvidenceCompleteness": "complete",
     "afterVerificationStatus": "verified",
-    "beforeEvidenceCompleteness": "partial",
-    "beforeVerificationStatus": "partially_verified",
+    "beforeEvidenceCompleteness": "complete",
+    "beforeVerificationStatus": "verified",
     "blocker": [],
     "businessCriticality": "production_default_candidate",
     "currentEffective": true,
@@ -1014,7 +1014,7 @@
     ],
     "phase25VerifiedAt": "2026-08-08T18:00:00Z",
     "pricingId": "price:cohere/command-r-plus-08-2024:standard:short:current",
-    "priorityClass": "P0",
+    "priorityClass": "not_partial",
     "provider": "cohere",
     "reason": "Default-safe gate passed.",
     "sourceRefs": [
@@ -5037,9 +5037,41 @@
     "provider": "openai",
     "reason": "Default-safe gate passed.",
     "sourceRefs": [
+      "source:openai:developers-openai-com-api-docs-guides-batch",
+      "source:openai:developers-openai-com-api-docs-guides-your-data",
       "source:openai:developers-openai-com-api-docs-pricing"
     ],
     "verificationDecision": "official_verified_in_phase2_5"
+  },
+  {
+    "afterEvidenceCompleteness": "complete",
+    "afterVerificationStatus": "verified",
+    "beforeEvidenceCompleteness": "complete",
+    "beforeVerificationStatus": "verified",
+    "blocker": [
+      "not_production_default_candidate"
+    ],
+    "businessCriticality": "production_secondary",
+    "currentEffective": true,
+    "currentPrices": {
+      "cached_input": null,
+      "input": "60",
+      "output": "270"
+    },
+    "defaultSafe": false,
+    "modelInternalId": "openai/gpt-5.4-pro",
+    "officialEvidence": [],
+    "phase25VerifiedAt": null,
+    "pricingId": "price:openai/gpt-5.4-pro:standard:long:current",
+    "priorityClass": "not_partial",
+    "provider": "openai",
+    "reason": "Default-safe gate blocked by: not_production_default_candidate",
+    "sourceRefs": [
+      "source:openai:developers-openai-com-api-docs-guides-batch",
+      "source:openai:developers-openai-com-api-docs-guides-your-data",
+      "source:openai:developers-openai-com-api-docs-pricing"
+    ],
+    "verificationDecision": "unchanged"
   },
   {
     "afterEvidenceCompleteness": "complete",
@@ -5068,9 +5100,42 @@
     "provider": "openai",
     "reason": "Default-safe gate blocked by: not_production_default_candidate, not_standard_processing_mode",
     "sourceRefs": [
+      "source:openai:developers-openai-com-api-docs-guides-batch",
+      "source:openai:developers-openai-com-api-docs-guides-your-data",
       "source:openai:developers-openai-com-api-docs-pricing"
     ],
     "verificationDecision": "official_verified_in_phase2_5"
+  },
+  {
+    "afterEvidenceCompleteness": "complete",
+    "afterVerificationStatus": "verified",
+    "beforeEvidenceCompleteness": "complete",
+    "beforeVerificationStatus": "verified",
+    "blocker": [
+      "not_production_default_candidate",
+      "not_standard_processing_mode"
+    ],
+    "businessCriticality": "non_default_tier",
+    "currentEffective": true,
+    "currentPrices": {
+      "cached_input": null,
+      "input": "30",
+      "output": "135"
+    },
+    "defaultSafe": false,
+    "modelInternalId": "openai/gpt-5.4-pro",
+    "officialEvidence": [],
+    "phase25VerifiedAt": null,
+    "pricingId": "price:openai/gpt-5.4-pro:batch:long:current",
+    "priorityClass": "not_partial",
+    "provider": "openai",
+    "reason": "Default-safe gate blocked by: not_production_default_candidate, not_standard_processing_mode",
+    "sourceRefs": [
+      "source:openai:developers-openai-com-api-docs-guides-batch",
+      "source:openai:developers-openai-com-api-docs-guides-your-data",
+      "source:openai:developers-openai-com-api-docs-pricing"
+    ],
+    "verificationDecision": "unchanged"
   },
   {
     "afterEvidenceCompleteness": "complete",
@@ -5276,9 +5341,41 @@
     "provider": "openai",
     "reason": "Default-safe gate passed.",
     "sourceRefs": [
+      "source:openai:developers-openai-com-api-docs-guides-batch",
+      "source:openai:developers-openai-com-api-docs-guides-your-data",
       "source:openai:developers-openai-com-api-docs-pricing"
     ],
     "verificationDecision": "official_verified_in_phase2_5"
+  },
+  {
+    "afterEvidenceCompleteness": "complete",
+    "afterVerificationStatus": "verified",
+    "beforeEvidenceCompleteness": "complete",
+    "beforeVerificationStatus": "verified",
+    "blocker": [
+      "not_production_default_candidate"
+    ],
+    "businessCriticality": "production_secondary",
+    "currentEffective": true,
+    "currentPrices": {
+      "cached_input": null,
+      "input": "60",
+      "output": "270"
+    },
+    "defaultSafe": false,
+    "modelInternalId": "openai/gpt-5.5-pro",
+    "officialEvidence": [],
+    "phase25VerifiedAt": null,
+    "pricingId": "price:openai/gpt-5.5-pro:standard:long:current",
+    "priorityClass": "not_partial",
+    "provider": "openai",
+    "reason": "Default-safe gate blocked by: not_production_default_candidate",
+    "sourceRefs": [
+      "source:openai:developers-openai-com-api-docs-guides-batch",
+      "source:openai:developers-openai-com-api-docs-guides-your-data",
+      "source:openai:developers-openai-com-api-docs-pricing"
+    ],
+    "verificationDecision": "unchanged"
   },
   {
     "afterEvidenceCompleteness": "complete",
@@ -5307,6 +5404,8 @@
     "provider": "openai",
     "reason": "Default-safe gate blocked by: not_production_default_candidate, not_standard_processing_mode",
     "sourceRefs": [
+      "source:openai:developers-openai-com-api-docs-guides-batch",
+      "source:openai:developers-openai-com-api-docs-guides-your-data",
       "source:openai:developers-openai-com-api-docs-pricing"
     ],
     "verificationDecision": "official_verified_in_phase2_5"
