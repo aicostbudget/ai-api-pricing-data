@@ -3324,6 +3324,13 @@ def main() -> None:
                                 "publicDatasetIds": [public["model_id"]],
                                 "websiteIds": [website["id"]] if website else [],
                             },
+                            # The schedule and both period rates are verified together on the official
+                            # pricing page; only active models carry that record-level evidence, so retired
+                            # identities billed through a successor stay unverified.
+                            **({
+                                "checkedAt": time_pricing["schedule_accessed_at"],
+                                "verifiedAt": time_pricing["schedule_verified_at"],
+                            } if verification == "verified" and public.get("status") == "active" and not historical_v4_flash else {}),
                         },
                     )
                 if calculation_default_count != 1:
