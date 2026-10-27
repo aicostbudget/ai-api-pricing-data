@@ -2,7 +2,7 @@
   "dataset_name": "AICostBudget AI API Pricing Dataset",
   "dataset_version": "1.0.0",
   "description": "Open, machine-readable pricing data for LLM and AI APIs.",
-  "generated_at": "2026-10-26T05:50:08Z",
+  "generated_at": "2026-10-27T05:28:25Z",
   "homepage": "https://aicostbudget.com",
   "last_verified_at": "2026-10-25T06:08:28Z",
   "licenses": {
@@ -41,6 +41,125 @@
       "model_id": "claude-fable-5",
       "notes": "Anthropic lists base input, 5-minute cache write, 1-hour cache write, cache hit, and output rates. cache_write stores the 5-minute write rate; cache_write_1h stores the 1-hour write rate. Batch input and output are 50% of Standard; prompt-cache multipliers stack with the Batch discount.",
       "official_source_url": "https://platform.claude.com/docs/en/about-claude/pricing",
+      "price_records": [
+        {
+          "billing_note": "Anthropic lists base input, 5-minute cache write, 1-hour cache write, cache hit, and output rates. cache_write stores the 5-minute write rate; cache_write_1h stores the 1-hour write rate. Batch input and output are 50% of Standard; prompt-cache multipliers stack with the Batch discount.",
+          "calculation_default": true,
+          "charges": [
+            {
+              "amount": "10",
+              "component": "input",
+              "id": "price:anthropic/claude-fable-5:standard:short:current:input:text:per_1m_tokens",
+              "modality": "text",
+              "unit": "per_1m_tokens"
+            },
+            {
+              "amount": "1",
+              "component": "cached_input",
+              "id": "price:anthropic/claude-fable-5:standard:short:current:cached_input:text:per_1m_tokens",
+              "modality": "text",
+              "unit": "per_1m_tokens"
+            },
+            {
+              "amount": "12.5",
+              "component": "cache_write_5m",
+              "id": "price:anthropic/claude-fable-5:standard:short:current:cache_write_5m:text:per_1m_tokens",
+              "modality": "text",
+              "unit": "per_1m_tokens"
+            },
+            {
+              "amount": "20",
+              "component": "cache_write_1h",
+              "id": "price:anthropic/claude-fable-5:standard:short:current:cache_write_1h:text:per_1m_tokens",
+              "modality": "text",
+              "unit": "per_1m_tokens"
+            },
+            {
+              "amount": "50",
+              "component": "output",
+              "id": "price:anthropic/claude-fable-5:standard:short:current:output:text:per_1m_tokens",
+              "modality": "text",
+              "unit": "per_1m_tokens"
+            }
+          ],
+          "checked_at": "2026-10-27T04:44:38Z",
+          "context_class": "short",
+          "currency": "USD",
+          "effective_from": "2026-07-03",
+          "effective_until": null,
+          "id": "price:anthropic/claude-fable-5:standard:short:current",
+          "pricing_status": "current",
+          "processing_mode": "standard",
+          "prompt_token_threshold": null,
+          "region_policy": {
+            "availability": {
+              "default": "available",
+              "rules": []
+            },
+            "data_residencies": [
+              "global"
+            ],
+            "endpoint_geographies": [
+              "global"
+            ],
+            "price_adjustments": [],
+            "pricing_geography": "global_base"
+          },
+          "source_refs": [
+            "https://platform.claude.com/docs/en/about-claude/pricing"
+          ],
+          "verification_status": "verified",
+          "verified_at": "2026-10-27T04:44:38Z"
+        },
+        {
+          "billing_note": "Anthropic lists base input, 5-minute cache write, 1-hour cache write, cache hit, and output rates. cache_write stores the 5-minute write rate; cache_write_1h stores the 1-hour write rate. Batch input and output are 50% of Standard; prompt-cache multipliers stack with the Batch discount.",
+          "calculation_default": false,
+          "charges": [
+            {
+              "amount": "5",
+              "component": "input",
+              "id": "price:anthropic/claude-fable-5:batch:short:current:input:text:per_1m_tokens",
+              "modality": "text",
+              "unit": "per_1m_tokens"
+            },
+            {
+              "amount": "25",
+              "component": "output",
+              "id": "price:anthropic/claude-fable-5:batch:short:current:output:text:per_1m_tokens",
+              "modality": "text",
+              "unit": "per_1m_tokens"
+            }
+          ],
+          "checked_at": "2026-10-27T04:44:38Z",
+          "context_class": "short",
+          "currency": "USD",
+          "effective_from": "2026-07-03",
+          "effective_until": null,
+          "id": "price:anthropic/claude-fable-5:batch:short:current",
+          "pricing_status": "current",
+          "processing_mode": "batch",
+          "prompt_token_threshold": null,
+          "region_policy": {
+            "availability": {
+              "default": "available",
+              "rules": []
+            },
+            "data_residencies": [
+              "global"
+            ],
+            "endpoint_geographies": [
+              "global"
+            ],
+            "price_adjustments": [],
+            "pricing_geography": "global_base"
+          },
+          "source_refs": [
+            "https://platform.claude.com/docs/en/about-claude/pricing"
+          ],
+          "verification_status": "verified",
+          "verified_at": "2026-10-27T04:44:38Z"
+        }
+      ],
       "pricing": {
         "batch_input": 5.0,
         "batch_output": 25.0,
@@ -96,6 +215,125 @@
         "https://platform.claude.com/docs/en/models/fable-5-1/overview",
         "https://platform.claude.com/docs/en/about-claude/model-deprecations",
         "https://platform.claude.com/docs/en/release-notes/overview"
+      ],
+      "price_records": [
+        {
+          "billing_note": "Released 2026-09-01 and listed as Active (latest), with retirement not sooner than 2027-09-01. Standard pricing is $10 input, $0.25 cache read, $12.50 5-minute cache write, $20 1-hour cache write, and $50 output per 1M tokens. Batch input and output receive the published 50% discount.",
+          "calculation_default": true,
+          "charges": [
+            {
+              "amount": "10",
+              "component": "input",
+              "id": "price:anthropic/claude-fable-5-1:standard:short:current:input:text:per_1m_tokens",
+              "modality": "text",
+              "unit": "per_1m_tokens"
+            },
+            {
+              "amount": "0.25",
+              "component": "cached_input",
+              "id": "price:anthropic/claude-fable-5-1:standard:short:current:cached_input:text:per_1m_tokens",
+              "modality": "text",
+              "unit": "per_1m_tokens"
+            },
+            {
+              "amount": "12.5",
+              "component": "cache_write_5m",
+              "id": "price:anthropic/claude-fable-5-1:standard:short:current:cache_write_5m:text:per_1m_tokens",
+              "modality": "text",
+              "unit": "per_1m_tokens"
+            },
+            {
+              "amount": "20",
+              "component": "cache_write_1h",
+              "id": "price:anthropic/claude-fable-5-1:standard:short:current:cache_write_1h:text:per_1m_tokens",
+              "modality": "text",
+              "unit": "per_1m_tokens"
+            },
+            {
+              "amount": "50",
+              "component": "output",
+              "id": "price:anthropic/claude-fable-5-1:standard:short:current:output:text:per_1m_tokens",
+              "modality": "text",
+              "unit": "per_1m_tokens"
+            }
+          ],
+          "checked_at": "2026-10-27T04:44:38Z",
+          "context_class": "short",
+          "currency": "USD",
+          "effective_from": "2026-09-01",
+          "effective_until": null,
+          "id": "price:anthropic/claude-fable-5-1:standard:short:current",
+          "pricing_status": "current",
+          "processing_mode": "standard",
+          "prompt_token_threshold": null,
+          "region_policy": {
+            "availability": {
+              "default": "available",
+              "rules": []
+            },
+            "data_residencies": [
+              "global"
+            ],
+            "endpoint_geographies": [
+              "global"
+            ],
+            "price_adjustments": [],
+            "pricing_geography": "global_base"
+          },
+          "source_refs": [
+            "https://platform.claude.com/docs/en/about-claude/pricing"
+          ],
+          "verification_status": "verified",
+          "verified_at": "2026-10-27T04:44:38Z"
+        },
+        {
+          "billing_note": "Released 2026-09-01 and listed as Active (latest), with retirement not sooner than 2027-09-01. Standard pricing is $10 input, $0.25 cache read, $12.50 5-minute cache write, $20 1-hour cache write, and $50 output per 1M tokens. Batch input and output receive the published 50% discount.",
+          "calculation_default": false,
+          "charges": [
+            {
+              "amount": "5",
+              "component": "input",
+              "id": "price:anthropic/claude-fable-5-1:batch:short:current:input:text:per_1m_tokens",
+              "modality": "text",
+              "unit": "per_1m_tokens"
+            },
+            {
+              "amount": "25",
+              "component": "output",
+              "id": "price:anthropic/claude-fable-5-1:batch:short:current:output:text:per_1m_tokens",
+              "modality": "text",
+              "unit": "per_1m_tokens"
+            }
+          ],
+          "checked_at": "2026-10-27T04:44:38Z",
+          "context_class": "short",
+          "currency": "USD",
+          "effective_from": "2026-09-01",
+          "effective_until": null,
+          "id": "price:anthropic/claude-fable-5-1:batch:short:current",
+          "pricing_status": "current",
+          "processing_mode": "batch",
+          "prompt_token_threshold": null,
+          "region_policy": {
+            "availability": {
+              "default": "available",
+              "rules": []
+            },
+            "data_residencies": [
+              "global"
+            ],
+            "endpoint_geographies": [
+              "global"
+            ],
+            "price_adjustments": [],
+            "pricing_geography": "global_base"
+          },
+          "source_refs": [
+            "https://platform.claude.com/docs/en/about-claude/pricing"
+          ],
+          "verification_status": "verified",
+          "verified_at": "2026-10-27T04:44:38Z"
+        }
       ],
       "pricing": {
         "batch_input": 5.0,
@@ -668,6 +906,125 @@
         "https://platform.claude.com/docs/en/models/mythos-5-1/overview",
         "https://platform.claude.com/docs/en/release-notes/overview"
       ],
+      "price_records": [
+        {
+          "billing_note": "Released 2026-09-01 and listed as Active (verification required), with access restricted to organizations verified through Anthropic verification programs, with retirement not sooner than 2027-09-01. It shares Claude Fable 5.1 pricing: $10 input, $0.25 cache read, $12.50 5-minute cache write, $20 1-hour cache write, and $50 output per 1M tokens. Batch input and output receive the published 50% discount.",
+          "calculation_default": true,
+          "charges": [
+            {
+              "amount": "10",
+              "component": "input",
+              "id": "price:anthropic/claude-mythos-5-1:standard:short:current:input:text:per_1m_tokens",
+              "modality": "text",
+              "unit": "per_1m_tokens"
+            },
+            {
+              "amount": "0.25",
+              "component": "cached_input",
+              "id": "price:anthropic/claude-mythos-5-1:standard:short:current:cached_input:text:per_1m_tokens",
+              "modality": "text",
+              "unit": "per_1m_tokens"
+            },
+            {
+              "amount": "12.5",
+              "component": "cache_write_5m",
+              "id": "price:anthropic/claude-mythos-5-1:standard:short:current:cache_write_5m:text:per_1m_tokens",
+              "modality": "text",
+              "unit": "per_1m_tokens"
+            },
+            {
+              "amount": "20",
+              "component": "cache_write_1h",
+              "id": "price:anthropic/claude-mythos-5-1:standard:short:current:cache_write_1h:text:per_1m_tokens",
+              "modality": "text",
+              "unit": "per_1m_tokens"
+            },
+            {
+              "amount": "50",
+              "component": "output",
+              "id": "price:anthropic/claude-mythos-5-1:standard:short:current:output:text:per_1m_tokens",
+              "modality": "text",
+              "unit": "per_1m_tokens"
+            }
+          ],
+          "checked_at": "2026-10-27T04:44:38Z",
+          "context_class": "short",
+          "currency": "USD",
+          "effective_from": "2026-09-01",
+          "effective_until": null,
+          "id": "price:anthropic/claude-mythos-5-1:standard:short:current",
+          "pricing_status": "current",
+          "processing_mode": "standard",
+          "prompt_token_threshold": null,
+          "region_policy": {
+            "availability": {
+              "default": "available",
+              "rules": []
+            },
+            "data_residencies": [
+              "global"
+            ],
+            "endpoint_geographies": [
+              "global"
+            ],
+            "price_adjustments": [],
+            "pricing_geography": "global_base"
+          },
+          "source_refs": [
+            "https://platform.claude.com/docs/en/about-claude/pricing"
+          ],
+          "verification_status": "verified",
+          "verified_at": "2026-10-27T04:44:38Z"
+        },
+        {
+          "billing_note": "Released 2026-09-01 and listed as Active (verification required), with access restricted to organizations verified through Anthropic verification programs, with retirement not sooner than 2027-09-01. It shares Claude Fable 5.1 pricing: $10 input, $0.25 cache read, $12.50 5-minute cache write, $20 1-hour cache write, and $50 output per 1M tokens. Batch input and output receive the published 50% discount.",
+          "calculation_default": false,
+          "charges": [
+            {
+              "amount": "5",
+              "component": "input",
+              "id": "price:anthropic/claude-mythos-5-1:batch:short:current:input:text:per_1m_tokens",
+              "modality": "text",
+              "unit": "per_1m_tokens"
+            },
+            {
+              "amount": "25",
+              "component": "output",
+              "id": "price:anthropic/claude-mythos-5-1:batch:short:current:output:text:per_1m_tokens",
+              "modality": "text",
+              "unit": "per_1m_tokens"
+            }
+          ],
+          "checked_at": "2026-10-27T04:44:38Z",
+          "context_class": "short",
+          "currency": "USD",
+          "effective_from": "2026-09-01",
+          "effective_until": null,
+          "id": "price:anthropic/claude-mythos-5-1:batch:short:current",
+          "pricing_status": "current",
+          "processing_mode": "batch",
+          "prompt_token_threshold": null,
+          "region_policy": {
+            "availability": {
+              "default": "available",
+              "rules": []
+            },
+            "data_residencies": [
+              "global"
+            ],
+            "endpoint_geographies": [
+              "global"
+            ],
+            "price_adjustments": [],
+            "pricing_geography": "global_base"
+          },
+          "source_refs": [
+            "https://platform.claude.com/docs/en/about-claude/pricing"
+          ],
+          "verification_status": "verified",
+          "verified_at": "2026-10-27T04:44:38Z"
+        }
+      ],
       "pricing": {
         "batch_input": 5.0,
         "batch_output": 25.0,
@@ -713,6 +1070,125 @@
       "model_id": "claude-opus-4.8",
       "notes": "Anthropic table columns are input, 5-minute cache write, 1-hour cache write, cache read, and output. cache_write stores the 5-minute write rate.",
       "official_source_url": "https://docs.anthropic.com/en/docs/about-claude/pricing",
+      "price_records": [
+        {
+          "billing_note": "Anthropic table columns are input, 5-minute cache write, 1-hour cache write, cache read, and output. cache_write stores the 5-minute write rate.",
+          "calculation_default": true,
+          "charges": [
+            {
+              "amount": "5",
+              "component": "input",
+              "id": "price:anthropic/claude-opus-4.8:standard:short:current:input:text:per_1m_tokens",
+              "modality": "text",
+              "unit": "per_1m_tokens"
+            },
+            {
+              "amount": "0.5",
+              "component": "cached_input",
+              "id": "price:anthropic/claude-opus-4.8:standard:short:current:cached_input:text:per_1m_tokens",
+              "modality": "text",
+              "unit": "per_1m_tokens"
+            },
+            {
+              "amount": "6.25",
+              "component": "cache_write_5m",
+              "id": "price:anthropic/claude-opus-4.8:standard:short:current:cache_write_5m:text:per_1m_tokens",
+              "modality": "text",
+              "unit": "per_1m_tokens"
+            },
+            {
+              "amount": "10",
+              "component": "cache_write_1h",
+              "id": "price:anthropic/claude-opus-4.8:standard:short:current:cache_write_1h:text:per_1m_tokens",
+              "modality": "text",
+              "unit": "per_1m_tokens"
+            },
+            {
+              "amount": "25",
+              "component": "output",
+              "id": "price:anthropic/claude-opus-4.8:standard:short:current:output:text:per_1m_tokens",
+              "modality": "text",
+              "unit": "per_1m_tokens"
+            }
+          ],
+          "checked_at": "2026-10-27T04:44:38Z",
+          "context_class": "short",
+          "currency": "USD",
+          "effective_from": null,
+          "effective_until": null,
+          "id": "price:anthropic/claude-opus-4.8:standard:short:current",
+          "pricing_status": "current",
+          "processing_mode": "standard",
+          "prompt_token_threshold": null,
+          "region_policy": {
+            "availability": {
+              "default": "available",
+              "rules": []
+            },
+            "data_residencies": [
+              "global"
+            ],
+            "endpoint_geographies": [
+              "global"
+            ],
+            "price_adjustments": [],
+            "pricing_geography": "global_base"
+          },
+          "source_refs": [
+            "https://docs.anthropic.com/en/docs/about-claude/pricing"
+          ],
+          "verification_status": "verified",
+          "verified_at": "2026-10-27T04:44:38Z"
+        },
+        {
+          "billing_note": "Anthropic table columns are input, 5-minute cache write, 1-hour cache write, cache read, and output. cache_write stores the 5-minute write rate.",
+          "calculation_default": false,
+          "charges": [
+            {
+              "amount": "2.5",
+              "component": "input",
+              "id": "price:anthropic/claude-opus-4.8:batch:short:current:input:text:per_1m_tokens",
+              "modality": "text",
+              "unit": "per_1m_tokens"
+            },
+            {
+              "amount": "12.5",
+              "component": "output",
+              "id": "price:anthropic/claude-opus-4.8:batch:short:current:output:text:per_1m_tokens",
+              "modality": "text",
+              "unit": "per_1m_tokens"
+            }
+          ],
+          "checked_at": "2026-10-27T04:44:38Z",
+          "context_class": "short",
+          "currency": "USD",
+          "effective_from": null,
+          "effective_until": null,
+          "id": "price:anthropic/claude-opus-4.8:batch:short:current",
+          "pricing_status": "current",
+          "processing_mode": "batch",
+          "prompt_token_threshold": null,
+          "region_policy": {
+            "availability": {
+              "default": "available",
+              "rules": []
+            },
+            "data_residencies": [
+              "global"
+            ],
+            "endpoint_geographies": [
+              "global"
+            ],
+            "price_adjustments": [],
+            "pricing_geography": "global_base"
+          },
+          "source_refs": [
+            "https://docs.anthropic.com/en/docs/about-claude/pricing"
+          ],
+          "verification_status": "verified",
+          "verified_at": "2026-10-27T04:44:38Z"
+        }
+      ],
       "pricing": {
         "batch_input": 2.5,
         "batch_output": 12.5,
@@ -763,6 +1239,125 @@
       "model_id": "claude-opus-5",
       "notes": "Released 2026-07-24. Anthropic table columns are input, 5-minute cache write, 1-hour cache write, cache read, and output. cache_write stores the 5-minute write rate; cache_write_1h stores the 1-hour write rate. Batch pricing is 50% of standard input and output per Anthropic Batch Processing.",
       "official_source_url": "https://platform.claude.com/docs/en/about-claude/pricing",
+      "price_records": [
+        {
+          "billing_note": "Released 2026-07-24. Anthropic table columns are input, 5-minute cache write, 1-hour cache write, cache read, and output. cache_write stores the 5-minute write rate; cache_write_1h stores the 1-hour write rate. Batch pricing is 50% of standard input and output per Anthropic Batch Processing.",
+          "calculation_default": true,
+          "charges": [
+            {
+              "amount": "5",
+              "component": "input",
+              "id": "price:anthropic/claude-opus-5:standard:short:current:input:text:per_1m_tokens",
+              "modality": "text",
+              "unit": "per_1m_tokens"
+            },
+            {
+              "amount": "0.5",
+              "component": "cached_input",
+              "id": "price:anthropic/claude-opus-5:standard:short:current:cached_input:text:per_1m_tokens",
+              "modality": "text",
+              "unit": "per_1m_tokens"
+            },
+            {
+              "amount": "6.25",
+              "component": "cache_write_5m",
+              "id": "price:anthropic/claude-opus-5:standard:short:current:cache_write_5m:text:per_1m_tokens",
+              "modality": "text",
+              "unit": "per_1m_tokens"
+            },
+            {
+              "amount": "10",
+              "component": "cache_write_1h",
+              "id": "price:anthropic/claude-opus-5:standard:short:current:cache_write_1h:text:per_1m_tokens",
+              "modality": "text",
+              "unit": "per_1m_tokens"
+            },
+            {
+              "amount": "25",
+              "component": "output",
+              "id": "price:anthropic/claude-opus-5:standard:short:current:output:text:per_1m_tokens",
+              "modality": "text",
+              "unit": "per_1m_tokens"
+            }
+          ],
+          "checked_at": "2026-10-27T04:44:38Z",
+          "context_class": "short",
+          "currency": "USD",
+          "effective_from": "2026-07-24",
+          "effective_until": null,
+          "id": "price:anthropic/claude-opus-5:standard:short:current",
+          "pricing_status": "current",
+          "processing_mode": "standard",
+          "prompt_token_threshold": null,
+          "region_policy": {
+            "availability": {
+              "default": "available",
+              "rules": []
+            },
+            "data_residencies": [
+              "global"
+            ],
+            "endpoint_geographies": [
+              "global"
+            ],
+            "price_adjustments": [],
+            "pricing_geography": "global_base"
+          },
+          "source_refs": [
+            "https://platform.claude.com/docs/en/about-claude/pricing"
+          ],
+          "verification_status": "verified",
+          "verified_at": "2026-10-27T04:44:38Z"
+        },
+        {
+          "billing_note": "Released 2026-07-24. Anthropic table columns are input, 5-minute cache write, 1-hour cache write, cache read, and output. cache_write stores the 5-minute write rate; cache_write_1h stores the 1-hour write rate. Batch pricing is 50% of standard input and output per Anthropic Batch Processing.",
+          "calculation_default": false,
+          "charges": [
+            {
+              "amount": "2.5",
+              "component": "input",
+              "id": "price:anthropic/claude-opus-5:batch:short:current:input:text:per_1m_tokens",
+              "modality": "text",
+              "unit": "per_1m_tokens"
+            },
+            {
+              "amount": "12.5",
+              "component": "output",
+              "id": "price:anthropic/claude-opus-5:batch:short:current:output:text:per_1m_tokens",
+              "modality": "text",
+              "unit": "per_1m_tokens"
+            }
+          ],
+          "checked_at": "2026-10-27T04:44:38Z",
+          "context_class": "short",
+          "currency": "USD",
+          "effective_from": "2026-07-24",
+          "effective_until": null,
+          "id": "price:anthropic/claude-opus-5:batch:short:current",
+          "pricing_status": "current",
+          "processing_mode": "batch",
+          "prompt_token_threshold": null,
+          "region_policy": {
+            "availability": {
+              "default": "available",
+              "rules": []
+            },
+            "data_residencies": [
+              "global"
+            ],
+            "endpoint_geographies": [
+              "global"
+            ],
+            "price_adjustments": [],
+            "pricing_geography": "global_base"
+          },
+          "source_refs": [
+            "https://platform.claude.com/docs/en/about-claude/pricing"
+          ],
+          "verification_status": "verified",
+          "verified_at": "2026-10-27T04:44:38Z"
+        }
+      ],
       "pricing": {
         "batch_input": 2.5,
         "batch_output": 12.5,
@@ -1082,6 +1677,125 @@
       "model_id": "claude-sonnet-4.6",
       "notes": "cache_write stores the 5-minute write rate.",
       "official_source_url": "https://docs.anthropic.com/en/docs/about-claude/pricing",
+      "price_records": [
+        {
+          "billing_note": "cache_write stores the 5-minute write rate.",
+          "calculation_default": true,
+          "charges": [
+            {
+              "amount": "3",
+              "component": "input",
+              "id": "price:anthropic/claude-sonnet-4.6:standard:short:current:input:text:per_1m_tokens",
+              "modality": "text",
+              "unit": "per_1m_tokens"
+            },
+            {
+              "amount": "0.3",
+              "component": "cached_input",
+              "id": "price:anthropic/claude-sonnet-4.6:standard:short:current:cached_input:text:per_1m_tokens",
+              "modality": "text",
+              "unit": "per_1m_tokens"
+            },
+            {
+              "amount": "3.75",
+              "component": "cache_write_5m",
+              "id": "price:anthropic/claude-sonnet-4.6:standard:short:current:cache_write_5m:text:per_1m_tokens",
+              "modality": "text",
+              "unit": "per_1m_tokens"
+            },
+            {
+              "amount": "6",
+              "component": "cache_write_1h",
+              "id": "price:anthropic/claude-sonnet-4.6:standard:short:current:cache_write_1h:text:per_1m_tokens",
+              "modality": "text",
+              "unit": "per_1m_tokens"
+            },
+            {
+              "amount": "15",
+              "component": "output",
+              "id": "price:anthropic/claude-sonnet-4.6:standard:short:current:output:text:per_1m_tokens",
+              "modality": "text",
+              "unit": "per_1m_tokens"
+            }
+          ],
+          "checked_at": "2026-10-27T04:44:38Z",
+          "context_class": "short",
+          "currency": "USD",
+          "effective_from": null,
+          "effective_until": null,
+          "id": "price:anthropic/claude-sonnet-4.6:standard:short:current",
+          "pricing_status": "current",
+          "processing_mode": "standard",
+          "prompt_token_threshold": null,
+          "region_policy": {
+            "availability": {
+              "default": "available",
+              "rules": []
+            },
+            "data_residencies": [
+              "global"
+            ],
+            "endpoint_geographies": [
+              "global"
+            ],
+            "price_adjustments": [],
+            "pricing_geography": "global_base"
+          },
+          "source_refs": [
+            "https://docs.anthropic.com/en/docs/about-claude/pricing"
+          ],
+          "verification_status": "verified",
+          "verified_at": "2026-10-27T04:44:38Z"
+        },
+        {
+          "billing_note": "cache_write stores the 5-minute write rate.",
+          "calculation_default": false,
+          "charges": [
+            {
+              "amount": "1.5",
+              "component": "input",
+              "id": "price:anthropic/claude-sonnet-4.6:batch:short:current:input:text:per_1m_tokens",
+              "modality": "text",
+              "unit": "per_1m_tokens"
+            },
+            {
+              "amount": "7.5",
+              "component": "output",
+              "id": "price:anthropic/claude-sonnet-4.6:batch:short:current:output:text:per_1m_tokens",
+              "modality": "text",
+              "unit": "per_1m_tokens"
+            }
+          ],
+          "checked_at": "2026-10-27T04:44:38Z",
+          "context_class": "short",
+          "currency": "USD",
+          "effective_from": null,
+          "effective_until": null,
+          "id": "price:anthropic/claude-sonnet-4.6:batch:short:current",
+          "pricing_status": "current",
+          "processing_mode": "batch",
+          "prompt_token_threshold": null,
+          "region_policy": {
+            "availability": {
+              "default": "available",
+              "rules": []
+            },
+            "data_residencies": [
+              "global"
+            ],
+            "endpoint_geographies": [
+              "global"
+            ],
+            "price_adjustments": [],
+            "pricing_geography": "global_base"
+          },
+          "source_refs": [
+            "https://docs.anthropic.com/en/docs/about-claude/pricing"
+          ],
+          "verification_status": "verified",
+          "verified_at": "2026-10-27T04:44:38Z"
+        }
+      ],
       "pricing": {
         "batch_input": 1.5,
         "batch_output": 7.5,
@@ -1135,6 +1849,125 @@
       "official_source_urls": [
         "https://platform.claude.com/docs/en/about-claude/pricing",
         "https://platform.claude.com/docs/en/release-notes/overview"
+      ],
+      "price_records": [
+        {
+          "billing_note": "Standard pricing is $2 input, $0.20 cache hit, $2.50 5-minute cache write, $4 1-hour cache write, and $10 output per 1M tokens. Anthropic made the introductory rate permanent on 2026-08-10 and canceled the previously scheduled 2026-09-01 increase.",
+          "calculation_default": true,
+          "charges": [
+            {
+              "amount": "2",
+              "component": "input",
+              "id": "price:anthropic/claude-sonnet-5:standard:short:current:input:text:per_1m_tokens",
+              "modality": "text",
+              "unit": "per_1m_tokens"
+            },
+            {
+              "amount": "0.2",
+              "component": "cached_input",
+              "id": "price:anthropic/claude-sonnet-5:standard:short:current:cached_input:text:per_1m_tokens",
+              "modality": "text",
+              "unit": "per_1m_tokens"
+            },
+            {
+              "amount": "2.5",
+              "component": "cache_write_5m",
+              "id": "price:anthropic/claude-sonnet-5:standard:short:current:cache_write_5m:text:per_1m_tokens",
+              "modality": "text",
+              "unit": "per_1m_tokens"
+            },
+            {
+              "amount": "4",
+              "component": "cache_write_1h",
+              "id": "price:anthropic/claude-sonnet-5:standard:short:current:cache_write_1h:text:per_1m_tokens",
+              "modality": "text",
+              "unit": "per_1m_tokens"
+            },
+            {
+              "amount": "10",
+              "component": "output",
+              "id": "price:anthropic/claude-sonnet-5:standard:short:current:output:text:per_1m_tokens",
+              "modality": "text",
+              "unit": "per_1m_tokens"
+            }
+          ],
+          "checked_at": "2026-10-27T04:44:38Z",
+          "context_class": "short",
+          "currency": "USD",
+          "effective_from": "2026-06-30",
+          "effective_until": null,
+          "id": "price:anthropic/claude-sonnet-5:standard:short:current",
+          "pricing_status": "current",
+          "processing_mode": "standard",
+          "prompt_token_threshold": null,
+          "region_policy": {
+            "availability": {
+              "default": "available",
+              "rules": []
+            },
+            "data_residencies": [
+              "global"
+            ],
+            "endpoint_geographies": [
+              "global"
+            ],
+            "price_adjustments": [],
+            "pricing_geography": "global_base"
+          },
+          "source_refs": [
+            "https://platform.claude.com/docs/en/about-claude/pricing"
+          ],
+          "verification_status": "verified",
+          "verified_at": "2026-10-27T04:44:38Z"
+        },
+        {
+          "billing_note": "Standard pricing is $2 input, $0.20 cache hit, $2.50 5-minute cache write, $4 1-hour cache write, and $10 output per 1M tokens. Anthropic made the introductory rate permanent on 2026-08-10 and canceled the previously scheduled 2026-09-01 increase.",
+          "calculation_default": false,
+          "charges": [
+            {
+              "amount": "1",
+              "component": "input",
+              "id": "price:anthropic/claude-sonnet-5:batch:short:current:input:text:per_1m_tokens",
+              "modality": "text",
+              "unit": "per_1m_tokens"
+            },
+            {
+              "amount": "5",
+              "component": "output",
+              "id": "price:anthropic/claude-sonnet-5:batch:short:current:output:text:per_1m_tokens",
+              "modality": "text",
+              "unit": "per_1m_tokens"
+            }
+          ],
+          "checked_at": "2026-10-27T04:44:38Z",
+          "context_class": "short",
+          "currency": "USD",
+          "effective_from": "2026-06-30",
+          "effective_until": null,
+          "id": "price:anthropic/claude-sonnet-5:batch:short:current",
+          "pricing_status": "current",
+          "processing_mode": "batch",
+          "prompt_token_threshold": null,
+          "region_policy": {
+            "availability": {
+              "default": "available",
+              "rules": []
+            },
+            "data_residencies": [
+              "global"
+            ],
+            "endpoint_geographies": [
+              "global"
+            ],
+            "price_adjustments": [],
+            "pricing_geography": "global_base"
+          },
+          "source_refs": [
+            "https://platform.claude.com/docs/en/about-claude/pricing"
+          ],
+          "verification_status": "verified",
+          "verified_at": "2026-10-27T04:44:38Z"
+        }
       ],
       "pricing": {
         "batch_input": 1.0,

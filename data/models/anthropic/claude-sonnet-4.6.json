@@ -28,6 +28,125 @@
   "model_id": "claude-sonnet-4.6",
   "notes": "cache_write stores the 5-minute write rate.",
   "official_source_url": "https://docs.anthropic.com/en/docs/about-claude/pricing",
+  "price_records": [
+    {
+      "billing_note": "cache_write stores the 5-minute write rate.",
+      "calculation_default": true,
+      "charges": [
+        {
+          "amount": "3",
+          "component": "input",
+          "id": "price:anthropic/claude-sonnet-4.6:standard:short:current:input:text:per_1m_tokens",
+          "modality": "text",
+          "unit": "per_1m_tokens"
+        },
+        {
+          "amount": "0.3",
+          "component": "cached_input",
+          "id": "price:anthropic/claude-sonnet-4.6:standard:short:current:cached_input:text:per_1m_tokens",
+          "modality": "text",
+          "unit": "per_1m_tokens"
+        },
+        {
+          "amount": "3.75",
+          "component": "cache_write_5m",
+          "id": "price:anthropic/claude-sonnet-4.6:standard:short:current:cache_write_5m:text:per_1m_tokens",
+          "modality": "text",
+          "unit": "per_1m_tokens"
+        },
+        {
+          "amount": "6",
+          "component": "cache_write_1h",
+          "id": "price:anthropic/claude-sonnet-4.6:standard:short:current:cache_write_1h:text:per_1m_tokens",
+          "modality": "text",
+          "unit": "per_1m_tokens"
+        },
+        {
+          "amount": "15",
+          "component": "output",
+          "id": "price:anthropic/claude-sonnet-4.6:standard:short:current:output:text:per_1m_tokens",
+          "modality": "text",
+          "unit": "per_1m_tokens"
+        }
+      ],
+      "checked_at": "2026-10-27T04:44:38Z",
+      "context_class": "short",
+      "currency": "USD",
+      "effective_from": null,
+      "effective_until": null,
+      "id": "price:anthropic/claude-sonnet-4.6:standard:short:current",
+      "pricing_status": "current",
+      "processing_mode": "standard",
+      "prompt_token_threshold": null,
+      "region_policy": {
+        "availability": {
+          "default": "available",
+          "rules": []
+        },
+        "data_residencies": [
+          "global"
+        ],
+        "endpoint_geographies": [
+          "global"
+        ],
+        "price_adjustments": [],
+        "pricing_geography": "global_base"
+      },
+      "source_refs": [
+        "https://docs.anthropic.com/en/docs/about-claude/pricing"
+      ],
+      "verification_status": "verified",
+      "verified_at": "2026-10-27T04:44:38Z"
+    },
+    {
+      "billing_note": "cache_write stores the 5-minute write rate.",
+      "calculation_default": false,
+      "charges": [
+        {
+          "amount": "1.5",
+          "component": "input",
+          "id": "price:anthropic/claude-sonnet-4.6:batch:short:current:input:text:per_1m_tokens",
+          "modality": "text",
+          "unit": "per_1m_tokens"
+        },
+        {
+          "amount": "7.5",
+          "component": "output",
+          "id": "price:anthropic/claude-sonnet-4.6:batch:short:current:output:text:per_1m_tokens",
+          "modality": "text",
+          "unit": "per_1m_tokens"
+        }
+      ],
+      "checked_at": "2026-10-27T04:44:38Z",
+      "context_class": "short",
+      "currency": "USD",
+      "effective_from": null,
+      "effective_until": null,
+      "id": "price:anthropic/claude-sonnet-4.6:batch:short:current",
+      "pricing_status": "current",
+      "processing_mode": "batch",
+      "prompt_token_threshold": null,
+      "region_policy": {
+        "availability": {
+          "default": "available",
+          "rules": []
+        },
+        "data_residencies": [
+          "global"
+        ],
+        "endpoint_geographies": [
+          "global"
+        ],
+        "price_adjustments": [],
+        "pricing_geography": "global_base"
+      },
+      "source_refs": [
+        "https://docs.anthropic.com/en/docs/about-claude/pricing"
+      ],
+      "verification_status": "verified",
+      "verified_at": "2026-10-27T04:44:38Z"
+    }
+  ],
   "pricing": {
     "batch_input": 1.5,
     "batch_output": 7.5,
