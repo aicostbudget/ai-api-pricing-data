@@ -9,7 +9,7 @@
     "review_required": "display only with warning; no default or recommendation placement",
     "unsafe": "exclude from default calculations and show warning only where explicitly allowed"
   },
-  "effectiveAt": "2026-10-28T16:51:30Z",
+  "effectiveAt": "2026-10-28T18:35:20Z",
   "effectiveTimezone": "UTC",
   "failureBehavior": {
     "atomicWrite": true,
@@ -18,7 +18,7 @@
     "partialJson": "not_written",
     "publicV1Mutation": "forbidden"
   },
-  "generatedAt": "2026-10-28T16:51:30Z",
+  "generatedAt": "2026-10-28T18:35:20Z",
   "generatedAtPolicy": "UTC artifact generation timestamp injected by the generation pipeline",
   "governancePolicy": {
     "classes": [
@@ -21466,6 +21466,452 @@
         "source:google-gemini:ai-google-dev-gemini-api-docs-deprecations",
         "source:google-gemini:ai-google-dev-gemini-api-docs-models-gemini-nano-banana-2-1",
         "source:google-gemini:ai-google-dev-gemini-api-docs-pricing"
+      ]
+    },
+    {
+      "accessAuthority": {
+        "baseRevision": "f4bf7755332cb31c26cb910a08cfb8b6b3a59ce6",
+        "factSha256": "0c87f06b37688740f8a56cf065839a59e3429b2a00de972986b55cd1f482d813",
+        "kind": "canonical",
+        "revisionScope": "base_revision_plus_fact_digest"
+      },
+      "accessCheckedAt": "2026-10-28T18:32:30Z",
+      "accessEvidence": [
+        {
+          "claimType": "official_access_public",
+          "officialModelId": "muse-spark-1.3",
+          "scope": "Exact hosted model on Meta Model API under ordinary pay-as-you-go account requirements, subject to the Geographic Use Policy.",
+          "sourceRef": "source:meta:dev-meta-ai-docs-models-md",
+          "title": "muse-spark-1.3 official model availability documentation",
+          "url": "https://dev.meta.ai/docs/models.md"
+        }
+      ],
+      "accessStatus": "public",
+      "aliasTargetInternalId": null,
+      "availability": "active",
+      "batchInputPrice": null,
+      "batchOutputPrice": null,
+      "billingModelInternalId": null,
+      "bindingEvidence": [
+        {
+          "claimType": "official_identity_binding",
+          "officialModelId": "muse-spark-1.3",
+          "reason": "Exact documented API model ID; no entitlement inherited from a billing target.",
+          "sourceRef": "source:meta:dev-meta-ai-docs-models-md",
+          "title": "muse-spark-1.3 official identity documentation",
+          "url": "https://dev.meta.ai/docs/models.md"
+        }
+      ],
+      "bindingStatus": "approved",
+      "blockedFromDefaultReasons": [],
+      "cachedInputPrice": 0.15,
+      "canonicalInternalId": "meta/muse-spark-1.3",
+      "checkedAt": "2026-10-28T18:32:30Z",
+      "checkedSourceRefs": [
+        "source:meta:dev-meta-ai-docs-pricing-rate-limits-md"
+      ],
+      "contextWindow": "1,048,576",
+      "contextWindowStatus": "canonical_verified",
+      "contextWindowTokens": 1048576,
+      "defaultPriceSelectionRule": [
+        "current_effective_utc",
+        "verified",
+        "standard",
+        "text",
+        "default_context_class"
+      ],
+      "defaultSafe": true,
+      "deprecationDate": null,
+      "governanceClass": "VERIFIED_CANONICAL",
+      "governanceDetails": null,
+      "governanceReason": "canonical_verified_direct_public_projection",
+      "governanceSourceCandidateIds": [
+        "meta/muse-spark-1.3"
+      ],
+      "id": "muse-spark-1.3",
+      "identityType": "canonical_model",
+      "inputPrice": 1.25,
+      "lifecycleStatus": "active",
+      "model": "Muse Spark 1.3",
+      "officialSourceUrl": "https://dev.meta.ai/docs/pricing-rate-limits.md",
+      "outputPrice": 4.25,
+      "priceRecords": [
+        {
+          "calculationDefault": true,
+          "checkedAt": "2026-10-28T18:32:30Z",
+          "contextClass": "short",
+          "effectiveFrom": null,
+          "effectiveUntil": null,
+          "pricingId": "price:meta/muse-spark-1.3:standard:short:current",
+          "pricingStatus": "current",
+          "processingMode": "standard",
+          "sourceRefs": [
+            "source:meta:dev-meta-ai-docs-pricing-rate-limits-md"
+          ],
+          "verificationStatus": "verified",
+          "verifiedAt": "2026-10-28T18:32:30Z"
+        }
+      ],
+      "pricingComponents": [
+        {
+          "amount": "0.15",
+          "calculationDefault": true,
+          "chargeId": "price:meta/muse-spark-1.3:standard:short:current:cached_input:text:per_1m_tokens",
+          "component": "cached_input",
+          "condition": {
+            "availabilityRules": [],
+            "contextClass": "short",
+            "defaultAvailabilityStatus": "available",
+            "effectiveFrom": null,
+            "effectiveUntil": null,
+            "priceAdjustments": [],
+            "processingMode": "standard",
+            "promptTokenThreshold": null,
+            "regionPolicy": "global",
+            "regionSelector": {
+              "dataResidencies": [
+                "global"
+              ],
+              "endpointGeographies": [
+                "global"
+              ],
+              "pricingGeography": "global_base"
+            },
+            "tierSelection": null
+          },
+          "currency": "USD",
+          "modality": "text",
+          "pricingId": "price:meta/muse-spark-1.3:standard:short:current",
+          "sourceRefs": [
+            "source:meta:dev-meta-ai-docs-pricing-rate-limits-md"
+          ],
+          "unit": "per_1m_tokens",
+          "verificationStatus": "verified"
+        },
+        {
+          "amount": "1.25",
+          "calculationDefault": true,
+          "chargeId": "price:meta/muse-spark-1.3:standard:short:current:input:text:per_1m_tokens",
+          "component": "input",
+          "condition": {
+            "availabilityRules": [],
+            "contextClass": "short",
+            "defaultAvailabilityStatus": "available",
+            "effectiveFrom": null,
+            "effectiveUntil": null,
+            "priceAdjustments": [],
+            "processingMode": "standard",
+            "promptTokenThreshold": null,
+            "regionPolicy": "global",
+            "regionSelector": {
+              "dataResidencies": [
+                "global"
+              ],
+              "endpointGeographies": [
+                "global"
+              ],
+              "pricingGeography": "global_base"
+            },
+            "tierSelection": null
+          },
+          "currency": "USD",
+          "modality": "text",
+          "pricingId": "price:meta/muse-spark-1.3:standard:short:current",
+          "sourceRefs": [
+            "source:meta:dev-meta-ai-docs-pricing-rate-limits-md"
+          ],
+          "unit": "per_1m_tokens",
+          "verificationStatus": "verified"
+        },
+        {
+          "amount": "4.25",
+          "calculationDefault": true,
+          "chargeId": "price:meta/muse-spark-1.3:standard:short:current:output:text:per_1m_tokens",
+          "component": "output",
+          "condition": {
+            "availabilityRules": [],
+            "contextClass": "short",
+            "defaultAvailabilityStatus": "available",
+            "effectiveFrom": null,
+            "effectiveUntil": null,
+            "priceAdjustments": [],
+            "processingMode": "standard",
+            "promptTokenThreshold": null,
+            "regionPolicy": "global",
+            "regionSelector": {
+              "dataResidencies": [
+                "global"
+              ],
+              "endpointGeographies": [
+                "global"
+              ],
+              "pricingGeography": "global_base"
+            },
+            "tierSelection": null
+          },
+          "currency": "USD",
+          "modality": "text",
+          "pricingId": "price:meta/muse-spark-1.3:standard:short:current",
+          "sourceRefs": [
+            "source:meta:dev-meta-ai-docs-pricing-rate-limits-md"
+          ],
+          "unit": "per_1m_tokens",
+          "verificationStatus": "verified"
+        }
+      ],
+      "pricingSourceType": "canonical_verified_price",
+      "provider": "meta",
+      "publicExposure": "public",
+      "redirectTargetInternalId": null,
+      "releaseSourceRef": null,
+      "releaseSourceUrl": null,
+      "releaseStage": "stable",
+      "releasedAt": null,
+      "replacementInternalId": null,
+      "retirementDate": null,
+      "routingBehavior": "direct",
+      "routingDetails": {},
+      "selectedBatchPriceRecordId": null,
+      "selectedBillingPriceRecordId": "price:meta/muse-spark-1.3:standard:short:current",
+      "selectedPriceEffectiveFrom": null,
+      "selectedPriceEffectiveUntil": null,
+      "selectedPriceRecordId": "price:meta/muse-spark-1.3:standard:short:current",
+      "sourceRefs": [
+        "source:meta:dev-meta-ai-docs-models-md",
+        "source:meta:dev-meta-ai-docs-pricing-rate-limits-md"
+      ],
+      "sourceUrls": [
+        "https://dev.meta.ai/docs/models.md",
+        "https://dev.meta.ai/docs/pricing-rate-limits.md"
+      ],
+      "status": "latest",
+      "verificationStatus": "verified",
+      "verifiedAt": "2026-10-28T18:32:30Z",
+      "verifiedSourceRefs": [
+        "source:meta:dev-meta-ai-docs-pricing-rate-limits-md"
+      ]
+    },
+    {
+      "accessAuthority": {
+        "baseRevision": "f4bf7755332cb31c26cb910a08cfb8b6b3a59ce6",
+        "factSha256": "1c181d779f1e13044f95ef8b10f0631899d4efe884b51a1c1d6a3ae9ea2243d6",
+        "kind": "canonical",
+        "revisionScope": "base_revision_plus_fact_digest"
+      },
+      "accessCheckedAt": "2026-10-28T18:32:25Z",
+      "accessEvidence": [
+        {
+          "claimType": "official_access_public",
+          "officialModelId": "muse-wonder-1.0",
+          "scope": "Exact hosted model on Meta Model API under ordinary pay-as-you-go account requirements, subject to the Geographic Use Policy.",
+          "sourceRef": "source:meta:dev-meta-ai-docs-models-md",
+          "title": "muse-wonder-1.0 official model availability documentation",
+          "url": "https://dev.meta.ai/docs/models.md"
+        }
+      ],
+      "accessStatus": "public",
+      "aliasTargetInternalId": null,
+      "availability": "preview",
+      "batchInputPrice": null,
+      "batchOutputPrice": null,
+      "billingModelInternalId": null,
+      "bindingEvidence": [
+        {
+          "claimType": "official_identity_binding",
+          "officialModelId": "muse-wonder-1.0",
+          "reason": "Exact documented API model ID; no entitlement inherited from a billing target.",
+          "sourceRef": "source:meta:dev-meta-ai-docs-models-md",
+          "title": "muse-wonder-1.0 official identity documentation",
+          "url": "https://dev.meta.ai/docs/models.md"
+        }
+      ],
+      "bindingStatus": "approved",
+      "blockedFromDefaultReasons": [],
+      "cachedInputPrice": 0.2,
+      "canonicalInternalId": "meta/muse-wonder-1.0",
+      "checkedAt": "2026-10-28T18:32:25Z",
+      "checkedSourceRefs": [
+        "source:meta:dev-meta-ai-docs-pricing-rate-limits-md"
+      ],
+      "contextWindow": "1,048,576",
+      "contextWindowStatus": "canonical_verified",
+      "contextWindowTokens": 1048576,
+      "defaultPriceSelectionRule": [
+        "current_effective_utc",
+        "verified",
+        "standard",
+        "text",
+        "default_context_class"
+      ],
+      "defaultSafe": true,
+      "deprecationDate": null,
+      "governanceClass": "VERIFIED_CANONICAL",
+      "governanceDetails": null,
+      "governanceReason": "canonical_verified_direct_public_projection",
+      "governanceSourceCandidateIds": [
+        "meta/muse-wonder-1.0"
+      ],
+      "id": "muse-wonder-1.0",
+      "identityType": "canonical_model",
+      "inputPrice": 4,
+      "lifecycleStatus": "active",
+      "model": "Muse Wonder 1.0",
+      "officialSourceUrl": "https://dev.meta.ai/docs/pricing-rate-limits.md",
+      "outputPrice": 20,
+      "priceRecords": [
+        {
+          "calculationDefault": true,
+          "checkedAt": "2026-10-28T18:32:25Z",
+          "contextClass": "short",
+          "effectiveFrom": null,
+          "effectiveUntil": null,
+          "pricingId": "price:meta/muse-wonder-1.0:standard:short:current",
+          "pricingStatus": "current",
+          "processingMode": "standard",
+          "sourceRefs": [
+            "source:meta:dev-meta-ai-docs-pricing-rate-limits-md"
+          ],
+          "verificationStatus": "verified",
+          "verifiedAt": "2026-10-28T18:32:25Z"
+        }
+      ],
+      "pricingComponents": [
+        {
+          "amount": "0.2",
+          "calculationDefault": true,
+          "chargeId": "price:meta/muse-wonder-1.0:standard:short:current:cached_input:text:per_1m_tokens",
+          "component": "cached_input",
+          "condition": {
+            "availabilityRules": [],
+            "contextClass": "short",
+            "defaultAvailabilityStatus": "available",
+            "effectiveFrom": null,
+            "effectiveUntil": null,
+            "priceAdjustments": [],
+            "processingMode": "standard",
+            "promptTokenThreshold": null,
+            "regionPolicy": "global",
+            "regionSelector": {
+              "dataResidencies": [
+                "global"
+              ],
+              "endpointGeographies": [
+                "global"
+              ],
+              "pricingGeography": "global_base"
+            },
+            "tierSelection": null
+          },
+          "currency": "USD",
+          "modality": "text",
+          "pricingId": "price:meta/muse-wonder-1.0:standard:short:current",
+          "sourceRefs": [
+            "source:meta:dev-meta-ai-docs-pricing-rate-limits-md"
+          ],
+          "unit": "per_1m_tokens",
+          "verificationStatus": "verified"
+        },
+        {
+          "amount": "4",
+          "calculationDefault": true,
+          "chargeId": "price:meta/muse-wonder-1.0:standard:short:current:input:text:per_1m_tokens",
+          "component": "input",
+          "condition": {
+            "availabilityRules": [],
+            "contextClass": "short",
+            "defaultAvailabilityStatus": "available",
+            "effectiveFrom": null,
+            "effectiveUntil": null,
+            "priceAdjustments": [],
+            "processingMode": "standard",
+            "promptTokenThreshold": null,
+            "regionPolicy": "global",
+            "regionSelector": {
+              "dataResidencies": [
+                "global"
+              ],
+              "endpointGeographies": [
+                "global"
+              ],
+              "pricingGeography": "global_base"
+            },
+            "tierSelection": null
+          },
+          "currency": "USD",
+          "modality": "text",
+          "pricingId": "price:meta/muse-wonder-1.0:standard:short:current",
+          "sourceRefs": [
+            "source:meta:dev-meta-ai-docs-pricing-rate-limits-md"
+          ],
+          "unit": "per_1m_tokens",
+          "verificationStatus": "verified"
+        },
+        {
+          "amount": "20",
+          "calculationDefault": true,
+          "chargeId": "price:meta/muse-wonder-1.0:standard:short:current:output:text:per_1m_tokens",
+          "component": "output",
+          "condition": {
+            "availabilityRules": [],
+            "contextClass": "short",
+            "defaultAvailabilityStatus": "available",
+            "effectiveFrom": null,
+            "effectiveUntil": null,
+            "priceAdjustments": [],
+            "processingMode": "standard",
+            "promptTokenThreshold": null,
+            "regionPolicy": "global",
+            "regionSelector": {
+              "dataResidencies": [
+                "global"
+              ],
+              "endpointGeographies": [
+                "global"
+              ],
+              "pricingGeography": "global_base"
+            },
+            "tierSelection": null
+          },
+          "currency": "USD",
+          "modality": "text",
+          "pricingId": "price:meta/muse-wonder-1.0:standard:short:current",
+          "sourceRefs": [
+            "source:meta:dev-meta-ai-docs-pricing-rate-limits-md"
+          ],
+          "unit": "per_1m_tokens",
+          "verificationStatus": "verified"
+        }
+      ],
+      "pricingSourceType": "canonical_verified_price",
+      "provider": "meta",
+      "publicExposure": "public",
+      "redirectTargetInternalId": null,
+      "releaseSourceRef": null,
+      "releaseSourceUrl": null,
+      "releaseStage": "preview",
+      "releasedAt": null,
+      "replacementInternalId": null,
+      "retirementDate": null,
+      "routingBehavior": "direct",
+      "routingDetails": {},
+      "selectedBatchPriceRecordId": null,
+      "selectedBillingPriceRecordId": "price:meta/muse-wonder-1.0:standard:short:current",
+      "selectedPriceEffectiveFrom": null,
+      "selectedPriceEffectiveUntil": null,
+      "selectedPriceRecordId": "price:meta/muse-wonder-1.0:standard:short:current",
+      "sourceRefs": [
+        "source:meta:dev-meta-ai-docs-models-md",
+        "source:meta:dev-meta-ai-docs-pricing-rate-limits-md"
+      ],
+      "sourceUrls": [
+        "https://dev.meta.ai/docs/models.md",
+        "https://dev.meta.ai/docs/pricing-rate-limits.md"
+      ],
+      "status": "preview",
+      "verificationStatus": "verified",
+      "verifiedAt": "2026-10-28T18:32:25Z",
+      "verifiedSourceRefs": [
+        "source:meta:dev-meta-ai-docs-pricing-rate-limits-md"
       ]
     },
     {
