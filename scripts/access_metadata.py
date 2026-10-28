@@ -16,6 +16,7 @@ OFFICIAL_HOSTS = {
     "cohere": ("cohere.com",), "deepseek": ("deepseek.com",),
     "mistral-ai": ("mistral.ai",), "moonshot-ai": ("kimi.ai", "moonshot.ai", "moonshot.cn"),
     "alibaba-qwen": ("alibabacloud.com", "qwen.ai"),
+    "meta": ("meta.ai",),
     "aws": ("amazon.com", "amazonaws.com"), "azure": ("microsoft.com", "azure.com"),
     "google-cloud": ("google.com",),
 }

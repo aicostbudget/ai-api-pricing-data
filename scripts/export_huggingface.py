@@ -90,6 +90,7 @@ PROVIDER_DISPLAY = {
     "mistral-ai": "Mistral AI",
     "moonshot-ai": "Moonshot AI",
     "alibaba-qwen": "Alibaba",
+    "meta": "Meta",
     "openai": "OpenAI",
     "xai": "xAI",
 }

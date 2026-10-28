@@ -64,6 +64,7 @@ PROVIDER_SLUGS = {
     "Moonshot AI": "moonshot-ai",
     "Alibaba": "alibaba-qwen",
     "Alibaba Qwen": "alibaba-qwen",
+    "Meta": "meta",
 }
 
 PROVIDER_DISPLAY = {
@@ -79,6 +80,7 @@ PROVIDER_DISPLAY = {
     "cohere": "Cohere",
     "moonshot-ai": "Moonshot AI",
     "alibaba-qwen": "Alibaba",
+    "meta": "Meta",
 }
 
 OFFICIAL_DOMAINS = {
@@ -94,6 +96,7 @@ OFFICIAL_DOMAINS = {
     "cohere": ("cohere.com", "docs.cohere.com"),
     "moonshot-ai": ("platform.kimi.ai", "kimi.ai", "kimi.com", "moonshot.ai"),
     "alibaba-qwen": ("www.alibabacloud.com", "alibabacloud.com", "qwen.ai"),
+    "meta": ("dev.meta.ai", "meta.ai"),
 }
 
 DEEPSEEK_V4_FLASH_RETIREMENT_AT = "2026-09-10T04:00:00Z"
