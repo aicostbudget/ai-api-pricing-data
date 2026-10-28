@@ -62,6 +62,8 @@ PROVIDER_SLUGS = {
     "Mistral AI": "mistral-ai",
     "Cohere": "cohere",
     "Moonshot AI": "moonshot-ai",
+    "Alibaba": "alibaba-qwen",
+    "Alibaba Qwen": "alibaba-qwen",
 }
 
 PROVIDER_DISPLAY = {
@@ -76,6 +78,7 @@ PROVIDER_DISPLAY = {
     "mistral-ai": "Mistral AI",
     "cohere": "Cohere",
     "moonshot-ai": "Moonshot AI",
+    "alibaba-qwen": "Alibaba",
 }
 
 OFFICIAL_DOMAINS = {
@@ -90,6 +93,7 @@ OFFICIAL_DOMAINS = {
     "mistral-ai": ("mistral.ai",),
     "cohere": ("cohere.com", "docs.cohere.com"),
     "moonshot-ai": ("platform.kimi.ai", "kimi.ai", "kimi.com", "moonshot.ai"),
+    "alibaba-qwen": ("www.alibabacloud.com", "alibabacloud.com", "qwen.ai"),
 }
 
 DEEPSEEK_V4_FLASH_RETIREMENT_AT = "2026-09-10T04:00:00Z"

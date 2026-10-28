@@ -89,6 +89,7 @@ PROVIDER_DISPLAY = {
     "aws": "Amazon Web Services",
     "mistral-ai": "Mistral AI",
     "moonshot-ai": "Moonshot AI",
+    "alibaba-qwen": "Alibaba",
     "openai": "OpenAI",
     "xai": "xAI",
 }
