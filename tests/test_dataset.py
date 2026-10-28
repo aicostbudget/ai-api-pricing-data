@@ -54,7 +54,7 @@ class DatasetTests(unittest.TestCase):
         self.assertEqual(len({(item["provider_id"], item["model_id"]) for item in models}), len(models))
         required_providers = {
             "openai", "anthropic", "google-gemini", "xai", "deepseek",
-            "mistral-ai", "cohere", "moonshot-ai",
+            "mistral-ai", "cohere", "moonshot-ai", "alibaba-qwen",
         }
         self.assertTrue(required_providers <= {item["provider_id"] for item in providers})
         self.assertTrue(
