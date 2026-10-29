@@ -130,8 +130,13 @@ def classify_changes(before: list[dict[str, Any]], after: list[dict[str, Any]]) 
 
 
 def price_event_changes(changes: list[dict[str, Any]]) -> list[dict[str, Any]]:
-    """Only true price deltas are eligible for the price-event generator."""
-    return [change for change in changes if change["change_type"] == "pricing"]
+    """Price deltas and added models feed the event generator; metadata-only edits do not.
+
+    Added models were left out until 2026-10-29, so new models never reached the price monitor. Lifecycle
+    changes stay out: a lifecycle_update needs a price verification no older than its detection date, and a
+    deprecation often lands on a model whose prices were verified weeks earlier.
+    """
+    return [change for change in changes if change["change_type"] in {"pricing", "added"}]
 
 
 def _normalized_business_value(value: Any) -> Any:

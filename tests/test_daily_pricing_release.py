@@ -157,6 +157,8 @@ class ChangeClassificationTests(unittest.TestCase):
     def test_new_model_is_added(self):
         changes = classify_changes([], [model("new-model")])
         self.assertEqual(changes[0]["change_type"], "added")
+        # Added models must reach the generator, or the price monitor never shows them.
+        self.assertEqual(price_event_changes(changes), changes)
         self.assertFalse(changes[0]["price_change"])
 
 

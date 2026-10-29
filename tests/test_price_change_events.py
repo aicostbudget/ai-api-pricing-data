@@ -134,6 +134,19 @@ class PriceChangeEventTests(unittest.TestCase):
         self.assertEqual(events[0]["new_status"], "active")
         self.assertEqual(events[0]["effective_from"], "2026-09-10")
 
+    def test_added_non_token_model_emits_no_event(self):
+        # Events are per 1M tokens; a per-minute voice model has no event representation.
+        voice = model(model_id="voice-new")
+        voice.update({"status": "active", "pricing": {"currency": "USD", "unit": "1 minute", "input": None, "cached_input": None, "output": None}})
+        with tempfile.TemporaryDirectory() as tmp:
+            root = Path(tmp)
+            before = root / "2026-07-26" / "prices.json"
+            after = root / "2026-07-27" / "prices.json"
+            snapshot(before, [])
+            snapshot(after, [voice, model(model_id="text-new")])
+            events = generate_events(before, after)
+        self.assertEqual([(event["model_id"], event["change_type"]) for event in events], [("text-new", "model_added")])
+
     def test_newly_observed_retired_model_is_lifecycle_update_not_model_added(self):
         retired = model(model_id="historical-model")
         retired.update({
