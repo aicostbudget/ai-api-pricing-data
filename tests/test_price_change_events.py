@@ -135,9 +135,9 @@ class PriceChangeEventTests(unittest.TestCase):
         self.assertEqual(events[0]["effective_from"], "2026-09-10")
 
     def test_added_non_token_model_emits_no_event(self):
-        # Events are per 1M tokens; a per-minute voice model has no event representation.
+        # model_added events are per 1M tokens; a per-minute voice model has no token unit (canonical leaves it null).
         voice = model(model_id="voice-new")
-        voice.update({"status": "active", "pricing": {"currency": "USD", "unit": "1 minute", "input": None, "cached_input": None, "output": None}})
+        voice.update({"status": "active", "pricing": {"currency": "USD", "unit": None, "input": None, "cached_input": None, "output": None}})
         with tempfile.TemporaryDirectory() as tmp:
             root = Path(tmp)
             before = root / "2026-07-26" / "prices.json"

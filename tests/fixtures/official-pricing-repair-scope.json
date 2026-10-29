@@ -62,8 +62,8 @@
     "alibaba-qwen/qwen3.7-plus": "0e95194a358f18f48621479dc8b84a6c79ff791b0bcd7529a8b332914eed58de",
     "alibaba-qwen/qwen3.8-flash": "7d563dab8e779bb421569cf757e7d8acd3de98037632dd66a26a50b6a5cbe710",
     "alibaba-qwen/qwen3.8-max": "e8c71de39634bd95e1e91bcb06bfc1b07a0f7ad03ae7ab351a1553f80ea45c59",
-    "meta/muse-spark-1.3": "846e87e652c0a5abe150e77be797617caf152c671919b239eda7ca5089d8f251",
-    "meta/muse-wonder-1.0": "2ce9e22324848c48523bd5a77cbb799779cce3e8f139b7ea7aa076db49c34fcd"
+    "meta/muse-spark-1.3": "2eb41fbed1c97f24168e66aae824619cdc6cf6b262fd50669c381afdcea8cb05",
+    "meta/muse-wonder-1.0": "522fc5ee40dc6c1f80def1b53c759ea449538c3d086a588c5ff55828a564c1bd"
   },
   "projection": {
     "anthropic/claude-haiku-5-5": "90b4f7862c16baf9a9d7e9d65814e3251c11b079664b3b7f858020ff3eab3abc",
@@ -141,8 +141,8 @@
     "alibaba-qwen/qwen3.7-plus": "4a9d65267987a514db0a9dc6eb8925c133f61f9af6974523e642e50189922c3e",
     "alibaba-qwen/qwen3.8-flash": "4b90b1b0aa1e23fd14d79563f323c677c3cce647e5992d5272c3cbc47f102600",
     "alibaba-qwen/qwen3.8-max": "73bf59f0a90fdcdf7fde3acef805544149bd388bddb48d32989670d814f94ade",
-    "meta/muse-spark-1.3": "333e4d07a22a85d33082e30ce6a40f8c4ea13546081aab27c005a4062d5da766",
-    "meta/muse-wonder-1.0": "d9eaedca16efee564bfda32fa18775656aeb3b9b3fa4634761d62ed8a655564e"
+    "meta/muse-spark-1.3": "234788459747c992db976369b20924c5f1b8e749ec97fe8c0f217724853f815d",
+    "meta/muse-wonder-1.0": "da349a026f0566b3c788b1e18d0a8bae0b754e68c919c79d6cdc971cfe25813a"
   },
   "evidence_report": "official-pricing-repair-report.md",
   "events_sha256": "a04e3fbb1d4cb049f2d9cfcadfca3b6383fc1bcdc3df6ca0ee6cfddc38e706ed",
@@ -283,6 +283,87 @@
       "sha256:66a5cf0d76897a834f57b0a08ae16c0e6bdc032bc0ac840efaf742cd03509af7"
     ],
     "evidence": "Model pages say Caching: Not supported since their 2026-10-09 update; Wayback shows the pricing page listed TTS cache rates at 20261008T175440Z and not at 20261009T223330Z."
+  },
+  "model_added_backfill_extension": {
+    "identities": [
+      "alibaba-qwen/qwen-flash",
+      "alibaba-qwen/qwen3.7-plus",
+      "alibaba-qwen/qwen3.8-flash",
+      "alibaba-qwen/qwen3.8-max",
+      "meta/muse-spark-1.3",
+      "meta/muse-wonder-1.0",
+      "moonshot-ai/kimi-k3.1-pro",
+      "moonshot-ai/kimi-k3.1-pro-highspeed",
+      "openai/gpt-6.1-terra"
+    ],
+    "canonical_source_commit": "75791ff",
+    "base_release": "gemini_38_tts_cache_removal_extension",
+    "base_event_count": 41,
+    "appended_event_count": 9,
+    "full_event_count": 50,
+    "full_events_sha256": "d1a0c2c61a3205b47d0556941e928790c8ea2d2271af8bdaa1ae36403608c4d8",
+    "appended_events_sha256": "74a033df1aa6e7e8f7adaa2391331f7e95a86c06ef87c380ce058049b7baa6fb",
+    "appended_event_ids": [
+      "alibaba-qwen:qwen-flash:model_added:ef32fc3b2dae",
+      "alibaba-qwen:qwen3.7-plus:model_added:e03eb0492ccc",
+      "alibaba-qwen:qwen3.8-flash:model_added:af7210282b0e",
+      "alibaba-qwen:qwen3.8-max:model_added:8aeb82e865e9",
+      "meta:muse-spark-1.3:model_added:b17e090be382",
+      "meta:muse-wonder-1.0:model_added:7ecf5b4b8d7d",
+      "moonshot-ai:kimi-k3.1-pro:model_added:ac9fdd82091a",
+      "moonshot-ai:kimi-k3.1-pro-highspeed:model_added:9b8e5dbf28cc",
+      "openai:gpt-6.1-terra:model_added:dec357b257b6"
+    ],
+    "appended_dedupe_keys": [
+      "sha256:ef32fc3b2dae23862eecb9e885333e980a568df58a677db0acdb786d5dcaa0b0",
+      "sha256:e03eb0492ccce2582256e55e61ff882887e4b8c7bbd219a00333d289d2c3280a",
+      "sha256:af7210282b0e4aa3a7d25fb72ce714e6b927a5236165a206636846cc1a8b4794",
+      "sha256:8aeb82e865e9690e3c64cb2f6eac38740e728ab0ffd1038d7a4464d9e689599b",
+      "sha256:b17e090be38298651a5f189c1f678f8e0d1c521be9409badedd99fb1799cbf57",
+      "sha256:7ecf5b4b8d7ddaa661d42c714f88acc2a400ed51fe09c625df41e5b4f870a983",
+      "sha256:ac9fdd82091a1bab1e73e4e16002d02306eb6201747dd4a7c95fdd726f377627",
+      "sha256:9b8e5dbf28cc62b410bbe2bf2d36a6ddda96624ccac70697418669da2e57cd49",
+      "sha256:dec357b257b689307d81edb6bcd125ccaeefa0d5de42d005e4493ad1fd7a0b8f"
+    ],
+    "source_snapshots": {
+      "alibaba-qwen/qwen-flash": [
+        "data/snapshots/2026-10-27-8/prices.json",
+        "data/snapshots/2026-10-28/prices.json"
+      ],
+      "alibaba-qwen/qwen3.7-plus": [
+        "data/snapshots/2026-10-27-8/prices.json",
+        "data/snapshots/2026-10-28/prices.json"
+      ],
+      "alibaba-qwen/qwen3.8-flash": [
+        "data/snapshots/2026-10-27-8/prices.json",
+        "data/snapshots/2026-10-28/prices.json"
+      ],
+      "alibaba-qwen/qwen3.8-max": [
+        "data/snapshots/2026-10-27-8/prices.json",
+        "data/snapshots/2026-10-28/prices.json"
+      ],
+      "meta/muse-spark-1.3": [
+        "data/snapshots/2026-10-28/prices.json",
+        "data/snapshots/2026-10-28-2/prices.json"
+      ],
+      "meta/muse-wonder-1.0": [
+        "data/snapshots/2026-10-28/prices.json",
+        "data/snapshots/2026-10-28-2/prices.json"
+      ],
+      "moonshot-ai/kimi-k3.1-pro": [
+        "data/snapshots/2026-10-23/prices.json",
+        "data/snapshots/2026-10-24/prices.json"
+      ],
+      "moonshot-ai/kimi-k3.1-pro-highspeed": [
+        "data/snapshots/2026-10-23/prices.json",
+        "data/snapshots/2026-10-24/prices.json"
+      ],
+      "openai/gpt-6.1-terra": [
+        "data/snapshots/2026-10-27-5/prices.json",
+        "data/snapshots/2026-10-27-6/prices.json"
+      ]
+    },
+    "evidence": "Backfill of model_added events for token-priced models that releases added while daily_pricing_release.py ran the event generator only for price changes (fixed 2026-10-29). Each event is generated from the snapshot pair of the release that added the model."
   },
   "openai_eu_residency_extension": {
     "official_sources": [

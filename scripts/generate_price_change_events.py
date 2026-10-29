@@ -654,10 +654,6 @@ def generate_events(before: Path, after: Path, provider_id: str | None = None, m
         after_model = after_models[key]
         if after_model.get("lifecycle_conflict"):
             continue
-        # Events are denominated per 1M tokens; per-minute, per-page and per-character models
-        # (voice, OCR, TTS) have no representation in the event schema.
-        if (after_model.get("pricing") or {}).get("unit") != "1M tokens":
-            continue
         lifecycle = after_model.get("lifecycle") or {}
         lifecycle_date = (
             lifecycle.get("retirement_date") if after_model.get("status") == "retired"
@@ -665,6 +661,10 @@ def generate_events(before: Path, after: Path, provider_id: str | None = None, m
         )
         if after_model.get("status") in {"deprecated", "retired"} and lifecycle_date and lifecycle_date <= detected_at:
             events.append(newly_observed_lifecycle_event(after_model, before_rel, after_rel, detected_at))
+        elif (after_model.get("pricing") or {}).get("unit") != "1M tokens":
+            # model_added events carry per-1M-token prices; voice, OCR and TTS models priced per
+            # minute, page or character have no token unit and no model_added representation.
+            continue
         else:
             events.append(
                 lifecycle_event(None, after_model, before_rel, after_rel, detected_at, "model_added")
@@ -684,10 +684,6 @@ def generate_events(before: Path, after: Path, provider_id: str | None = None, m
     for key in sorted(set(before_models) & set(after_models)):
         before_model = before_models[key]
         after_model = after_models[key]
-        # Same per-1M-token limit as added models: a repriced or deprecated voice or OCR model must
-        # not produce an event the schema rejects.
-        if before_model["pricing"].get("unit") != "1M tokens" and after_model["pricing"].get("unit") != "1M tokens":
-            continue
         lifecycle_changed = not after_model.get("lifecycle_conflict") and (
             before_model.get("status") != after_model.get("status")
             or before_model.get("lifecycle") != after_model.get("lifecycle")
