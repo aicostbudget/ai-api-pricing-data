@@ -51,8 +51,8 @@
     "xai/grok-4.5": "275e29a0f684ac63d14106880ebfde98081e656887da854643011bc81907b1d4",
     "xai/grok-4.6": "d1f1323a41d2d9a80ebbfba186ffffbd679310ee89beb4441607495d474c8e75",
     "xai/grok-4.7": "c68debe93924f91df9156a2773311016eff500939aa7be57c6ded5c793eea021",
-    "moonshot-ai/kimi-k2.6": "40934b50b2176367fc3b29c2117ff19497571f868ff5856a52b886ded0cccbf7",
-    "moonshot-ai/kimi-k2.7-code": "c81ad5e5476d5fe732c62150681d53787f2b4a018a1a588f2d9a587f4fe66518",
+    "moonshot-ai/kimi-k2.6": "fcc07047e5d5b40071e1e3a42e9d1197e307d9273469bed0ff5a142d95ec712e",
+    "moonshot-ai/kimi-k2.7-code": "fc0fcf97003ab97599c7815dc4bd523250b6f4c71a839141fcab372040b4525e",
     "anthropic/claude-fable-5-1": "cbf97e969d9e9e7832cbab0a331b5a56be1b1b33818d87e4c2d0f425fdb74473",
     "anthropic/claude-mythos-5-1": "8b4f0a5b279065d024ae27043cabf2c9bd29f2d0f77e4c72cd4eec0cdc5aa79d",
     "deepseek/deepseek-flash": "2dbc816091c3b05365a6f71cb51eadcdb1663c01105e5d94c921ad4931171eb7",
@@ -118,8 +118,8 @@
     "xai/grok-4.5": "1ff0ed74efe511a6fc94bc5ddbf57a5322ef1b75456ffa21f57507b9b73d2c1d",
     "xai/grok-4.6": "174f4d069d9f8effbdbbde634fca27290f92b690208dc721e4adc58a319d0f4e",
     "xai/grok-4.7": "43184d734aa17ff8bbffa2d30cca297b9370158990870a89e920a919a2310573",
-    "moonshot-ai/kimi-k2.6": "db14c78401453e140a086cccf7f7d205b956fd990cd38861ad013d366cd43ed3",
-    "moonshot-ai/kimi-k2.7-code": "124b26fb0b4bb782616e12a97f99c0f6b36e046d04a7c4b6a91b26b6dfdb4135",
+    "moonshot-ai/kimi-k2.6": "87a4a6164c0f432381e75baa01e298eed3c1a2d21574d9dec972eab4383ea696",
+    "moonshot-ai/kimi-k2.7-code": "995ba848d81a94fe7821f518213386c1768a0c15210f371e092a0823b4b97fd5",
     "openai/gpt-4o-mini-tts-2025-03-20": "d799193712bc665ada013d9957ea95e817ca0f9e68a4d0110b9fd25fe7dd8163",
     "openai/gpt-4o-mini-tts-2025-12-15": "25f5e4c9a14f75a42bea1e47e2aec605c71059be37ba21db1373c2033629e01c",
     "openai/gpt-5": "eac24ecb7035a69be9f9b212611c1c3534d1052c4eb017477c98c6e154f411d2",
@@ -410,5 +410,31 @@
       "openai/gpt-6-sol": "2ee666e1a15a8026e29344ccdfccc2bc713a7174cadb2d17ee4f972d167cd84f"
     },
     "price_change_events_added": 0
+  },
+  "kimi_k2_lifecycle_extension": {
+    "identities": [
+      "moonshot-ai/kimi-k2.6",
+      "moonshot-ai/kimi-k2.7-code"
+    ],
+    "canonical_source_commit": "a63cb90",
+    "base_release": "model_added_backfill_extension",
+    "base_event_count": 50,
+    "appended_event_count": 2,
+    "full_event_count": 52,
+    "full_events_sha256": "96536415eb270d7c9296ec43b55a96e191760db4b12030510c13f676488b8c22",
+    "appended_events_sha256": "4e221689e6de0fdad2bbffec8f149e2657918f3af9228c246a3b0ac7c85ea447",
+    "appended_event_ids": [
+      "moonshot-ai:kimi-k2.6:lifecycle_update:8567cf6b04d7",
+      "moonshot-ai:kimi-k2.7-code:lifecycle_update:e7646e7b00f5"
+    ],
+    "appended_dedupe_keys": [
+      "sha256:8567cf6b04d77c174417d71f98fca3ac3de0f5ab510cecf761ff07ce1babc7e3",
+      "sha256:e7646e7b00f532a4bcb13ca35dae2855087d1b60176fe5028745d1169110bab0"
+    ],
+    "source_snapshots": [
+      "data/snapshots/2026-10-25-2/prices.json",
+      "data/snapshots/2026-10-29-2/prices.json"
+    ],
+    "evidence": "Kimi K2.6 and K2.7 Code turned deprecated in snapshot 2026-10-26 without an event, because their prices were last verified on 2026-10-09 and a lifecycle_update needs verified_at no earlier than detected_at. Release 2026-10-29-2 re-verified both against platform.kimi.ai/docs/pricing (chat and batch tables, reports/price-evidence 20261029T063710Z and 20261029T063721Z), then generated the events from the last active snapshot to that release. Kimi publishes no deprecation or retirement date, so effective_from stays null."
   }
 }
