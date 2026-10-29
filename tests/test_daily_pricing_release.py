@@ -505,7 +505,7 @@ class PipelineOrderTests(unittest.TestCase):
 
             with patch("scripts.daily_pricing_release.command", side_effect=record):
                 run_validation_pipeline(dataset, website, "2026-10-21T16:35:00Z", [{"change_type": "added"}])
-            generator = steps.index("generate_pricing_v2_preview.py")
+            generator = steps.index("generate_pricing_v2_preview.py --website-dataset")
             meta = next(index for index, step in enumerate(steps) if step == "build.py --generated-at" and index > generator)
             sync = steps.index("sync-pricing-artifacts.mjs --write")
             self.assertLess(generator, meta)
