@@ -640,8 +640,22 @@ def follow_huggingface(
     code, _ = run(["gh", "run", "watch", str(run_id), "--exit-status", "--interval", "15"], root)
     _, log = run(["gh", "run", "view", str(run_id), "--log"], root)
     parity = "PASS" if "BUSINESS_PARITY: PASS" in log else "FAIL"
-    pushed = next((line.split("HF_PUSHED: ", 1)[1].strip() for line in log.splitlines() if "HF_PUSHED: " in line), None)
-    return {"passed": code == 0 and parity == "PASS", "run_id": run_id, "parity": parity, "hf_commit": pushed}
+    history_parity = "PASS" if "HISTORY_PARITY: PASS" in log else "FAIL"
+
+    def pushed_by(step: str) -> str | None:
+        return next(
+            (line.split("HF_PUSHED: ", 1)[1].strip() for line in log.splitlines() if step in line and "HF_PUSHED: " in line),
+            None,
+        )
+
+    return {
+        "passed": code == 0 and parity == "PASS" and history_parity == "PASS",
+        "run_id": run_id,
+        "parity": parity,
+        "history_parity": history_parity,
+        "hf_commit": pushed_by("Publish allowlisted artifacts safely"),
+        "history_hf_commit": pushed_by("Publish the price history safely"),
+    }
 
 
 def follow_indexnow(website: Path, website_sha: str, run: Callable[[list[str], Path], tuple[int, str]] = _run_capture) -> dict[str, Any]:
