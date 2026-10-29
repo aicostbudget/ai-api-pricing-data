@@ -66,6 +66,8 @@ RECOVERY_ARTIFACT_EXACT = {
     "huggingface/prices.csv",
     "huggingface/train.csv",
     "huggingface/meta.json",
+    "huggingface-history/price_snapshots.csv",
+    "huggingface-history/price_changes.csv",
 }
 RECOVERY_ARTIFACT_PREFIXES = (
     "api/v1/models/",
@@ -554,6 +556,7 @@ class RecoveryShellBackend(RecoveryBackend):
         ensure_snapshot(self.root, generated_at)
         self._run([sys.executable, "scripts/generate_pricing_v2_preview.py"], self.root)
         self._run([sys.executable, "scripts/export_huggingface.py", "--website-repo", str(self.website), "--website-ref", plan["website_contract"]["website_sha"], "--generated-at", generated_at, "--write"], self.root)
+        self._run([sys.executable, "scripts/export_huggingface_history.py", "--write"], self.root)
         self._run([sys.executable, "scripts/validate.py"], self.root)
 
     def commit_artifact(self, plan: dict[str, Any], source_sha: str) -> str:
