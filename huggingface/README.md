@@ -55,6 +55,8 @@ It estimates monthly spending, cost per successful task, and the break-even succ
 
 The results depend on your inputs and assumptions. The tool does not benchmark model quality, measure actual success rates, automate routing, or guarantee savings.
 
+To measure success rates on your own models, use the open [LLM cost-per-task benchmark](https://github.com/aicostbudget/llm-cost-per-task-benchmark): 16 tasks with code-only validators, run with your own API keys and priced from this dataset.
+
 ## Published files
 
 - `train.csv`: a lightweight CSV projection consumed by the Hugging Face Dataset Viewer

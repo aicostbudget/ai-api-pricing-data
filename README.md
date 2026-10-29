@@ -146,6 +146,8 @@ Use the interactive tools for scenario exploration:
 - [Analyze retry cost](https://aicostbudget.com/en/llm-retry-cost-calculator?utm_source=github&utm_medium=referral&utm_campaign=pricing_dataset&utm_content=readme_retry_cost_calculator)
 - [Compare model-switch cost](https://aicostbudget.com/en/model-switch-cost-calculator?utm_source=github&utm_medium=referral&utm_campaign=pricing_dataset&utm_content=readme_model_switch_cost_calculator)
 
+To measure real success rates instead of assuming them, the open [LLM cost-per-task benchmark](https://github.com/aicostbudget/llm-cost-per-task-benchmark) runs 16 tasks with code-only validators against your own API keys and prices every attempt from this dataset. Its first published run found a flagship model matching a cheap one on accuracy at 5–9× the cost per successful task.
+
 ## Use Cases
 
 - Compare AI model prices
