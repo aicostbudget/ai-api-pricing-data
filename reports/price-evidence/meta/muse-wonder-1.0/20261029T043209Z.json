@@ -1,0 +1,41 @@
+{
+  "model": "meta/muse-wonder-1.0",
+  "captured_at": "20261029T043209Z",
+  "expect": [
+    "$4.00",
+    "$20.00",
+    "$0.20"
+  ],
+  "pages": [
+    {
+      "url": "https://dev.meta.ai/docs/pricing-rate-limits.md",
+      "http_status": 200,
+      "text_sha256": "2bb66f9727c2b0e3be8e07454b4e18a423c79a7d29359e60262b976da80fd0f4",
+      "passages": [
+        "# Pricing and rate limits Use our models with pay-as-you-go billing on Meta Model API and in [Muse Code](https://dev.meta.ai/docs/muse-code), or in Muse Code with a monthly [subscription](https://dev.meta.ai/docs/muse-code/subscriptions). This page covers pay-as-you-go: Model API bills text models per token, image generation per image, Muse Voice Transcribe by the hour of audio processed, and Segment Anything Model (SAM) per image or video frame segmented, with no minimums or upfront commitment.",
+        "### Muse Wonder Model: `muse-wonder-1.0`. | Usage | Standard mode (per 1M tokens) | Contributor mode (per 1M tokens) | | :----------- | :---------------------------- | :------------------------------- | | Cached input | $0.20 | Not available |",
+        "| Usage | Standard mode (per 1M tokens) | Contributor mode (per 1M tokens) | | :----------- | :---------------------------- | :------------------------------- | | Cached input | $0.20 | Not available | | Input | $4.00 | Not available | | Output | $20.00 | Not available |",
+        "| :----------- | :---------------------------- | :------------------------------- | | Cached input | $0.20 | Not available | | Input | $4.00 | Not available | | Output | $20.00 | Not available | ### Muse Spark",
+        "| Cached input | $0.20 | Not available | | Input | $4.00 | Not available | | Output | $20.00 | Not available | ### Muse Spark Models: `muse-spark-1.3`, `muse-spark-1.2`, and `muse-spark-1.1` in Standard mode; `muse-spark-1.3-contributor` and `muse-spark-1.2-contributor` in Contributor mode. Muse Spark 1.1 is Standard mode only.",
+        "### Muse Spark Models: `muse-spark-1.3`, `muse-spark-1.2`, and `muse-spark-1.1` in Standard mode; `muse-spark-1.3-contributor` and `muse-spark-1.2-contributor` in Contributor mode. Muse Spark 1.1 is Standard mode only. | Usage | Standard mode (per 1M tokens) | Contributor mode (per 1M tokens) | | :----------- | :---------------------------- | :------------------------------- | | Cached input | $0.15 | $0.002 |",
+        "| Usage | Standard mode (per 1M tokens) | Contributor mode (per 1M tokens) | | :----------- | :---------------------------- | :------------------------------- | | Cached input | $0.15 | $0.002 | | Input | $1.25 | $0.10 | | Output | $4.25 | $0.20 |",
+        "| :----------- | :---------------------------- | :------------------------------- | | Cached input | $0.15 | $0.002 | | Input | $1.25 | $0.10 | | Output | $4.25 | $0.20 | ### Token pricing notes",
+        "| Cached input | $0.15 | $0.002 | | Input | $1.25 | $0.10 | | Output | $4.25 | $0.20 | ### Token pricing notes These apply to the token-priced models above, Muse Wonder and Muse Spark.",
+        "- **Cached input costs less**: When part of your prompt matches a [cached prefix](https://dev.meta.ai/docs/prompt-caching), you pay the cached-input rate for those tokens. Check `cached_tokens` in the response to see how many were served from cache. - **No long-context premium**: you pay the same rate whether your context window is mostly empty or almost full. - **Web search grounding**: **$2.50 per 1,000 search queries**, in addition to the request's token cost. This applies to the [`web_search",
+        "| Usage | Price | | :-------------- | :-------------- | | Generated image | $0.01 per image | [Muse Image](https://dev.meta.ai/docs/models#muse-image) is billed at a flat rate per generated image. The price is the same regardless of prompt length, `reasoning_strength`, or the tools the model uses during generation, including its built-in web and image search, which isn't charged separately. A request that returns `n` images is billed for `n` images. You're billed only for images the model succes",
+        "| Usage | Price | | :-------------- | :------------- | | Audio processed | $0.18 per hour | Streaming and non-streaming transcription are priced the same. Zero data retention (ZDR) is priced at parity with Standard mode. Contributor mode isn't available for Muse Voice Transcribe. Audio time is billed as a separate line item from token usage, rounded down to whole seconds; other endpoints aren't billed for audio time. ### Segment Anything Model 3.1",
+        "Streaming and non-streaming transcription are priced the same. Zero data retention (ZDR) is priced at parity with Standard mode. Contributor mode isn't available for Muse Voice Transcribe. Audio time is billed as a separate line item from token usage, rounded down to whole seconds; other endpoints aren't billed for audio time. ### Segment Anything Model 3.1 [SAM 3.1](https://dev.meta.ai/docs/models#sam-3) segmentation is billed per image and per video frame, not per token. The same prices apply ",
+        "| Usage | Price | | :----------------- | :--------------------- | | Image segmentation | $2.50 per 1,000 images | | Video segmentation | $0.20 per 1,000 frames | ## Rate limits",
+        "| :----------------- | :--------------------- | | Image segmentation | $2.50 per 1,000 images | | Video segmentation | $0.20 per 1,000 frames | ## Rate limits Rate limits apply **per team, not per API key**: requests, tokens, and streams from every key in a team count toward the same limits. Each model below has its own limits, so traffic to one model doesn't use up another's.",
+        "## Rate limits Rate limits apply **per team, not per API key**: requests, tokens, and streams from every key in a team count toward the same limits. Each model below has its own limits, so traffic to one model doesn't use up another's. | Model | Requests per minute (RPM) | Tokens per minute (TPM) | Other limits | | :--------------------------- | :------------------------ | :---------------------- | :---------------------------------------------- | | `muse-wonder-1.0` | 3,000 | 4,000,000 | |",
+        "| `sam-3.1` | 3,000 | None | | | `muse-image-1.0` | 150 | None | | | `muse-voice-transcribe-1.0` | None | None | 256 concurrent streams; 16,000 streams per hour | [SAM 3.1](https://dev.meta.ai/docs/models#sam-3) is [billed per image or frame](https://dev.meta.ai/docs/pricing-rate-limits#sam-pricing) and [Muse Image](https://dev.meta.ai/docs/models#muse-image) is [priced per image](https://dev.meta.ai/docs/pricing-rate-limits#image-generation), so neither has a TPM limit. [Muse Voice Transcribe](",
+        "| `muse-image-1.0` | 150 | None | | | `muse-voice-transcribe-1.0` | None | None | 256 concurrent streams; 16,000 streams per hour | [SAM 3.1](https://dev.meta.ai/docs/models#sam-3) is [billed per image or frame](https://dev.meta.ai/docs/pricing-rate-limits#sam-pricing) and [Muse Image](https://dev.meta.ai/docs/models#muse-image) is [priced per image](https://dev.meta.ai/docs/pricing-rate-limits#image-generation), so neither has a TPM limit. [Muse Voice Transcribe](https://dev.meta.ai/docs/speech",
+        "| `muse-voice-transcribe-1.0` | None | None | 256 concurrent streams; 16,000 streams per hour | [SAM 3.1](https://dev.meta.ai/docs/models#sam-3) is [billed per image or frame](https://dev.meta.ai/docs/pricing-rate-limits#sam-pricing) and [Muse Image](https://dev.meta.ai/docs/models#muse-image) is [priced per image](https://dev.meta.ai/docs/pricing-rate-limits#image-generation), so neither has a TPM limit. [Muse Voice Transcribe](https://dev.meta.ai/docs/speech-to-text) is [billed by audio proces",
+        "Token usage counts only **your** input and output tokens. Meta injects a small amount of steering context into every prompt (a system prompt and related scaffolding); those injected tokens are not billed and are excluded from the token counts reported in your `usage` and by the [token-counting endpoints](https://dev.meta.ai/docs/token-counting#injected-tokens). ### Background responses Creating [background responses](https://dev.meta.ai/docs/protocols/responses#using-with-other-features) (`backg"
+      ],
+      "missing_expected": []
+    }
+  ],
+  "changes_since_previous": [],
+  "previous_capture": "20261028T183225Z"
+}

@@ -130,8 +130,13 @@ def classify_changes(before: list[dict[str, Any]], after: list[dict[str, Any]]) 
 
 
 def price_event_changes(changes: list[dict[str, Any]]) -> list[dict[str, Any]]:
-    """Only true price deltas are eligible for the price-event generator."""
-    return [change for change in changes if change["change_type"] == "pricing"]
+    """Price deltas and added models feed the event generator; metadata-only edits do not.
+
+    Added models were left out until 2026-10-29, so new models never reached the price monitor. Lifecycle
+    changes stay out: a lifecycle_update needs a price verification no older than its detection date, and a
+    deprecation often lands on a model whose prices were verified weeks earlier.
+    """
+    return [change for change in changes if change["change_type"] in {"pricing", "added"}]
 
 
 def _normalized_business_value(value: Any) -> Any:
@@ -247,7 +252,9 @@ def run_validation_pipeline(root: Path, website: Path, generated_at: str, change
             python, "scripts/generate_price_change_events.py",
             "--before", str(before_snapshot), "--after", str(after_snapshot),
         ], root, env)
-    command([python, "scripts/generate_pricing_v2_preview.py"], root, env)
+    # Website-owned editorial facts (e.g. replacementModelId) must come from the release checkout,
+    # not the generator's hardcoded default path.
+    command([python, "scripts/generate_pricing_v2_preview.py", "--website-dataset", str(website / "data/model-pricing.json")], root, env)
     # build.py wrote api/v1/meta.json from the identity registry before the generator above
     # updated it; rewrite it so new models get their access metadata in this release, not the next.
     command([python, "scripts/build.py", "--generated-at", generated_at, "--meta-only"], root, env)
@@ -261,6 +268,7 @@ def run_validation_pipeline(root: Path, website: Path, generated_at: str, change
         python, "scripts/export_huggingface.py", "--website-repo", str(website), "--website-ref", "WORKTREE",
         "--generated-at", generated_at, "--write",
     ], root, env)
+    command([python, "scripts/export_huggingface_history.py", "--write"], root, env)
     command([python, "scripts/validate.py"], root, env)
     command([python, "scripts/validate_pricing_v2_preview.py"], root, env)
     command(["node", "scripts/sync-pricing-artifacts.mjs", "--check", "--dataset", str(root), "--website", str(website)], website, env)
@@ -268,6 +276,7 @@ def run_validation_pipeline(root: Path, website: Path, generated_at: str, change
         python, "scripts/export_huggingface.py", "--website-repo", str(website), "--website-ref", "WORKTREE",
         "--generated-at", generated_at, "--check",
     ], root, env)
+    command([python, "scripts/export_huggingface_history.py"], root, env)
     website_changed = any(
         website_business_changed(website_before[path], (website / path).read_bytes() if (website / path).is_file() else None)
         for path in WEBSITE_OUTPUTS
@@ -639,8 +648,22 @@ def follow_huggingface(
     code, _ = run(["gh", "run", "watch", str(run_id), "--exit-status", "--interval", "15"], root)
     _, log = run(["gh", "run", "view", str(run_id), "--log"], root)
     parity = "PASS" if "BUSINESS_PARITY: PASS" in log else "FAIL"
-    pushed = next((line.split("HF_PUSHED: ", 1)[1].strip() for line in log.splitlines() if "HF_PUSHED: " in line), None)
-    return {"passed": code == 0 and parity == "PASS", "run_id": run_id, "parity": parity, "hf_commit": pushed}
+    history_parity = "PASS" if "HISTORY_PARITY: PASS" in log else "FAIL"
+
+    def pushed_by(step: str) -> str | None:
+        return next(
+            (line.split("HF_PUSHED: ", 1)[1].strip() for line in log.splitlines() if step in line and "HF_PUSHED: " in line),
+            None,
+        )
+
+    return {
+        "passed": code == 0 and parity == "PASS" and history_parity == "PASS",
+        "run_id": run_id,
+        "parity": parity,
+        "history_parity": history_parity,
+        "hf_commit": pushed_by("Publish allowlisted artifacts safely"),
+        "history_hf_commit": pushed_by("Publish the price history safely"),
+    }
 
 
 def follow_indexnow(website: Path, website_sha: str, run: Callable[[list[str], Path], tuple[int, str]] = _run_capture) -> dict[str, Any]:

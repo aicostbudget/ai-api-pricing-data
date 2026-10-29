@@ -10,6 +10,8 @@ MISTRAL_EXTENSION=SCOPE['mistral_large_4_standard_extension']
 OPENAI_12H_EXTENSION=SCOPE['openai_12h_cache_write_extension']
 OPENAI_EU_EXTENSION=SCOPE['openai_eu_residency_extension']
 TTS_CACHE_EXTENSION=SCOPE['gemini_38_tts_cache_removal_extension']
+BACKFILL_EXTENSION=SCOPE['model_added_backfill_extension']
+KIMI_K2_EXTENSION=SCOPE['kimi_k2_lifecycle_extension']
 EVENTS_PATH='data/price-change-events/events.jsonl'
 DEEPSEEK_METADATA_APPROVAL={
  'identity':'deepseek/deepseek-flash',
@@ -138,6 +140,55 @@ def verify_tts_cache_release_event_bytes(raw):
   assert row['source_snapshot_after']=='data/snapshots/2026-10-25-2/prices.json'
   assert row['official_source_url']=='https://ai.google.dev/gemini-api/docs/pricing'
  return normalized,lines,rows
+def verify_backfill_release_event_bytes(raw):
+ normalized,lines,rows=event_lines_rows(raw)
+ assert BACKFILL_EXTENSION['base_release']=='gemini_38_tts_cache_removal_extension','unexpected backfill base release'
+ assert hashlib.sha256(normalized).hexdigest()==BACKFILL_EXTENSION['full_events_sha256'],'unapproved backfill release event content'
+ assert len(rows)==BACKFILL_EXTENSION['full_event_count'],'unexpected backfill release event count'
+ ids=[row['event_id'] for row in rows];keys=[row['dedupe_key'] for row in rows]
+ assert len(set(ids))==len(ids),'duplicate event_id'
+ assert len(set(keys))==len(keys),'duplicate dedupe_key'
+ appended_ids=BACKFILL_EXTENSION['appended_event_ids'];appended_keys=BACKFILL_EXTENSION['appended_dedupe_keys'];id_set=set(appended_ids)
+ assert len(appended_ids)==len(id_set)==BACKFILL_EXTENSION['appended_event_count']==9
+ appended=[(line,row) for line,row in zip(lines,rows) if row['event_id'] in id_set]
+ rebuilt=b''.join(line for line,row in zip(lines,rows) if row['event_id'] not in id_set)
+ verify_tts_cache_release_event_bytes(rebuilt)
+ assert [row['event_id'] for _,row in appended]==appended_ids,'unexpected backfill event ID'
+ assert [row['dedupe_key'] for _,row in appended]==appended_keys,'unexpected backfill dedupe key'
+ assert len(rows)==BACKFILL_EXTENSION['base_event_count']+BACKFILL_EXTENSION['appended_event_count']
+ assert hashlib.sha256(b''.join(line for line,_ in appended)).hexdigest()==BACKFILL_EXTENSION['appended_events_sha256']
+ for _,row in appended:
+  identity=row['provider_id']+'/'+row['model_id']
+  assert identity in BACKFILL_EXTENSION['identities'],identity
+  assert row['change_type']=='model_added' and row['old_status'] is None and row['new_status'] in {'active','preview'}
+  assert row['old_prices']=={'cached_input':None,'input':None,'output':None},identity
+  assert [row['source_snapshot_before'],row['source_snapshot_after']]==BACKFILL_EXTENSION['source_snapshots'][identity]
+ return normalized,lines,rows
+def verify_kimi_k2_release_event_bytes(raw):
+ normalized,lines,rows=event_lines_rows(raw)
+ assert KIMI_K2_EXTENSION['base_release']=='model_added_backfill_extension','unexpected Kimi K2 base release'
+ assert hashlib.sha256(normalized).hexdigest()==KIMI_K2_EXTENSION['full_events_sha256'],'unapproved Kimi K2 release event content'
+ assert len(rows)==KIMI_K2_EXTENSION['full_event_count'],'unexpected Kimi K2 release event count'
+ ids=[row['event_id'] for row in rows];keys=[row['dedupe_key'] for row in rows]
+ assert len(set(ids))==len(ids),'duplicate event_id'
+ assert len(set(keys))==len(keys),'duplicate dedupe_key'
+ appended_ids=KIMI_K2_EXTENSION['appended_event_ids'];appended_keys=KIMI_K2_EXTENSION['appended_dedupe_keys'];id_set=set(appended_ids)
+ assert len(appended_ids)==len(id_set)==KIMI_K2_EXTENSION['appended_event_count']==2
+ appended=[(line,row) for line,row in zip(lines,rows) if row['event_id'] in id_set]
+ rebuilt=b''.join(line for line,row in zip(lines,rows) if row['event_id'] not in id_set)
+ verify_backfill_release_event_bytes(rebuilt)
+ assert [row['event_id'] for _,row in appended]==appended_ids,'unexpected Kimi K2 event ID'
+ assert [row['dedupe_key'] for _,row in appended]==appended_keys,'unexpected Kimi K2 dedupe key'
+ assert len(rows)==KIMI_K2_EXTENSION['base_event_count']+KIMI_K2_EXTENSION['appended_event_count']
+ assert hashlib.sha256(b''.join(line for line,_ in appended)).hexdigest()==KIMI_K2_EXTENSION['appended_events_sha256']
+ for _,row in appended:
+  assert row['provider_id']+'/'+row['model_id'] in KIMI_K2_EXTENSION['identities']
+  assert row['change_type']=='lifecycle_update' and row['old_status']=='active' and row['new_status']=='deprecated'
+  assert row['old_prices']==row['new_prices'] and row['effective_from'] is None and row['date_basis']=='first_observed'
+  assert row['old_lifecycle'] is None and row['new_lifecycle'] is None
+  assert row['verified_at']>=row['detected_at']=='2026-10-29'
+  assert [row['source_snapshot_before'],row['source_snapshot_after']]==KIMI_K2_EXTENSION['source_snapshots']
+ return normalized,lines,rows
 def verify_checkpoint(checkpoint=CHECKPOINT,current_raw=None):
  assert re.fullmatch(r'[0-9a-f]{40}',checkpoint['source_commit']),'invalid checkpoint source commit'
  assert re.fullmatch(r'[0-9a-f]{40}',checkpoint['parent_commit']),'invalid checkpoint parent commit'
@@ -256,7 +307,7 @@ class ClosureScopeTests(unittest.TestCase):
   with self.assertRaisesRegex(AssertionError,'unapproved change: '+mistral['identity']):verify_rows(old,mutated,approved)
  def test_all_current_events_exact_and_correction_is_not_provider_event(self):
   verify_checkpoint(CHECKPOINT)
-  _,_,events=verify_tts_cache_release_event_bytes((ROOT/EVENTS_PATH).read_bytes())
+  _,_,events=verify_kimi_k2_release_event_bytes((ROOT/EVENTS_PATH).read_bytes())
   self.assertFalse(any(e['model_id']=='gemini-2.5-flash-image' and e['detected_at']=='2026-10-09' for e in events))
  def test_event_digest_pinned_to_approved_commit(self):
   self.assertEqual(SCOPE['events_source_commit'],'1c7ec3eca94f0bfdc99b7ae18616bdce38be8833')
@@ -266,8 +317,12 @@ class ClosureScopeTests(unittest.TestCase):
  def test_e1_checkpoint_identity_scope_and_increment(self):
   self.assertEqual(len(SCOPE['event_checkpoints']),1);blob,rows=verify_checkpoint();self.assertEqual(len(blob.splitlines()),37);self.assertEqual(len(rows),37)
  def test_argon_release_is_the_38_event_base_of_the_mistral_release(self):
-  current=(ROOT/EVENTS_PATH).read_bytes();normalized,lines,rows=verify_tts_cache_release_event_bytes(current)
-  self.assertEqual(normalized,normalize_event_newlines(current));self.assertEqual(len(rows),41)
+  current=(ROOT/EVENTS_PATH).read_bytes();normalized,lines,rows=verify_kimi_k2_release_event_bytes(current)
+  self.assertEqual(normalized,normalize_event_newlines(current));self.assertEqual(len(rows),52)
+  kimi_ids=set(KIMI_K2_EXTENSION['appended_event_ids']);backfill_release=b''.join(line for line,row in zip(lines,rows) if row['event_id'] not in kimi_ids)
+  _,lines,rows=verify_backfill_release_event_bytes(backfill_release);self.assertEqual(len(rows),50)
+  backfill_ids=set(BACKFILL_EXTENSION['appended_event_ids']);tts_release=b''.join(line for line,row in zip(lines,rows) if row['event_id'] not in backfill_ids)
+  _,lines,rows=verify_tts_cache_release_event_bytes(tts_release);self.assertEqual(len(rows),41)
   tts_ids=set(TTS_CACHE_EXTENSION['appended_event_ids']);mistral_release=b''.join(line for line,row in zip(lines,rows) if row['event_id'] not in tts_ids)
   _,lines,rows=verify_mistral_release_event_bytes(mistral_release);self.assertEqual(len(rows),39)
   mistral_ids=set(MISTRAL_EXTENSION['appended_event_ids']);argon_base=b''.join(line for line,row in zip(lines,rows) if row['event_id'] not in mistral_ids)
@@ -275,7 +330,7 @@ class ClosureScopeTests(unittest.TestCase):
  def test_event_lf_and_crlf_have_same_approved_digest(self):
   historical=approved_event_bytes();self.assertEqual(verify_event_bytes(historical),historical);self.assertEqual(verify_event_bytes(historical.replace(b'\n',b'\r\n')),historical)
   current=checkpoint_event_bytes();self.assertEqual(verify_current_event_bytes(current)[0],current);self.assertEqual(verify_current_event_bytes(current.replace(b'\n',b'\r\n'))[0],current)
-  release=normalize_event_newlines((ROOT/EVENTS_PATH).read_bytes());self.assertEqual(verify_tts_cache_release_event_bytes(release)[0],release);self.assertEqual(verify_tts_cache_release_event_bytes(release.replace(b'\n',b'\r\n'))[0],release)
+  release=normalize_event_newlines((ROOT/EVENTS_PATH).read_bytes());self.assertEqual(verify_kimi_k2_release_event_bytes(release)[0],release);self.assertEqual(verify_kimi_k2_release_event_bytes(release.replace(b'\n',b'\r\n'))[0],release)
  def test_event_field_mutations_rejected(self):
   historical=approved_event_bytes();rows=[json.loads(line) for line in historical.splitlines()];self.assertEqual(encode(rows),historical)
   def fields(value,path=()):

@@ -25,6 +25,8 @@ try:
         read_json,
         validate_payload,
     )
+    from export_huggingface_history import HISTORY_HF_DIR
+    from export_huggingface_history import artifact_contents as history_artifact_contents
 except ModuleNotFoundError:
     from scripts.check_hf_production_parity import (
         ARTIFACTS,
@@ -38,14 +40,19 @@ except ModuleNotFoundError:
         read_json,
         validate_payload,
     )
+    from scripts.export_huggingface_history import HISTORY_HF_DIR
+    from scripts.export_huggingface_history import artifact_contents as history_artifact_contents
 
 
 ALLOWED_ARTIFACTS = ("prices.json", "prices.csv", "train.csv", "meta.json")
+HISTORY_ARTIFACTS = ("price_snapshots.csv", "price_changes.csv")
 DEFAULT_HF_REPO_ID = "aicostbudget-ai/ai-api-pricing"
+DEFAULT_HISTORY_REPO_ID = "aicostbudget-ai/llm-api-price-history"
 DEFAULT_HF_BRANCH = "main"
 BOT_NAME = "AICostBudget Dataset Bot"
 BOT_EMAIL = "aicostbudget-dataset-bot@users.noreply.github.com"
 COMMIT_PREFIX = "data: publish pricing artifacts from GitHub"
+HISTORY_COMMIT_PREFIX = "data: publish price history from GitHub"
 
 
 class PublishError(Exception):
@@ -242,6 +249,25 @@ def validate_source_artifacts(source_dir: Path = HF_DIR) -> None:
         )
 
 
+def validate_history_artifacts(source_dir: Path = HISTORY_HF_DIR) -> None:
+    missing = [name for name in HISTORY_ARTIFACTS if not (source_dir / name).is_file()]
+    if missing:
+        raise ValidationFailure(f"source artifact missing: {', '.join(missing)}")
+    try:
+        expected = history_artifact_contents()
+        stale = [
+            name
+            for name in HISTORY_ARTIFACTS
+            if (source_dir / name).read_text(encoding="utf-8") != expected[name]
+        ]
+    except Exception as error:
+        raise ValidationFailure(sanitize_error(error)) from error
+    if stale:
+        raise ValidationFailure(
+            f"price history artifacts are not regenerated from the committed snapshots: {', '.join(stale)}"
+        )
+
+
 def hf_repo_url(repo_id: str) -> str:
     if not re.fullmatch(r"[A-Za-z0-9_.-]+/[A-Za-z0-9_.-]+", repo_id):
         raise ValidationFailure("HF_REPO_ID must use owner/dataset format")
@@ -318,22 +344,26 @@ def status_paths(repo_dir: Path) -> tuple[str, ...]:
     return tuple(sorted(set(paths)))
 
 
-def audit_changed_files(repo_dir: Path) -> tuple[str, ...]:
+def audit_changed_files(
+    repo_dir: Path, artifacts: tuple[str, ...] = ALLOWED_ARTIFACTS
+) -> tuple[str, ...]:
     changed = status_paths(repo_dir)
-    unexpected = [path for path in changed if path not in ALLOWED_ARTIFACTS]
+    unexpected = [path for path in changed if path not in artifacts]
     if unexpected:
         files = "\n".join(f"file: {path}" for path in unexpected)
         raise UnexpectedHFChange(files)
     return changed
 
 
-def copy_allowlisted_artifacts(source_dir: Path, hf_repo_dir: Path) -> tuple[str, ...]:
-    for name in ALLOWED_ARTIFACTS:
+def copy_allowlisted_artifacts(
+    source_dir: Path, hf_repo_dir: Path, artifacts: tuple[str, ...] = ALLOWED_ARTIFACTS
+) -> tuple[str, ...]:
+    for name in artifacts:
         source = source_dir / name
         if not source.is_file():
             raise ValidationFailure(f"source artifact missing: {name}")
         shutil.copyfile(source, hf_repo_dir / name)
-    return audit_changed_files(hf_repo_dir)
+    return audit_changed_files(hf_repo_dir, artifacts)
 
 
 def metadata_only_generated_at_change(source_dir: Path, hf_repo_dir: Path) -> bool:
@@ -355,11 +385,16 @@ def source_sha_label(source_sha: str | None) -> str:
     return "local"
 
 
-def commit_artifacts(repo_dir: Path, source_sha: str | None) -> str:
+def commit_artifacts(
+    repo_dir: Path,
+    source_sha: str | None,
+    artifacts: tuple[str, ...] = ALLOWED_ARTIFACTS,
+    commit_prefix: str = COMMIT_PREFIX,
+) -> str:
     try:
         run_git(["config", "user.name", BOT_NAME], cwd=repo_dir)
         run_git(["config", "user.email", BOT_EMAIL], cwd=repo_dir)
-        run_git(["add", "--", *ALLOWED_ARTIFACTS], cwd=repo_dir)
+        run_git(["add", "--", *artifacts], cwd=repo_dir)
         staged = tuple(
             sorted(
                 filter(
@@ -368,13 +403,13 @@ def commit_artifacts(repo_dir: Path, source_sha: str | None) -> str:
                 )
             )
         )
-        unexpected = [path for path in staged if path not in ALLOWED_ARTIFACTS]
+        unexpected = [path for path in staged if path not in artifacts]
         if unexpected:
             raise UnexpectedHFChange(
                 "\n".join(f"file: {path}" for path in unexpected)
             )
         run_git(["diff", "--cached", "--check"], cwd=repo_dir)
-        message = f"{COMMIT_PREFIX} {source_sha_label(source_sha)}"
+        message = f"{commit_prefix} {source_sha_label(source_sha)}"
         run_git(["commit", "-m", message], cwd=repo_dir)
         return run_git(["rev-parse", "HEAD"], cwd=repo_dir).stdout.strip().lower()
     except UnexpectedHFChange:
@@ -418,6 +453,9 @@ def publish_huggingface(
     output: TextIO,
     validate_source: Callable[[Path], None] = validate_source_artifacts,
     remote_head_reader: RemoteHeadReader = read_remote_head,
+    artifacts: tuple[str, ...] = ALLOWED_ARTIFACTS,
+    metadata_only_change: Callable[[Path, Path], bool] = metadata_only_generated_at_change,
+    commit_prefix: str = COMMIT_PREFIX,
 ) -> PublishResult:
     if not token.strip():
         raise AuthFailure("HF_TOKEN is not configured")
@@ -437,10 +475,10 @@ def publish_huggingface(
                     "fresh Hugging Face clone was not clean:\n"
                     + "\n".join(f"file: {path}" for path in initial_changes)
                 )
-            if metadata_only_generated_at_change(source_dir, clone_dir):
+            if metadata_only_change(source_dir, clone_dir):
                 changed = tuple(
                     name
-                    for name in ALLOWED_ARTIFACTS
+                    for name in artifacts
                     if (source_dir / name).read_bytes() != (clone_dir / name).read_bytes()
                 )
                 print("HF_ALREADY_IN_SYNC", file=output)
@@ -448,7 +486,7 @@ def publish_huggingface(
                 for path in changed:
                     print(f"file: {path}", file=output)
                 return PublishResult("HF_ALREADY_IN_SYNC", changed, head_before)
-            changed = copy_allowlisted_artifacts(source_dir, clone_dir)
+            changed = copy_allowlisted_artifacts(source_dir, clone_dir, artifacts)
             if not changed:
                 print("HF_ALREADY_IN_SYNC", file=output)
                 return PublishResult("HF_ALREADY_IN_SYNC", (), head_before)
@@ -460,7 +498,7 @@ def publish_huggingface(
                 print("DRY_RUN_OK", file=output)
                 return PublishResult("DRY_RUN_OK", changed, head_before)
 
-            published_commit = commit_artifacts(clone_dir, source_sha)
+            published_commit = commit_artifacts(clone_dir, source_sha, artifacts, commit_prefix)
             head_pre_push = remote_head_reader(repo_url, branch, auth_env, token)
             verify_remote_unchanged(head_before, head_pre_push)
             push_fast_forward(clone_dir, branch, auth_env, token)
@@ -470,24 +508,46 @@ def publish_huggingface(
 
 def main() -> None:
     parser = argparse.ArgumentParser(
-        description="Safely publish four approved pricing artifacts into the independent Hugging Face history."
+        description="Safely publish approved artifacts into the independent Hugging Face history."
     )
     parser.add_argument("--dry-run", action="store_true")
+    parser.add_argument(
+        "--target",
+        choices=("pricing", "history"),
+        default="pricing",
+        help="pricing: the four pricing artifacts; history: the two price-history CSVs",
+    )
     args = parser.parse_args()
 
     token_value = os.environ.get("HF_TOKEN", "")
     try:
         token = require_token(os.environ)
-        repo_id = os.environ.get("HF_REPO_ID", DEFAULT_HF_REPO_ID)
         branch = os.environ.get("HF_BRANCH", DEFAULT_HF_BRANCH)
-        publish_huggingface(
-            repo_url=hf_repo_url(repo_id),
-            branch=branch,
-            token=token,
-            source_sha=os.environ.get("GITHUB_SOURCE_SHA") or os.environ.get("GITHUB_SHA"),
-            dry_run=args.dry_run,
-            output=os.sys.stdout,
-        )
+        source_sha = os.environ.get("GITHUB_SOURCE_SHA") or os.environ.get("GITHUB_SHA")
+        if args.target == "history":
+            # The price history has no generated_at metadata, so every byte difference is published.
+            publish_huggingface(
+                source_dir=HISTORY_HF_DIR,
+                repo_url=hf_repo_url(os.environ.get("HF_HISTORY_REPO_ID", DEFAULT_HISTORY_REPO_ID)),
+                branch=branch,
+                token=token,
+                source_sha=source_sha,
+                dry_run=args.dry_run,
+                output=os.sys.stdout,
+                validate_source=validate_history_artifacts,
+                artifacts=HISTORY_ARTIFACTS,
+                metadata_only_change=lambda _source, _clone: False,
+                commit_prefix=HISTORY_COMMIT_PREFIX,
+            )
+        else:
+            publish_huggingface(
+                repo_url=hf_repo_url(os.environ.get("HF_REPO_ID", DEFAULT_HF_REPO_ID)),
+                branch=branch,
+                token=token,
+                source_sha=source_sha,
+                dry_run=args.dry_run,
+                output=os.sys.stdout,
+            )
     except PublishError as error:
         message = sanitize_error(error, (token_value,))
         print(f"{error.classification}: {message}", file=os.sys.stderr)

@@ -10,6 +10,8 @@ digest of the page text under reports/price-evidence/<provider>/<model>/<UTC tim
 compares them with the previous capture of the same model: passages that appeared or disappeared
 point at a price change, or at a stale search-index quote that the live page no longer shows.
 --expect fails the run when a page does not contain a value the release is about to publish.
+--script-tables also reads MDX tables that a docs site ships only in its script payload (Kimi's
+Mintlify pricing pages), one line per row, because the page text itself has no prices there.
 The capture is committed with the release (amended into the artifact commit after prepare).
 """
 from __future__ import annotations
@@ -30,12 +32,27 @@ PRICE_LINE = re.compile(r"[$€£]\s?\d|\b(?:USD|EUR)\b|\bper\s+(?:minute|hour|s
 USER_AGENT = "Mozilla/5.0 (compatible; AICostBudget price evidence)"
 MAX_PASSAGES = 60
 MAX_PASSAGE_CHARS = 500
+MDX_TABLE = re.compile(r"columns:\[(?P<columns>.*?)\],rows:\[(?P<rows>\[.*?\])\]\}", re.S)
+MDX_TEXT = re.compile(r"(?:(\w+):)?`([^`]*)`")
+MDX_SKIPPED_KEYS = {"href", "width", "tip", "className"}
 
 
 def page_lines(markup: str) -> list[str]:
     text = re.sub(r"(?is)<(script|style|noscript|svg)[^>]*>.*?</\1>", " ", markup)
     text = html.unescape(re.sub(r"(?s)<[^>]+>", "\n", text))
     return [line for line in (re.sub(r"\s+", " ", raw).strip() for raw in text.splitlines()) if line]
+
+
+def script_table_lines(markup: str) -> list[str]:
+    """Header and rows of each MDX table in the script payload, cells joined by ' | '."""
+    lines: list[str] = []
+    for table in MDX_TABLE.finditer(markup):
+        rows = re.split(r"\],\s*\[", table["rows"][1:-1])
+        for cells in [table["columns"], *rows]:
+            line = " | ".join(text.strip() for key, text in MDX_TEXT.findall(cells) if key not in MDX_SKIPPED_KEYS)
+            if line and line not in lines:
+                lines.append(line)
+    return lines
 
 
 def price_passages(lines: list[str], context: int = 2) -> list[str]:
@@ -54,9 +71,9 @@ def fetch(url: str, timeout: float = 30) -> tuple[int, str]:
         return response.status, response.read().decode("utf-8", "replace")
 
 
-def capture(url: str, expect: list[str], fetcher=fetch) -> dict:
+def capture(url: str, expect: list[str], fetcher=fetch, script_tables: bool = False) -> dict:
     status, markup = fetcher(url)
-    lines = page_lines(markup)
+    lines = page_lines(markup) + (script_table_lines(markup) if script_tables else [])
     text = "\n".join(lines)
     return {
         "url": url,
@@ -87,14 +104,16 @@ def compare(previous: dict | None, current: dict) -> list[dict]:
     return changes
 
 
-def run(model: str, urls: list[str], expect: list[str], root: Path = ROOT, fetcher=fetch, now=None) -> dict:
+def run(model: str, urls: list[str], expect: list[str], root: Path = ROOT, fetcher=fetch, now=None, script_tables: bool = False) -> dict:
     provider, _, model_id = model.partition("/")
     if not provider or not model_id:
         raise SystemExit("--model must be provider/model")
     stamp = (now or datetime.now(timezone.utc)).strftime("%Y%m%dT%H%M%SZ")
     model_dir = root / EVIDENCE_DIR / provider / model_id
     previous = previous_capture(model_dir)
-    record = {"model": model, "captured_at": stamp, "expect": expect, "pages": [capture(url, expect, fetcher) for url in urls]}
+    record = {"model": model, "captured_at": stamp, "expect": expect, "pages": [capture(url, expect, fetcher, script_tables) for url in urls]}
+    if script_tables:
+        record["script_tables"] = True
     record["changes_since_previous"] = compare(previous, record)
     record["previous_capture"] = previous["captured_at"] if previous else None
     model_dir.mkdir(parents=True, exist_ok=True)
@@ -113,8 +132,9 @@ def main() -> None:
     parser.add_argument("--model", required=True, help="provider/model, as in canonical")
     parser.add_argument("--url", action="append", required=True, help="official page; repeat for several")
     parser.add_argument("--expect", action="append", default=[], help="text every page must contain, e.g. $13; repeatable")
+    parser.add_argument("--script-tables", action="store_true", help="also read MDX tables from the script payload")
     args = parser.parse_args()
-    record = run(args.model, args.url, args.expect)
+    record = run(args.model, args.url, args.expect, script_tables=args.script_tables)
     print(f"EVIDENCE: {record['path']}")
     for page in record["pages"]:
         print(f"- {page['url']} HTTP {page['http_status']}: {len(page['passages'])} price passages")

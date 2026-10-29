@@ -101,3 +101,17 @@ jobs:
       - name: Verify Hugging Face production parity
         if: ${{ ! inputs.recovery_mode || ! inputs.dry_run }}
         run: python scripts/check_hf_production_parity.py
+      # The price history is published from the committed CSVs. The build above may rewrite or add
+      # a snapshot for the commit date, so restore the committed data tree before validating it.
+      - name: Restore committed data for the price history
+        run: |
+          git checkout -- data
+          git clean -fdq -- data
+      - name: Publish the price history safely
+        env:
+          HF_TOKEN: ${{ secrets.HF_TOKEN }}
+          GITHUB_SOURCE_SHA: ${{ inputs.recovery_mode && inputs.recovery_source_sha || github.sha }}
+        run: ${{ inputs.recovery_mode && inputs.dry_run && 'python scripts/publish_huggingface.py --target history --dry-run' || 'python scripts/publish_huggingface.py --target history' }}
+      - name: Verify Hugging Face price history parity
+        if: ${{ ! inputs.recovery_mode || ! inputs.dry_run }}
+        run: python scripts/check_hf_history_parity.py

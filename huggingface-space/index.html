@@ -1,0 +1,387 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>LLM API Pricing Calculator</title>
+<meta name="description" content="Compare LLM API prices per 1M tokens and estimate monthly cost for GPT, Claude, Gemini, Grok, DeepSeek, Qwen and more. Every price links to its official source.">
+<script src="https://cdnjs.cloudflare.com/ajax/libs/PapaParse/5.4.1/papaparse.min.js"></script>
+<style>
+:root {
+  --bg: #ffffff;
+  --surface: #f6f7f9;
+  --border: #e3e6eb;
+  --text: #16181d;
+  --muted: #5f6673;
+  --accent: #2f5bd3;
+  --accent-soft: #e8eefc;
+  --good: #1d7a46;
+  --warn: #9a5b00;
+  --bad: #b3261e;
+}
+@media (prefers-color-scheme: dark) {
+  :root {
+    --bg: #0f1115;
+    --surface: #171a21;
+    --border: #2a2f39;
+    --text: #e8eaee;
+    --muted: #9aa2b1;
+    --accent: #7ea2ff;
+    --accent-soft: #1d2638;
+    --good: #5fcf8f;
+    --warn: #e0a94a;
+    --bad: #ff8a80;
+  }
+}
+* { box-sizing: border-box; }
+body {
+  margin: 0;
+  background: var(--bg);
+  color: var(--text);
+  font: 14px/1.5 system-ui, -apple-system, "Segoe UI", Roboto, sans-serif;
+}
+main { max-width: 1100px; margin: 0 auto; padding: 24px 16px 48px; }
+h1 { font-size: 24px; margin: 0 0 4px; }
+.lede { color: var(--muted); margin: 0 0 16px; max-width: 760px; }
+.meta { color: var(--muted); font-size: 12px; margin-bottom: 16px; }
+a { color: var(--accent); }
+.tabs { display: flex; gap: 4px; border-bottom: 1px solid var(--border); margin-bottom: 16px; flex-wrap: wrap; }
+.tabs button {
+  background: none; border: 0; border-bottom: 2px solid transparent;
+  padding: 8px 12px; font: inherit; color: var(--muted); cursor: pointer;
+}
+.tabs button[aria-selected="true"] { color: var(--text); border-bottom-color: var(--accent); font-weight: 600; }
+.panel[hidden] { display: none; }
+.controls { display: flex; flex-wrap: wrap; gap: 12px; align-items: end; margin-bottom: 12px; }
+.controls label { display: flex; flex-direction: column; gap: 4px; font-size: 12px; color: var(--muted); }
+.controls label.inline { flex-direction: row; align-items: center; gap: 6px; font-size: 13px; color: var(--text); }
+input[type="text"], input[type="number"], select {
+  font: inherit; color: var(--text); background: var(--bg);
+  border: 1px solid var(--border); border-radius: 6px; padding: 6px 8px; min-width: 0;
+}
+input[type="number"] { width: 130px; }
+.table-wrap { overflow-x: auto; border: 1px solid var(--border); border-radius: 8px; }
+table { border-collapse: collapse; width: 100%; font-variant-numeric: tabular-nums; }
+th, td { padding: 8px 10px; text-align: left; border-bottom: 1px solid var(--border); white-space: nowrap; }
+th { background: var(--surface); font-size: 12px; color: var(--muted); font-weight: 600; position: sticky; top: 0; }
+th.sortable { cursor: pointer; user-select: none; }
+th.sortable:hover { color: var(--text); }
+td.num, th.num { text-align: right; }
+tr:last-child td { border-bottom: 0; }
+.model { font-weight: 600; }
+.sub { color: var(--muted); font-size: 12px; }
+.badge { display: inline-block; font-size: 11px; padding: 1px 6px; border-radius: 999px; background: var(--surface); border: 1px solid var(--border); color: var(--muted); }
+.badge.warn { color: var(--warn); }
+.cta {
+  margin-top: 16px; padding: 12px 14px; border-radius: 8px;
+  background: var(--accent-soft); display: flex; flex-wrap: wrap; gap: 8px 16px; align-items: center;
+}
+.cta strong { font-weight: 600; }
+.down { color: var(--good); }
+.up { color: var(--bad); }
+.status { padding: 24px; text-align: center; color: var(--muted); }
+.cheapest td { background: var(--accent-soft); }
+footer { margin-top: 32px; color: var(--muted); font-size: 12px; }
+@media (max-width: 640px) {
+  input[type="number"] { width: 110px; }
+  th, td { padding: 6px 8px; }
+}
+</style>
+</head>
+<body>
+<main>
+  <h1>LLM API Pricing Calculator</h1>
+  <p class="lede">Compare API prices per 1M tokens and estimate your monthly bill across OpenAI, Anthropic, Google, xAI, DeepSeek, Mistral, Qwen and more. Every price links to the official provider page it was verified against.</p>
+  <div class="meta" id="meta">Loading prices from the <a href="https://huggingface.co/datasets/aicostbudget-ai/ai-api-pricing" target="_blank" rel="noopener">AI API Pricing Dataset</a>…</div>
+
+  <div class="tabs" role="tablist">
+    <button role="tab" aria-selected="true" data-tab="prices">Price table</button>
+    <button role="tab" aria-selected="false" data-tab="estimate">Estimate monthly cost</button>
+    <button role="tab" aria-selected="false" data-tab="changes">Price changes</button>
+  </div>
+
+  <section class="panel" id="panel-prices">
+    <div class="controls">
+      <label>Search<input type="text" id="search" placeholder="gpt, claude, flash…"></label>
+      <label>Provider<select id="provider"><option value="">All providers</option></select></label>
+      <label class="inline"><input type="checkbox" id="show-old"> Show deprecated and retired</label>
+    </div>
+    <div class="table-wrap">
+      <table>
+        <thead><tr>
+          <th class="sortable" data-sort="model">Model</th>
+          <th class="sortable num" data-sort="input">Input / 1M</th>
+          <th class="sortable num" data-sort="cached">Cached input / 1M</th>
+          <th class="sortable num" data-sort="output">Output / 1M</th>
+          <th class="sortable" data-sort="verified">Verified</th>
+          <th>Source</th>
+        </tr></thead>
+        <tbody id="price-rows"><tr><td colspan="6" class="status">Loading…</td></tr></tbody>
+      </table>
+    </div>
+    <p class="sub">Standard (non-batch) list prices in USD for token-priced models. Tiered, batch, cache-write and non-token prices are in the dataset's <code>prices.json</code>. Empty means not published, never zero.</p>
+  </section>
+
+  <section class="panel" id="panel-estimate" hidden>
+    <div class="controls">
+      <label>Input tokens per request<input type="number" id="in-tokens" min="0" step="100" value="2000"></label>
+      <label>Output tokens per request<input type="number" id="out-tokens" min="0" step="100" value="500"></label>
+      <label>Cached share of input (%)<input type="number" id="cache-share" min="0" max="100" step="5" value="0"></label>
+      <label>Requests per month<input type="number" id="requests" min="0" step="1000" value="100000"></label>
+      <label>Provider<select id="est-provider"><option value="">All providers</option></select></label>
+    </div>
+    <div class="table-wrap">
+      <table>
+        <thead><tr>
+          <th>#</th>
+          <th>Model</th>
+          <th class="num">Cost per request</th>
+          <th class="num">Monthly cost</th>
+          <th class="num">vs cheapest</th>
+        </tr></thead>
+        <tbody id="estimate-rows"><tr><td colspan="5" class="status">Loading…</td></tr></tbody>
+      </table>
+    </div>
+    <p class="sub">Uses standard input, cached-input and output prices; cached tokens fall back to the input price when no cached price is published. Excludes deprecated and retired models. Real bills also depend on tiers, batch discounts, tools and retries.</p>
+    <div class="cta">
+      <strong>Switching models?</strong>
+      <span>Price alone is not the whole story: a cheaper model that fails more often can cost more per finished task.</span>
+      <a href="https://aicostbudget.com/en/model-switch-cost-calculator?utm_source=huggingface&amp;utm_medium=referral&amp;utm_campaign=hf_space&amp;utm_content=estimate" target="_blank" rel="noopener">Compare cost per successful task →</a>
+    </div>
+  </section>
+
+  <section class="panel" id="panel-changes" hidden>
+    <div class="controls">
+      <label>Change type<select id="change-type">
+        <option value="price">Price changes</option>
+        <option value="model_added">New models</option>
+        <option value="lifecycle">Deprecations and retirements</option>
+        <option value="">All changes</option>
+      </select></label>
+    </div>
+    <div class="table-wrap">
+      <table>
+        <thead><tr>
+          <th>Detected</th>
+          <th>Model</th>
+          <th>Change</th>
+          <th class="num">Input / 1M</th>
+          <th class="num">Output / 1M</th>
+          <th>Source</th>
+        </tr></thead>
+        <tbody id="change-rows"><tr><td colspan="6" class="status">Loading…</td></tr></tbody>
+      </table>
+    </div>
+    <p class="sub">Verified changes from the <a href="https://huggingface.co/datasets/aicostbudget-ai/llm-api-price-history" target="_blank" rel="noopener">LLM API Price History</a> dataset, since 2026-07-05.</p>
+  </section>
+
+  <div class="cta">
+    <strong>More tools:</strong>
+    <a href="https://aicostbudget.com/en/cheapest-llm-api?utm_source=huggingface&amp;utm_medium=referral&amp;utm_campaign=hf_space&amp;utm_content=footer" target="_blank" rel="noopener">Cheapest LLM APIs</a>
+    <a href="https://aicostbudget.com/en/model-switch-cost-calculator?utm_source=huggingface&amp;utm_medium=referral&amp;utm_campaign=hf_space&amp;utm_content=footer" target="_blank" rel="noopener">Model switch cost calculator</a>
+    <a href="https://aicostbudget.com/en/model-price-monitor?utm_source=huggingface&amp;utm_medium=referral&amp;utm_campaign=hf_space&amp;utm_content=footer" target="_blank" rel="noopener">Model price monitor</a>
+  </div>
+
+  <footer>
+    Data: <a href="https://huggingface.co/datasets/aicostbudget-ai/ai-api-pricing" target="_blank" rel="noopener">AI API Pricing Dataset</a> and <a href="https://huggingface.co/datasets/aicostbudget-ai/llm-api-price-history" target="_blank" rel="noopener">LLM API Price History</a> (CC BY 4.0), loaded live on every visit.
+    Prices change often; verify against the provider's pricing page before production billing decisions. AICostBudget is independent and not affiliated with the listed providers.
+  </footer>
+</main>
+
+<script>
+const PRICES_URL = "https://huggingface.co/datasets/aicostbudget-ai/ai-api-pricing/resolve/main/train.csv";
+const CHANGES_URL = "https://huggingface.co/datasets/aicostbudget-ai/llm-api-price-history/resolve/main/price_changes.csv";
+const OLD_STATUSES = new Set(["deprecated", "retired"]);
+const $ = (id) => document.getElementById(id);
+
+let models = [];
+let changes = [];
+let sort = { key: "input", dir: 1 };
+
+function num(value) {
+  if (value === undefined || value === null || value === "") return null;
+  const parsed = Number(value);
+  return Number.isFinite(parsed) ? parsed : null;
+}
+
+// Prices keep up to 4 decimals without padding ($0.05, $0.016); costs pass a fixed precision.
+function usd(value, digits) {
+  if (value === null) return "—";
+  const min = digits ?? 2;
+  const max = digits ?? 4;
+  return "$" + value.toLocaleString("en-US", { minimumFractionDigits: min, maximumFractionDigits: max });
+}
+
+function escapeHtml(value) {
+  return String(value ?? "").replace(/[&<>"']/g, (c) => ({ "&": "&amp;", "<": "&lt;", ">": "&gt;", '"': "&quot;", "'": "&#39;" }[c]));
+}
+
+function sourceLink(url) {
+  return url ? `<a href="${escapeHtml(url)}" target="_blank" rel="noopener">official</a>` : "—";
+}
+
+async function loadCsv(url) {
+  const response = await fetch(url, { cache: "no-cache" });
+  if (!response.ok) throw new Error(`${response.status} ${url}`);
+  return Papa.parse(await response.text(), { header: true, skipEmptyLines: true }).data;
+}
+
+function fillProviders(select, rows) {
+  const providers = [...new Map(rows.map((row) => [row.provider_id, row.provider])).entries()]
+    .sort((a, b) => a[1].localeCompare(b[1]));
+  for (const [id, name] of providers) select.add(new Option(name, id));
+}
+
+function renderPrices() {
+  const query = $("search").value.trim().toLowerCase();
+  const provider = $("provider").value;
+  const showOld = $("show-old").checked;
+  const rows = models.filter((m) =>
+    (!provider || m.provider_id === provider) &&
+    (showOld || !OLD_STATUSES.has(m.status)) &&
+    (!query || `${m.provider} ${m.model} ${m.model_id}`.toLowerCase().includes(query))
+  );
+  const value = (m) => ({ model: `${m.provider} ${m.model}`, input: m.input, cached: m.cached, output: m.output, verified: m.verified || "" }[sort.key]);
+  rows.sort((a, b) => {
+    const x = value(a), y = value(b);
+    if (x === null || x === "") return 1;
+    if (y === null || y === "") return -1;
+    return (x < y ? -1 : x > y ? 1 : 0) * sort.dir;
+  });
+  $("price-rows").innerHTML = rows.length ? rows.map((m) => `
+    <tr>
+      <td><div class="model">${escapeHtml(m.model)}</div><div class="sub">${escapeHtml(m.provider)} · <code>${escapeHtml(m.model_id)}</code>${OLD_STATUSES.has(m.status) || m.status === "preview" ? ` <span class="badge">${escapeHtml(m.status)}</span>` : ""}${m.verification !== "verified" ? ` <span class="badge warn">${escapeHtml(m.verification.replace("_", " "))}</span>` : ""}</div></td>
+      <td class="num">${usd(m.input)}</td>
+      <td class="num">${usd(m.cached)}</td>
+      <td class="num">${usd(m.output)}</td>
+      <td>${escapeHtml(m.verified || "—")}</td>
+      <td>${sourceLink(m.source)}</td>
+    </tr>`).join("") : `<tr><td colspan="6" class="status">No models match.</td></tr>`;
+}
+
+function renderEstimate() {
+  const inTokens = Math.max(0, num($("in-tokens").value) || 0);
+  const outTokens = Math.max(0, num($("out-tokens").value) || 0);
+  const cacheShare = Math.min(100, Math.max(0, num($("cache-share").value) || 0)) / 100;
+  const requests = Math.max(0, num($("requests").value) || 0);
+  const provider = $("est-provider").value;
+  const rows = models
+    .filter((m) => m.input !== null && m.output !== null && !OLD_STATUSES.has(m.status) && (!provider || m.provider_id === provider))
+    .map((m) => {
+      const cachedPrice = m.cached ?? m.input;
+      const perRequest = (inTokens * (1 - cacheShare) * m.input + inTokens * cacheShare * cachedPrice + outTokens * m.output) / 1e6;
+      return { ...m, perRequest, monthly: perRequest * requests };
+    })
+    .sort((a, b) => a.monthly - b.monthly);
+  const cheapest = rows.length ? rows[0].monthly : 0;
+  $("estimate-rows").innerHTML = rows.length ? rows.map((m, index) => `
+    <tr class="${index === 0 ? "cheapest" : ""}">
+      <td>${index + 1}</td>
+      <td><div class="model">${escapeHtml(m.model)}</div><div class="sub">${escapeHtml(m.provider)}</div></td>
+      <td class="num">${usd(m.perRequest, 5)}</td>
+      <td class="num">${usd(m.monthly, 2)}</td>
+      <td class="num">${cheapest > 0 ? (m.monthly / cheapest).toFixed(1) + "×" : "—"}</td>
+    </tr>`).join("") : `<tr><td colspan="5" class="status">No models match.</td></tr>`;
+}
+
+const CHANGE_GROUPS = {
+  price: new Set(["price_update", "cached_price_added", "cached_price_removed", "component_price_update", "temporal_price_schedule_update"]),
+  model_added: new Set(["model_added"]),
+  lifecycle: new Set(["lifecycle_update", "successor_transition"]),
+};
+const CHANGE_LABELS = {
+  price_update: "Price change",
+  cached_price_added: "Cached price added",
+  cached_price_removed: "Cached price removed",
+  component_price_update: "Component price change",
+  temporal_price_schedule_update: "Time-of-day pricing change",
+  model_added: "New model",
+  lifecycle_update: "Lifecycle",
+  successor_transition: "Successor",
+};
+
+function priceMove(oldValue, newValue) {
+  const before = num(oldValue), after = num(newValue);
+  if (before === null && after === null) return "—";
+  if (before === null || before === after) return usd(after);
+  const cls = after < before ? "down" : "up";
+  return `<span class="sub">${usd(before)} →</span> <span class="${cls}">${usd(after)}</span>`;
+}
+
+function renderChanges() {
+  const group = CHANGE_GROUPS[$("change-type").value];
+  const rows = changes.filter((c) => !group || group.has(c.change_type));
+  $("change-rows").innerHTML = rows.length ? rows.map((c) => {
+    let label = CHANGE_LABELS[c.change_type] || c.change_type;
+    if (c.change_type === "lifecycle_update" && c.new_status) label = `Now ${c.new_status}`;
+    if (c.change_type === "successor_transition" && c.successor_model_id) label = `Replaced by ${c.successor_model_id}`;
+    return `
+    <tr>
+      <td>${escapeHtml(c.detected_at)}</td>
+      <td><div class="model">${escapeHtml(c.model_id)}</div><div class="sub">${escapeHtml(c.provider)}</div></td>
+      <td>${escapeHtml(label)}</td>
+      <td class="num">${priceMove(c.old_input_price, c.new_input_price)}</td>
+      <td class="num">${priceMove(c.old_output_price, c.new_output_price)}</td>
+      <td>${sourceLink(c.announcement_url || c.official_source_url)}</td>
+    </tr>`;
+  }).join("") : `<tr><td colspan="6" class="status">No changes of this type yet.</td></tr>`;
+}
+
+function showTab(name) {
+  for (const button of document.querySelectorAll(".tabs button")) {
+    button.setAttribute("aria-selected", String(button.dataset.tab === name));
+  }
+  for (const panel of document.querySelectorAll(".panel")) {
+    panel.hidden = panel.id !== `panel-${name}`;
+  }
+}
+
+document.querySelectorAll(".tabs button").forEach((button) => button.addEventListener("click", () => showTab(button.dataset.tab)));
+document.querySelectorAll("th.sortable").forEach((th) => th.addEventListener("click", () => {
+  sort = { key: th.dataset.sort, dir: sort.key === th.dataset.sort ? -sort.dir : 1 };
+  renderPrices();
+}));
+["search", "provider", "show-old"].forEach((id) => $(id).addEventListener("input", renderPrices));
+["in-tokens", "out-tokens", "cache-share", "requests", "est-provider"].forEach((id) => $(id).addEventListener("input", renderEstimate));
+$("change-type").addEventListener("input", renderChanges);
+
+(async () => {
+  try {
+    const rows = await loadCsv(PRICES_URL);
+    models = rows
+      .filter((row) => row.pricing_unit === "1M tokens")
+      .map((row) => ({
+        provider_id: row.provider_id,
+        provider: row.provider,
+        model_id: row.model_id,
+        model: row.model || row.model_id,
+        status: row.status,
+        input: num(row.input_price_per_1m_tokens),
+        cached: num(row.cached_input_price_per_1m_tokens),
+        output: num(row.output_price_per_1m_tokens),
+        verified: row.last_verified_at,
+        verification: row.verification_status || "",
+        source: row.official_source_url,
+      }));
+    fillProviders($("provider"), models);
+    fillProviders($("est-provider"), models);
+    const latest = models.map((m) => m.verified).filter(Boolean).sort().pop();
+    $("meta").innerHTML = `${models.length} token-priced models from ${new Set(models.map((m) => m.provider_id)).size} providers · latest verification ${escapeHtml(latest || "unknown")} · from the <a href="https://huggingface.co/datasets/aicostbudget-ai/ai-api-pricing" target="_blank" rel="noopener">AI API Pricing Dataset</a>`;
+    renderPrices();
+    renderEstimate();
+  } catch (error) {
+    const message = `Could not load prices (${escapeHtml(error.message)}). Open the <a href="https://huggingface.co/datasets/aicostbudget-ai/ai-api-pricing" target="_blank" rel="noopener">dataset</a> directly.`;
+    $("meta").innerHTML = message;
+    $("price-rows").innerHTML = `<tr><td colspan="6" class="status">${message}</td></tr>`;
+    $("estimate-rows").innerHTML = `<tr><td colspan="5" class="status">${message}</td></tr>`;
+  }
+  try {
+    changes = (await loadCsv(CHANGES_URL)).sort((a, b) => b.detected_at.localeCompare(a.detected_at));
+    renderChanges();
+  } catch (error) {
+    $("change-rows").innerHTML = `<tr><td colspan="6" class="status">Could not load price changes (${escapeHtml(error.message)}). Open the <a href="https://huggingface.co/datasets/aicostbudget-ai/llm-api-price-history" target="_blank" rel="noopener">price history dataset</a> directly.</td></tr>`;
+  }
+})();
+</script>
+</body>
+</html>

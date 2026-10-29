@@ -159,6 +159,8 @@ class ChangeClassificationTests(unittest.TestCase):
     def test_new_model_is_added(self):
         changes = classify_changes([], [model("new-model")])
         self.assertEqual(changes[0]["change_type"], "added")
+        # Added models must reach the generator, or the price monitor never shows them.
+        self.assertEqual(price_event_changes(changes), changes)
         self.assertFalse(changes[0]["price_change"])
 
 
@@ -519,7 +521,7 @@ class PipelineOrderTests(unittest.TestCase):
 
             with patch("scripts.daily_pricing_release.command", side_effect=record):
                 run_validation_pipeline(dataset, website, "2026-10-21T16:35:00Z", [{"change_type": "added"}])
-            generator = steps.index("generate_pricing_v2_preview.py")
+            generator = steps.index("generate_pricing_v2_preview.py --website-dataset")
             meta = next(index for index, step in enumerate(steps) if step == "build.py --generated-at" and index > generator)
             sync = steps.index("sync-pricing-artifacts.mjs --write")
             self.assertLess(generator, meta)
@@ -547,11 +549,34 @@ class FollowTests(unittest.TestCase):
 
     def test_huggingface_waits_for_the_release_run_and_requires_parity(self):
         listed = json.dumps([{"databaseId": 7, "headSha": "f" * 40}, {"databaseId": 9, "headSha": self.RELEASE}])
-        outputs = iter([(0, "[]"), (0, listed), (0, ""), (0, "HF_PUSHED: 469ac60\nBUSINESS_PARITY: PASS\n")])
+        log = (
+            "publish\tPublish allowlisted artifacts safely\t2026-10-29T00:00:00Z HF_PUSHED: 469ac60\n"
+            "publish\tVerify Hugging Face production parity\t2026-10-29T00:00:01Z BUSINESS_PARITY: PASS\n"
+            "publish\tPublish the price history safely\t2026-10-29T00:00:02Z HF_PUSHED: 261de03\n"
+            "publish\tVerify Hugging Face price history parity\t2026-10-29T00:00:03Z HISTORY_PARITY: PASS\n"
+        )
+        outputs = iter([(0, "[]"), (0, listed), (0, ""), (0, log)])
         sleeps = []
         result = follow_huggingface(ROOT, self.RELEASE, lambda args, cwd: next(outputs), sleeps.append)
-        self.assertEqual(result, {"passed": True, "run_id": 9, "parity": "PASS", "hf_commit": "469ac60"})
+        self.assertEqual(result, {
+            "passed": True,
+            "run_id": 9,
+            "parity": "PASS",
+            "history_parity": "PASS",
+            "hf_commit": "469ac60",
+            "history_hf_commit": "261de03",
+        })
         self.assertEqual(sleeps, [10], "polls until the dispatched run appears")
+
+    def test_huggingface_requires_price_history_parity(self):
+        listed = json.dumps([{"databaseId": 9, "headSha": self.RELEASE}])
+        log = "publish\tVerify Hugging Face production parity\tBUSINESS_PARITY: PASS\n"
+        outputs = iter([(0, listed), (1, "failed"), (0, log)])
+        result = follow_huggingface(ROOT, self.RELEASE, lambda args, cwd: next(outputs), lambda _s: None)
+        self.assertEqual(
+            (result["passed"], result["parity"], result["history_parity"], result["hf_commit"]),
+            (False, "PASS", "FAIL", None),
+        )
 
     def test_huggingface_without_a_run_or_parity_fails(self):
         missing = follow_huggingface(ROOT, self.RELEASE, lambda args, cwd: (0, "[]"), lambda _s: None, attempts=2)

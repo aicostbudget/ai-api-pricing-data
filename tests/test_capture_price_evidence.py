@@ -4,11 +4,14 @@ import unittest
 from datetime import datetime, timezone
 from pathlib import Path
 
-from scripts.capture_price_evidence import EVIDENCE_DIR, page_lines, price_passages, run
+from scripts.capture_price_evidence import EVIDENCE_DIR, page_lines, price_passages, run, script_table_lines
 
 PAGE = """<html><head><style>.x{color:red}</style><script>var price="$99";</script></head><body>
 <h1>Voxtral TTS 3</h1><div>Pricing</div><span>USD</span><span>$13</span><span>/M Chars</span>
 <p>Released 2026-10-20</p></body></html>"""
+
+# Mintlify ships pricing tables only inside the Next.js script payload.
+MDX_PAGE = """<html><body><h1>Chat pricing</h1><script>self.__next_f.push([1,"_jsx(DocTable,{className:`doc-table-bordered`,columns:[{title:`Model`,width:`34%`},{title:`Input`,width:`22%`},{title:_jsx(Tooltip,{tip:`Billed per hit.`,children:`Cached Input`}),width:`22%`}],rows:[[_jsx(_components.a,{href:`/guide/kimi-k2-6-quickstart`,children:`kimi-k2.6`}),`$0.95 / MTok`,`$0.16 / MTok`],[_jsx(_components.a,{href:`/guide/kimi-k2-7-code-quickstart`,children:`kimi-k2.7-code`}),`$0.95 / MTok`,`$0.19 / MTok`]]})"])</script></body></html>"""
 
 
 def fetcher(pages):
@@ -40,6 +43,23 @@ class CapturePriceEvidenceTests(unittest.TestCase):
             change = second["changes_since_previous"][0]
             self.assertTrue(any("$16" in passage for passage in change["added"]))
             self.assertTrue(any("$13" in passage for passage in change["removed"]))
+
+    def test_script_tables_read_mdx_rows_only_when_asked(self):
+        self.assertEqual(script_table_lines(MDX_PAGE), [
+            "Model | Input | Cached Input",
+            "kimi-k2.6 | $0.95 / MTok | $0.16 / MTok",
+            "kimi-k2.7-code | $0.95 / MTok | $0.19 / MTok",
+        ])
+        url = "https://docs.example/pricing"
+        with tempfile.TemporaryDirectory() as tmp:
+            root = Path(tmp)
+            plain = run("moonshot-ai/kimi-k2.6", [url], ["kimi-k2.6 | $0.95 / MTok | $0.16 / MTok"], root, fetcher({url: MDX_PAGE}))
+            self.assertEqual(plain["pages"][0]["missing_expected"], ["kimi-k2.6 | $0.95 / MTok | $0.16 / MTok"])
+            self.assertNotIn("script_tables", plain)
+            tables = run("moonshot-ai/kimi-k2.6", [url], ["kimi-k2.6 | $0.95 / MTok | $0.16 / MTok"], root, fetcher({url: MDX_PAGE}), script_tables=True)
+            self.assertEqual(tables["pages"][0]["missing_expected"], [])
+            self.assertTrue(tables["script_tables"])
+            self.assertIn("kimi-k2.6 | $0.95 / MTok | $0.16 / MTok", tables["pages"][0]["passages"][0])
 
     def test_model_must_name_its_provider(self):
         with self.assertRaises(SystemExit):

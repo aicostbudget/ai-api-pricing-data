@@ -661,6 +661,10 @@ def generate_events(before: Path, after: Path, provider_id: str | None = None, m
         )
         if after_model.get("status") in {"deprecated", "retired"} and lifecycle_date and lifecycle_date <= detected_at:
             events.append(newly_observed_lifecycle_event(after_model, before_rel, after_rel, detected_at))
+        elif (after_model.get("pricing") or {}).get("unit") != "1M tokens":
+            # model_added events carry per-1M-token prices; voice, OCR and TTS models priced per
+            # minute, page or character have no token unit and no model_added representation.
+            continue
         else:
             events.append(
                 lifecycle_event(None, after_model, before_rel, after_rel, detected_at, "model_added")

@@ -19,7 +19,7 @@ def without_check_times(value):
     if isinstance(value, list):
         return [without_check_times(item) for item in value]
     if isinstance(value, dict):
-        return {k: without_check_times(v) for k, v in value.items() if k not in ('checkedAt','verifiedAt')}
+        return {k: without_check_times(v) for k, v in value.items() if k not in ('checkedAt','verifiedAt','checked_at','verified_at')}
     return value
 
 def read(path):
@@ -88,7 +88,10 @@ class KimiPublishedRateTests(unittest.TestCase):
             self.assertEqual(m, self.current)
         self.assertEqual(read('api/v1/models/moonshot-ai/kimi-k2.6.json'), self.current)
         self.assertEqual(self.current['pricing'], self.reconciled['pricing'])
-        self.assertEqual(self.current['price_records'], self.reconciled['price_records'])
+        self.assertEqual(without_check_times(self.current['price_records']), without_check_times(self.reconciled['price_records']))
+        for record, reconciled in zip(self.current['price_records'], self.reconciled['price_records']):
+            for field in ('checked_at', 'verified_at'):
+                assert_evidence_backed_timestamp(self, KEY, record[field], reconciled[field])
         self.assertEqual(self.reconciled['status'], 'active')
         self.assertEqual(self.current['status'], 'deprecated')
         self.assertNotIn('lifecycle', self.current)
