@@ -1,20 +1,34 @@
 ---
-pretty_name: AICostBudget AI API Pricing Dataset
+pretty_name: "LLM API Pricing Dataset: GPT, Claude, Gemini, Grok, DeepSeek, Qwen token prices"
 license: cc-by-4.0
 language:
   - en
+size_categories:
+  - n<1K
 tags:
-  - tabular
-  - ai-api-pricing
+  - llm
+  - pricing
   - llm-pricing
+  - llm-api-pricing
+  - api-pricing
+  - ai-api-pricing
   - ai-model-pricing
+  - token-pricing
   - token-cost
-  - ai-finops
   - pricing-data
-  - finops
   - openai
   - anthropic
   - gemini
+  - gpt
+  - claude
+  - grok
+  - deepseek
+  - qwen
+  - mistral
+  - cohere
+  - finops
+  - ai-finops
+  - tabular
 configs:
   - config_name: default
     data_files:
@@ -22,9 +36,19 @@ configs:
         path: train.csv
 ---
 
-# AI API Pricing Dataset
+# LLM API Pricing Dataset
 
-Source-linked AI API pricing data covering token, cache, batch, tiered, multimodal, and non-token pricing across multiple providers, including OpenAI, Anthropic, Google, xAI, DeepSeek, Mistral, Cohere, Moonshot AI, Alibaba Qwen, and Meta. These are examples, not an exhaustive provider list.
+Prices per 1M tokens for about 100 LLM and AI API models from OpenAI, Anthropic, Google, xAI, DeepSeek, Mistral, Cohere, Moonshot AI, Alibaba Qwen, Meta, and other providers. These are examples, not an exhaustive provider list. Every row links to the official provider pricing page it was verified against and carries its own `last_verified_at` date. Prices are updated as providers change them.
+
+| | |
+| --- | --- |
+| Rows | One row per public model (about 100) |
+| Prices | Input, cached input, and output per 1M tokens in USD, plus non-token units such as pages, characters, and images |
+| Beyond list prices | Cache, batch, long-context tiers, multimodal, and time-of-day pricing in `prices.json` / `prices.csv` |
+| Evidence | Official source URL and verification date on every row; unknown prices stay empty, never zero |
+| License | CC BY 4.0 |
+
+**Estimate your own bill:** compare two models with your token counts and success rates in the [Model Switch Cost Calculator](https://aicostbudget.com/en/model-switch-cost-calculator?utm_source=huggingface&utm_medium=referral&utm_campaign=pricing_dataset&utm_content=card_intro), or see the [cheapest LLM APIs right now](https://aicostbudget.com/en/cheapest-llm-api?utm_source=huggingface&utm_medium=referral&utm_campaign=pricing_dataset&utm_content=card_intro).
 
 - [Live dataset and documentation](https://aicostbudget.com/en/datasets/ai-api-pricing)
 - [Source repository](https://github.com/aicostbudget/ai-api-pricing-data)
@@ -32,26 +56,55 @@ Source-linked AI API pricing data covering token, cache, batch, tiered, multimod
 - [Version DOI](https://doi.org/10.5281/zenodo.23087250)
 - [Methodology](https://github.com/aicostbudget/ai-api-pricing-data/blob/main/METHODOLOGY.md)
 
-This Hugging Face dataset is the machine-readable distribution of the public AI API pricing records published by AICostBudget. It is not a separately curated subset: `train.csv`, `prices.csv`, and `prices.json` are generated from the same Pricing V2 public projection used by the AICostBudget Dataset page and download APIs. The Hugging Face dataset mirrors that Pricing V2 public projection; GitHub Pages `/api/v1` is a separate compatibility projection and may have a different record count by design.
-
 Prices change frequently. Verify production billing decisions against the provider pricing page, contract, billing dashboard, and invoice.
 
-## Explore and download
+## Quick start
 
-Download `prices.json` or `prices.csv` from the [Hugging Face files](https://huggingface.co/datasets/aicostbudget-ai/ai-api-pricing/tree/main), or use the live dataset's [public JSON](https://aicostbudget.com/api/datasets/ai-api-pricing.json) and [public CSV](https://aicostbudget.com/api/datasets/ai-api-pricing.csv) downloads.
+```python
+import pandas as pd
+
+url = (
+    "https://huggingface.co/datasets/"
+    "aicostbudget-ai/ai-api-pricing/resolve/main/train.csv"
+)
+
+pricing = pd.read_csv(url)
+
+# Ten cheapest token-priced models by output price
+token_rows = pricing.dropna(subset=["output_price_per_1m_tokens"])
+print(
+    token_rows.sort_values("output_price_per_1m_tokens")[
+        ["provider", "model", "input_price_per_1m_tokens", "output_price_per_1m_tokens"]
+    ].head(10)
+)
+```
+
+With Hugging Face Datasets:
+
+```python
+from datasets import load_dataset
+
+pricing = load_dataset(
+    "aicostbudget-ai/ai-api-pricing",
+    split="train",
+)
+
+print(pricing)
+print(pricing[0])
+```
+
+The `train` split is the current published pricing snapshot. It is not intended as model-training supervision data.
 
 ## Use it from code or an AI assistant
 
 - **JavaScript / TypeScript:** `npm install ai-api-pricing` looks up prices, lists models, and estimates or compares workload costs. Every returned price includes its official source URL and verification date. ([npm package](https://www.npmjs.com/package/ai-api-pricing))
 - **AI assistants (MCP):** `npx -y ai-api-pricing-mcp` runs a read-only MCP server with tools for model prices, filtered model lists, monthly cost estimates, comparisons, and recent price changes. It is listed in the official MCP Registry as `io.github.aicostbudget/ai-api-pricing-mcp` and on [Glama](https://glama.ai/mcp/servers/aicostbudget/ai-api-pricing-data). ([npm package](https://www.npmjs.com/package/ai-api-pricing-mcp))
 
-Both packages read the GitHub Pages `/api/v1` compatibility projection described above. Source code: [packages/](https://github.com/aicostbudget/ai-api-pricing-data/tree/main/packages).
+Both packages read the GitHub Pages `/api/v1` compatibility projection described in the technical notes below. Source code: [packages/](https://github.com/aicostbudget/ai-api-pricing-data/tree/main/packages).
 
 ## Compare pricing with your workload
 
-You can use the [Model Switch Cost Calculator](https://aicostbudget.com/en/model-switch-cost-calculator) to compare API costs for two models based on your input and output tokens, monthly request volume, and assumed success rates.
-
-It estimates monthly spending, cost per successful task, and the break-even success rate for a model switch.
+The [Model Switch Cost Calculator](https://aicostbudget.com/en/model-switch-cost-calculator?utm_source=huggingface&utm_medium=referral&utm_campaign=pricing_dataset&utm_content=card_workload) compares API costs for two models based on your input and output tokens, monthly request volume, and assumed success rates. It estimates monthly spending, cost per successful task, and the break-even success rate for a model switch.
 
 The results depend on your inputs and assumptions. The tool does not benchmark model quality, measure actual success rates, automate routing, or guarantee savings.
 
@@ -64,28 +117,20 @@ To measure success rates on your own models, use the open [LLM cost-per-task ben
 - `prices.json`: metadata plus the complete public Website record set
 - `meta.json`: generation time, verification date, and coverage counts for this export
 
-`train.csv` intentionally omits the large serialized `pricing_tiers_json`, `time_pricing_json`, `pricing_components_json`, `conditional_usage_allowances_json`, and `model_selection_json` columns for Dataset Viewer usability. It preserves every exported model and all other CSV fields. Complete tier, time, component, conditional allowance, transport, alternative-measurement, optional-feature, and model-selection details remain available in `prices.csv` and `prices.json`. Schema 1.8.0 keeps eligibility-scoped short-term allowances separate from standard paid usage tiers.
+Download them from the [Hugging Face files](https://huggingface.co/datasets/aicostbudget-ai/ai-api-pricing/tree/main), or use the live dataset's [public JSON](https://aicostbudget.com/api/datasets/ai-api-pricing.json) and [public CSV](https://aicostbudget.com/api/datasets/ai-api-pricing.csv) downloads.
+
+```text
+https://huggingface.co/datasets/aicostbudget-ai/ai-api-pricing/resolve/main/train.csv
+https://huggingface.co/datasets/aicostbudget-ai/ai-api-pricing/resolve/main/prices.csv
+https://huggingface.co/datasets/aicostbudget-ai/ai-api-pricing/resolve/main/prices.json
+https://huggingface.co/datasets/aicostbudget-ai/ai-api-pricing/resolve/main/meta.json
+```
+
+`train.csv` lists the most-searched providers first and intentionally omits the large serialized `pricing_tiers_json`, `time_pricing_json`, `pricing_components_json`, `conditional_usage_allowances_json`, `model_selection_json`, `access_evidence_json`, and `binding_evidence_json` columns for Dataset Viewer usability. It preserves every exported model and all other CSV fields. Complete tier, time, component, conditional allowance, transport, alternative-measurement, optional-feature, model-selection, and access-evidence details remain available in `prices.csv` and `prices.json`. Schema 1.8.0 keeps eligibility-scoped short-term allowances separate from standard paid usage tiers.
 
 Unknown or unavailable prices are `null` in JSON and empty in CSV; they are never rewritten as zero.
 
-Access Policy V1 adds optional, independent access and identity-binding metadata. JSON exposes `access_status`, `access_checked_at`, official `access_evidence`, `binding_status`, and `binding_evidence`. CSV appends five columns after all existing columns: `access_status`, `access_checked_at`, `access_evidence_json`, `binding_status`, and `binding_evidence_json`. Consumers using named columns remain compatible; consumers assuming a fixed column count must accept these additions. Access verification timestamps are separate from price freshness. Access restrictions do not filter this factual pricing export. Older pinned exports without access metadata retain their original JSON and CSV contract when reproduced.
-
-
 Hugging Face generates the Dataset Viewer and auto-converted Parquet from `train.csv` as convenience views. They are not an independent pricing source. Viewer and search indexing can lag behind the raw published artifacts, so use `prices.json`, `prices.csv`, and `meta.json` for the corresponding published version when displayed counts or dates differ.
-
-The compact field guide below describes the public export. For structured pricing details, see the repository's [model schema](https://github.com/aicostbudget/ai-api-pricing-data/blob/main/schema/model.schema.json) and [pricing contract](https://github.com/aicostbudget/ai-api-pricing-data/blob/main/docs/pricing-contract.md).
-
-## Distribution rule
-
-The export is deterministic:
-
-1. Start from the checked-in Pricing V2 Website projection.
-2. Exclude compatibility aliases because they are not independent public pricing rows.
-3. Exclude rows marked `excluded_default_candidate` by the verified pricing pipeline.
-4. Preserve Website legacy fallback rows only when the public Pricing Table adapter still exposes them, including the warning that they are not default-safe verified prices.
-5. Export exactly the resulting public Website key set; no provider, family, or status-specific allowlist is maintained for Hugging Face.
-
-The canonical provider and pricing facts live in the [AICostBudget pricing data repository](https://github.com/aicostbudget/ai-api-pricing-data). Website-owned legacy display metadata is used only for explicitly marked fallback rows. The exporter does not fetch or guess prices.
 
 ## Fields
 
@@ -115,47 +160,9 @@ The canonical provider and pricing facts live in the [AICostBudget pricing data 
 | `pricing_components` | JSON-only full conditional pricing representation: component, decimal-string amount, conditions, effective range, source IDs and URLs, and verification status; `[]` when none apply. |
 | `pricing_components_json` | Final CSV column containing the same `pricing_components` array as compact deterministic JSON; `[]` when none apply. |
 
-The scalar input, cached-input, and output fields remain the compatibility/default pricing view. They are not deprecated. `pricing_components` represents conditions and units that one scalar cannot: context thresholds, batch and processing modes, cache writes, multimodal usage, tiered pricing, and non-token services. The [pricing contract](https://github.com/aicostbudget/ai-api-pricing-data/blob/main/docs/pricing-contract.md) defines the full structure.
+The scalar input, cached-input, and output fields remain the compatibility/default pricing view. They are not deprecated. `pricing_components` represents conditions and units that one scalar cannot: context thresholds, batch and processing modes, cache writes, multimodal usage, tiered pricing, and non-token services. The [pricing contract](https://github.com/aicostbudget/ai-api-pricing-data/blob/main/docs/pricing-contract.md) defines the full structure. For structured pricing details, see the repository's [model schema](https://github.com/aicostbudget/ai-api-pricing-data/blob/main/schema/model.schema.json).
 
-## Load with pandas
-
-```python
-import pandas as pd
-
-url = (
-    "https://huggingface.co/datasets/"
-    "aicostbudget-ai/ai-api-pricing/resolve/main/train.csv"
-)
-
-pricing = pd.read_csv(url)
-print(pricing.head())
-print(pricing["provider_id"].value_counts())
-```
-
-## Load with Hugging Face Datasets
-
-```python
-from datasets import load_dataset
-
-pricing = load_dataset(
-    "aicostbudget-ai/ai-api-pricing",
-    split="train",
-)
-
-print(pricing)
-print(pricing[0])
-```
-
-The `train` split is the current published pricing snapshot. It is not intended as model-training supervision data.
-
-## Direct Hugging Face files
-
-```text
-https://huggingface.co/datasets/aicostbudget-ai/ai-api-pricing/resolve/main/train.csv
-https://huggingface.co/datasets/aicostbudget-ai/ai-api-pricing/resolve/main/prices.csv
-https://huggingface.co/datasets/aicostbudget-ai/ai-api-pricing/resolve/main/prices.json
-https://huggingface.co/datasets/aicostbudget-ai/ai-api-pricing/resolve/main/meta.json
-```
+Access Policy V1 adds optional, independent access and identity-binding metadata. JSON exposes `access_status`, `access_checked_at`, official `access_evidence`, `binding_status`, and `binding_evidence`. CSV appends five columns after all existing columns: `access_status`, `access_checked_at`, `access_evidence_json`, `binding_status`, and `binding_evidence_json`. Consumers using named columns remain compatible; consumers assuming a fixed column count must accept these additions. Access verification timestamps are separate from price freshness. Access restrictions do not filter this factual pricing export. Older pinned exports without access metadata retain their original JSON and CSV contract when reproduced.
 
 ## Freshness semantics
 
@@ -167,6 +174,20 @@ https://huggingface.co/datasets/aicostbudget-ai/ai-api-pricing/resolve/main/meta
 - Validation requires `generated_at >= max(last_verified_at)` and `generated_at >= max(checked_at)`, and rejects future timestamps.
 
 For current coverage and timestamps, inspect `meta.json`. The source repository also contains schema checks, price validation, history, snapshots, and freshness workflows.
+
+## Technical notes: how this export is built
+
+This Hugging Face dataset is the machine-readable distribution of the public AI API pricing records published by AICostBudget. It is not a separately curated subset: `train.csv`, `prices.csv`, and `prices.json` are generated from the same Pricing V2 public projection used by the AICostBudget Dataset page and download APIs. The Hugging Face dataset mirrors that Pricing V2 public projection; GitHub Pages `/api/v1` is a separate compatibility projection and may have a different record count by design.
+
+The export is deterministic:
+
+1. Start from the checked-in Pricing V2 Website projection.
+2. Exclude compatibility aliases because they are not independent public pricing rows.
+3. Exclude rows marked `excluded_default_candidate` by the verified pricing pipeline.
+4. Preserve Website legacy fallback rows only when the public Pricing Table adapter still exposes them, including the warning that they are not default-safe verified prices.
+5. Export exactly the resulting public Website key set; no provider, family, or status-specific allowlist is maintained for Hugging Face.
+
+The canonical provider and pricing facts live in the [AICostBudget pricing data repository](https://github.com/aicostbudget/ai-api-pricing-data). Website-owned legacy display metadata is used only for explicitly marked fallback rows. The exporter does not fetch or guess prices.
 
 ## Methodology and contributions
 

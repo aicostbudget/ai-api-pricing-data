@@ -535,13 +535,15 @@ class HuggingFaceExportTests(unittest.TestCase):
     def test_dataset_card_uses_clean_dataset_references_and_fixed_citation(self):
         card = (HF_DIR / "README.md").read_text(encoding="utf-8")
         urls = set(re.findall(r"https://aicostbudget\.com/[^\s)]+", card))
+        tracked = "?utm_source=huggingface&utm_medium=referral&utm_campaign=pricing_dataset&utm_content="
         self.assertEqual(urls, {
             "https://aicostbudget.com/en/datasets/ai-api-pricing",
             "https://aicostbudget.com/api/datasets/ai-api-pricing.json",
             "https://aicostbudget.com/api/datasets/ai-api-pricing.csv",
-            "https://aicostbudget.com/en/model-switch-cost-calculator",
+            f"https://aicostbudget.com/en/model-switch-cost-calculator{tracked}card_intro",
+            f"https://aicostbudget.com/en/model-switch-cost-calculator{tracked}card_workload",
+            f"https://aicostbudget.com/en/cheapest-llm-api{tracked}card_intro",
         })
-        self.assertNotIn("utm_", card)
         self.assertNotIn("/en/ai-api-cost-calculator", card)
         self.assertNotIn("/en/model-pricing-comparison", card)
         self.assertNotIn("/en/model-price-monitor", card)
@@ -554,7 +556,6 @@ class HuggingFaceExportTests(unittest.TestCase):
 
     def test_dataset_card_attribution_is_optional_but_complete_when_present(self):
         card = (HF_DIR / "README.md").read_text(encoding="utf-8")
-        self.assertNotIn("utm_", card)
         validate_dataset_card_urls(card)
 
         complete = card + "\nhttps://aicostbudget.com/en/example?utm_source=huggingface&utm_medium=referral&utm_campaign=pricing_dataset\n"

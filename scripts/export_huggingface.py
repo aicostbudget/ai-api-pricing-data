@@ -63,8 +63,12 @@ VIEWER_OMITTED_FIELDS = frozenset(
         "pricing_components_json",
         "conditional_usage_allowances_json",
         "model_selection_json",
+        "access_evidence_json",
+        "binding_evidence_json",
     }
 )
+# Providers people search for first lead the Dataset Viewer preview; the rest keep export order.
+VIEWER_PROVIDER_ORDER = ("openai", "anthropic", "google-gemini", "xai", "deepseek")
 VIEWER_CSV_HEADERS = tuple(field for field in CSV_HEADERS if field not in VIEWER_OMITTED_FIELDS)
 PUBLIC_SCHEMA_VERSION = "1.11.0"
 SUPPORTED_PUBLIC_SCHEMA_VERSIONS = {"1.8.0", "1.9.0", "1.10.0", PUBLIC_SCHEMA_VERSION}
@@ -730,7 +734,15 @@ def artifact_contents(payload: dict[str, Any]) -> dict[str, str]:
     columns = CSV_HEADERS if has_access else tuple(k for k in CSV_HEADERS if k not in access_columns)
     viewer_columns = VIEWER_CSV_HEADERS if has_access else tuple(k for k in VIEWER_CSV_HEADERS if k not in access_columns)
     full_csv_payload = csv_text(payload["records"], columns)
-    viewer_csv_payload = csv_text(payload["records"], viewer_columns)
+    viewer_records = sorted(
+        payload["records"],
+        key=lambda record: (
+            VIEWER_PROVIDER_ORDER.index(record["provider_id"])
+            if record["provider_id"] in VIEWER_PROVIDER_ORDER
+            else len(VIEWER_PROVIDER_ORDER)
+        ),
+    )
+    viewer_csv_payload = csv_text(viewer_records, viewer_columns)
     return {
         "prices.json": json.dumps(payload, indent=2, ensure_ascii=False) + "\n",
         "prices.csv": full_csv_payload,
