@@ -266,6 +266,7 @@ def run_validation_pipeline(root: Path, website: Path, generated_at: str, change
         python, "scripts/export_huggingface.py", "--website-repo", str(website), "--website-ref", "WORKTREE",
         "--generated-at", generated_at, "--write",
     ], root, env)
+    command([python, "scripts/export_huggingface_history.py", "--write"], root, env)
     command([python, "scripts/validate.py"], root, env)
     command([python, "scripts/validate_pricing_v2_preview.py"], root, env)
     command(["node", "scripts/sync-pricing-artifacts.mjs", "--check", "--dataset", str(root), "--website", str(website)], website, env)
@@ -273,6 +274,7 @@ def run_validation_pipeline(root: Path, website: Path, generated_at: str, change
         python, "scripts/export_huggingface.py", "--website-repo", str(website), "--website-ref", "WORKTREE",
         "--generated-at", generated_at, "--check",
     ], root, env)
+    command([python, "scripts/export_huggingface_history.py"], root, env)
     website_changed = any(
         website_business_changed(website_before[path], (website / path).read_bytes() if (website / path).is_file() else None)
         for path in WEBSITE_OUTPUTS

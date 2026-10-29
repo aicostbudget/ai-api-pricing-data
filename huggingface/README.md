@@ -55,6 +55,7 @@ Prices per 1M tokens for about 100 LLM and AI API models from OpenAI, Anthropic,
 - [Fixed v1.1.0 release (snapshot 2026-09-30)](https://github.com/aicostbudget/ai-api-pricing-data/releases/tag/v1.1.0)
 - [Version DOI](https://doi.org/10.5281/zenodo.23087250)
 - [Methodology](https://github.com/aicostbudget/ai-api-pricing-data/blob/main/METHODOLOGY.md)
+- [Price history: dated snapshots and verified price changes](https://huggingface.co/datasets/aicostbudget-ai/llm-api-price-history)
 
 Prices change frequently. Verify production billing decisions against the provider pricing page, contract, billing dashboard, and invoice.
 
