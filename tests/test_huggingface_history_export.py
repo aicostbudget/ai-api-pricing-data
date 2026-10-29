@@ -40,7 +40,14 @@ class HuggingFaceHistoryExportTests(unittest.TestCase):
         ids = latest_snapshot_per_day()
         days = [parse_snapshot_id(snapshot_id)[0] for snapshot_id in ids]
         self.assertEqual(len(days), len(set(days)))
-        self.assertIn("2026-10-29-2", ids)
+        # Derived from the committed snapshots so a later same-day release does not break the pin.
+        last_per_day = {}
+        for path in SNAPSHOTS_DIR.iterdir():
+            if (path / "prices.json").is_file():
+                day, sequence = parse_snapshot_id(path.name)
+                if sequence > last_per_day.get(day, ("", 0))[1]:
+                    last_per_day[day] = (path.name, sequence)
+        self.assertEqual(sorted(ids), sorted(name for name, _ in last_per_day.values()))
         self.assertNotIn("2026-10-29", ids)
         expected_rows = sum(
             len(json.loads((SNAPSHOTS_DIR / snapshot_id / "prices.json").read_text(encoding="utf-8"))["models"])
