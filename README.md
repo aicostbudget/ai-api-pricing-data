@@ -1,6 +1,6 @@
 # AI API Pricing Dataset
 
-An AI API and LLM pricing dataset for OpenAI, Anthropic Claude, Google Gemini, xAI, DeepSeek, Mistral AI, and Cohere, built for cost estimation, budget planning, and model price comparison.
+An AI API and LLM pricing dataset for OpenAI, Anthropic Claude, Google Gemini, xAI, DeepSeek, Mistral AI, Cohere, Moonshot AI (Kimi), Alibaba Qwen, and Meta (Muse), built for cost estimation, budget planning, and model price comparison.
 
 Published as JSON, CSV, and a Hugging Face dataset, with machine-readable records linked to official provider pricing sources and regularly validated. Prices change frequently, so production budget decisions should always be checked against the relevant provider pricing pages.
 
@@ -167,6 +167,9 @@ To measure real success rates instead of assuming them, the open [LLM cost-per-t
 | DeepSeek | [DeepSeek API pricing](https://aicostbudget.com/en/providers/deepseek-api-pricing?utm_source=github&utm_medium=referral&utm_campaign=pricing_dataset&utm_content=deepseek) | DeepSeek chat and reasoning models, including cached-input pricing where available |
 | Mistral AI | [Mistral AI API pricing](https://aicostbudget.com/en/providers/mistral-ai-api-pricing?utm_source=github&utm_medium=referral&utm_campaign=pricing_dataset&utm_content=mistral_ai) | Mistral model pricing with structured source and verification metadata |
 | Cohere | [Cohere API pricing](https://aicostbudget.com/en/providers/cohere-api-pricing?utm_source=github&utm_medium=referral&utm_campaign=pricing_dataset&utm_content=cohere) | Cohere model pricing and supported non-token services |
+| Moonshot AI | [Moonshot AI API pricing](https://aicostbudget.com/en/providers/moonshot-ai-api-pricing?utm_source=github&utm_medium=referral&utm_campaign=pricing_dataset&utm_content=moonshot_ai) | Kimi model pricing with automatic prefix-cache hit rates |
+| Alibaba Qwen | [Alibaba Qwen API pricing](https://aicostbudget.com/en/providers/alibaba-qwen-api-pricing?utm_source=github&utm_medium=referral&utm_campaign=pricing_dataset&utm_content=alibaba_qwen) | Qwen list prices for the International (Singapore) scope, including per-request 256K tiers |
+| Meta | [Meta Muse API pricing](https://aicostbudget.com/en/providers/meta-api-pricing?utm_source=github&utm_medium=referral&utm_campaign=pricing_dataset&utm_content=meta) | Muse Wonder and Muse Spark Standard-mode prices from Meta Model API |
 
 ## Dataset Coverage
 

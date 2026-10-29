@@ -24,7 +24,7 @@ configs:
 
 # AI API Pricing Dataset
 
-Source-linked AI API pricing data covering token, cache, batch, tiered, multimodal, and non-token pricing across multiple providers, including OpenAI, Anthropic, Google, xAI, DeepSeek, Mistral, and Cohere. These are examples, not an exhaustive provider list.
+Source-linked AI API pricing data covering token, cache, batch, tiered, multimodal, and non-token pricing across multiple providers, including OpenAI, Anthropic, Google, xAI, DeepSeek, Mistral, Cohere, Moonshot AI, Alibaba Qwen, and Meta. These are examples, not an exhaustive provider list.
 
 - [Live dataset and documentation](https://aicostbudget.com/en/datasets/ai-api-pricing)
 - [Source repository](https://github.com/aicostbudget/ai-api-pricing-data)
