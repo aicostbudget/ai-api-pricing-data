@@ -21,6 +21,8 @@ Open, source-linked LLM API pricing data and cost tools. Every price is verified
 
 - [LLM API Pricing Calculator](https://huggingface.co/spaces/aicostbudget-ai/llm-api-pricing-calculator): price table, monthly cost estimate and recent price changes, loaded live from the datasets.
 
+All three are grouped in the [LLM API Pricing & Cost collection](https://huggingface.co/collections/aicostbudget-ai/llm-api-pricing-and-cost-6ae3690fbe696553bf43f16a).
+
 ## Tools on aicostbudget.com
 
 - [AI API cost calculator](https://aicostbudget.com/en/ai-api-cost-calculator?utm_source=huggingface&utm_medium=referral&utm_campaign=hf_org_card)
