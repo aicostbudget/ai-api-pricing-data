@@ -2,14 +2,15 @@ name: Hugging Face Contract Republish
 
 # When main changes the committed Hugging Face artifacts outside an ordinary pricing release
 # (for example a public export schema bump), Hugging Face production stays behind until someone
-# dispatches the publisher. This compares main with production after such a push and, only on
-# real data drift, dispatches the single publishing workflow. Ordinary releases dispatch Hugging
+# dispatches the publisher. This compares main with production (pricing and price history) after
+# such a push and, only on real data drift in either, dispatches the single publishing workflow. Ordinary releases dispatch Hugging
 # Face from the release script themselves, so their artifact commits are skipped here.
 on:
   push:
     branches: [main]
     paths:
       - "huggingface/**"
+      - "huggingface-history/**"
 
 permissions:
   contents: read
@@ -36,8 +37,10 @@ jobs:
           set +e
           python scripts/check_hf_production_parity.py --attempts 2 --retry-delay 30 | tee parity.log
           status=${PIPESTATUS[0]}
+          python scripts/check_hf_history_parity.py --attempts 2 --retry-delay 30 | tee -a parity.log
+          history_status=${PIPESTATUS[0]}
           set -e
-          if [ "$status" -eq 0 ]; then
+          if [ "$status" -eq 0 ] && [ "$history_status" -eq 0 ]; then
             echo "drift=false" >> "$GITHUB_OUTPUT"
           elif grep -q '^DATA_DRIFT$' parity.log; then
             echo "drift=true" >> "$GITHUB_OUTPUT"
