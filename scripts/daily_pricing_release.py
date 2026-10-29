@@ -511,6 +511,12 @@ def run_cross_repo_suites(dataset: Path, website: Path, log_dir: Path | None = N
 
 def link_directory(link: Path, target: Path) -> None:
     """Share the Website dependencies with a throwaway clone instead of reinstalling them."""
+    # A POSIX symlink is not a directory to git, so a `node_modules/` ignore rule misses it
+    # and publish would see the clone as dirty; the clone excludes its own link instead.
+    exclude = link.parent / ".git/info/exclude"
+    exclude.parent.mkdir(exist_ok=True)
+    with exclude.open("a", encoding="utf-8") as handle:
+        handle.write(f"\n/{link.name}\n")
     if os.name == "nt":
         command(["cmd", "/c", "mklink", "/J", str(link), str(target)], link.parent, stage="rehearse")
     else:

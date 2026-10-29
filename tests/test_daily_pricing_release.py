@@ -19,6 +19,8 @@ from scripts.daily_pricing_release import (
     classify_changes,
     command,
     ensure_local_main,
+    link_directory,
+    unlink_directory,
     follow_huggingface,
     follow_indexnow,
     follow_release,
@@ -448,6 +450,20 @@ class RehearsalTests(unittest.TestCase):
             self.assertEqual(result["status"], "REHEARSAL FAIL")
             self.assertEqual(result["suites"][0]["output_tail"], "1 unexpected failure")
             self.assertEqual((dependencies / "pkg/index.js").read_text(encoding="utf-8"), "keep\n")
+
+    def test_linked_dependencies_leave_the_clone_clean_without_an_ignore_rule(self):
+        # On Linux the link is a symlink, which a `node_modules/` rule does not match.
+        with tempfile.TemporaryDirectory() as tmp:
+            website = make_website_repo(Path(tmp))
+            dependencies = Path(tmp) / "dependencies"
+            (dependencies / "pkg").mkdir(parents=True)
+            (dependencies / "pkg/index.js").write_text("keep\n", encoding="utf-8")
+            link = website / "node_modules"
+            link_directory(link, dependencies)
+            try:
+                self.assertEqual(run(website, "status", "--porcelain=v1", "--untracked-files=all"), "")
+            finally:
+                unlink_directory(link)
 
     def test_clone_of_a_feature_branch_gets_a_local_main(self):
         with tempfile.TemporaryDirectory() as tmp:
