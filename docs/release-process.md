@@ -28,6 +28,16 @@ Hugging Face 仍只允许 `prices.json`、`prices.csv`、`train.csv`、`meta.jso
 
 Website projection 只有业务字节变化才需要后续同步；纯时间戳、provenance 或换行变化不得制造 Website commit。
 
+## Monthly GitHub Release
+
+`.github/workflows/monthly-release.yml` runs at 09:00 UTC on the 1st of each month. For the previous month it:
+
+1. skips if the `dataset-YYYY-MM` Release already exists or the month has no price-change events (`scripts/monthly_release_notes.py --check` exits 3);
+2. builds and verifies the release bundle from the current main commit and the Website `main` checkout (`scripts/build_release_bundle.py`, same 8 assets as earlier releases);
+3. writes the notes from `data/price-change-events/events.jsonl` and creates the Release.
+
+Zenodo archives every GitHub Release as a new DOI version, so releases stay monthly. A manual run (`workflow_dispatch`) is a dry run unless `dry_run` is unchecked; its notes appear in the job summary. Turn the Zenodo switch off before publishing any Release that is not a dataset release (for example an MCPB bundle), and back on afterwards.
+
 ## Forward Recovery
 
 真实发布事故使用独立 `scripts.forward_recovery`。Recovery 可以保留更严格的 Recovery Plan、双 revision identity、Tag、状态和 resume，但这些概念不得进入 Normal Daily Release。
