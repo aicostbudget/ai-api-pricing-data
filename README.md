@@ -89,6 +89,18 @@ main();
 - [Track AI model price changes](https://aicostbudget.com/en/model-price-monitor?utm_source=github&utm_medium=referral&utm_campaign=pricing_dataset&utm_content=readme_price_monitor)
 - [Analyze retry cost](https://aicostbudget.com/en/llm-retry-cost-calculator?utm_source=github&utm_medium=referral&utm_campaign=pricing_dataset&utm_content=readme_retry_cost_calculator)
 - [Compare model-switch cost](https://aicostbudget.com/en/model-switch-cost-calculator?utm_source=github&utm_medium=referral&utm_campaign=pricing_dataset&utm_content=readme_model_switch_cost_calculator)
+- [Estimate prompt caching savings](https://aicostbudget.com/en/prompt-caching-savings-calculator?utm_source=github&utm_medium=referral&utm_campaign=pricing_dataset&utm_content=readme_prompt_caching_calculator)
+- [Find the cheapest LLM API for a use case](https://aicostbudget.com/en/cheapest-llm-api?utm_source=github&utm_medium=referral&utm_campaign=pricing_dataset&utm_content=readme_cheapest_llm_api)
+- [Compare AI coding plans (Claude Code, Codex, Cursor, Copilot)](https://aicostbudget.com/en/ai-coding-plans?utm_source=github&utm_medium=referral&utm_campaign=pricing_dataset&utm_content=readme_ai_coding_plans)
+
+## Pricing Beyond Chat Tokens
+
+Some APIs bill per character, per image or per page instead of per chat token. These website pages compare them:
+
+- [Embedding API pricing](https://aicostbudget.com/en/embedding-api-pricing?utm_source=github&utm_medium=referral&utm_campaign=pricing_dataset&utm_content=readme_embedding_pricing) (per 1M tokens)
+- [TTS API pricing](https://aicostbudget.com/en/tts-api-pricing?utm_source=github&utm_medium=referral&utm_campaign=pricing_dataset&utm_content=readme_tts_pricing) (per 1M characters)
+- [Image generation API pricing](https://aicostbudget.com/en/image-generation-api-pricing?utm_source=github&utm_medium=referral&utm_campaign=pricing_dataset&utm_content=readme_image_pricing) (per image)
+- [OCR API pricing](https://aicostbudget.com/en/ocr-api-cost-calculator?utm_source=github&utm_medium=referral&utm_campaign=pricing_dataset&utm_content=readme_ocr_pricing) (per 1,000 pages)
 
 ## Explore Pricing by Provider
 
