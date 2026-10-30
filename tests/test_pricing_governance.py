@@ -196,8 +196,6 @@ class PricingGovernanceTests(unittest.TestCase):
             "openai/gpt-5.1",
             "openai/gpt-4o-mini-tts-2025-12-15",
             "openai/gpt-4o-mini-tts-2025-03-20",
-            "openai/tts-1",
-            "openai/tts-1-hd",
             "openai/gpt-5.4-cyber",
         })
         for internal_id in lifecycle_only:

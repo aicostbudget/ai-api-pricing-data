@@ -4,12 +4,12 @@
     "version": "1.0.0",
     "schema_version": "1.11.0",
     "page_url": "https://aicostbudget.com/en/datasets/ai-api-pricing",
-    "last_updated": "2026-10-30T06:18:57Z",
-    "last_verified_at": "2026-10-30T06:18:57Z",
-    "generated_at": "2026-10-30T07:11:46Z",
+    "last_updated": "2026-10-30T08:35:21Z",
+    "last_verified_at": "2026-10-30T08:35:21Z",
+    "generated_at": "2026-10-30T08:39:02Z",
     "provider_count": 13,
-    "record_count": 109,
-    "official_source_count": 33,
+    "record_count": 123,
+    "official_source_count": 37,
     "currency": "USD",
     "pricing_unit": "Multiple billing units",
     "statistics_scope": "public pricing records returned by the public pricing adapter with Pricing V2 enabled",
@@ -5836,6 +5836,550 @@
       "model_selection": null
     },
     {
+      "provider_id": "aws",
+      "provider": "Amazon Web Services",
+      "model_id": "polly-generative",
+      "model": "Amazon Polly Generative",
+      "input_price_per_1m_tokens": null,
+      "cached_input_price_per_1m_tokens": null,
+      "output_price_per_1m_tokens": null,
+      "currency": "USD",
+      "pricing_unit": null,
+      "status": "latest",
+      "availability": "active",
+      "official_source_url": "https://aws.amazon.com/polly/pricing/",
+      "verification_status": "verified",
+      "last_verified_at": "2026-10-30",
+      "checked_at": "2026-10-30",
+      "effective_from": null,
+      "effective_until": null,
+      "notes": "V2 marks this row as unsafe for default calculations: missing_verified_current_price.",
+      "pricing_tier_count": 0,
+      "pricing_tiers": [],
+      "time_pricing": null,
+      "pricing_components": [
+        {
+          "pricing_id": "price:aws/polly-generative:standard:short:current",
+          "charge_id": "price:aws/polly-generative:standard:short:current:input:text:per_1m_characters",
+          "component": "input",
+          "amount": "30",
+          "unit": "per_1m_characters",
+          "currency": "USD",
+          "modality": "text",
+          "condition": {
+            "processing_mode": "standard",
+            "context_class": "short",
+            "prompt_token_threshold": null,
+            "tier_selection": null,
+            "region_policy": "region_specific",
+            "effective_from": null,
+            "effective_until": null,
+            "region_selector": {
+              "dataResidencies": [
+                "regional"
+              ],
+              "endpointGeographies": [
+                "eu-central-1",
+                "us-east-1",
+                "us-west-2"
+              ],
+              "pricingGeography": "region_specific"
+            },
+            "default_availability_status": "available",
+            "availability_rules": [],
+            "price_adjustments": []
+          },
+          "calculation_default": true,
+          "source_refs": [
+            "source:aws:aws-amazon-com-polly-pricing",
+            "source:aws:pricing-us-east-1-amazonaws-com-offers-v1-0-aws-AmazonPolly-current-index-json"
+          ],
+          "source_urls": [
+            "https://aws.amazon.com/polly/pricing/",
+            "https://pricing.us-east-1.amazonaws.com/offers/v1.0/aws/AmazonPolly/current/index.json"
+          ],
+          "verification_status": "verified"
+        }
+      ],
+      "unit_price": 30.0,
+      "billing_unit": "per_1m_characters",
+      "billing_quantity": 1000000,
+      "pricing_dimension": "input",
+      "released_at": null,
+      "access_status": "unknown",
+      "access_checked_at": null,
+      "access_evidence": [],
+      "binding_status": "unresolved",
+      "binding_evidence": [],
+      "conditional_usage_allowances": [],
+      "model_selection": null
+    },
+    {
+      "provider_id": "aws",
+      "provider": "Amazon Web Services",
+      "model_id": "polly-long-form",
+      "model": "Amazon Polly Long-Form",
+      "input_price_per_1m_tokens": null,
+      "cached_input_price_per_1m_tokens": null,
+      "output_price_per_1m_tokens": null,
+      "currency": "USD",
+      "pricing_unit": null,
+      "status": "latest",
+      "availability": "active",
+      "official_source_url": "https://aws.amazon.com/polly/pricing/",
+      "verification_status": "verified",
+      "last_verified_at": "2026-10-30",
+      "checked_at": "2026-10-30",
+      "effective_from": null,
+      "effective_until": null,
+      "notes": "V2 marks this row as unsafe for default calculations: missing_verified_current_price.",
+      "pricing_tier_count": 0,
+      "pricing_tiers": [],
+      "time_pricing": null,
+      "pricing_components": [
+        {
+          "pricing_id": "price:aws/polly-long-form:standard:short:current",
+          "charge_id": "price:aws/polly-long-form:standard:short:current:input:text:per_1m_characters",
+          "component": "input",
+          "amount": "100",
+          "unit": "per_1m_characters",
+          "currency": "USD",
+          "modality": "text",
+          "condition": {
+            "processing_mode": "standard",
+            "context_class": "short",
+            "prompt_token_threshold": null,
+            "tier_selection": null,
+            "region_policy": "region_specific",
+            "effective_from": null,
+            "effective_until": null,
+            "region_selector": {
+              "dataResidencies": [
+                "regional"
+              ],
+              "endpointGeographies": [
+                "us-east-1"
+              ],
+              "pricingGeography": "region_specific"
+            },
+            "default_availability_status": "available",
+            "availability_rules": [],
+            "price_adjustments": []
+          },
+          "calculation_default": true,
+          "source_refs": [
+            "source:aws:aws-amazon-com-polly-pricing",
+            "source:aws:pricing-us-east-1-amazonaws-com-offers-v1-0-aws-AmazonPolly-current-index-json"
+          ],
+          "source_urls": [
+            "https://aws.amazon.com/polly/pricing/",
+            "https://pricing.us-east-1.amazonaws.com/offers/v1.0/aws/AmazonPolly/current/index.json"
+          ],
+          "verification_status": "verified"
+        }
+      ],
+      "unit_price": 100.0,
+      "billing_unit": "per_1m_characters",
+      "billing_quantity": 1000000,
+      "pricing_dimension": "input",
+      "released_at": null,
+      "access_status": "unknown",
+      "access_checked_at": null,
+      "access_evidence": [],
+      "binding_status": "unresolved",
+      "binding_evidence": [],
+      "conditional_usage_allowances": [],
+      "model_selection": null
+    },
+    {
+      "provider_id": "aws",
+      "provider": "Amazon Web Services",
+      "model_id": "polly-neural",
+      "model": "Amazon Polly Neural",
+      "input_price_per_1m_tokens": null,
+      "cached_input_price_per_1m_tokens": null,
+      "output_price_per_1m_tokens": null,
+      "currency": "USD",
+      "pricing_unit": null,
+      "status": "latest",
+      "availability": "active",
+      "official_source_url": "https://aws.amazon.com/polly/pricing/",
+      "verification_status": "verified",
+      "last_verified_at": "2026-10-30",
+      "checked_at": "2026-10-30",
+      "effective_from": null,
+      "effective_until": null,
+      "notes": "V2 marks this row as unsafe for default calculations: missing_verified_current_price.",
+      "pricing_tier_count": 0,
+      "pricing_tiers": [],
+      "time_pricing": null,
+      "pricing_components": [
+        {
+          "pricing_id": "price:aws/polly-neural:standard:short:current",
+          "charge_id": "price:aws/polly-neural:standard:short:current:input:text:per_1m_characters",
+          "component": "input",
+          "amount": "16",
+          "unit": "per_1m_characters",
+          "currency": "USD",
+          "modality": "text",
+          "condition": {
+            "processing_mode": "standard",
+            "context_class": "short",
+            "prompt_token_threshold": null,
+            "tier_selection": null,
+            "region_policy": "region_specific",
+            "effective_from": null,
+            "effective_until": null,
+            "region_selector": {
+              "dataResidencies": [
+                "regional"
+              ],
+              "endpointGeographies": [
+                "af-south-1",
+                "ap-northeast-1",
+                "ap-northeast-2",
+                "ap-northeast-3",
+                "ap-south-1",
+                "ap-southeast-1",
+                "ap-southeast-2",
+                "ap-southeast-5",
+                "ca-central-1",
+                "eu-central-1",
+                "eu-south-2",
+                "eu-west-1",
+                "eu-west-2",
+                "eu-west-3",
+                "us-east-1",
+                "us-west-2"
+              ],
+              "pricingGeography": "region_specific"
+            },
+            "default_availability_status": "available",
+            "availability_rules": [],
+            "price_adjustments": []
+          },
+          "calculation_default": true,
+          "source_refs": [
+            "source:aws:aws-amazon-com-polly-pricing",
+            "source:aws:pricing-us-east-1-amazonaws-com-offers-v1-0-aws-AmazonPolly-current-index-json"
+          ],
+          "source_urls": [
+            "https://aws.amazon.com/polly/pricing/",
+            "https://pricing.us-east-1.amazonaws.com/offers/v1.0/aws/AmazonPolly/current/index.json"
+          ],
+          "verification_status": "verified"
+        }
+      ],
+      "unit_price": 16.0,
+      "billing_unit": "per_1m_characters",
+      "billing_quantity": 1000000,
+      "pricing_dimension": "input",
+      "released_at": null,
+      "access_status": "unknown",
+      "access_checked_at": null,
+      "access_evidence": [],
+      "binding_status": "unresolved",
+      "binding_evidence": [],
+      "conditional_usage_allowances": [],
+      "model_selection": null
+    },
+    {
+      "provider_id": "aws",
+      "provider": "Amazon Web Services",
+      "model_id": "polly-standard",
+      "model": "Amazon Polly Standard",
+      "input_price_per_1m_tokens": null,
+      "cached_input_price_per_1m_tokens": null,
+      "output_price_per_1m_tokens": null,
+      "currency": "USD",
+      "pricing_unit": null,
+      "status": "latest",
+      "availability": "active",
+      "official_source_url": "https://aws.amazon.com/polly/pricing/",
+      "verification_status": "verified",
+      "last_verified_at": "2026-10-30",
+      "checked_at": "2026-10-30",
+      "effective_from": null,
+      "effective_until": null,
+      "notes": "V2 marks this row as unsafe for default calculations: missing_verified_current_price.",
+      "pricing_tier_count": 0,
+      "pricing_tiers": [],
+      "time_pricing": null,
+      "pricing_components": [
+        {
+          "pricing_id": "price:aws/polly-standard:standard:short:current",
+          "charge_id": "price:aws/polly-standard:standard:short:current:input:text:per_1m_characters",
+          "component": "input",
+          "amount": "4",
+          "unit": "per_1m_characters",
+          "currency": "USD",
+          "modality": "text",
+          "condition": {
+            "processing_mode": "standard",
+            "context_class": "short",
+            "prompt_token_threshold": null,
+            "tier_selection": null,
+            "region_policy": "region_specific",
+            "effective_from": null,
+            "effective_until": null,
+            "region_selector": {
+              "dataResidencies": [
+                "regional"
+              ],
+              "endpointGeographies": [
+                "af-south-1",
+                "ap-east-1",
+                "ap-northeast-1",
+                "ap-northeast-2",
+                "ap-northeast-3",
+                "ap-south-1",
+                "ap-southeast-1",
+                "ap-southeast-2",
+                "ap-southeast-5",
+                "ca-central-1",
+                "eu-central-1",
+                "eu-north-1",
+                "eu-south-2",
+                "eu-west-1",
+                "eu-west-2",
+                "eu-west-3",
+                "me-south-1",
+                "sa-east-1",
+                "us-east-1",
+                "us-east-2",
+                "us-west-1",
+                "us-west-2"
+              ],
+              "pricingGeography": "region_specific"
+            },
+            "default_availability_status": "available",
+            "availability_rules": [],
+            "price_adjustments": []
+          },
+          "calculation_default": true,
+          "source_refs": [
+            "source:aws:aws-amazon-com-polly-pricing",
+            "source:aws:pricing-us-east-1-amazonaws-com-offers-v1-0-aws-AmazonPolly-current-index-json"
+          ],
+          "source_urls": [
+            "https://aws.amazon.com/polly/pricing/",
+            "https://pricing.us-east-1.amazonaws.com/offers/v1.0/aws/AmazonPolly/current/index.json"
+          ],
+          "verification_status": "verified"
+        }
+      ],
+      "unit_price": 4.0,
+      "billing_unit": "per_1m_characters",
+      "billing_quantity": 1000000,
+      "pricing_dimension": "input",
+      "released_at": null,
+      "access_status": "unknown",
+      "access_checked_at": null,
+      "access_evidence": [],
+      "binding_status": "unresolved",
+      "binding_evidence": [],
+      "conditional_usage_allowances": [],
+      "model_selection": null
+    },
+    {
+      "provider_id": "azure",
+      "provider": "azure",
+      "model_id": "neural-hd-tts",
+      "model": "Azure AI Speech Neural HD TTS",
+      "input_price_per_1m_tokens": null,
+      "cached_input_price_per_1m_tokens": null,
+      "output_price_per_1m_tokens": null,
+      "currency": "USD",
+      "pricing_unit": null,
+      "status": "latest",
+      "availability": "active",
+      "official_source_url": "https://prices.azure.com/api/retail/prices",
+      "verification_status": "verified",
+      "last_verified_at": "2026-10-30",
+      "checked_at": "2026-10-30",
+      "effective_from": null,
+      "effective_until": null,
+      "notes": "V2 marks this row as unsafe for default calculations: missing_verified_current_price.",
+      "pricing_tier_count": 0,
+      "pricing_tiers": [],
+      "time_pricing": null,
+      "pricing_components": [
+        {
+          "pricing_id": "price:azure/neural-hd-tts:standard:short:current",
+          "charge_id": "price:azure/neural-hd-tts:standard:short:current:input:text:per_1m_characters",
+          "component": "input",
+          "amount": "22",
+          "unit": "per_1m_characters",
+          "currency": "USD",
+          "modality": "text",
+          "condition": {
+            "processing_mode": "standard",
+            "context_class": "short",
+            "prompt_token_threshold": null,
+            "tier_selection": null,
+            "region_policy": "region_specific",
+            "effective_from": null,
+            "effective_until": null,
+            "region_selector": {
+              "dataResidencies": [
+                "regional"
+              ],
+              "endpointGeographies": [
+                "australiaeast",
+                "canadacentral",
+                "centralindia",
+                "eastus",
+                "eastus2",
+                "francecentral",
+                "northcentralus",
+                "southeastasia",
+                "swedencentral",
+                "uksouth",
+                "westeurope",
+                "westus2"
+              ],
+              "pricingGeography": "region_specific"
+            },
+            "default_availability_status": "available",
+            "availability_rules": [],
+            "price_adjustments": []
+          },
+          "calculation_default": true,
+          "source_refs": [
+            "source:azure:learn-microsoft-com-en-us-rest-api-cost-management-retail-prices-azure-retail-pr",
+            "source:azure:prices-azure-com-api-retail-prices"
+          ],
+          "source_urls": [
+            "https://learn.microsoft.com/en-us/rest/api/cost-management/retail-prices/azure-retail-prices",
+            "https://prices.azure.com/api/retail/prices"
+          ],
+          "verification_status": "verified"
+        }
+      ],
+      "unit_price": 22.0,
+      "billing_unit": "per_1m_characters",
+      "billing_quantity": 1000000,
+      "pricing_dimension": "input",
+      "released_at": null,
+      "access_status": "unknown",
+      "access_checked_at": null,
+      "access_evidence": [],
+      "binding_status": "unresolved",
+      "binding_evidence": [],
+      "conditional_usage_allowances": [],
+      "model_selection": null
+    },
+    {
+      "provider_id": "azure",
+      "provider": "azure",
+      "model_id": "neural-tts",
+      "model": "Azure AI Speech Neural TTS",
+      "input_price_per_1m_tokens": null,
+      "cached_input_price_per_1m_tokens": null,
+      "output_price_per_1m_tokens": null,
+      "currency": "USD",
+      "pricing_unit": null,
+      "status": "latest",
+      "availability": "active",
+      "official_source_url": "https://prices.azure.com/api/retail/prices",
+      "verification_status": "verified",
+      "last_verified_at": "2026-10-30",
+      "checked_at": "2026-10-30",
+      "effective_from": null,
+      "effective_until": null,
+      "notes": "V2 marks this row as unsafe for default calculations: missing_verified_current_price.",
+      "pricing_tier_count": 0,
+      "pricing_tiers": [],
+      "time_pricing": null,
+      "pricing_components": [
+        {
+          "pricing_id": "price:azure/neural-tts:standard:short:current",
+          "charge_id": "price:azure/neural-tts:standard:short:current:input:text:per_1m_characters",
+          "component": "input",
+          "amount": "15",
+          "unit": "per_1m_characters",
+          "currency": "USD",
+          "modality": "text",
+          "condition": {
+            "processing_mode": "standard",
+            "context_class": "short",
+            "prompt_token_threshold": null,
+            "tier_selection": null,
+            "region_policy": "region_specific",
+            "effective_from": null,
+            "effective_until": null,
+            "region_selector": {
+              "dataResidencies": [
+                "regional"
+              ],
+              "endpointGeographies": [
+                "australiaeast",
+                "brazilsouth",
+                "canadacentral",
+                "canadaeast",
+                "centralindia",
+                "centralus",
+                "eastasia",
+                "eastus",
+                "eastus2",
+                "francecentral",
+                "germanywestcentral",
+                "italynorth",
+                "japaneast",
+                "japanwest",
+                "jioindiawest",
+                "koreacentral",
+                "northcentralus",
+                "northeurope",
+                "norwayeast",
+                "qatarcentral",
+                "southafricanorth",
+                "southcentralus",
+                "southeastasia",
+                "swedencentral",
+                "switzerlandnorth",
+                "switzerlandwest",
+                "uaenorth",
+                "uksouth",
+                "ukwest",
+                "westcentralus",
+                "westeurope",
+                "westus",
+                "westus2",
+                "westus3"
+              ],
+              "pricingGeography": "region_specific"
+            },
+            "default_availability_status": "available",
+            "availability_rules": [],
+            "price_adjustments": []
+          },
+          "calculation_default": true,
+          "source_refs": [
+            "source:azure:learn-microsoft-com-en-us-rest-api-cost-management-retail-prices-azure-retail-pr",
+            "source:azure:prices-azure-com-api-retail-prices"
+          ],
+          "source_urls": [
+            "https://learn.microsoft.com/en-us/rest/api/cost-management/retail-prices/azure-retail-prices",
+            "https://prices.azure.com/api/retail/prices"
+          ],
+          "verification_status": "verified"
+        }
+      ],
+      "unit_price": 15.0,
+      "billing_unit": "per_1m_characters",
+      "billing_quantity": 1000000,
+      "pricing_dimension": "input",
+      "released_at": null,
+      "access_status": "unknown",
+      "access_checked_at": null,
+      "access_evidence": [],
+      "binding_status": "unresolved",
+      "binding_evidence": [],
+      "conditional_usage_allowances": [],
+      "model_selection": null
+    },
+    {
       "provider_id": "azure",
       "provider": "azure",
       "model_id": "prebuilt-read",
@@ -7985,6 +8529,381 @@
       "billing_unit": null,
       "billing_quantity": null,
       "pricing_dimension": null,
+      "released_at": null,
+      "access_status": "unknown",
+      "access_checked_at": null,
+      "access_evidence": [],
+      "binding_status": "unresolved",
+      "binding_evidence": [],
+      "conditional_usage_allowances": [],
+      "model_selection": null
+    },
+    {
+      "provider_id": "google-cloud",
+      "provider": "Google Cloud",
+      "model_id": "tts-chirp-3-hd",
+      "model": "Google Cloud TTS Chirp 3: HD",
+      "input_price_per_1m_tokens": null,
+      "cached_input_price_per_1m_tokens": null,
+      "output_price_per_1m_tokens": null,
+      "currency": "USD",
+      "pricing_unit": null,
+      "status": "latest",
+      "availability": "active",
+      "official_source_url": "https://cloud.google.com/text-to-speech/pricing",
+      "verification_status": "verified",
+      "last_verified_at": "2026-10-30",
+      "checked_at": "2026-10-30",
+      "effective_from": null,
+      "effective_until": null,
+      "notes": "V2 marks this row as unsafe for default calculations: missing_verified_current_price.",
+      "pricing_tier_count": 0,
+      "pricing_tiers": [],
+      "time_pricing": null,
+      "pricing_components": [
+        {
+          "pricing_id": "price:google-cloud/tts-chirp-3-hd:standard:short:current",
+          "charge_id": "price:google-cloud/tts-chirp-3-hd:standard:short:current:input:text:per_1m_characters",
+          "component": "input",
+          "amount": "30",
+          "unit": "per_1m_characters",
+          "currency": "USD",
+          "modality": "text",
+          "condition": {
+            "processing_mode": "standard",
+            "context_class": "short",
+            "prompt_token_threshold": null,
+            "tier_selection": null,
+            "region_policy": "global",
+            "effective_from": null,
+            "effective_until": null,
+            "region_selector": {
+              "dataResidencies": [
+                "global"
+              ],
+              "endpointGeographies": [
+                "global"
+              ],
+              "pricingGeography": "global_base"
+            },
+            "default_availability_status": "available",
+            "availability_rules": [],
+            "price_adjustments": []
+          },
+          "calculation_default": true,
+          "source_refs": [
+            "source:google-cloud:cloud-google-com-text-to-speech-pricing"
+          ],
+          "source_urls": [
+            "https://cloud.google.com/text-to-speech/pricing"
+          ],
+          "verification_status": "verified"
+        }
+      ],
+      "unit_price": 30.0,
+      "billing_unit": "per_1m_characters",
+      "billing_quantity": 1000000,
+      "pricing_dimension": "input",
+      "released_at": null,
+      "access_status": "unknown",
+      "access_checked_at": null,
+      "access_evidence": [],
+      "binding_status": "unresolved",
+      "binding_evidence": [],
+      "conditional_usage_allowances": [],
+      "model_selection": null
+    },
+    {
+      "provider_id": "google-cloud",
+      "provider": "Google Cloud",
+      "model_id": "tts-neural2",
+      "model": "Google Cloud TTS Neural2",
+      "input_price_per_1m_tokens": null,
+      "cached_input_price_per_1m_tokens": null,
+      "output_price_per_1m_tokens": null,
+      "currency": "USD",
+      "pricing_unit": null,
+      "status": "latest",
+      "availability": "active",
+      "official_source_url": "https://cloud.google.com/text-to-speech/pricing",
+      "verification_status": "verified",
+      "last_verified_at": "2026-10-30",
+      "checked_at": "2026-10-30",
+      "effective_from": null,
+      "effective_until": null,
+      "notes": "V2 marks this row as unsafe for default calculations: missing_verified_current_price.",
+      "pricing_tier_count": 0,
+      "pricing_tiers": [],
+      "time_pricing": null,
+      "pricing_components": [
+        {
+          "pricing_id": "price:google-cloud/tts-neural2:standard:short:current",
+          "charge_id": "price:google-cloud/tts-neural2:standard:short:current:input:text:per_1m_characters",
+          "component": "input",
+          "amount": "16",
+          "unit": "per_1m_characters",
+          "currency": "USD",
+          "modality": "text",
+          "condition": {
+            "processing_mode": "standard",
+            "context_class": "short",
+            "prompt_token_threshold": null,
+            "tier_selection": null,
+            "region_policy": "global",
+            "effective_from": null,
+            "effective_until": null,
+            "region_selector": {
+              "dataResidencies": [
+                "global"
+              ],
+              "endpointGeographies": [
+                "global"
+              ],
+              "pricingGeography": "global_base"
+            },
+            "default_availability_status": "available",
+            "availability_rules": [],
+            "price_adjustments": []
+          },
+          "calculation_default": true,
+          "source_refs": [
+            "source:google-cloud:cloud-google-com-text-to-speech-pricing"
+          ],
+          "source_urls": [
+            "https://cloud.google.com/text-to-speech/pricing"
+          ],
+          "verification_status": "verified"
+        }
+      ],
+      "unit_price": 16.0,
+      "billing_unit": "per_1m_characters",
+      "billing_quantity": 1000000,
+      "pricing_dimension": "input",
+      "released_at": null,
+      "access_status": "unknown",
+      "access_checked_at": null,
+      "access_evidence": [],
+      "binding_status": "unresolved",
+      "binding_evidence": [],
+      "conditional_usage_allowances": [],
+      "model_selection": null
+    },
+    {
+      "provider_id": "google-cloud",
+      "provider": "Google Cloud",
+      "model_id": "tts-standard",
+      "model": "Google Cloud TTS Standard",
+      "input_price_per_1m_tokens": null,
+      "cached_input_price_per_1m_tokens": null,
+      "output_price_per_1m_tokens": null,
+      "currency": "USD",
+      "pricing_unit": null,
+      "status": "latest",
+      "availability": "active",
+      "official_source_url": "https://cloud.google.com/text-to-speech/pricing",
+      "verification_status": "verified",
+      "last_verified_at": "2026-10-30",
+      "checked_at": "2026-10-30",
+      "effective_from": null,
+      "effective_until": null,
+      "notes": "V2 marks this row as unsafe for default calculations: missing_verified_current_price.",
+      "pricing_tier_count": 0,
+      "pricing_tiers": [],
+      "time_pricing": null,
+      "pricing_components": [
+        {
+          "pricing_id": "price:google-cloud/tts-standard:standard:short:current",
+          "charge_id": "price:google-cloud/tts-standard:standard:short:current:input:text:per_1m_characters",
+          "component": "input",
+          "amount": "4",
+          "unit": "per_1m_characters",
+          "currency": "USD",
+          "modality": "text",
+          "condition": {
+            "processing_mode": "standard",
+            "context_class": "short",
+            "prompt_token_threshold": null,
+            "tier_selection": null,
+            "region_policy": "global",
+            "effective_from": null,
+            "effective_until": null,
+            "region_selector": {
+              "dataResidencies": [
+                "global"
+              ],
+              "endpointGeographies": [
+                "global"
+              ],
+              "pricingGeography": "global_base"
+            },
+            "default_availability_status": "available",
+            "availability_rules": [],
+            "price_adjustments": []
+          },
+          "calculation_default": true,
+          "source_refs": [
+            "source:google-cloud:cloud-google-com-text-to-speech-pricing"
+          ],
+          "source_urls": [
+            "https://cloud.google.com/text-to-speech/pricing"
+          ],
+          "verification_status": "verified"
+        }
+      ],
+      "unit_price": 4.0,
+      "billing_unit": "per_1m_characters",
+      "billing_quantity": 1000000,
+      "pricing_dimension": "input",
+      "released_at": null,
+      "access_status": "unknown",
+      "access_checked_at": null,
+      "access_evidence": [],
+      "binding_status": "unresolved",
+      "binding_evidence": [],
+      "conditional_usage_allowances": [],
+      "model_selection": null
+    },
+    {
+      "provider_id": "google-cloud",
+      "provider": "Google Cloud",
+      "model_id": "tts-studio",
+      "model": "Google Cloud TTS Studio",
+      "input_price_per_1m_tokens": null,
+      "cached_input_price_per_1m_tokens": null,
+      "output_price_per_1m_tokens": null,
+      "currency": "USD",
+      "pricing_unit": null,
+      "status": "latest",
+      "availability": "active",
+      "official_source_url": "https://cloud.google.com/text-to-speech/pricing",
+      "verification_status": "verified",
+      "last_verified_at": "2026-10-30",
+      "checked_at": "2026-10-30",
+      "effective_from": null,
+      "effective_until": null,
+      "notes": "V2 marks this row as unsafe for default calculations: missing_verified_current_price.",
+      "pricing_tier_count": 0,
+      "pricing_tiers": [],
+      "time_pricing": null,
+      "pricing_components": [
+        {
+          "pricing_id": "price:google-cloud/tts-studio:standard:short:current",
+          "charge_id": "price:google-cloud/tts-studio:standard:short:current:input:text:per_1m_characters",
+          "component": "input",
+          "amount": "160",
+          "unit": "per_1m_characters",
+          "currency": "USD",
+          "modality": "text",
+          "condition": {
+            "processing_mode": "standard",
+            "context_class": "short",
+            "prompt_token_threshold": null,
+            "tier_selection": null,
+            "region_policy": "global",
+            "effective_from": null,
+            "effective_until": null,
+            "region_selector": {
+              "dataResidencies": [
+                "global"
+              ],
+              "endpointGeographies": [
+                "global"
+              ],
+              "pricingGeography": "global_base"
+            },
+            "default_availability_status": "available",
+            "availability_rules": [],
+            "price_adjustments": []
+          },
+          "calculation_default": true,
+          "source_refs": [
+            "source:google-cloud:cloud-google-com-text-to-speech-pricing"
+          ],
+          "source_urls": [
+            "https://cloud.google.com/text-to-speech/pricing"
+          ],
+          "verification_status": "verified"
+        }
+      ],
+      "unit_price": 160.0,
+      "billing_unit": "per_1m_characters",
+      "billing_quantity": 1000000,
+      "pricing_dimension": "input",
+      "released_at": null,
+      "access_status": "unknown",
+      "access_checked_at": null,
+      "access_evidence": [],
+      "binding_status": "unresolved",
+      "binding_evidence": [],
+      "conditional_usage_allowances": [],
+      "model_selection": null
+    },
+    {
+      "provider_id": "google-cloud",
+      "provider": "Google Cloud",
+      "model_id": "tts-wavenet",
+      "model": "Google Cloud TTS WaveNet",
+      "input_price_per_1m_tokens": null,
+      "cached_input_price_per_1m_tokens": null,
+      "output_price_per_1m_tokens": null,
+      "currency": "USD",
+      "pricing_unit": null,
+      "status": "latest",
+      "availability": "active",
+      "official_source_url": "https://cloud.google.com/text-to-speech/pricing",
+      "verification_status": "verified",
+      "last_verified_at": "2026-10-30",
+      "checked_at": "2026-10-30",
+      "effective_from": null,
+      "effective_until": null,
+      "notes": "V2 marks this row as unsafe for default calculations: missing_verified_current_price.",
+      "pricing_tier_count": 0,
+      "pricing_tiers": [],
+      "time_pricing": null,
+      "pricing_components": [
+        {
+          "pricing_id": "price:google-cloud/tts-wavenet:standard:short:current",
+          "charge_id": "price:google-cloud/tts-wavenet:standard:short:current:input:text:per_1m_characters",
+          "component": "input",
+          "amount": "4",
+          "unit": "per_1m_characters",
+          "currency": "USD",
+          "modality": "text",
+          "condition": {
+            "processing_mode": "standard",
+            "context_class": "short",
+            "prompt_token_threshold": null,
+            "tier_selection": null,
+            "region_policy": "global",
+            "effective_from": null,
+            "effective_until": null,
+            "region_selector": {
+              "dataResidencies": [
+                "global"
+              ],
+              "endpointGeographies": [
+                "global"
+              ],
+              "pricingGeography": "global_base"
+            },
+            "default_availability_status": "available",
+            "availability_rules": [],
+            "price_adjustments": []
+          },
+          "calculation_default": true,
+          "source_refs": [
+            "source:google-cloud:cloud-google-com-text-to-speech-pricing"
+          ],
+          "source_urls": [
+            "https://cloud.google.com/text-to-speech/pricing"
+          ],
+          "verification_status": "verified"
+        }
+      ],
+      "unit_price": 4.0,
+      "billing_unit": "per_1m_characters",
+      "billing_quantity": 1000000,
+      "pricing_dimension": "input",
       "released_at": null,
       "access_status": "unknown",
       "access_checked_at": null,
@@ -47849,6 +48768,160 @@
       "model_selection": null
     },
     {
+      "provider_id": "openai",
+      "provider": "OpenAI",
+      "model_id": "tts-1",
+      "model": "TTS-1",
+      "input_price_per_1m_tokens": null,
+      "cached_input_price_per_1m_tokens": null,
+      "output_price_per_1m_tokens": null,
+      "currency": "USD",
+      "pricing_unit": null,
+      "status": "deprecated",
+      "availability": "deprecated",
+      "official_source_url": "https://developers.openai.com/api/docs/deprecations",
+      "verification_status": "verified",
+      "last_verified_at": "2026-10-30",
+      "checked_at": "2026-10-30",
+      "effective_from": null,
+      "effective_until": null,
+      "notes": "V2 marks this row as unsafe for default calculations: deprecated_identity, missing_verified_current_price.",
+      "pricing_tier_count": 0,
+      "pricing_tiers": [],
+      "time_pricing": null,
+      "pricing_components": [
+        {
+          "pricing_id": "price:openai/tts-1:standard:short:current",
+          "charge_id": "price:openai/tts-1:standard:short:current:input:text:per_1m_characters",
+          "component": "input",
+          "amount": "15",
+          "unit": "per_1m_characters",
+          "currency": "USD",
+          "modality": "text",
+          "condition": {
+            "processing_mode": "standard",
+            "context_class": "short",
+            "prompt_token_threshold": null,
+            "tier_selection": null,
+            "region_policy": "global",
+            "effective_from": null,
+            "effective_until": null,
+            "region_selector": {
+              "dataResidencies": [
+                "global"
+              ],
+              "endpointGeographies": [
+                "global"
+              ],
+              "pricingGeography": "global_base"
+            },
+            "default_availability_status": "available",
+            "availability_rules": [],
+            "price_adjustments": []
+          },
+          "calculation_default": true,
+          "source_refs": [
+            "source:openai:developers-openai-com-api-docs-models-tts-1",
+            "source:openai:developers-openai-com-api-docs-pricing"
+          ],
+          "source_urls": [
+            "https://developers.openai.com/api/docs/models/tts-1",
+            "https://developers.openai.com/api/docs/pricing"
+          ],
+          "verification_status": "verified"
+        }
+      ],
+      "unit_price": 15.0,
+      "billing_unit": "per_1m_characters",
+      "billing_quantity": 1000000,
+      "pricing_dimension": "input",
+      "released_at": null,
+      "access_status": "unknown",
+      "access_checked_at": null,
+      "access_evidence": [],
+      "binding_status": "unresolved",
+      "binding_evidence": [],
+      "conditional_usage_allowances": [],
+      "model_selection": null
+    },
+    {
+      "provider_id": "openai",
+      "provider": "OpenAI",
+      "model_id": "tts-1-hd",
+      "model": "TTS-1 HD",
+      "input_price_per_1m_tokens": null,
+      "cached_input_price_per_1m_tokens": null,
+      "output_price_per_1m_tokens": null,
+      "currency": "USD",
+      "pricing_unit": null,
+      "status": "deprecated",
+      "availability": "deprecated",
+      "official_source_url": "https://developers.openai.com/api/docs/deprecations",
+      "verification_status": "verified",
+      "last_verified_at": "2026-10-30",
+      "checked_at": "2026-10-30",
+      "effective_from": null,
+      "effective_until": null,
+      "notes": "V2 marks this row as unsafe for default calculations: deprecated_identity, missing_verified_current_price.",
+      "pricing_tier_count": 0,
+      "pricing_tiers": [],
+      "time_pricing": null,
+      "pricing_components": [
+        {
+          "pricing_id": "price:openai/tts-1-hd:standard:short:current",
+          "charge_id": "price:openai/tts-1-hd:standard:short:current:input:text:per_1m_characters",
+          "component": "input",
+          "amount": "30",
+          "unit": "per_1m_characters",
+          "currency": "USD",
+          "modality": "text",
+          "condition": {
+            "processing_mode": "standard",
+            "context_class": "short",
+            "prompt_token_threshold": null,
+            "tier_selection": null,
+            "region_policy": "global",
+            "effective_from": null,
+            "effective_until": null,
+            "region_selector": {
+              "dataResidencies": [
+                "global"
+              ],
+              "endpointGeographies": [
+                "global"
+              ],
+              "pricingGeography": "global_base"
+            },
+            "default_availability_status": "available",
+            "availability_rules": [],
+            "price_adjustments": []
+          },
+          "calculation_default": true,
+          "source_refs": [
+            "source:openai:developers-openai-com-api-docs-models-tts-1-hd",
+            "source:openai:developers-openai-com-api-docs-pricing"
+          ],
+          "source_urls": [
+            "https://developers.openai.com/api/docs/models/tts-1-hd",
+            "https://developers.openai.com/api/docs/pricing"
+          ],
+          "verification_status": "verified"
+        }
+      ],
+      "unit_price": 30.0,
+      "billing_unit": "per_1m_characters",
+      "billing_quantity": 1000000,
+      "pricing_dimension": "input",
+      "released_at": null,
+      "access_status": "unknown",
+      "access_checked_at": null,
+      "access_evidence": [],
+      "binding_status": "unresolved",
+      "binding_evidence": [],
+      "conditional_usage_allowances": [],
+      "model_selection": null
+    },
+    {
       "provider_id": "xai",
       "provider": "xAI",
       "model_id": "grok-3",
@@ -55444,6 +56517,81 @@
         "checked_at": "2026-09-21T10:47:28Z",
         "verified_at": "2026-09-21T10:47:28Z"
       }
+    },
+    {
+      "provider_id": "xai",
+      "provider": "xAI",
+      "model_id": "tts",
+      "model": "xAI Text to Speech",
+      "input_price_per_1m_tokens": null,
+      "cached_input_price_per_1m_tokens": null,
+      "output_price_per_1m_tokens": null,
+      "currency": "USD",
+      "pricing_unit": null,
+      "status": "latest",
+      "availability": "active",
+      "official_source_url": "https://docs.x.ai/developers/models",
+      "verification_status": "verified",
+      "last_verified_at": "2026-10-30",
+      "checked_at": "2026-10-30",
+      "effective_from": null,
+      "effective_until": null,
+      "notes": "V2 marks this row as unsafe for default calculations: missing_verified_current_price.",
+      "pricing_tier_count": 0,
+      "pricing_tiers": [],
+      "time_pricing": null,
+      "pricing_components": [
+        {
+          "pricing_id": "price:xai/tts:standard:short:current",
+          "charge_id": "price:xai/tts:standard:short:current:input:text:per_1m_characters",
+          "component": "input",
+          "amount": "15",
+          "unit": "per_1m_characters",
+          "currency": "USD",
+          "modality": "text",
+          "condition": {
+            "processing_mode": "standard",
+            "context_class": "short",
+            "prompt_token_threshold": null,
+            "tier_selection": null,
+            "region_policy": "global",
+            "effective_from": null,
+            "effective_until": null,
+            "region_selector": {
+              "dataResidencies": [
+                "us-east-1"
+              ],
+              "endpointGeographies": [
+                "us-east-1"
+              ],
+              "pricingGeography": "global_base"
+            },
+            "default_availability_status": "available",
+            "availability_rules": [],
+            "price_adjustments": []
+          },
+          "calculation_default": true,
+          "source_refs": [
+            "source:xai:docs-x-ai-developers-models"
+          ],
+          "source_urls": [
+            "https://docs.x.ai/developers/models"
+          ],
+          "verification_status": "verified"
+        }
+      ],
+      "unit_price": 15.0,
+      "billing_unit": "per_1m_characters",
+      "billing_quantity": 1000000,
+      "pricing_dimension": "input",
+      "released_at": null,
+      "access_status": "unknown",
+      "access_checked_at": null,
+      "access_evidence": [],
+      "binding_status": "unresolved",
+      "binding_evidence": [],
+      "conditional_usage_allowances": [],
+      "model_selection": null
     }
   ]
 }

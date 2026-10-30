@@ -115,6 +115,7 @@ class HuggingFaceExportTests(unittest.TestCase):
             "grok-voice-3.0",
             "grok-voice-transcribe-1.0",
             "grok-voice-transcribe-2.0",
+            "tts",
         })
 
     def test_export_matches_full_public_website_key_set(self):

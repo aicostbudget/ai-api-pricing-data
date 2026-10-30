@@ -1,19 +1,69 @@
 {
-  "accessed_at": "2026-10-05T02:42:02Z",
+  "accessed_at": "2026-10-30T08:31:55Z",
   "display_name": "TTS-1 HD",
   "effective_from": null,
-  "last_verified_at": "2026-10-05T02:42:02Z",
+  "input_modality": "text",
+  "last_verified_at": "2026-10-30T08:31:55Z",
   "lifecycle": {
     "deprecation_date": "2026-10-01",
     "replacement_model_id": "gpt-realtime-2.1-mini",
     "retirement_date": "2027-01-06"
   },
+  "model_category": "text_to_speech",
   "model_family": "TTS",
   "model_id": "tts-1-hd",
-  "notes": "Deprecated 2026-10-01. API shutdown scheduled 2027-01-06. OpenAI recommends migration to gpt-realtime-2.1-mini. Price is not asserted.",
-  "official_source_url": "https://developers.openai.com/api/docs/deprecations",
+  "notes": "Deprecated 2026-10-01; API shutdown scheduled 2027-01-06. OpenAI recommends migrating to gpt-realtime-2.1-mini through the Realtime API (it is not a /v1/audio/speech model). Speech API model optimized for quality. Price USD 30.00 per 1 million input characters.",
+  "official_source_url": "https://developers.openai.com/api/docs/pricing",
   "official_source_urls": [
-    "https://developers.openai.com/api/docs/deprecations"
+    "https://developers.openai.com/api/docs/pricing",
+    "https://developers.openai.com/api/docs/models/tts-1-hd",
+    "https://developers.openai.com/api/docs/deprecations",
+    "https://developers.openai.com/api/docs/guides/text-to-speech"
+  ],
+  "output_modality": "audio",
+  "price_records": [
+    {
+      "billing_note": "Billed by input text characters; do not convert to tokens or minutes.",
+      "calculation_default": true,
+      "charges": [
+        {
+          "amount": "30.00",
+          "component": "input",
+          "id": "price:openai/tts-1-hd:standard:short:current:input:text:per_1m_characters",
+          "modality": "text",
+          "unit": "per_1m_characters"
+        }
+      ],
+      "checked_at": "2026-10-30T08:31:55Z",
+      "context_class": "short",
+      "currency": "USD",
+      "effective_from": null,
+      "effective_until": null,
+      "id": "price:openai/tts-1-hd:standard:short:current",
+      "pricing_status": "current",
+      "processing_mode": "standard",
+      "prompt_token_threshold": null,
+      "region_policy": {
+        "availability": {
+          "default": "available",
+          "rules": []
+        },
+        "data_residencies": [
+          "global"
+        ],
+        "endpoint_geographies": [
+          "global"
+        ],
+        "price_adjustments": [],
+        "pricing_geography": "global_base"
+      },
+      "source_refs": [
+        "https://developers.openai.com/api/docs/pricing",
+        "https://developers.openai.com/api/docs/models/tts-1-hd"
+      ],
+      "verification_status": "verified",
+      "verified_at": "2026-10-30T08:31:55Z"
+    }
   ],
   "pricing": {
     "batch_input": null,

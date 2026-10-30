@@ -2,14 +2,14 @@
   "dataset_name": "AICostBudget AI API Pricing Dataset",
   "dataset_version": "1.0.0",
   "description": "Open, machine-readable pricing data for LLM and AI APIs.",
-  "generated_at": "2026-10-30T07:11:46Z",
+  "generated_at": "2026-10-30T08:39:02Z",
   "homepage": "https://aicostbudget.com",
-  "last_verified_at": "2026-10-30T06:18:57Z",
+  "last_verified_at": "2026-10-30T08:35:21Z",
   "licenses": {
     "code": "MIT",
     "data": "CC BY 4.0"
   },
-  "model_count": 111,
+  "model_count": 123,
   "models": [
     {
       "access_checked_at": "2026-10-28T16:44:42Z",
@@ -3074,6 +3074,544 @@
       "status": "active"
     },
     {
+      "accessed_at": "2026-10-30T08:32:27Z",
+      "display_name": "Amazon Polly Generative",
+      "effective_from": null,
+      "input_modality": "text",
+      "last_verified_at": "2026-10-30T08:32:27Z",
+      "model_category": "text_to_speech",
+      "model_family": "Amazon Polly",
+      "model_id": "polly-generative",
+      "notes": "Amazon Polly SynthesizeSpeech with Engine=generative. Generative voice engine. Free tier: 100,000 characters per month for 12 months (not asserted as a price). Public on-demand price USD 30 per 1 million characters, identical in the 3 commercial regions the AWS Price List returns for this engine; AWS GovCloud is priced higher and not admitted. Speech Marks requests are billed at the same rate.",
+      "official_source_url": "https://aws.amazon.com/polly/pricing/",
+      "official_source_urls": [
+        "https://aws.amazon.com/polly/pricing/",
+        "https://pricing.us-east-1.amazonaws.com/offers/v1.0/aws/AmazonPolly/current/index.json",
+        "https://docs.aws.amazon.com/polly/latest/dg/voice-engines-polly.html"
+      ],
+      "output_modality": "audio",
+      "price_records": [
+        {
+          "billing_note": "Billed by input text characters; do not convert to tokens or minutes.",
+          "calculation_default": true,
+          "charges": [
+            {
+              "amount": "30",
+              "component": "input",
+              "id": "price:aws/polly-generative:standard:short:current:input:text:per_1m_characters",
+              "modality": "text",
+              "unit": "per_1m_characters"
+            }
+          ],
+          "checked_at": "2026-10-30T08:32:27Z",
+          "context_class": "short",
+          "currency": "USD",
+          "effective_from": null,
+          "effective_until": null,
+          "id": "price:aws/polly-generative:standard:short:current",
+          "pricing_status": "current",
+          "processing_mode": "standard",
+          "prompt_token_threshold": null,
+          "region_policy": {
+            "availability": {
+              "default": "available",
+              "rules": []
+            },
+            "data_residencies": [
+              "regional"
+            ],
+            "endpoint_geographies": [
+              "eu-central-1",
+              "us-east-1",
+              "us-west-2"
+            ],
+            "price_adjustments": [],
+            "pricing_geography": "region_specific"
+          },
+          "source_refs": [
+            "https://aws.amazon.com/polly/pricing/",
+            "https://pricing.us-east-1.amazonaws.com/offers/v1.0/aws/AmazonPolly/current/index.json"
+          ],
+          "verification_status": "verified",
+          "verified_at": "2026-10-30T08:32:27Z"
+        }
+      ],
+      "pricing": {
+        "batch_input": null,
+        "batch_output": null,
+        "cache_write": null,
+        "cache_write_1h": null,
+        "cached_input": null,
+        "currency": "USD",
+        "input": null,
+        "output": null,
+        "unit": null
+      },
+      "provider_id": "aws",
+      "release_stage": "stable",
+      "status": "active"
+    },
+    {
+      "accessed_at": "2026-10-30T08:32:22Z",
+      "display_name": "Amazon Polly Long-Form",
+      "effective_from": null,
+      "input_modality": "text",
+      "last_verified_at": "2026-10-30T08:32:22Z",
+      "model_category": "text_to_speech",
+      "model_family": "Amazon Polly",
+      "model_id": "polly-long-form",
+      "notes": "Amazon Polly SynthesizeSpeech with Engine=long-form. Long-Form voice engine for long narration. Free tier: 500,000 characters per month for 12 months (not asserted as a price). Public on-demand price USD 100 per 1 million characters, identical in the 1 commercial regions the AWS Price List returns for this engine; AWS GovCloud is priced higher and not admitted. Speech Marks requests are billed at the same rate.",
+      "official_source_url": "https://aws.amazon.com/polly/pricing/",
+      "official_source_urls": [
+        "https://aws.amazon.com/polly/pricing/",
+        "https://pricing.us-east-1.amazonaws.com/offers/v1.0/aws/AmazonPolly/current/index.json",
+        "https://docs.aws.amazon.com/polly/latest/dg/voice-engines-polly.html"
+      ],
+      "output_modality": "audio",
+      "price_records": [
+        {
+          "billing_note": "Billed by input text characters; do not convert to tokens or minutes.",
+          "calculation_default": true,
+          "charges": [
+            {
+              "amount": "100",
+              "component": "input",
+              "id": "price:aws/polly-long-form:standard:short:current:input:text:per_1m_characters",
+              "modality": "text",
+              "unit": "per_1m_characters"
+            }
+          ],
+          "checked_at": "2026-10-30T08:32:22Z",
+          "context_class": "short",
+          "currency": "USD",
+          "effective_from": null,
+          "effective_until": null,
+          "id": "price:aws/polly-long-form:standard:short:current",
+          "pricing_status": "current",
+          "processing_mode": "standard",
+          "prompt_token_threshold": null,
+          "region_policy": {
+            "availability": {
+              "default": "available",
+              "rules": []
+            },
+            "data_residencies": [
+              "regional"
+            ],
+            "endpoint_geographies": [
+              "us-east-1"
+            ],
+            "price_adjustments": [],
+            "pricing_geography": "region_specific"
+          },
+          "source_refs": [
+            "https://aws.amazon.com/polly/pricing/",
+            "https://pricing.us-east-1.amazonaws.com/offers/v1.0/aws/AmazonPolly/current/index.json"
+          ],
+          "verification_status": "verified",
+          "verified_at": "2026-10-30T08:32:22Z"
+        }
+      ],
+      "pricing": {
+        "batch_input": null,
+        "batch_output": null,
+        "cache_write": null,
+        "cache_write_1h": null,
+        "cached_input": null,
+        "currency": "USD",
+        "input": null,
+        "output": null,
+        "unit": null
+      },
+      "provider_id": "aws",
+      "release_stage": "stable",
+      "status": "active"
+    },
+    {
+      "accessed_at": "2026-10-30T08:32:17Z",
+      "display_name": "Amazon Polly Neural",
+      "effective_from": null,
+      "input_modality": "text",
+      "last_verified_at": "2026-10-30T08:32:17Z",
+      "model_category": "text_to_speech",
+      "model_family": "Amazon Polly",
+      "model_id": "polly-neural",
+      "notes": "Amazon Polly SynthesizeSpeech with Engine=neural. Neural voice engine. Free tier: 1 million characters per month for 12 months (not asserted as a price). Public on-demand price USD 16 per 1 million characters, identical in the 16 commercial regions the AWS Price List returns for this engine; AWS GovCloud is priced higher and not admitted. Speech Marks requests are billed at the same rate.",
+      "official_source_url": "https://aws.amazon.com/polly/pricing/",
+      "official_source_urls": [
+        "https://aws.amazon.com/polly/pricing/",
+        "https://pricing.us-east-1.amazonaws.com/offers/v1.0/aws/AmazonPolly/current/index.json",
+        "https://docs.aws.amazon.com/polly/latest/dg/voice-engines-polly.html"
+      ],
+      "output_modality": "audio",
+      "price_records": [
+        {
+          "billing_note": "Billed by input text characters; do not convert to tokens or minutes.",
+          "calculation_default": true,
+          "charges": [
+            {
+              "amount": "16",
+              "component": "input",
+              "id": "price:aws/polly-neural:standard:short:current:input:text:per_1m_characters",
+              "modality": "text",
+              "unit": "per_1m_characters"
+            }
+          ],
+          "checked_at": "2026-10-30T08:32:17Z",
+          "context_class": "short",
+          "currency": "USD",
+          "effective_from": null,
+          "effective_until": null,
+          "id": "price:aws/polly-neural:standard:short:current",
+          "pricing_status": "current",
+          "processing_mode": "standard",
+          "prompt_token_threshold": null,
+          "region_policy": {
+            "availability": {
+              "default": "available",
+              "rules": []
+            },
+            "data_residencies": [
+              "regional"
+            ],
+            "endpoint_geographies": [
+              "af-south-1",
+              "ap-northeast-1",
+              "ap-northeast-2",
+              "ap-northeast-3",
+              "ap-south-1",
+              "ap-southeast-1",
+              "ap-southeast-2",
+              "ap-southeast-5",
+              "ca-central-1",
+              "eu-central-1",
+              "eu-south-2",
+              "eu-west-1",
+              "eu-west-2",
+              "eu-west-3",
+              "us-east-1",
+              "us-west-2"
+            ],
+            "price_adjustments": [],
+            "pricing_geography": "region_specific"
+          },
+          "source_refs": [
+            "https://aws.amazon.com/polly/pricing/",
+            "https://pricing.us-east-1.amazonaws.com/offers/v1.0/aws/AmazonPolly/current/index.json"
+          ],
+          "verification_status": "verified",
+          "verified_at": "2026-10-30T08:32:17Z"
+        }
+      ],
+      "pricing": {
+        "batch_input": null,
+        "batch_output": null,
+        "cache_write": null,
+        "cache_write_1h": null,
+        "cached_input": null,
+        "currency": "USD",
+        "input": null,
+        "output": null,
+        "unit": null
+      },
+      "provider_id": "aws",
+      "release_stage": "stable",
+      "status": "active"
+    },
+    {
+      "accessed_at": "2026-10-30T08:32:13Z",
+      "display_name": "Amazon Polly Standard",
+      "effective_from": null,
+      "input_modality": "text",
+      "last_verified_at": "2026-10-30T08:32:13Z",
+      "model_category": "text_to_speech",
+      "model_family": "Amazon Polly",
+      "model_id": "polly-standard",
+      "notes": "Amazon Polly SynthesizeSpeech with Engine=standard. Standard voice engine. Free tier: 5 million characters per month for 12 months (not asserted as a price). Public on-demand price USD 4 per 1 million characters, identical in the 22 commercial regions the AWS Price List returns for this engine; AWS GovCloud is priced higher and not admitted. Speech Marks requests are billed at the same rate.",
+      "official_source_url": "https://aws.amazon.com/polly/pricing/",
+      "official_source_urls": [
+        "https://aws.amazon.com/polly/pricing/",
+        "https://pricing.us-east-1.amazonaws.com/offers/v1.0/aws/AmazonPolly/current/index.json",
+        "https://docs.aws.amazon.com/polly/latest/dg/voice-engines-polly.html"
+      ],
+      "output_modality": "audio",
+      "price_records": [
+        {
+          "billing_note": "Billed by input text characters; do not convert to tokens or minutes.",
+          "calculation_default": true,
+          "charges": [
+            {
+              "amount": "4",
+              "component": "input",
+              "id": "price:aws/polly-standard:standard:short:current:input:text:per_1m_characters",
+              "modality": "text",
+              "unit": "per_1m_characters"
+            }
+          ],
+          "checked_at": "2026-10-30T08:32:13Z",
+          "context_class": "short",
+          "currency": "USD",
+          "effective_from": null,
+          "effective_until": null,
+          "id": "price:aws/polly-standard:standard:short:current",
+          "pricing_status": "current",
+          "processing_mode": "standard",
+          "prompt_token_threshold": null,
+          "region_policy": {
+            "availability": {
+              "default": "available",
+              "rules": []
+            },
+            "data_residencies": [
+              "regional"
+            ],
+            "endpoint_geographies": [
+              "af-south-1",
+              "ap-east-1",
+              "ap-northeast-1",
+              "ap-northeast-2",
+              "ap-northeast-3",
+              "ap-south-1",
+              "ap-southeast-1",
+              "ap-southeast-2",
+              "ap-southeast-5",
+              "ca-central-1",
+              "eu-central-1",
+              "eu-north-1",
+              "eu-south-2",
+              "eu-west-1",
+              "eu-west-2",
+              "eu-west-3",
+              "me-south-1",
+              "sa-east-1",
+              "us-east-1",
+              "us-east-2",
+              "us-west-1",
+              "us-west-2"
+            ],
+            "price_adjustments": [],
+            "pricing_geography": "region_specific"
+          },
+          "source_refs": [
+            "https://aws.amazon.com/polly/pricing/",
+            "https://pricing.us-east-1.amazonaws.com/offers/v1.0/aws/AmazonPolly/current/index.json"
+          ],
+          "verification_status": "verified",
+          "verified_at": "2026-10-30T08:32:13Z"
+        }
+      ],
+      "pricing": {
+        "batch_input": null,
+        "batch_output": null,
+        "cache_write": null,
+        "cache_write_1h": null,
+        "cached_input": null,
+        "currency": "USD",
+        "input": null,
+        "output": null,
+        "unit": null
+      },
+      "provider_id": "aws",
+      "release_stage": "stable",
+      "status": "active"
+    },
+    {
+      "accessed_at": "2026-10-30T08:35:21Z",
+      "display_name": "Azure AI Speech Neural HD TTS",
+      "effective_from": null,
+      "input_modality": "text",
+      "last_verified_at": "2026-10-30T08:35:21Z",
+      "model_category": "text_to_speech",
+      "model_family": "Azure AI Speech",
+      "model_id": "neural-hd-tts",
+      "notes": "Neural HD prebuilt voices, real-time and batch synthesis. Public pay-as-you-go retail price USD 22 per 1 million characters from the official Retail Prices API (meter 'Neural HD Text to Speech Characters'), identical in the 12 commercial ARM regions it returns. Free F0, commitment tiers, custom and personal voices, and Government cloud are not admitted.",
+      "official_source_url": "https://prices.azure.com/api/retail/prices",
+      "official_source_urls": [
+        "https://prices.azure.com/api/retail/prices",
+        "https://learn.microsoft.com/en-us/rest/api/cost-management/retail-prices/azure-retail-prices",
+        "https://azure.microsoft.com/en-us/pricing/details/cognitive-services/speech-services/"
+      ],
+      "output_modality": "audio",
+      "price_records": [
+        {
+          "billing_note": "Billed by input text characters; do not convert to tokens or minutes.",
+          "calculation_default": true,
+          "charges": [
+            {
+              "amount": "22",
+              "component": "input",
+              "id": "price:azure/neural-hd-tts:standard:short:current:input:text:per_1m_characters",
+              "modality": "text",
+              "unit": "per_1m_characters"
+            }
+          ],
+          "checked_at": "2026-10-30T08:35:21Z",
+          "context_class": "short",
+          "currency": "USD",
+          "effective_from": null,
+          "effective_until": null,
+          "id": "price:azure/neural-hd-tts:standard:short:current",
+          "pricing_status": "current",
+          "processing_mode": "standard",
+          "prompt_token_threshold": null,
+          "region_policy": {
+            "availability": {
+              "default": "available",
+              "rules": []
+            },
+            "data_residencies": [
+              "regional"
+            ],
+            "endpoint_geographies": [
+              "australiaeast",
+              "canadacentral",
+              "centralindia",
+              "eastus",
+              "eastus2",
+              "francecentral",
+              "northcentralus",
+              "southeastasia",
+              "swedencentral",
+              "uksouth",
+              "westeurope",
+              "westus2"
+            ],
+            "price_adjustments": [],
+            "pricing_geography": "region_specific"
+          },
+          "source_refs": [
+            "https://prices.azure.com/api/retail/prices",
+            "https://learn.microsoft.com/en-us/rest/api/cost-management/retail-prices/azure-retail-prices"
+          ],
+          "verification_status": "verified",
+          "verified_at": "2026-10-30T08:35:21Z"
+        }
+      ],
+      "pricing": {
+        "batch_input": null,
+        "batch_output": null,
+        "cache_write": null,
+        "cache_write_1h": null,
+        "cached_input": null,
+        "currency": "USD",
+        "input": null,
+        "output": null,
+        "unit": null
+      },
+      "provider_id": "azure",
+      "release_stage": "stable",
+      "status": "active"
+    },
+    {
+      "accessed_at": "2026-10-30T08:34:16Z",
+      "display_name": "Azure AI Speech Neural TTS",
+      "effective_from": null,
+      "input_modality": "text",
+      "last_verified_at": "2026-10-30T08:34:16Z",
+      "model_category": "text_to_speech",
+      "model_family": "Azure AI Speech",
+      "model_id": "neural-tts",
+      "notes": "Standard (S1) prebuilt neural voices, real-time and batch synthesis. Public pay-as-you-go retail price USD 15 per 1 million characters from the official Retail Prices API (meter 'S1 Neural Text To Speech Characters'), identical in the 34 commercial ARM regions it returns. Free F0, commitment tiers, custom and personal voices, and Government cloud are not admitted.",
+      "official_source_url": "https://prices.azure.com/api/retail/prices",
+      "official_source_urls": [
+        "https://prices.azure.com/api/retail/prices",
+        "https://learn.microsoft.com/en-us/rest/api/cost-management/retail-prices/azure-retail-prices",
+        "https://azure.microsoft.com/en-us/pricing/details/cognitive-services/speech-services/"
+      ],
+      "output_modality": "audio",
+      "price_records": [
+        {
+          "billing_note": "Billed by input text characters; do not convert to tokens or minutes.",
+          "calculation_default": true,
+          "charges": [
+            {
+              "amount": "15",
+              "component": "input",
+              "id": "price:azure/neural-tts:standard:short:current:input:text:per_1m_characters",
+              "modality": "text",
+              "unit": "per_1m_characters"
+            }
+          ],
+          "checked_at": "2026-10-30T08:34:16Z",
+          "context_class": "short",
+          "currency": "USD",
+          "effective_from": null,
+          "effective_until": null,
+          "id": "price:azure/neural-tts:standard:short:current",
+          "pricing_status": "current",
+          "processing_mode": "standard",
+          "prompt_token_threshold": null,
+          "region_policy": {
+            "availability": {
+              "default": "available",
+              "rules": []
+            },
+            "data_residencies": [
+              "regional"
+            ],
+            "endpoint_geographies": [
+              "australiaeast",
+              "brazilsouth",
+              "canadacentral",
+              "canadaeast",
+              "centralindia",
+              "centralus",
+              "eastasia",
+              "eastus",
+              "eastus2",
+              "francecentral",
+              "germanywestcentral",
+              "italynorth",
+              "japaneast",
+              "japanwest",
+              "jioindiawest",
+              "koreacentral",
+              "northcentralus",
+              "northeurope",
+              "norwayeast",
+              "qatarcentral",
+              "southafricanorth",
+              "southcentralus",
+              "southeastasia",
+              "swedencentral",
+              "switzerlandnorth",
+              "switzerlandwest",
+              "uaenorth",
+              "uksouth",
+              "ukwest",
+              "westcentralus",
+              "westeurope",
+              "westus",
+              "westus2",
+              "westus3"
+            ],
+            "price_adjustments": [],
+            "pricing_geography": "region_specific"
+          },
+          "source_refs": [
+            "https://prices.azure.com/api/retail/prices",
+            "https://learn.microsoft.com/en-us/rest/api/cost-management/retail-prices/azure-retail-prices"
+          ],
+          "verification_status": "verified",
+          "verified_at": "2026-10-30T08:34:16Z"
+        }
+      ],
+      "pricing": {
+        "batch_input": null,
+        "batch_output": null,
+        "cache_write": null,
+        "cache_write_1h": null,
+        "cached_input": null,
+        "currency": "USD",
+        "input": null,
+        "output": null,
+        "unit": null
+      },
+      "provider_id": "azure",
+      "release_stage": "stable",
+      "status": "active"
+    },
+    {
       "accessed_at": "2026-10-30T02:43:01Z",
       "display_name": "Azure Document Intelligence Read",
       "effective_from": null,
@@ -4368,6 +4906,371 @@
           },
           "verification_status": "verified",
           "verified_at": "2026-10-30T02:40:31Z"
+        }
+      ],
+      "pricing": {
+        "batch_input": null,
+        "batch_output": null,
+        "cache_write": null,
+        "cache_write_1h": null,
+        "cached_input": null,
+        "currency": "USD",
+        "input": null,
+        "output": null,
+        "unit": null
+      },
+      "provider_id": "google-cloud",
+      "release_stage": "stable",
+      "status": "active"
+    },
+    {
+      "accessed_at": "2026-10-30T08:33:36Z",
+      "display_name": "Google Cloud TTS Chirp 3: HD",
+      "effective_from": null,
+      "input_modality": "text",
+      "last_verified_at": "2026-10-30T08:33:36Z",
+      "model_category": "text_to_speech",
+      "model_family": "Google Cloud Text-to-Speech",
+      "model_id": "tts-chirp-3-hd",
+      "notes": "Google Cloud Text-to-Speech. Chirp 3: HD voices. Free usage: first 1 million characters per month. Free usage is not asserted as a price. Price after the free limit: USD 30 per 1 million characters.",
+      "official_source_url": "https://cloud.google.com/text-to-speech/pricing",
+      "official_source_urls": [
+        "https://cloud.google.com/text-to-speech/pricing"
+      ],
+      "output_modality": "audio",
+      "price_records": [
+        {
+          "billing_note": "Billed by input text characters; do not convert to tokens or minutes.",
+          "calculation_default": true,
+          "charges": [
+            {
+              "amount": "30",
+              "component": "input",
+              "id": "price:google-cloud/tts-chirp-3-hd:standard:short:current:input:text:per_1m_characters",
+              "modality": "text",
+              "unit": "per_1m_characters"
+            }
+          ],
+          "checked_at": "2026-10-30T08:33:36Z",
+          "context_class": "short",
+          "currency": "USD",
+          "effective_from": null,
+          "effective_until": null,
+          "id": "price:google-cloud/tts-chirp-3-hd:standard:short:current",
+          "pricing_status": "current",
+          "processing_mode": "standard",
+          "prompt_token_threshold": null,
+          "region_policy": {
+            "availability": {
+              "default": "available",
+              "rules": []
+            },
+            "data_residencies": [
+              "global"
+            ],
+            "endpoint_geographies": [
+              "global"
+            ],
+            "price_adjustments": [],
+            "pricing_geography": "global_base"
+          },
+          "source_refs": [
+            "https://cloud.google.com/text-to-speech/pricing"
+          ],
+          "verification_status": "verified",
+          "verified_at": "2026-10-30T08:33:36Z"
+        }
+      ],
+      "pricing": {
+        "batch_input": null,
+        "batch_output": null,
+        "cache_write": null,
+        "cache_write_1h": null,
+        "cached_input": null,
+        "currency": "USD",
+        "input": null,
+        "output": null,
+        "unit": null
+      },
+      "provider_id": "google-cloud",
+      "release_stage": "stable",
+      "status": "active"
+    },
+    {
+      "accessed_at": "2026-10-30T08:33:23Z",
+      "display_name": "Google Cloud TTS Neural2",
+      "effective_from": null,
+      "input_modality": "text",
+      "last_verified_at": "2026-10-30T08:33:23Z",
+      "model_category": "text_to_speech",
+      "model_family": "Google Cloud Text-to-Speech",
+      "model_id": "tts-neural2",
+      "notes": "Google Cloud Text-to-Speech. Neural2 voices (legacy TTS models table). Free usage: first 1 million characters per month. Free usage is not asserted as a price. Price after the free limit: USD 16 per 1 million characters.",
+      "official_source_url": "https://cloud.google.com/text-to-speech/pricing",
+      "official_source_urls": [
+        "https://cloud.google.com/text-to-speech/pricing"
+      ],
+      "output_modality": "audio",
+      "price_records": [
+        {
+          "billing_note": "Billed by input text characters; do not convert to tokens or minutes.",
+          "calculation_default": true,
+          "charges": [
+            {
+              "amount": "16",
+              "component": "input",
+              "id": "price:google-cloud/tts-neural2:standard:short:current:input:text:per_1m_characters",
+              "modality": "text",
+              "unit": "per_1m_characters"
+            }
+          ],
+          "checked_at": "2026-10-30T08:33:23Z",
+          "context_class": "short",
+          "currency": "USD",
+          "effective_from": null,
+          "effective_until": null,
+          "id": "price:google-cloud/tts-neural2:standard:short:current",
+          "pricing_status": "current",
+          "processing_mode": "standard",
+          "prompt_token_threshold": null,
+          "region_policy": {
+            "availability": {
+              "default": "available",
+              "rules": []
+            },
+            "data_residencies": [
+              "global"
+            ],
+            "endpoint_geographies": [
+              "global"
+            ],
+            "price_adjustments": [],
+            "pricing_geography": "global_base"
+          },
+          "source_refs": [
+            "https://cloud.google.com/text-to-speech/pricing"
+          ],
+          "verification_status": "verified",
+          "verified_at": "2026-10-30T08:33:23Z"
+        }
+      ],
+      "pricing": {
+        "batch_input": null,
+        "batch_output": null,
+        "cache_write": null,
+        "cache_write_1h": null,
+        "cached_input": null,
+        "currency": "USD",
+        "input": null,
+        "output": null,
+        "unit": null
+      },
+      "provider_id": "google-cloud",
+      "release_stage": "stable",
+      "status": "active"
+    },
+    {
+      "accessed_at": "2026-10-30T08:32:32Z",
+      "display_name": "Google Cloud TTS Standard",
+      "effective_from": null,
+      "input_modality": "text",
+      "last_verified_at": "2026-10-30T08:32:32Z",
+      "model_category": "text_to_speech",
+      "model_family": "Google Cloud Text-to-Speech",
+      "model_id": "tts-standard",
+      "notes": "Google Cloud Text-to-Speech. Standard voices (legacy TTS models table). Free usage: first 4 million characters per month. Free usage is not asserted as a price. Price after the free limit: USD 4 per 1 million characters.",
+      "official_source_url": "https://cloud.google.com/text-to-speech/pricing",
+      "official_source_urls": [
+        "https://cloud.google.com/text-to-speech/pricing"
+      ],
+      "output_modality": "audio",
+      "price_records": [
+        {
+          "billing_note": "Billed by input text characters; do not convert to tokens or minutes.",
+          "calculation_default": true,
+          "charges": [
+            {
+              "amount": "4",
+              "component": "input",
+              "id": "price:google-cloud/tts-standard:standard:short:current:input:text:per_1m_characters",
+              "modality": "text",
+              "unit": "per_1m_characters"
+            }
+          ],
+          "checked_at": "2026-10-30T08:32:32Z",
+          "context_class": "short",
+          "currency": "USD",
+          "effective_from": null,
+          "effective_until": null,
+          "id": "price:google-cloud/tts-standard:standard:short:current",
+          "pricing_status": "current",
+          "processing_mode": "standard",
+          "prompt_token_threshold": null,
+          "region_policy": {
+            "availability": {
+              "default": "available",
+              "rules": []
+            },
+            "data_residencies": [
+              "global"
+            ],
+            "endpoint_geographies": [
+              "global"
+            ],
+            "price_adjustments": [],
+            "pricing_geography": "global_base"
+          },
+          "source_refs": [
+            "https://cloud.google.com/text-to-speech/pricing"
+          ],
+          "verification_status": "verified",
+          "verified_at": "2026-10-30T08:32:32Z"
+        }
+      ],
+      "pricing": {
+        "batch_input": null,
+        "batch_output": null,
+        "cache_write": null,
+        "cache_write_1h": null,
+        "cached_input": null,
+        "currency": "USD",
+        "input": null,
+        "output": null,
+        "unit": null
+      },
+      "provider_id": "google-cloud",
+      "release_stage": "stable",
+      "status": "active"
+    },
+    {
+      "accessed_at": "2026-10-30T08:33:49Z",
+      "display_name": "Google Cloud TTS Studio",
+      "effective_from": null,
+      "input_modality": "text",
+      "last_verified_at": "2026-10-30T08:33:49Z",
+      "model_category": "text_to_speech",
+      "model_family": "Google Cloud Text-to-Speech",
+      "model_id": "tts-studio",
+      "notes": "Google Cloud Text-to-Speech. Studio voices (legacy TTS models table). Free usage: first 1 million characters per month. Free usage is not asserted as a price. Price after the free limit: USD 160 per 1 million characters.",
+      "official_source_url": "https://cloud.google.com/text-to-speech/pricing",
+      "official_source_urls": [
+        "https://cloud.google.com/text-to-speech/pricing"
+      ],
+      "output_modality": "audio",
+      "price_records": [
+        {
+          "billing_note": "Billed by input text characters; do not convert to tokens or minutes.",
+          "calculation_default": true,
+          "charges": [
+            {
+              "amount": "160",
+              "component": "input",
+              "id": "price:google-cloud/tts-studio:standard:short:current:input:text:per_1m_characters",
+              "modality": "text",
+              "unit": "per_1m_characters"
+            }
+          ],
+          "checked_at": "2026-10-30T08:33:49Z",
+          "context_class": "short",
+          "currency": "USD",
+          "effective_from": null,
+          "effective_until": null,
+          "id": "price:google-cloud/tts-studio:standard:short:current",
+          "pricing_status": "current",
+          "processing_mode": "standard",
+          "prompt_token_threshold": null,
+          "region_policy": {
+            "availability": {
+              "default": "available",
+              "rules": []
+            },
+            "data_residencies": [
+              "global"
+            ],
+            "endpoint_geographies": [
+              "global"
+            ],
+            "price_adjustments": [],
+            "pricing_geography": "global_base"
+          },
+          "source_refs": [
+            "https://cloud.google.com/text-to-speech/pricing"
+          ],
+          "verification_status": "verified",
+          "verified_at": "2026-10-30T08:33:49Z"
+        }
+      ],
+      "pricing": {
+        "batch_input": null,
+        "batch_output": null,
+        "cache_write": null,
+        "cache_write_1h": null,
+        "cached_input": null,
+        "currency": "USD",
+        "input": null,
+        "output": null,
+        "unit": null
+      },
+      "provider_id": "google-cloud",
+      "release_stage": "stable",
+      "status": "active"
+    },
+    {
+      "accessed_at": "2026-10-30T08:32:47Z",
+      "display_name": "Google Cloud TTS WaveNet",
+      "effective_from": null,
+      "input_modality": "text",
+      "last_verified_at": "2026-10-30T08:32:47Z",
+      "model_category": "text_to_speech",
+      "model_family": "Google Cloud Text-to-Speech",
+      "model_id": "tts-wavenet",
+      "notes": "Google Cloud Text-to-Speech. WaveNet voices (legacy TTS models table). Free usage: first 4 million characters per month. Free usage is not asserted as a price. Price after the free limit: USD 4 per 1 million characters.",
+      "official_source_url": "https://cloud.google.com/text-to-speech/pricing",
+      "official_source_urls": [
+        "https://cloud.google.com/text-to-speech/pricing"
+      ],
+      "output_modality": "audio",
+      "price_records": [
+        {
+          "billing_note": "Billed by input text characters; do not convert to tokens or minutes.",
+          "calculation_default": true,
+          "charges": [
+            {
+              "amount": "4",
+              "component": "input",
+              "id": "price:google-cloud/tts-wavenet:standard:short:current:input:text:per_1m_characters",
+              "modality": "text",
+              "unit": "per_1m_characters"
+            }
+          ],
+          "checked_at": "2026-10-30T08:32:47Z",
+          "context_class": "short",
+          "currency": "USD",
+          "effective_from": null,
+          "effective_until": null,
+          "id": "price:google-cloud/tts-wavenet:standard:short:current",
+          "pricing_status": "current",
+          "processing_mode": "standard",
+          "prompt_token_threshold": null,
+          "region_policy": {
+            "availability": {
+              "default": "available",
+              "rules": []
+            },
+            "data_residencies": [
+              "global"
+            ],
+            "endpoint_geographies": [
+              "global"
+            ],
+            "price_adjustments": [],
+            "pricing_geography": "global_base"
+          },
+          "source_refs": [
+            "https://cloud.google.com/text-to-speech/pricing"
+          ],
+          "verification_status": "verified",
+          "verified_at": "2026-10-30T08:32:47Z"
         }
       ],
       "pricing": {
@@ -21028,21 +21931,71 @@
       "status": "active"
     },
     {
-      "accessed_at": "2026-10-05T02:42:02Z",
+      "accessed_at": "2026-10-30T08:31:47Z",
       "display_name": "TTS-1",
       "effective_from": null,
-      "last_verified_at": "2026-10-05T02:42:02Z",
+      "input_modality": "text",
+      "last_verified_at": "2026-10-30T08:31:47Z",
       "lifecycle": {
         "deprecation_date": "2026-10-01",
         "replacement_model_id": "gpt-realtime-2.1-mini",
         "retirement_date": "2027-01-06"
       },
+      "model_category": "text_to_speech",
       "model_family": "TTS",
       "model_id": "tts-1",
-      "notes": "Deprecated 2026-10-01. API shutdown scheduled 2027-01-06. OpenAI recommends migration to gpt-realtime-2.1-mini. Price is not asserted.",
-      "official_source_url": "https://developers.openai.com/api/docs/deprecations",
+      "notes": "Deprecated 2026-10-01; API shutdown scheduled 2027-01-06. OpenAI recommends migrating to gpt-realtime-2.1-mini through the Realtime API (it is not a /v1/audio/speech model). Speech API model optimized for speed. Price USD 15.00 per 1 million input characters.",
+      "official_source_url": "https://developers.openai.com/api/docs/pricing",
       "official_source_urls": [
-        "https://developers.openai.com/api/docs/deprecations"
+        "https://developers.openai.com/api/docs/pricing",
+        "https://developers.openai.com/api/docs/models/tts-1",
+        "https://developers.openai.com/api/docs/deprecations",
+        "https://developers.openai.com/api/docs/guides/text-to-speech"
+      ],
+      "output_modality": "audio",
+      "price_records": [
+        {
+          "billing_note": "Billed by input text characters; do not convert to tokens or minutes.",
+          "calculation_default": true,
+          "charges": [
+            {
+              "amount": "15.00",
+              "component": "input",
+              "id": "price:openai/tts-1:standard:short:current:input:text:per_1m_characters",
+              "modality": "text",
+              "unit": "per_1m_characters"
+            }
+          ],
+          "checked_at": "2026-10-30T08:31:47Z",
+          "context_class": "short",
+          "currency": "USD",
+          "effective_from": null,
+          "effective_until": null,
+          "id": "price:openai/tts-1:standard:short:current",
+          "pricing_status": "current",
+          "processing_mode": "standard",
+          "prompt_token_threshold": null,
+          "region_policy": {
+            "availability": {
+              "default": "available",
+              "rules": []
+            },
+            "data_residencies": [
+              "global"
+            ],
+            "endpoint_geographies": [
+              "global"
+            ],
+            "price_adjustments": [],
+            "pricing_geography": "global_base"
+          },
+          "source_refs": [
+            "https://developers.openai.com/api/docs/pricing",
+            "https://developers.openai.com/api/docs/models/tts-1"
+          ],
+          "verification_status": "verified",
+          "verified_at": "2026-10-30T08:31:47Z"
+        }
       ],
       "pricing": {
         "batch_input": null,
@@ -21060,21 +22013,71 @@
       "status": "deprecated"
     },
     {
-      "accessed_at": "2026-10-05T02:42:02Z",
+      "accessed_at": "2026-10-30T08:31:55Z",
       "display_name": "TTS-1 HD",
       "effective_from": null,
-      "last_verified_at": "2026-10-05T02:42:02Z",
+      "input_modality": "text",
+      "last_verified_at": "2026-10-30T08:31:55Z",
       "lifecycle": {
         "deprecation_date": "2026-10-01",
         "replacement_model_id": "gpt-realtime-2.1-mini",
         "retirement_date": "2027-01-06"
       },
+      "model_category": "text_to_speech",
       "model_family": "TTS",
       "model_id": "tts-1-hd",
-      "notes": "Deprecated 2026-10-01. API shutdown scheduled 2027-01-06. OpenAI recommends migration to gpt-realtime-2.1-mini. Price is not asserted.",
-      "official_source_url": "https://developers.openai.com/api/docs/deprecations",
+      "notes": "Deprecated 2026-10-01; API shutdown scheduled 2027-01-06. OpenAI recommends migrating to gpt-realtime-2.1-mini through the Realtime API (it is not a /v1/audio/speech model). Speech API model optimized for quality. Price USD 30.00 per 1 million input characters.",
+      "official_source_url": "https://developers.openai.com/api/docs/pricing",
       "official_source_urls": [
-        "https://developers.openai.com/api/docs/deprecations"
+        "https://developers.openai.com/api/docs/pricing",
+        "https://developers.openai.com/api/docs/models/tts-1-hd",
+        "https://developers.openai.com/api/docs/deprecations",
+        "https://developers.openai.com/api/docs/guides/text-to-speech"
+      ],
+      "output_modality": "audio",
+      "price_records": [
+        {
+          "billing_note": "Billed by input text characters; do not convert to tokens or minutes.",
+          "calculation_default": true,
+          "charges": [
+            {
+              "amount": "30.00",
+              "component": "input",
+              "id": "price:openai/tts-1-hd:standard:short:current:input:text:per_1m_characters",
+              "modality": "text",
+              "unit": "per_1m_characters"
+            }
+          ],
+          "checked_at": "2026-10-30T08:31:55Z",
+          "context_class": "short",
+          "currency": "USD",
+          "effective_from": null,
+          "effective_until": null,
+          "id": "price:openai/tts-1-hd:standard:short:current",
+          "pricing_status": "current",
+          "processing_mode": "standard",
+          "prompt_token_threshold": null,
+          "region_policy": {
+            "availability": {
+              "default": "available",
+              "rules": []
+            },
+            "data_residencies": [
+              "global"
+            ],
+            "endpoint_geographies": [
+              "global"
+            ],
+            "price_adjustments": [],
+            "pricing_geography": "global_base"
+          },
+          "source_refs": [
+            "https://developers.openai.com/api/docs/pricing",
+            "https://developers.openai.com/api/docs/models/tts-1-hd"
+          ],
+          "verification_status": "verified",
+          "verified_at": "2026-10-30T08:31:55Z"
+        }
       ],
       "pricing": {
         "batch_input": null,
@@ -24497,17 +25500,94 @@
       "provider_id": "xai",
       "release_stage": "stable",
       "status": "active"
+    },
+    {
+      "accessed_at": "2026-10-30T08:31:34Z",
+      "display_name": "xAI Text to Speech",
+      "effective_from": null,
+      "input_modality": "text",
+      "last_verified_at": "2026-10-30T08:31:34Z",
+      "model_category": "text_to_speech",
+      "model_family": "Grok Voice",
+      "model_id": "tts",
+      "notes": "xAI Text to Speech API (POST /v1/tts). The API takes no model parameter, so this record is identified by the endpoint. Price USD 15.00 per 1 million input characters; region us-east-1. Up to 60,000 characters per request.",
+      "official_source_url": "https://docs.x.ai/developers/models",
+      "official_source_urls": [
+        "https://docs.x.ai/developers/models",
+        "https://docs.x.ai/developers/models/text-to-speech",
+        "https://docs.x.ai/developers/model-capabilities/audio/text-to-speech"
+      ],
+      "output_modality": "audio",
+      "price_records": [
+        {
+          "billing_note": "Billed by input text characters; do not convert to tokens or minutes.",
+          "calculation_default": true,
+          "charges": [
+            {
+              "amount": "15.00",
+              "component": "input",
+              "id": "price:xai/tts:standard:short:current:input:text:per_1m_characters",
+              "modality": "text",
+              "unit": "per_1m_characters"
+            }
+          ],
+          "checked_at": "2026-10-30T08:31:34Z",
+          "context_class": "short",
+          "currency": "USD",
+          "effective_from": null,
+          "effective_until": null,
+          "id": "price:xai/tts:standard:short:current",
+          "pricing_status": "current",
+          "processing_mode": "standard",
+          "prompt_token_threshold": null,
+          "region_policy": {
+            "availability": {
+              "default": "available",
+              "rules": []
+            },
+            "data_residencies": [
+              "us-east-1"
+            ],
+            "endpoint_geographies": [
+              "us-east-1"
+            ],
+            "price_adjustments": [],
+            "pricing_geography": "global_base"
+          },
+          "source_refs": [
+            "https://docs.x.ai/developers/models"
+          ],
+          "verification_status": "verified",
+          "verified_at": "2026-10-30T08:31:34Z"
+        }
+      ],
+      "pricing": {
+        "batch_input": null,
+        "batch_output": null,
+        "cache_write": null,
+        "cache_write_1h": null,
+        "cached_input": null,
+        "currency": "USD",
+        "input": null,
+        "output": null,
+        "unit": null
+      },
+      "provider_id": "xai",
+      "release_stage": "stable",
+      "status": "active"
     }
   ],
-  "official_source_count": 56,
+  "official_source_count": 60,
   "official_sources": [
     "https://ai.google.dev/gemini-api/docs/deprecations",
     "https://ai.google.dev/gemini-api/docs/models/gemini-nano-banana-2.1",
     "https://ai.google.dev/gemini-api/docs/pricing",
     "https://api-docs.deepseek.com/quick_start/pricing",
+    "https://aws.amazon.com/polly/pricing/",
     "https://aws.amazon.com/textract/pricing/",
     "https://azure.microsoft.com/en-us/pricing/details/document-intelligence/",
     "https://cloud.google.com/products/document-ai/pricing",
+    "https://cloud.google.com/text-to-speech/pricing",
     "https://cohere.com/blog/embed-5",
     "https://cohere.com/blog/parse",
     "https://cohere.com/pricing",
@@ -24534,6 +25614,7 @@
     "https://docs.mistral.ai/models/voxtral-mini-tts-3-0",
     "https://docs.mistral.ai/models/voxtral-small-transcribe-3-0",
     "https://docs.x.ai/developers/model-capabilities/audio/speech-to-speech",
+    "https://docs.x.ai/developers/models",
     "https://docs.x.ai/developers/models/grok-4.20-0309-non-reasoning",
     "https://docs.x.ai/developers/models/grok-4.20-0309-reasoning",
     "https://docs.x.ai/developers/models/grok-4.20-multi-agent-0309",
@@ -24553,6 +25634,7 @@
     "https://platform.kimi.ai/docs/pricing/chat-k27-code",
     "https://platform.kimi.ai/docs/pricing/chat-k3",
     "https://platform.openai.com/docs/pricing",
+    "https://prices.azure.com/api/retail/prices",
     "https://www.alibabacloud.com/help/en/model-studio/qwen-flash",
     "https://www.alibabacloud.com/help/en/model-studio/qwen3-7-plus",
     "https://www.alibabacloud.com/help/en/model-studio/qwen3-8-flash",
