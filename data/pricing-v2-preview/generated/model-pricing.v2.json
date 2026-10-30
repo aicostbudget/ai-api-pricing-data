@@ -9,7 +9,7 @@
     "review_required": "display only with warning; no default or recommendation placement",
     "unsafe": "exclude from default calculations and show warning only where explicitly allowed"
   },
-  "effectiveAt": "2026-10-30T04:37:16Z",
+  "effectiveAt": "2026-10-30T07:11:46Z",
   "effectiveTimezone": "UTC",
   "failureBehavior": {
     "atomicWrite": true,
@@ -18,7 +18,7 @@
     "partialJson": "not_written",
     "publicV1Mutation": "forbidden"
   },
-  "generatedAt": "2026-10-30T04:37:16Z",
+  "generatedAt": "2026-10-30T07:11:46Z",
   "generatedAtPolicy": "UTC artifact generation timestamp injected by the generation pipeline",
   "governancePolicy": {
     "classes": [
@@ -20957,6 +20957,598 @@
     },
     {
       "accessAuthority": {
+        "baseRevision": "20dd740005fd58b256490f5f048a657aa4685f1e",
+        "factSha256": "96ff893e6c3e833719098f61e87a8d7fe9a3b3899bddb56ee72dbc52e92ae756",
+        "kind": "canonical",
+        "revisionScope": "base_revision_plus_fact_digest"
+      },
+      "accessCheckedAt": null,
+      "accessEvidence": [],
+      "accessStatus": "unknown",
+      "aliasTargetInternalId": null,
+      "availability": "active",
+      "batchInputPrice": null,
+      "batchOutputPrice": null,
+      "billingModelInternalId": null,
+      "bindingEvidence": [],
+      "bindingStatus": "unresolved",
+      "blockedFromDefaultReasons": [
+        "missing_verified_current_price"
+      ],
+      "cachedInputPrice": null,
+      "canonicalInternalId": "google-gemini/gemini-embedding-001",
+      "checkedAt": "2026-10-30T06:18:22Z",
+      "checkedSourceRefs": [
+        "source:google-gemini:ai-google-dev-gemini-api-docs-models-gemini-embedding-001"
+      ],
+      "contextWindow": null,
+      "contextWindowStatus": "unknown_not_guessed",
+      "defaultPriceSelectionRule": [
+        "current_effective_utc",
+        "verified",
+        "standard",
+        "text",
+        "default_context_class"
+      ],
+      "defaultSafe": false,
+      "deprecationDate": null,
+      "governanceClass": "VERIFIED_CANONICAL",
+      "governanceDetails": null,
+      "governanceReason": "canonical_verified_non_token_public_projection",
+      "governanceSourceCandidateIds": [
+        "google-gemini/gemini-embedding-001"
+      ],
+      "id": "gemini-embedding-001",
+      "identityType": "canonical_model",
+      "inputPrice": null,
+      "lifecycleStatus": "active",
+      "model": "Gemini Embedding",
+      "officialSourceUrl": "https://ai.google.dev/gemini-api/docs/pricing",
+      "outputPrice": null,
+      "priceRecords": [
+        {
+          "calculationDefault": false,
+          "checkedAt": "2026-10-30T06:18:22Z",
+          "contextClass": "short",
+          "effectiveFrom": null,
+          "effectiveUntil": null,
+          "pricingId": "price:google-gemini/gemini-embedding-001:batch:short:current",
+          "pricingStatus": "current",
+          "processingMode": "batch",
+          "sourceRefs": [
+            "source:google-gemini:ai-google-dev-gemini-api-docs-models-gemini-embedding-001",
+            "source:google-gemini:ai-google-dev-gemini-api-docs-pricing"
+          ],
+          "verificationStatus": "verified",
+          "verifiedAt": "2026-10-30T06:18:22Z"
+        },
+        {
+          "calculationDefault": true,
+          "checkedAt": "2026-10-30T06:18:22Z",
+          "contextClass": "short",
+          "effectiveFrom": null,
+          "effectiveUntil": null,
+          "pricingId": "price:google-gemini/gemini-embedding-001:standard:short:current",
+          "pricingStatus": "current",
+          "processingMode": "standard",
+          "sourceRefs": [
+            "source:google-gemini:ai-google-dev-gemini-api-docs-models-gemini-embedding-001",
+            "source:google-gemini:ai-google-dev-gemini-api-docs-pricing"
+          ],
+          "verificationStatus": "verified",
+          "verifiedAt": "2026-10-30T06:18:22Z"
+        }
+      ],
+      "pricingComponents": [
+        {
+          "amount": "0.075",
+          "calculationDefault": false,
+          "chargeId": "price:google-gemini/gemini-embedding-001:batch:short:current:input:text:per_1m_tokens",
+          "component": "input",
+          "condition": {
+            "availabilityRules": [],
+            "contextClass": "short",
+            "defaultAvailabilityStatus": "available",
+            "effectiveFrom": null,
+            "effectiveUntil": null,
+            "priceAdjustments": [],
+            "processingMode": "batch",
+            "promptTokenThreshold": null,
+            "regionPolicy": "global",
+            "regionSelector": {
+              "dataResidencies": [
+                "global"
+              ],
+              "endpointGeographies": [
+                "global"
+              ],
+              "pricingGeography": "global_base"
+            },
+            "tierSelection": null
+          },
+          "currency": "USD",
+          "modality": "text",
+          "pricingId": "price:google-gemini/gemini-embedding-001:batch:short:current",
+          "sourceRefs": [
+            "source:google-gemini:ai-google-dev-gemini-api-docs-models-gemini-embedding-001",
+            "source:google-gemini:ai-google-dev-gemini-api-docs-pricing"
+          ],
+          "unit": "per_1m_tokens",
+          "verificationStatus": "verified"
+        },
+        {
+          "amount": "0.15",
+          "calculationDefault": true,
+          "chargeId": "price:google-gemini/gemini-embedding-001:standard:short:current:input:text:per_1m_tokens",
+          "component": "input",
+          "condition": {
+            "availabilityRules": [],
+            "contextClass": "short",
+            "defaultAvailabilityStatus": "available",
+            "effectiveFrom": null,
+            "effectiveUntil": null,
+            "priceAdjustments": [],
+            "processingMode": "standard",
+            "promptTokenThreshold": null,
+            "regionPolicy": "global",
+            "regionSelector": {
+              "dataResidencies": [
+                "global"
+              ],
+              "endpointGeographies": [
+                "global"
+              ],
+              "pricingGeography": "global_base"
+            },
+            "tierSelection": null
+          },
+          "currency": "USD",
+          "modality": "text",
+          "pricingId": "price:google-gemini/gemini-embedding-001:standard:short:current",
+          "sourceRefs": [
+            "source:google-gemini:ai-google-dev-gemini-api-docs-models-gemini-embedding-001",
+            "source:google-gemini:ai-google-dev-gemini-api-docs-pricing"
+          ],
+          "unit": "per_1m_tokens",
+          "verificationStatus": "verified"
+        }
+      ],
+      "pricingSourceType": "canonical_verified_structured_price",
+      "provider": "google-gemini",
+      "publicExposure": "public",
+      "redirectTargetInternalId": null,
+      "releaseSourceRef": null,
+      "releaseSourceUrl": null,
+      "releaseStage": "stable",
+      "releasedAt": null,
+      "replacementInternalId": null,
+      "retirementDate": null,
+      "routingBehavior": "direct",
+      "routingDetails": {},
+      "selectedBatchPriceRecordId": null,
+      "selectedBillingPriceRecordId": null,
+      "selectedPriceEffectiveFrom": null,
+      "selectedPriceEffectiveUntil": null,
+      "selectedPriceRecordId": null,
+      "sourceRefs": [
+        "source:google-gemini:ai-google-dev-gemini-api-docs-models-gemini-embedding-001",
+        "source:google-gemini:ai-google-dev-gemini-api-docs-pricing"
+      ],
+      "sourceUrls": [
+        "https://ai.google.dev/gemini-api/docs/models/gemini-embedding-001",
+        "https://ai.google.dev/gemini-api/docs/pricing"
+      ],
+      "status": "latest",
+      "verificationStatus": "verified",
+      "verifiedAt": null,
+      "verifiedSourceRefs": []
+    },
+    {
+      "accessAuthority": {
+        "baseRevision": "20dd740005fd58b256490f5f048a657aa4685f1e",
+        "factSha256": "96ff893e6c3e833719098f61e87a8d7fe9a3b3899bddb56ee72dbc52e92ae756",
+        "kind": "canonical",
+        "revisionScope": "base_revision_plus_fact_digest"
+      },
+      "accessCheckedAt": null,
+      "accessEvidence": [],
+      "accessStatus": "unknown",
+      "aliasTargetInternalId": null,
+      "availability": "active",
+      "batchInputPrice": null,
+      "batchOutputPrice": null,
+      "billingModelInternalId": null,
+      "bindingEvidence": [],
+      "bindingStatus": "unresolved",
+      "blockedFromDefaultReasons": [
+        "missing_verified_current_price"
+      ],
+      "cachedInputPrice": null,
+      "canonicalInternalId": "google-gemini/gemini-embedding-2",
+      "checkedAt": "2026-10-30T06:18:18Z",
+      "checkedSourceRefs": [
+        "source:google-gemini:ai-google-dev-gemini-api-docs-models-gemini-embedding-2"
+      ],
+      "contextWindow": null,
+      "contextWindowStatus": "unknown_not_guessed",
+      "defaultPriceSelectionRule": [
+        "current_effective_utc",
+        "verified",
+        "standard",
+        "text",
+        "default_context_class"
+      ],
+      "defaultSafe": false,
+      "deprecationDate": null,
+      "governanceClass": "VERIFIED_CANONICAL",
+      "governanceDetails": null,
+      "governanceReason": "canonical_verified_non_token_public_projection",
+      "governanceSourceCandidateIds": [
+        "google-gemini/gemini-embedding-2"
+      ],
+      "id": "gemini-embedding-2",
+      "identityType": "canonical_model",
+      "inputPrice": null,
+      "lifecycleStatus": "active",
+      "model": "Gemini Embedding 2",
+      "officialSourceUrl": "https://ai.google.dev/gemini-api/docs/pricing",
+      "outputPrice": null,
+      "priceRecords": [
+        {
+          "calculationDefault": false,
+          "checkedAt": "2026-10-30T06:18:18Z",
+          "contextClass": "short",
+          "effectiveFrom": null,
+          "effectiveUntil": null,
+          "pricingId": "price:google-gemini/gemini-embedding-2:batch:short:current",
+          "pricingStatus": "current",
+          "processingMode": "batch",
+          "sourceRefs": [
+            "source:google-gemini:ai-google-dev-gemini-api-docs-models-gemini-embedding-2",
+            "source:google-gemini:ai-google-dev-gemini-api-docs-pricing"
+          ],
+          "verificationStatus": "verified",
+          "verifiedAt": "2026-10-30T06:18:18Z"
+        },
+        {
+          "calculationDefault": true,
+          "checkedAt": "2026-10-30T06:18:18Z",
+          "contextClass": "short",
+          "effectiveFrom": null,
+          "effectiveUntil": null,
+          "pricingId": "price:google-gemini/gemini-embedding-2:standard:short:current",
+          "pricingStatus": "current",
+          "processingMode": "standard",
+          "sourceRefs": [
+            "source:google-gemini:ai-google-dev-gemini-api-docs-models-gemini-embedding-2",
+            "source:google-gemini:ai-google-dev-gemini-api-docs-pricing"
+          ],
+          "verificationStatus": "verified",
+          "verifiedAt": "2026-10-30T06:18:18Z"
+        }
+      ],
+      "pricingComponents": [
+        {
+          "amount": "3.25",
+          "calculationDefault": false,
+          "chargeId": "price:google-gemini/gemini-embedding-2:batch:short:current:input:audio:per_1m_tokens",
+          "component": "input",
+          "condition": {
+            "availabilityRules": [],
+            "contextClass": "short",
+            "defaultAvailabilityStatus": "available",
+            "effectiveFrom": null,
+            "effectiveUntil": null,
+            "priceAdjustments": [],
+            "processingMode": "batch",
+            "promptTokenThreshold": null,
+            "regionPolicy": "global",
+            "regionSelector": {
+              "dataResidencies": [
+                "global"
+              ],
+              "endpointGeographies": [
+                "global"
+              ],
+              "pricingGeography": "global_base"
+            },
+            "tierSelection": null
+          },
+          "currency": "USD",
+          "modality": "audio",
+          "pricingId": "price:google-gemini/gemini-embedding-2:batch:short:current",
+          "sourceRefs": [
+            "source:google-gemini:ai-google-dev-gemini-api-docs-models-gemini-embedding-2",
+            "source:google-gemini:ai-google-dev-gemini-api-docs-pricing"
+          ],
+          "unit": "per_1m_tokens",
+          "verificationStatus": "verified"
+        },
+        {
+          "amount": "0.225",
+          "calculationDefault": false,
+          "chargeId": "price:google-gemini/gemini-embedding-2:batch:short:current:input:image:per_1m_tokens",
+          "component": "input",
+          "condition": {
+            "availabilityRules": [],
+            "contextClass": "short",
+            "defaultAvailabilityStatus": "available",
+            "effectiveFrom": null,
+            "effectiveUntil": null,
+            "priceAdjustments": [],
+            "processingMode": "batch",
+            "promptTokenThreshold": null,
+            "regionPolicy": "global",
+            "regionSelector": {
+              "dataResidencies": [
+                "global"
+              ],
+              "endpointGeographies": [
+                "global"
+              ],
+              "pricingGeography": "global_base"
+            },
+            "tierSelection": null
+          },
+          "currency": "USD",
+          "modality": "image",
+          "pricingId": "price:google-gemini/gemini-embedding-2:batch:short:current",
+          "sourceRefs": [
+            "source:google-gemini:ai-google-dev-gemini-api-docs-models-gemini-embedding-2",
+            "source:google-gemini:ai-google-dev-gemini-api-docs-pricing"
+          ],
+          "unit": "per_1m_tokens",
+          "verificationStatus": "verified"
+        },
+        {
+          "amount": "0.1",
+          "calculationDefault": false,
+          "chargeId": "price:google-gemini/gemini-embedding-2:batch:short:current:input:text:per_1m_tokens",
+          "component": "input",
+          "condition": {
+            "availabilityRules": [],
+            "contextClass": "short",
+            "defaultAvailabilityStatus": "available",
+            "effectiveFrom": null,
+            "effectiveUntil": null,
+            "priceAdjustments": [],
+            "processingMode": "batch",
+            "promptTokenThreshold": null,
+            "regionPolicy": "global",
+            "regionSelector": {
+              "dataResidencies": [
+                "global"
+              ],
+              "endpointGeographies": [
+                "global"
+              ],
+              "pricingGeography": "global_base"
+            },
+            "tierSelection": null
+          },
+          "currency": "USD",
+          "modality": "text",
+          "pricingId": "price:google-gemini/gemini-embedding-2:batch:short:current",
+          "sourceRefs": [
+            "source:google-gemini:ai-google-dev-gemini-api-docs-models-gemini-embedding-2",
+            "source:google-gemini:ai-google-dev-gemini-api-docs-pricing"
+          ],
+          "unit": "per_1m_tokens",
+          "verificationStatus": "verified"
+        },
+        {
+          "amount": "6",
+          "calculationDefault": false,
+          "chargeId": "price:google-gemini/gemini-embedding-2:batch:short:current:input:video:per_1m_tokens",
+          "component": "input",
+          "condition": {
+            "availabilityRules": [],
+            "contextClass": "short",
+            "defaultAvailabilityStatus": "available",
+            "effectiveFrom": null,
+            "effectiveUntil": null,
+            "priceAdjustments": [],
+            "processingMode": "batch",
+            "promptTokenThreshold": null,
+            "regionPolicy": "global",
+            "regionSelector": {
+              "dataResidencies": [
+                "global"
+              ],
+              "endpointGeographies": [
+                "global"
+              ],
+              "pricingGeography": "global_base"
+            },
+            "tierSelection": null
+          },
+          "currency": "USD",
+          "modality": "video",
+          "pricingId": "price:google-gemini/gemini-embedding-2:batch:short:current",
+          "sourceRefs": [
+            "source:google-gemini:ai-google-dev-gemini-api-docs-models-gemini-embedding-2",
+            "source:google-gemini:ai-google-dev-gemini-api-docs-pricing"
+          ],
+          "unit": "per_1m_tokens",
+          "verificationStatus": "verified"
+        },
+        {
+          "amount": "6.5",
+          "calculationDefault": true,
+          "chargeId": "price:google-gemini/gemini-embedding-2:standard:short:current:input:audio:per_1m_tokens",
+          "component": "input",
+          "condition": {
+            "availabilityRules": [],
+            "contextClass": "short",
+            "defaultAvailabilityStatus": "available",
+            "effectiveFrom": null,
+            "effectiveUntil": null,
+            "priceAdjustments": [],
+            "processingMode": "standard",
+            "promptTokenThreshold": null,
+            "regionPolicy": "global",
+            "regionSelector": {
+              "dataResidencies": [
+                "global"
+              ],
+              "endpointGeographies": [
+                "global"
+              ],
+              "pricingGeography": "global_base"
+            },
+            "tierSelection": null
+          },
+          "currency": "USD",
+          "modality": "audio",
+          "pricingId": "price:google-gemini/gemini-embedding-2:standard:short:current",
+          "sourceRefs": [
+            "source:google-gemini:ai-google-dev-gemini-api-docs-models-gemini-embedding-2",
+            "source:google-gemini:ai-google-dev-gemini-api-docs-pricing"
+          ],
+          "unit": "per_1m_tokens",
+          "verificationStatus": "verified"
+        },
+        {
+          "amount": "0.45",
+          "calculationDefault": true,
+          "chargeId": "price:google-gemini/gemini-embedding-2:standard:short:current:input:image:per_1m_tokens",
+          "component": "input",
+          "condition": {
+            "availabilityRules": [],
+            "contextClass": "short",
+            "defaultAvailabilityStatus": "available",
+            "effectiveFrom": null,
+            "effectiveUntil": null,
+            "priceAdjustments": [],
+            "processingMode": "standard",
+            "promptTokenThreshold": null,
+            "regionPolicy": "global",
+            "regionSelector": {
+              "dataResidencies": [
+                "global"
+              ],
+              "endpointGeographies": [
+                "global"
+              ],
+              "pricingGeography": "global_base"
+            },
+            "tierSelection": null
+          },
+          "currency": "USD",
+          "modality": "image",
+          "pricingId": "price:google-gemini/gemini-embedding-2:standard:short:current",
+          "sourceRefs": [
+            "source:google-gemini:ai-google-dev-gemini-api-docs-models-gemini-embedding-2",
+            "source:google-gemini:ai-google-dev-gemini-api-docs-pricing"
+          ],
+          "unit": "per_1m_tokens",
+          "verificationStatus": "verified"
+        },
+        {
+          "amount": "0.2",
+          "calculationDefault": true,
+          "chargeId": "price:google-gemini/gemini-embedding-2:standard:short:current:input:text:per_1m_tokens",
+          "component": "input",
+          "condition": {
+            "availabilityRules": [],
+            "contextClass": "short",
+            "defaultAvailabilityStatus": "available",
+            "effectiveFrom": null,
+            "effectiveUntil": null,
+            "priceAdjustments": [],
+            "processingMode": "standard",
+            "promptTokenThreshold": null,
+            "regionPolicy": "global",
+            "regionSelector": {
+              "dataResidencies": [
+                "global"
+              ],
+              "endpointGeographies": [
+                "global"
+              ],
+              "pricingGeography": "global_base"
+            },
+            "tierSelection": null
+          },
+          "currency": "USD",
+          "modality": "text",
+          "pricingId": "price:google-gemini/gemini-embedding-2:standard:short:current",
+          "sourceRefs": [
+            "source:google-gemini:ai-google-dev-gemini-api-docs-models-gemini-embedding-2",
+            "source:google-gemini:ai-google-dev-gemini-api-docs-pricing"
+          ],
+          "unit": "per_1m_tokens",
+          "verificationStatus": "verified"
+        },
+        {
+          "amount": "12",
+          "calculationDefault": true,
+          "chargeId": "price:google-gemini/gemini-embedding-2:standard:short:current:input:video:per_1m_tokens",
+          "component": "input",
+          "condition": {
+            "availabilityRules": [],
+            "contextClass": "short",
+            "defaultAvailabilityStatus": "available",
+            "effectiveFrom": null,
+            "effectiveUntil": null,
+            "priceAdjustments": [],
+            "processingMode": "standard",
+            "promptTokenThreshold": null,
+            "regionPolicy": "global",
+            "regionSelector": {
+              "dataResidencies": [
+                "global"
+              ],
+              "endpointGeographies": [
+                "global"
+              ],
+              "pricingGeography": "global_base"
+            },
+            "tierSelection": null
+          },
+          "currency": "USD",
+          "modality": "video",
+          "pricingId": "price:google-gemini/gemini-embedding-2:standard:short:current",
+          "sourceRefs": [
+            "source:google-gemini:ai-google-dev-gemini-api-docs-models-gemini-embedding-2",
+            "source:google-gemini:ai-google-dev-gemini-api-docs-pricing"
+          ],
+          "unit": "per_1m_tokens",
+          "verificationStatus": "verified"
+        }
+      ],
+      "pricingSourceType": "canonical_verified_structured_price",
+      "provider": "google-gemini",
+      "publicExposure": "public",
+      "redirectTargetInternalId": null,
+      "releaseSourceRef": null,
+      "releaseSourceUrl": null,
+      "releaseStage": "stable",
+      "releasedAt": null,
+      "replacementInternalId": null,
+      "retirementDate": null,
+      "routingBehavior": "direct",
+      "routingDetails": {},
+      "selectedBatchPriceRecordId": null,
+      "selectedBillingPriceRecordId": null,
+      "selectedPriceEffectiveFrom": null,
+      "selectedPriceEffectiveUntil": null,
+      "selectedPriceRecordId": null,
+      "sourceRefs": [
+        "source:google-gemini:ai-google-dev-gemini-api-docs-models-gemini-embedding-2",
+        "source:google-gemini:ai-google-dev-gemini-api-docs-pricing"
+      ],
+      "sourceUrls": [
+        "https://ai.google.dev/gemini-api/docs/models/gemini-embedding-2",
+        "https://ai.google.dev/gemini-api/docs/pricing"
+      ],
+      "status": "latest",
+      "verificationStatus": "verified",
+      "verifiedAt": null,
+      "verifiedSourceRefs": []
+    },
+    {
+      "accessAuthority": {
         "baseRevision": "72ce4a1a7475bbd9c2a394aedf864afec073d494",
         "factSha256": "facb3908c8c560cdc384a4c4f9865bbebfb5b4db1bed150a788cb71d4f2c88a4",
         "kind": "canonical",
@@ -22262,6 +22854,178 @@
     },
     {
       "accessAuthority": {
+        "baseRevision": "20dd740005fd58b256490f5f048a657aa4685f1e",
+        "factSha256": "96ff893e6c3e833719098f61e87a8d7fe9a3b3899bddb56ee72dbc52e92ae756",
+        "kind": "canonical",
+        "revisionScope": "base_revision_plus_fact_digest"
+      },
+      "accessCheckedAt": null,
+      "accessEvidence": [],
+      "accessStatus": "unknown",
+      "aliasTargetInternalId": null,
+      "availability": "active",
+      "batchInputPrice": null,
+      "batchOutputPrice": null,
+      "billingModelInternalId": null,
+      "bindingEvidence": [],
+      "bindingStatus": "unresolved",
+      "blockedFromDefaultReasons": [
+        "missing_verified_current_price"
+      ],
+      "cachedInputPrice": null,
+      "canonicalInternalId": "mistral-ai/codestral-embed-2505",
+      "checkedAt": "2026-10-30T06:18:25Z",
+      "checkedSourceRefs": [
+        "source:mistral-ai:docs-mistral-ai-models-codestral-embed-25-05"
+      ],
+      "contextWindow": null,
+      "contextWindowStatus": "unknown_not_guessed",
+      "defaultPriceSelectionRule": [
+        "current_effective_utc",
+        "verified",
+        "standard",
+        "text",
+        "default_context_class"
+      ],
+      "defaultSafe": false,
+      "deprecationDate": null,
+      "governanceClass": "VERIFIED_CANONICAL",
+      "governanceDetails": null,
+      "governanceReason": "canonical_verified_non_token_public_projection",
+      "governanceSourceCandidateIds": [
+        "mistral-ai/codestral-embed-2505"
+      ],
+      "id": "codestral-embed-2505",
+      "identityType": "canonical_model",
+      "inputPrice": null,
+      "lifecycleStatus": "active",
+      "model": "Codestral Embed",
+      "officialSourceUrl": "https://docs.mistral.ai/inference/pricing",
+      "outputPrice": null,
+      "priceRecords": [
+        {
+          "calculationDefault": true,
+          "checkedAt": "2026-10-30T06:18:25Z",
+          "contextClass": "short",
+          "effectiveFrom": null,
+          "effectiveUntil": null,
+          "pricingId": "price:mistral-ai/codestral-embed-2505:standard:short:current",
+          "pricingStatus": "current",
+          "processingMode": "standard",
+          "sourceRefs": [
+            "source:mistral-ai:docs-mistral-ai-inference-pricing",
+            "source:mistral-ai:docs-mistral-ai-models-codestral-embed-25-05"
+          ],
+          "verificationStatus": "verified",
+          "verifiedAt": "2026-10-30T06:18:25Z"
+        }
+      ],
+      "pricingComponents": [
+        {
+          "amount": "0.015",
+          "calculationDefault": true,
+          "chargeId": "price:mistral-ai/codestral-embed-2505:standard:short:current:cached_input:text:per_1m_tokens",
+          "component": "cached_input",
+          "condition": {
+            "availabilityRules": [],
+            "contextClass": "short",
+            "defaultAvailabilityStatus": "available",
+            "effectiveFrom": null,
+            "effectiveUntil": null,
+            "priceAdjustments": [],
+            "processingMode": "standard",
+            "promptTokenThreshold": null,
+            "regionPolicy": "global",
+            "regionSelector": {
+              "dataResidencies": [
+                "global"
+              ],
+              "endpointGeographies": [
+                "global"
+              ],
+              "pricingGeography": "global_base"
+            },
+            "tierSelection": null
+          },
+          "currency": "USD",
+          "modality": "text",
+          "pricingId": "price:mistral-ai/codestral-embed-2505:standard:short:current",
+          "sourceRefs": [
+            "source:mistral-ai:docs-mistral-ai-inference-pricing",
+            "source:mistral-ai:docs-mistral-ai-models-codestral-embed-25-05"
+          ],
+          "unit": "per_1m_tokens",
+          "verificationStatus": "verified"
+        },
+        {
+          "amount": "0.15",
+          "calculationDefault": true,
+          "chargeId": "price:mistral-ai/codestral-embed-2505:standard:short:current:input:text:per_1m_tokens",
+          "component": "input",
+          "condition": {
+            "availabilityRules": [],
+            "contextClass": "short",
+            "defaultAvailabilityStatus": "available",
+            "effectiveFrom": null,
+            "effectiveUntil": null,
+            "priceAdjustments": [],
+            "processingMode": "standard",
+            "promptTokenThreshold": null,
+            "regionPolicy": "global",
+            "regionSelector": {
+              "dataResidencies": [
+                "global"
+              ],
+              "endpointGeographies": [
+                "global"
+              ],
+              "pricingGeography": "global_base"
+            },
+            "tierSelection": null
+          },
+          "currency": "USD",
+          "modality": "text",
+          "pricingId": "price:mistral-ai/codestral-embed-2505:standard:short:current",
+          "sourceRefs": [
+            "source:mistral-ai:docs-mistral-ai-inference-pricing",
+            "source:mistral-ai:docs-mistral-ai-models-codestral-embed-25-05"
+          ],
+          "unit": "per_1m_tokens",
+          "verificationStatus": "verified"
+        }
+      ],
+      "pricingSourceType": "canonical_verified_structured_price",
+      "provider": "mistral-ai",
+      "publicExposure": "public",
+      "redirectTargetInternalId": null,
+      "releaseSourceRef": null,
+      "releaseSourceUrl": null,
+      "releaseStage": "stable",
+      "releasedAt": null,
+      "replacementInternalId": null,
+      "retirementDate": null,
+      "routingBehavior": "direct",
+      "routingDetails": {},
+      "selectedBatchPriceRecordId": null,
+      "selectedBillingPriceRecordId": null,
+      "selectedPriceEffectiveFrom": null,
+      "selectedPriceEffectiveUntil": null,
+      "selectedPriceRecordId": null,
+      "sourceRefs": [
+        "source:mistral-ai:docs-mistral-ai-inference-pricing",
+        "source:mistral-ai:docs-mistral-ai-models-codestral-embed-25-05"
+      ],
+      "sourceUrls": [
+        "https://docs.mistral.ai/inference/pricing",
+        "https://docs.mistral.ai/models/codestral-embed-25-05"
+      ],
+      "status": "latest",
+      "verificationStatus": "verified",
+      "verifiedAt": null,
+      "verifiedSourceRefs": []
+    },
+    {
+      "accessAuthority": {
         "baseRevision": "80c2ec4991bcaaf795fe9192946f5ec770d57f48",
         "factSha256": "05923064714047ef777f05e178c4ecafd097c9e4b51542e275b9429740854965",
         "kind": "canonical",
@@ -23273,6 +24037,178 @@
         "source:mistral-ai:docs-mistral-ai-models-ministral-3-8b-25-12",
         "source:mistral-ai:docs-mistral-ai-studio-conversations-advanced-prompt-caching"
       ]
+    },
+    {
+      "accessAuthority": {
+        "baseRevision": "20dd740005fd58b256490f5f048a657aa4685f1e",
+        "factSha256": "96ff893e6c3e833719098f61e87a8d7fe9a3b3899bddb56ee72dbc52e92ae756",
+        "kind": "canonical",
+        "revisionScope": "base_revision_plus_fact_digest"
+      },
+      "accessCheckedAt": null,
+      "accessEvidence": [],
+      "accessStatus": "unknown",
+      "aliasTargetInternalId": null,
+      "availability": "active",
+      "batchInputPrice": null,
+      "batchOutputPrice": null,
+      "billingModelInternalId": null,
+      "bindingEvidence": [],
+      "bindingStatus": "unresolved",
+      "blockedFromDefaultReasons": [
+        "missing_verified_current_price"
+      ],
+      "cachedInputPrice": null,
+      "canonicalInternalId": "mistral-ai/mistral-embed-2312",
+      "checkedAt": "2026-10-30T06:18:57Z",
+      "checkedSourceRefs": [
+        "source:mistral-ai:docs-mistral-ai-models-mistral-embed-23-12"
+      ],
+      "contextWindow": null,
+      "contextWindowStatus": "unknown_not_guessed",
+      "defaultPriceSelectionRule": [
+        "current_effective_utc",
+        "verified",
+        "standard",
+        "text",
+        "default_context_class"
+      ],
+      "defaultSafe": false,
+      "deprecationDate": null,
+      "governanceClass": "VERIFIED_CANONICAL",
+      "governanceDetails": null,
+      "governanceReason": "canonical_verified_non_token_public_projection",
+      "governanceSourceCandidateIds": [
+        "mistral-ai/mistral-embed-2312"
+      ],
+      "id": "mistral-embed-2312",
+      "identityType": "canonical_model",
+      "inputPrice": null,
+      "lifecycleStatus": "active",
+      "model": "Mistral Embed",
+      "officialSourceUrl": "https://docs.mistral.ai/inference/pricing",
+      "outputPrice": null,
+      "priceRecords": [
+        {
+          "calculationDefault": true,
+          "checkedAt": "2026-10-30T06:18:57Z",
+          "contextClass": "short",
+          "effectiveFrom": null,
+          "effectiveUntil": null,
+          "pricingId": "price:mistral-ai/mistral-embed-2312:standard:short:current",
+          "pricingStatus": "current",
+          "processingMode": "standard",
+          "sourceRefs": [
+            "source:mistral-ai:docs-mistral-ai-inference-pricing",
+            "source:mistral-ai:docs-mistral-ai-models-mistral-embed-23-12"
+          ],
+          "verificationStatus": "verified",
+          "verifiedAt": "2026-10-30T06:18:57Z"
+        }
+      ],
+      "pricingComponents": [
+        {
+          "amount": "0.01",
+          "calculationDefault": true,
+          "chargeId": "price:mistral-ai/mistral-embed-2312:standard:short:current:cached_input:text:per_1m_tokens",
+          "component": "cached_input",
+          "condition": {
+            "availabilityRules": [],
+            "contextClass": "short",
+            "defaultAvailabilityStatus": "available",
+            "effectiveFrom": null,
+            "effectiveUntil": null,
+            "priceAdjustments": [],
+            "processingMode": "standard",
+            "promptTokenThreshold": null,
+            "regionPolicy": "global",
+            "regionSelector": {
+              "dataResidencies": [
+                "global"
+              ],
+              "endpointGeographies": [
+                "global"
+              ],
+              "pricingGeography": "global_base"
+            },
+            "tierSelection": null
+          },
+          "currency": "USD",
+          "modality": "text",
+          "pricingId": "price:mistral-ai/mistral-embed-2312:standard:short:current",
+          "sourceRefs": [
+            "source:mistral-ai:docs-mistral-ai-inference-pricing",
+            "source:mistral-ai:docs-mistral-ai-models-mistral-embed-23-12"
+          ],
+          "unit": "per_1m_tokens",
+          "verificationStatus": "verified"
+        },
+        {
+          "amount": "0.1",
+          "calculationDefault": true,
+          "chargeId": "price:mistral-ai/mistral-embed-2312:standard:short:current:input:text:per_1m_tokens",
+          "component": "input",
+          "condition": {
+            "availabilityRules": [],
+            "contextClass": "short",
+            "defaultAvailabilityStatus": "available",
+            "effectiveFrom": null,
+            "effectiveUntil": null,
+            "priceAdjustments": [],
+            "processingMode": "standard",
+            "promptTokenThreshold": null,
+            "regionPolicy": "global",
+            "regionSelector": {
+              "dataResidencies": [
+                "global"
+              ],
+              "endpointGeographies": [
+                "global"
+              ],
+              "pricingGeography": "global_base"
+            },
+            "tierSelection": null
+          },
+          "currency": "USD",
+          "modality": "text",
+          "pricingId": "price:mistral-ai/mistral-embed-2312:standard:short:current",
+          "sourceRefs": [
+            "source:mistral-ai:docs-mistral-ai-inference-pricing",
+            "source:mistral-ai:docs-mistral-ai-models-mistral-embed-23-12"
+          ],
+          "unit": "per_1m_tokens",
+          "verificationStatus": "verified"
+        }
+      ],
+      "pricingSourceType": "canonical_verified_structured_price",
+      "provider": "mistral-ai",
+      "publicExposure": "public",
+      "redirectTargetInternalId": null,
+      "releaseSourceRef": null,
+      "releaseSourceUrl": null,
+      "releaseStage": "stable",
+      "releasedAt": null,
+      "replacementInternalId": null,
+      "retirementDate": null,
+      "routingBehavior": "direct",
+      "routingDetails": {},
+      "selectedBatchPriceRecordId": null,
+      "selectedBillingPriceRecordId": null,
+      "selectedPriceEffectiveFrom": null,
+      "selectedPriceEffectiveUntil": null,
+      "selectedPriceRecordId": null,
+      "sourceRefs": [
+        "source:mistral-ai:docs-mistral-ai-inference-pricing",
+        "source:mistral-ai:docs-mistral-ai-models-mistral-embed-23-12"
+      ],
+      "sourceUrls": [
+        "https://docs.mistral.ai/inference/pricing",
+        "https://docs.mistral.ai/models/mistral-embed-23-12"
+      ],
+      "status": "latest",
+      "verificationStatus": "verified",
+      "verifiedAt": null,
+      "verifiedSourceRefs": []
     },
     {
       "accessAuthority": {
@@ -53963,6 +54899,414 @@
       ],
       "status": "deprecated",
       "verificationStatus": "partially_verified",
+      "verifiedAt": null,
+      "verifiedSourceRefs": []
+    },
+    {
+      "accessAuthority": {
+        "baseRevision": "20dd740005fd58b256490f5f048a657aa4685f1e",
+        "factSha256": "96ff893e6c3e833719098f61e87a8d7fe9a3b3899bddb56ee72dbc52e92ae756",
+        "kind": "canonical",
+        "revisionScope": "base_revision_plus_fact_digest"
+      },
+      "accessCheckedAt": null,
+      "accessEvidence": [],
+      "accessStatus": "unknown",
+      "aliasTargetInternalId": null,
+      "availability": "active",
+      "batchInputPrice": null,
+      "batchOutputPrice": null,
+      "billingModelInternalId": null,
+      "bindingEvidence": [],
+      "bindingStatus": "unresolved",
+      "blockedFromDefaultReasons": [
+        "missing_verified_current_price"
+      ],
+      "cachedInputPrice": null,
+      "canonicalInternalId": "openai/text-embedding-3-large",
+      "checkedAt": "2026-10-30T06:18:09Z",
+      "checkedSourceRefs": [
+        "source:openai:developers-openai-com-api-docs-models-text-embedding-3-large"
+      ],
+      "contextWindow": null,
+      "contextWindowStatus": "unknown_not_guessed",
+      "defaultPriceSelectionRule": [
+        "current_effective_utc",
+        "verified",
+        "standard",
+        "text",
+        "default_context_class"
+      ],
+      "defaultSafe": false,
+      "deprecationDate": null,
+      "governanceClass": "VERIFIED_CANONICAL",
+      "governanceDetails": null,
+      "governanceReason": "canonical_verified_non_token_public_projection",
+      "governanceSourceCandidateIds": [
+        "openai/text-embedding-3-large"
+      ],
+      "id": "text-embedding-3-large",
+      "identityType": "canonical_model",
+      "inputPrice": null,
+      "lifecycleStatus": "active",
+      "model": "text-embedding-3-large",
+      "officialSourceUrl": "https://developers.openai.com/api/docs/pricing",
+      "outputPrice": null,
+      "priceRecords": [
+        {
+          "calculationDefault": true,
+          "checkedAt": "2026-10-30T06:18:09Z",
+          "contextClass": "short",
+          "effectiveFrom": null,
+          "effectiveUntil": null,
+          "pricingId": "price:openai/text-embedding-3-large:standard:short:current",
+          "pricingStatus": "current",
+          "processingMode": "standard",
+          "sourceRefs": [
+            "source:openai:developers-openai-com-api-docs-models-text-embedding-3-large",
+            "source:openai:developers-openai-com-api-docs-pricing"
+          ],
+          "verificationStatus": "verified",
+          "verifiedAt": "2026-10-30T06:18:09Z"
+        }
+      ],
+      "pricingComponents": [
+        {
+          "amount": "0.13",
+          "calculationDefault": true,
+          "chargeId": "price:openai/text-embedding-3-large:standard:short:current:input:text:per_1m_tokens",
+          "component": "input",
+          "condition": {
+            "availabilityRules": [],
+            "contextClass": "short",
+            "defaultAvailabilityStatus": "available",
+            "effectiveFrom": null,
+            "effectiveUntil": null,
+            "priceAdjustments": [],
+            "processingMode": "standard",
+            "promptTokenThreshold": null,
+            "regionPolicy": "global",
+            "regionSelector": {
+              "dataResidencies": [
+                "global"
+              ],
+              "endpointGeographies": [
+                "global"
+              ],
+              "pricingGeography": "global_base"
+            },
+            "tierSelection": null
+          },
+          "currency": "USD",
+          "modality": "text",
+          "pricingId": "price:openai/text-embedding-3-large:standard:short:current",
+          "sourceRefs": [
+            "source:openai:developers-openai-com-api-docs-models-text-embedding-3-large",
+            "source:openai:developers-openai-com-api-docs-pricing"
+          ],
+          "unit": "per_1m_tokens",
+          "verificationStatus": "verified"
+        }
+      ],
+      "pricingSourceType": "canonical_verified_structured_price",
+      "provider": "openai",
+      "publicExposure": "public",
+      "redirectTargetInternalId": null,
+      "releaseSourceRef": null,
+      "releaseSourceUrl": null,
+      "releaseStage": "stable",
+      "releasedAt": null,
+      "replacementInternalId": null,
+      "retirementDate": null,
+      "routingBehavior": "direct",
+      "routingDetails": {},
+      "selectedBatchPriceRecordId": null,
+      "selectedBillingPriceRecordId": null,
+      "selectedPriceEffectiveFrom": null,
+      "selectedPriceEffectiveUntil": null,
+      "selectedPriceRecordId": null,
+      "sourceRefs": [
+        "source:openai:developers-openai-com-api-docs-models-text-embedding-3-large",
+        "source:openai:developers-openai-com-api-docs-pricing"
+      ],
+      "sourceUrls": [
+        "https://developers.openai.com/api/docs/models/text-embedding-3-large",
+        "https://developers.openai.com/api/docs/pricing"
+      ],
+      "status": "latest",
+      "verificationStatus": "verified",
+      "verifiedAt": null,
+      "verifiedSourceRefs": []
+    },
+    {
+      "accessAuthority": {
+        "baseRevision": "20dd740005fd58b256490f5f048a657aa4685f1e",
+        "factSha256": "96ff893e6c3e833719098f61e87a8d7fe9a3b3899bddb56ee72dbc52e92ae756",
+        "kind": "canonical",
+        "revisionScope": "base_revision_plus_fact_digest"
+      },
+      "accessCheckedAt": null,
+      "accessEvidence": [],
+      "accessStatus": "unknown",
+      "aliasTargetInternalId": null,
+      "availability": "active",
+      "batchInputPrice": null,
+      "batchOutputPrice": null,
+      "billingModelInternalId": null,
+      "bindingEvidence": [],
+      "bindingStatus": "unresolved",
+      "blockedFromDefaultReasons": [
+        "missing_verified_current_price"
+      ],
+      "cachedInputPrice": null,
+      "canonicalInternalId": "openai/text-embedding-3-small",
+      "checkedAt": "2026-10-30T06:18:05Z",
+      "checkedSourceRefs": [
+        "source:openai:developers-openai-com-api-docs-models-text-embedding-3-small"
+      ],
+      "contextWindow": null,
+      "contextWindowStatus": "unknown_not_guessed",
+      "defaultPriceSelectionRule": [
+        "current_effective_utc",
+        "verified",
+        "standard",
+        "text",
+        "default_context_class"
+      ],
+      "defaultSafe": false,
+      "deprecationDate": null,
+      "governanceClass": "VERIFIED_CANONICAL",
+      "governanceDetails": null,
+      "governanceReason": "canonical_verified_non_token_public_projection",
+      "governanceSourceCandidateIds": [
+        "openai/text-embedding-3-small"
+      ],
+      "id": "text-embedding-3-small",
+      "identityType": "canonical_model",
+      "inputPrice": null,
+      "lifecycleStatus": "active",
+      "model": "text-embedding-3-small",
+      "officialSourceUrl": "https://developers.openai.com/api/docs/pricing",
+      "outputPrice": null,
+      "priceRecords": [
+        {
+          "calculationDefault": true,
+          "checkedAt": "2026-10-30T06:18:05Z",
+          "contextClass": "short",
+          "effectiveFrom": null,
+          "effectiveUntil": null,
+          "pricingId": "price:openai/text-embedding-3-small:standard:short:current",
+          "pricingStatus": "current",
+          "processingMode": "standard",
+          "sourceRefs": [
+            "source:openai:developers-openai-com-api-docs-models-text-embedding-3-small",
+            "source:openai:developers-openai-com-api-docs-pricing"
+          ],
+          "verificationStatus": "verified",
+          "verifiedAt": "2026-10-30T06:18:05Z"
+        }
+      ],
+      "pricingComponents": [
+        {
+          "amount": "0.02",
+          "calculationDefault": true,
+          "chargeId": "price:openai/text-embedding-3-small:standard:short:current:input:text:per_1m_tokens",
+          "component": "input",
+          "condition": {
+            "availabilityRules": [],
+            "contextClass": "short",
+            "defaultAvailabilityStatus": "available",
+            "effectiveFrom": null,
+            "effectiveUntil": null,
+            "priceAdjustments": [],
+            "processingMode": "standard",
+            "promptTokenThreshold": null,
+            "regionPolicy": "global",
+            "regionSelector": {
+              "dataResidencies": [
+                "global"
+              ],
+              "endpointGeographies": [
+                "global"
+              ],
+              "pricingGeography": "global_base"
+            },
+            "tierSelection": null
+          },
+          "currency": "USD",
+          "modality": "text",
+          "pricingId": "price:openai/text-embedding-3-small:standard:short:current",
+          "sourceRefs": [
+            "source:openai:developers-openai-com-api-docs-models-text-embedding-3-small",
+            "source:openai:developers-openai-com-api-docs-pricing"
+          ],
+          "unit": "per_1m_tokens",
+          "verificationStatus": "verified"
+        }
+      ],
+      "pricingSourceType": "canonical_verified_structured_price",
+      "provider": "openai",
+      "publicExposure": "public",
+      "redirectTargetInternalId": null,
+      "releaseSourceRef": null,
+      "releaseSourceUrl": null,
+      "releaseStage": "stable",
+      "releasedAt": null,
+      "replacementInternalId": null,
+      "retirementDate": null,
+      "routingBehavior": "direct",
+      "routingDetails": {},
+      "selectedBatchPriceRecordId": null,
+      "selectedBillingPriceRecordId": null,
+      "selectedPriceEffectiveFrom": null,
+      "selectedPriceEffectiveUntil": null,
+      "selectedPriceRecordId": null,
+      "sourceRefs": [
+        "source:openai:developers-openai-com-api-docs-models-text-embedding-3-small",
+        "source:openai:developers-openai-com-api-docs-pricing"
+      ],
+      "sourceUrls": [
+        "https://developers.openai.com/api/docs/models/text-embedding-3-small",
+        "https://developers.openai.com/api/docs/pricing"
+      ],
+      "status": "latest",
+      "verificationStatus": "verified",
+      "verifiedAt": null,
+      "verifiedSourceRefs": []
+    },
+    {
+      "accessAuthority": {
+        "baseRevision": "20dd740005fd58b256490f5f048a657aa4685f1e",
+        "factSha256": "96ff893e6c3e833719098f61e87a8d7fe9a3b3899bddb56ee72dbc52e92ae756",
+        "kind": "canonical",
+        "revisionScope": "base_revision_plus_fact_digest"
+      },
+      "accessCheckedAt": null,
+      "accessEvidence": [],
+      "accessStatus": "unknown",
+      "aliasTargetInternalId": null,
+      "availability": "active",
+      "batchInputPrice": null,
+      "batchOutputPrice": null,
+      "billingModelInternalId": null,
+      "bindingEvidence": [],
+      "bindingStatus": "unresolved",
+      "blockedFromDefaultReasons": [
+        "missing_verified_current_price"
+      ],
+      "cachedInputPrice": null,
+      "canonicalInternalId": "openai/text-embedding-ada-002",
+      "checkedAt": "2026-10-30T06:18:14Z",
+      "checkedSourceRefs": [
+        "source:openai:developers-openai-com-api-docs-models-text-embedding-ada-002"
+      ],
+      "contextWindow": null,
+      "contextWindowStatus": "unknown_not_guessed",
+      "defaultPriceSelectionRule": [
+        "current_effective_utc",
+        "verified",
+        "standard",
+        "text",
+        "default_context_class"
+      ],
+      "defaultSafe": false,
+      "deprecationDate": null,
+      "governanceClass": "VERIFIED_CANONICAL",
+      "governanceDetails": null,
+      "governanceReason": "canonical_verified_non_token_public_projection",
+      "governanceSourceCandidateIds": [
+        "openai/text-embedding-ada-002"
+      ],
+      "id": "text-embedding-ada-002",
+      "identityType": "canonical_model",
+      "inputPrice": null,
+      "lifecycleStatus": "active",
+      "model": "text-embedding-ada-002",
+      "officialSourceUrl": "https://developers.openai.com/api/docs/pricing",
+      "outputPrice": null,
+      "priceRecords": [
+        {
+          "calculationDefault": true,
+          "checkedAt": "2026-10-30T06:18:14Z",
+          "contextClass": "short",
+          "effectiveFrom": null,
+          "effectiveUntil": null,
+          "pricingId": "price:openai/text-embedding-ada-002:standard:short:current",
+          "pricingStatus": "current",
+          "processingMode": "standard",
+          "sourceRefs": [
+            "source:openai:developers-openai-com-api-docs-models-text-embedding-ada-002",
+            "source:openai:developers-openai-com-api-docs-pricing"
+          ],
+          "verificationStatus": "verified",
+          "verifiedAt": "2026-10-30T06:18:14Z"
+        }
+      ],
+      "pricingComponents": [
+        {
+          "amount": "0.1",
+          "calculationDefault": true,
+          "chargeId": "price:openai/text-embedding-ada-002:standard:short:current:input:text:per_1m_tokens",
+          "component": "input",
+          "condition": {
+            "availabilityRules": [],
+            "contextClass": "short",
+            "defaultAvailabilityStatus": "available",
+            "effectiveFrom": null,
+            "effectiveUntil": null,
+            "priceAdjustments": [],
+            "processingMode": "standard",
+            "promptTokenThreshold": null,
+            "regionPolicy": "global",
+            "regionSelector": {
+              "dataResidencies": [
+                "global"
+              ],
+              "endpointGeographies": [
+                "global"
+              ],
+              "pricingGeography": "global_base"
+            },
+            "tierSelection": null
+          },
+          "currency": "USD",
+          "modality": "text",
+          "pricingId": "price:openai/text-embedding-ada-002:standard:short:current",
+          "sourceRefs": [
+            "source:openai:developers-openai-com-api-docs-models-text-embedding-ada-002",
+            "source:openai:developers-openai-com-api-docs-pricing"
+          ],
+          "unit": "per_1m_tokens",
+          "verificationStatus": "verified"
+        }
+      ],
+      "pricingSourceType": "canonical_verified_structured_price",
+      "provider": "openai",
+      "publicExposure": "public",
+      "redirectTargetInternalId": null,
+      "releaseSourceRef": null,
+      "releaseSourceUrl": null,
+      "releaseStage": "stable",
+      "releasedAt": null,
+      "replacementInternalId": null,
+      "retirementDate": null,
+      "routingBehavior": "direct",
+      "routingDetails": {},
+      "selectedBatchPriceRecordId": null,
+      "selectedBillingPriceRecordId": null,
+      "selectedPriceEffectiveFrom": null,
+      "selectedPriceEffectiveUntil": null,
+      "selectedPriceRecordId": null,
+      "sourceRefs": [
+        "source:openai:developers-openai-com-api-docs-models-text-embedding-ada-002",
+        "source:openai:developers-openai-com-api-docs-pricing"
+      ],
+      "sourceUrls": [
+        "https://developers.openai.com/api/docs/models/text-embedding-ada-002",
+        "https://developers.openai.com/api/docs/pricing"
+      ],
+      "status": "latest",
+      "verificationStatus": "verified",
       "verifiedAt": null,
       "verifiedSourceRefs": []
     },

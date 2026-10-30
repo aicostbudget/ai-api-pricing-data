@@ -1,0 +1,82 @@
+{
+  "accessed_at": "2026-10-30T06:18:57Z",
+  "context_window_tokens": 8000,
+  "display_name": "Mistral Embed",
+  "effective_from": null,
+  "last_verified_at": "2026-10-30T06:18:57Z",
+  "model_category": "embedding",
+  "model_family": "Mistral Embed",
+  "model_id": "mistral-embed-2312",
+  "notes": "General-purpose text embedding model (v23.12, 8k context). Mistral's pricing page lists $0.10 input and $0.01 cached input per 1M tokens; no Batch embedding rate is asserted.",
+  "official_source_url": "https://docs.mistral.ai/inference/pricing",
+  "official_source_urls": [
+    "https://docs.mistral.ai/inference/pricing",
+    "https://docs.mistral.ai/models/mistral-embed-23-12"
+  ],
+  "price_records": [
+    {
+      "billing_note": "Embedding requests bill input tokens only; embedding vectors are not billed as output tokens.",
+      "calculation_default": true,
+      "charges": [
+        {
+          "amount": "0.10",
+          "component": "input",
+          "id": "price:mistral-ai/mistral-embed-2312:standard:short:current:input:text:per_1m_tokens",
+          "modality": "text",
+          "unit": "per_1m_tokens"
+        },
+        {
+          "amount": "0.01",
+          "component": "cached_input",
+          "id": "price:mistral-ai/mistral-embed-2312:standard:short:current:cached_input:text:per_1m_tokens",
+          "modality": "text",
+          "unit": "per_1m_tokens"
+        }
+      ],
+      "checked_at": "2026-10-30T06:18:57Z",
+      "context_class": "short",
+      "currency": "USD",
+      "effective_from": null,
+      "effective_until": null,
+      "id": "price:mistral-ai/mistral-embed-2312:standard:short:current",
+      "pricing_status": "current",
+      "processing_mode": "standard",
+      "prompt_token_threshold": null,
+      "region_policy": {
+        "availability": {
+          "default": "available",
+          "rules": []
+        },
+        "data_residencies": [
+          "global"
+        ],
+        "endpoint_geographies": [
+          "global"
+        ],
+        "price_adjustments": [],
+        "pricing_geography": "global_base"
+      },
+      "source_refs": [
+        "https://docs.mistral.ai/inference/pricing",
+        "https://docs.mistral.ai/models/mistral-embed-23-12"
+      ],
+      "verification_status": "verified",
+      "verified_at": "2026-10-30T06:18:57Z"
+    }
+  ],
+  "pricing": {
+    "batch_input": null,
+    "batch_output": null,
+    "cache_write": null,
+    "cache_write_1h": null,
+    "cached_input": 0.01,
+    "currency": "USD",
+    "input": 0.1,
+    "output": null,
+    "unit": "1M tokens"
+  },
+  "provider_id": "mistral-ai",
+  "release_stage": "stable",
+  "released_at": null,
+  "status": "active"
+}

@@ -2,14 +2,14 @@
   "dataset_name": "AICostBudget AI API Pricing Dataset",
   "dataset_version": "1.0.0",
   "description": "Open, machine-readable pricing data for LLM and AI APIs.",
-  "generated_at": "2026-10-30T04:37:16Z",
+  "generated_at": "2026-10-30T07:11:46Z",
   "homepage": "https://aicostbudget.com",
-  "last_verified_at": "2026-10-30T03:39:21Z",
+  "last_verified_at": "2026-10-30T06:18:57Z",
   "licenses": {
     "code": "MIT",
     "data": "CC BY 4.0"
   },
-  "model_count": 104,
+  "model_count": 111,
   "models": [
     {
       "access_checked_at": "2026-10-28T16:44:42Z",
@@ -8311,6 +8311,282 @@
       "status": "active"
     },
     {
+      "accessed_at": "2026-10-30T06:18:22Z",
+      "context_window_tokens": 2048,
+      "display_name": "Gemini Embedding",
+      "effective_from": null,
+      "last_verified_at": "2026-10-30T06:18:22Z",
+      "model_category": "embedding",
+      "model_family": "Gemini Embedding",
+      "model_id": "gemini-embedding-001",
+      "notes": "Text-only Gemini embedding model (2,048-token input limit). Paid tier $0.15 per 1M input tokens; Batch $0.075.",
+      "official_source_url": "https://ai.google.dev/gemini-api/docs/pricing",
+      "official_source_urls": [
+        "https://ai.google.dev/gemini-api/docs/pricing",
+        "https://ai.google.dev/gemini-api/docs/models/gemini-embedding-001"
+      ],
+      "price_records": [
+        {
+          "billing_note": "Embedding requests bill input tokens only; embedding vectors are not billed as output tokens.",
+          "calculation_default": true,
+          "charges": [
+            {
+              "amount": "0.15",
+              "component": "input",
+              "id": "price:google-gemini/gemini-embedding-001:standard:short:current:input:text:per_1m_tokens",
+              "modality": "text",
+              "unit": "per_1m_tokens"
+            }
+          ],
+          "checked_at": "2026-10-30T06:18:22Z",
+          "context_class": "short",
+          "currency": "USD",
+          "effective_from": null,
+          "effective_until": null,
+          "id": "price:google-gemini/gemini-embedding-001:standard:short:current",
+          "pricing_status": "current",
+          "processing_mode": "standard",
+          "prompt_token_threshold": null,
+          "region_policy": {
+            "availability": {
+              "default": "available",
+              "rules": []
+            },
+            "data_residencies": [
+              "global"
+            ],
+            "endpoint_geographies": [
+              "global"
+            ],
+            "price_adjustments": [],
+            "pricing_geography": "global_base"
+          },
+          "source_refs": [
+            "https://ai.google.dev/gemini-api/docs/pricing",
+            "https://ai.google.dev/gemini-api/docs/models/gemini-embedding-001"
+          ],
+          "verification_status": "verified",
+          "verified_at": "2026-10-30T06:18:22Z"
+        },
+        {
+          "billing_note": "Embedding requests bill input tokens only; embedding vectors are not billed as output tokens. Batch API rate as published on the official pricing page.",
+          "calculation_default": false,
+          "charges": [
+            {
+              "amount": "0.075",
+              "component": "input",
+              "id": "price:google-gemini/gemini-embedding-001:batch:short:current:input:text:per_1m_tokens",
+              "modality": "text",
+              "unit": "per_1m_tokens"
+            }
+          ],
+          "checked_at": "2026-10-30T06:18:22Z",
+          "context_class": "short",
+          "currency": "USD",
+          "effective_from": null,
+          "effective_until": null,
+          "id": "price:google-gemini/gemini-embedding-001:batch:short:current",
+          "pricing_status": "current",
+          "processing_mode": "batch",
+          "prompt_token_threshold": null,
+          "region_policy": {
+            "availability": {
+              "default": "available",
+              "rules": []
+            },
+            "data_residencies": [
+              "global"
+            ],
+            "endpoint_geographies": [
+              "global"
+            ],
+            "price_adjustments": [],
+            "pricing_geography": "global_base"
+          },
+          "source_refs": [
+            "https://ai.google.dev/gemini-api/docs/pricing",
+            "https://ai.google.dev/gemini-api/docs/models/gemini-embedding-001"
+          ],
+          "verification_status": "verified",
+          "verified_at": "2026-10-30T06:18:22Z"
+        }
+      ],
+      "pricing": {
+        "batch_input": 0.075,
+        "batch_output": null,
+        "cache_write": null,
+        "cache_write_1h": null,
+        "cached_input": null,
+        "currency": "USD",
+        "input": 0.15,
+        "output": null,
+        "unit": "1M tokens"
+      },
+      "provider_id": "google-gemini",
+      "release_stage": "stable",
+      "released_at": null,
+      "status": "active"
+    },
+    {
+      "accessed_at": "2026-10-30T06:18:18Z",
+      "context_window_tokens": 8192,
+      "display_name": "Gemini Embedding 2",
+      "effective_from": null,
+      "last_verified_at": "2026-10-30T06:18:18Z",
+      "model_category": "embedding",
+      "model_family": "Gemini Embedding",
+      "model_id": "gemini-embedding-2",
+      "notes": "Multimodal embedding model (text, image, video, audio, PDF inputs; 8,192-token input limit). Paid tier per 1M tokens: text $0.20, image $0.45, audio $6.50, video $12.00; Batch is half.",
+      "official_source_url": "https://ai.google.dev/gemini-api/docs/pricing",
+      "official_source_urls": [
+        "https://ai.google.dev/gemini-api/docs/pricing",
+        "https://ai.google.dev/gemini-api/docs/models/gemini-embedding-2"
+      ],
+      "price_records": [
+        {
+          "billing_note": "Embedding requests bill input tokens only; embedding vectors are not billed as output tokens.",
+          "calculation_default": true,
+          "charges": [
+            {
+              "amount": "0.20",
+              "component": "input",
+              "id": "price:google-gemini/gemini-embedding-2:standard:short:current:input:text:per_1m_tokens",
+              "modality": "text",
+              "unit": "per_1m_tokens"
+            },
+            {
+              "amount": "0.45",
+              "component": "input",
+              "id": "price:google-gemini/gemini-embedding-2:standard:short:current:input:image:per_1m_tokens",
+              "modality": "image",
+              "unit": "per_1m_tokens"
+            },
+            {
+              "amount": "6.50",
+              "component": "input",
+              "id": "price:google-gemini/gemini-embedding-2:standard:short:current:input:audio:per_1m_tokens",
+              "modality": "audio",
+              "unit": "per_1m_tokens"
+            },
+            {
+              "amount": "12.00",
+              "component": "input",
+              "id": "price:google-gemini/gemini-embedding-2:standard:short:current:input:video:per_1m_tokens",
+              "modality": "video",
+              "unit": "per_1m_tokens"
+            }
+          ],
+          "checked_at": "2026-10-30T06:18:18Z",
+          "context_class": "short",
+          "currency": "USD",
+          "effective_from": null,
+          "effective_until": null,
+          "id": "price:google-gemini/gemini-embedding-2:standard:short:current",
+          "pricing_status": "current",
+          "processing_mode": "standard",
+          "prompt_token_threshold": null,
+          "region_policy": {
+            "availability": {
+              "default": "available",
+              "rules": []
+            },
+            "data_residencies": [
+              "global"
+            ],
+            "endpoint_geographies": [
+              "global"
+            ],
+            "price_adjustments": [],
+            "pricing_geography": "global_base"
+          },
+          "source_refs": [
+            "https://ai.google.dev/gemini-api/docs/pricing",
+            "https://ai.google.dev/gemini-api/docs/models/gemini-embedding-2"
+          ],
+          "verification_status": "verified",
+          "verified_at": "2026-10-30T06:18:18Z"
+        },
+        {
+          "billing_note": "Embedding requests bill input tokens only; embedding vectors are not billed as output tokens. Batch API rate as published on the official pricing page.",
+          "calculation_default": false,
+          "charges": [
+            {
+              "amount": "0.10",
+              "component": "input",
+              "id": "price:google-gemini/gemini-embedding-2:batch:short:current:input:text:per_1m_tokens",
+              "modality": "text",
+              "unit": "per_1m_tokens"
+            },
+            {
+              "amount": "0.225",
+              "component": "input",
+              "id": "price:google-gemini/gemini-embedding-2:batch:short:current:input:image:per_1m_tokens",
+              "modality": "image",
+              "unit": "per_1m_tokens"
+            },
+            {
+              "amount": "3.25",
+              "component": "input",
+              "id": "price:google-gemini/gemini-embedding-2:batch:short:current:input:audio:per_1m_tokens",
+              "modality": "audio",
+              "unit": "per_1m_tokens"
+            },
+            {
+              "amount": "6.00",
+              "component": "input",
+              "id": "price:google-gemini/gemini-embedding-2:batch:short:current:input:video:per_1m_tokens",
+              "modality": "video",
+              "unit": "per_1m_tokens"
+            }
+          ],
+          "checked_at": "2026-10-30T06:18:18Z",
+          "context_class": "short",
+          "currency": "USD",
+          "effective_from": null,
+          "effective_until": null,
+          "id": "price:google-gemini/gemini-embedding-2:batch:short:current",
+          "pricing_status": "current",
+          "processing_mode": "batch",
+          "prompt_token_threshold": null,
+          "region_policy": {
+            "availability": {
+              "default": "available",
+              "rules": []
+            },
+            "data_residencies": [
+              "global"
+            ],
+            "endpoint_geographies": [
+              "global"
+            ],
+            "price_adjustments": [],
+            "pricing_geography": "global_base"
+          },
+          "source_refs": [
+            "https://ai.google.dev/gemini-api/docs/pricing",
+            "https://ai.google.dev/gemini-api/docs/models/gemini-embedding-2"
+          ],
+          "verification_status": "verified",
+          "verified_at": "2026-10-30T06:18:18Z"
+        }
+      ],
+      "pricing": {
+        "batch_input": 0.1,
+        "batch_output": null,
+        "cache_write": null,
+        "cache_write_1h": null,
+        "cached_input": null,
+        "currency": "USD",
+        "input": 0.2,
+        "output": null,
+        "unit": "1M tokens"
+      },
+      "provider_id": "google-gemini",
+      "release_stage": "stable",
+      "released_at": null,
+      "status": "active"
+    },
+    {
       "access_checked_at": "2026-10-09T12:36:29Z",
       "access_evidence": [
         {
@@ -8918,6 +9194,87 @@
       "status": "active"
     },
     {
+      "accessed_at": "2026-10-30T06:18:25Z",
+      "display_name": "Codestral Embed",
+      "effective_from": null,
+      "last_verified_at": "2026-10-30T06:18:25Z",
+      "model_category": "embedding",
+      "model_family": "Codestral Embed",
+      "model_id": "codestral-embed-2505",
+      "notes": "Code embedding model (v25.05). Mistral's pricing page lists $0.15 input and $0.015 cached input per 1M tokens; no Batch embedding rate is asserted.",
+      "official_source_url": "https://docs.mistral.ai/inference/pricing",
+      "official_source_urls": [
+        "https://docs.mistral.ai/inference/pricing",
+        "https://docs.mistral.ai/models/codestral-embed-25-05"
+      ],
+      "price_records": [
+        {
+          "billing_note": "Embedding requests bill input tokens only; embedding vectors are not billed as output tokens.",
+          "calculation_default": true,
+          "charges": [
+            {
+              "amount": "0.15",
+              "component": "input",
+              "id": "price:mistral-ai/codestral-embed-2505:standard:short:current:input:text:per_1m_tokens",
+              "modality": "text",
+              "unit": "per_1m_tokens"
+            },
+            {
+              "amount": "0.015",
+              "component": "cached_input",
+              "id": "price:mistral-ai/codestral-embed-2505:standard:short:current:cached_input:text:per_1m_tokens",
+              "modality": "text",
+              "unit": "per_1m_tokens"
+            }
+          ],
+          "checked_at": "2026-10-30T06:18:25Z",
+          "context_class": "short",
+          "currency": "USD",
+          "effective_from": null,
+          "effective_until": null,
+          "id": "price:mistral-ai/codestral-embed-2505:standard:short:current",
+          "pricing_status": "current",
+          "processing_mode": "standard",
+          "prompt_token_threshold": null,
+          "region_policy": {
+            "availability": {
+              "default": "available",
+              "rules": []
+            },
+            "data_residencies": [
+              "global"
+            ],
+            "endpoint_geographies": [
+              "global"
+            ],
+            "price_adjustments": [],
+            "pricing_geography": "global_base"
+          },
+          "source_refs": [
+            "https://docs.mistral.ai/inference/pricing",
+            "https://docs.mistral.ai/models/codestral-embed-25-05"
+          ],
+          "verification_status": "verified",
+          "verified_at": "2026-10-30T06:18:25Z"
+        }
+      ],
+      "pricing": {
+        "batch_input": null,
+        "batch_output": null,
+        "cache_write": null,
+        "cache_write_1h": null,
+        "cached_input": 0.015,
+        "currency": "USD",
+        "input": 0.15,
+        "output": null,
+        "unit": "1M tokens"
+      },
+      "provider_id": "mistral-ai",
+      "release_stage": "stable",
+      "released_at": null,
+      "status": "active"
+    },
+    {
       "access_checked_at": "2026-10-07T04:26:40Z",
       "access_evidence": [
         {
@@ -9449,6 +9806,88 @@
       },
       "release_stage": "stable",
       "released_at": "2025-12-02",
+      "status": "active"
+    },
+    {
+      "accessed_at": "2026-10-30T06:18:57Z",
+      "context_window_tokens": 8000,
+      "display_name": "Mistral Embed",
+      "effective_from": null,
+      "last_verified_at": "2026-10-30T06:18:57Z",
+      "model_category": "embedding",
+      "model_family": "Mistral Embed",
+      "model_id": "mistral-embed-2312",
+      "notes": "General-purpose text embedding model (v23.12, 8k context). Mistral's pricing page lists $0.10 input and $0.01 cached input per 1M tokens; no Batch embedding rate is asserted.",
+      "official_source_url": "https://docs.mistral.ai/inference/pricing",
+      "official_source_urls": [
+        "https://docs.mistral.ai/inference/pricing",
+        "https://docs.mistral.ai/models/mistral-embed-23-12"
+      ],
+      "price_records": [
+        {
+          "billing_note": "Embedding requests bill input tokens only; embedding vectors are not billed as output tokens.",
+          "calculation_default": true,
+          "charges": [
+            {
+              "amount": "0.10",
+              "component": "input",
+              "id": "price:mistral-ai/mistral-embed-2312:standard:short:current:input:text:per_1m_tokens",
+              "modality": "text",
+              "unit": "per_1m_tokens"
+            },
+            {
+              "amount": "0.01",
+              "component": "cached_input",
+              "id": "price:mistral-ai/mistral-embed-2312:standard:short:current:cached_input:text:per_1m_tokens",
+              "modality": "text",
+              "unit": "per_1m_tokens"
+            }
+          ],
+          "checked_at": "2026-10-30T06:18:57Z",
+          "context_class": "short",
+          "currency": "USD",
+          "effective_from": null,
+          "effective_until": null,
+          "id": "price:mistral-ai/mistral-embed-2312:standard:short:current",
+          "pricing_status": "current",
+          "processing_mode": "standard",
+          "prompt_token_threshold": null,
+          "region_policy": {
+            "availability": {
+              "default": "available",
+              "rules": []
+            },
+            "data_residencies": [
+              "global"
+            ],
+            "endpoint_geographies": [
+              "global"
+            ],
+            "price_adjustments": [],
+            "pricing_geography": "global_base"
+          },
+          "source_refs": [
+            "https://docs.mistral.ai/inference/pricing",
+            "https://docs.mistral.ai/models/mistral-embed-23-12"
+          ],
+          "verification_status": "verified",
+          "verified_at": "2026-10-30T06:18:57Z"
+        }
+      ],
+      "pricing": {
+        "batch_input": null,
+        "batch_output": null,
+        "cache_write": null,
+        "cache_write_1h": null,
+        "cached_input": 0.01,
+        "currency": "USD",
+        "input": 0.1,
+        "output": null,
+        "unit": "1M tokens"
+      },
+      "provider_id": "mistral-ai",
+      "release_stage": "stable",
+      "released_at": null,
       "status": "active"
     },
     {
@@ -20365,6 +20804,228 @@
       },
       "provider_id": "openai",
       "status": "deprecated"
+    },
+    {
+      "accessed_at": "2026-10-30T06:18:09Z",
+      "display_name": "text-embedding-3-large",
+      "effective_from": null,
+      "last_verified_at": "2026-10-30T06:18:09Z",
+      "model_category": "embedding",
+      "model_family": "Embeddings v3",
+      "model_id": "text-embedding-3-large",
+      "notes": "Larger text embedding model listed under Embedding on OpenAI's pricing page; standard rate only.",
+      "official_source_url": "https://developers.openai.com/api/docs/pricing",
+      "official_source_urls": [
+        "https://developers.openai.com/api/docs/pricing",
+        "https://developers.openai.com/api/docs/models/text-embedding-3-large"
+      ],
+      "price_records": [
+        {
+          "billing_note": "Embedding requests bill input tokens only; embedding vectors are not billed as output tokens.",
+          "calculation_default": true,
+          "charges": [
+            {
+              "amount": "0.13",
+              "component": "input",
+              "id": "price:openai/text-embedding-3-large:standard:short:current:input:text:per_1m_tokens",
+              "modality": "text",
+              "unit": "per_1m_tokens"
+            }
+          ],
+          "checked_at": "2026-10-30T06:18:09Z",
+          "context_class": "short",
+          "currency": "USD",
+          "effective_from": null,
+          "effective_until": null,
+          "id": "price:openai/text-embedding-3-large:standard:short:current",
+          "pricing_status": "current",
+          "processing_mode": "standard",
+          "prompt_token_threshold": null,
+          "region_policy": {
+            "availability": {
+              "default": "available",
+              "rules": []
+            },
+            "data_residencies": [
+              "global"
+            ],
+            "endpoint_geographies": [
+              "global"
+            ],
+            "price_adjustments": [],
+            "pricing_geography": "global_base"
+          },
+          "source_refs": [
+            "https://developers.openai.com/api/docs/pricing",
+            "https://developers.openai.com/api/docs/models/text-embedding-3-large"
+          ],
+          "verification_status": "verified",
+          "verified_at": "2026-10-30T06:18:09Z"
+        }
+      ],
+      "pricing": {
+        "batch_input": null,
+        "batch_output": null,
+        "cache_write": null,
+        "cache_write_1h": null,
+        "cached_input": null,
+        "currency": "USD",
+        "input": 0.13,
+        "output": null,
+        "unit": "1M tokens"
+      },
+      "provider_id": "openai",
+      "release_stage": "stable",
+      "released_at": null,
+      "status": "active"
+    },
+    {
+      "accessed_at": "2026-10-30T06:18:05Z",
+      "display_name": "text-embedding-3-small",
+      "effective_from": null,
+      "last_verified_at": "2026-10-30T06:18:05Z",
+      "model_category": "embedding",
+      "model_family": "Embeddings v3",
+      "model_id": "text-embedding-3-small",
+      "notes": "Text embedding model listed under Embedding on OpenAI's pricing page; standard rate only (no Batch embedding rate is published there).",
+      "official_source_url": "https://developers.openai.com/api/docs/pricing",
+      "official_source_urls": [
+        "https://developers.openai.com/api/docs/pricing",
+        "https://developers.openai.com/api/docs/models/text-embedding-3-small"
+      ],
+      "price_records": [
+        {
+          "billing_note": "Embedding requests bill input tokens only; embedding vectors are not billed as output tokens.",
+          "calculation_default": true,
+          "charges": [
+            {
+              "amount": "0.02",
+              "component": "input",
+              "id": "price:openai/text-embedding-3-small:standard:short:current:input:text:per_1m_tokens",
+              "modality": "text",
+              "unit": "per_1m_tokens"
+            }
+          ],
+          "checked_at": "2026-10-30T06:18:05Z",
+          "context_class": "short",
+          "currency": "USD",
+          "effective_from": null,
+          "effective_until": null,
+          "id": "price:openai/text-embedding-3-small:standard:short:current",
+          "pricing_status": "current",
+          "processing_mode": "standard",
+          "prompt_token_threshold": null,
+          "region_policy": {
+            "availability": {
+              "default": "available",
+              "rules": []
+            },
+            "data_residencies": [
+              "global"
+            ],
+            "endpoint_geographies": [
+              "global"
+            ],
+            "price_adjustments": [],
+            "pricing_geography": "global_base"
+          },
+          "source_refs": [
+            "https://developers.openai.com/api/docs/pricing",
+            "https://developers.openai.com/api/docs/models/text-embedding-3-small"
+          ],
+          "verification_status": "verified",
+          "verified_at": "2026-10-30T06:18:05Z"
+        }
+      ],
+      "pricing": {
+        "batch_input": null,
+        "batch_output": null,
+        "cache_write": null,
+        "cache_write_1h": null,
+        "cached_input": null,
+        "currency": "USD",
+        "input": 0.02,
+        "output": null,
+        "unit": "1M tokens"
+      },
+      "provider_id": "openai",
+      "release_stage": "stable",
+      "released_at": null,
+      "status": "active"
+    },
+    {
+      "accessed_at": "2026-10-30T06:18:14Z",
+      "display_name": "text-embedding-ada-002",
+      "effective_from": null,
+      "last_verified_at": "2026-10-30T06:18:14Z",
+      "model_category": "embedding",
+      "model_family": "Embeddings v2",
+      "model_id": "text-embedding-ada-002",
+      "notes": "Older text embedding model still listed under Embedding on OpenAI's pricing page; standard rate only.",
+      "official_source_url": "https://developers.openai.com/api/docs/pricing",
+      "official_source_urls": [
+        "https://developers.openai.com/api/docs/pricing",
+        "https://developers.openai.com/api/docs/models/text-embedding-ada-002"
+      ],
+      "price_records": [
+        {
+          "billing_note": "Embedding requests bill input tokens only; embedding vectors are not billed as output tokens.",
+          "calculation_default": true,
+          "charges": [
+            {
+              "amount": "0.10",
+              "component": "input",
+              "id": "price:openai/text-embedding-ada-002:standard:short:current:input:text:per_1m_tokens",
+              "modality": "text",
+              "unit": "per_1m_tokens"
+            }
+          ],
+          "checked_at": "2026-10-30T06:18:14Z",
+          "context_class": "short",
+          "currency": "USD",
+          "effective_from": null,
+          "effective_until": null,
+          "id": "price:openai/text-embedding-ada-002:standard:short:current",
+          "pricing_status": "current",
+          "processing_mode": "standard",
+          "prompt_token_threshold": null,
+          "region_policy": {
+            "availability": {
+              "default": "available",
+              "rules": []
+            },
+            "data_residencies": [
+              "global"
+            ],
+            "endpoint_geographies": [
+              "global"
+            ],
+            "price_adjustments": [],
+            "pricing_geography": "global_base"
+          },
+          "source_refs": [
+            "https://developers.openai.com/api/docs/pricing",
+            "https://developers.openai.com/api/docs/models/text-embedding-ada-002"
+          ],
+          "verification_status": "verified",
+          "verified_at": "2026-10-30T06:18:14Z"
+        }
+      ],
+      "pricing": {
+        "batch_input": null,
+        "batch_output": null,
+        "cache_write": null,
+        "cache_write_1h": null,
+        "cached_input": null,
+        "currency": "USD",
+        "input": 0.1,
+        "output": null,
+        "unit": "1M tokens"
+      },
+      "provider_id": "openai",
+      "release_stage": "stable",
+      "released_at": null,
+      "status": "active"
     },
     {
       "accessed_at": "2026-10-05T02:42:02Z",
