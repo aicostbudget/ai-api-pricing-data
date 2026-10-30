@@ -37,6 +37,12 @@ class ReadmePriceTableTests(unittest.TestCase):
         table = readme.render({"model_count": 1, "last_verified_at": "2026-10-30T00:00:00Z", "models": [model("meta", "muse", 1.25, 4.25)]})
         self.assertIn("| same model |", table)
 
+    def test_usd_keeps_significant_decimals(self):
+        self.assertEqual(readme.usd(0.125), "$0.125")
+        self.assertEqual(readme.usd(0.005), "$0.005")
+        self.assertEqual(readme.usd(2), "$2.00")
+        self.assertEqual(readme.usd(1250), "$1,250.00")
+
     def test_missing_markers_fail(self):
         with self.assertRaisesRegex(ValueError, "markers"):
             readme.updated_readme("# no table\n", {"model_count": 0, "last_verified_at": "x", "models": []})

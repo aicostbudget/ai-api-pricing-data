@@ -33,7 +33,8 @@ MODEL_JSON = "https://aicostbudget.github.io/ai-api-pricing-data/api/v1/models/{
 def usd(value: float | int | None) -> str:
     if value is None:
         return "–"
-    return f"${value:,.4f}".rstrip("0").rstrip(".") if value < 0.01 else f"${value:,.2f}"
+    whole, fraction = f"{float(value):.4f}".split(".")
+    return f"${int(whole):,}.{fraction.rstrip('0').ljust(2, '0')}"
 
 
 def token_priced(model: dict) -> bool:

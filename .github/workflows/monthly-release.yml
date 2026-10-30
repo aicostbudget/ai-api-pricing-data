@@ -1,0 +1,106 @@
+name: Monthly dataset release
+
+# On the 1st of each month, publish the previous month's price changes as a GitHub Release
+# (dataset-YYYY-MM) with the verified release bundle attached. Zenodo archives each Release as a
+# new DOI version, which is why this runs monthly and skips months without price-change events.
+on:
+  schedule:
+    - cron: "0 9 1 * *"
+  workflow_dispatch:
+    inputs:
+      month:
+        description: "Month to release (YYYY-MM); empty means the previous month"
+        required: false
+        default: ""
+        type: string
+      dry_run:
+        description: "Build the bundle and notes but do not create the Release"
+        required: false
+        default: true
+        type: boolean
+
+permissions:
+  contents: read
+
+concurrency:
+  group: monthly-release
+  cancel-in-progress: false
+
+jobs:
+  release:
+    runs-on: ubuntu-latest
+    permissions:
+      contents: write
+    steps:
+      - uses: actions/checkout@v5
+        with:
+          fetch-depth: 0
+          persist-credentials: false
+      - uses: actions/setup-python@v6
+        with:
+          python-version: "3.11"
+      - name: Resolve month, tag and snapshot
+        id: plan
+        env:
+          INPUT_MONTH: ${{ inputs.month }}
+          GH_TOKEN: ${{ github.token }}
+        run: |
+          month="${INPUT_MONTH:-$(date -u -d "$(date -u +%Y-%m-01) -1 day" +%Y-%m)}"
+          tag="dataset-${month}"
+          snapshot="$(python -c "import json; from scripts.lib import ROOT, snapshot_ids, latest_snapshot_id_for_date; meta = json.load(open('api/v1/meta.json', encoding='utf-8')); print(latest_snapshot_id_for_date(snapshot_ids(ROOT / 'data/snapshots'), meta['generated_at'][:10]))")"
+          echo "month=${month}" >> "$GITHUB_OUTPUT"
+          echo "tag=${tag}" >> "$GITHUB_OUTPUT"
+          echo "snapshot=${snapshot}" >> "$GITHUB_OUTPUT"
+          if gh release view "${tag}" --repo "${GITHUB_REPOSITORY}" > /dev/null 2>&1; then
+            echo "Release ${tag} already exists; nothing to do." >> "$GITHUB_STEP_SUMMARY"
+            echo "skip=true" >> "$GITHUB_OUTPUT"
+            exit 0
+          fi
+          set +e
+          python scripts/monthly_release_notes.py --month "${month}" --snapshot "${snapshot}" --check
+          status=$?
+          set -e
+          if [ "${status}" -eq 3 ]; then
+            echo "No price-change events in ${month}; no release." >> "$GITHUB_STEP_SUMMARY"
+            echo "skip=true" >> "$GITHUB_OUTPUT"
+            exit 0
+          fi
+          [ "${status}" -eq 0 ]
+          echo "skip=false" >> "$GITHUB_OUTPUT"
+      - name: Checkout Website public pricing source
+        if: steps.plan.outputs.skip == 'false'
+        uses: actions/checkout@v5
+        with:
+          repository: linqiang-max/aicostbudget
+          ref: main
+          path: website-source
+          token: ${{ secrets.WEBSITE_REPO_TOKEN }}
+          fetch-depth: 0
+          persist-credentials: false
+      - name: Build and verify the release bundle
+        if: steps.plan.outputs.skip == 'false'
+        run: |
+          python scripts/build_release_bundle.py \
+            --snapshot "${{ steps.plan.outputs.snapshot }}" \
+            --dataset-ref "${GITHUB_SHA}" \
+            --website-repo website-source \
+            --website-ref HEAD \
+            --output "dist/${{ steps.plan.outputs.tag }}" \
+            --release-version "${{ steps.plan.outputs.tag }}" \
+            --release-date "$(date -u +%F)"
+          python scripts/monthly_release_notes.py \
+            --month "${{ steps.plan.outputs.month }}" \
+            --snapshot "${{ steps.plan.outputs.snapshot }}" \
+            --output "${RUNNER_TEMP}/release-notes.md"
+          cat "${RUNNER_TEMP}/release-notes.md" >> "$GITHUB_STEP_SUMMARY"
+      - name: Create the GitHub Release
+        if: steps.plan.outputs.skip == 'false' && (github.event_name == 'schedule' || inputs.dry_run == false)
+        env:
+          GH_TOKEN: ${{ github.token }}
+        run: |
+          title="AI API prices: $(date -u -d "${{ steps.plan.outputs.month }}-01" +'%B %Y')"
+          gh release create "${{ steps.plan.outputs.tag }}" dist/${{ steps.plan.outputs.tag }}/* \
+            --repo "${GITHUB_REPOSITORY}" \
+            --target "${GITHUB_SHA}" \
+            --title "${title}" \
+            --notes-file "${RUNNER_TEMP}/release-notes.md"
