@@ -147,6 +147,18 @@ class PriceChangeEventTests(unittest.TestCase):
             events = generate_events(before, after)
         self.assertEqual([(event["model_id"], event["change_type"]) for event in events], [("text-new", "model_added")])
 
+    def test_added_embedding_model_emits_no_event(self):
+        embedding = model(model_id="embed-new", output_price=None)
+        embedding.update({"status": "active", "model_category": "embedding"})
+        with tempfile.TemporaryDirectory() as tmp:
+            root = Path(tmp)
+            before = root / "2026-07-26" / "prices.json"
+            after = root / "2026-07-27" / "prices.json"
+            snapshot(before, [])
+            snapshot(after, [embedding, model(model_id="text-new")])
+            events = generate_events(before, after)
+        self.assertEqual([(event["model_id"], event["change_type"]) for event in events], [("text-new", "model_added")])
+
     def test_newly_observed_retired_model_is_lifecycle_update_not_model_added(self):
         retired = model(model_id="historical-model")
         retired.update({

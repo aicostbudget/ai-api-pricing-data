@@ -665,6 +665,10 @@ def generate_events(before: Path, after: Path, provider_id: str | None = None, m
             # model_added events carry per-1M-token prices; voice, OCR and TTS models priced per
             # minute, page or character have no token unit and no model_added representation.
             continue
+        elif after_model.get("model_category") == "embedding":
+            # The event feed tracks LLM launches; embedding models are first tracked long after
+            # release, so a model_added row would date them to the snapshot. Price updates still emit.
+            continue
         else:
             events.append(
                 lifecycle_event(None, after_model, before_rel, after_rel, detected_at, "model_added")
