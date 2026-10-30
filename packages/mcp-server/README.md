@@ -2,6 +2,8 @@
 
 Read-only MCP server for the source-linked [AICostBudget AI API Pricing Dataset](https://aicostbudget.com/en/datasets/ai-api-pricing). It exposes model prices, filtered model lists, monthly cost estimates, comparisons, and price-change events. Every successful result includes official provider source URL(s), a verification date, and an AICostBudget page link.
 
+Data, history and issue tracker: [aicostbudget/ai-api-pricing-data on GitHub](https://github.com/aicostbudget/ai-api-pricing-data). Spot a wrong price? [Open an issue](https://github.com/aicostbudget/ai-api-pricing-data/issues) with the official source link.
+
 The server writes no files, collects no telemetry, and uses only these public endpoints at runtime:
 
 - `https://aicostbudget.github.io/ai-api-pricing-data/api/v1/prices.json`
