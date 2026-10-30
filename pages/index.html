@@ -1,0 +1,69 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>AI API Pricing Dataset: static JSON and CSV API</title>
+<meta name="description" content="Free static API with source-linked LLM and AI API prices for OpenAI, Anthropic, Google Gemini, xAI, DeepSeek, Mistral AI, Cohere, Moonshot AI, Alibaba Qwen and Meta, as JSON and CSV.">
+<link rel="canonical" href="https://aicostbudget.com/en/datasets/ai-api-pricing">
+<style>
+  :root { color-scheme: light dark; --bg: #ffffff; --fg: #1f2328; --muted: #59636e; --line: #d1d9e0; --link: #0969da; --code: #f6f8fa; }
+  @media (prefers-color-scheme: dark) { :root { --bg: #0d1117; --fg: #e6edf3; --muted: #9198a1; --line: #3d444d; --link: #4493f8; --code: #151b23; } }
+  body { margin: 0; background: var(--bg); color: var(--fg); font: 16px/1.6 system-ui, -apple-system, "Segoe UI", sans-serif; }
+  main { max-width: 760px; margin: 0 auto; padding: 40px 16px 64px; }
+  h1 { font-size: 1.75rem; line-height: 1.25; margin: 0 0 12px; }
+  h2 { font-size: 1.15rem; margin: 32px 0 8px; }
+  p, li { color: var(--fg); }
+  .muted { color: var(--muted); }
+  a { color: var(--link); }
+  code, pre { font: 14px/1.5 ui-monospace, SFMono-Regular, Consolas, monospace; background: var(--code); border-radius: 6px; }
+  code { padding: 2px 5px; }
+  pre { padding: 12px 14px; overflow-x: auto; border: 1px solid var(--line); }
+  table { width: 100%; border-collapse: collapse; }
+  th, td { text-align: left; padding: 8px 6px; border-bottom: 1px solid var(--line); vertical-align: top; }
+  td:first-child { white-space: nowrap; }
+  .cta { display: inline-block; margin-top: 8px; padding: 8px 14px; border: 1px solid var(--line); border-radius: 6px; text-decoration: none; font-weight: 600; }
+</style>
+</head>
+<body>
+<main>
+  <h1>AI API Pricing Dataset: static JSON and CSV API</h1>
+  <p>Source-linked LLM and AI API prices for OpenAI, Anthropic Claude, Google Gemini, xAI, DeepSeek, Mistral AI, Cohere, Moonshot AI (Kimi), Alibaba Qwen and Meta. Every record links to the provider's own pricing page; unknown prices stay <code>null</code>, never <code>0</code>.</p>
+  <p class="muted" id="freshness">Build metadata: <a href="api/v1/meta.json">api/v1/meta.json</a></p>
+
+  <pre><code>curl -L https://aicostbudget.github.io/ai-api-pricing-data/api/v1/prices.json</code></pre>
+
+  <h2>Endpoints</h2>
+  <table>
+    <tr><td><a href="api/v1/prices.json">/api/v1/prices.json</a></td><td>Every model, latest prices</td></tr>
+    <tr><td><a href="api/v1/prices.csv">/api/v1/prices.csv</a></td><td>The same records as CSV</td></tr>
+    <tr><td><a href="api/v1/meta.json">/api/v1/meta.json</a></td><td><code>generated_at</code>, <code>last_verified_at</code>, counts</td></tr>
+    <tr><td><code>/api/v1/providers/&lt;provider&gt;.json</code></td><td>One provider, e.g. <a href="api/v1/providers/openai.json">openai</a></td></tr>
+    <tr><td><code>/api/v1/models/&lt;provider&gt;/&lt;model&gt;.json</code></td><td>One model, e.g. <a href="api/v1/models/openai/gpt-4.1.json">openai/gpt-4.1</a></td></tr>
+  </table>
+
+  <h2>Compare and estimate</h2>
+  <p>The same data drives the comparison table, cost calculator and price-change monitor on AICostBudget.</p>
+  <a class="cta" href="https://aicostbudget.com/en/model-pricing-comparison?utm_source=github&amp;utm_medium=referral&amp;utm_campaign=pricing_dataset&amp;utm_content=pages_index_comparison">Compare all models →</a>
+  <ul>
+    <li><a href="https://aicostbudget.com/en/ai-api-cost-calculator?utm_source=github&amp;utm_medium=referral&amp;utm_campaign=pricing_dataset&amp;utm_content=pages_index_calculator">AI API cost calculator</a></li>
+    <li><a href="https://aicostbudget.com/en/model-price-monitor?utm_source=github&amp;utm_medium=referral&amp;utm_campaign=pricing_dataset&amp;utm_content=pages_index_price_monitor">Model price monitor</a></li>
+    <li><a href="https://aicostbudget.com/en/datasets/ai-api-pricing?utm_source=github&amp;utm_medium=referral&amp;utm_campaign=pricing_dataset&amp;utm_content=pages_index_dataset">Dataset documentation</a></li>
+  </ul>
+
+  <h2>Other ways to get it</h2>
+  <ul>
+    <li><a href="https://github.com/aicostbudget/ai-api-pricing-data">GitHub repository</a>: history, snapshots, schema, methodology</li>
+    <li><a href="https://huggingface.co/datasets/aicostbudget-ai/ai-api-pricing">Hugging Face dataset</a></li>
+    <li><code>npm install ai-api-pricing</code> · MCP server: <code>npx -y ai-api-pricing-mcp</code></li>
+  </ul>
+  <p class="muted">Code MIT, data CC BY 4.0. Prices change often; check the provider's pricing page before a production budget decision. Not affiliated with any listed provider.</p>
+</main>
+<script>
+  fetch("api/v1/meta.json").then(function (r) { return r.json(); }).then(function (meta) {
+    var el = document.getElementById("freshness");
+    el.textContent = meta.model_count + " models from " + meta.provider_count + " providers, last verified " + String(meta.last_verified_at).slice(0, 10) + ".";
+  }).catch(function () {});
+</script>
+</body>
+</html>

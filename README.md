@@ -1,81 +1,58 @@
-# AI API Pricing Dataset
+# AI API Pricing Dataset: LLM prices as JSON, CSV and a free API
 
-An AI API and LLM pricing dataset for OpenAI, Anthropic Claude, Google Gemini, xAI, DeepSeek, Mistral AI, Cohere, Moonshot AI (Kimi), Alibaba Qwen, and Meta (Muse), built for cost estimation, budget planning, and model price comparison.
+Current input, output, cached-input and batch prices for OpenAI, Anthropic Claude, Google Gemini, xAI Grok, DeepSeek, Mistral AI, Cohere, Moonshot AI (Kimi), Alibaba Qwen and Meta. Every record links to the provider's own pricing page and carries the date it was last checked. Unknown prices stay `null`, never `0`.
 
-Published as JSON, CSV, and a Hugging Face dataset, with machine-readable records linked to official provider pricing sources and regularly validated. Prices change frequently, so production budget decisions should always be checked against the relevant provider pricing pages.
-
+[![Last verified](https://img.shields.io/badge/dynamic/json?url=https%3A%2F%2Faicostbudget.github.io%2Fai-api-pricing-data%2Fapi%2Fv1%2Fmeta.json&query=%24.last_verified_at&label=last%20verified&color=blue)](https://aicostbudget.github.io/ai-api-pricing-data/api/v1/meta.json)
+[![Models](https://img.shields.io/badge/dynamic/json?url=https%3A%2F%2Faicostbudget.github.io%2Fai-api-pricing-data%2Fapi%2Fv1%2Fmeta.json&query=%24.model_count&label=models&color=blue)](https://aicostbudget.github.io/ai-api-pricing-data/api/v1/prices.json)
+[![npm downloads](https://img.shields.io/npm/dm/ai-api-pricing?label=npm%20downloads)](https://www.npmjs.com/package/ai-api-pricing)
 [![Validate](https://github.com/aicostbudget/ai-api-pricing-data/actions/workflows/validate.yml/badge.svg)](https://github.com/aicostbudget/ai-api-pricing-data/actions/workflows/validate.yml)
 [![Code license: MIT](https://img.shields.io/badge/code-MIT-blue.svg)](LICENSE-CODE)
 [![Data license: CC BY 4.0](https://img.shields.io/badge/data-CC%20BY%204.0-green.svg)](LICENSE-DATA)
-
-## Dataset access
-
-- **Canonical dataset page:** [AI API & LLM Pricing Dataset documentation](https://aicostbudget.com/en/datasets/ai-api-pricing?utm_source=github&utm_medium=referral&utm_campaign=pricing_dataset&utm_content=readme_dataset)
-- **Machine-readable downloads:** [JSON](https://aicostbudget.github.io/ai-api-pricing-data/api/v1/prices.json) | [CSV](https://aicostbudget.github.io/ai-api-pricing-data/api/v1/prices.csv) | [metadata](https://aicostbudget.github.io/ai-api-pricing-data/api/v1/meta.json)
-- **Hugging Face mirror:** [aicostbudget-ai/ai-api-pricing](https://huggingface.co/datasets/aicostbudget-ai/ai-api-pricing)
-- **Schema and verification:** [model schema](schema/model.schema.json) | [pricing contract](docs/pricing-contract.md) | [methodology](METHODOLOGY.md)
-
-## Use it from code or an AI assistant
-
-- **JavaScript/TypeScript:** `npm install ai-api-pricing` for source-linked prices, model comparisons, and deterministic token-cost estimates.
-- **AI assistants:** `npx -y ai-api-pricing-mcp` exposes read-only MCP tools for prices, monthly estimates, comparisons, and price changes.
-
-Both packages return the official provider source URL and verification date with pricing results. See [package documentation](packages/ai-api-pricing/README.md) and [MCP client setup](packages/mcp-server/README.md).
-
-## Interactive Tools
-
-- [Calculate your API cost](https://aicostbudget.com/en/ai-api-cost-calculator?utm_source=github&utm_medium=referral&utm_campaign=pricing_dataset&utm_content=readme_calculator)
-- [Compare AI model prices](https://aicostbudget.com/en/model-pricing-comparison?utm_source=github&utm_medium=referral&utm_campaign=pricing_dataset&utm_content=readme_comparison)
-- [Track AI model price changes](https://aicostbudget.com/en/model-price-monitor?utm_source=github&utm_medium=referral&utm_campaign=pricing_dataset&utm_content=readme_price_monitor)
-
-### Distribution projections
-
-The GitHub Pages `/api/v1` JSON and CSV publish the canonical records in this repository. The AICostBudget Website JSON/CSV and Hugging Face files publish the Pricing V2 public Website projection, including structured tier and pricing-component metadata. Current public export schema **1.11.0** adds the `per_1m_characters` structured billing unit ([contract](docs/public-export-contract-1.11.md)); schema 1.10.0 added generic promotion/list-price conditions and aligned the access/binding extension with the Website. Historical releases retain their original schema version. Schema 1.8.0 preserves generic `usage_tier` conditions and adds transport selection, modality-aware components, mutually exclusive measurement alternatives, optional feature charges, and independent model-default metadata. Eligibility-scoped `conditional_usage_allowances` remain separate from standard paid tiers. Hugging Face must match the Website projection exactly by key set and exported fields; it is not expected to match the intentionally narrower GitHub Pages V1 key set.
-
-The existing scalar input, cached-input, and output values remain the compatibility/default pricing view. `pricing_components` is the full conditional view: each entry combines a charge component, decimal-string amount, condition, provenance, verification status, and effective range. One model can have separate `cache_write_5m` and `cache_write_1h` entries, or cache-write entries for different processing modes and context classes, so cache write cannot be modeled permanently as one universal scalar.
-
-## Dataset Trust & Freshness
-
-- **Updated:** The latest dataset build timestamp (`generated_at`) and aggregate record verification timestamp (`last_verified_at`) are published in [machine-readable metadata](api/v1/meta.json) and the [static API](https://aicostbudget.github.io/ai-api-pricing-data/api/v1/meta.json).
-- **Verified:** Each pricing record includes its own `accessed_at` and `last_verified_at` timestamps.
-- **Sources:** Pricing records link to official provider pricing pages or documentation through `official_source_url`; see the [methodology](#methodology).
-- **Validation:** Pushes and pull requests run [dataset and schema checks, Hugging Face export parity, and tests](.github/workflows/validate.yml); a [weekly freshness check](.github/workflows/freshness-check.yml) surfaces stale verification timestamps and source URL failures.
-
-This repository publishes a versioned dataset and read-only static API for AI API pricing. It is designed for developers, SaaS builders, FinOps teams, researchers, technical writers, and AI systems that need maintained pricing records instead of ad hoc scraped snippets.
-
-This project is maintained as an independent public dataset by AICostBudget.
-
-## Why this dataset?
-
-- Source-linked pricing records
-- Unknown or unverified values remain `null`, never `0`
-- Versioned JSON and CSV outputs
-- Per-model history files
-- Dated full snapshots
-- Read-only static API
-- Suitable for calculators, dashboards, cost analysis, and AI FinOps tooling
-
-The weekly freshness workflow checks source URLs and stale `last_verified_at` values. It does not guess, infer, or overwrite prices automatically.
-
-## Quick Start
-
-### Latest JSON
 
 ```bash
 curl -L https://aicostbudget.github.io/ai-api-pricing-data/api/v1/prices.json
 ```
 
-### Latest CSV
+**[Compare every model side by side →](https://aicostbudget.com/en/model-pricing-comparison?utm_source=github&utm_medium=referral&utm_campaign=pricing_dataset&utm_content=readme_top_comparison)** · [Estimate your monthly bill](https://aicostbudget.com/en/ai-api-cost-calculator?utm_source=github&utm_medium=referral&utm_campaign=pricing_dataset&utm_content=readme_top_calculator) · [See recent price changes](https://aicostbudget.com/en/model-price-monitor?utm_source=github&utm_medium=referral&utm_campaign=pricing_dataset&utm_content=readme_top_price_monitor)
 
-```bash
-curl -L https://aicostbudget.github.io/ai-api-pricing-data/api/v1/prices.csv
-```
+## Prices at a glance
 
-### Single model record
+<!-- price-table:start (generated by scripts/update_readme_prices.py; do not edit) -->
+USD per 1M tokens, standard list price. 123 models tracked, last verified **2026-10-30**.
 
-```bash
-curl -L https://aicostbudget.github.io/ai-api-pricing-data/api/v1/models/openai/gpt-4.1.json
-```
+| Provider | Active token-priced models | Lowest output price (input / output) | Highest output price (input / output) |
+| --- | ---: | --- | --- |
+| [OpenAI](https://aicostbudget.com/en/providers/openai-api-pricing?utm_source=github&utm_medium=referral&utm_campaign=pricing_dataset&utm_content=readme_table_openai) | 14 | [GPT-6 Luna](https://aicostbudget.github.io/ai-api-pricing-data/api/v1/models/openai/gpt-6-luna.json) $0.10 / $0.50 | [GPT-5.5 Pro](https://aicostbudget.github.io/ai-api-pricing-data/api/v1/models/openai/gpt-5.5-pro.json) $30.00 / $180.00 |
+| [Anthropic](https://aicostbudget.com/en/providers/anthropic-api-pricing?utm_source=github&utm_medium=referral&utm_campaign=pricing_dataset&utm_content=readme_table_anthropic) | 11 | [Claude Haiku 5.5](https://aicostbudget.github.io/ai-api-pricing-data/api/v1/models/anthropic/claude-haiku-5-5.json) $0.10 / $0.50 | [Claude Mythos 5.1](https://aicostbudget.github.io/ai-api-pricing-data/api/v1/models/anthropic/claude-mythos-5-1.json) $10.00 / $50.00 |
+| [Google Gemini](https://aicostbudget.com/en/providers/google-gemini-api-pricing?utm_source=github&utm_medium=referral&utm_campaign=pricing_dataset&utm_content=readme_table_google_gemini) | 12 | [Gemini 3.1 Flash-Lite](https://aicostbudget.github.io/ai-api-pricing-data/api/v1/models/google-gemini/gemini-3.1-flash-lite.json) $0.25 / $1.50 | [Gemini 3.5 Transcribe Live](https://aicostbudget.github.io/ai-api-pricing-data/api/v1/models/google-gemini/gemini-3.5-transcribe-live.json) $3.50 / $21.00 |
+| [xAI](https://aicostbudget.com/en/providers/xai-api-pricing?utm_source=github&utm_medium=referral&utm_campaign=pricing_dataset&utm_content=readme_table_xai) | 6 | [Grok 4.20 (Non-Reasoning)](https://aicostbudget.github.io/ai-api-pricing-data/api/v1/models/xai/grok-4.20-0309-non-reasoning.json) $1.25 / $2.50 | [Grok 4.7](https://aicostbudget.github.io/ai-api-pricing-data/api/v1/models/xai/grok-4.7.json) $2.00 / $6.00 |
+| [DeepSeek](https://aicostbudget.com/en/providers/deepseek-api-pricing?utm_source=github&utm_medium=referral&utm_campaign=pricing_dataset&utm_content=readme_table_deepseek) | 2 | [DeepSeek V4.1 Flash](https://aicostbudget.github.io/ai-api-pricing-data/api/v1/models/deepseek/deepseek-flash.json) $0.30 / $1.20 | [DeepSeek V4 Pro](https://aicostbudget.github.io/ai-api-pricing-data/api/v1/models/deepseek/deepseek-v4-pro.json) $1.32 / $3.96 |
+| [Mistral AI](https://aicostbudget.com/en/providers/mistral-ai-api-pricing?utm_source=github&utm_medium=referral&utm_campaign=pricing_dataset&utm_content=readme_table_mistral_ai) | 7 | [Ministral 3 3B](https://aicostbudget.github.io/ai-api-pricing-data/api/v1/models/mistral-ai/ministral-3b-2512.json) $0.10 / $0.10 | [Mistral Medium 3.5](https://aicostbudget.github.io/ai-api-pricing-data/api/v1/models/mistral-ai/mistral-medium-3-5.json) $1.50 / $7.50 |
+| [Cohere](https://aicostbudget.com/en/providers/cohere-api-pricing?utm_source=github&utm_medium=referral&utm_campaign=pricing_dataset&utm_content=readme_table_cohere) | 2 | [Aya Expanse 32B](https://aicostbudget.github.io/ai-api-pricing-data/api/v1/models/cohere/aya-expanse-32b.json) $0.50 / $1.50 | [Command R+ 08-2024](https://aicostbudget.github.io/ai-api-pricing-data/api/v1/models/cohere/command-r-plus-08-2024.json) $2.50 / $10.00 |
+| [Moonshot AI (Kimi)](https://aicostbudget.com/en/providers/moonshot-ai-api-pricing?utm_source=github&utm_medium=referral&utm_campaign=pricing_dataset&utm_content=readme_table_moonshot_ai) | 3 | [Kimi K3.1 Pro](https://aicostbudget.github.io/ai-api-pricing-data/api/v1/models/moonshot-ai/kimi-k3.1-pro.json) $2.00 / $10.00 | [Kimi K3.1 Pro Highspeed](https://aicostbudget.github.io/ai-api-pricing-data/api/v1/models/moonshot-ai/kimi-k3.1-pro-highspeed.json) $4.00 / $20.00 |
+| [Alibaba Qwen](https://aicostbudget.com/en/providers/alibaba-qwen-api-pricing?utm_source=github&utm_medium=referral&utm_campaign=pricing_dataset&utm_content=readme_table_alibaba_qwen) | 4 | [Qwen Flash](https://aicostbudget.github.io/ai-api-pricing-data/api/v1/models/alibaba-qwen/qwen-flash.json) $0.05 / $0.40 | [Qwen3.8 Max](https://aicostbudget.github.io/ai-api-pricing-data/api/v1/models/alibaba-qwen/qwen3.8-max.json) $2.00 / $6.00 |
+| [Meta](https://aicostbudget.com/en/providers/meta-api-pricing?utm_source=github&utm_medium=referral&utm_campaign=pricing_dataset&utm_content=readme_table_meta) | 1 | [Muse Spark 1.3](https://aicostbudget.github.io/ai-api-pricing-data/api/v1/models/meta/muse-spark-1.3.json) $1.25 / $4.25 | same model |
+
+Batch, cached-input, cache-write, long-context and non-token prices are in the full data.
+<!-- price-table:end -->
+
+Click a provider for its full price list, or a model for its JSON record. If this saves you a scrape, a ⭐ helps other developers find it, and **Watch → Custom → Releases** gets you price-change releases.
+
+## Get the data
+
+| Format | Where |
+| --- | --- |
+| JSON | [`api/v1/prices.json`](https://aicostbudget.github.io/ai-api-pricing-data/api/v1/prices.json) |
+| CSV | [`api/v1/prices.csv`](https://aicostbudget.github.io/ai-api-pricing-data/api/v1/prices.csv) |
+| One model | `api/v1/models/<provider>/<model>.json`, e.g. [`openai/gpt-4.1`](https://aicostbudget.github.io/ai-api-pricing-data/api/v1/models/openai/gpt-4.1.json) |
+| Build metadata | [`api/v1/meta.json`](https://aicostbudget.github.io/ai-api-pricing-data/api/v1/meta.json) (`generated_at`, `last_verified_at`) |
+| Hugging Face | [aicostbudget-ai/ai-api-pricing](https://huggingface.co/datasets/aicostbudget-ai/ai-api-pricing) and the [price history dataset](https://huggingface.co/datasets/aicostbudget-ai/llm-api-price-history) |
+| JavaScript / TypeScript | `npm install ai-api-pricing`: prices, comparisons and token-cost estimates ([docs](packages/ai-api-pricing/README.md)) |
+| AI assistants (MCP) | `npx -y ai-api-pricing-mcp`: read-only tools for prices, monthly estimates, comparisons and price changes ([setup](packages/mcp-server/README.md)) |
+
+Documentation: [dataset page](https://aicostbudget.com/en/datasets/ai-api-pricing?utm_source=github&utm_medium=referral&utm_campaign=pricing_dataset&utm_content=readme_dataset) · [model schema](schema/model.schema.json) · [pricing contract](docs/pricing-contract.md) · [methodology](METHODOLOGY.md) · [distribution projections](docs/distribution/projections.md)
+
+## Code examples
 
 ### Python
 
@@ -105,56 +82,13 @@ async function main() {
 main();
 ```
 
-## Developer utility: retry and fallback cost diagnostics
+## Interactive Tools
 
-Run the repository's dependency-free Python example to estimate the cost of anonymized LLM task attempts while keeping first attempts, retries, and model fallbacks separate:
-
-```bash
-python examples/llm_cost_diagnostics.py examples/sample_llm_attempts.json
-```
-
-Expected output for the checked-in synthetic input and current checked-in Pricing V2 catalog:
-
-```text
-LLM cost diagnostics
-Input provenance: synthetic_example_not_production_measurement
-Pricing catalog: data/pricing-v2-preview/generated/model-pricing.v2.json
-Tasks: 3
-Successful tasks: 2
-Attempts: 5
-Billed attempts: 5
-Not-billed attempts: 0
-First-attempt estimated cost (USD): 0.287500
-Retry estimated cost (USD): 0.150000
-Fallback estimated cost (USD): 0.300000
-Total estimated cost (USD): 0.737500
-Cost per successful task (USD): 0.368750
-```
-
-The example input is synthetic and is not a production measurement, provider invoice, or claimed success-rate benchmark. Replace it with anonymized attempt records from your own system. Each record must identify its task and attempt, classify the attempt as `first_attempt`, `retry`, or `fallback`, state whether the task attempt succeeded, and provide normalized usage by pricing component. `usage.input` must contain only uncached input tokens; cached input belongs in `usage.cached_input` so the two counts do not overlap.
-
-The utility deliberately has a narrow billing scope:
-
-- It reads the checked-in Pricing V2 catalog and accepts only its verified, default-safe selected billing record.
-- It supports standard, short-context, global text pricing in USD per one million tokens for `input`, `cached_input`, and `output` components.
-- `billing_status` must be `billed`, `not_billed`, or `unknown`. An explicit `not_billed` attempt contributes zero; `unknown` stops the run instead of silently contributing zero.
-- Missing models or rates, conditional tiers, alternative processing modes, non-token units, unsupported usage components, and ambiguous billing conditions stop the run with an error.
-- Results are catalog-rate estimates for diagnostic comparison, not invoice reconciliation. Provider-specific taxes, contracts, credits, rounding, and unrecorded charges are outside this example's scope.
-
-Use the interactive tools for scenario exploration:
-
+- [Calculate your API cost](https://aicostbudget.com/en/ai-api-cost-calculator?utm_source=github&utm_medium=referral&utm_campaign=pricing_dataset&utm_content=readme_calculator)
+- [Compare AI model prices](https://aicostbudget.com/en/model-pricing-comparison?utm_source=github&utm_medium=referral&utm_campaign=pricing_dataset&utm_content=readme_comparison)
+- [Track AI model price changes](https://aicostbudget.com/en/model-price-monitor?utm_source=github&utm_medium=referral&utm_campaign=pricing_dataset&utm_content=readme_price_monitor)
 - [Analyze retry cost](https://aicostbudget.com/en/llm-retry-cost-calculator?utm_source=github&utm_medium=referral&utm_campaign=pricing_dataset&utm_content=readme_retry_cost_calculator)
 - [Compare model-switch cost](https://aicostbudget.com/en/model-switch-cost-calculator?utm_source=github&utm_medium=referral&utm_campaign=pricing_dataset&utm_content=readme_model_switch_cost_calculator)
-
-To measure real success rates instead of assuming them, the open [LLM cost-per-task benchmark](https://github.com/aicostbudget/llm-cost-per-task-benchmark) runs 16 tasks with code-only validators against your own API keys and prices every attempt from this dataset. Its first published run found a flagship model matching a cheap one on accuracy at 5–9× the cost per successful task.
-
-## Use Cases
-
-- Compare AI model prices
-- Estimate monthly AI API cost
-- Build LLM cost dashboards
-- Plan SaaS AI feature budgets
-- Track model pricing changes
 
 ## Explore Pricing by Provider
 
@@ -170,6 +104,37 @@ To measure real success rates instead of assuming them, the open [LLM cost-per-t
 | Moonshot AI | [Moonshot AI API pricing](https://aicostbudget.com/en/providers/moonshot-ai-api-pricing?utm_source=github&utm_medium=referral&utm_campaign=pricing_dataset&utm_content=moonshot_ai) | Kimi model pricing with automatic prefix-cache hit rates |
 | Alibaba Qwen | [Alibaba Qwen API pricing](https://aicostbudget.com/en/providers/alibaba-qwen-api-pricing?utm_source=github&utm_medium=referral&utm_campaign=pricing_dataset&utm_content=alibaba_qwen) | Qwen list prices for the International (Singapore) scope, including per-request 256K tiers |
 | Meta | [Meta Muse API pricing](https://aicostbudget.com/en/providers/meta-api-pricing?utm_source=github&utm_medium=referral&utm_campaign=pricing_dataset&utm_content=meta) | Muse Wonder and Muse Spark Standard-mode prices from Meta Model API |
+
+## Dataset Trust & Freshness
+
+- **Updated:** The latest dataset build timestamp (`generated_at`) and aggregate record verification timestamp (`last_verified_at`) are published in [machine-readable metadata](api/v1/meta.json) and the [static API](https://aicostbudget.github.io/ai-api-pricing-data/api/v1/meta.json).
+- **Verified:** Each pricing record includes its own `accessed_at` and `last_verified_at` timestamps.
+- **Sources:** Pricing records link to official provider pricing pages or documentation through `official_source_url`; see the [methodology](#methodology).
+- **Validation:** Pushes and pull requests run [dataset and schema checks, Hugging Face export parity, and tests](.github/workflows/validate.yml); a [weekly freshness check](.github/workflows/freshness-check.yml) surfaces stale verification timestamps and source URL failures.
+
+This repository publishes a versioned dataset and read-only static API for AI API pricing. It is designed for developers, SaaS builders, FinOps teams, researchers, technical writers, and AI systems that need maintained pricing records instead of ad hoc scraped snippets.
+
+This project is maintained as an independent public dataset by AICostBudget.
+
+## Why this dataset?
+
+- Source-linked pricing records
+- Unknown or unverified values remain `null`, never `0`
+- Versioned JSON and CSV outputs
+- Per-model history files
+- Dated full snapshots
+- Read-only static API
+- Suitable for calculators, dashboards, cost analysis, and AI FinOps tooling
+
+The weekly freshness workflow checks source URLs and stale `last_verified_at` values. It does not guess, infer, or overwrite prices automatically.
+
+## Use Cases
+
+- Compare AI model prices
+- Estimate monthly AI API cost
+- Build LLM cost dashboards
+- Plan SaaS AI feature budgets
+- Track model pricing changes
 
 ## Dataset Coverage
 
@@ -242,46 +207,11 @@ data/snapshots/<YYYY-MM-DD>/prices.csv
 
 The first pricing release of a UTC day uses the plain date. A later release on the same UTC day gets a sequence suffix (`2026-10-21-2`, `2026-10-21-3`, …) so earlier snapshots are never rewritten. Snapshots order by date, then sequence; the date part is the event `detected_at` date.
 
-### Price Change Events
+Price changes between snapshots are recorded as events in `data/price-change-events/events.jsonl`; see [price change events](docs/price-change-events.md) for the rules.
 
-Canonical price change events are stored in:
+## Cost per successful task
 
-```text
-data/price-change-events/events.jsonl
-```
-
-A price change event is different from a normal history verification row. History rows record source verification state for a model and may change when `last_verified_at`, `official_source_url`, or notes change. Price change events record verified scalar pricing semantics between two trusted snapshots and can also emit `component_price_update` when matching `pricing_id + charge_id` entries change amount while scalar prices remain unchanged. Component events preserve the component name, old and new decimal-string amounts, and condition. Component additions/removals are not treated as price launches because they may reflect coverage changes.
-
-Baseline snapshots are not price changes. New snapshots, reordered files, source URL edits, status changes, or repeated verification dates must not create price change events when the prices are unchanged.
-
-Date fields use separate meanings:
-
-- `effective_from`: provider-announced effective date only. It stays `null` when the provider did not publish one.
-- `detected_at`: the first snapshot date where the repository observed the change by comparing trusted snapshots.
-- `verified_at`: the date the new price was checked against an official provider source.
-- `date_basis`: one of `provider_announced`, `official_changelog`, `first_observed`, or `unknown`.
-
-Preview events without writing:
-
-```bash
-python scripts\generate_price_change_events.py --before data\snapshots\2026-07-09\prices.json --after data\snapshots\2026-07-27\prices.json --dry-run
-```
-
-Generate the canonical JSONL projection:
-
-```bash
-python scripts\generate_price_change_events.py --before data\snapshots\2026-07-09\prices.json --after data\snapshots\2026-07-27\prices.json
-```
-
-The generator matches models by `provider_id + model_id`, compares only pricing semantics, writes stable sorted output, and merges by `dedupe_key`. The first version emits `price_update`, `cached_price_added`, and `cached_price_removed`; it does not emit `pricing_added` or `pricing_removed` because a model first appearing in a snapshot may be coverage expansion rather than an official pricing launch. The dedupe key is based on provider, model, old prices, new prices, unit, currency, and change type. It excludes `verified_at`, `announcement_url`, and notes so later metadata backfills update the same event instead of creating a duplicate.
-
-Both source snapshots must already be tracked by Git before event generation. The generator fails closed rather than writing a canonical event that depends on an ignored, untracked, or local-only snapshot.
-
-Manual backfills should edit the existing event with the same `dedupe_key`. Add `effective_from` only when an official provider announcement, official changelog, or pricing page explicitly gives the effective date. Add `announcement_url` only for an official URL; do not invent one.
-
-Do not copy a fixed event count into documentation or product code. The validated records in `data/price-change-events/events.jsonl` are the authoritative current count.
-
-Publication readiness is determined from the current event file: require at least 5 real price changes, at least 3 providers covered, an official source plus `detected_at` and `verified_at` for every event, explicit marking of unknown effective dates, and no inferred old prices. Passing these gates supports a recent verified price-changes feed; it does not by itself establish deep multi-year Pricing History coverage.
+Token prices are only half of the bill: retries and fallbacks decide what one correct answer costs. [`examples/llm_cost_diagnostics.py`](docs/llm-cost-diagnostics.md) splits first-attempt, retry and fallback spend from your own attempt logs, and the open [LLM cost-per-task benchmark](https://github.com/aicostbudget/llm-cost-per-task-benchmark) measures it on 16 tasks with your own API keys. Its first run found a flagship model matching a cheap one on accuracy at 5–9× the cost per successful task.
 
 ## Methodology
 

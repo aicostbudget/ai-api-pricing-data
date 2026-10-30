@@ -56,6 +56,7 @@ WEBSITE_REUSE_FIELDS = {
     "pricing_manifest_sha256",
 }
 RECOVERY_ARTIFACT_EXACT = {
+    "README.md",
     "api/v1/meta.json",
     "api/v1/prices.json",
     "api/v1/prices.csv",
@@ -557,6 +558,7 @@ class RecoveryShellBackend(RecoveryBackend):
         self._run([sys.executable, "scripts/generate_pricing_v2_preview.py", "--website-dataset", str(self.website / "data/model-pricing.json")], self.root)
         self._run([sys.executable, "scripts/export_huggingface.py", "--website-repo", str(self.website), "--website-ref", plan["website_contract"]["website_sha"], "--generated-at", generated_at, "--write"], self.root)
         self._run([sys.executable, "scripts/export_huggingface_history.py", "--write"], self.root)
+        self._run([sys.executable, "scripts/update_readme_prices.py"], self.root)
         self._run([sys.executable, "scripts/validate.py"], self.root)
 
     def commit_artifact(self, plan: dict[str, Any], source_sha: str) -> str:

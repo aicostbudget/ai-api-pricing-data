@@ -208,7 +208,7 @@ class RecoveryIdentityTests(unittest.TestCase):
     def test_s1_is_plan_only_and_s2_is_artifact_only(self):
         *_, arguments = chain_fixture()
         original = arguments[8]
-        for pair, files in [((C0, S1), ["data/canonical/models.json"]), ((S1, S2), ["README.md"])]:
+        for pair, files in [((C0, S1), ["data/canonical/models.json"]), ((S1, S2), ["CONTRIBUTING.md"])]:
             with self.subTest(pair=pair):
                 altered = list(arguments)
                 altered[8] = lambda before, after, pair=pair, files=files: files if (before, after) == pair else original(before, after)

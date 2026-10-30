@@ -582,11 +582,14 @@ class HuggingFaceExportTests(unittest.TestCase):
         readme = (HF_DIR.parent / "README.md").read_text(encoding="utf-8")
         card = (HF_DIR / "README.md").read_text(encoding="utf-8")
 
-        self.assertLess(readme.index("## Dataset access"), readme.index("## Interactive Tools"))
-        self.assertIn("**Canonical dataset page:**", readme)
-        self.assertIn("**Machine-readable downloads:**", readme)
-        self.assertIn("**Hugging Face mirror:**", readme)
-        self.assertIn("**Schema and verification:**", readme)
+        self.assertLess(readme.index("## Get the data"), readme.index("## Interactive Tools"))
+        access = readme.split("## Get the data", 1)[1].split("\n## ", 1)[0]
+        self.assertIn("https://aicostbudget.com/en/datasets/ai-api-pricing", access)
+        self.assertIn("api/v1/prices.json", access)
+        self.assertIn("api/v1/prices.csv", access)
+        self.assertIn("https://huggingface.co/datasets/aicostbudget-ai/ai-api-pricing", access)
+        self.assertIn("[model schema](schema/model.schema.json)", access)
+        self.assertIn("[pricing contract](docs/pricing-contract.md)", access)
         self.assertIn("## Cite this dataset", readme)
         citation = readme.split("## Cite this dataset", 1)[1].split("\n## ", 1)[0]
         self.assertIn("v1.1.0", citation)

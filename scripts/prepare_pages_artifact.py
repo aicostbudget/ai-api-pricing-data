@@ -22,6 +22,8 @@ REQUIRED_PUBLIC_PATHS = (
 FORBIDDEN_PUBLIC_PATHS = (
     ".git", ".github", "data", "schema", "scripts", "tests", "pyproject.toml",
 )
+# Hand-written static pages published beside the API (published path -> repository path).
+STATIC_PAGES = {"index.html": "pages/index.html"}
 
 
 def relative_manifest(path: Path) -> list[str]:
@@ -124,6 +126,9 @@ def recovery_committed_pages(artifact_ref: str = "HEAD") -> tuple[dict[str, byte
 
 def copy_public_pages(output_dir: Path, release_sha: str, source_root: Path = ROOT) -> dict[str, Any]:
     files, approved_sha = workspace_pages(source_root, release_sha)
+    for published, source in STATIC_PAGES.items():
+        if (source_root / source).is_file():
+            files[published] = (source_root / source).read_bytes()
     output = ensure_safe_output_dir(output_dir)
     if output.exists():
         shutil.rmtree(output)
