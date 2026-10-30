@@ -165,7 +165,7 @@ function parseEvents(jsonl: string): RawRecord[] {
 }
 
 export function createPricingMcpServer(options: PricingMcpServerOptions = {}): McpServer {
-  const server = new McpServer({ name: "ai-api-pricing-mcp", version: "0.1.0" });
+  const server = new McpServer({ name: "ai-api-pricing-mcp", version: "0.1.1" });
   const fetchImpl = options.fetchImpl ?? globalThis.fetch;
   let sitemapCache: { expiresAt: number; urls: Set<string> } | undefined;
 

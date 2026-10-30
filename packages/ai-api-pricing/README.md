@@ -2,6 +2,8 @@
 
 Zero-runtime-dependency TypeScript/JavaScript access to the source-linked [AICostBudget AI API Pricing Dataset](https://aicostbudget.com/en/datasets/ai-api-pricing).
 
+Data, history and issue tracker: [aicostbudget/ai-api-pricing-data on GitHub](https://github.com/aicostbudget/ai-api-pricing-data). Spot a wrong price? [Open an issue](https://github.com/aicostbudget/ai-api-pricing-data/issues) with the official source link.
+
 ```bash
 npm install ai-api-pricing
 ```
