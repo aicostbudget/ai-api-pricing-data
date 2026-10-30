@@ -1,0 +1,79 @@
+{
+  "accessed_at": "2026-10-30T13:00:01Z",
+  "display_name": "Grok Imagine Image",
+  "effective_from": null,
+  "input_modality": "image",
+  "last_verified_at": "2026-10-30T13:00:01Z",
+  "model_category": "image_generation",
+  "model_family": "Grok Imagine Image",
+  "model_id": "grok-imagine-image",
+  "notes": "Output is $0.02 per image at 1K and 2K; image input is $0.002 per image. Batch is supported and billed at standard rates.",
+  "official_source_url": "https://docs.x.ai/developers/pricing",
+  "official_source_urls": [
+    "https://docs.x.ai/developers/pricing",
+    "https://docs.x.ai/developers/models/grok-imagine-image"
+  ],
+  "output_modality": "image",
+  "pricing": {
+    "batch_input": null,
+    "batch_output": null,
+    "cache_write": null,
+    "cache_write_1h": null,
+    "cached_input": null,
+    "currency": "USD",
+    "input": null,
+    "output": null,
+    "unit": null
+  },
+  "pricing_components": [
+    {
+      "amount": 0.002,
+      "calculation_default": false,
+      "component": "input",
+      "currency": "USD",
+      "effective_from": null,
+      "effective_until": null,
+      "id": "media_input_image",
+      "modality": "image",
+      "pricing_status": "current",
+      "processing_mode": "standard",
+      "unit": "per_image"
+    },
+    {
+      "amount": 0.02,
+      "calculation_default": true,
+      "component": "output",
+      "configuration": {
+        "resolution": "1k"
+      },
+      "currency": "USD",
+      "effective_from": null,
+      "effective_until": null,
+      "id": "output_image_1k",
+      "modality": "image",
+      "pricing_status": "current",
+      "processing_mode": "standard",
+      "unit": "per_image"
+    },
+    {
+      "amount": 0.02,
+      "calculation_default": false,
+      "component": "output",
+      "configuration": {
+        "resolution": "2k"
+      },
+      "currency": "USD",
+      "effective_from": null,
+      "effective_until": null,
+      "id": "output_image_2k",
+      "modality": "image",
+      "pricing_status": "current",
+      "processing_mode": "standard",
+      "unit": "per_image"
+    }
+  ],
+  "provider_id": "xai",
+  "release_stage": "stable",
+  "released_at": null,
+  "status": "active"
+}

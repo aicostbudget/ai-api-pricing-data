@@ -187,6 +187,13 @@ class PricingGovernanceTests(unittest.TestCase):
         self.assertEqual(contract_deferred, {
             "xai/grok-imagine-image-quality",
             "xai/grok-imagine-image-2.0",
+            "xai/grok-imagine-image",
+            "openai/gpt-image-2.5-sunburst",
+            "openai/gpt-image-2.5-flare",
+            "openai/gpt-image-2",
+            "google-gemini/gemini-3.1-flash-image",
+            "google-gemini/gemini-3.1-flash-lite-image",
+            "google-gemini/gemini-3-pro-image",
         })
         lifecycle_only = {
             key for key in excluded

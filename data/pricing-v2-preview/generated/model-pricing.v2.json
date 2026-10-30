@@ -9,7 +9,7 @@
     "review_required": "display only with warning; no default or recommendation placement",
     "unsafe": "exclude from default calculations and show warning only where explicitly allowed"
   },
-  "effectiveAt": "2026-10-30T08:39:02Z",
+  "effectiveAt": "2026-10-30T13:02:07Z",
   "effectiveTimezone": "UTC",
   "failureBehavior": {
     "atomicWrite": true,
@@ -18,7 +18,7 @@
     "partialJson": "not_written",
     "publicV1Mutation": "forbidden"
   },
-  "generatedAt": "2026-10-30T08:39:02Z",
+  "generatedAt": "2026-10-30T13:02:07Z",
   "generatedAtPolicy": "UTC artifact generation timestamp injected by the generation pipeline",
   "governancePolicy": {
     "classes": [
@@ -14550,6 +14550,476 @@
     },
     {
       "accessAuthority": {
+        "baseRevision": "ec9587ec883ee0ec253ba02869030a8aa8daf364",
+        "factSha256": "96ff893e6c3e833719098f61e87a8d7fe9a3b3899bddb56ee72dbc52e92ae756",
+        "kind": "canonical",
+        "revisionScope": "base_revision_plus_fact_digest"
+      },
+      "accessCheckedAt": null,
+      "accessEvidence": [],
+      "accessStatus": "unknown",
+      "aliasTargetInternalId": null,
+      "availability": "active",
+      "batchInputPrice": null,
+      "batchOutputPrice": null,
+      "billingModelInternalId": null,
+      "bindingEvidence": [],
+      "bindingStatus": "unresolved",
+      "blockedFromDefaultReasons": [
+        "missing_verified_current_price"
+      ],
+      "cachedInputPrice": null,
+      "canonicalInternalId": "google-gemini/gemini-3-pro-image",
+      "checkedAt": "2026-10-30T12:59:54Z",
+      "checkedSourceRefs": [
+        "source:google-gemini:ai-google-dev-gemini-api-docs-pricing"
+      ],
+      "contextWindow": null,
+      "contextWindowStatus": "unknown_not_guessed",
+      "defaultPriceSelectionRule": [
+        "current_effective_utc",
+        "verified",
+        "standard",
+        "text",
+        "default_context_class"
+      ],
+      "defaultSafe": false,
+      "deprecationDate": null,
+      "governanceClass": "PROJECTED_IDENTITY",
+      "governanceDetails": "Structured pricing cannot be represented losslessly by the current public Dataset 1.5 contract.",
+      "governanceReason": "internal_structured_pricing_deferred_from_public_dataset",
+      "governanceSourceCandidateIds": [
+        "google-gemini/gemini-3-pro-image"
+      ],
+      "id": "gemini-3-pro-image",
+      "identityType": "canonical_model",
+      "inputPrice": null,
+      "lifecycleStatus": "active",
+      "model": "Gemini 3 Pro Image",
+      "officialSourceUrl": "https://ai.google.dev/gemini-api/docs/pricing",
+      "outputPrice": null,
+      "priceRecords": [
+        {
+          "calculationDefault": false,
+          "checkedAt": null,
+          "contextClass": "short",
+          "effectiveFrom": null,
+          "effectiveUntil": null,
+          "pricingId": "price:google-gemini/gemini-3-pro-image:standard:short:current:media_input_image",
+          "pricingStatus": "current",
+          "processingMode": "standard",
+          "sourceRefs": [
+            "source:google-gemini:ai-google-dev-gemini-api-docs-models-gemini-3-pro-image",
+            "source:google-gemini:ai-google-dev-gemini-api-docs-pricing"
+          ],
+          "verificationStatus": "verified",
+          "verifiedAt": null
+        },
+        {
+          "calculationDefault": true,
+          "checkedAt": null,
+          "contextClass": "short",
+          "effectiveFrom": null,
+          "effectiveUntil": null,
+          "pricingId": "price:google-gemini/gemini-3-pro-image:standard:short:current:output_image_1k_2k",
+          "pricingStatus": "current",
+          "processingMode": "standard",
+          "sourceRefs": [
+            "source:google-gemini:ai-google-dev-gemini-api-docs-models-gemini-3-pro-image",
+            "source:google-gemini:ai-google-dev-gemini-api-docs-pricing"
+          ],
+          "verificationStatus": "verified",
+          "verifiedAt": null
+        },
+        {
+          "calculationDefault": false,
+          "checkedAt": null,
+          "contextClass": "short",
+          "effectiveFrom": null,
+          "effectiveUntil": null,
+          "pricingId": "price:google-gemini/gemini-3-pro-image:standard:short:current:output_image_4k",
+          "pricingStatus": "current",
+          "processingMode": "standard",
+          "sourceRefs": [
+            "source:google-gemini:ai-google-dev-gemini-api-docs-models-gemini-3-pro-image",
+            "source:google-gemini:ai-google-dev-gemini-api-docs-pricing"
+          ],
+          "verificationStatus": "verified",
+          "verifiedAt": null
+        }
+      ],
+      "pricingComponents": [
+        {
+          "amount": "0.0011",
+          "calculationDefault": false,
+          "chargeId": "price:google-gemini/gemini-3-pro-image:standard:short:current:media_input_image:input:image:per_image",
+          "component": "input",
+          "condition": {
+            "contextClass": "short",
+            "effectiveFrom": null,
+            "effectiveUntil": null,
+            "processingMode": "standard",
+            "promptTokenThreshold": null,
+            "regionPolicy": "global",
+            "tierSelection": null
+          },
+          "currency": "USD",
+          "modality": "image",
+          "pricingId": "price:google-gemini/gemini-3-pro-image:standard:short:current:media_input_image",
+          "sourceRefs": [
+            "source:google-gemini:ai-google-dev-gemini-api-docs-models-gemini-3-pro-image",
+            "source:google-gemini:ai-google-dev-gemini-api-docs-pricing"
+          ],
+          "unit": "per_image",
+          "verificationStatus": "verified"
+        },
+        {
+          "amount": "0.134",
+          "calculationDefault": true,
+          "chargeId": "price:google-gemini/gemini-3-pro-image:standard:short:current:output_image_1k_2k:output:image:per_image",
+          "component": "output",
+          "condition": {
+            "configuration": {
+              "resolution": "1k_2k"
+            },
+            "contextClass": "short",
+            "effectiveFrom": null,
+            "effectiveUntil": null,
+            "processingMode": "standard",
+            "promptTokenThreshold": null,
+            "regionPolicy": "global",
+            "tierSelection": null
+          },
+          "currency": "USD",
+          "modality": "image",
+          "pricingId": "price:google-gemini/gemini-3-pro-image:standard:short:current:output_image_1k_2k",
+          "sourceRefs": [
+            "source:google-gemini:ai-google-dev-gemini-api-docs-models-gemini-3-pro-image",
+            "source:google-gemini:ai-google-dev-gemini-api-docs-pricing"
+          ],
+          "unit": "per_image",
+          "verificationStatus": "verified"
+        },
+        {
+          "amount": "0.24",
+          "calculationDefault": false,
+          "chargeId": "price:google-gemini/gemini-3-pro-image:standard:short:current:output_image_4k:output:image:per_image",
+          "component": "output",
+          "condition": {
+            "configuration": {
+              "resolution": "4k"
+            },
+            "contextClass": "short",
+            "effectiveFrom": null,
+            "effectiveUntil": null,
+            "processingMode": "standard",
+            "promptTokenThreshold": null,
+            "regionPolicy": "global",
+            "tierSelection": null
+          },
+          "currency": "USD",
+          "modality": "image",
+          "pricingId": "price:google-gemini/gemini-3-pro-image:standard:short:current:output_image_4k",
+          "sourceRefs": [
+            "source:google-gemini:ai-google-dev-gemini-api-docs-models-gemini-3-pro-image",
+            "source:google-gemini:ai-google-dev-gemini-api-docs-pricing"
+          ],
+          "unit": "per_image",
+          "verificationStatus": "verified"
+        }
+      ],
+      "pricingSourceType": "canonical_verified_structured_price",
+      "provider": "google-gemini",
+      "publicExposure": "excluded",
+      "redirectTargetInternalId": null,
+      "releaseSourceRef": null,
+      "releaseSourceUrl": null,
+      "releaseStage": "stable",
+      "releasedAt": null,
+      "replacementInternalId": null,
+      "retirementDate": null,
+      "routingBehavior": "direct",
+      "routingDetails": {},
+      "selectedBatchPriceRecordId": null,
+      "selectedBillingPriceRecordId": "price:google-gemini/gemini-3-pro-image:standard:short:current:output_image_4k",
+      "selectedPriceEffectiveFrom": null,
+      "selectedPriceEffectiveUntil": null,
+      "selectedPriceRecordId": null,
+      "sourceRefs": [
+        "source:google-gemini:ai-google-dev-gemini-api-docs-models-gemini-3-pro-image",
+        "source:google-gemini:ai-google-dev-gemini-api-docs-pricing"
+      ],
+      "sourceUrls": [
+        "https://ai.google.dev/gemini-api/docs/models/gemini-3-pro-image",
+        "https://ai.google.dev/gemini-api/docs/pricing"
+      ],
+      "status": "latest",
+      "verificationStatus": "verified",
+      "verifiedAt": "2026-10-30T12:59:54Z",
+      "verifiedSourceRefs": [
+        "source:google-gemini:ai-google-dev-gemini-api-docs-pricing"
+      ]
+    },
+    {
+      "accessAuthority": {
+        "baseRevision": "ec9587ec883ee0ec253ba02869030a8aa8daf364",
+        "factSha256": "96ff893e6c3e833719098f61e87a8d7fe9a3b3899bddb56ee72dbc52e92ae756",
+        "kind": "canonical",
+        "revisionScope": "base_revision_plus_fact_digest"
+      },
+      "accessCheckedAt": null,
+      "accessEvidence": [],
+      "accessStatus": "unknown",
+      "aliasTargetInternalId": null,
+      "availability": "active",
+      "batchInputPrice": null,
+      "batchOutputPrice": null,
+      "billingModelInternalId": null,
+      "bindingEvidence": [],
+      "bindingStatus": "unresolved",
+      "blockedFromDefaultReasons": [
+        "missing_verified_current_price"
+      ],
+      "cachedInputPrice": null,
+      "canonicalInternalId": "google-gemini/gemini-3.1-flash-image",
+      "checkedAt": "2026-10-30T12:59:37Z",
+      "checkedSourceRefs": [
+        "source:google-gemini:ai-google-dev-gemini-api-docs-pricing"
+      ],
+      "contextWindow": null,
+      "contextWindowStatus": "unknown_not_guessed",
+      "defaultPriceSelectionRule": [
+        "current_effective_utc",
+        "verified",
+        "standard",
+        "text",
+        "default_context_class"
+      ],
+      "defaultSafe": false,
+      "deprecationDate": null,
+      "governanceClass": "PROJECTED_IDENTITY",
+      "governanceDetails": "Structured pricing cannot be represented losslessly by the current public Dataset 1.5 contract.",
+      "governanceReason": "internal_structured_pricing_deferred_from_public_dataset",
+      "governanceSourceCandidateIds": [
+        "google-gemini/gemini-3.1-flash-image"
+      ],
+      "id": "gemini-3.1-flash-image",
+      "identityType": "canonical_model",
+      "inputPrice": null,
+      "lifecycleStatus": "active",
+      "model": "Gemini 3.1 Flash Image",
+      "officialSourceUrl": "https://ai.google.dev/gemini-api/docs/pricing",
+      "outputPrice": null,
+      "priceRecords": [
+        {
+          "calculationDefault": false,
+          "checkedAt": null,
+          "contextClass": "short",
+          "effectiveFrom": null,
+          "effectiveUntil": null,
+          "pricingId": "price:google-gemini/gemini-3.1-flash-image:standard:short:current:output_image_0.5k",
+          "pricingStatus": "current",
+          "processingMode": "standard",
+          "sourceRefs": [
+            "source:google-gemini:ai-google-dev-gemini-api-docs-models-gemini-3-1-flash-image",
+            "source:google-gemini:ai-google-dev-gemini-api-docs-pricing"
+          ],
+          "verificationStatus": "verified",
+          "verifiedAt": null
+        },
+        {
+          "calculationDefault": true,
+          "checkedAt": null,
+          "contextClass": "short",
+          "effectiveFrom": null,
+          "effectiveUntil": null,
+          "pricingId": "price:google-gemini/gemini-3.1-flash-image:standard:short:current:output_image_1k",
+          "pricingStatus": "current",
+          "processingMode": "standard",
+          "sourceRefs": [
+            "source:google-gemini:ai-google-dev-gemini-api-docs-models-gemini-3-1-flash-image",
+            "source:google-gemini:ai-google-dev-gemini-api-docs-pricing"
+          ],
+          "verificationStatus": "verified",
+          "verifiedAt": null
+        },
+        {
+          "calculationDefault": false,
+          "checkedAt": null,
+          "contextClass": "short",
+          "effectiveFrom": null,
+          "effectiveUntil": null,
+          "pricingId": "price:google-gemini/gemini-3.1-flash-image:standard:short:current:output_image_2k",
+          "pricingStatus": "current",
+          "processingMode": "standard",
+          "sourceRefs": [
+            "source:google-gemini:ai-google-dev-gemini-api-docs-models-gemini-3-1-flash-image",
+            "source:google-gemini:ai-google-dev-gemini-api-docs-pricing"
+          ],
+          "verificationStatus": "verified",
+          "verifiedAt": null
+        },
+        {
+          "calculationDefault": false,
+          "checkedAt": null,
+          "contextClass": "short",
+          "effectiveFrom": null,
+          "effectiveUntil": null,
+          "pricingId": "price:google-gemini/gemini-3.1-flash-image:standard:short:current:output_image_4k",
+          "pricingStatus": "current",
+          "processingMode": "standard",
+          "sourceRefs": [
+            "source:google-gemini:ai-google-dev-gemini-api-docs-models-gemini-3-1-flash-image",
+            "source:google-gemini:ai-google-dev-gemini-api-docs-pricing"
+          ],
+          "verificationStatus": "verified",
+          "verifiedAt": null
+        }
+      ],
+      "pricingComponents": [
+        {
+          "amount": "0.045",
+          "calculationDefault": false,
+          "chargeId": "price:google-gemini/gemini-3.1-flash-image:standard:short:current:output_image_0.5k:output:image:per_image",
+          "component": "output",
+          "condition": {
+            "configuration": {
+              "resolution": "0.5k"
+            },
+            "contextClass": "short",
+            "effectiveFrom": null,
+            "effectiveUntil": null,
+            "processingMode": "standard",
+            "promptTokenThreshold": null,
+            "regionPolicy": "global",
+            "tierSelection": null
+          },
+          "currency": "USD",
+          "modality": "image",
+          "pricingId": "price:google-gemini/gemini-3.1-flash-image:standard:short:current:output_image_0.5k",
+          "sourceRefs": [
+            "source:google-gemini:ai-google-dev-gemini-api-docs-models-gemini-3-1-flash-image",
+            "source:google-gemini:ai-google-dev-gemini-api-docs-pricing"
+          ],
+          "unit": "per_image",
+          "verificationStatus": "verified"
+        },
+        {
+          "amount": "0.067",
+          "calculationDefault": true,
+          "chargeId": "price:google-gemini/gemini-3.1-flash-image:standard:short:current:output_image_1k:output:image:per_image",
+          "component": "output",
+          "condition": {
+            "configuration": {
+              "resolution": "1k"
+            },
+            "contextClass": "short",
+            "effectiveFrom": null,
+            "effectiveUntil": null,
+            "processingMode": "standard",
+            "promptTokenThreshold": null,
+            "regionPolicy": "global",
+            "tierSelection": null
+          },
+          "currency": "USD",
+          "modality": "image",
+          "pricingId": "price:google-gemini/gemini-3.1-flash-image:standard:short:current:output_image_1k",
+          "sourceRefs": [
+            "source:google-gemini:ai-google-dev-gemini-api-docs-models-gemini-3-1-flash-image",
+            "source:google-gemini:ai-google-dev-gemini-api-docs-pricing"
+          ],
+          "unit": "per_image",
+          "verificationStatus": "verified"
+        },
+        {
+          "amount": "0.101",
+          "calculationDefault": false,
+          "chargeId": "price:google-gemini/gemini-3.1-flash-image:standard:short:current:output_image_2k:output:image:per_image",
+          "component": "output",
+          "condition": {
+            "configuration": {
+              "resolution": "2k"
+            },
+            "contextClass": "short",
+            "effectiveFrom": null,
+            "effectiveUntil": null,
+            "processingMode": "standard",
+            "promptTokenThreshold": null,
+            "regionPolicy": "global",
+            "tierSelection": null
+          },
+          "currency": "USD",
+          "modality": "image",
+          "pricingId": "price:google-gemini/gemini-3.1-flash-image:standard:short:current:output_image_2k",
+          "sourceRefs": [
+            "source:google-gemini:ai-google-dev-gemini-api-docs-models-gemini-3-1-flash-image",
+            "source:google-gemini:ai-google-dev-gemini-api-docs-pricing"
+          ],
+          "unit": "per_image",
+          "verificationStatus": "verified"
+        },
+        {
+          "amount": "0.151",
+          "calculationDefault": false,
+          "chargeId": "price:google-gemini/gemini-3.1-flash-image:standard:short:current:output_image_4k:output:image:per_image",
+          "component": "output",
+          "condition": {
+            "configuration": {
+              "resolution": "4k"
+            },
+            "contextClass": "short",
+            "effectiveFrom": null,
+            "effectiveUntil": null,
+            "processingMode": "standard",
+            "promptTokenThreshold": null,
+            "regionPolicy": "global",
+            "tierSelection": null
+          },
+          "currency": "USD",
+          "modality": "image",
+          "pricingId": "price:google-gemini/gemini-3.1-flash-image:standard:short:current:output_image_4k",
+          "sourceRefs": [
+            "source:google-gemini:ai-google-dev-gemini-api-docs-models-gemini-3-1-flash-image",
+            "source:google-gemini:ai-google-dev-gemini-api-docs-pricing"
+          ],
+          "unit": "per_image",
+          "verificationStatus": "verified"
+        }
+      ],
+      "pricingSourceType": "canonical_verified_structured_price",
+      "provider": "google-gemini",
+      "publicExposure": "excluded",
+      "redirectTargetInternalId": null,
+      "releaseSourceRef": null,
+      "releaseSourceUrl": null,
+      "releaseStage": "stable",
+      "releasedAt": null,
+      "replacementInternalId": null,
+      "retirementDate": null,
+      "routingBehavior": "direct",
+      "routingDetails": {},
+      "selectedBatchPriceRecordId": null,
+      "selectedBillingPriceRecordId": "price:google-gemini/gemini-3.1-flash-image:standard:short:current:output_image_4k",
+      "selectedPriceEffectiveFrom": null,
+      "selectedPriceEffectiveUntil": null,
+      "selectedPriceRecordId": null,
+      "sourceRefs": [
+        "source:google-gemini:ai-google-dev-gemini-api-docs-models-gemini-3-1-flash-image",
+        "source:google-gemini:ai-google-dev-gemini-api-docs-pricing"
+      ],
+      "sourceUrls": [
+        "https://ai.google.dev/gemini-api/docs/models/gemini-3.1-flash-image",
+        "https://ai.google.dev/gemini-api/docs/pricing"
+      ],
+      "status": "latest",
+      "verificationStatus": "verified",
+      "verifiedAt": "2026-10-30T12:59:37Z",
+      "verifiedSourceRefs": [
+        "source:google-gemini:ai-google-dev-gemini-api-docs-pricing"
+      ]
+    },
+    {
+      "accessAuthority": {
         "baseRevision": "80c2ec4991bcaaf795fe9192946f5ec770d57f48",
         "factSha256": "9fe81f113449fd816f8522fdedae030e61021d475e8d13f5cca8f1e8ea92b8c6",
         "kind": "canonical",
@@ -14884,6 +15354,135 @@
       "status": "active",
       "verificationStatus": "verified",
       "verifiedAt": "2026-10-27T05:59:36Z",
+      "verifiedSourceRefs": [
+        "source:google-gemini:ai-google-dev-gemini-api-docs-pricing"
+      ]
+    },
+    {
+      "accessAuthority": {
+        "baseRevision": "ec9587ec883ee0ec253ba02869030a8aa8daf364",
+        "factSha256": "96ff893e6c3e833719098f61e87a8d7fe9a3b3899bddb56ee72dbc52e92ae756",
+        "kind": "canonical",
+        "revisionScope": "base_revision_plus_fact_digest"
+      },
+      "accessCheckedAt": null,
+      "accessEvidence": [],
+      "accessStatus": "unknown",
+      "aliasTargetInternalId": null,
+      "availability": "active",
+      "batchInputPrice": null,
+      "batchOutputPrice": null,
+      "billingModelInternalId": null,
+      "bindingEvidence": [],
+      "bindingStatus": "unresolved",
+      "blockedFromDefaultReasons": [
+        "missing_verified_current_price"
+      ],
+      "cachedInputPrice": null,
+      "canonicalInternalId": "google-gemini/gemini-3.1-flash-lite-image",
+      "checkedAt": "2026-10-30T12:59:51Z",
+      "checkedSourceRefs": [
+        "source:google-gemini:ai-google-dev-gemini-api-docs-pricing"
+      ],
+      "contextWindow": null,
+      "contextWindowStatus": "unknown_not_guessed",
+      "defaultPriceSelectionRule": [
+        "current_effective_utc",
+        "verified",
+        "standard",
+        "text",
+        "default_context_class"
+      ],
+      "defaultSafe": false,
+      "deprecationDate": null,
+      "governanceClass": "PROJECTED_IDENTITY",
+      "governanceDetails": "Structured pricing cannot be represented losslessly by the current public Dataset 1.5 contract.",
+      "governanceReason": "internal_structured_pricing_deferred_from_public_dataset",
+      "governanceSourceCandidateIds": [
+        "google-gemini/gemini-3.1-flash-lite-image"
+      ],
+      "id": "gemini-3.1-flash-lite-image",
+      "identityType": "canonical_model",
+      "inputPrice": null,
+      "lifecycleStatus": "active",
+      "model": "Gemini 3.1 Flash Lite Image",
+      "officialSourceUrl": "https://ai.google.dev/gemini-api/docs/pricing",
+      "outputPrice": null,
+      "priceRecords": [
+        {
+          "calculationDefault": true,
+          "checkedAt": null,
+          "contextClass": "short",
+          "effectiveFrom": null,
+          "effectiveUntil": null,
+          "pricingId": "price:google-gemini/gemini-3.1-flash-lite-image:standard:short:current:output_image_1k",
+          "pricingStatus": "current",
+          "processingMode": "standard",
+          "sourceRefs": [
+            "source:google-gemini:ai-google-dev-gemini-api-docs-models-gemini-3-1-flash-lite-image",
+            "source:google-gemini:ai-google-dev-gemini-api-docs-pricing"
+          ],
+          "verificationStatus": "verified",
+          "verifiedAt": null
+        }
+      ],
+      "pricingComponents": [
+        {
+          "amount": "0.0336",
+          "calculationDefault": true,
+          "chargeId": "price:google-gemini/gemini-3.1-flash-lite-image:standard:short:current:output_image_1k:output:image:per_image",
+          "component": "output",
+          "condition": {
+            "configuration": {
+              "resolution": "1k"
+            },
+            "contextClass": "short",
+            "effectiveFrom": null,
+            "effectiveUntil": null,
+            "processingMode": "standard",
+            "promptTokenThreshold": null,
+            "regionPolicy": "global",
+            "tierSelection": null
+          },
+          "currency": "USD",
+          "modality": "image",
+          "pricingId": "price:google-gemini/gemini-3.1-flash-lite-image:standard:short:current:output_image_1k",
+          "sourceRefs": [
+            "source:google-gemini:ai-google-dev-gemini-api-docs-models-gemini-3-1-flash-lite-image",
+            "source:google-gemini:ai-google-dev-gemini-api-docs-pricing"
+          ],
+          "unit": "per_image",
+          "verificationStatus": "verified"
+        }
+      ],
+      "pricingSourceType": "canonical_verified_structured_price",
+      "provider": "google-gemini",
+      "publicExposure": "excluded",
+      "redirectTargetInternalId": null,
+      "releaseSourceRef": null,
+      "releaseSourceUrl": null,
+      "releaseStage": "stable",
+      "releasedAt": null,
+      "replacementInternalId": null,
+      "retirementDate": null,
+      "routingBehavior": "direct",
+      "routingDetails": {},
+      "selectedBatchPriceRecordId": null,
+      "selectedBillingPriceRecordId": "price:google-gemini/gemini-3.1-flash-lite-image:standard:short:current:output_image_1k",
+      "selectedPriceEffectiveFrom": null,
+      "selectedPriceEffectiveUntil": null,
+      "selectedPriceRecordId": null,
+      "sourceRefs": [
+        "source:google-gemini:ai-google-dev-gemini-api-docs-models-gemini-3-1-flash-lite-image",
+        "source:google-gemini:ai-google-dev-gemini-api-docs-pricing"
+      ],
+      "sourceUrls": [
+        "https://ai.google.dev/gemini-api/docs/models/gemini-3.1-flash-lite-image",
+        "https://ai.google.dev/gemini-api/docs/pricing"
+      ],
+      "status": "latest",
+      "verificationStatus": "verified",
+      "verifiedAt": "2026-10-30T12:59:51Z",
       "verifiedSourceRefs": [
         "source:google-gemini:ai-google-dev-gemini-api-docs-pricing"
       ]
@@ -56272,6 +56871,2064 @@
     },
     {
       "accessAuthority": {
+        "baseRevision": "ec9587ec883ee0ec253ba02869030a8aa8daf364",
+        "factSha256": "96ff893e6c3e833719098f61e87a8d7fe9a3b3899bddb56ee72dbc52e92ae756",
+        "kind": "canonical",
+        "revisionScope": "base_revision_plus_fact_digest"
+      },
+      "accessCheckedAt": null,
+      "accessEvidence": [],
+      "accessStatus": "unknown",
+      "aliasTargetInternalId": null,
+      "availability": "active",
+      "batchInputPrice": null,
+      "batchOutputPrice": null,
+      "billingModelInternalId": null,
+      "bindingEvidence": [],
+      "bindingStatus": "unresolved",
+      "blockedFromDefaultReasons": [
+        "missing_verified_current_price"
+      ],
+      "cachedInputPrice": null,
+      "canonicalInternalId": "openai/gpt-image-2",
+      "checkedAt": "2026-10-30T12:59:32Z",
+      "checkedSourceRefs": [
+        "source:openai:developers-openai-com-api-docs-pricing"
+      ],
+      "contextWindow": null,
+      "contextWindowStatus": "unknown_not_guessed",
+      "defaultPriceSelectionRule": [
+        "current_effective_utc",
+        "verified",
+        "standard",
+        "text",
+        "default_context_class"
+      ],
+      "defaultSafe": false,
+      "deprecationDate": null,
+      "governanceClass": "PROJECTED_IDENTITY",
+      "governanceDetails": "Structured pricing cannot be represented losslessly by the current public Dataset 1.5 contract.",
+      "governanceReason": "internal_structured_pricing_deferred_from_public_dataset",
+      "governanceSourceCandidateIds": [
+        "openai/gpt-image-2"
+      ],
+      "id": "gpt-image-2",
+      "identityType": "canonical_model",
+      "inputPrice": null,
+      "lifecycleStatus": "active",
+      "model": "GPT Image 2",
+      "officialSourceUrl": "https://developers.openai.com/api/docs/pricing",
+      "outputPrice": null,
+      "priceRecords": [
+        {
+          "calculationDefault": false,
+          "checkedAt": null,
+          "contextClass": "short",
+          "effectiveFrom": null,
+          "effectiveUntil": null,
+          "pricingId": "price:openai/gpt-image-2:standard:short:current:output_image_1024x1024_high",
+          "pricingStatus": "current",
+          "processingMode": "standard",
+          "sourceRefs": [
+            "source:openai:developers-openai-com-api-docs-guides-image-generation",
+            "source:openai:developers-openai-com-api-docs-models-gpt-image-2",
+            "source:openai:developers-openai-com-api-docs-pricing"
+          ],
+          "verificationStatus": "verified",
+          "verifiedAt": null
+        },
+        {
+          "calculationDefault": false,
+          "checkedAt": null,
+          "contextClass": "short",
+          "effectiveFrom": null,
+          "effectiveUntil": null,
+          "pricingId": "price:openai/gpt-image-2:standard:short:current:output_image_1024x1024_low",
+          "pricingStatus": "current",
+          "processingMode": "standard",
+          "sourceRefs": [
+            "source:openai:developers-openai-com-api-docs-guides-image-generation",
+            "source:openai:developers-openai-com-api-docs-models-gpt-image-2",
+            "source:openai:developers-openai-com-api-docs-pricing"
+          ],
+          "verificationStatus": "verified",
+          "verifiedAt": null
+        },
+        {
+          "calculationDefault": true,
+          "checkedAt": null,
+          "contextClass": "short",
+          "effectiveFrom": null,
+          "effectiveUntil": null,
+          "pricingId": "price:openai/gpt-image-2:standard:short:current:output_image_1024x1024_medium",
+          "pricingStatus": "current",
+          "processingMode": "standard",
+          "sourceRefs": [
+            "source:openai:developers-openai-com-api-docs-guides-image-generation",
+            "source:openai:developers-openai-com-api-docs-models-gpt-image-2",
+            "source:openai:developers-openai-com-api-docs-pricing"
+          ],
+          "verificationStatus": "verified",
+          "verifiedAt": null
+        },
+        {
+          "calculationDefault": false,
+          "checkedAt": null,
+          "contextClass": "short",
+          "effectiveFrom": null,
+          "effectiveUntil": null,
+          "pricingId": "price:openai/gpt-image-2:standard:short:current:output_image_1024x1536_high",
+          "pricingStatus": "current",
+          "processingMode": "standard",
+          "sourceRefs": [
+            "source:openai:developers-openai-com-api-docs-guides-image-generation",
+            "source:openai:developers-openai-com-api-docs-models-gpt-image-2",
+            "source:openai:developers-openai-com-api-docs-pricing"
+          ],
+          "verificationStatus": "verified",
+          "verifiedAt": null
+        },
+        {
+          "calculationDefault": false,
+          "checkedAt": null,
+          "contextClass": "short",
+          "effectiveFrom": null,
+          "effectiveUntil": null,
+          "pricingId": "price:openai/gpt-image-2:standard:short:current:output_image_1024x1536_low",
+          "pricingStatus": "current",
+          "processingMode": "standard",
+          "sourceRefs": [
+            "source:openai:developers-openai-com-api-docs-guides-image-generation",
+            "source:openai:developers-openai-com-api-docs-models-gpt-image-2",
+            "source:openai:developers-openai-com-api-docs-pricing"
+          ],
+          "verificationStatus": "verified",
+          "verifiedAt": null
+        },
+        {
+          "calculationDefault": false,
+          "checkedAt": null,
+          "contextClass": "short",
+          "effectiveFrom": null,
+          "effectiveUntil": null,
+          "pricingId": "price:openai/gpt-image-2:standard:short:current:output_image_1024x1536_medium",
+          "pricingStatus": "current",
+          "processingMode": "standard",
+          "sourceRefs": [
+            "source:openai:developers-openai-com-api-docs-guides-image-generation",
+            "source:openai:developers-openai-com-api-docs-models-gpt-image-2",
+            "source:openai:developers-openai-com-api-docs-pricing"
+          ],
+          "verificationStatus": "verified",
+          "verifiedAt": null
+        },
+        {
+          "calculationDefault": false,
+          "checkedAt": null,
+          "contextClass": "short",
+          "effectiveFrom": null,
+          "effectiveUntil": null,
+          "pricingId": "price:openai/gpt-image-2:standard:short:current:output_image_1536x1024_high",
+          "pricingStatus": "current",
+          "processingMode": "standard",
+          "sourceRefs": [
+            "source:openai:developers-openai-com-api-docs-guides-image-generation",
+            "source:openai:developers-openai-com-api-docs-models-gpt-image-2",
+            "source:openai:developers-openai-com-api-docs-pricing"
+          ],
+          "verificationStatus": "verified",
+          "verifiedAt": null
+        },
+        {
+          "calculationDefault": false,
+          "checkedAt": null,
+          "contextClass": "short",
+          "effectiveFrom": null,
+          "effectiveUntil": null,
+          "pricingId": "price:openai/gpt-image-2:standard:short:current:output_image_1536x1024_low",
+          "pricingStatus": "current",
+          "processingMode": "standard",
+          "sourceRefs": [
+            "source:openai:developers-openai-com-api-docs-guides-image-generation",
+            "source:openai:developers-openai-com-api-docs-models-gpt-image-2",
+            "source:openai:developers-openai-com-api-docs-pricing"
+          ],
+          "verificationStatus": "verified",
+          "verifiedAt": null
+        },
+        {
+          "calculationDefault": false,
+          "checkedAt": null,
+          "contextClass": "short",
+          "effectiveFrom": null,
+          "effectiveUntil": null,
+          "pricingId": "price:openai/gpt-image-2:standard:short:current:output_image_1536x1024_medium",
+          "pricingStatus": "current",
+          "processingMode": "standard",
+          "sourceRefs": [
+            "source:openai:developers-openai-com-api-docs-guides-image-generation",
+            "source:openai:developers-openai-com-api-docs-models-gpt-image-2",
+            "source:openai:developers-openai-com-api-docs-pricing"
+          ],
+          "verificationStatus": "verified",
+          "verifiedAt": null
+        }
+      ],
+      "pricingComponents": [
+        {
+          "amount": "0.21072",
+          "calculationDefault": false,
+          "chargeId": "price:openai/gpt-image-2:standard:short:current:output_image_1024x1024_high:output:image:per_image",
+          "component": "output",
+          "condition": {
+            "configuration": {
+              "quality": "high",
+              "size": "1024x1024"
+            },
+            "contextClass": "short",
+            "effectiveFrom": null,
+            "effectiveUntil": null,
+            "processingMode": "standard",
+            "promptTokenThreshold": null,
+            "regionPolicy": "global",
+            "tierSelection": null
+          },
+          "currency": "USD",
+          "modality": "image",
+          "pricingId": "price:openai/gpt-image-2:standard:short:current:output_image_1024x1024_high",
+          "sourceRefs": [
+            "source:openai:developers-openai-com-api-docs-guides-image-generation",
+            "source:openai:developers-openai-com-api-docs-models-gpt-image-2",
+            "source:openai:developers-openai-com-api-docs-pricing"
+          ],
+          "unit": "per_image",
+          "verificationStatus": "verified"
+        },
+        {
+          "amount": "0.00588",
+          "calculationDefault": false,
+          "chargeId": "price:openai/gpt-image-2:standard:short:current:output_image_1024x1024_low:output:image:per_image",
+          "component": "output",
+          "condition": {
+            "configuration": {
+              "quality": "low",
+              "size": "1024x1024"
+            },
+            "contextClass": "short",
+            "effectiveFrom": null,
+            "effectiveUntil": null,
+            "processingMode": "standard",
+            "promptTokenThreshold": null,
+            "regionPolicy": "global",
+            "tierSelection": null
+          },
+          "currency": "USD",
+          "modality": "image",
+          "pricingId": "price:openai/gpt-image-2:standard:short:current:output_image_1024x1024_low",
+          "sourceRefs": [
+            "source:openai:developers-openai-com-api-docs-guides-image-generation",
+            "source:openai:developers-openai-com-api-docs-models-gpt-image-2",
+            "source:openai:developers-openai-com-api-docs-pricing"
+          ],
+          "unit": "per_image",
+          "verificationStatus": "verified"
+        },
+        {
+          "amount": "0.05268",
+          "calculationDefault": true,
+          "chargeId": "price:openai/gpt-image-2:standard:short:current:output_image_1024x1024_medium:output:image:per_image",
+          "component": "output",
+          "condition": {
+            "configuration": {
+              "quality": "medium",
+              "size": "1024x1024"
+            },
+            "contextClass": "short",
+            "effectiveFrom": null,
+            "effectiveUntil": null,
+            "processingMode": "standard",
+            "promptTokenThreshold": null,
+            "regionPolicy": "global",
+            "tierSelection": null
+          },
+          "currency": "USD",
+          "modality": "image",
+          "pricingId": "price:openai/gpt-image-2:standard:short:current:output_image_1024x1024_medium",
+          "sourceRefs": [
+            "source:openai:developers-openai-com-api-docs-guides-image-generation",
+            "source:openai:developers-openai-com-api-docs-models-gpt-image-2",
+            "source:openai:developers-openai-com-api-docs-pricing"
+          ],
+          "unit": "per_image",
+          "verificationStatus": "verified"
+        },
+        {
+          "amount": "0.16464",
+          "calculationDefault": false,
+          "chargeId": "price:openai/gpt-image-2:standard:short:current:output_image_1024x1536_high:output:image:per_image",
+          "component": "output",
+          "condition": {
+            "configuration": {
+              "quality": "high",
+              "size": "1024x1536"
+            },
+            "contextClass": "short",
+            "effectiveFrom": null,
+            "effectiveUntil": null,
+            "processingMode": "standard",
+            "promptTokenThreshold": null,
+            "regionPolicy": "global",
+            "tierSelection": null
+          },
+          "currency": "USD",
+          "modality": "image",
+          "pricingId": "price:openai/gpt-image-2:standard:short:current:output_image_1024x1536_high",
+          "sourceRefs": [
+            "source:openai:developers-openai-com-api-docs-guides-image-generation",
+            "source:openai:developers-openai-com-api-docs-models-gpt-image-2",
+            "source:openai:developers-openai-com-api-docs-pricing"
+          ],
+          "unit": "per_image",
+          "verificationStatus": "verified"
+        },
+        {
+          "amount": "0.00474",
+          "calculationDefault": false,
+          "chargeId": "price:openai/gpt-image-2:standard:short:current:output_image_1024x1536_low:output:image:per_image",
+          "component": "output",
+          "condition": {
+            "configuration": {
+              "quality": "low",
+              "size": "1024x1536"
+            },
+            "contextClass": "short",
+            "effectiveFrom": null,
+            "effectiveUntil": null,
+            "processingMode": "standard",
+            "promptTokenThreshold": null,
+            "regionPolicy": "global",
+            "tierSelection": null
+          },
+          "currency": "USD",
+          "modality": "image",
+          "pricingId": "price:openai/gpt-image-2:standard:short:current:output_image_1024x1536_low",
+          "sourceRefs": [
+            "source:openai:developers-openai-com-api-docs-guides-image-generation",
+            "source:openai:developers-openai-com-api-docs-models-gpt-image-2",
+            "source:openai:developers-openai-com-api-docs-pricing"
+          ],
+          "unit": "per_image",
+          "verificationStatus": "verified"
+        },
+        {
+          "amount": "0.04116",
+          "calculationDefault": false,
+          "chargeId": "price:openai/gpt-image-2:standard:short:current:output_image_1024x1536_medium:output:image:per_image",
+          "component": "output",
+          "condition": {
+            "configuration": {
+              "quality": "medium",
+              "size": "1024x1536"
+            },
+            "contextClass": "short",
+            "effectiveFrom": null,
+            "effectiveUntil": null,
+            "processingMode": "standard",
+            "promptTokenThreshold": null,
+            "regionPolicy": "global",
+            "tierSelection": null
+          },
+          "currency": "USD",
+          "modality": "image",
+          "pricingId": "price:openai/gpt-image-2:standard:short:current:output_image_1024x1536_medium",
+          "sourceRefs": [
+            "source:openai:developers-openai-com-api-docs-guides-image-generation",
+            "source:openai:developers-openai-com-api-docs-models-gpt-image-2",
+            "source:openai:developers-openai-com-api-docs-pricing"
+          ],
+          "unit": "per_image",
+          "verificationStatus": "verified"
+        },
+        {
+          "amount": "0.16464",
+          "calculationDefault": false,
+          "chargeId": "price:openai/gpt-image-2:standard:short:current:output_image_1536x1024_high:output:image:per_image",
+          "component": "output",
+          "condition": {
+            "configuration": {
+              "quality": "high",
+              "size": "1536x1024"
+            },
+            "contextClass": "short",
+            "effectiveFrom": null,
+            "effectiveUntil": null,
+            "processingMode": "standard",
+            "promptTokenThreshold": null,
+            "regionPolicy": "global",
+            "tierSelection": null
+          },
+          "currency": "USD",
+          "modality": "image",
+          "pricingId": "price:openai/gpt-image-2:standard:short:current:output_image_1536x1024_high",
+          "sourceRefs": [
+            "source:openai:developers-openai-com-api-docs-guides-image-generation",
+            "source:openai:developers-openai-com-api-docs-models-gpt-image-2",
+            "source:openai:developers-openai-com-api-docs-pricing"
+          ],
+          "unit": "per_image",
+          "verificationStatus": "verified"
+        },
+        {
+          "amount": "0.00474",
+          "calculationDefault": false,
+          "chargeId": "price:openai/gpt-image-2:standard:short:current:output_image_1536x1024_low:output:image:per_image",
+          "component": "output",
+          "condition": {
+            "configuration": {
+              "quality": "low",
+              "size": "1536x1024"
+            },
+            "contextClass": "short",
+            "effectiveFrom": null,
+            "effectiveUntil": null,
+            "processingMode": "standard",
+            "promptTokenThreshold": null,
+            "regionPolicy": "global",
+            "tierSelection": null
+          },
+          "currency": "USD",
+          "modality": "image",
+          "pricingId": "price:openai/gpt-image-2:standard:short:current:output_image_1536x1024_low",
+          "sourceRefs": [
+            "source:openai:developers-openai-com-api-docs-guides-image-generation",
+            "source:openai:developers-openai-com-api-docs-models-gpt-image-2",
+            "source:openai:developers-openai-com-api-docs-pricing"
+          ],
+          "unit": "per_image",
+          "verificationStatus": "verified"
+        },
+        {
+          "amount": "0.04116",
+          "calculationDefault": false,
+          "chargeId": "price:openai/gpt-image-2:standard:short:current:output_image_1536x1024_medium:output:image:per_image",
+          "component": "output",
+          "condition": {
+            "configuration": {
+              "quality": "medium",
+              "size": "1536x1024"
+            },
+            "contextClass": "short",
+            "effectiveFrom": null,
+            "effectiveUntil": null,
+            "processingMode": "standard",
+            "promptTokenThreshold": null,
+            "regionPolicy": "global",
+            "tierSelection": null
+          },
+          "currency": "USD",
+          "modality": "image",
+          "pricingId": "price:openai/gpt-image-2:standard:short:current:output_image_1536x1024_medium",
+          "sourceRefs": [
+            "source:openai:developers-openai-com-api-docs-guides-image-generation",
+            "source:openai:developers-openai-com-api-docs-models-gpt-image-2",
+            "source:openai:developers-openai-com-api-docs-pricing"
+          ],
+          "unit": "per_image",
+          "verificationStatus": "verified"
+        }
+      ],
+      "pricingSourceType": "canonical_verified_structured_price",
+      "provider": "openai",
+      "publicExposure": "excluded",
+      "redirectTargetInternalId": null,
+      "releaseSourceRef": null,
+      "releaseSourceUrl": null,
+      "releaseStage": "stable",
+      "releasedAt": null,
+      "replacementInternalId": null,
+      "retirementDate": null,
+      "routingBehavior": "direct",
+      "routingDetails": {},
+      "selectedBatchPriceRecordId": null,
+      "selectedBillingPriceRecordId": "price:openai/gpt-image-2:standard:short:current:output_image_1536x1024_medium",
+      "selectedPriceEffectiveFrom": null,
+      "selectedPriceEffectiveUntil": null,
+      "selectedPriceRecordId": null,
+      "sourceRefs": [
+        "source:openai:developers-openai-com-api-docs-guides-image-generation",
+        "source:openai:developers-openai-com-api-docs-models-gpt-image-2",
+        "source:openai:developers-openai-com-api-docs-pricing"
+      ],
+      "sourceUrls": [
+        "https://developers.openai.com/api/docs/guides/image-generation",
+        "https://developers.openai.com/api/docs/models/gpt-image-2",
+        "https://developers.openai.com/api/docs/pricing"
+      ],
+      "status": "latest",
+      "verificationStatus": "verified",
+      "verifiedAt": "2026-10-30T12:59:32Z",
+      "verifiedSourceRefs": [
+        "source:openai:developers-openai-com-api-docs-pricing"
+      ]
+    },
+    {
+      "accessAuthority": {
+        "baseRevision": "ec9587ec883ee0ec253ba02869030a8aa8daf364",
+        "factSha256": "96ff893e6c3e833719098f61e87a8d7fe9a3b3899bddb56ee72dbc52e92ae756",
+        "kind": "canonical",
+        "revisionScope": "base_revision_plus_fact_digest"
+      },
+      "accessCheckedAt": null,
+      "accessEvidence": [],
+      "accessStatus": "unknown",
+      "aliasTargetInternalId": null,
+      "availability": "active",
+      "batchInputPrice": null,
+      "batchOutputPrice": null,
+      "billingModelInternalId": null,
+      "bindingEvidence": [],
+      "bindingStatus": "unresolved",
+      "blockedFromDefaultReasons": [
+        "missing_verified_current_price"
+      ],
+      "cachedInputPrice": null,
+      "canonicalInternalId": "openai/gpt-image-2.5-flare",
+      "checkedAt": "2026-10-30T12:59:23Z",
+      "checkedSourceRefs": [
+        "source:openai:developers-openai-com-api-docs-pricing"
+      ],
+      "contextWindow": null,
+      "contextWindowStatus": "unknown_not_guessed",
+      "defaultPriceSelectionRule": [
+        "current_effective_utc",
+        "verified",
+        "standard",
+        "text",
+        "default_context_class"
+      ],
+      "defaultSafe": false,
+      "deprecationDate": null,
+      "governanceClass": "PROJECTED_IDENTITY",
+      "governanceDetails": "Structured pricing cannot be represented losslessly by the current public Dataset 1.5 contract.",
+      "governanceReason": "internal_structured_pricing_deferred_from_public_dataset",
+      "governanceSourceCandidateIds": [
+        "openai/gpt-image-2.5-flare"
+      ],
+      "id": "gpt-image-2.5-flare",
+      "identityType": "canonical_model",
+      "inputPrice": null,
+      "lifecycleStatus": "active",
+      "model": "GPT Image 2.5 Flare",
+      "officialSourceUrl": "https://developers.openai.com/api/docs/pricing",
+      "outputPrice": null,
+      "priceRecords": [
+        {
+          "calculationDefault": false,
+          "checkedAt": null,
+          "contextClass": "short",
+          "effectiveFrom": null,
+          "effectiveUntil": null,
+          "pricingId": "price:openai/gpt-image-2.5-flare:standard:short:current:output_image_1024x1024_high",
+          "pricingStatus": "current",
+          "processingMode": "standard",
+          "sourceRefs": [
+            "source:openai:developers-openai-com-api-docs-guides-image-generation",
+            "source:openai:developers-openai-com-api-docs-models-gpt-image-2-5-flare",
+            "source:openai:developers-openai-com-api-docs-pricing"
+          ],
+          "verificationStatus": "verified",
+          "verifiedAt": null
+        },
+        {
+          "calculationDefault": false,
+          "checkedAt": null,
+          "contextClass": "short",
+          "effectiveFrom": null,
+          "effectiveUntil": null,
+          "pricingId": "price:openai/gpt-image-2.5-flare:standard:short:current:output_image_1024x1024_low",
+          "pricingStatus": "current",
+          "processingMode": "standard",
+          "sourceRefs": [
+            "source:openai:developers-openai-com-api-docs-guides-image-generation",
+            "source:openai:developers-openai-com-api-docs-models-gpt-image-2-5-flare",
+            "source:openai:developers-openai-com-api-docs-pricing"
+          ],
+          "verificationStatus": "verified",
+          "verifiedAt": null
+        },
+        {
+          "calculationDefault": false,
+          "checkedAt": null,
+          "contextClass": "short",
+          "effectiveFrom": null,
+          "effectiveUntil": null,
+          "pricingId": "price:openai/gpt-image-2.5-flare:standard:short:current:output_image_1024x1024_max",
+          "pricingStatus": "current",
+          "processingMode": "standard",
+          "sourceRefs": [
+            "source:openai:developers-openai-com-api-docs-guides-image-generation",
+            "source:openai:developers-openai-com-api-docs-models-gpt-image-2-5-flare",
+            "source:openai:developers-openai-com-api-docs-pricing"
+          ],
+          "verificationStatus": "verified",
+          "verifiedAt": null
+        },
+        {
+          "calculationDefault": true,
+          "checkedAt": null,
+          "contextClass": "short",
+          "effectiveFrom": null,
+          "effectiveUntil": null,
+          "pricingId": "price:openai/gpt-image-2.5-flare:standard:short:current:output_image_1024x1024_medium",
+          "pricingStatus": "current",
+          "processingMode": "standard",
+          "sourceRefs": [
+            "source:openai:developers-openai-com-api-docs-guides-image-generation",
+            "source:openai:developers-openai-com-api-docs-models-gpt-image-2-5-flare",
+            "source:openai:developers-openai-com-api-docs-pricing"
+          ],
+          "verificationStatus": "verified",
+          "verifiedAt": null
+        },
+        {
+          "calculationDefault": false,
+          "checkedAt": null,
+          "contextClass": "short",
+          "effectiveFrom": null,
+          "effectiveUntil": null,
+          "pricingId": "price:openai/gpt-image-2.5-flare:standard:short:current:output_image_1024x1024_xhigh",
+          "pricingStatus": "current",
+          "processingMode": "standard",
+          "sourceRefs": [
+            "source:openai:developers-openai-com-api-docs-guides-image-generation",
+            "source:openai:developers-openai-com-api-docs-models-gpt-image-2-5-flare",
+            "source:openai:developers-openai-com-api-docs-pricing"
+          ],
+          "verificationStatus": "verified",
+          "verifiedAt": null
+        },
+        {
+          "calculationDefault": false,
+          "checkedAt": null,
+          "contextClass": "short",
+          "effectiveFrom": null,
+          "effectiveUntil": null,
+          "pricingId": "price:openai/gpt-image-2.5-flare:standard:short:current:output_image_1024x1536_high",
+          "pricingStatus": "current",
+          "processingMode": "standard",
+          "sourceRefs": [
+            "source:openai:developers-openai-com-api-docs-guides-image-generation",
+            "source:openai:developers-openai-com-api-docs-models-gpt-image-2-5-flare",
+            "source:openai:developers-openai-com-api-docs-pricing"
+          ],
+          "verificationStatus": "verified",
+          "verifiedAt": null
+        },
+        {
+          "calculationDefault": false,
+          "checkedAt": null,
+          "contextClass": "short",
+          "effectiveFrom": null,
+          "effectiveUntil": null,
+          "pricingId": "price:openai/gpt-image-2.5-flare:standard:short:current:output_image_1024x1536_low",
+          "pricingStatus": "current",
+          "processingMode": "standard",
+          "sourceRefs": [
+            "source:openai:developers-openai-com-api-docs-guides-image-generation",
+            "source:openai:developers-openai-com-api-docs-models-gpt-image-2-5-flare",
+            "source:openai:developers-openai-com-api-docs-pricing"
+          ],
+          "verificationStatus": "verified",
+          "verifiedAt": null
+        },
+        {
+          "calculationDefault": false,
+          "checkedAt": null,
+          "contextClass": "short",
+          "effectiveFrom": null,
+          "effectiveUntil": null,
+          "pricingId": "price:openai/gpt-image-2.5-flare:standard:short:current:output_image_1024x1536_max",
+          "pricingStatus": "current",
+          "processingMode": "standard",
+          "sourceRefs": [
+            "source:openai:developers-openai-com-api-docs-guides-image-generation",
+            "source:openai:developers-openai-com-api-docs-models-gpt-image-2-5-flare",
+            "source:openai:developers-openai-com-api-docs-pricing"
+          ],
+          "verificationStatus": "verified",
+          "verifiedAt": null
+        },
+        {
+          "calculationDefault": false,
+          "checkedAt": null,
+          "contextClass": "short",
+          "effectiveFrom": null,
+          "effectiveUntil": null,
+          "pricingId": "price:openai/gpt-image-2.5-flare:standard:short:current:output_image_1024x1536_medium",
+          "pricingStatus": "current",
+          "processingMode": "standard",
+          "sourceRefs": [
+            "source:openai:developers-openai-com-api-docs-guides-image-generation",
+            "source:openai:developers-openai-com-api-docs-models-gpt-image-2-5-flare",
+            "source:openai:developers-openai-com-api-docs-pricing"
+          ],
+          "verificationStatus": "verified",
+          "verifiedAt": null
+        },
+        {
+          "calculationDefault": false,
+          "checkedAt": null,
+          "contextClass": "short",
+          "effectiveFrom": null,
+          "effectiveUntil": null,
+          "pricingId": "price:openai/gpt-image-2.5-flare:standard:short:current:output_image_1024x1536_xhigh",
+          "pricingStatus": "current",
+          "processingMode": "standard",
+          "sourceRefs": [
+            "source:openai:developers-openai-com-api-docs-guides-image-generation",
+            "source:openai:developers-openai-com-api-docs-models-gpt-image-2-5-flare",
+            "source:openai:developers-openai-com-api-docs-pricing"
+          ],
+          "verificationStatus": "verified",
+          "verifiedAt": null
+        },
+        {
+          "calculationDefault": false,
+          "checkedAt": null,
+          "contextClass": "short",
+          "effectiveFrom": null,
+          "effectiveUntil": null,
+          "pricingId": "price:openai/gpt-image-2.5-flare:standard:short:current:output_image_1536x1024_high",
+          "pricingStatus": "current",
+          "processingMode": "standard",
+          "sourceRefs": [
+            "source:openai:developers-openai-com-api-docs-guides-image-generation",
+            "source:openai:developers-openai-com-api-docs-models-gpt-image-2-5-flare",
+            "source:openai:developers-openai-com-api-docs-pricing"
+          ],
+          "verificationStatus": "verified",
+          "verifiedAt": null
+        },
+        {
+          "calculationDefault": false,
+          "checkedAt": null,
+          "contextClass": "short",
+          "effectiveFrom": null,
+          "effectiveUntil": null,
+          "pricingId": "price:openai/gpt-image-2.5-flare:standard:short:current:output_image_1536x1024_low",
+          "pricingStatus": "current",
+          "processingMode": "standard",
+          "sourceRefs": [
+            "source:openai:developers-openai-com-api-docs-guides-image-generation",
+            "source:openai:developers-openai-com-api-docs-models-gpt-image-2-5-flare",
+            "source:openai:developers-openai-com-api-docs-pricing"
+          ],
+          "verificationStatus": "verified",
+          "verifiedAt": null
+        },
+        {
+          "calculationDefault": false,
+          "checkedAt": null,
+          "contextClass": "short",
+          "effectiveFrom": null,
+          "effectiveUntil": null,
+          "pricingId": "price:openai/gpt-image-2.5-flare:standard:short:current:output_image_1536x1024_max",
+          "pricingStatus": "current",
+          "processingMode": "standard",
+          "sourceRefs": [
+            "source:openai:developers-openai-com-api-docs-guides-image-generation",
+            "source:openai:developers-openai-com-api-docs-models-gpt-image-2-5-flare",
+            "source:openai:developers-openai-com-api-docs-pricing"
+          ],
+          "verificationStatus": "verified",
+          "verifiedAt": null
+        },
+        {
+          "calculationDefault": false,
+          "checkedAt": null,
+          "contextClass": "short",
+          "effectiveFrom": null,
+          "effectiveUntil": null,
+          "pricingId": "price:openai/gpt-image-2.5-flare:standard:short:current:output_image_1536x1024_medium",
+          "pricingStatus": "current",
+          "processingMode": "standard",
+          "sourceRefs": [
+            "source:openai:developers-openai-com-api-docs-guides-image-generation",
+            "source:openai:developers-openai-com-api-docs-models-gpt-image-2-5-flare",
+            "source:openai:developers-openai-com-api-docs-pricing"
+          ],
+          "verificationStatus": "verified",
+          "verifiedAt": null
+        },
+        {
+          "calculationDefault": false,
+          "checkedAt": null,
+          "contextClass": "short",
+          "effectiveFrom": null,
+          "effectiveUntil": null,
+          "pricingId": "price:openai/gpt-image-2.5-flare:standard:short:current:output_image_1536x1024_xhigh",
+          "pricingStatus": "current",
+          "processingMode": "standard",
+          "sourceRefs": [
+            "source:openai:developers-openai-com-api-docs-guides-image-generation",
+            "source:openai:developers-openai-com-api-docs-models-gpt-image-2-5-flare",
+            "source:openai:developers-openai-com-api-docs-pricing"
+          ],
+          "verificationStatus": "verified",
+          "verifiedAt": null
+        }
+      ],
+      "pricingComponents": [
+        {
+          "amount": "0.05268",
+          "calculationDefault": false,
+          "chargeId": "price:openai/gpt-image-2.5-flare:standard:short:current:output_image_1024x1024_high:output:image:per_image",
+          "component": "output",
+          "condition": {
+            "configuration": {
+              "quality": "high",
+              "size": "1024x1024"
+            },
+            "contextClass": "short",
+            "effectiveFrom": null,
+            "effectiveUntil": null,
+            "processingMode": "standard",
+            "promptTokenThreshold": null,
+            "regionPolicy": "global",
+            "tierSelection": null
+          },
+          "currency": "USD",
+          "modality": "image",
+          "pricingId": "price:openai/gpt-image-2.5-flare:standard:short:current:output_image_1024x1024_high",
+          "sourceRefs": [
+            "source:openai:developers-openai-com-api-docs-guides-image-generation",
+            "source:openai:developers-openai-com-api-docs-models-gpt-image-2-5-flare",
+            "source:openai:developers-openai-com-api-docs-pricing"
+          ],
+          "unit": "per_image",
+          "verificationStatus": "verified"
+        },
+        {
+          "amount": "0.00588",
+          "calculationDefault": false,
+          "chargeId": "price:openai/gpt-image-2.5-flare:standard:short:current:output_image_1024x1024_low:output:image:per_image",
+          "component": "output",
+          "condition": {
+            "configuration": {
+              "quality": "low",
+              "size": "1024x1024"
+            },
+            "contextClass": "short",
+            "effectiveFrom": null,
+            "effectiveUntil": null,
+            "processingMode": "standard",
+            "promptTokenThreshold": null,
+            "regionPolicy": "global",
+            "tierSelection": null
+          },
+          "currency": "USD",
+          "modality": "image",
+          "pricingId": "price:openai/gpt-image-2.5-flare:standard:short:current:output_image_1024x1024_low",
+          "sourceRefs": [
+            "source:openai:developers-openai-com-api-docs-guides-image-generation",
+            "source:openai:developers-openai-com-api-docs-models-gpt-image-2-5-flare",
+            "source:openai:developers-openai-com-api-docs-pricing"
+          ],
+          "unit": "per_image",
+          "verificationStatus": "verified"
+        },
+        {
+          "amount": "0.21072",
+          "calculationDefault": false,
+          "chargeId": "price:openai/gpt-image-2.5-flare:standard:short:current:output_image_1024x1024_max:output:image:per_image",
+          "component": "output",
+          "condition": {
+            "configuration": {
+              "quality": "max",
+              "size": "1024x1024"
+            },
+            "contextClass": "short",
+            "effectiveFrom": null,
+            "effectiveUntil": null,
+            "processingMode": "standard",
+            "promptTokenThreshold": null,
+            "regionPolicy": "global",
+            "tierSelection": null
+          },
+          "currency": "USD",
+          "modality": "image",
+          "pricingId": "price:openai/gpt-image-2.5-flare:standard:short:current:output_image_1024x1024_max",
+          "sourceRefs": [
+            "source:openai:developers-openai-com-api-docs-guides-image-generation",
+            "source:openai:developers-openai-com-api-docs-models-gpt-image-2-5-flare",
+            "source:openai:developers-openai-com-api-docs-pricing"
+          ],
+          "unit": "per_image",
+          "verificationStatus": "verified"
+        },
+        {
+          "amount": "0.01317",
+          "calculationDefault": true,
+          "chargeId": "price:openai/gpt-image-2.5-flare:standard:short:current:output_image_1024x1024_medium:output:image:per_image",
+          "component": "output",
+          "condition": {
+            "configuration": {
+              "quality": "medium",
+              "size": "1024x1024"
+            },
+            "contextClass": "short",
+            "effectiveFrom": null,
+            "effectiveUntil": null,
+            "processingMode": "standard",
+            "promptTokenThreshold": null,
+            "regionPolicy": "global",
+            "tierSelection": null
+          },
+          "currency": "USD",
+          "modality": "image",
+          "pricingId": "price:openai/gpt-image-2.5-flare:standard:short:current:output_image_1024x1024_medium",
+          "sourceRefs": [
+            "source:openai:developers-openai-com-api-docs-guides-image-generation",
+            "source:openai:developers-openai-com-api-docs-models-gpt-image-2-5-flare",
+            "source:openai:developers-openai-com-api-docs-pricing"
+          ],
+          "unit": "per_image",
+          "verificationStatus": "verified"
+        },
+        {
+          "amount": "0.09366",
+          "calculationDefault": false,
+          "chargeId": "price:openai/gpt-image-2.5-flare:standard:short:current:output_image_1024x1024_xhigh:output:image:per_image",
+          "component": "output",
+          "condition": {
+            "configuration": {
+              "quality": "xhigh",
+              "size": "1024x1024"
+            },
+            "contextClass": "short",
+            "effectiveFrom": null,
+            "effectiveUntil": null,
+            "processingMode": "standard",
+            "promptTokenThreshold": null,
+            "regionPolicy": "global",
+            "tierSelection": null
+          },
+          "currency": "USD",
+          "modality": "image",
+          "pricingId": "price:openai/gpt-image-2.5-flare:standard:short:current:output_image_1024x1024_xhigh",
+          "sourceRefs": [
+            "source:openai:developers-openai-com-api-docs-guides-image-generation",
+            "source:openai:developers-openai-com-api-docs-models-gpt-image-2-5-flare",
+            "source:openai:developers-openai-com-api-docs-pricing"
+          ],
+          "unit": "per_image",
+          "verificationStatus": "verified"
+        },
+        {
+          "amount": "0.04116",
+          "calculationDefault": false,
+          "chargeId": "price:openai/gpt-image-2.5-flare:standard:short:current:output_image_1024x1536_high:output:image:per_image",
+          "component": "output",
+          "condition": {
+            "configuration": {
+              "quality": "high",
+              "size": "1024x1536"
+            },
+            "contextClass": "short",
+            "effectiveFrom": null,
+            "effectiveUntil": null,
+            "processingMode": "standard",
+            "promptTokenThreshold": null,
+            "regionPolicy": "global",
+            "tierSelection": null
+          },
+          "currency": "USD",
+          "modality": "image",
+          "pricingId": "price:openai/gpt-image-2.5-flare:standard:short:current:output_image_1024x1536_high",
+          "sourceRefs": [
+            "source:openai:developers-openai-com-api-docs-guides-image-generation",
+            "source:openai:developers-openai-com-api-docs-models-gpt-image-2-5-flare",
+            "source:openai:developers-openai-com-api-docs-pricing"
+          ],
+          "unit": "per_image",
+          "verificationStatus": "verified"
+        },
+        {
+          "amount": "0.00474",
+          "calculationDefault": false,
+          "chargeId": "price:openai/gpt-image-2.5-flare:standard:short:current:output_image_1024x1536_low:output:image:per_image",
+          "component": "output",
+          "condition": {
+            "configuration": {
+              "quality": "low",
+              "size": "1024x1536"
+            },
+            "contextClass": "short",
+            "effectiveFrom": null,
+            "effectiveUntil": null,
+            "processingMode": "standard",
+            "promptTokenThreshold": null,
+            "regionPolicy": "global",
+            "tierSelection": null
+          },
+          "currency": "USD",
+          "modality": "image",
+          "pricingId": "price:openai/gpt-image-2.5-flare:standard:short:current:output_image_1024x1536_low",
+          "sourceRefs": [
+            "source:openai:developers-openai-com-api-docs-guides-image-generation",
+            "source:openai:developers-openai-com-api-docs-models-gpt-image-2-5-flare",
+            "source:openai:developers-openai-com-api-docs-pricing"
+          ],
+          "unit": "per_image",
+          "verificationStatus": "verified"
+        },
+        {
+          "amount": "0.16464",
+          "calculationDefault": false,
+          "chargeId": "price:openai/gpt-image-2.5-flare:standard:short:current:output_image_1024x1536_max:output:image:per_image",
+          "component": "output",
+          "condition": {
+            "configuration": {
+              "quality": "max",
+              "size": "1024x1536"
+            },
+            "contextClass": "short",
+            "effectiveFrom": null,
+            "effectiveUntil": null,
+            "processingMode": "standard",
+            "promptTokenThreshold": null,
+            "regionPolicy": "global",
+            "tierSelection": null
+          },
+          "currency": "USD",
+          "modality": "image",
+          "pricingId": "price:openai/gpt-image-2.5-flare:standard:short:current:output_image_1024x1536_max",
+          "sourceRefs": [
+            "source:openai:developers-openai-com-api-docs-guides-image-generation",
+            "source:openai:developers-openai-com-api-docs-models-gpt-image-2-5-flare",
+            "source:openai:developers-openai-com-api-docs-pricing"
+          ],
+          "unit": "per_image",
+          "verificationStatus": "verified"
+        },
+        {
+          "amount": "0.01029",
+          "calculationDefault": false,
+          "chargeId": "price:openai/gpt-image-2.5-flare:standard:short:current:output_image_1024x1536_medium:output:image:per_image",
+          "component": "output",
+          "condition": {
+            "configuration": {
+              "quality": "medium",
+              "size": "1024x1536"
+            },
+            "contextClass": "short",
+            "effectiveFrom": null,
+            "effectiveUntil": null,
+            "processingMode": "standard",
+            "promptTokenThreshold": null,
+            "regionPolicy": "global",
+            "tierSelection": null
+          },
+          "currency": "USD",
+          "modality": "image",
+          "pricingId": "price:openai/gpt-image-2.5-flare:standard:short:current:output_image_1024x1536_medium",
+          "sourceRefs": [
+            "source:openai:developers-openai-com-api-docs-guides-image-generation",
+            "source:openai:developers-openai-com-api-docs-models-gpt-image-2-5-flare",
+            "source:openai:developers-openai-com-api-docs-pricing"
+          ],
+          "unit": "per_image",
+          "verificationStatus": "verified"
+        },
+        {
+          "amount": "0.07377",
+          "calculationDefault": false,
+          "chargeId": "price:openai/gpt-image-2.5-flare:standard:short:current:output_image_1024x1536_xhigh:output:image:per_image",
+          "component": "output",
+          "condition": {
+            "configuration": {
+              "quality": "xhigh",
+              "size": "1024x1536"
+            },
+            "contextClass": "short",
+            "effectiveFrom": null,
+            "effectiveUntil": null,
+            "processingMode": "standard",
+            "promptTokenThreshold": null,
+            "regionPolicy": "global",
+            "tierSelection": null
+          },
+          "currency": "USD",
+          "modality": "image",
+          "pricingId": "price:openai/gpt-image-2.5-flare:standard:short:current:output_image_1024x1536_xhigh",
+          "sourceRefs": [
+            "source:openai:developers-openai-com-api-docs-guides-image-generation",
+            "source:openai:developers-openai-com-api-docs-models-gpt-image-2-5-flare",
+            "source:openai:developers-openai-com-api-docs-pricing"
+          ],
+          "unit": "per_image",
+          "verificationStatus": "verified"
+        },
+        {
+          "amount": "0.04116",
+          "calculationDefault": false,
+          "chargeId": "price:openai/gpt-image-2.5-flare:standard:short:current:output_image_1536x1024_high:output:image:per_image",
+          "component": "output",
+          "condition": {
+            "configuration": {
+              "quality": "high",
+              "size": "1536x1024"
+            },
+            "contextClass": "short",
+            "effectiveFrom": null,
+            "effectiveUntil": null,
+            "processingMode": "standard",
+            "promptTokenThreshold": null,
+            "regionPolicy": "global",
+            "tierSelection": null
+          },
+          "currency": "USD",
+          "modality": "image",
+          "pricingId": "price:openai/gpt-image-2.5-flare:standard:short:current:output_image_1536x1024_high",
+          "sourceRefs": [
+            "source:openai:developers-openai-com-api-docs-guides-image-generation",
+            "source:openai:developers-openai-com-api-docs-models-gpt-image-2-5-flare",
+            "source:openai:developers-openai-com-api-docs-pricing"
+          ],
+          "unit": "per_image",
+          "verificationStatus": "verified"
+        },
+        {
+          "amount": "0.00474",
+          "calculationDefault": false,
+          "chargeId": "price:openai/gpt-image-2.5-flare:standard:short:current:output_image_1536x1024_low:output:image:per_image",
+          "component": "output",
+          "condition": {
+            "configuration": {
+              "quality": "low",
+              "size": "1536x1024"
+            },
+            "contextClass": "short",
+            "effectiveFrom": null,
+            "effectiveUntil": null,
+            "processingMode": "standard",
+            "promptTokenThreshold": null,
+            "regionPolicy": "global",
+            "tierSelection": null
+          },
+          "currency": "USD",
+          "modality": "image",
+          "pricingId": "price:openai/gpt-image-2.5-flare:standard:short:current:output_image_1536x1024_low",
+          "sourceRefs": [
+            "source:openai:developers-openai-com-api-docs-guides-image-generation",
+            "source:openai:developers-openai-com-api-docs-models-gpt-image-2-5-flare",
+            "source:openai:developers-openai-com-api-docs-pricing"
+          ],
+          "unit": "per_image",
+          "verificationStatus": "verified"
+        },
+        {
+          "amount": "0.16464",
+          "calculationDefault": false,
+          "chargeId": "price:openai/gpt-image-2.5-flare:standard:short:current:output_image_1536x1024_max:output:image:per_image",
+          "component": "output",
+          "condition": {
+            "configuration": {
+              "quality": "max",
+              "size": "1536x1024"
+            },
+            "contextClass": "short",
+            "effectiveFrom": null,
+            "effectiveUntil": null,
+            "processingMode": "standard",
+            "promptTokenThreshold": null,
+            "regionPolicy": "global",
+            "tierSelection": null
+          },
+          "currency": "USD",
+          "modality": "image",
+          "pricingId": "price:openai/gpt-image-2.5-flare:standard:short:current:output_image_1536x1024_max",
+          "sourceRefs": [
+            "source:openai:developers-openai-com-api-docs-guides-image-generation",
+            "source:openai:developers-openai-com-api-docs-models-gpt-image-2-5-flare",
+            "source:openai:developers-openai-com-api-docs-pricing"
+          ],
+          "unit": "per_image",
+          "verificationStatus": "verified"
+        },
+        {
+          "amount": "0.01029",
+          "calculationDefault": false,
+          "chargeId": "price:openai/gpt-image-2.5-flare:standard:short:current:output_image_1536x1024_medium:output:image:per_image",
+          "component": "output",
+          "condition": {
+            "configuration": {
+              "quality": "medium",
+              "size": "1536x1024"
+            },
+            "contextClass": "short",
+            "effectiveFrom": null,
+            "effectiveUntil": null,
+            "processingMode": "standard",
+            "promptTokenThreshold": null,
+            "regionPolicy": "global",
+            "tierSelection": null
+          },
+          "currency": "USD",
+          "modality": "image",
+          "pricingId": "price:openai/gpt-image-2.5-flare:standard:short:current:output_image_1536x1024_medium",
+          "sourceRefs": [
+            "source:openai:developers-openai-com-api-docs-guides-image-generation",
+            "source:openai:developers-openai-com-api-docs-models-gpt-image-2-5-flare",
+            "source:openai:developers-openai-com-api-docs-pricing"
+          ],
+          "unit": "per_image",
+          "verificationStatus": "verified"
+        },
+        {
+          "amount": "0.07377",
+          "calculationDefault": false,
+          "chargeId": "price:openai/gpt-image-2.5-flare:standard:short:current:output_image_1536x1024_xhigh:output:image:per_image",
+          "component": "output",
+          "condition": {
+            "configuration": {
+              "quality": "xhigh",
+              "size": "1536x1024"
+            },
+            "contextClass": "short",
+            "effectiveFrom": null,
+            "effectiveUntil": null,
+            "processingMode": "standard",
+            "promptTokenThreshold": null,
+            "regionPolicy": "global",
+            "tierSelection": null
+          },
+          "currency": "USD",
+          "modality": "image",
+          "pricingId": "price:openai/gpt-image-2.5-flare:standard:short:current:output_image_1536x1024_xhigh",
+          "sourceRefs": [
+            "source:openai:developers-openai-com-api-docs-guides-image-generation",
+            "source:openai:developers-openai-com-api-docs-models-gpt-image-2-5-flare",
+            "source:openai:developers-openai-com-api-docs-pricing"
+          ],
+          "unit": "per_image",
+          "verificationStatus": "verified"
+        }
+      ],
+      "pricingSourceType": "canonical_verified_structured_price",
+      "provider": "openai",
+      "publicExposure": "excluded",
+      "redirectTargetInternalId": null,
+      "releaseSourceRef": null,
+      "releaseSourceUrl": null,
+      "releaseStage": "stable",
+      "releasedAt": null,
+      "replacementInternalId": null,
+      "retirementDate": null,
+      "routingBehavior": "direct",
+      "routingDetails": {},
+      "selectedBatchPriceRecordId": null,
+      "selectedBillingPriceRecordId": "price:openai/gpt-image-2.5-flare:standard:short:current:output_image_1536x1024_xhigh",
+      "selectedPriceEffectiveFrom": null,
+      "selectedPriceEffectiveUntil": null,
+      "selectedPriceRecordId": null,
+      "sourceRefs": [
+        "source:openai:developers-openai-com-api-docs-guides-image-generation",
+        "source:openai:developers-openai-com-api-docs-models-gpt-image-2-5-flare",
+        "source:openai:developers-openai-com-api-docs-pricing"
+      ],
+      "sourceUrls": [
+        "https://developers.openai.com/api/docs/guides/image-generation",
+        "https://developers.openai.com/api/docs/models/gpt-image-2.5-flare",
+        "https://developers.openai.com/api/docs/pricing"
+      ],
+      "status": "latest",
+      "verificationStatus": "verified",
+      "verifiedAt": "2026-10-30T12:59:23Z",
+      "verifiedSourceRefs": [
+        "source:openai:developers-openai-com-api-docs-pricing"
+      ]
+    },
+    {
+      "accessAuthority": {
+        "baseRevision": "ec9587ec883ee0ec253ba02869030a8aa8daf364",
+        "factSha256": "96ff893e6c3e833719098f61e87a8d7fe9a3b3899bddb56ee72dbc52e92ae756",
+        "kind": "canonical",
+        "revisionScope": "base_revision_plus_fact_digest"
+      },
+      "accessCheckedAt": null,
+      "accessEvidence": [],
+      "accessStatus": "unknown",
+      "aliasTargetInternalId": null,
+      "availability": "active",
+      "batchInputPrice": null,
+      "batchOutputPrice": null,
+      "billingModelInternalId": null,
+      "bindingEvidence": [],
+      "bindingStatus": "unresolved",
+      "blockedFromDefaultReasons": [
+        "missing_verified_current_price"
+      ],
+      "cachedInputPrice": null,
+      "canonicalInternalId": "openai/gpt-image-2.5-sunburst",
+      "checkedAt": "2026-10-30T12:59:19Z",
+      "checkedSourceRefs": [
+        "source:openai:developers-openai-com-api-docs-pricing"
+      ],
+      "contextWindow": null,
+      "contextWindowStatus": "unknown_not_guessed",
+      "defaultPriceSelectionRule": [
+        "current_effective_utc",
+        "verified",
+        "standard",
+        "text",
+        "default_context_class"
+      ],
+      "defaultSafe": false,
+      "deprecationDate": null,
+      "governanceClass": "PROJECTED_IDENTITY",
+      "governanceDetails": "Structured pricing cannot be represented losslessly by the current public Dataset 1.5 contract.",
+      "governanceReason": "internal_structured_pricing_deferred_from_public_dataset",
+      "governanceSourceCandidateIds": [
+        "openai/gpt-image-2.5-sunburst"
+      ],
+      "id": "gpt-image-2.5-sunburst",
+      "identityType": "canonical_model",
+      "inputPrice": null,
+      "lifecycleStatus": "active",
+      "model": "GPT Image 2.5 Sunburst",
+      "officialSourceUrl": "https://developers.openai.com/api/docs/pricing",
+      "outputPrice": null,
+      "priceRecords": [
+        {
+          "calculationDefault": false,
+          "checkedAt": null,
+          "contextClass": "short",
+          "effectiveFrom": null,
+          "effectiveUntil": null,
+          "pricingId": "price:openai/gpt-image-2.5-sunburst:standard:short:current:output_image_1024x1024_high",
+          "pricingStatus": "current",
+          "processingMode": "standard",
+          "sourceRefs": [
+            "source:openai:developers-openai-com-api-docs-guides-image-generation",
+            "source:openai:developers-openai-com-api-docs-models-gpt-image-2-5-sunburst",
+            "source:openai:developers-openai-com-api-docs-pricing"
+          ],
+          "verificationStatus": "verified",
+          "verifiedAt": null
+        },
+        {
+          "calculationDefault": false,
+          "checkedAt": null,
+          "contextClass": "short",
+          "effectiveFrom": null,
+          "effectiveUntil": null,
+          "pricingId": "price:openai/gpt-image-2.5-sunburst:standard:short:current:output_image_1024x1024_low",
+          "pricingStatus": "current",
+          "processingMode": "standard",
+          "sourceRefs": [
+            "source:openai:developers-openai-com-api-docs-guides-image-generation",
+            "source:openai:developers-openai-com-api-docs-models-gpt-image-2-5-sunburst",
+            "source:openai:developers-openai-com-api-docs-pricing"
+          ],
+          "verificationStatus": "verified",
+          "verifiedAt": null
+        },
+        {
+          "calculationDefault": false,
+          "checkedAt": null,
+          "contextClass": "short",
+          "effectiveFrom": null,
+          "effectiveUntil": null,
+          "pricingId": "price:openai/gpt-image-2.5-sunburst:standard:short:current:output_image_1024x1024_max",
+          "pricingStatus": "current",
+          "processingMode": "standard",
+          "sourceRefs": [
+            "source:openai:developers-openai-com-api-docs-guides-image-generation",
+            "source:openai:developers-openai-com-api-docs-models-gpt-image-2-5-sunburst",
+            "source:openai:developers-openai-com-api-docs-pricing"
+          ],
+          "verificationStatus": "verified",
+          "verifiedAt": null
+        },
+        {
+          "calculationDefault": true,
+          "checkedAt": null,
+          "contextClass": "short",
+          "effectiveFrom": null,
+          "effectiveUntil": null,
+          "pricingId": "price:openai/gpt-image-2.5-sunburst:standard:short:current:output_image_1024x1024_medium",
+          "pricingStatus": "current",
+          "processingMode": "standard",
+          "sourceRefs": [
+            "source:openai:developers-openai-com-api-docs-guides-image-generation",
+            "source:openai:developers-openai-com-api-docs-models-gpt-image-2-5-sunburst",
+            "source:openai:developers-openai-com-api-docs-pricing"
+          ],
+          "verificationStatus": "verified",
+          "verifiedAt": null
+        },
+        {
+          "calculationDefault": false,
+          "checkedAt": null,
+          "contextClass": "short",
+          "effectiveFrom": null,
+          "effectiveUntil": null,
+          "pricingId": "price:openai/gpt-image-2.5-sunburst:standard:short:current:output_image_1024x1024_xhigh",
+          "pricingStatus": "current",
+          "processingMode": "standard",
+          "sourceRefs": [
+            "source:openai:developers-openai-com-api-docs-guides-image-generation",
+            "source:openai:developers-openai-com-api-docs-models-gpt-image-2-5-sunburst",
+            "source:openai:developers-openai-com-api-docs-pricing"
+          ],
+          "verificationStatus": "verified",
+          "verifiedAt": null
+        },
+        {
+          "calculationDefault": false,
+          "checkedAt": null,
+          "contextClass": "short",
+          "effectiveFrom": null,
+          "effectiveUntil": null,
+          "pricingId": "price:openai/gpt-image-2.5-sunburst:standard:short:current:output_image_1024x1536_high",
+          "pricingStatus": "current",
+          "processingMode": "standard",
+          "sourceRefs": [
+            "source:openai:developers-openai-com-api-docs-guides-image-generation",
+            "source:openai:developers-openai-com-api-docs-models-gpt-image-2-5-sunburst",
+            "source:openai:developers-openai-com-api-docs-pricing"
+          ],
+          "verificationStatus": "verified",
+          "verifiedAt": null
+        },
+        {
+          "calculationDefault": false,
+          "checkedAt": null,
+          "contextClass": "short",
+          "effectiveFrom": null,
+          "effectiveUntil": null,
+          "pricingId": "price:openai/gpt-image-2.5-sunburst:standard:short:current:output_image_1024x1536_low",
+          "pricingStatus": "current",
+          "processingMode": "standard",
+          "sourceRefs": [
+            "source:openai:developers-openai-com-api-docs-guides-image-generation",
+            "source:openai:developers-openai-com-api-docs-models-gpt-image-2-5-sunburst",
+            "source:openai:developers-openai-com-api-docs-pricing"
+          ],
+          "verificationStatus": "verified",
+          "verifiedAt": null
+        },
+        {
+          "calculationDefault": false,
+          "checkedAt": null,
+          "contextClass": "short",
+          "effectiveFrom": null,
+          "effectiveUntil": null,
+          "pricingId": "price:openai/gpt-image-2.5-sunburst:standard:short:current:output_image_1024x1536_max",
+          "pricingStatus": "current",
+          "processingMode": "standard",
+          "sourceRefs": [
+            "source:openai:developers-openai-com-api-docs-guides-image-generation",
+            "source:openai:developers-openai-com-api-docs-models-gpt-image-2-5-sunburst",
+            "source:openai:developers-openai-com-api-docs-pricing"
+          ],
+          "verificationStatus": "verified",
+          "verifiedAt": null
+        },
+        {
+          "calculationDefault": false,
+          "checkedAt": null,
+          "contextClass": "short",
+          "effectiveFrom": null,
+          "effectiveUntil": null,
+          "pricingId": "price:openai/gpt-image-2.5-sunburst:standard:short:current:output_image_1024x1536_medium",
+          "pricingStatus": "current",
+          "processingMode": "standard",
+          "sourceRefs": [
+            "source:openai:developers-openai-com-api-docs-guides-image-generation",
+            "source:openai:developers-openai-com-api-docs-models-gpt-image-2-5-sunburst",
+            "source:openai:developers-openai-com-api-docs-pricing"
+          ],
+          "verificationStatus": "verified",
+          "verifiedAt": null
+        },
+        {
+          "calculationDefault": false,
+          "checkedAt": null,
+          "contextClass": "short",
+          "effectiveFrom": null,
+          "effectiveUntil": null,
+          "pricingId": "price:openai/gpt-image-2.5-sunburst:standard:short:current:output_image_1024x1536_xhigh",
+          "pricingStatus": "current",
+          "processingMode": "standard",
+          "sourceRefs": [
+            "source:openai:developers-openai-com-api-docs-guides-image-generation",
+            "source:openai:developers-openai-com-api-docs-models-gpt-image-2-5-sunburst",
+            "source:openai:developers-openai-com-api-docs-pricing"
+          ],
+          "verificationStatus": "verified",
+          "verifiedAt": null
+        },
+        {
+          "calculationDefault": false,
+          "checkedAt": null,
+          "contextClass": "short",
+          "effectiveFrom": null,
+          "effectiveUntil": null,
+          "pricingId": "price:openai/gpt-image-2.5-sunburst:standard:short:current:output_image_1536x1024_high",
+          "pricingStatus": "current",
+          "processingMode": "standard",
+          "sourceRefs": [
+            "source:openai:developers-openai-com-api-docs-guides-image-generation",
+            "source:openai:developers-openai-com-api-docs-models-gpt-image-2-5-sunburst",
+            "source:openai:developers-openai-com-api-docs-pricing"
+          ],
+          "verificationStatus": "verified",
+          "verifiedAt": null
+        },
+        {
+          "calculationDefault": false,
+          "checkedAt": null,
+          "contextClass": "short",
+          "effectiveFrom": null,
+          "effectiveUntil": null,
+          "pricingId": "price:openai/gpt-image-2.5-sunburst:standard:short:current:output_image_1536x1024_low",
+          "pricingStatus": "current",
+          "processingMode": "standard",
+          "sourceRefs": [
+            "source:openai:developers-openai-com-api-docs-guides-image-generation",
+            "source:openai:developers-openai-com-api-docs-models-gpt-image-2-5-sunburst",
+            "source:openai:developers-openai-com-api-docs-pricing"
+          ],
+          "verificationStatus": "verified",
+          "verifiedAt": null
+        },
+        {
+          "calculationDefault": false,
+          "checkedAt": null,
+          "contextClass": "short",
+          "effectiveFrom": null,
+          "effectiveUntil": null,
+          "pricingId": "price:openai/gpt-image-2.5-sunburst:standard:short:current:output_image_1536x1024_max",
+          "pricingStatus": "current",
+          "processingMode": "standard",
+          "sourceRefs": [
+            "source:openai:developers-openai-com-api-docs-guides-image-generation",
+            "source:openai:developers-openai-com-api-docs-models-gpt-image-2-5-sunburst",
+            "source:openai:developers-openai-com-api-docs-pricing"
+          ],
+          "verificationStatus": "verified",
+          "verifiedAt": null
+        },
+        {
+          "calculationDefault": false,
+          "checkedAt": null,
+          "contextClass": "short",
+          "effectiveFrom": null,
+          "effectiveUntil": null,
+          "pricingId": "price:openai/gpt-image-2.5-sunburst:standard:short:current:output_image_1536x1024_medium",
+          "pricingStatus": "current",
+          "processingMode": "standard",
+          "sourceRefs": [
+            "source:openai:developers-openai-com-api-docs-guides-image-generation",
+            "source:openai:developers-openai-com-api-docs-models-gpt-image-2-5-sunburst",
+            "source:openai:developers-openai-com-api-docs-pricing"
+          ],
+          "verificationStatus": "verified",
+          "verifiedAt": null
+        },
+        {
+          "calculationDefault": false,
+          "checkedAt": null,
+          "contextClass": "short",
+          "effectiveFrom": null,
+          "effectiveUntil": null,
+          "pricingId": "price:openai/gpt-image-2.5-sunburst:standard:short:current:output_image_1536x1024_xhigh",
+          "pricingStatus": "current",
+          "processingMode": "standard",
+          "sourceRefs": [
+            "source:openai:developers-openai-com-api-docs-guides-image-generation",
+            "source:openai:developers-openai-com-api-docs-models-gpt-image-2-5-sunburst",
+            "source:openai:developers-openai-com-api-docs-pricing"
+          ],
+          "verificationStatus": "verified",
+          "verifiedAt": null
+        }
+      ],
+      "pricingComponents": [
+        {
+          "amount": "0.05268",
+          "calculationDefault": false,
+          "chargeId": "price:openai/gpt-image-2.5-sunburst:standard:short:current:output_image_1024x1024_high:output:image:per_image",
+          "component": "output",
+          "condition": {
+            "configuration": {
+              "quality": "high",
+              "size": "1024x1024"
+            },
+            "contextClass": "short",
+            "effectiveFrom": null,
+            "effectiveUntil": null,
+            "processingMode": "standard",
+            "promptTokenThreshold": null,
+            "regionPolicy": "global",
+            "tierSelection": null
+          },
+          "currency": "USD",
+          "modality": "image",
+          "pricingId": "price:openai/gpt-image-2.5-sunburst:standard:short:current:output_image_1024x1024_high",
+          "sourceRefs": [
+            "source:openai:developers-openai-com-api-docs-guides-image-generation",
+            "source:openai:developers-openai-com-api-docs-models-gpt-image-2-5-sunburst",
+            "source:openai:developers-openai-com-api-docs-pricing"
+          ],
+          "unit": "per_image",
+          "verificationStatus": "verified"
+        },
+        {
+          "amount": "0.00588",
+          "calculationDefault": false,
+          "chargeId": "price:openai/gpt-image-2.5-sunburst:standard:short:current:output_image_1024x1024_low:output:image:per_image",
+          "component": "output",
+          "condition": {
+            "configuration": {
+              "quality": "low",
+              "size": "1024x1024"
+            },
+            "contextClass": "short",
+            "effectiveFrom": null,
+            "effectiveUntil": null,
+            "processingMode": "standard",
+            "promptTokenThreshold": null,
+            "regionPolicy": "global",
+            "tierSelection": null
+          },
+          "currency": "USD",
+          "modality": "image",
+          "pricingId": "price:openai/gpt-image-2.5-sunburst:standard:short:current:output_image_1024x1024_low",
+          "sourceRefs": [
+            "source:openai:developers-openai-com-api-docs-guides-image-generation",
+            "source:openai:developers-openai-com-api-docs-models-gpt-image-2-5-sunburst",
+            "source:openai:developers-openai-com-api-docs-pricing"
+          ],
+          "unit": "per_image",
+          "verificationStatus": "verified"
+        },
+        {
+          "amount": "0.21072",
+          "calculationDefault": false,
+          "chargeId": "price:openai/gpt-image-2.5-sunburst:standard:short:current:output_image_1024x1024_max:output:image:per_image",
+          "component": "output",
+          "condition": {
+            "configuration": {
+              "quality": "max",
+              "size": "1024x1024"
+            },
+            "contextClass": "short",
+            "effectiveFrom": null,
+            "effectiveUntil": null,
+            "processingMode": "standard",
+            "promptTokenThreshold": null,
+            "regionPolicy": "global",
+            "tierSelection": null
+          },
+          "currency": "USD",
+          "modality": "image",
+          "pricingId": "price:openai/gpt-image-2.5-sunburst:standard:short:current:output_image_1024x1024_max",
+          "sourceRefs": [
+            "source:openai:developers-openai-com-api-docs-guides-image-generation",
+            "source:openai:developers-openai-com-api-docs-models-gpt-image-2-5-sunburst",
+            "source:openai:developers-openai-com-api-docs-pricing"
+          ],
+          "unit": "per_image",
+          "verificationStatus": "verified"
+        },
+        {
+          "amount": "0.01317",
+          "calculationDefault": true,
+          "chargeId": "price:openai/gpt-image-2.5-sunburst:standard:short:current:output_image_1024x1024_medium:output:image:per_image",
+          "component": "output",
+          "condition": {
+            "configuration": {
+              "quality": "medium",
+              "size": "1024x1024"
+            },
+            "contextClass": "short",
+            "effectiveFrom": null,
+            "effectiveUntil": null,
+            "processingMode": "standard",
+            "promptTokenThreshold": null,
+            "regionPolicy": "global",
+            "tierSelection": null
+          },
+          "currency": "USD",
+          "modality": "image",
+          "pricingId": "price:openai/gpt-image-2.5-sunburst:standard:short:current:output_image_1024x1024_medium",
+          "sourceRefs": [
+            "source:openai:developers-openai-com-api-docs-guides-image-generation",
+            "source:openai:developers-openai-com-api-docs-models-gpt-image-2-5-sunburst",
+            "source:openai:developers-openai-com-api-docs-pricing"
+          ],
+          "unit": "per_image",
+          "verificationStatus": "verified"
+        },
+        {
+          "amount": "0.09366",
+          "calculationDefault": false,
+          "chargeId": "price:openai/gpt-image-2.5-sunburst:standard:short:current:output_image_1024x1024_xhigh:output:image:per_image",
+          "component": "output",
+          "condition": {
+            "configuration": {
+              "quality": "xhigh",
+              "size": "1024x1024"
+            },
+            "contextClass": "short",
+            "effectiveFrom": null,
+            "effectiveUntil": null,
+            "processingMode": "standard",
+            "promptTokenThreshold": null,
+            "regionPolicy": "global",
+            "tierSelection": null
+          },
+          "currency": "USD",
+          "modality": "image",
+          "pricingId": "price:openai/gpt-image-2.5-sunburst:standard:short:current:output_image_1024x1024_xhigh",
+          "sourceRefs": [
+            "source:openai:developers-openai-com-api-docs-guides-image-generation",
+            "source:openai:developers-openai-com-api-docs-models-gpt-image-2-5-sunburst",
+            "source:openai:developers-openai-com-api-docs-pricing"
+          ],
+          "unit": "per_image",
+          "verificationStatus": "verified"
+        },
+        {
+          "amount": "0.04116",
+          "calculationDefault": false,
+          "chargeId": "price:openai/gpt-image-2.5-sunburst:standard:short:current:output_image_1024x1536_high:output:image:per_image",
+          "component": "output",
+          "condition": {
+            "configuration": {
+              "quality": "high",
+              "size": "1024x1536"
+            },
+            "contextClass": "short",
+            "effectiveFrom": null,
+            "effectiveUntil": null,
+            "processingMode": "standard",
+            "promptTokenThreshold": null,
+            "regionPolicy": "global",
+            "tierSelection": null
+          },
+          "currency": "USD",
+          "modality": "image",
+          "pricingId": "price:openai/gpt-image-2.5-sunburst:standard:short:current:output_image_1024x1536_high",
+          "sourceRefs": [
+            "source:openai:developers-openai-com-api-docs-guides-image-generation",
+            "source:openai:developers-openai-com-api-docs-models-gpt-image-2-5-sunburst",
+            "source:openai:developers-openai-com-api-docs-pricing"
+          ],
+          "unit": "per_image",
+          "verificationStatus": "verified"
+        },
+        {
+          "amount": "0.00474",
+          "calculationDefault": false,
+          "chargeId": "price:openai/gpt-image-2.5-sunburst:standard:short:current:output_image_1024x1536_low:output:image:per_image",
+          "component": "output",
+          "condition": {
+            "configuration": {
+              "quality": "low",
+              "size": "1024x1536"
+            },
+            "contextClass": "short",
+            "effectiveFrom": null,
+            "effectiveUntil": null,
+            "processingMode": "standard",
+            "promptTokenThreshold": null,
+            "regionPolicy": "global",
+            "tierSelection": null
+          },
+          "currency": "USD",
+          "modality": "image",
+          "pricingId": "price:openai/gpt-image-2.5-sunburst:standard:short:current:output_image_1024x1536_low",
+          "sourceRefs": [
+            "source:openai:developers-openai-com-api-docs-guides-image-generation",
+            "source:openai:developers-openai-com-api-docs-models-gpt-image-2-5-sunburst",
+            "source:openai:developers-openai-com-api-docs-pricing"
+          ],
+          "unit": "per_image",
+          "verificationStatus": "verified"
+        },
+        {
+          "amount": "0.16464",
+          "calculationDefault": false,
+          "chargeId": "price:openai/gpt-image-2.5-sunburst:standard:short:current:output_image_1024x1536_max:output:image:per_image",
+          "component": "output",
+          "condition": {
+            "configuration": {
+              "quality": "max",
+              "size": "1024x1536"
+            },
+            "contextClass": "short",
+            "effectiveFrom": null,
+            "effectiveUntil": null,
+            "processingMode": "standard",
+            "promptTokenThreshold": null,
+            "regionPolicy": "global",
+            "tierSelection": null
+          },
+          "currency": "USD",
+          "modality": "image",
+          "pricingId": "price:openai/gpt-image-2.5-sunburst:standard:short:current:output_image_1024x1536_max",
+          "sourceRefs": [
+            "source:openai:developers-openai-com-api-docs-guides-image-generation",
+            "source:openai:developers-openai-com-api-docs-models-gpt-image-2-5-sunburst",
+            "source:openai:developers-openai-com-api-docs-pricing"
+          ],
+          "unit": "per_image",
+          "verificationStatus": "verified"
+        },
+        {
+          "amount": "0.01029",
+          "calculationDefault": false,
+          "chargeId": "price:openai/gpt-image-2.5-sunburst:standard:short:current:output_image_1024x1536_medium:output:image:per_image",
+          "component": "output",
+          "condition": {
+            "configuration": {
+              "quality": "medium",
+              "size": "1024x1536"
+            },
+            "contextClass": "short",
+            "effectiveFrom": null,
+            "effectiveUntil": null,
+            "processingMode": "standard",
+            "promptTokenThreshold": null,
+            "regionPolicy": "global",
+            "tierSelection": null
+          },
+          "currency": "USD",
+          "modality": "image",
+          "pricingId": "price:openai/gpt-image-2.5-sunburst:standard:short:current:output_image_1024x1536_medium",
+          "sourceRefs": [
+            "source:openai:developers-openai-com-api-docs-guides-image-generation",
+            "source:openai:developers-openai-com-api-docs-models-gpt-image-2-5-sunburst",
+            "source:openai:developers-openai-com-api-docs-pricing"
+          ],
+          "unit": "per_image",
+          "verificationStatus": "verified"
+        },
+        {
+          "amount": "0.07377",
+          "calculationDefault": false,
+          "chargeId": "price:openai/gpt-image-2.5-sunburst:standard:short:current:output_image_1024x1536_xhigh:output:image:per_image",
+          "component": "output",
+          "condition": {
+            "configuration": {
+              "quality": "xhigh",
+              "size": "1024x1536"
+            },
+            "contextClass": "short",
+            "effectiveFrom": null,
+            "effectiveUntil": null,
+            "processingMode": "standard",
+            "promptTokenThreshold": null,
+            "regionPolicy": "global",
+            "tierSelection": null
+          },
+          "currency": "USD",
+          "modality": "image",
+          "pricingId": "price:openai/gpt-image-2.5-sunburst:standard:short:current:output_image_1024x1536_xhigh",
+          "sourceRefs": [
+            "source:openai:developers-openai-com-api-docs-guides-image-generation",
+            "source:openai:developers-openai-com-api-docs-models-gpt-image-2-5-sunburst",
+            "source:openai:developers-openai-com-api-docs-pricing"
+          ],
+          "unit": "per_image",
+          "verificationStatus": "verified"
+        },
+        {
+          "amount": "0.04116",
+          "calculationDefault": false,
+          "chargeId": "price:openai/gpt-image-2.5-sunburst:standard:short:current:output_image_1536x1024_high:output:image:per_image",
+          "component": "output",
+          "condition": {
+            "configuration": {
+              "quality": "high",
+              "size": "1536x1024"
+            },
+            "contextClass": "short",
+            "effectiveFrom": null,
+            "effectiveUntil": null,
+            "processingMode": "standard",
+            "promptTokenThreshold": null,
+            "regionPolicy": "global",
+            "tierSelection": null
+          },
+          "currency": "USD",
+          "modality": "image",
+          "pricingId": "price:openai/gpt-image-2.5-sunburst:standard:short:current:output_image_1536x1024_high",
+          "sourceRefs": [
+            "source:openai:developers-openai-com-api-docs-guides-image-generation",
+            "source:openai:developers-openai-com-api-docs-models-gpt-image-2-5-sunburst",
+            "source:openai:developers-openai-com-api-docs-pricing"
+          ],
+          "unit": "per_image",
+          "verificationStatus": "verified"
+        },
+        {
+          "amount": "0.00474",
+          "calculationDefault": false,
+          "chargeId": "price:openai/gpt-image-2.5-sunburst:standard:short:current:output_image_1536x1024_low:output:image:per_image",
+          "component": "output",
+          "condition": {
+            "configuration": {
+              "quality": "low",
+              "size": "1536x1024"
+            },
+            "contextClass": "short",
+            "effectiveFrom": null,
+            "effectiveUntil": null,
+            "processingMode": "standard",
+            "promptTokenThreshold": null,
+            "regionPolicy": "global",
+            "tierSelection": null
+          },
+          "currency": "USD",
+          "modality": "image",
+          "pricingId": "price:openai/gpt-image-2.5-sunburst:standard:short:current:output_image_1536x1024_low",
+          "sourceRefs": [
+            "source:openai:developers-openai-com-api-docs-guides-image-generation",
+            "source:openai:developers-openai-com-api-docs-models-gpt-image-2-5-sunburst",
+            "source:openai:developers-openai-com-api-docs-pricing"
+          ],
+          "unit": "per_image",
+          "verificationStatus": "verified"
+        },
+        {
+          "amount": "0.16464",
+          "calculationDefault": false,
+          "chargeId": "price:openai/gpt-image-2.5-sunburst:standard:short:current:output_image_1536x1024_max:output:image:per_image",
+          "component": "output",
+          "condition": {
+            "configuration": {
+              "quality": "max",
+              "size": "1536x1024"
+            },
+            "contextClass": "short",
+            "effectiveFrom": null,
+            "effectiveUntil": null,
+            "processingMode": "standard",
+            "promptTokenThreshold": null,
+            "regionPolicy": "global",
+            "tierSelection": null
+          },
+          "currency": "USD",
+          "modality": "image",
+          "pricingId": "price:openai/gpt-image-2.5-sunburst:standard:short:current:output_image_1536x1024_max",
+          "sourceRefs": [
+            "source:openai:developers-openai-com-api-docs-guides-image-generation",
+            "source:openai:developers-openai-com-api-docs-models-gpt-image-2-5-sunburst",
+            "source:openai:developers-openai-com-api-docs-pricing"
+          ],
+          "unit": "per_image",
+          "verificationStatus": "verified"
+        },
+        {
+          "amount": "0.01029",
+          "calculationDefault": false,
+          "chargeId": "price:openai/gpt-image-2.5-sunburst:standard:short:current:output_image_1536x1024_medium:output:image:per_image",
+          "component": "output",
+          "condition": {
+            "configuration": {
+              "quality": "medium",
+              "size": "1536x1024"
+            },
+            "contextClass": "short",
+            "effectiveFrom": null,
+            "effectiveUntil": null,
+            "processingMode": "standard",
+            "promptTokenThreshold": null,
+            "regionPolicy": "global",
+            "tierSelection": null
+          },
+          "currency": "USD",
+          "modality": "image",
+          "pricingId": "price:openai/gpt-image-2.5-sunburst:standard:short:current:output_image_1536x1024_medium",
+          "sourceRefs": [
+            "source:openai:developers-openai-com-api-docs-guides-image-generation",
+            "source:openai:developers-openai-com-api-docs-models-gpt-image-2-5-sunburst",
+            "source:openai:developers-openai-com-api-docs-pricing"
+          ],
+          "unit": "per_image",
+          "verificationStatus": "verified"
+        },
+        {
+          "amount": "0.07377",
+          "calculationDefault": false,
+          "chargeId": "price:openai/gpt-image-2.5-sunburst:standard:short:current:output_image_1536x1024_xhigh:output:image:per_image",
+          "component": "output",
+          "condition": {
+            "configuration": {
+              "quality": "xhigh",
+              "size": "1536x1024"
+            },
+            "contextClass": "short",
+            "effectiveFrom": null,
+            "effectiveUntil": null,
+            "processingMode": "standard",
+            "promptTokenThreshold": null,
+            "regionPolicy": "global",
+            "tierSelection": null
+          },
+          "currency": "USD",
+          "modality": "image",
+          "pricingId": "price:openai/gpt-image-2.5-sunburst:standard:short:current:output_image_1536x1024_xhigh",
+          "sourceRefs": [
+            "source:openai:developers-openai-com-api-docs-guides-image-generation",
+            "source:openai:developers-openai-com-api-docs-models-gpt-image-2-5-sunburst",
+            "source:openai:developers-openai-com-api-docs-pricing"
+          ],
+          "unit": "per_image",
+          "verificationStatus": "verified"
+        }
+      ],
+      "pricingSourceType": "canonical_verified_structured_price",
+      "provider": "openai",
+      "publicExposure": "excluded",
+      "redirectTargetInternalId": null,
+      "releaseSourceRef": null,
+      "releaseSourceUrl": null,
+      "releaseStage": "stable",
+      "releasedAt": null,
+      "replacementInternalId": null,
+      "retirementDate": null,
+      "routingBehavior": "direct",
+      "routingDetails": {},
+      "selectedBatchPriceRecordId": null,
+      "selectedBillingPriceRecordId": "price:openai/gpt-image-2.5-sunburst:standard:short:current:output_image_1536x1024_xhigh",
+      "selectedPriceEffectiveFrom": null,
+      "selectedPriceEffectiveUntil": null,
+      "selectedPriceRecordId": null,
+      "sourceRefs": [
+        "source:openai:developers-openai-com-api-docs-guides-image-generation",
+        "source:openai:developers-openai-com-api-docs-models-gpt-image-2-5-sunburst",
+        "source:openai:developers-openai-com-api-docs-pricing"
+      ],
+      "sourceUrls": [
+        "https://developers.openai.com/api/docs/guides/image-generation",
+        "https://developers.openai.com/api/docs/models/gpt-image-2.5-sunburst",
+        "https://developers.openai.com/api/docs/pricing"
+      ],
+      "status": "latest",
+      "verificationStatus": "verified",
+      "verifiedAt": "2026-10-30T12:59:19Z",
+      "verifiedSourceRefs": [
+        "source:openai:developers-openai-com-api-docs-pricing"
+      ]
+    },
+    {
+      "accessAuthority": {
         "baseRevision": "80c2ec4991bcaaf795fe9192946f5ec770d57f48",
         "factSha256": "96ff893e6c3e833719098f61e87a8d7fe9a3b3899bddb56ee72dbc52e92ae756",
         "kind": "canonical",
@@ -64788,6 +67445,218 @@
       "verifiedAt": "2026-09-02T05:13:28Z",
       "verifiedSourceRefs": [
         "source:xai:docs-x-ai-developers-pricing-text-api"
+      ]
+    },
+    {
+      "accessAuthority": {
+        "baseRevision": "ec9587ec883ee0ec253ba02869030a8aa8daf364",
+        "factSha256": "96ff893e6c3e833719098f61e87a8d7fe9a3b3899bddb56ee72dbc52e92ae756",
+        "kind": "canonical",
+        "revisionScope": "base_revision_plus_fact_digest"
+      },
+      "accessCheckedAt": null,
+      "accessEvidence": [],
+      "accessStatus": "unknown",
+      "aliasTargetInternalId": null,
+      "availability": "active",
+      "batchInputPrice": null,
+      "batchOutputPrice": null,
+      "billingModelInternalId": null,
+      "bindingEvidence": [],
+      "bindingStatus": "unresolved",
+      "blockedFromDefaultReasons": [
+        "missing_verified_current_price"
+      ],
+      "cachedInputPrice": null,
+      "canonicalInternalId": "xai/grok-imagine-image",
+      "checkedAt": "2026-10-30T13:00:01Z",
+      "checkedSourceRefs": [
+        "source:xai:docs-x-ai-developers-pricing"
+      ],
+      "contextWindow": null,
+      "contextWindowStatus": "unknown_not_guessed",
+      "defaultPriceSelectionRule": [
+        "current_effective_utc",
+        "verified",
+        "standard",
+        "text",
+        "default_context_class"
+      ],
+      "defaultSafe": false,
+      "deprecationDate": null,
+      "governanceClass": "PROJECTED_IDENTITY",
+      "governanceDetails": "Structured pricing cannot be represented losslessly by the current public Dataset 1.5 contract.",
+      "governanceReason": "internal_structured_pricing_deferred_from_public_dataset",
+      "governanceSourceCandidateIds": [
+        "xai/grok-imagine-image"
+      ],
+      "id": "grok-imagine-image",
+      "identityType": "canonical_model",
+      "inputPrice": null,
+      "lifecycleStatus": "active",
+      "model": "Grok Imagine Image",
+      "officialSourceUrl": "https://docs.x.ai/developers/pricing",
+      "outputPrice": null,
+      "priceRecords": [
+        {
+          "calculationDefault": false,
+          "checkedAt": null,
+          "contextClass": "short",
+          "effectiveFrom": null,
+          "effectiveUntil": null,
+          "pricingId": "price:xai/grok-imagine-image:standard:short:current:media_input_image",
+          "pricingStatus": "current",
+          "processingMode": "standard",
+          "sourceRefs": [
+            "source:xai:docs-x-ai-developers-models-grok-imagine-image",
+            "source:xai:docs-x-ai-developers-pricing"
+          ],
+          "verificationStatus": "verified",
+          "verifiedAt": null
+        },
+        {
+          "calculationDefault": true,
+          "checkedAt": null,
+          "contextClass": "short",
+          "effectiveFrom": null,
+          "effectiveUntil": null,
+          "pricingId": "price:xai/grok-imagine-image:standard:short:current:output_image_1k",
+          "pricingStatus": "current",
+          "processingMode": "standard",
+          "sourceRefs": [
+            "source:xai:docs-x-ai-developers-models-grok-imagine-image",
+            "source:xai:docs-x-ai-developers-pricing"
+          ],
+          "verificationStatus": "verified",
+          "verifiedAt": null
+        },
+        {
+          "calculationDefault": false,
+          "checkedAt": null,
+          "contextClass": "short",
+          "effectiveFrom": null,
+          "effectiveUntil": null,
+          "pricingId": "price:xai/grok-imagine-image:standard:short:current:output_image_2k",
+          "pricingStatus": "current",
+          "processingMode": "standard",
+          "sourceRefs": [
+            "source:xai:docs-x-ai-developers-models-grok-imagine-image",
+            "source:xai:docs-x-ai-developers-pricing"
+          ],
+          "verificationStatus": "verified",
+          "verifiedAt": null
+        }
+      ],
+      "pricingComponents": [
+        {
+          "amount": "0.002",
+          "calculationDefault": false,
+          "chargeId": "price:xai/grok-imagine-image:standard:short:current:media_input_image:input:image:per_image",
+          "component": "input",
+          "condition": {
+            "contextClass": "short",
+            "effectiveFrom": null,
+            "effectiveUntil": null,
+            "processingMode": "standard",
+            "promptTokenThreshold": null,
+            "regionPolicy": "global",
+            "tierSelection": null
+          },
+          "currency": "USD",
+          "modality": "image",
+          "pricingId": "price:xai/grok-imagine-image:standard:short:current:media_input_image",
+          "sourceRefs": [
+            "source:xai:docs-x-ai-developers-models-grok-imagine-image",
+            "source:xai:docs-x-ai-developers-pricing"
+          ],
+          "unit": "per_image",
+          "verificationStatus": "verified"
+        },
+        {
+          "amount": "0.02",
+          "calculationDefault": true,
+          "chargeId": "price:xai/grok-imagine-image:standard:short:current:output_image_1k:output:image:per_image",
+          "component": "output",
+          "condition": {
+            "configuration": {
+              "resolution": "1k"
+            },
+            "contextClass": "short",
+            "effectiveFrom": null,
+            "effectiveUntil": null,
+            "processingMode": "standard",
+            "promptTokenThreshold": null,
+            "regionPolicy": "global",
+            "tierSelection": null
+          },
+          "currency": "USD",
+          "modality": "image",
+          "pricingId": "price:xai/grok-imagine-image:standard:short:current:output_image_1k",
+          "sourceRefs": [
+            "source:xai:docs-x-ai-developers-models-grok-imagine-image",
+            "source:xai:docs-x-ai-developers-pricing"
+          ],
+          "unit": "per_image",
+          "verificationStatus": "verified"
+        },
+        {
+          "amount": "0.02",
+          "calculationDefault": false,
+          "chargeId": "price:xai/grok-imagine-image:standard:short:current:output_image_2k:output:image:per_image",
+          "component": "output",
+          "condition": {
+            "configuration": {
+              "resolution": "2k"
+            },
+            "contextClass": "short",
+            "effectiveFrom": null,
+            "effectiveUntil": null,
+            "processingMode": "standard",
+            "promptTokenThreshold": null,
+            "regionPolicy": "global",
+            "tierSelection": null
+          },
+          "currency": "USD",
+          "modality": "image",
+          "pricingId": "price:xai/grok-imagine-image:standard:short:current:output_image_2k",
+          "sourceRefs": [
+            "source:xai:docs-x-ai-developers-models-grok-imagine-image",
+            "source:xai:docs-x-ai-developers-pricing"
+          ],
+          "unit": "per_image",
+          "verificationStatus": "verified"
+        }
+      ],
+      "pricingSourceType": "canonical_verified_structured_price",
+      "provider": "xai",
+      "publicExposure": "excluded",
+      "redirectTargetInternalId": null,
+      "releaseSourceRef": null,
+      "releaseSourceUrl": null,
+      "releaseStage": "stable",
+      "releasedAt": null,
+      "replacementInternalId": null,
+      "retirementDate": null,
+      "routingBehavior": "direct",
+      "routingDetails": {},
+      "selectedBatchPriceRecordId": null,
+      "selectedBillingPriceRecordId": "price:xai/grok-imagine-image:standard:short:current:output_image_2k",
+      "selectedPriceEffectiveFrom": null,
+      "selectedPriceEffectiveUntil": null,
+      "selectedPriceRecordId": null,
+      "sourceRefs": [
+        "source:xai:docs-x-ai-developers-models-grok-imagine-image",
+        "source:xai:docs-x-ai-developers-pricing"
+      ],
+      "sourceUrls": [
+        "https://docs.x.ai/developers/models/grok-imagine-image",
+        "https://docs.x.ai/developers/pricing"
+      ],
+      "status": "latest",
+      "verificationStatus": "verified",
+      "verifiedAt": "2026-10-30T13:00:01Z",
+      "verifiedSourceRefs": [
+        "source:xai:docs-x-ai-developers-pricing"
       ]
     },
     {

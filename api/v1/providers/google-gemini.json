@@ -766,6 +766,183 @@
       "status": "active"
     },
     {
+      "accessed_at": "2026-10-30T12:59:54Z",
+      "display_name": "Gemini 3 Pro Image",
+      "effective_from": null,
+      "input_modality": "image",
+      "last_verified_at": "2026-10-30T12:59:54Z",
+      "model_category": "image_generation",
+      "model_family": "Gemini 3 Pro Image",
+      "model_id": "gemini-3-pro-image",
+      "notes": "Nano Banana Pro. Image output $120 per 1M tokens (Batch $60); 1K and 2K images use 1120 tokens, 4K uses 2000. Batch and Flex are $0.067 (1K/2K) and $0.12 (4K). Input images are 560 tokens ($0.0011 each). Text input $2 and text output $12 per 1M tokens are extra; Priority is $216 per 1M image output tokens.",
+      "official_source_url": "https://ai.google.dev/gemini-api/docs/pricing",
+      "official_source_urls": [
+        "https://ai.google.dev/gemini-api/docs/pricing",
+        "https://ai.google.dev/gemini-api/docs/models/gemini-3-pro-image"
+      ],
+      "output_modality": "image",
+      "pricing": {
+        "batch_input": null,
+        "batch_output": null,
+        "cache_write": null,
+        "cache_write_1h": null,
+        "cached_input": null,
+        "currency": "USD",
+        "input": null,
+        "output": null,
+        "unit": null
+      },
+      "pricing_components": [
+        {
+          "amount": 0.134,
+          "calculation_default": true,
+          "component": "output",
+          "configuration": {
+            "resolution": "1k_2k"
+          },
+          "currency": "USD",
+          "effective_from": null,
+          "effective_until": null,
+          "id": "output_image_1k_2k",
+          "modality": "image",
+          "pricing_status": "current",
+          "processing_mode": "standard",
+          "unit": "per_image"
+        },
+        {
+          "amount": 0.24,
+          "calculation_default": false,
+          "component": "output",
+          "configuration": {
+            "resolution": "4k"
+          },
+          "currency": "USD",
+          "effective_from": null,
+          "effective_until": null,
+          "id": "output_image_4k",
+          "modality": "image",
+          "pricing_status": "current",
+          "processing_mode": "standard",
+          "unit": "per_image"
+        },
+        {
+          "amount": 0.0011,
+          "calculation_default": false,
+          "component": "input",
+          "currency": "USD",
+          "effective_from": null,
+          "effective_until": null,
+          "id": "media_input_image",
+          "modality": "image",
+          "pricing_status": "current",
+          "processing_mode": "standard",
+          "unit": "per_image"
+        }
+      ],
+      "provider_id": "google-gemini",
+      "release_stage": "stable",
+      "released_at": null,
+      "status": "active"
+    },
+    {
+      "accessed_at": "2026-10-30T12:59:37Z",
+      "display_name": "Gemini 3.1 Flash Image",
+      "effective_from": null,
+      "input_modality": "image",
+      "last_verified_at": "2026-10-30T12:59:37Z",
+      "model_category": "image_generation",
+      "model_family": "Gemini 3.1 Flash Image",
+      "model_id": "gemini-3.1-flash-image",
+      "notes": "Nano Banana 2. Image output $60 per 1M tokens (Batch $30); 0.5K/1K/2K/4K images use 747/1120/1680/2520 tokens. Per-image amounts are Google's published equivalents; Batch is $0.022/$0.034/$0.050/$0.076. Text input $0.50 and text output $3 per 1M tokens are extra.",
+      "official_source_url": "https://ai.google.dev/gemini-api/docs/pricing",
+      "official_source_urls": [
+        "https://ai.google.dev/gemini-api/docs/pricing",
+        "https://ai.google.dev/gemini-api/docs/models/gemini-3.1-flash-image"
+      ],
+      "output_modality": "image",
+      "pricing": {
+        "batch_input": null,
+        "batch_output": null,
+        "cache_write": null,
+        "cache_write_1h": null,
+        "cached_input": null,
+        "currency": "USD",
+        "input": null,
+        "output": null,
+        "unit": null
+      },
+      "pricing_components": [
+        {
+          "amount": 0.045,
+          "calculation_default": false,
+          "component": "output",
+          "configuration": {
+            "resolution": "0.5k"
+          },
+          "currency": "USD",
+          "effective_from": null,
+          "effective_until": null,
+          "id": "output_image_0.5k",
+          "modality": "image",
+          "pricing_status": "current",
+          "processing_mode": "standard",
+          "unit": "per_image"
+        },
+        {
+          "amount": 0.067,
+          "calculation_default": true,
+          "component": "output",
+          "configuration": {
+            "resolution": "1k"
+          },
+          "currency": "USD",
+          "effective_from": null,
+          "effective_until": null,
+          "id": "output_image_1k",
+          "modality": "image",
+          "pricing_status": "current",
+          "processing_mode": "standard",
+          "unit": "per_image"
+        },
+        {
+          "amount": 0.101,
+          "calculation_default": false,
+          "component": "output",
+          "configuration": {
+            "resolution": "2k"
+          },
+          "currency": "USD",
+          "effective_from": null,
+          "effective_until": null,
+          "id": "output_image_2k",
+          "modality": "image",
+          "pricing_status": "current",
+          "processing_mode": "standard",
+          "unit": "per_image"
+        },
+        {
+          "amount": 0.151,
+          "calculation_default": false,
+          "component": "output",
+          "configuration": {
+            "resolution": "4k"
+          },
+          "currency": "USD",
+          "effective_from": null,
+          "effective_until": null,
+          "id": "output_image_4k",
+          "modality": "image",
+          "pricing_status": "current",
+          "processing_mode": "standard",
+          "unit": "per_image"
+        }
+      ],
+      "provider_id": "google-gemini",
+      "release_stage": "stable",
+      "released_at": null,
+      "status": "active"
+    },
+    {
       "access_checked_at": "2026-10-07T04:26:40Z",
       "access_evidence": [
         {
@@ -925,6 +1102,56 @@
         "url": "https://ai.google.dev/gemini-api/docs/changelog"
       },
       "released_at": "2026-03-03",
+      "status": "active"
+    },
+    {
+      "accessed_at": "2026-10-30T12:59:51Z",
+      "display_name": "Gemini 3.1 Flash Lite Image",
+      "effective_from": null,
+      "input_modality": "image",
+      "last_verified_at": "2026-10-30T12:59:51Z",
+      "model_category": "image_generation",
+      "model_family": "Gemini 3.1 Flash Lite Image",
+      "model_id": "gemini-3.1-flash-lite-image",
+      "notes": "Nano Banana 2 Lite. Image output $30 per 1M tokens (Batch $15); a 1K image uses 1120 tokens ($0.0336; Batch $0.0168). Text input $0.25 and text output $1.50 per 1M tokens are extra.",
+      "official_source_url": "https://ai.google.dev/gemini-api/docs/pricing",
+      "official_source_urls": [
+        "https://ai.google.dev/gemini-api/docs/pricing",
+        "https://ai.google.dev/gemini-api/docs/models/gemini-3.1-flash-lite-image"
+      ],
+      "output_modality": "image",
+      "pricing": {
+        "batch_input": null,
+        "batch_output": null,
+        "cache_write": null,
+        "cache_write_1h": null,
+        "cached_input": null,
+        "currency": "USD",
+        "input": null,
+        "output": null,
+        "unit": null
+      },
+      "pricing_components": [
+        {
+          "amount": 0.0336,
+          "calculation_default": true,
+          "component": "output",
+          "configuration": {
+            "resolution": "1k"
+          },
+          "currency": "USD",
+          "effective_from": null,
+          "effective_until": null,
+          "id": "output_image_1k",
+          "modality": "image",
+          "pricing_status": "current",
+          "processing_mode": "standard",
+          "unit": "per_image"
+        }
+      ],
+      "provider_id": "google-gemini",
+      "release_stage": "stable",
+      "released_at": null,
       "status": "active"
     },
     {
