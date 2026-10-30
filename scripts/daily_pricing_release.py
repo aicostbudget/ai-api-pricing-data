@@ -125,8 +125,30 @@ def classify_changes(before: list[dict[str, Any]], after: list[dict[str, Any]]) 
             "model_id": model,
             "change_type": kind,
             "price_change": kind == "pricing",
+            "reverified": is_reverified(old.get(identity), new.get(identity)),
         })
     return changes
+
+
+def is_reverified(before: dict[str, Any] | None, after: dict[str, Any] | None) -> bool:
+    """An existing model whose last_verified_at moved forward was checked against its official pages again."""
+    if not before or not after:
+        return False
+    old_verified, new_verified = before.get("last_verified_at"), after.get("last_verified_at")
+    return bool(old_verified and new_verified and new_verified > old_verified)
+
+
+def source_refresh_args(changes: list[dict[str, Any]]) -> list[str]:
+    """Refresh the source registry's timestamps for re-verified models only.
+
+    Without this the per-URL checkedAt stays at the first verification, so a projection built without a
+    baseline (test_projection_provenance_containment) dates a re-verified model's row before its records.
+    """
+    return [
+        arg
+        for row in changes if row.get("reverified")
+        for arg in ("--refresh-source-record", f"{row['provider_id']}/{row['model_id']}")
+    ]
 
 
 def price_event_changes(changes: list[dict[str, Any]]) -> list[dict[str, Any]]:
@@ -254,7 +276,10 @@ def run_validation_pipeline(root: Path, website: Path, generated_at: str, change
         ], root, env)
     # Website-owned editorial facts (e.g. replacementModelId) must come from the release checkout,
     # not the generator's hardcoded default path.
-    command([python, "scripts/generate_pricing_v2_preview.py", "--website-dataset", str(website / "data/model-pricing.json")], root, env)
+    command([
+        python, "scripts/generate_pricing_v2_preview.py", "--website-dataset", str(website / "data/model-pricing.json"),
+        *source_refresh_args(changes),
+    ], root, env)
     # build.py wrote api/v1/meta.json from the identity registry before the generator above
     # updated it; rewrite it so new models get their access metadata in this release, not the next.
     command([python, "scripts/build.py", "--generated-at", generated_at, "--meta-only"], root, env)

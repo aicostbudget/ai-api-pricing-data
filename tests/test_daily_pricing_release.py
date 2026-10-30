@@ -17,6 +17,7 @@ from scripts.daily_pricing_release import (
     SuiteResult,
     ValidationRun,
     classify_changes,
+    source_refresh_args,
     command,
     ensure_local_main,
     link_directory,
@@ -162,6 +163,21 @@ class ChangeClassificationTests(unittest.TestCase):
         # Added models must reach the generator, or the price monitor never shows them.
         self.assertEqual(price_event_changes(changes), changes)
         self.assertFalse(changes[0]["price_change"])
+        self.assertFalse(changes[0]["reverified"])
+
+    def test_timestamp_bump_marks_a_reverified_model(self):
+        before = model()
+        before["last_verified_at"] = "2026-10-09T06:31:59Z"
+        after = dict(before, last_verified_at="2026-10-30T03:38:53Z", accessed_at="2026-10-30T03:38:53Z")
+        changes = classify_changes([before], [after])
+        self.assertTrue(changes[0]["reverified"])
+        self.assertEqual(
+            source_refresh_args(changes),
+            ["--refresh-source-record", f"{after['provider_id']}/{after['model_id']}"],
+        )
+        older = classify_changes([after], [before])
+        self.assertFalse(older[0]["reverified"])
+        self.assertEqual(source_refresh_args(older), [])
 
 
 class CommandReportingTests(unittest.TestCase):
@@ -526,6 +542,26 @@ class PipelineOrderTests(unittest.TestCase):
             sync = steps.index("sync-pricing-artifacts.mjs --write")
             self.assertLess(generator, meta)
             self.assertLess(meta, sync)
+
+    def test_generator_refreshes_sources_for_reverified_models_only(self):
+        with tempfile.TemporaryDirectory() as tmp:
+            dataset, website, report = TwoCommitReleaseTests().prepare(Path(tmp))
+            run(dataset, "checkout", "-q", "--detach", report["source_sha"])
+            calls = []
+
+            def record(args, cwd, env=None, stage="validate"):
+                calls.append(list(args))
+                return ""
+
+            changes = [
+                {"provider_id": "google-gemini", "model_id": "gemini-3.8-flash", "change_type": "pricing", "reverified": True},
+                {"provider_id": "openai", "model_id": "gpt-6-luna", "change_type": "metadata", "reverified": False},
+            ]
+            with patch("scripts.daily_pricing_release.command", side_effect=record):
+                run_validation_pipeline(dataset, website, "2026-10-21T16:35:00Z", changes)
+            generator = next(args for args in calls if any(str(part).endswith("generate_pricing_v2_preview.py") for part in args))
+            self.assertEqual(generator[-2:], ["--refresh-source-record", "google-gemini/gemini-3.8-flash"])
+            self.assertNotIn("openai/gpt-6-luna", generator)
 
 
 class FollowTests(unittest.TestCase):
