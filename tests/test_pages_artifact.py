@@ -34,6 +34,21 @@ class PagesArtifactTests(unittest.TestCase):
             self.assertEqual(summary["topLevel"], ["api"])
             self.assertEqual((output / "api/v1/prices.json").read_bytes(), (root / "api/v1/prices.json").read_bytes())
 
+    def test_static_index_page_is_published_beside_the_api(self):
+        with tempfile.TemporaryDirectory() as temp:
+            root = Path(temp) / "source"
+            output = Path(temp) / "pages"
+            self.fixture(root)
+            (root / "pages").mkdir()
+            (root / "pages/index.html").write_text("<!doctype html>", encoding="utf-8")
+            summary = pages.copy_public_pages(output, SHA, root)
+            self.assertEqual(summary["topLevel"], ["api", "index.html"])
+            self.assertEqual((output / "index.html").read_text(encoding="utf-8"), "<!doctype html>")
+            self.assertFalse((output / "pages").exists())
+
+    def test_repository_index_page_exists(self):
+        self.assertTrue((pages.ROOT / "pages/index.html").is_file())
+
     def test_release_revision_must_match_public_metadata(self):
         with tempfile.TemporaryDirectory() as temp:
             root = Path(temp) / "source"

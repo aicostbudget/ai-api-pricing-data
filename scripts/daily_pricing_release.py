@@ -283,6 +283,7 @@ def run_validation_pipeline(root: Path, website: Path, generated_at: str, change
     # build.py wrote api/v1/meta.json from the identity registry before the generator above
     # updated it; rewrite it so new models get their access metadata in this release, not the next.
     command([python, "scripts/build.py", "--generated-at", generated_at, "--meta-only"], root, env)
+    command([python, "scripts/update_readme_prices.py"], root, env)
     command([
         python, "scripts/generate_website_projection_v2.py", "--effective-at", generated_at,
         "--generated-at", generated_at, "--website-dataset", str(website / "data/model-pricing.json"),
@@ -296,6 +297,7 @@ def run_validation_pipeline(root: Path, website: Path, generated_at: str, change
     command([python, "scripts/export_huggingface_history.py", "--write"], root, env)
     command([python, "scripts/validate.py"], root, env)
     command([python, "scripts/validate_pricing_v2_preview.py"], root, env)
+    command([python, "scripts/update_readme_prices.py", "--check"], root, env)
     command(["node", "scripts/sync-pricing-artifacts.mjs", "--check", "--dataset", str(root), "--website", str(website)], website, env)
     command([
         python, "scripts/export_huggingface.py", "--website-repo", str(website), "--website-ref", "WORKTREE",
