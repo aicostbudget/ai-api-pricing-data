@@ -17427,6 +17427,85 @@
     "notes": "xAI Text to Speech API (POST /v1/tts). The API takes no model parameter, so this record is identified by the endpoint. Price USD 15.00 per 1 million input characters; region us-east-1. Up to 60,000 characters per request."
   },
   {
+    "provider_id": "xai",
+    "model_id": "grok-imagine-image",
+    "display_name": "Grok Imagine Image",
+    "model_family": "Grok Imagine Image",
+    "model_category": "image_generation",
+    "status": "active",
+    "release_stage": "stable",
+    "input_modality": "image",
+    "output_modality": "image",
+    "pricing": {
+      "currency": "USD",
+      "unit": null,
+      "input": null,
+      "output": null,
+      "cached_input": null,
+      "cache_write": null,
+      "cache_write_1h": null,
+      "batch_input": null,
+      "batch_output": null
+    },
+    "pricing_components": [
+      {
+        "id": "media_input_image",
+        "component": "input",
+        "modality": "image",
+        "unit": "per_image",
+        "amount": 0.002,
+        "currency": "USD",
+        "processing_mode": "standard",
+        "pricing_status": "current",
+        "calculation_default": false,
+        "effective_from": null,
+        "effective_until": null
+      },
+      {
+        "id": "output_image_1k",
+        "component": "output",
+        "modality": "image",
+        "unit": "per_image",
+        "amount": 0.02,
+        "currency": "USD",
+        "processing_mode": "standard",
+        "pricing_status": "current",
+        "calculation_default": true,
+        "effective_from": null,
+        "effective_until": null,
+        "configuration": {
+          "resolution": "1k"
+        }
+      },
+      {
+        "id": "output_image_2k",
+        "component": "output",
+        "modality": "image",
+        "unit": "per_image",
+        "amount": 0.02,
+        "currency": "USD",
+        "processing_mode": "standard",
+        "pricing_status": "current",
+        "calculation_default": false,
+        "effective_from": null,
+        "effective_until": null,
+        "configuration": {
+          "resolution": "2k"
+        }
+      }
+    ],
+    "official_source_url": "https://docs.x.ai/developers/pricing",
+    "official_source_urls": [
+      "https://docs.x.ai/developers/pricing",
+      "https://docs.x.ai/developers/models/grok-imagine-image"
+    ],
+    "accessed_at": "2026-10-30T13:00:01Z",
+    "last_verified_at": "2026-10-30T13:00:01Z",
+    "effective_from": null,
+    "notes": "Output is $0.02 per image at 1K and 2K; image input is $0.002 per image. Batch is supported and billed at standard rates.",
+    "released_at": null
+  },
+  {
     "provider_id": "google-gemini",
     "model_id": "gemini-3.8-live",
     "display_name": "Gemini 3.8 Live",
@@ -23524,6 +23603,774 @@
     "released_at": null
   },
   {
+    "provider_id": "openai",
+    "model_id": "gpt-image-2.5-sunburst",
+    "display_name": "GPT Image 2.5 Sunburst",
+    "model_family": "GPT Image 2.5",
+    "model_category": "image_generation",
+    "status": "active",
+    "release_stage": "stable",
+    "input_modality": "image",
+    "output_modality": "image",
+    "pricing": {
+      "currency": "USD",
+      "unit": null,
+      "input": null,
+      "output": null,
+      "cached_input": null,
+      "cache_write": null,
+      "cache_write_1h": null,
+      "batch_input": null,
+      "batch_output": null
+    },
+    "pricing_components": [
+      {
+        "id": "output_image_1024x1024_low",
+        "component": "output",
+        "modality": "image",
+        "unit": "per_image",
+        "amount": 0.00588,
+        "currency": "USD",
+        "processing_mode": "standard",
+        "pricing_status": "current",
+        "calculation_default": false,
+        "effective_from": null,
+        "effective_until": null,
+        "configuration": {
+          "quality": "low",
+          "size": "1024x1024"
+        }
+      },
+      {
+        "id": "output_image_1024x1536_low",
+        "component": "output",
+        "modality": "image",
+        "unit": "per_image",
+        "amount": 0.00474,
+        "currency": "USD",
+        "processing_mode": "standard",
+        "pricing_status": "current",
+        "calculation_default": false,
+        "effective_from": null,
+        "effective_until": null,
+        "configuration": {
+          "quality": "low",
+          "size": "1024x1536"
+        }
+      },
+      {
+        "id": "output_image_1536x1024_low",
+        "component": "output",
+        "modality": "image",
+        "unit": "per_image",
+        "amount": 0.00474,
+        "currency": "USD",
+        "processing_mode": "standard",
+        "pricing_status": "current",
+        "calculation_default": false,
+        "effective_from": null,
+        "effective_until": null,
+        "configuration": {
+          "quality": "low",
+          "size": "1536x1024"
+        }
+      },
+      {
+        "id": "output_image_1024x1024_medium",
+        "component": "output",
+        "modality": "image",
+        "unit": "per_image",
+        "amount": 0.01317,
+        "currency": "USD",
+        "processing_mode": "standard",
+        "pricing_status": "current",
+        "calculation_default": true,
+        "effective_from": null,
+        "effective_until": null,
+        "configuration": {
+          "quality": "medium",
+          "size": "1024x1024"
+        }
+      },
+      {
+        "id": "output_image_1024x1536_medium",
+        "component": "output",
+        "modality": "image",
+        "unit": "per_image",
+        "amount": 0.01029,
+        "currency": "USD",
+        "processing_mode": "standard",
+        "pricing_status": "current",
+        "calculation_default": false,
+        "effective_from": null,
+        "effective_until": null,
+        "configuration": {
+          "quality": "medium",
+          "size": "1024x1536"
+        }
+      },
+      {
+        "id": "output_image_1536x1024_medium",
+        "component": "output",
+        "modality": "image",
+        "unit": "per_image",
+        "amount": 0.01029,
+        "currency": "USD",
+        "processing_mode": "standard",
+        "pricing_status": "current",
+        "calculation_default": false,
+        "effective_from": null,
+        "effective_until": null,
+        "configuration": {
+          "quality": "medium",
+          "size": "1536x1024"
+        }
+      },
+      {
+        "id": "output_image_1024x1024_high",
+        "component": "output",
+        "modality": "image",
+        "unit": "per_image",
+        "amount": 0.05268,
+        "currency": "USD",
+        "processing_mode": "standard",
+        "pricing_status": "current",
+        "calculation_default": false,
+        "effective_from": null,
+        "effective_until": null,
+        "configuration": {
+          "quality": "high",
+          "size": "1024x1024"
+        }
+      },
+      {
+        "id": "output_image_1024x1536_high",
+        "component": "output",
+        "modality": "image",
+        "unit": "per_image",
+        "amount": 0.04116,
+        "currency": "USD",
+        "processing_mode": "standard",
+        "pricing_status": "current",
+        "calculation_default": false,
+        "effective_from": null,
+        "effective_until": null,
+        "configuration": {
+          "quality": "high",
+          "size": "1024x1536"
+        }
+      },
+      {
+        "id": "output_image_1536x1024_high",
+        "component": "output",
+        "modality": "image",
+        "unit": "per_image",
+        "amount": 0.04116,
+        "currency": "USD",
+        "processing_mode": "standard",
+        "pricing_status": "current",
+        "calculation_default": false,
+        "effective_from": null,
+        "effective_until": null,
+        "configuration": {
+          "quality": "high",
+          "size": "1536x1024"
+        }
+      },
+      {
+        "id": "output_image_1024x1024_xhigh",
+        "component": "output",
+        "modality": "image",
+        "unit": "per_image",
+        "amount": 0.09366,
+        "currency": "USD",
+        "processing_mode": "standard",
+        "pricing_status": "current",
+        "calculation_default": false,
+        "effective_from": null,
+        "effective_until": null,
+        "configuration": {
+          "quality": "xhigh",
+          "size": "1024x1024"
+        }
+      },
+      {
+        "id": "output_image_1024x1536_xhigh",
+        "component": "output",
+        "modality": "image",
+        "unit": "per_image",
+        "amount": 0.07377,
+        "currency": "USD",
+        "processing_mode": "standard",
+        "pricing_status": "current",
+        "calculation_default": false,
+        "effective_from": null,
+        "effective_until": null,
+        "configuration": {
+          "quality": "xhigh",
+          "size": "1024x1536"
+        }
+      },
+      {
+        "id": "output_image_1536x1024_xhigh",
+        "component": "output",
+        "modality": "image",
+        "unit": "per_image",
+        "amount": 0.07377,
+        "currency": "USD",
+        "processing_mode": "standard",
+        "pricing_status": "current",
+        "calculation_default": false,
+        "effective_from": null,
+        "effective_until": null,
+        "configuration": {
+          "quality": "xhigh",
+          "size": "1536x1024"
+        }
+      },
+      {
+        "id": "output_image_1024x1024_max",
+        "component": "output",
+        "modality": "image",
+        "unit": "per_image",
+        "amount": 0.21072,
+        "currency": "USD",
+        "processing_mode": "standard",
+        "pricing_status": "current",
+        "calculation_default": false,
+        "effective_from": null,
+        "effective_until": null,
+        "configuration": {
+          "quality": "max",
+          "size": "1024x1024"
+        }
+      },
+      {
+        "id": "output_image_1024x1536_max",
+        "component": "output",
+        "modality": "image",
+        "unit": "per_image",
+        "amount": 0.16464,
+        "currency": "USD",
+        "processing_mode": "standard",
+        "pricing_status": "current",
+        "calculation_default": false,
+        "effective_from": null,
+        "effective_until": null,
+        "configuration": {
+          "quality": "max",
+          "size": "1024x1536"
+        }
+      },
+      {
+        "id": "output_image_1536x1024_max",
+        "component": "output",
+        "modality": "image",
+        "unit": "per_image",
+        "amount": 0.16464,
+        "currency": "USD",
+        "processing_mode": "standard",
+        "pricing_status": "current",
+        "calculation_default": false,
+        "effective_from": null,
+        "effective_until": null,
+        "configuration": {
+          "quality": "max",
+          "size": "1536x1024"
+        }
+      }
+    ],
+    "official_source_url": "https://developers.openai.com/api/docs/pricing",
+    "official_source_urls": [
+      "https://developers.openai.com/api/docs/pricing",
+      "https://developers.openai.com/api/docs/guides/image-generation",
+      "https://developers.openai.com/api/docs/models/gpt-image-2.5-sunburst"
+    ],
+    "accessed_at": "2026-10-30T12:59:19Z",
+    "last_verified_at": "2026-10-30T12:59:19Z",
+    "effective_from": null,
+    "notes": "Quality options low, medium, high, xhigh and max. Billed as tokens: image output $30, image input $8 (cached $2), text input $5 (cached $1.25) per 1M tokens; Batch is half. Per-image amounts are image output token cost only, from the token formula in OpenAI's image-generation guide calculator; prompt and reference-image input tokens are extra.",
+    "released_at": null
+  },
+  {
+    "provider_id": "openai",
+    "model_id": "gpt-image-2.5-flare",
+    "display_name": "GPT Image 2.5 Flare",
+    "model_family": "GPT Image 2.5",
+    "model_category": "image_generation",
+    "status": "active",
+    "release_stage": "stable",
+    "input_modality": "image",
+    "output_modality": "image",
+    "pricing": {
+      "currency": "USD",
+      "unit": null,
+      "input": null,
+      "output": null,
+      "cached_input": null,
+      "cache_write": null,
+      "cache_write_1h": null,
+      "batch_input": null,
+      "batch_output": null
+    },
+    "pricing_components": [
+      {
+        "id": "output_image_1024x1024_low",
+        "component": "output",
+        "modality": "image",
+        "unit": "per_image",
+        "amount": 0.00588,
+        "currency": "USD",
+        "processing_mode": "standard",
+        "pricing_status": "current",
+        "calculation_default": false,
+        "effective_from": null,
+        "effective_until": null,
+        "configuration": {
+          "quality": "low",
+          "size": "1024x1024"
+        }
+      },
+      {
+        "id": "output_image_1024x1536_low",
+        "component": "output",
+        "modality": "image",
+        "unit": "per_image",
+        "amount": 0.00474,
+        "currency": "USD",
+        "processing_mode": "standard",
+        "pricing_status": "current",
+        "calculation_default": false,
+        "effective_from": null,
+        "effective_until": null,
+        "configuration": {
+          "quality": "low",
+          "size": "1024x1536"
+        }
+      },
+      {
+        "id": "output_image_1536x1024_low",
+        "component": "output",
+        "modality": "image",
+        "unit": "per_image",
+        "amount": 0.00474,
+        "currency": "USD",
+        "processing_mode": "standard",
+        "pricing_status": "current",
+        "calculation_default": false,
+        "effective_from": null,
+        "effective_until": null,
+        "configuration": {
+          "quality": "low",
+          "size": "1536x1024"
+        }
+      },
+      {
+        "id": "output_image_1024x1024_medium",
+        "component": "output",
+        "modality": "image",
+        "unit": "per_image",
+        "amount": 0.01317,
+        "currency": "USD",
+        "processing_mode": "standard",
+        "pricing_status": "current",
+        "calculation_default": true,
+        "effective_from": null,
+        "effective_until": null,
+        "configuration": {
+          "quality": "medium",
+          "size": "1024x1024"
+        }
+      },
+      {
+        "id": "output_image_1024x1536_medium",
+        "component": "output",
+        "modality": "image",
+        "unit": "per_image",
+        "amount": 0.01029,
+        "currency": "USD",
+        "processing_mode": "standard",
+        "pricing_status": "current",
+        "calculation_default": false,
+        "effective_from": null,
+        "effective_until": null,
+        "configuration": {
+          "quality": "medium",
+          "size": "1024x1536"
+        }
+      },
+      {
+        "id": "output_image_1536x1024_medium",
+        "component": "output",
+        "modality": "image",
+        "unit": "per_image",
+        "amount": 0.01029,
+        "currency": "USD",
+        "processing_mode": "standard",
+        "pricing_status": "current",
+        "calculation_default": false,
+        "effective_from": null,
+        "effective_until": null,
+        "configuration": {
+          "quality": "medium",
+          "size": "1536x1024"
+        }
+      },
+      {
+        "id": "output_image_1024x1024_high",
+        "component": "output",
+        "modality": "image",
+        "unit": "per_image",
+        "amount": 0.05268,
+        "currency": "USD",
+        "processing_mode": "standard",
+        "pricing_status": "current",
+        "calculation_default": false,
+        "effective_from": null,
+        "effective_until": null,
+        "configuration": {
+          "quality": "high",
+          "size": "1024x1024"
+        }
+      },
+      {
+        "id": "output_image_1024x1536_high",
+        "component": "output",
+        "modality": "image",
+        "unit": "per_image",
+        "amount": 0.04116,
+        "currency": "USD",
+        "processing_mode": "standard",
+        "pricing_status": "current",
+        "calculation_default": false,
+        "effective_from": null,
+        "effective_until": null,
+        "configuration": {
+          "quality": "high",
+          "size": "1024x1536"
+        }
+      },
+      {
+        "id": "output_image_1536x1024_high",
+        "component": "output",
+        "modality": "image",
+        "unit": "per_image",
+        "amount": 0.04116,
+        "currency": "USD",
+        "processing_mode": "standard",
+        "pricing_status": "current",
+        "calculation_default": false,
+        "effective_from": null,
+        "effective_until": null,
+        "configuration": {
+          "quality": "high",
+          "size": "1536x1024"
+        }
+      },
+      {
+        "id": "output_image_1024x1024_xhigh",
+        "component": "output",
+        "modality": "image",
+        "unit": "per_image",
+        "amount": 0.09366,
+        "currency": "USD",
+        "processing_mode": "standard",
+        "pricing_status": "current",
+        "calculation_default": false,
+        "effective_from": null,
+        "effective_until": null,
+        "configuration": {
+          "quality": "xhigh",
+          "size": "1024x1024"
+        }
+      },
+      {
+        "id": "output_image_1024x1536_xhigh",
+        "component": "output",
+        "modality": "image",
+        "unit": "per_image",
+        "amount": 0.07377,
+        "currency": "USD",
+        "processing_mode": "standard",
+        "pricing_status": "current",
+        "calculation_default": false,
+        "effective_from": null,
+        "effective_until": null,
+        "configuration": {
+          "quality": "xhigh",
+          "size": "1024x1536"
+        }
+      },
+      {
+        "id": "output_image_1536x1024_xhigh",
+        "component": "output",
+        "modality": "image",
+        "unit": "per_image",
+        "amount": 0.07377,
+        "currency": "USD",
+        "processing_mode": "standard",
+        "pricing_status": "current",
+        "calculation_default": false,
+        "effective_from": null,
+        "effective_until": null,
+        "configuration": {
+          "quality": "xhigh",
+          "size": "1536x1024"
+        }
+      },
+      {
+        "id": "output_image_1024x1024_max",
+        "component": "output",
+        "modality": "image",
+        "unit": "per_image",
+        "amount": 0.21072,
+        "currency": "USD",
+        "processing_mode": "standard",
+        "pricing_status": "current",
+        "calculation_default": false,
+        "effective_from": null,
+        "effective_until": null,
+        "configuration": {
+          "quality": "max",
+          "size": "1024x1024"
+        }
+      },
+      {
+        "id": "output_image_1024x1536_max",
+        "component": "output",
+        "modality": "image",
+        "unit": "per_image",
+        "amount": 0.16464,
+        "currency": "USD",
+        "processing_mode": "standard",
+        "pricing_status": "current",
+        "calculation_default": false,
+        "effective_from": null,
+        "effective_until": null,
+        "configuration": {
+          "quality": "max",
+          "size": "1024x1536"
+        }
+      },
+      {
+        "id": "output_image_1536x1024_max",
+        "component": "output",
+        "modality": "image",
+        "unit": "per_image",
+        "amount": 0.16464,
+        "currency": "USD",
+        "processing_mode": "standard",
+        "pricing_status": "current",
+        "calculation_default": false,
+        "effective_from": null,
+        "effective_until": null,
+        "configuration": {
+          "quality": "max",
+          "size": "1536x1024"
+        }
+      }
+    ],
+    "official_source_url": "https://developers.openai.com/api/docs/pricing",
+    "official_source_urls": [
+      "https://developers.openai.com/api/docs/pricing",
+      "https://developers.openai.com/api/docs/guides/image-generation",
+      "https://developers.openai.com/api/docs/models/gpt-image-2.5-flare"
+    ],
+    "accessed_at": "2026-10-30T12:59:23Z",
+    "last_verified_at": "2026-10-30T12:59:23Z",
+    "effective_from": null,
+    "notes": "Same token rates and calculator token counts as GPT Image 2.5 Sunburst. Billed as tokens: image output $30, image input $8 (cached $2), text input $5 (cached $1.25) per 1M tokens; Batch is half. Per-image amounts are image output token cost only, from the token formula in OpenAI's image-generation guide calculator; prompt and reference-image input tokens are extra.",
+    "released_at": null
+  },
+  {
+    "provider_id": "openai",
+    "model_id": "gpt-image-2",
+    "display_name": "GPT Image 2",
+    "model_family": "GPT Image 2",
+    "model_category": "image_generation",
+    "status": "active",
+    "release_stage": "stable",
+    "input_modality": "image",
+    "output_modality": "image",
+    "pricing": {
+      "currency": "USD",
+      "unit": null,
+      "input": null,
+      "output": null,
+      "cached_input": null,
+      "cache_write": null,
+      "cache_write_1h": null,
+      "batch_input": null,
+      "batch_output": null
+    },
+    "pricing_components": [
+      {
+        "id": "output_image_1024x1024_low",
+        "component": "output",
+        "modality": "image",
+        "unit": "per_image",
+        "amount": 0.00588,
+        "currency": "USD",
+        "processing_mode": "standard",
+        "pricing_status": "current",
+        "calculation_default": false,
+        "effective_from": null,
+        "effective_until": null,
+        "configuration": {
+          "quality": "low",
+          "size": "1024x1024"
+        }
+      },
+      {
+        "id": "output_image_1024x1536_low",
+        "component": "output",
+        "modality": "image",
+        "unit": "per_image",
+        "amount": 0.00474,
+        "currency": "USD",
+        "processing_mode": "standard",
+        "pricing_status": "current",
+        "calculation_default": false,
+        "effective_from": null,
+        "effective_until": null,
+        "configuration": {
+          "quality": "low",
+          "size": "1024x1536"
+        }
+      },
+      {
+        "id": "output_image_1536x1024_low",
+        "component": "output",
+        "modality": "image",
+        "unit": "per_image",
+        "amount": 0.00474,
+        "currency": "USD",
+        "processing_mode": "standard",
+        "pricing_status": "current",
+        "calculation_default": false,
+        "effective_from": null,
+        "effective_until": null,
+        "configuration": {
+          "quality": "low",
+          "size": "1536x1024"
+        }
+      },
+      {
+        "id": "output_image_1024x1024_medium",
+        "component": "output",
+        "modality": "image",
+        "unit": "per_image",
+        "amount": 0.05268,
+        "currency": "USD",
+        "processing_mode": "standard",
+        "pricing_status": "current",
+        "calculation_default": true,
+        "effective_from": null,
+        "effective_until": null,
+        "configuration": {
+          "quality": "medium",
+          "size": "1024x1024"
+        }
+      },
+      {
+        "id": "output_image_1024x1536_medium",
+        "component": "output",
+        "modality": "image",
+        "unit": "per_image",
+        "amount": 0.04116,
+        "currency": "USD",
+        "processing_mode": "standard",
+        "pricing_status": "current",
+        "calculation_default": false,
+        "effective_from": null,
+        "effective_until": null,
+        "configuration": {
+          "quality": "medium",
+          "size": "1024x1536"
+        }
+      },
+      {
+        "id": "output_image_1536x1024_medium",
+        "component": "output",
+        "modality": "image",
+        "unit": "per_image",
+        "amount": 0.04116,
+        "currency": "USD",
+        "processing_mode": "standard",
+        "pricing_status": "current",
+        "calculation_default": false,
+        "effective_from": null,
+        "effective_until": null,
+        "configuration": {
+          "quality": "medium",
+          "size": "1536x1024"
+        }
+      },
+      {
+        "id": "output_image_1024x1024_high",
+        "component": "output",
+        "modality": "image",
+        "unit": "per_image",
+        "amount": 0.21072,
+        "currency": "USD",
+        "processing_mode": "standard",
+        "pricing_status": "current",
+        "calculation_default": false,
+        "effective_from": null,
+        "effective_until": null,
+        "configuration": {
+          "quality": "high",
+          "size": "1024x1024"
+        }
+      },
+      {
+        "id": "output_image_1024x1536_high",
+        "component": "output",
+        "modality": "image",
+        "unit": "per_image",
+        "amount": 0.16464,
+        "currency": "USD",
+        "processing_mode": "standard",
+        "pricing_status": "current",
+        "calculation_default": false,
+        "effective_from": null,
+        "effective_until": null,
+        "configuration": {
+          "quality": "high",
+          "size": "1024x1536"
+        }
+      },
+      {
+        "id": "output_image_1536x1024_high",
+        "component": "output",
+        "modality": "image",
+        "unit": "per_image",
+        "amount": 0.16464,
+        "currency": "USD",
+        "processing_mode": "standard",
+        "pricing_status": "current",
+        "calculation_default": false,
+        "effective_from": null,
+        "effective_until": null,
+        "configuration": {
+          "quality": "high",
+          "size": "1536x1024"
+        }
+      }
+    ],
+    "official_source_url": "https://developers.openai.com/api/docs/pricing",
+    "official_source_urls": [
+      "https://developers.openai.com/api/docs/pricing",
+      "https://developers.openai.com/api/docs/guides/image-generation",
+      "https://developers.openai.com/api/docs/models/gpt-image-2"
+    ],
+    "accessed_at": "2026-10-30T12:59:32Z",
+    "last_verified_at": "2026-10-30T12:59:32Z",
+    "effective_from": null,
+    "notes": "Quality options low, medium and high; the guide's per-image table lists $0.006/$0.053/$0.211 at 1024x1024. Billed as tokens: image output $30, image input $8 (cached $2), text input $5 (cached $1.25) per 1M tokens; Batch is half. Per-image amounts are image output token cost only, from the token formula in OpenAI's image-generation guide calculator; prompt and reference-image input tokens are extra.",
+    "released_at": null
+  },
+  {
     "provider_id": "anthropic",
     "model_id": "claude-haiku-5-5",
     "display_name": "Claude Haiku 5.5",
@@ -25057,6 +25904,233 @@
     "last_verified_at": "2026-10-30T06:18:22Z",
     "effective_from": null,
     "notes": "Text-only Gemini embedding model (2,048-token input limit). Paid tier $0.15 per 1M input tokens; Batch $0.075.",
+    "released_at": null
+  },
+  {
+    "provider_id": "google-gemini",
+    "model_id": "gemini-3.1-flash-image",
+    "display_name": "Gemini 3.1 Flash Image",
+    "model_family": "Gemini 3.1 Flash Image",
+    "model_category": "image_generation",
+    "status": "active",
+    "release_stage": "stable",
+    "input_modality": "image",
+    "output_modality": "image",
+    "pricing": {
+      "currency": "USD",
+      "unit": null,
+      "input": null,
+      "output": null,
+      "cached_input": null,
+      "cache_write": null,
+      "cache_write_1h": null,
+      "batch_input": null,
+      "batch_output": null
+    },
+    "pricing_components": [
+      {
+        "id": "output_image_0.5k",
+        "component": "output",
+        "modality": "image",
+        "unit": "per_image",
+        "amount": 0.045,
+        "currency": "USD",
+        "processing_mode": "standard",
+        "pricing_status": "current",
+        "calculation_default": false,
+        "effective_from": null,
+        "effective_until": null,
+        "configuration": {
+          "resolution": "0.5k"
+        }
+      },
+      {
+        "id": "output_image_1k",
+        "component": "output",
+        "modality": "image",
+        "unit": "per_image",
+        "amount": 0.067,
+        "currency": "USD",
+        "processing_mode": "standard",
+        "pricing_status": "current",
+        "calculation_default": true,
+        "effective_from": null,
+        "effective_until": null,
+        "configuration": {
+          "resolution": "1k"
+        }
+      },
+      {
+        "id": "output_image_2k",
+        "component": "output",
+        "modality": "image",
+        "unit": "per_image",
+        "amount": 0.101,
+        "currency": "USD",
+        "processing_mode": "standard",
+        "pricing_status": "current",
+        "calculation_default": false,
+        "effective_from": null,
+        "effective_until": null,
+        "configuration": {
+          "resolution": "2k"
+        }
+      },
+      {
+        "id": "output_image_4k",
+        "component": "output",
+        "modality": "image",
+        "unit": "per_image",
+        "amount": 0.151,
+        "currency": "USD",
+        "processing_mode": "standard",
+        "pricing_status": "current",
+        "calculation_default": false,
+        "effective_from": null,
+        "effective_until": null,
+        "configuration": {
+          "resolution": "4k"
+        }
+      }
+    ],
+    "official_source_url": "https://ai.google.dev/gemini-api/docs/pricing",
+    "official_source_urls": [
+      "https://ai.google.dev/gemini-api/docs/pricing",
+      "https://ai.google.dev/gemini-api/docs/models/gemini-3.1-flash-image"
+    ],
+    "accessed_at": "2026-10-30T12:59:37Z",
+    "last_verified_at": "2026-10-30T12:59:37Z",
+    "effective_from": null,
+    "notes": "Nano Banana 2. Image output $60 per 1M tokens (Batch $30); 0.5K/1K/2K/4K images use 747/1120/1680/2520 tokens. Per-image amounts are Google's published equivalents; Batch is $0.022/$0.034/$0.050/$0.076. Text input $0.50 and text output $3 per 1M tokens are extra.",
+    "released_at": null
+  },
+  {
+    "provider_id": "google-gemini",
+    "model_id": "gemini-3.1-flash-lite-image",
+    "display_name": "Gemini 3.1 Flash Lite Image",
+    "model_family": "Gemini 3.1 Flash Lite Image",
+    "model_category": "image_generation",
+    "status": "active",
+    "release_stage": "stable",
+    "input_modality": "image",
+    "output_modality": "image",
+    "pricing": {
+      "currency": "USD",
+      "unit": null,
+      "input": null,
+      "output": null,
+      "cached_input": null,
+      "cache_write": null,
+      "cache_write_1h": null,
+      "batch_input": null,
+      "batch_output": null
+    },
+    "pricing_components": [
+      {
+        "id": "output_image_1k",
+        "component": "output",
+        "modality": "image",
+        "unit": "per_image",
+        "amount": 0.0336,
+        "currency": "USD",
+        "processing_mode": "standard",
+        "pricing_status": "current",
+        "calculation_default": true,
+        "effective_from": null,
+        "effective_until": null,
+        "configuration": {
+          "resolution": "1k"
+        }
+      }
+    ],
+    "official_source_url": "https://ai.google.dev/gemini-api/docs/pricing",
+    "official_source_urls": [
+      "https://ai.google.dev/gemini-api/docs/pricing",
+      "https://ai.google.dev/gemini-api/docs/models/gemini-3.1-flash-lite-image"
+    ],
+    "accessed_at": "2026-10-30T12:59:51Z",
+    "last_verified_at": "2026-10-30T12:59:51Z",
+    "effective_from": null,
+    "notes": "Nano Banana 2 Lite. Image output $30 per 1M tokens (Batch $15); a 1K image uses 1120 tokens ($0.0336; Batch $0.0168). Text input $0.25 and text output $1.50 per 1M tokens are extra.",
+    "released_at": null
+  },
+  {
+    "provider_id": "google-gemini",
+    "model_id": "gemini-3-pro-image",
+    "display_name": "Gemini 3 Pro Image",
+    "model_family": "Gemini 3 Pro Image",
+    "model_category": "image_generation",
+    "status": "active",
+    "release_stage": "stable",
+    "input_modality": "image",
+    "output_modality": "image",
+    "pricing": {
+      "currency": "USD",
+      "unit": null,
+      "input": null,
+      "output": null,
+      "cached_input": null,
+      "cache_write": null,
+      "cache_write_1h": null,
+      "batch_input": null,
+      "batch_output": null
+    },
+    "pricing_components": [
+      {
+        "id": "output_image_1k_2k",
+        "component": "output",
+        "modality": "image",
+        "unit": "per_image",
+        "amount": 0.134,
+        "currency": "USD",
+        "processing_mode": "standard",
+        "pricing_status": "current",
+        "calculation_default": true,
+        "effective_from": null,
+        "effective_until": null,
+        "configuration": {
+          "resolution": "1k_2k"
+        }
+      },
+      {
+        "id": "output_image_4k",
+        "component": "output",
+        "modality": "image",
+        "unit": "per_image",
+        "amount": 0.24,
+        "currency": "USD",
+        "processing_mode": "standard",
+        "pricing_status": "current",
+        "calculation_default": false,
+        "effective_from": null,
+        "effective_until": null,
+        "configuration": {
+          "resolution": "4k"
+        }
+      },
+      {
+        "id": "media_input_image",
+        "component": "input",
+        "modality": "image",
+        "unit": "per_image",
+        "amount": 0.0011,
+        "currency": "USD",
+        "processing_mode": "standard",
+        "pricing_status": "current",
+        "calculation_default": false,
+        "effective_from": null,
+        "effective_until": null
+      }
+    ],
+    "official_source_url": "https://ai.google.dev/gemini-api/docs/pricing",
+    "official_source_urls": [
+      "https://ai.google.dev/gemini-api/docs/pricing",
+      "https://ai.google.dev/gemini-api/docs/models/gemini-3-pro-image"
+    ],
+    "accessed_at": "2026-10-30T12:59:54Z",
+    "last_verified_at": "2026-10-30T12:59:54Z",
+    "effective_from": null,
+    "notes": "Nano Banana Pro. Image output $120 per 1M tokens (Batch $60); 1K and 2K images use 1120 tokens, 4K uses 2000. Batch and Flex are $0.067 (1K/2K) and $0.12 (4K). Input images are 560 tokens ($0.0011 each). Text input $2 and text output $12 per 1M tokens are extra; Priority is $216 per 1M image output tokens.",
     "released_at": null
   },
   {
