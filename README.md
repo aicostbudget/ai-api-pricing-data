@@ -36,7 +36,7 @@ USD per 1M tokens, standard list price. 123 models tracked, last verified **2026
 Batch, cached-input, cache-write, long-context and non-token prices are in the full data.
 <!-- price-table:end -->
 
-Click a provider for its full price list, or a model for its JSON record. If this saves you a scrape, a ⭐ helps other developers find it, and **Watch → Custom → Releases** gets you price-change releases.
+Click a provider for its full price list, or a model for its JSON record. If this saves you a scrape, a ⭐ helps other developers find it. To hear about price changes, subscribe to the [price-change Atom feed](https://aicostbudget.com/en/model-price-monitor/feed.xml?utm_source=github&utm_medium=referral&utm_campaign=pricing_dataset&utm_content=readme_feed).
 
 ## Get the data
 
