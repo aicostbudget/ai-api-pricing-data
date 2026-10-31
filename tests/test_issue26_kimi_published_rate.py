@@ -12,6 +12,7 @@ from tests.freshness_assertions import assert_evidence_backed_timestamp
 
 ROOT = Path(__file__).resolve().parents[1]
 KEY = 'moonshot-ai/kimi-k2.6'
+K2_EXISTING_USERS_ONLY = {'moonshot-ai/kimi-k2.6', 'moonshot-ai/kimi-k2.7-code'}
 BASE = '80c2ec4991bcaaf795fe9192946f5ec770d57f48'
 
 def without_check_times(value):
@@ -136,4 +137,8 @@ class KimiPublishedRateTests(unittest.TestCase):
                 for field in ('verifiedAt','checkedAt'):
                     assert_evidence_backed_timestamp(self, key, current[key].get(field), old.get(field))
                 for field in ('pricingComponents','priceRecords','accessStatus','bindingStatus'):
+                    if field == 'accessStatus' and key in K2_EXISTING_USERS_ONLY:
+                        # Kimi closed the K2 series to newly registered users on 2026-10-31.
+                        self.assertEqual(current[key].get(field), 'existing_users_only', key)
+                        continue
                     self.assertEqual(without_check_times(current[key].get(field)), without_check_times(old.get(field)), (key,field))
