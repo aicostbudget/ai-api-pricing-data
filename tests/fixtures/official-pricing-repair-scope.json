@@ -500,5 +500,32 @@
       "data/snapshots/2026-10-29-2/prices.json"
     ],
     "evidence": "Kimi K2.6 and K2.7 Code turned deprecated in snapshot 2026-10-26 without an event, because their prices were last verified on 2026-10-09 and a lifecycle_update needs verified_at no earlier than detected_at. Release 2026-10-29-2 re-verified both against platform.kimi.ai/docs/pricing (chat and batch tables, reports/price-evidence 20261029T063710Z and 20261029T063721Z), then generated the events from the last active snapshot to that release. Kimi publishes no deprecation or retirement date, so effective_from stays null."
+  },
+  "mistral_large_4_list_cut_extension": {
+    "identities": [
+      "mistral-ai/mistral-large-4"
+    ],
+    "canonical_source_commit": "a781244",
+    "base_release": "kimi_k2_lifecycle_extension",
+    "base_event_count": 52,
+    "appended_event_count": 1,
+    "full_event_count": 53,
+    "full_events_sha256": "9f6fb871fe88809ffb3fc6eb8e85bacc4f7e3c59f32b9a11bba452ee2938b689",
+    "appended_events_sha256": "239ac98bb0c9e7c97521c205b56db035fa8dc2ba8b9ae0b6f30c45bea9cf335b",
+    "appended_event_ids": [
+      "mistral-ai:mistral-large-4:price_update:620e4dfaff3e"
+    ],
+    "appended_dedupe_keys": [
+      "sha256:620e4dfaff3e621695fb42ecf5704f77ec46227563eb12455b0ea0c9004e5a5a"
+    ],
+    "source_snapshots": [
+      "data/snapshots/2026-10-31/prices.json",
+      "data/snapshots/2026-10-31-2/prices.json"
+    ],
+    "canonical_before_sha256": "ea006f68ade9c40534bf7918e6e912398f6fcda2e01224ec8973396e34ea8acc",
+    "canonical_after_sha256": "f5f3cf79dce66368e7e3156f1c964aacbb0b4d103abe9eaa175b2826a7e00933",
+    "projection_before_sha256": "9e102c6b9a6a7012f59b17bd1eaf230bbef9420e3b4b16c6e4e69251909fc6b8",
+    "projection_after_sha256": "73ef6358333fc764837ae29414c5aff323dbecdb87e2bba6460668b912db7f6b",
+    "evidence": "The official Mistral Large 4 model page (docs.mistral.ai/models/mistral-large-4-0, reports/price-evidence 20261031T051251Z) lists $0.7 input, $0.07 cached input and $2.1 output per 1M tokens with no promotion label, replacing the $1.36 / $0.14 / $4.18 list price verified 2026-10-21. Mistral published no announcement or effective date, so the event uses date_basis first_observed and effective_from stays null."
   }
 }

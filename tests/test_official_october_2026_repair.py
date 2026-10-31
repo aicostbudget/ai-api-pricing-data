@@ -45,11 +45,15 @@ class OctoberOfficialRepairTests(unittest.TestCase):
  def test_mistral_launch_sale_is_history_and_list_price_is_current(self):
   m=self.models['mistral-large-4']; self.assertEqual((m['status'],m['release_stage'],m['context_window_tokens']),('preview','preview',1000000))
   current=[r for r in m['price_records'] if r['pricing_status']=='current']; self.assertEqual(len(current),1); r=current[0]
-  self.assertTrue(r['calculation_default']); self.assertNotIn('promotion',r); self.assertEqual([c['amount'] for c in r['charges']],['1.36','0.14','4.18']); self.assertIsNone(r['effective_from'])
-  history=[r for r in m['price_records'] if r['pricing_status']=='historical']; self.assertEqual(len(history),1); h=history[0]
-  self.assertFalse(h['calculation_default']); self.assertEqual([c['amount'] for c in h['charges']],['0.68','0.07','2.09']); self.assertEqual([c['amount'] for c in h['promotion']['list_charges']],['1.36','0.14','4.18']); self.assertEqual(h['effective_from'],'2026-10-06'); self.assertIsNone(h['effective_until'])
-  self.assertNotIn('2026-10-20',json.dumps(m)); self.assertEqual(m['pricing']['input'],1.36); self.assertEqual(m['pricing']['output'],4.18); self.assertEqual(m['pricing']['cached_input'],0.14)
-  row=self.projection[m['model_id']]; self.assertEqual((row['inputPrice'],row['cachedInputPrice'],row['outputPrice']),(1.36,0.14,4.18))
+  self.assertTrue(r['calculation_default']); self.assertNotIn('promotion',r); self.assertEqual([c['amount'] for c in r['charges']],['0.70','0.07','2.10']); self.assertIsNone(r['effective_from'])
+  history={r['id'].rsplit(':',1)[-1]:r for r in m['price_records'] if r['pricing_status']=='historical'}; self.assertEqual(set(history),{'launch_2026_10','list_2026_10'})
+  h=history['launch_2026_10']
+  self.assertFalse(h['calculation_default']); self.assertEqual([c['amount'] for c in h['charges']],['0.68','0.07','2.09']); self.assertEqual([c['amount'] for c in h['promotion']['list_charges']],['1.36','0.14','4.18']); self.assertEqual((h['effective_from'],h['effective_until']),('2026-10-06','2026-10-09'))
+  # Mistral published no end date for the launch sale or the $1.36 list price: each record stops at its verification, never at an inferred date.
+  listed=history['list_2026_10']; self.assertFalse(listed['calculation_default']); self.assertNotIn('promotion',listed)
+  self.assertEqual([c['amount'] for c in listed['charges']],['1.36','0.14','4.18']); self.assertEqual((listed['effective_from'],listed['effective_until']),('2026-10-21','2026-10-22'))
+  self.assertNotIn('2026-10-20',json.dumps(m)); self.assertEqual(m['pricing']['input'],0.7); self.assertEqual(m['pricing']['output'],2.1); self.assertEqual(m['pricing']['cached_input'],0.07)
+  row=self.projection[m['model_id']]; self.assertEqual((row['inputPrice'],row['cachedInputPrice'],row['outputPrice']),(0.7,0.07,2.1))
   self.assertTrue(all('promotion' not in r for r in row['priceRecords'])); self.assertTrue(all(c['condition'].get('promotion') is None for c in row['pricingComponents']))
  def test_promotion_is_an_observation_not_an_undated_future_rate(self):
   records=self.normalized('mistral-large-4')
@@ -65,7 +69,7 @@ class OctoberOfficialRepairTests(unittest.TestCase):
  def test_hf_publishes_current_list_price_without_expired_promotion(self):
   rows=json.loads((ROOT/'huggingface/prices.json').read_text(encoding='utf-8'))['records']
   record=next(r for r in rows if r['model_id']=='mistral-large-4')
-  self.assertEqual({c['component']:c['amount'] for c in record['pricing_components']},{'input':'1.36','cached_input':'0.14','output':'4.18'})
+  self.assertEqual({c['component']:c['amount'] for c in record['pricing_components']},{'input':'0.7','cached_input':'0.07','output':'2.1'})
   self.assertTrue(all(c['condition'].get('promotion') is None for c in record['pricing_components']))
   self.assertTrue(all(c['condition']['effective_until'] is None for c in record['pricing_components']))
  def test_invalid_sale_does_not_pass(self):
@@ -81,8 +85,9 @@ class OctoberOfficialRepairTests(unittest.TestCase):
   for id in ['claude-haiku-5-5','gemini-nano-banana-2.1','mistral-large-4']:
    events=[e for e in self.events if e['model_id']==id and e['change_type']=='model_added']; self.assertEqual(len(events),1); self.assertNotIn('predecessor_model_id',events[0])
   for id in ['claude-haiku-5-5','gemini-nano-banana-2.1']: self.assertEqual(len([e for e in self.events if e['model_id']==id]),1)
-  later=[e for e in self.events if e['model_id']=='mistral-large-4' and e['change_type']!='model_added']; self.assertEqual(len(later),1)
-  self.assertEqual((later[0]['change_type'],later[0]['date_basis'],later[0]['effective_from']),('price_update','first_observed',None))
+  later=[e for e in self.events if e['model_id']=='mistral-large-4' and e['change_type']!='model_added']; self.assertEqual(len(later),2)
+  self.assertEqual({(e['change_type'],e['date_basis'],e['effective_from']) for e in later},{('price_update','first_observed',None)})
+  self.assertEqual([(e['old_prices']['input'],e['new_prices']['input']) for e in sorted(later,key=lambda e:e['detected_at'])],[(0.68,1.36),(1.36,0.7)])
  def test_structured_projection_keeps_modalities_and_tiers(self):
   h=self.projection['claude-haiku-5-5']; self.assertEqual(len(h['pricingTiers']),2); self.assertEqual(len(h['pricingComponents']),14)
   n=self.projection['gemini-nano-banana-2.1']; self.assertEqual({(c['condition']['processingMode'],c['modality'],c['amount']) for c in n['pricingComponents'] if c['component']=='output'},{('standard','text','7.5'),('standard','image','30'),('batch','text','3.75'),('batch','image','15')})

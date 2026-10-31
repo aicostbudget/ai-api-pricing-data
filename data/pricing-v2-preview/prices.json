@@ -9753,32 +9753,32 @@
   },
   {
     "availabilityRules": [],
-    "billingNote": "Public Preview. Standard list price; the launch discount is no longer shown on the official model page (first observed 2026-10-21). Mistral did not publish an exact promotion end date. Open weights coming soon, not currently asserted as downloadable. No predecessor/successor relationship asserted.",
+    "billingNote": "Public Preview API. Standard list price $0.70 input / $0.07 cached input / $2.10 output per 1M tokens, first observed on the official model page 2026-10-31; Mistral published no announcement or effective date for the change from $1.36 / $0.14 / $4.18, so effective_from is left unknown rather than inferred. Open weights are published (Hugging Face mistralai/Mistral-Large-4-1T-A52B) under the Mistral Ecosystem Open Weight License; the API itself is still Public Preview, not GA. No predecessor/successor relationship asserted.",
     "calculationDefault": true,
     "charges": [
       {
-        "amount": "1.36",
+        "amount": "0.7",
         "chargeId": "price:mistral-ai/mistral-large-4:standard:short:current:input:text:per_1m_tokens",
         "component": "input",
         "modality": "text",
         "unit": "per_1m_tokens"
       },
       {
-        "amount": "0.14",
+        "amount": "0.07",
         "chargeId": "price:mistral-ai/mistral-large-4:standard:short:current:cached_input:text:per_1m_tokens",
         "component": "cached_input",
         "modality": "text",
         "unit": "per_1m_tokens"
       },
       {
-        "amount": "4.18",
+        "amount": "2.1",
         "chargeId": "price:mistral-ai/mistral-large-4:standard:short:current:output:text:per_1m_tokens",
         "component": "output",
         "modality": "text",
         "unit": "per_1m_tokens"
       }
     ],
-    "checkedAt": "2026-10-21T16:34:14Z",
+    "checkedAt": "2026-10-31T05:12:51Z",
     "contextClass": "short",
     "currency": "USD",
     "defaultAvailabilityStatus": "available",
@@ -9812,11 +9812,74 @@
       "source:mistral-ai:mistral-ai-news-mistral-large-4"
     ],
     "verificationStatus": "verified",
+    "verifiedAt": "2026-10-31T05:12:51Z"
+  },
+  {
+    "availabilityRules": [],
+    "billingNote": "Public Preview standard list price after the launch discount, verified 2026-10-21T16:34:14Z. Superseded by $0.70 / $0.07 / $2.10 first observed 2026-10-31; Mistral published no date for either change. The record covers the verification day only; effective_until is the next day because the contract needs an end after the start.",
+    "calculationDefault": false,
+    "charges": [
+      {
+        "amount": "1.36",
+        "chargeId": "price:mistral-ai/mistral-large-4:standard:short:historical:list_2026_10:input:text:per_1m_tokens",
+        "component": "input",
+        "modality": "text",
+        "unit": "per_1m_tokens"
+      },
+      {
+        "amount": "0.14",
+        "chargeId": "price:mistral-ai/mistral-large-4:standard:short:historical:list_2026_10:cached_input:text:per_1m_tokens",
+        "component": "cached_input",
+        "modality": "text",
+        "unit": "per_1m_tokens"
+      },
+      {
+        "amount": "4.18",
+        "chargeId": "price:mistral-ai/mistral-large-4:standard:short:historical:list_2026_10:output:text:per_1m_tokens",
+        "component": "output",
+        "modality": "text",
+        "unit": "per_1m_tokens"
+      }
+    ],
+    "checkedAt": "2026-10-21T16:34:14Z",
+    "contextClass": "short",
+    "currency": "USD",
+    "defaultAvailabilityStatus": "available",
+    "effectiveFrom": "2026-10-21",
+    "effectiveUntil": "2026-10-22",
+    "modelInternalId": "mistral-ai/mistral-large-4",
+    "priceAdjustments": [],
+    "pricingId": "price:mistral-ai/mistral-large-4:standard:short:historical:list_2026_10",
+    "pricingStatus": "historical",
+    "processingMode": "standard",
+    "promptTokenThreshold": null,
+    "regionPolicy": "global",
+    "regionSelector": {
+      "dataResidencies": [
+        "global"
+      ],
+      "endpointGeographies": [
+        "global"
+      ],
+      "pricingGeography": "global_base"
+    },
+    "sourceDatasetIds": {
+      "publicDatasetIds": [
+        "mistral-large-4"
+      ],
+      "websiteIds": []
+    },
+    "sourceRefs": [
+      "source:mistral-ai:docs-mistral-ai-models-mistral-large-4-0",
+      "source:mistral-ai:docs-mistral-ai-resources-changelogs",
+      "source:mistral-ai:mistral-ai-news-mistral-large-4"
+    ],
+    "verificationStatus": "verified",
     "verifiedAt": "2026-10-21T16:34:14Z"
   },
   {
     "availabilityRules": [],
-    "billingNote": "Public Preview launch pricing: 50% off for 2 weeks, verified 2026-10-09T12:36:29Z. Mistral did not publish an exact promotion end date; the standard list price was first observed as current on 2026-10-21, so effective_until is left unknown rather than inferred.",
+    "billingNote": "Public Preview launch pricing: 50% off for 2 weeks, verified 2026-10-09T12:36:29Z. Mistral published no absolute promotion end date, so the record covers only the release date through that verification; later dates are not inferred.",
     "calculationDefault": false,
     "charges": [
       {
@@ -9846,7 +9909,7 @@
     "currency": "USD",
     "defaultAvailabilityStatus": "available",
     "effectiveFrom": "2026-10-06",
-    "effectiveUntil": null,
+    "effectiveUntil": "2026-10-09",
     "modelInternalId": "mistral-ai/mistral-large-4",
     "priceAdjustments": [],
     "pricingId": "price:mistral-ai/mistral-large-4:standard:short:historical:launch_2026_10",
