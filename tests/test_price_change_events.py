@@ -159,6 +159,22 @@ class PriceChangeEventTests(unittest.TestCase):
             events = generate_events(before, after)
         self.assertEqual([(event["model_id"], event["change_type"]) for event in events], [("text-new", "model_added")])
 
+    def test_cloud_platform_listing_emits_no_event(self):
+        listing = model(provider_id="aws", model_id="bedrock-model-a")
+        listing["hosted_model"] = {"provider_id": "test-provider", "model_id": "model-a", "platform": "amazon-bedrock"}
+        repriced = json.loads(json.dumps(listing))
+        repriced["pricing"]["input"] = 5
+        with tempfile.TemporaryDirectory() as tmp:
+            root = Path(tmp)
+            first = root / "2026-07-26" / "prices.json"
+            second = root / "2026-07-27" / "prices.json"
+            third = root / "2026-07-28" / "prices.json"
+            snapshot(first, [model()])
+            snapshot(second, [model(), listing])
+            snapshot(third, [model(), repriced])
+            self.assertEqual(generate_events(first, second), [], "a new listing is not a model launch")
+            self.assertEqual(generate_events(second, third), [], "listing price moves stay out of the provider event feed")
+
     def test_newly_observed_retired_model_is_lifecycle_update_not_model_added(self):
         retired = model(model_id="historical-model")
         retired.update({

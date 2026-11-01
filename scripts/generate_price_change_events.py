@@ -645,6 +645,10 @@ def generate_events(before: Path, after: Path, provider_id: str | None = None, m
     if model_ids is not None:
         before_models = {key: value for key, value in before_models.items() if key[1] in model_ids}
         after_models = {key: value for key, value in after_models.items() if key[1] in model_ids}
+    # Cloud platform listings (Claude on Bedrock, ...) repeat another provider's model; the feed
+    # tracks providers' own launches and prices only.
+    before_models = {key: value for key, value in before_models.items() if not value.get("hosted_model")}
+    after_models = {key: value for key, value in after_models.items() if not value.get("hosted_model")}
     detected_at = snapshot_date(after)
     before_rel = repo_relative(before)
     after_rel = repo_relative(after)

@@ -14,6 +14,7 @@
     "provider_id": {"type": "string", "pattern": "^[a-z0-9][a-z0-9-]*$"},
     "model_id": {"type": "string"},
     "display_name": {"type": "string"},
+    "hosted_model": {"type": "object", "additionalProperties": false, "required": ["provider_id", "model_id", "platform"], "properties": {"provider_id": {"type": "string", "minLength": 1}, "model_id": {"type": "string", "minLength": 1}, "platform": {"type": "string", "enum": ["amazon-bedrock", "google-vertex-ai"]}}},
     "model_family": {"type": "string"},
     "model_category": {"type": "string"},
     "status": {"type": "string", "enum": ["active", "preview", "deprecated", "retired", "unknown"]},

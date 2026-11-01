@@ -531,6 +531,23 @@ def public_dataset_v15_compatible(row: dict[str, Any]) -> bool:
     return True
 
 
+_HOSTED_LISTING_CACHE: dict[tuple[str, int], frozenset[str]] = {}
+
+
+def hosted_listing_ids() -> frozenset[str]:
+    """Canonical rows that are a cloud platform's listing of another provider's model."""
+    path = ROOT / "data" / "canonical" / "models.json"
+    key = (str(path), path.stat().st_mtime_ns)
+    if key not in _HOSTED_LISTING_CACHE:
+        _HOSTED_LISTING_CACHE.clear()
+        _HOSTED_LISTING_CACHE[key] = frozenset(
+            f"{model['provider_id']}/{model['model_id']}"
+            for model in read_json(path)
+            if model.get("hosted_model")
+        )
+    return _HOSTED_LISTING_CACHE[key]
+
+
 def governance_metadata(
     identity: dict[str, Any],
     row: dict[str, Any],
@@ -542,7 +559,13 @@ def governance_metadata(
     source_candidates = [internal_id, *merged_sources.get(internal_id, [])]
     details = None
 
-    if internal_id in excluded_reasons:
+    if internal_id in hosted_listing_ids():
+        governance_class = "PROJECTED_IDENTITY"
+        reason = "cloud_platform_listing_deferred_from_public_dataset"
+        details = "Cloud platform listing of another provider's model; compared on the Website, not a separate public model."
+        pricing_source = "canonical_verified_structured_price"
+        public_exposure = "excluded"
+    elif internal_id in excluded_reasons:
         governance_class = "EXCLUDED"
         reason = "official_price_incomplete_excluded_from_public_projection"
         details = excluded_reasons[internal_id]
@@ -1085,6 +1108,8 @@ def projection_row(
     blocked_reasons: list[str] = []
     if identity["internalId"] in excluded_reasons:
         blocked_reasons.append("excluded_default_candidate")
+    if identity["internalId"] in hosted_listing_ids():
+        blocked_reasons.append("cloud_platform_listing")
     if identity["verificationStatus"] == "review_required":
         blocked_reasons.append("review_required")
     if identity["identityType"] == "historical_reference" and not identity.get("billingModelInternalId"):

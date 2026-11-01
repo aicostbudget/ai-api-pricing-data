@@ -150,6 +150,22 @@ def validate_pricing_contract(model: dict, item: tuple[str, str]) -> None:
             fail(f"invalid {label} configuration")
 
 
+HOSTED_PLATFORM_PROVIDERS = {"amazon-bedrock": "aws", "google-vertex-ai": "google-cloud"}
+
+
+def validate_hosted_model(model: dict, item: tuple[str, str], model_keys: set[tuple[str, str]]) -> None:
+    hosted = model.get("hosted_model")
+    if hosted is None:
+        return
+    if not isinstance(hosted, dict) or set(hosted) != {"provider_id", "model_id", "platform"}:
+        fail(f"invalid hosted_model for {item[0]}/{item[1]}")
+    if HOSTED_PLATFORM_PROVIDERS.get(hosted["platform"]) != item[0]:
+        fail(f"hosted_model platform {hosted['platform']} does not belong to provider {item[0]}")
+    target = (hosted["provider_id"], hosted["model_id"])
+    if target == item or target not in model_keys:
+        fail(f"hosted_model of {item[0]}/{item[1]} must point at another canonical model: {target[0]}/{target[1]}")
+
+
 def validate_release_metadata(model: dict, item: tuple[str, str]) -> None:
     released_at = model.get("released_at")
     evidence = model.get("release_evidence")
@@ -217,6 +233,7 @@ def validate_models(now: datetime | None = None) -> None:
         if last_verified_at > now:
             fail(f"future last_verified_at for {item[0]}/{item[1]}: {model['last_verified_at']}")
         validate_release_metadata(model, item)
+        validate_hosted_model(model, item, model_keys)
         validate_facts(canonical_facts(model), model["provider_id"], now)
         pricing = model["pricing"]
         validate_pricing_contract(model, item)
