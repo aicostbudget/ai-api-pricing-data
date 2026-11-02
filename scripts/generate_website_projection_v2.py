@@ -548,6 +548,22 @@ def governance_metadata(
         details = excluded_reasons[internal_id]
         pricing_source = "none"
         public_exposure = "excluded"
+    elif (
+        row.get("pricingComponents")
+        and not public_dataset_v15_compatible(row)
+        and identity["lifecycleStatus"] == "retired"
+        and identity.get("billingModelInternalId")
+    ):
+        # A retired slug that redirects bills at its target, like retired token models; its own
+        # configuration-priced components stay deferred from the public Dataset 1.5 contract.
+        governance_class = "HISTORICAL_REFERENCE"
+        reason = "retired_identity_redirects_to_current_billing"
+        details = identity.get("routingDetails", {}).get("semantics") or (
+            "Retired slug billed at its redirect target; its configuration-priced components cannot be "
+            "represented losslessly by the current public Dataset 1.5 contract."
+        )
+        pricing_source = "redirected_verified_billing"
+        public_exposure = "excluded"
     elif row.get("pricingComponents") and not public_dataset_v15_compatible(row):
         governance_class = "PROJECTED_IDENTITY"
         reason = "internal_structured_pricing_deferred_from_public_dataset"
