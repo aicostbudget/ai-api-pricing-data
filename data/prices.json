@@ -2,9 +2,9 @@
   "dataset_name": "AICostBudget AI API Pricing Dataset",
   "dataset_version": "1.0.0",
   "description": "Open, machine-readable pricing data for LLM and AI APIs.",
-  "generated_at": "2026-10-31T05:34:37Z",
+  "generated_at": "2026-11-02T07:16:04Z",
   "homepage": "https://aicostbudget.com",
-  "last_verified_at": "2026-10-31T05:12:51Z",
+  "last_verified_at": "2026-11-02T06:58:21Z",
   "licenses": {
     "code": "MIT",
     "data": "CC BY 4.0"
@@ -1653,6 +1653,11 @@
       "model_id": "claude-opus-4.8",
       "notes": "Anthropic table columns are input, 5-minute cache write, 1-hour cache write, cache read, and output. cache_write stores the 5-minute write rate.",
       "official_source_url": "https://docs.anthropic.com/en/docs/about-claude/pricing",
+      "official_source_urls": [
+        "https://docs.anthropic.com/en/docs/about-claude/pricing",
+        "https://platform.claude.com/docs/en/build-with-claude/fast-mode",
+        "https://platform.claude.com/docs/en/about-claude/pricing"
+      ],
       "price_records": [
         {
           "billing_note": "Anthropic table columns are input, 5-minute cache write, 1-hour cache write, cache read, and output. cache_write stores the 5-minute write rate.",
@@ -1770,6 +1775,55 @@
           ],
           "verification_status": "verified",
           "verified_at": "2026-10-27T04:44:38Z"
+        },
+        {
+          "billing_note": "Fast-mode (speed: fast) input and output pricing, research preview, requires the fast-mode-2026-02-01 beta header. Anthropic deprecated Fast mode on Claude Opus 4.8 and removes it on 2026-11-30; after that, speed: fast requests return an error and the migration target is Claude Opus 5.5. Prompt-caching and data-residency multipliers apply on top. Not available with the Batch API.",
+          "calculation_default": false,
+          "charges": [
+            {
+              "amount": "10",
+              "component": "input",
+              "id": "price:anthropic/claude-opus-4.8:fast:short:current:input:text:per_1m_tokens",
+              "modality": "text",
+              "unit": "per_1m_tokens"
+            },
+            {
+              "amount": "50",
+              "component": "output",
+              "id": "price:anthropic/claude-opus-4.8:fast:short:current:output:text:per_1m_tokens",
+              "modality": "text",
+              "unit": "per_1m_tokens"
+            }
+          ],
+          "checked_at": "2026-11-02T06:54:24Z",
+          "context_class": "short",
+          "currency": "USD",
+          "effective_from": null,
+          "effective_until": "2026-11-29",
+          "id": "price:anthropic/claude-opus-4.8:fast:short:current",
+          "pricing_status": "current",
+          "processing_mode": "fast",
+          "prompt_token_threshold": null,
+          "region_policy": {
+            "availability": {
+              "default": "available",
+              "rules": []
+            },
+            "data_residencies": [
+              "global"
+            ],
+            "endpoint_geographies": [
+              "global"
+            ],
+            "price_adjustments": [],
+            "pricing_geography": "global_base"
+          },
+          "source_refs": [
+            "https://platform.claude.com/docs/en/build-with-claude/fast-mode",
+            "https://platform.claude.com/docs/en/about-claude/pricing"
+          ],
+          "verification_status": "verified",
+          "verified_at": "2026-11-02T06:54:24Z"
         }
       ],
       "pricing": {
@@ -1822,6 +1876,10 @@
       "model_id": "claude-opus-5",
       "notes": "Released 2026-07-24. Anthropic table columns are input, 5-minute cache write, 1-hour cache write, cache read, and output. cache_write stores the 5-minute write rate; cache_write_1h stores the 1-hour write rate. Batch pricing is 50% of standard input and output per Anthropic Batch Processing.",
       "official_source_url": "https://platform.claude.com/docs/en/about-claude/pricing",
+      "official_source_urls": [
+        "https://platform.claude.com/docs/en/about-claude/pricing",
+        "https://platform.claude.com/docs/en/build-with-claude/fast-mode"
+      ],
       "price_records": [
         {
           "billing_note": "Released 2026-07-24. Anthropic table columns are input, 5-minute cache write, 1-hour cache write, cache read, and output. cache_write stores the 5-minute write rate; cache_write_1h stores the 1-hour write rate. Batch pricing is 50% of standard input and output per Anthropic Batch Processing.",
@@ -1939,6 +1997,55 @@
           ],
           "verification_status": "verified",
           "verified_at": "2026-10-27T04:44:38Z"
+        },
+        {
+          "billing_note": "Fast-mode (speed: fast) input and output pricing, research preview, requires the fast-mode-2026-02-01 beta header; access is by account manager or waitlist. Prompt-caching and data-residency multipliers apply on top. Not available with the Batch API.",
+          "calculation_default": false,
+          "charges": [
+            {
+              "amount": "10",
+              "component": "input",
+              "id": "price:anthropic/claude-opus-5:fast:short:current:input:text:per_1m_tokens",
+              "modality": "text",
+              "unit": "per_1m_tokens"
+            },
+            {
+              "amount": "50",
+              "component": "output",
+              "id": "price:anthropic/claude-opus-5:fast:short:current:output:text:per_1m_tokens",
+              "modality": "text",
+              "unit": "per_1m_tokens"
+            }
+          ],
+          "checked_at": "2026-11-02T06:54:24Z",
+          "context_class": "short",
+          "currency": "USD",
+          "effective_from": null,
+          "effective_until": null,
+          "id": "price:anthropic/claude-opus-5:fast:short:current",
+          "pricing_status": "current",
+          "processing_mode": "fast",
+          "prompt_token_threshold": null,
+          "region_policy": {
+            "availability": {
+              "default": "available",
+              "rules": []
+            },
+            "data_residencies": [
+              "global"
+            ],
+            "endpoint_geographies": [
+              "global"
+            ],
+            "price_adjustments": [],
+            "pricing_geography": "global_base"
+          },
+          "source_refs": [
+            "https://platform.claude.com/docs/en/build-with-claude/fast-mode",
+            "https://platform.claude.com/docs/en/about-claude/pricing"
+          ],
+          "verification_status": "verified",
+          "verified_at": "2026-11-02T06:54:24Z"
         }
       ],
       "pricing": {
@@ -26011,11 +26118,11 @@
       "status": "active"
     },
     {
-      "accessed_at": "2026-10-09T06:29:38Z",
+      "accessed_at": "2026-11-02T06:58:21Z",
       "display_name": "Grok Imagine Image Quality",
       "effective_from": null,
       "input_modality": "image",
-      "last_verified_at": "2026-10-09T06:29:38Z",
+      "last_verified_at": "2026-11-02T06:58:21Z",
       "lifecycle": {
         "replacement_model_id": "grok-imagine-image-2.0",
         "retirement_date": "2026-11-02",
@@ -26038,7 +26145,7 @@
       "model_category": "image_generation",
       "model_family": "Grok Imagine Image",
       "model_id": "grok-imagine-image-quality",
-      "notes": "Current billing remains $0.01 per input image, $0.05 per 1K output image, $0.06 per 1.5K (1408x1408) output image, and $0.07 per 2K output image. xAI began the retirement notice on 2026-09-02. Effective 2026-11-02, the old slug is scheduled to remain resolvable and redirect to grok-imagine-image-2.0 with quality=low; billing then follows the redirect target configuration. This scheduled transition does not change current prices.",
+      "notes": "Retired 2026-11-02 (xAI 60-day notice from 2026-09-02). The slug still resolves and is served by grok-imagine-image-2.0 with quality=low, billed at the grok-imagine-image-2.0 low rate. The per-image amounts kept here are the last published rates before retirement: $0.01 per input image, $0.05 per 1K output image, $0.06 per 1.5K (1408x1408) output image, and $0.07 per 2K output image.",
       "official_source_url": "https://docs.x.ai/developers/pricing",
       "official_source_urls": [
         "https://docs.x.ai/developers/pricing",
@@ -26123,7 +26230,7 @@
       ],
       "provider_id": "xai",
       "release_stage": "legacy",
-      "status": "deprecated"
+      "status": "retired"
     },
     {
       "access_checked_at": "2026-10-15T10:15:09Z",

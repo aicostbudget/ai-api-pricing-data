@@ -82,10 +82,15 @@ class PricingGovernanceTests(unittest.TestCase):
             "xai/grok-imagine-image-2.0",
         ):
             self.assertEqual(self.projection[internal_id]["publicExposure"], "excluded")
-            self.assertEqual(
-                self.projection[internal_id]["governanceReason"],
-                "internal_structured_pricing_deferred_from_public_dataset",
-            )
+        self.assertEqual(
+            self.projection["xai/grok-imagine-image-2.0"]["governanceReason"],
+            "internal_structured_pricing_deferred_from_public_dataset",
+        )
+        # Retired 2026-11-02; the slug bills at grok-imagine-image-2.0.
+        self.assertEqual(
+            self.projection["xai/grok-imagine-image-quality"]["governanceReason"],
+            "retired_identity_redirects_to_current_billing",
+        )
         for internal_id, row in self.projection.items():
             self.assertTrue(row["governanceReason"], f"MISSING_GOVERNANCE_REASON: {internal_id}")
             self.assertTrue(row["governanceSourceCandidateIds"], f"MISSING_GOVERNANCE_SOURCE: {internal_id}")
@@ -185,7 +190,6 @@ class PricingGovernanceTests(unittest.TestCase):
             if self.projection[key]["governanceReason"] == "internal_structured_pricing_deferred_from_public_dataset"
         }
         self.assertEqual(contract_deferred, {
-            "xai/grok-imagine-image-quality",
             "xai/grok-imagine-image-2.0",
             "xai/grok-imagine-image",
             "openai/gpt-image-2.5-sunburst",
@@ -217,8 +221,13 @@ class PricingGovernanceTests(unittest.TestCase):
         self.assertEqual(conflict["lifecycleConflict"]["resolution"], "unresolved")
         conflict_only = {key for key in excluded if self.projection[key].get("lifecycleConflict", {}).get("resolution") == "unresolved"}
         self.assertEqual(conflict_only, {"google-gemini/gemini-2.5-flash-image"})
+        retired_redirect = {
+            key for key in excluded
+            if self.projection[key]["governanceReason"] == "retired_identity_redirects_to_current_billing"
+        }
+        self.assertEqual(retired_redirect, {"xai/grok-imagine-image-quality"})
         self.assertEqual(
-            excluded - contract_deferred - lifecycle_only - conflict_only,
+            excluded - contract_deferred - lifecycle_only - conflict_only - retired_redirect,
             set(self.excluded_decisions),
             "EXCLUSION_DECISION_DRIFT: non-contract exclusions differ from Phase 2.6",
         )

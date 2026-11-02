@@ -9,7 +9,7 @@
     "review_required": "display only with warning; no default or recommendation placement",
     "unsafe": "exclude from default calculations and show warning only where explicitly allowed"
   },
-  "effectiveAt": "2026-10-31T05:34:37Z",
+  "effectiveAt": "2026-11-02T07:16:04Z",
   "effectiveTimezone": "UTC",
   "failureBehavior": {
     "atomicWrite": true,
@@ -18,7 +18,7 @@
     "partialJson": "not_written",
     "publicV1Mutation": "forbidden"
   },
-  "generatedAt": "2026-10-31T05:34:37Z",
+  "generatedAt": "2026-11-02T07:16:04Z",
   "generatedAtPolicy": "UTC artifact generation timestamp injected by the generation pipeline",
   "governancePolicy": {
     "classes": [
@@ -4370,6 +4370,22 @@
           "verifiedAt": "2026-10-27T04:44:38Z"
         },
         {
+          "calculationDefault": false,
+          "checkedAt": "2026-11-02T06:54:24Z",
+          "contextClass": "short",
+          "effectiveFrom": null,
+          "effectiveUntil": "2026-11-29",
+          "pricingId": "price:anthropic/claude-opus-4.8:fast:short:current",
+          "pricingStatus": "current",
+          "processingMode": "fast",
+          "sourceRefs": [
+            "source:anthropic:platform-claude-com-docs-en-about-claude-pricing",
+            "source:anthropic:platform-claude-com-docs-en-build-with-claude-fast-mode"
+          ],
+          "verificationStatus": "verified",
+          "verifiedAt": "2026-11-02T06:54:24Z"
+        },
+        {
           "calculationDefault": true,
           "checkedAt": "2026-10-27T04:44:38Z",
           "contextClass": "short",
@@ -4452,6 +4468,78 @@
           "pricingId": "price:anthropic/claude-opus-4.8:batch:short:current",
           "sourceRefs": [
             "source:anthropic:docs-anthropic-com-en-docs-about-claude-pricing"
+          ],
+          "unit": "per_1m_tokens",
+          "verificationStatus": "verified"
+        },
+        {
+          "amount": "10",
+          "calculationDefault": false,
+          "chargeId": "price:anthropic/claude-opus-4.8:fast:short:current:input:text:per_1m_tokens",
+          "component": "input",
+          "condition": {
+            "availabilityRules": [],
+            "contextClass": "short",
+            "defaultAvailabilityStatus": "available",
+            "effectiveFrom": null,
+            "effectiveUntil": "2026-11-29",
+            "priceAdjustments": [],
+            "processingMode": "fast",
+            "promptTokenThreshold": null,
+            "regionPolicy": "global",
+            "regionSelector": {
+              "dataResidencies": [
+                "global"
+              ],
+              "endpointGeographies": [
+                "global"
+              ],
+              "pricingGeography": "global_base"
+            },
+            "tierSelection": null
+          },
+          "currency": "USD",
+          "modality": "text",
+          "pricingId": "price:anthropic/claude-opus-4.8:fast:short:current",
+          "sourceRefs": [
+            "source:anthropic:platform-claude-com-docs-en-about-claude-pricing",
+            "source:anthropic:platform-claude-com-docs-en-build-with-claude-fast-mode"
+          ],
+          "unit": "per_1m_tokens",
+          "verificationStatus": "verified"
+        },
+        {
+          "amount": "50",
+          "calculationDefault": false,
+          "chargeId": "price:anthropic/claude-opus-4.8:fast:short:current:output:text:per_1m_tokens",
+          "component": "output",
+          "condition": {
+            "availabilityRules": [],
+            "contextClass": "short",
+            "defaultAvailabilityStatus": "available",
+            "effectiveFrom": null,
+            "effectiveUntil": "2026-11-29",
+            "priceAdjustments": [],
+            "processingMode": "fast",
+            "promptTokenThreshold": null,
+            "regionPolicy": "global",
+            "regionSelector": {
+              "dataResidencies": [
+                "global"
+              ],
+              "endpointGeographies": [
+                "global"
+              ],
+              "pricingGeography": "global_base"
+            },
+            "tierSelection": null
+          },
+          "currency": "USD",
+          "modality": "text",
+          "pricingId": "price:anthropic/claude-opus-4.8:fast:short:current",
+          "sourceRefs": [
+            "source:anthropic:platform-claude-com-docs-en-about-claude-pricing",
+            "source:anthropic:platform-claude-com-docs-en-build-with-claude-fast-mode"
           ],
           "unit": "per_1m_tokens",
           "verificationStatus": "verified"
@@ -4650,10 +4738,14 @@
       "selectedPriceEffectiveUntil": null,
       "selectedPriceRecordId": "price:anthropic/claude-opus-4.8:standard:short:current",
       "sourceRefs": [
-        "source:anthropic:docs-anthropic-com-en-docs-about-claude-pricing"
+        "source:anthropic:docs-anthropic-com-en-docs-about-claude-pricing",
+        "source:anthropic:platform-claude-com-docs-en-about-claude-pricing",
+        "source:anthropic:platform-claude-com-docs-en-build-with-claude-fast-mode"
       ],
       "sourceUrls": [
-        "https://docs.anthropic.com/en/docs/about-claude/pricing"
+        "https://docs.anthropic.com/en/docs/about-claude/pricing",
+        "https://platform.claude.com/docs/en/about-claude/pricing",
+        "https://platform.claude.com/docs/en/build-with-claude/fast-mode"
       ],
       "status": "latest",
       "verificationStatus": "verified",
@@ -4793,6 +4885,22 @@
           "verifiedAt": "2026-10-27T04:44:38Z"
         },
         {
+          "calculationDefault": false,
+          "checkedAt": "2026-11-02T06:54:24Z",
+          "contextClass": "short",
+          "effectiveFrom": null,
+          "effectiveUntil": null,
+          "pricingId": "price:anthropic/claude-opus-5:fast:short:current",
+          "pricingStatus": "current",
+          "processingMode": "fast",
+          "sourceRefs": [
+            "source:anthropic:platform-claude-com-docs-en-about-claude-pricing",
+            "source:anthropic:platform-claude-com-docs-en-build-with-claude-fast-mode"
+          ],
+          "verificationStatus": "verified",
+          "verifiedAt": "2026-11-02T06:54:24Z"
+        },
+        {
           "calculationDefault": true,
           "checkedAt": "2026-10-27T04:44:38Z",
           "contextClass": "short",
@@ -4875,6 +4983,78 @@
           "pricingId": "price:anthropic/claude-opus-5:batch:short:current",
           "sourceRefs": [
             "source:anthropic:platform-claude-com-docs-en-about-claude-pricing"
+          ],
+          "unit": "per_1m_tokens",
+          "verificationStatus": "verified"
+        },
+        {
+          "amount": "10",
+          "calculationDefault": false,
+          "chargeId": "price:anthropic/claude-opus-5:fast:short:current:input:text:per_1m_tokens",
+          "component": "input",
+          "condition": {
+            "availabilityRules": [],
+            "contextClass": "short",
+            "defaultAvailabilityStatus": "available",
+            "effectiveFrom": null,
+            "effectiveUntil": null,
+            "priceAdjustments": [],
+            "processingMode": "fast",
+            "promptTokenThreshold": null,
+            "regionPolicy": "global",
+            "regionSelector": {
+              "dataResidencies": [
+                "global"
+              ],
+              "endpointGeographies": [
+                "global"
+              ],
+              "pricingGeography": "global_base"
+            },
+            "tierSelection": null
+          },
+          "currency": "USD",
+          "modality": "text",
+          "pricingId": "price:anthropic/claude-opus-5:fast:short:current",
+          "sourceRefs": [
+            "source:anthropic:platform-claude-com-docs-en-about-claude-pricing",
+            "source:anthropic:platform-claude-com-docs-en-build-with-claude-fast-mode"
+          ],
+          "unit": "per_1m_tokens",
+          "verificationStatus": "verified"
+        },
+        {
+          "amount": "50",
+          "calculationDefault": false,
+          "chargeId": "price:anthropic/claude-opus-5:fast:short:current:output:text:per_1m_tokens",
+          "component": "output",
+          "condition": {
+            "availabilityRules": [],
+            "contextClass": "short",
+            "defaultAvailabilityStatus": "available",
+            "effectiveFrom": null,
+            "effectiveUntil": null,
+            "priceAdjustments": [],
+            "processingMode": "fast",
+            "promptTokenThreshold": null,
+            "regionPolicy": "global",
+            "regionSelector": {
+              "dataResidencies": [
+                "global"
+              ],
+              "endpointGeographies": [
+                "global"
+              ],
+              "pricingGeography": "global_base"
+            },
+            "tierSelection": null
+          },
+          "currency": "USD",
+          "modality": "text",
+          "pricingId": "price:anthropic/claude-opus-5:fast:short:current",
+          "sourceRefs": [
+            "source:anthropic:platform-claude-com-docs-en-about-claude-pricing",
+            "source:anthropic:platform-claude-com-docs-en-build-with-claude-fast-mode"
           ],
           "unit": "per_1m_tokens",
           "verificationStatus": "verified"
@@ -5073,10 +5253,12 @@
       "selectedPriceEffectiveUntil": null,
       "selectedPriceRecordId": "price:anthropic/claude-opus-5:standard:short:current",
       "sourceRefs": [
-        "source:anthropic:platform-claude-com-docs-en-about-claude-pricing"
+        "source:anthropic:platform-claude-com-docs-en-about-claude-pricing",
+        "source:anthropic:platform-claude-com-docs-en-build-with-claude-fast-mode"
       ],
       "sourceUrls": [
-        "https://platform.claude.com/docs/en/about-claude/pricing"
+        "https://platform.claude.com/docs/en/about-claude/pricing",
+        "https://platform.claude.com/docs/en/build-with-claude/fast-mode"
       ],
       "status": "latest",
       "verificationStatus": "verified",
@@ -68076,21 +68258,21 @@
       "accessEvidence": [],
       "accessStatus": "unknown",
       "aliasTargetInternalId": null,
-      "availability": "deprecated",
+      "availability": "retired",
       "batchInputPrice": null,
       "batchOutputPrice": null,
-      "billingModelInternalId": null,
+      "billingModelInternalId": "xai/grok-imagine-image-2.0",
       "bindingEvidence": [],
       "bindingStatus": "unresolved",
       "blockedFromDefaultReasons": [
-        "deprecated_identity",
-        "missing_verified_current_price"
+        "missing_verified_current_price",
+        "retired_identity"
       ],
       "cachedInputPrice": null,
       "canonicalInternalId": "xai/grok-imagine-image-quality",
-      "checkedAt": "2026-10-09T06:29:38Z",
+      "checkedAt": "2026-10-25T05:03:39Z",
       "checkedSourceRefs": [
-        "source:xai:docs-x-ai-developers-pricing"
+        "source:xai:docs-x-ai-developers-models-grok-imagine-image-2-0"
       ],
       "contextWindow": null,
       "contextWindowStatus": "unknown_not_guessed",
@@ -68103,16 +68285,16 @@
       ],
       "defaultSafe": false,
       "deprecationDate": null,
-      "governanceClass": "PROJECTED_IDENTITY",
-      "governanceDetails": "Structured pricing cannot be represented losslessly by the current public Dataset 1.5 contract.",
-      "governanceReason": "internal_structured_pricing_deferred_from_public_dataset",
+      "governanceClass": "HISTORICAL_REFERENCE",
+      "governanceDetails": "Retired slug billed at its redirect target; its configuration-priced components cannot be represented losslessly by the current public Dataset 1.5 contract.",
+      "governanceReason": "retired_identity_redirects_to_current_billing",
       "governanceSourceCandidateIds": [
         "xai/grok-imagine-image-quality"
       ],
       "id": "grok-imagine-image-quality",
       "identityType": "canonical_model",
       "inputPrice": null,
-      "lifecycleStatus": "deprecated",
+      "lifecycleStatus": "retired",
       "model": "Grok Imagine Image Quality",
       "officialSourceUrl": "https://docs.x.ai/developers/pricing",
       "outputPrice": null,
@@ -68123,32 +68305,13 @@
           "contextClass": "short",
           "effectiveFrom": null,
           "effectiveUntil": null,
-          "pricingId": "price:xai/grok-imagine-image-quality:standard:short:current:media_input_image",
+          "pricingId": "price:xai/grok-imagine-image-2.0:standard:short:current:media_input_image",
           "pricingStatus": "current",
           "processingMode": "standard",
           "sourceRefs": [
-            "source:xai:docs-x-ai-developers-migration-imagine-image-quality-nov-2",
-            "source:xai:docs-x-ai-developers-models-grok-imagine-image-pro",
-            "source:xai:docs-x-ai-developers-pricing",
-            "source:xai:docs-x-ai-developers-release-notes"
-          ],
-          "verificationStatus": "verified",
-          "verifiedAt": null
-        },
-        {
-          "calculationDefault": false,
-          "checkedAt": null,
-          "contextClass": "short",
-          "effectiveFrom": null,
-          "effectiveUntil": null,
-          "pricingId": "price:xai/grok-imagine-image-quality:standard:short:current:output_image_1_5k",
-          "pricingStatus": "current",
-          "processingMode": "standard",
-          "sourceRefs": [
-            "source:xai:docs-x-ai-developers-migration-imagine-image-quality-nov-2",
-            "source:xai:docs-x-ai-developers-models-grok-imagine-image-pro",
-            "source:xai:docs-x-ai-developers-pricing",
-            "source:xai:docs-x-ai-developers-release-notes"
+            "source:xai:docs-x-ai-developers-model-capabilities-images-generation",
+            "source:xai:docs-x-ai-developers-models-grok-imagine-image-2-0",
+            "source:xai:docs-x-ai-developers-pricing"
           ],
           "verificationStatus": "verified",
           "verifiedAt": null
@@ -68159,14 +68322,13 @@
           "contextClass": "short",
           "effectiveFrom": null,
           "effectiveUntil": null,
-          "pricingId": "price:xai/grok-imagine-image-quality:standard:short:current:output_image_1k",
+          "pricingId": "price:xai/grok-imagine-image-2.0:standard:short:current:output_image_1k_low",
           "pricingStatus": "current",
           "processingMode": "standard",
           "sourceRefs": [
-            "source:xai:docs-x-ai-developers-migration-imagine-image-quality-nov-2",
-            "source:xai:docs-x-ai-developers-models-grok-imagine-image-pro",
-            "source:xai:docs-x-ai-developers-pricing",
-            "source:xai:docs-x-ai-developers-release-notes"
+            "source:xai:docs-x-ai-developers-model-capabilities-images-generation",
+            "source:xai:docs-x-ai-developers-models-grok-imagine-image-2-0",
+            "source:xai:docs-x-ai-developers-pricing"
           ],
           "verificationStatus": "verified",
           "verifiedAt": null
@@ -68177,14 +68339,81 @@
           "contextClass": "short",
           "effectiveFrom": null,
           "effectiveUntil": null,
-          "pricingId": "price:xai/grok-imagine-image-quality:standard:short:current:output_image_2k",
+          "pricingId": "price:xai/grok-imagine-image-2.0:standard:short:current:output_image_1k_medium",
           "pricingStatus": "current",
           "processingMode": "standard",
           "sourceRefs": [
-            "source:xai:docs-x-ai-developers-migration-imagine-image-quality-nov-2",
-            "source:xai:docs-x-ai-developers-models-grok-imagine-image-pro",
-            "source:xai:docs-x-ai-developers-pricing",
-            "source:xai:docs-x-ai-developers-release-notes"
+            "source:xai:docs-x-ai-developers-model-capabilities-images-generation",
+            "source:xai:docs-x-ai-developers-models-grok-imagine-image-2-0",
+            "source:xai:docs-x-ai-developers-pricing"
+          ],
+          "verificationStatus": "verified",
+          "verifiedAt": null
+        },
+        {
+          "calculationDefault": false,
+          "checkedAt": null,
+          "contextClass": "short",
+          "effectiveFrom": null,
+          "effectiveUntil": null,
+          "pricingId": "price:xai/grok-imagine-image-2.0:standard:short:current:output_image_1p5k_low",
+          "pricingStatus": "current",
+          "processingMode": "standard",
+          "sourceRefs": [
+            "source:xai:docs-x-ai-developers-model-capabilities-images-generation",
+            "source:xai:docs-x-ai-developers-models-grok-imagine-image-2-0",
+            "source:xai:docs-x-ai-developers-pricing"
+          ],
+          "verificationStatus": "verified",
+          "verifiedAt": null
+        },
+        {
+          "calculationDefault": false,
+          "checkedAt": null,
+          "contextClass": "short",
+          "effectiveFrom": null,
+          "effectiveUntil": null,
+          "pricingId": "price:xai/grok-imagine-image-2.0:standard:short:current:output_image_1p5k_medium",
+          "pricingStatus": "current",
+          "processingMode": "standard",
+          "sourceRefs": [
+            "source:xai:docs-x-ai-developers-model-capabilities-images-generation",
+            "source:xai:docs-x-ai-developers-models-grok-imagine-image-2-0",
+            "source:xai:docs-x-ai-developers-pricing"
+          ],
+          "verificationStatus": "verified",
+          "verifiedAt": null
+        },
+        {
+          "calculationDefault": false,
+          "checkedAt": null,
+          "contextClass": "short",
+          "effectiveFrom": null,
+          "effectiveUntil": null,
+          "pricingId": "price:xai/grok-imagine-image-2.0:standard:short:current:output_image_2k_low",
+          "pricingStatus": "current",
+          "processingMode": "standard",
+          "sourceRefs": [
+            "source:xai:docs-x-ai-developers-model-capabilities-images-generation",
+            "source:xai:docs-x-ai-developers-models-grok-imagine-image-2-0",
+            "source:xai:docs-x-ai-developers-pricing"
+          ],
+          "verificationStatus": "verified",
+          "verifiedAt": null
+        },
+        {
+          "calculationDefault": false,
+          "checkedAt": null,
+          "contextClass": "short",
+          "effectiveFrom": null,
+          "effectiveUntil": null,
+          "pricingId": "price:xai/grok-imagine-image-2.0:standard:short:current:output_image_2k_medium",
+          "pricingStatus": "current",
+          "processingMode": "standard",
+          "sourceRefs": [
+            "source:xai:docs-x-ai-developers-model-capabilities-images-generation",
+            "source:xai:docs-x-ai-developers-models-grok-imagine-image-2-0",
+            "source:xai:docs-x-ai-developers-pricing"
           ],
           "verificationStatus": "verified",
           "verifiedAt": null
@@ -68194,7 +68423,7 @@
         {
           "amount": "0.01",
           "calculationDefault": false,
-          "chargeId": "price:xai/grok-imagine-image-quality:standard:short:current:media_input_image:input:image:per_image",
+          "chargeId": "price:xai/grok-imagine-image-2.0:standard:short:current:media_input_image:input:image:per_image",
           "component": "input",
           "condition": {
             "contextClass": "short",
@@ -68207,52 +68436,23 @@
           },
           "currency": "USD",
           "modality": "image",
-          "pricingId": "price:xai/grok-imagine-image-quality:standard:short:current:media_input_image",
+          "pricingId": "price:xai/grok-imagine-image-2.0:standard:short:current:media_input_image",
           "sourceRefs": [
-            "source:xai:docs-x-ai-developers-migration-imagine-image-quality-nov-2",
-            "source:xai:docs-x-ai-developers-models-grok-imagine-image-pro",
-            "source:xai:docs-x-ai-developers-pricing",
-            "source:xai:docs-x-ai-developers-release-notes"
+            "source:xai:docs-x-ai-developers-model-capabilities-images-generation",
+            "source:xai:docs-x-ai-developers-models-grok-imagine-image-2-0",
+            "source:xai:docs-x-ai-developers-pricing"
           ],
           "unit": "per_image",
           "verificationStatus": "verified"
         },
         {
-          "amount": "0.06",
-          "calculationDefault": false,
-          "chargeId": "price:xai/grok-imagine-image-quality:standard:short:current:output_image_1_5k:output:image:per_image",
-          "component": "output",
-          "condition": {
-            "configuration": {
-              "resolution": "1.5k"
-            },
-            "contextClass": "short",
-            "effectiveFrom": null,
-            "effectiveUntil": null,
-            "processingMode": "standard",
-            "promptTokenThreshold": null,
-            "regionPolicy": "global",
-            "tierSelection": null
-          },
-          "currency": "USD",
-          "modality": "image",
-          "pricingId": "price:xai/grok-imagine-image-quality:standard:short:current:output_image_1_5k",
-          "sourceRefs": [
-            "source:xai:docs-x-ai-developers-migration-imagine-image-quality-nov-2",
-            "source:xai:docs-x-ai-developers-models-grok-imagine-image-pro",
-            "source:xai:docs-x-ai-developers-pricing",
-            "source:xai:docs-x-ai-developers-release-notes"
-          ],
-          "unit": "per_image",
-          "verificationStatus": "verified"
-        },
-        {
-          "amount": "0.05",
+          "amount": "0.04",
           "calculationDefault": true,
-          "chargeId": "price:xai/grok-imagine-image-quality:standard:short:current:output_image_1k:output:image:per_image",
+          "chargeId": "price:xai/grok-imagine-image-2.0:standard:short:current:output_image_1k_low:output:image:per_image",
           "component": "output",
           "condition": {
             "configuration": {
+              "quality": "low",
               "resolution": "1k"
             },
             "contextClass": "short",
@@ -68265,12 +68465,69 @@
           },
           "currency": "USD",
           "modality": "image",
-          "pricingId": "price:xai/grok-imagine-image-quality:standard:short:current:output_image_1k",
+          "pricingId": "price:xai/grok-imagine-image-2.0:standard:short:current:output_image_1k_low",
           "sourceRefs": [
-            "source:xai:docs-x-ai-developers-migration-imagine-image-quality-nov-2",
-            "source:xai:docs-x-ai-developers-models-grok-imagine-image-pro",
-            "source:xai:docs-x-ai-developers-pricing",
-            "source:xai:docs-x-ai-developers-release-notes"
+            "source:xai:docs-x-ai-developers-model-capabilities-images-generation",
+            "source:xai:docs-x-ai-developers-models-grok-imagine-image-2-0",
+            "source:xai:docs-x-ai-developers-pricing"
+          ],
+          "unit": "per_image",
+          "verificationStatus": "verified"
+        },
+        {
+          "amount": "0.06",
+          "calculationDefault": false,
+          "chargeId": "price:xai/grok-imagine-image-2.0:standard:short:current:output_image_1k_medium:output:image:per_image",
+          "component": "output",
+          "condition": {
+            "configuration": {
+              "quality": "medium",
+              "resolution": "1k"
+            },
+            "contextClass": "short",
+            "effectiveFrom": null,
+            "effectiveUntil": null,
+            "processingMode": "standard",
+            "promptTokenThreshold": null,
+            "regionPolicy": "global",
+            "tierSelection": null
+          },
+          "currency": "USD",
+          "modality": "image",
+          "pricingId": "price:xai/grok-imagine-image-2.0:standard:short:current:output_image_1k_medium",
+          "sourceRefs": [
+            "source:xai:docs-x-ai-developers-model-capabilities-images-generation",
+            "source:xai:docs-x-ai-developers-models-grok-imagine-image-2-0",
+            "source:xai:docs-x-ai-developers-pricing"
+          ],
+          "unit": "per_image",
+          "verificationStatus": "verified"
+        },
+        {
+          "amount": "0.05",
+          "calculationDefault": false,
+          "chargeId": "price:xai/grok-imagine-image-2.0:standard:short:current:output_image_1p5k_low:output:image:per_image",
+          "component": "output",
+          "condition": {
+            "configuration": {
+              "quality": "low",
+              "resolution": "1.5k"
+            },
+            "contextClass": "short",
+            "effectiveFrom": null,
+            "effectiveUntil": null,
+            "processingMode": "standard",
+            "promptTokenThreshold": null,
+            "regionPolicy": "global",
+            "tierSelection": null
+          },
+          "currency": "USD",
+          "modality": "image",
+          "pricingId": "price:xai/grok-imagine-image-2.0:standard:short:current:output_image_1p5k_low",
+          "sourceRefs": [
+            "source:xai:docs-x-ai-developers-model-capabilities-images-generation",
+            "source:xai:docs-x-ai-developers-models-grok-imagine-image-2-0",
+            "source:xai:docs-x-ai-developers-pricing"
           ],
           "unit": "per_image",
           "verificationStatus": "verified"
@@ -68278,10 +68535,40 @@
         {
           "amount": "0.07",
           "calculationDefault": false,
-          "chargeId": "price:xai/grok-imagine-image-quality:standard:short:current:output_image_2k:output:image:per_image",
+          "chargeId": "price:xai/grok-imagine-image-2.0:standard:short:current:output_image_1p5k_medium:output:image:per_image",
           "component": "output",
           "condition": {
             "configuration": {
+              "quality": "medium",
+              "resolution": "1.5k"
+            },
+            "contextClass": "short",
+            "effectiveFrom": null,
+            "effectiveUntil": null,
+            "processingMode": "standard",
+            "promptTokenThreshold": null,
+            "regionPolicy": "global",
+            "tierSelection": null
+          },
+          "currency": "USD",
+          "modality": "image",
+          "pricingId": "price:xai/grok-imagine-image-2.0:standard:short:current:output_image_1p5k_medium",
+          "sourceRefs": [
+            "source:xai:docs-x-ai-developers-model-capabilities-images-generation",
+            "source:xai:docs-x-ai-developers-models-grok-imagine-image-2-0",
+            "source:xai:docs-x-ai-developers-pricing"
+          ],
+          "unit": "per_image",
+          "verificationStatus": "verified"
+        },
+        {
+          "amount": "0.06",
+          "calculationDefault": false,
+          "chargeId": "price:xai/grok-imagine-image-2.0:standard:short:current:output_image_2k_low:output:image:per_image",
+          "component": "output",
+          "condition": {
+            "configuration": {
+              "quality": "low",
               "resolution": "2k"
             },
             "contextClass": "short",
@@ -68294,28 +68581,62 @@
           },
           "currency": "USD",
           "modality": "image",
-          "pricingId": "price:xai/grok-imagine-image-quality:standard:short:current:output_image_2k",
+          "pricingId": "price:xai/grok-imagine-image-2.0:standard:short:current:output_image_2k_low",
           "sourceRefs": [
-            "source:xai:docs-x-ai-developers-migration-imagine-image-quality-nov-2",
-            "source:xai:docs-x-ai-developers-models-grok-imagine-image-pro",
-            "source:xai:docs-x-ai-developers-pricing",
-            "source:xai:docs-x-ai-developers-release-notes"
+            "source:xai:docs-x-ai-developers-model-capabilities-images-generation",
+            "source:xai:docs-x-ai-developers-models-grok-imagine-image-2-0",
+            "source:xai:docs-x-ai-developers-pricing"
+          ],
+          "unit": "per_image",
+          "verificationStatus": "verified"
+        },
+        {
+          "amount": "0.08",
+          "calculationDefault": false,
+          "chargeId": "price:xai/grok-imagine-image-2.0:standard:short:current:output_image_2k_medium:output:image:per_image",
+          "component": "output",
+          "condition": {
+            "configuration": {
+              "quality": "medium",
+              "resolution": "2k"
+            },
+            "contextClass": "short",
+            "effectiveFrom": null,
+            "effectiveUntil": null,
+            "processingMode": "standard",
+            "promptTokenThreshold": null,
+            "regionPolicy": "global",
+            "tierSelection": null
+          },
+          "currency": "USD",
+          "modality": "image",
+          "pricingId": "price:xai/grok-imagine-image-2.0:standard:short:current:output_image_2k_medium",
+          "sourceRefs": [
+            "source:xai:docs-x-ai-developers-model-capabilities-images-generation",
+            "source:xai:docs-x-ai-developers-models-grok-imagine-image-2-0",
+            "source:xai:docs-x-ai-developers-pricing"
           ],
           "unit": "per_image",
           "verificationStatus": "verified"
         }
       ],
-      "pricingSourceType": "canonical_verified_structured_price",
+      "pricingSourceType": "redirected_verified_billing",
       "provider": "xai",
       "publicExposure": "excluded",
-      "redirectTargetInternalId": null,
+      "redirectTargetInternalId": "xai/grok-imagine-image-2.0",
+      "redirectedBilling": {
+        "billingModelInternalId": "xai/grok-imagine-image-2.0",
+        "currentBillingPriceRecordId": null,
+        "historicalPriceCurrentCalculationEligible": false,
+        "redirectTargetInternalId": "xai/grok-imagine-image-2.0"
+      },
       "releaseSourceRef": null,
       "releaseSourceUrl": null,
       "releaseStage": "legacy",
       "releasedAt": null,
       "replacementInternalId": "xai/grok-imagine-image-2.0",
       "retirementDate": "2026-11-02",
-      "routingBehavior": "direct",
+      "routingBehavior": "retired_redirect",
       "routingDetails": {},
       "scheduledTransition": {
         "billingConfiguration": {
@@ -68332,27 +68653,31 @@
         }
       },
       "selectedBatchPriceRecordId": null,
-      "selectedBillingPriceRecordId": "price:xai/grok-imagine-image-quality:standard:short:current:output_image_2k",
+      "selectedBillingPriceRecordId": "price:xai/grok-imagine-image-2.0:standard:short:current:output_image_2k_medium",
       "selectedPriceEffectiveFrom": null,
       "selectedPriceEffectiveUntil": null,
       "selectedPriceRecordId": null,
       "sourceRefs": [
         "source:xai:docs-x-ai-developers-migration-imagine-image-quality-nov-2",
+        "source:xai:docs-x-ai-developers-model-capabilities-images-generation",
+        "source:xai:docs-x-ai-developers-models-grok-imagine-image-2-0",
         "source:xai:docs-x-ai-developers-models-grok-imagine-image-pro",
         "source:xai:docs-x-ai-developers-pricing",
         "source:xai:docs-x-ai-developers-release-notes"
       ],
       "sourceUrls": [
         "https://docs.x.ai/developers/migration/imagine-image-quality-nov-2",
+        "https://docs.x.ai/developers/model-capabilities/images/generation",
+        "https://docs.x.ai/developers/models/grok-imagine-image-2.0",
         "https://docs.x.ai/developers/models/grok-imagine-image-pro",
         "https://docs.x.ai/developers/pricing",
         "https://docs.x.ai/developers/release-notes"
       ],
-      "status": "deprecated",
+      "status": "retired",
       "verificationStatus": "verified",
-      "verifiedAt": "2026-10-09T06:29:38Z",
+      "verifiedAt": "2026-10-25T05:03:39Z",
       "verifiedSourceRefs": [
-        "source:xai:docs-x-ai-developers-pricing"
+        "source:xai:docs-x-ai-developers-models-grok-imagine-image-2-0"
       ]
     },
     {

@@ -28,6 +28,10 @@
   "model_id": "claude-opus-5",
   "notes": "Released 2026-07-24. Anthropic table columns are input, 5-minute cache write, 1-hour cache write, cache read, and output. cache_write stores the 5-minute write rate; cache_write_1h stores the 1-hour write rate. Batch pricing is 50% of standard input and output per Anthropic Batch Processing.",
   "official_source_url": "https://platform.claude.com/docs/en/about-claude/pricing",
+  "official_source_urls": [
+    "https://platform.claude.com/docs/en/about-claude/pricing",
+    "https://platform.claude.com/docs/en/build-with-claude/fast-mode"
+  ],
   "price_records": [
     {
       "billing_note": "Released 2026-07-24. Anthropic table columns are input, 5-minute cache write, 1-hour cache write, cache read, and output. cache_write stores the 5-minute write rate; cache_write_1h stores the 1-hour write rate. Batch pricing is 50% of standard input and output per Anthropic Batch Processing.",
@@ -145,6 +149,55 @@
       ],
       "verification_status": "verified",
       "verified_at": "2026-10-27T04:44:38Z"
+    },
+    {
+      "billing_note": "Fast-mode (speed: fast) input and output pricing, research preview, requires the fast-mode-2026-02-01 beta header; access is by account manager or waitlist. Prompt-caching and data-residency multipliers apply on top. Not available with the Batch API.",
+      "calculation_default": false,
+      "charges": [
+        {
+          "amount": "10",
+          "component": "input",
+          "id": "price:anthropic/claude-opus-5:fast:short:current:input:text:per_1m_tokens",
+          "modality": "text",
+          "unit": "per_1m_tokens"
+        },
+        {
+          "amount": "50",
+          "component": "output",
+          "id": "price:anthropic/claude-opus-5:fast:short:current:output:text:per_1m_tokens",
+          "modality": "text",
+          "unit": "per_1m_tokens"
+        }
+      ],
+      "checked_at": "2026-11-02T06:54:24Z",
+      "context_class": "short",
+      "currency": "USD",
+      "effective_from": null,
+      "effective_until": null,
+      "id": "price:anthropic/claude-opus-5:fast:short:current",
+      "pricing_status": "current",
+      "processing_mode": "fast",
+      "prompt_token_threshold": null,
+      "region_policy": {
+        "availability": {
+          "default": "available",
+          "rules": []
+        },
+        "data_residencies": [
+          "global"
+        ],
+        "endpoint_geographies": [
+          "global"
+        ],
+        "price_adjustments": [],
+        "pricing_geography": "global_base"
+      },
+      "source_refs": [
+        "https://platform.claude.com/docs/en/build-with-claude/fast-mode",
+        "https://platform.claude.com/docs/en/about-claude/pricing"
+      ],
+      "verification_status": "verified",
+      "verified_at": "2026-11-02T06:54:24Z"
     }
   ],
   "pricing": {

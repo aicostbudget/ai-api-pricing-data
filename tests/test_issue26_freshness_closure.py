@@ -103,6 +103,8 @@ class FreshnessClosureTests(unittest.TestCase):
     def test_image_original_identity_and_future_redirect_survive_new_resolution(self):
         row = self.models["xai/grok-imagine-image-quality"]
         self.assertEqual(row["lifecycle"], self.old["xai/grok-imagine-image-quality"]["lifecycle"])
-        self.assertEqual(row["status"], "deprecated")
+        # xAI retired the slug on its scheduled 2026-11-02 retirement date (release 2026-11-02).
+        self.assertEqual(row["status"], "retired")
+        self.assertEqual(row["lifecycle"]["retirement_date"], "2026-11-02")
         values = {c["id"]: c["amount"] for c in row["pricing_components"]}
         self.assertEqual(values, {"media_input_image": .01, "output_image_1k": .05, "output_image_1_5k": .06, "output_image_2k": .07})

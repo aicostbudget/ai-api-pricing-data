@@ -1448,6 +1448,63 @@
   },
   {
     "availabilityRules": [],
+    "billingNote": "Fast-mode (speed: fast) input and output pricing, research preview, requires the fast-mode-2026-02-01 beta header. Anthropic deprecated Fast mode on Claude Opus 4.8 and removes it on 2026-11-30; after that, speed: fast requests return an error and the migration target is Claude Opus 5.5. Prompt-caching and data-residency multipliers apply on top. Not available with the Batch API.",
+    "calculationDefault": false,
+    "charges": [
+      {
+        "amount": "10",
+        "chargeId": "price:anthropic/claude-opus-4.8:fast:short:current:input:text:per_1m_tokens",
+        "component": "input",
+        "modality": "text",
+        "unit": "per_1m_tokens"
+      },
+      {
+        "amount": "50",
+        "chargeId": "price:anthropic/claude-opus-4.8:fast:short:current:output:text:per_1m_tokens",
+        "component": "output",
+        "modality": "text",
+        "unit": "per_1m_tokens"
+      }
+    ],
+    "checkedAt": "2026-11-02T06:54:24Z",
+    "contextClass": "short",
+    "currency": "USD",
+    "defaultAvailabilityStatus": "available",
+    "effectiveFrom": null,
+    "effectiveUntil": "2026-11-29",
+    "modelInternalId": "anthropic/claude-opus-4.8",
+    "priceAdjustments": [],
+    "pricingId": "price:anthropic/claude-opus-4.8:fast:short:current",
+    "pricingStatus": "current",
+    "processingMode": "fast",
+    "promptTokenThreshold": null,
+    "regionPolicy": "global",
+    "regionSelector": {
+      "dataResidencies": [
+        "global"
+      ],
+      "endpointGeographies": [
+        "global"
+      ],
+      "pricingGeography": "global_base"
+    },
+    "sourceDatasetIds": {
+      "publicDatasetIds": [
+        "claude-opus-4.8"
+      ],
+      "websiteIds": [
+        "claude-opus-4.8"
+      ]
+    },
+    "sourceRefs": [
+      "source:anthropic:platform-claude-com-docs-en-about-claude-pricing",
+      "source:anthropic:platform-claude-com-docs-en-build-with-claude-fast-mode"
+    ],
+    "verificationStatus": "verified",
+    "verifiedAt": "2026-11-02T06:54:24Z"
+  },
+  {
+    "availabilityRules": [],
     "billingNote": "Released 2026-07-24. Anthropic table columns are input, 5-minute cache write, 1-hour cache write, cache read, and output. cache_write stores the 5-minute write rate; cache_write_1h stores the 1-hour write rate. Batch pricing is 50% of standard input and output per Anthropic Batch Processing.",
     "calculationDefault": true,
     "charges": [
@@ -1574,6 +1631,61 @@
     ],
     "verificationStatus": "verified",
     "verifiedAt": "2026-10-27T04:44:38Z"
+  },
+  {
+    "availabilityRules": [],
+    "billingNote": "Fast-mode (speed: fast) input and output pricing, research preview, requires the fast-mode-2026-02-01 beta header; access is by account manager or waitlist. Prompt-caching and data-residency multipliers apply on top. Not available with the Batch API.",
+    "calculationDefault": false,
+    "charges": [
+      {
+        "amount": "10",
+        "chargeId": "price:anthropic/claude-opus-5:fast:short:current:input:text:per_1m_tokens",
+        "component": "input",
+        "modality": "text",
+        "unit": "per_1m_tokens"
+      },
+      {
+        "amount": "50",
+        "chargeId": "price:anthropic/claude-opus-5:fast:short:current:output:text:per_1m_tokens",
+        "component": "output",
+        "modality": "text",
+        "unit": "per_1m_tokens"
+      }
+    ],
+    "checkedAt": "2026-11-02T06:54:24Z",
+    "contextClass": "short",
+    "currency": "USD",
+    "defaultAvailabilityStatus": "available",
+    "effectiveFrom": null,
+    "effectiveUntil": null,
+    "modelInternalId": "anthropic/claude-opus-5",
+    "priceAdjustments": [],
+    "pricingId": "price:anthropic/claude-opus-5:fast:short:current",
+    "pricingStatus": "current",
+    "processingMode": "fast",
+    "promptTokenThreshold": null,
+    "regionPolicy": "global",
+    "regionSelector": {
+      "dataResidencies": [
+        "global"
+      ],
+      "endpointGeographies": [
+        "global"
+      ],
+      "pricingGeography": "global_base"
+    },
+    "sourceDatasetIds": {
+      "publicDatasetIds": [
+        "claude-opus-5"
+      ],
+      "websiteIds": []
+    },
+    "sourceRefs": [
+      "source:anthropic:platform-claude-com-docs-en-about-claude-pricing",
+      "source:anthropic:platform-claude-com-docs-en-build-with-claude-fast-mode"
+    ],
+    "verificationStatus": "verified",
+    "verifiedAt": "2026-11-02T06:54:24Z"
   },
   {
     "availabilityRules": [],
@@ -24508,7 +24620,7 @@
     "verificationStatus": "verified"
   },
   {
-    "billingNote": "Current billing remains $0.01 per input image, $0.05 per 1K output image, $0.06 per 1.5K (1408x1408) output image, and $0.07 per 2K output image. xAI began the retirement notice on 2026-09-02. Effective 2026-11-02, the old slug is scheduled to remain resolvable and redirect to grok-imagine-image-2.0 with quality=low; billing then follows the redirect target configuration. This scheduled transition does not change current prices.",
+    "billingNote": "Retired 2026-11-02 (xAI 60-day notice from 2026-09-02). The slug still resolves and is served by grok-imagine-image-2.0 with quality=low, billed at the grok-imagine-image-2.0 low rate. The per-image amounts kept here are the last published rates before retirement: $0.01 per input image, $0.05 per 1K output image, $0.06 per 1.5K (1408x1408) output image, and $0.07 per 2K output image.",
     "calculationDefault": false,
     "charges": [
       {
@@ -24544,7 +24656,7 @@
     "verificationStatus": "verified"
   },
   {
-    "billingNote": "Current billing remains $0.01 per input image, $0.05 per 1K output image, $0.06 per 1.5K (1408x1408) output image, and $0.07 per 2K output image. xAI began the retirement notice on 2026-09-02. Effective 2026-11-02, the old slug is scheduled to remain resolvable and redirect to grok-imagine-image-2.0 with quality=low; billing then follows the redirect target configuration. This scheduled transition does not change current prices.",
+    "billingNote": "Retired 2026-11-02 (xAI 60-day notice from 2026-09-02). The slug still resolves and is served by grok-imagine-image-2.0 with quality=low, billed at the grok-imagine-image-2.0 low rate. The per-image amounts kept here are the last published rates before retirement: $0.01 per input image, $0.05 per 1K output image, $0.06 per 1.5K (1408x1408) output image, and $0.07 per 2K output image.",
     "calculationDefault": true,
     "charges": [
       {
@@ -24583,7 +24695,7 @@
     "verificationStatus": "verified"
   },
   {
-    "billingNote": "Current billing remains $0.01 per input image, $0.05 per 1K output image, $0.06 per 1.5K (1408x1408) output image, and $0.07 per 2K output image. xAI began the retirement notice on 2026-09-02. Effective 2026-11-02, the old slug is scheduled to remain resolvable and redirect to grok-imagine-image-2.0 with quality=low; billing then follows the redirect target configuration. This scheduled transition does not change current prices.",
+    "billingNote": "Retired 2026-11-02 (xAI 60-day notice from 2026-09-02). The slug still resolves and is served by grok-imagine-image-2.0 with quality=low, billed at the grok-imagine-image-2.0 low rate. The per-image amounts kept here are the last published rates before retirement: $0.01 per input image, $0.05 per 1K output image, $0.06 per 1.5K (1408x1408) output image, and $0.07 per 2K output image.",
     "calculationDefault": false,
     "charges": [
       {
@@ -24622,7 +24734,7 @@
     "verificationStatus": "verified"
   },
   {
-    "billingNote": "Current billing remains $0.01 per input image, $0.05 per 1K output image, $0.06 per 1.5K (1408x1408) output image, and $0.07 per 2K output image. xAI began the retirement notice on 2026-09-02. Effective 2026-11-02, the old slug is scheduled to remain resolvable and redirect to grok-imagine-image-2.0 with quality=low; billing then follows the redirect target configuration. This scheduled transition does not change current prices.",
+    "billingNote": "Retired 2026-11-02 (xAI 60-day notice from 2026-09-02). The slug still resolves and is served by grok-imagine-image-2.0 with quality=low, billed at the grok-imagine-image-2.0 low rate. The per-image amounts kept here are the last published rates before retirement: $0.01 per input image, $0.05 per 1K output image, $0.06 per 1.5K (1408x1408) output image, and $0.07 per 2K output image.",
     "calculationDefault": false,
     "charges": [
       {

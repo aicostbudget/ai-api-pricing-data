@@ -827,8 +827,8 @@ class XaiImageLifecycleTests(unittest.TestCase):
     def test_current_prices_and_scheduled_transition_are_distinct(self):
         old = self.canonical_by_id[self.OLD_ID]
         new = self.canonical_by_id[self.NEW_ID]
-        self.assertEqual(old["status"], "deprecated")
-        self.assertNotEqual(old["status"], "retired")
+        # Retired on its scheduled 2026-11-02 date; canonical keeps the last published own prices.
+        self.assertEqual(old["status"], "retired")
         self.assertEqual(self.component_amounts(old), {
             ("input", ()): 0.01,
             ("output", (("resolution", "1k"),)): 0.05,
@@ -869,12 +869,12 @@ class XaiImageLifecycleTests(unittest.TestCase):
         self.assertIn(self.OLD_INTERNAL_ID, projection_owners)
         self.assertNotIn("cohere/parse-v5.0", canonical_owners + identity_owners + projection_owners)
 
-    def test_pre_retirement_redirect_and_target_billing_are_not_active(self):
+    def test_retirement_redirect_and_target_billing_are_active(self):
         old = next(row for row in self.identities if row["internalId"] == self.OLD_INTERNAL_ID)
-        self.assertEqual(old["lifecycleStatus"], "deprecated")
-        self.assertEqual(old["routingBehavior"], "direct")
-        self.assertIsNone(old["redirectTargetInternalId"])
-        self.assertIsNone(old["billingModelInternalId"])
+        self.assertEqual(old["lifecycleStatus"], "retired")
+        self.assertEqual(old["routingBehavior"], "retired_redirect")
+        self.assertEqual(old["redirectTargetInternalId"], self.NEW_INTERNAL_ID)
+        self.assertEqual(old["billingModelInternalId"], self.NEW_INTERNAL_ID)
         self.assertEqual(old["replacementInternalId"], self.NEW_INTERNAL_ID)
         self.assertEqual(old["retirementDate"], "2026-11-02")
         self.assertEqual(old["scheduledTransition"], {
@@ -887,33 +887,40 @@ class XaiImageLifecycleTests(unittest.TestCase):
             "billingModelInternalId": self.NEW_INTERNAL_ID,
             "billingConfiguration": {"quality": "low"},
         })
-
-    def test_projection_keeps_current_prices_separate_from_future_transition(self):
+    def test_projection_bills_retired_slug_at_redirect_target(self):
         old = self.projection_by_id[self.OLD_ID]
         new = self.projection_by_id[self.NEW_ID]
         self.assertEqual(old["publicExposure"], "excluded")
         self.assertEqual(new["publicExposure"], "excluded")
+        self.assertEqual(old["governanceClass"], "HISTORICAL_REFERENCE")
+        self.assertEqual(old["governanceReason"], "retired_identity_redirects_to_current_billing")
+        self.assertEqual(old["pricingSourceType"], "redirected_verified_billing")
         self.assertIsNone(old["inputPrice"])
         self.assertIsNone(old["outputPrice"])
-        self.assertIsNone(old["redirectTargetInternalId"])
-        self.assertIsNone(old["billingModelInternalId"])
-        self.assertNotIn("redirectedBilling", old)
-        projected = {
-            (component["component"], tuple(sorted(component["condition"].get("configuration", {}).items()))): component["amount"]
-            for component in old["pricingComponents"]
-        }
-        self.assertEqual(projected, {
-            ("input", ()): "0.01",
-            ("output", (("resolution", "1k"),)): "0.05",
-            ("output", (("resolution", "1.5k"),)): "0.06",
-            ("output", (("resolution", "2k"),)): "0.07",
+        self.assertEqual(old["redirectTargetInternalId"], self.NEW_INTERNAL_ID)
+        self.assertEqual(old["billingModelInternalId"], self.NEW_INTERNAL_ID)
+        self.assertEqual(old["redirectedBilling"], {
+            "billingModelInternalId": self.NEW_INTERNAL_ID,
+            "currentBillingPriceRecordId": None,
+            "historicalPriceCurrentCalculationEligible": False,
+            "redirectTargetInternalId": self.NEW_INTERNAL_ID,
         })
+        def amounts(row):
+            return {
+                (component["component"], tuple(sorted(component["condition"].get("configuration", {}).items()))): component["amount"]
+                for component in row["pricingComponents"]
+            }
+        self.assertEqual(amounts(old), amounts(new))
         self.assertEqual(old["scheduledTransition"]["targetConfiguration"], {"quality": "low"})
-
-    def test_notice_is_not_a_normal_price_change_event(self):
-        self.assertFalse(any(event.get("model_id") == self.OLD_ID for event in self.events))
-        self.assertFalse(any(self.OLD_ID in json.dumps(event, sort_keys=True) for event in self.events))
-
+    def test_notice_is_not_a_price_change_and_retirement_is_one_lifecycle_event(self):
+        events = [event for event in self.events if event.get("model_id") == self.OLD_ID]
+        self.assertEqual(len(events), 1)
+        event = events[0]
+        self.assertEqual(event["change_type"], "lifecycle_update")
+        self.assertEqual((event["old_status"], event["new_status"]), ("deprecated", "retired"))
+        self.assertEqual(event["effective_from"], "2026-11-02")
+        self.assertEqual(event["old_prices"], event["new_prices"])
+        self.assertEqual(event["old_lifecycle"], event["new_lifecycle"])
     def test_hf_defers_image_records_outside_public_schema_1_5(self):
         records = {row["model_id"]: row for row in self.hf_records if row["provider_id"] == "xai"}
         self.assertNotIn(self.OLD_ID, records)
