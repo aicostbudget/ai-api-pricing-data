@@ -3148,8 +3148,10 @@ def main() -> None:
                             "sourceRefs": source_refs_for(provider_id, public, website, source_by_url),
                             "billingNote": public.get("notes", ""),
                             "verificationStatus": verification,
-                            **({"checkedAt": public["accessed_at"], "verifiedAt": public["last_verified_at"]}
-                               if component["pricing_status"] == "historical" else {}),
+                            # Component-only models have no per-record timestamps; the model-level
+                            # re-verification covers every component, current or historical.
+                            "checkedAt": public["accessed_at"],
+                            "verifiedAt": public["last_verified_at"],
                             "calculationDefault": component["calculation_default"],
                             "sourceDatasetIds": {
                                 "publicDatasetIds": [public["model_id"]],
