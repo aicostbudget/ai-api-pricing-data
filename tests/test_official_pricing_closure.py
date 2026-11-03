@@ -14,6 +14,7 @@ BACKFILL_EXTENSION=SCOPE['model_added_backfill_extension']
 KIMI_K2_EXTENSION=SCOPE['kimi_k2_lifecycle_extension']
 MISTRAL_LIST_CUT_EXTENSION=SCOPE['mistral_large_4_list_cut_extension']
 GROK_QUALITY_EXTENSION=SCOPE['grok_imagine_quality_retirement_extension']
+GEMINI_25_EXTENSION=SCOPE['gemini_25_shutdown_redirect_extension']
 EVENTS_PATH='data/price-change-events/events.jsonl'
 DEEPSEEK_METADATA_APPROVAL={
  'identity':'deepseek/deepseek-flash',
@@ -241,6 +242,39 @@ def verify_grok_quality_release_event_bytes(raw):
  assert row['verified_at']>=row['detected_at']=='2026-11-02'
  assert [row['source_snapshot_before'],row['source_snapshot_after']]==GROK_QUALITY_EXTENSION['source_snapshots']
  return normalized,lines,rows
+def verify_gemini_25_release_event_bytes(raw):
+ normalized,lines,rows=event_lines_rows(raw)
+ assert GEMINI_25_EXTENSION['base_release']=='grok_imagine_quality_retirement_extension','unexpected Gemini 2.5 base release'
+ assert hashlib.sha256(normalized).hexdigest()==GEMINI_25_EXTENSION['full_events_sha256'],'unapproved Gemini 2.5 release event content'
+ assert len(rows)==GEMINI_25_EXTENSION['full_event_count'],'unexpected Gemini 2.5 release event count'
+ ids=[row['event_id'] for row in rows];keys=[row['dedupe_key'] for row in rows]
+ assert len(set(ids))==len(ids),'duplicate event_id'
+ assert len(set(keys))==len(keys),'duplicate dedupe_key'
+ appended_ids=GEMINI_25_EXTENSION['appended_event_ids'];appended_keys=GEMINI_25_EXTENSION['appended_dedupe_keys'];id_set=set(appended_ids)
+ assert len(appended_ids)==len(id_set)==GEMINI_25_EXTENSION['appended_event_count']==2
+ appended=[(line,row) for line,row in zip(lines,rows) if row['event_id'] in id_set]
+ rebuilt=b''.join(line for line,row in zip(lines,rows) if row['event_id'] not in id_set)
+ verify_grok_quality_release_event_bytes(rebuilt)
+ assert [row['event_id'] for _,row in appended]==appended_ids,'unexpected Gemini 2.5 event ID'
+ assert [row['dedupe_key'] for _,row in appended]==appended_keys,'unexpected Gemini 2.5 dedupe key'
+ assert len(rows)==GEMINI_25_EXTENSION['base_event_count']+GEMINI_25_EXTENSION['appended_event_count']
+ assert hashlib.sha256(b''.join(line for line,_ in appended)).hexdigest()==GEMINI_25_EXTENSION['appended_events_sha256']
+ targets={'gemini-2.5-flash':'gemini-3.5-flash-lite','gemini-2.5-pro':'gemini-3.8-flash'}
+ for _,row in appended:
+  assert row['provider_id']=='google-gemini' and row['model_id'] in targets
+  target=targets[row['model_id']]
+  assert row['change_type']=='lifecycle_update' and row['old_status']=='active' and row['new_status']=='deprecated'
+  assert row['old_prices']==row['new_prices'] and row['old_lifecycle'] is None
+  assert row['new_lifecycle']['retirement_date']=='2026-12-01' and row['new_lifecycle']['replacement_model_id']==target
+  assert 'deprecation_date' not in row['new_lifecycle']
+  transition=row['new_lifecycle']['scheduled_transition']
+  assert transition['effective_from']=='2026-12-01' and transition['billing_source']=='redirect_target'
+  assert transition['redirect_target_model_id']==transition['billing_model_id']==target
+  assert row['effective_from']=='2026-12-01' and row['date_basis']=='provider_announced'
+  assert row['official_source_url']=='https://ai.google.dev/gemini-api/docs/deprecations'
+  assert row['verified_at']>=row['detected_at']=='2026-11-03'
+  assert [row['source_snapshot_before'],row['source_snapshot_after']]==GEMINI_25_EXTENSION['source_snapshots']
+ return normalized,lines,rows
 def verify_checkpoint(checkpoint=CHECKPOINT,current_raw=None):
  assert re.fullmatch(r'[0-9a-f]{40}',checkpoint['source_commit']),'invalid checkpoint source commit'
  assert re.fullmatch(r'[0-9a-f]{40}',checkpoint['parent_commit']),'invalid checkpoint parent commit'
@@ -336,6 +370,9 @@ class ClosureScopeTests(unittest.TestCase):
   list_cut=MISTRAL_LIST_CUT_EXTENSION
   self.assertEqual(approved[mistral['identity']],list_cut['canonical_before_sha256'])
   approved[mistral['identity']]=list_cut['canonical_after_sha256']
+  for identity_g25 in GEMINI_25_EXTENSION['identities']:
+   self.assertEqual(approved[identity_g25],GEMINI_25_EXTENSION['canonical_before_sha256'][identity_g25])
+   approved[identity_g25]=GEMINI_25_EXTENSION['canonical_after_sha256'][identity_g25]
   verify_rows(old,current,approved)
   mutated=copy.deepcopy(current);next(r for r in mutated if r['model_id']=='gpt-6-sol')['pricing']['input']=999
   with self.assertRaisesRegex(AssertionError,'unapproved change'):verify_rows(old,mutated,approved)
@@ -355,6 +392,9 @@ class ClosureScopeTests(unittest.TestCase):
    approved[identity_eu]=OPENAI_EU_EXTENSION['projection_after_sha256'][identity_eu]
   self.assertEqual(approved[mistral['identity']],MISTRAL_LIST_CUT_EXTENSION['projection_before_sha256'])
   approved[mistral['identity']]=MISTRAL_LIST_CUT_EXTENSION['projection_after_sha256']
+  for identity_g25 in GEMINI_25_EXTENSION['identities']:
+   self.assertEqual(approved[identity_g25],GEMINI_25_EXTENSION['projection_before_sha256'][identity_g25])
+   approved[identity_g25]=GEMINI_25_EXTENSION['projection_after_sha256'][identity_g25]
   verify_rows(old,current,approved)
   mutated=copy.deepcopy(current);next(r for r in mutated if r['id']=='gpt-6-luna')['pricingComponents'][0]['amount']='999'
   with self.assertRaisesRegex(AssertionError,'unapproved change: openai/gpt-6-luna'):verify_rows(old,mutated,approved)
@@ -364,7 +404,7 @@ class ClosureScopeTests(unittest.TestCase):
   with self.assertRaisesRegex(AssertionError,'unapproved change: '+mistral['identity']):verify_rows(old,mutated,approved)
  def test_all_current_events_exact_and_correction_is_not_provider_event(self):
   verify_checkpoint(CHECKPOINT)
-  _,_,events=verify_grok_quality_release_event_bytes((ROOT/EVENTS_PATH).read_bytes())
+  _,_,events=verify_gemini_25_release_event_bytes((ROOT/EVENTS_PATH).read_bytes())
   self.assertFalse(any(e['model_id']=='gemini-2.5-flash-image' and e['detected_at']=='2026-10-09' for e in events))
  def test_event_digest_pinned_to_approved_commit(self):
   self.assertEqual(SCOPE['events_source_commit'],'1c7ec3eca94f0bfdc99b7ae18616bdce38be8833')
@@ -374,8 +414,10 @@ class ClosureScopeTests(unittest.TestCase):
  def test_e1_checkpoint_identity_scope_and_increment(self):
   self.assertEqual(len(SCOPE['event_checkpoints']),1);blob,rows=verify_checkpoint();self.assertEqual(len(blob.splitlines()),37);self.assertEqual(len(rows),37)
  def test_argon_release_is_the_38_event_base_of_the_mistral_release(self):
-  current=(ROOT/EVENTS_PATH).read_bytes();normalized,lines,rows=verify_grok_quality_release_event_bytes(current)
-  self.assertEqual(normalized,normalize_event_newlines(current));self.assertEqual(len(rows),54)
+  current=(ROOT/EVENTS_PATH).read_bytes();normalized,lines,rows=verify_gemini_25_release_event_bytes(current)
+  self.assertEqual(normalized,normalize_event_newlines(current));self.assertEqual(len(rows),56)
+  g25_ids=set(GEMINI_25_EXTENSION['appended_event_ids']);grok_release=b''.join(line for line,row in zip(lines,rows) if row['event_id'] not in g25_ids)
+  normalized,lines,rows=verify_grok_quality_release_event_bytes(grok_release);self.assertEqual(len(rows),54)
   grok_ids=set(GROK_QUALITY_EXTENSION['appended_event_ids']);list_cut_release=b''.join(line for line,row in zip(lines,rows) if row['event_id'] not in grok_ids)
   normalized,lines,rows=verify_mistral_list_cut_release_event_bytes(list_cut_release);self.assertEqual(len(rows),53)
   list_cut_ids=set(MISTRAL_LIST_CUT_EXTENSION['appended_event_ids']);kimi_release=b''.join(line for line,row in zip(lines,rows) if row['event_id'] not in list_cut_ids)
@@ -391,7 +433,7 @@ class ClosureScopeTests(unittest.TestCase):
  def test_event_lf_and_crlf_have_same_approved_digest(self):
   historical=approved_event_bytes();self.assertEqual(verify_event_bytes(historical),historical);self.assertEqual(verify_event_bytes(historical.replace(b'\n',b'\r\n')),historical)
   current=checkpoint_event_bytes();self.assertEqual(verify_current_event_bytes(current)[0],current);self.assertEqual(verify_current_event_bytes(current.replace(b'\n',b'\r\n'))[0],current)
-  release=normalize_event_newlines((ROOT/EVENTS_PATH).read_bytes());self.assertEqual(verify_grok_quality_release_event_bytes(release)[0],release);self.assertEqual(verify_grok_quality_release_event_bytes(release.replace(b'\n',b'\r\n'))[0],release)
+  release=normalize_event_newlines((ROOT/EVENTS_PATH).read_bytes());self.assertEqual(verify_gemini_25_release_event_bytes(release)[0],release);self.assertEqual(verify_gemini_25_release_event_bytes(release.replace(b'\n',b'\r\n'))[0],release)
  def test_event_field_mutations_rejected(self):
   historical=approved_event_bytes();rows=[json.loads(line) for line in historical.splitlines()];self.assertEqual(encode(rows),historical)
   def fields(value,path=()):

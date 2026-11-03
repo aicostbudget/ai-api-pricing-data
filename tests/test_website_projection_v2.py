@@ -466,7 +466,6 @@ class WebsiteProjectionV2Tests(unittest.TestCase):
             "openai/gpt-5.6-luna",
             "anthropic/claude-haiku-4.5",
             "xai/grok-4.3",
-            "google-gemini/gemini-2.5-pro",
         ):
             row = self.by_internal[internal_id]
             records = {record["pricingId"]: record for record in row["priceRecords"]}
@@ -481,6 +480,15 @@ class WebsiteProjectionV2Tests(unittest.TestCase):
             self.assertTrue(selected["sourceRefs"])
             for component in row["pricingComponents"]:
                 self.assertIn(component["pricingId"], records)
+
+    def test_deprecated_gemini_2_5_keeps_billing_record_without_default_selection(self):
+        # Release 2026-11-03: deprecated identities lose the default selection but keep their verified billing record.
+        for internal_id in ("google-gemini/gemini-2.5-pro", "google-gemini/gemini-2.5-flash"):
+            row = self.by_internal[internal_id]
+            self.assertIsNone(row["selectedPriceRecordId"])
+            self.assertEqual(row["selectedBillingPriceRecordId"], f"price:{internal_id}:standard:short:current")
+            self.assertIn(row["selectedBillingPriceRecordId"], {record["pricingId"] for record in row["priceRecords"]})
+            self.assertEqual(row["retirementDate"], "2026-12-01")
 
     def test_gpt_5_6_projection_publishes_record_level_provenance(self):
         for internal_id in (

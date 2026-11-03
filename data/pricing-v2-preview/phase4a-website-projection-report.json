@@ -1,7 +1,7 @@
 {
   "artifactPath": "data/pricing-v2-preview/generated/model-pricing.v2.json",
-  "defaultSafeModelCount": 69,
-  "generatedAt": "2026-11-02T07:16:04Z",
+  "defaultSafeModelCount": 67,
+  "generatedAt": "2026-11-03T04:31:17Z",
   "governanceClassCounts": {
     "COMPATIBILITY_FALLBACK": 0,
     "EXCLUDED": 6,
@@ -11,12 +11,11 @@
     "VERIFIED_CANONICAL": 108,
     "VERIFIED_PROJECTION": 5
   },
-  "nullPriceCount": 73,
+  "nullPriceCount": 75,
   "parity": {
     "counts": {
       "exact_parity": 33,
-      "expected_difference": 2,
-      "unsafe_difference": 15
+      "unsafe_difference": 17
     },
     "details": [
       {
@@ -245,14 +244,14 @@
         }
       },
       {
-        "classification": "expected_difference",
+        "classification": "unsafe_difference",
         "modelId": "gemini-2.5-flash",
         "projection": {
-          "cachedInputPrice": 0.03,
-          "inputPrice": 0.3,
-          "outputPrice": 2.5
+          "cachedInputPrice": null,
+          "inputPrice": null,
+          "outputPrice": null
         },
-        "reason": "Projection uses canonical verified pricing.",
+        "reason": "Projection blocks this row from default calculations.",
         "website": {
           "cachedInputPrice": null,
           "inputPrice": 0.3,
@@ -260,14 +259,14 @@
         }
       },
       {
-        "classification": "expected_difference",
+        "classification": "unsafe_difference",
         "modelId": "gemini-2.5-pro",
         "projection": {
-          "cachedInputPrice": 0.125,
-          "inputPrice": 1.25,
-          "outputPrice": 10
+          "cachedInputPrice": null,
+          "inputPrice": null,
+          "outputPrice": null
         },
-        "reason": "Projection uses canonical verified pricing.",
+        "reason": "Projection blocks this row from default calculations.",
         "website": {
           "cachedInputPrice": null,
           "inputPrice": 1.25,
@@ -777,5 +776,5 @@
   "phase35Readiness": "ready",
   "projectionModelCount": 142,
   "runtimeNetworkDependency": "none",
-  "unsafeIdentityCount": 73
+  "unsafeIdentityCount": 75
 }

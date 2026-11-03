@@ -124,7 +124,7 @@ class AccessMetadataTests(unittest.TestCase):
         for mid in ["claude-mythos-5", "claude-mythos-5-1"]:
             row = rows["anthropic/" + mid]; self.assertEqual(row["accessStatus"], "restricted"); self.assertEqual(row["lifecycleStatus"], "active")
         for mid in ["gemini-2.5-flash", "gemini-2.5-pro"]:
-            row = rows["google-gemini/" + mid]; self.assertEqual(row["accessStatus"], "existing_users_only"); self.assertIn("previously actively used this exact model", row["accessEvidence"][0]["scope"]); self.assertEqual(row["lifecycleStatus"], "active")
+            row = rows["google-gemini/" + mid]; self.assertEqual(row["accessStatus"], "existing_users_only"); self.assertIn("previously actively used this exact model", row["accessEvidence"][0]["scope"]); self.assertEqual(row["lifecycleStatus"], "deprecated")
         self.assertEqual(rows["xai/grok-build-0.1"]["accessStatus"], "public")
         self.assertEqual(rows["google-gemini/gemini-3-flash-preview"]["accessStatus"], "public")
         self.assertEqual(rows["google-gemini/gemini-3-flash-preview"]["releaseStage"], "preview")

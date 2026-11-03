@@ -3,6 +3,22 @@
 from datetime import datetime, timezone
 
 
+# Google deprecated both 2.5 models; on 2026-12-01 their API requests route to these models (release 2026-11-03).
+GEMINI_25_SHUTDOWN = {"gemini-2.5-pro": "gemini-3.8-flash", "gemini-2.5-flash": "gemini-3.5-flash-lite"}
+
+
+def assert_approved_status(test_case, old, current):
+    target = GEMINI_25_SHUTDOWN.get(current["model_id"])
+    if target is None:
+        test_case.assertEqual(current["status"], old["status"], "status")
+        return
+    test_case.assertEqual(current["status"], "deprecated", "status")
+    lifecycle = current["lifecycle"]
+    test_case.assertEqual(lifecycle["retirement_date"], "2026-12-01")
+    test_case.assertEqual(lifecycle["replacement_model_id"], target)
+    test_case.assertEqual(lifecycle["scheduled_transition"]["billing_model_id"], target)
+
+
 def assert_gemini_facts_and_verification(test_case, before, after):
     test_case.assertEqual(
         [(row["provider_id"], row["model_id"]) for row in after],
@@ -19,8 +35,9 @@ def assert_gemini_facts_and_verification(test_case, before, after):
                 test_case.assertTrue(current["official_source_url"].startswith("https://"))
         # Gemini 2.5 Pro now has an explicit current pricing contract; retain the V1 facts and identity.
         if current["model_id"] in {"gemini-2.5-pro", "gemini-3.8-flash"}:
-            for key in ("provider_id", "model_id", "display_name", "status", "effective_from", "pricing"):
+            for key in ("provider_id", "model_id", "display_name", "effective_from", "pricing"):
                 test_case.assertEqual(current[key], old[key], key)
+            assert_approved_status(test_case, old, current)
             test_case.assertEqual(len(current["price_records"]), 8)
             test_case.assertTrue(all(record["verification_status"] == "verified" for record in current["price_records"]))
             test_case.assertTrue(all(set(record["source_refs"]) <= set(current["official_source_urls"]) for record in current["price_records"]))
@@ -30,6 +47,9 @@ def assert_gemini_facts_and_verification(test_case, before, after):
         if current["model_id"] in {"gemini-2.5-flash", "gemini-3.1-flash-lite", "gemini-3.5-flash-lite"}:
             ignored = {"price_records", "last_verified_at", "accessed_at", "released_at", "release_evidence",
                        "access_status", "access_evidence", "access_checked_at", "binding_status", "binding_evidence"}
+            if current["model_id"] in GEMINI_25_SHUTDOWN:
+                ignored |= {"status", "lifecycle", "notes", "official_source_urls"}
+                assert_approved_status(test_case, old, current)
             test_case.assertEqual(
                 {key: value for key, value in current.items() if key not in ignored},
                 {key: value for key, value in old.items() if key not in ignored},

@@ -551,5 +551,47 @@
       "data/snapshots/2026-11-02/prices.json"
     ],
     "evidence": "xAI's migration guide (docs.x.ai/developers/migration/imagine-image-quality-nov-2, reports/price-evidence 20261102T065821Z) retires grok-imagine-image-quality on 2026-11-02 after a 60-day notice from 2026-09-02; the slug keeps resolving to grok-imagine-image-2.0 at quality=low and bills at that rate. The canonical lifecycle already held these dates, so release 2026-11-02 only flips status deprecated -> retired and re-verifies the model, which produces this lifecycle_update. Released together with Claude Opus 4.8 / Opus 5 Fast-mode records, which add a processing mode and produce no event."
+  },
+  "gemini_25_shutdown_redirect_extension": {
+    "identities": [
+      "google-gemini/gemini-2.5-flash",
+      "google-gemini/gemini-2.5-pro"
+    ],
+    "canonical_source_commit": "29e0400",
+    "base_release": "grok_imagine_quality_retirement_extension",
+    "base_event_count": 54,
+    "appended_event_count": 2,
+    "full_event_count": 56,
+    "full_events_sha256": "d3479df88d780f2adade0d101dbea4e3edf54d4dcbce0c15644fce089e9edc83",
+    "appended_events_sha256": "0737d82982fe6926cf0dd2a39e43dff63d1d08b0fa0d55b5e310b20acf5c869b",
+    "appended_event_ids": [
+      "google-gemini:gemini-2.5-flash:lifecycle_update:580e2117e91e",
+      "google-gemini:gemini-2.5-pro:lifecycle_update:4bc629c571cf"
+    ],
+    "appended_dedupe_keys": [
+      "sha256:580e2117e91e2ba5e619a9afe08c56f9807119b886832d877b4450ae9eb481d9",
+      "sha256:4bc629c571cffdec6a2ce8d2a7be0c76afc374fb55d4676769f113c98c96d486"
+    ],
+    "source_snapshots": [
+      "data/snapshots/2026-11-02/prices.json",
+      "data/snapshots/2026-11-03/prices.json"
+    ],
+    "canonical_before_sha256": {
+      "google-gemini/gemini-2.5-flash": "383af7dcc36a27471579a4bc50ea8af86b9d825760b4b5d620b75f760f3e36df",
+      "google-gemini/gemini-2.5-pro": "2b504a9449eba07306033c79a78ffb8f215e6eef1a352404f1d3ed818b4f7aa8"
+    },
+    "canonical_after_sha256": {
+      "google-gemini/gemini-2.5-flash": "f0fc03bb27d986fa7b451f4005d3d4b3da77082ccd86abee881c6bc2c41a5fa1",
+      "google-gemini/gemini-2.5-pro": "4990d152dc0a913377b7b8fc4e70c5b08e9630500714460fe0665402788707ae"
+    },
+    "projection_before_sha256": {
+      "google-gemini/gemini-2.5-flash": "96b2d1dcc489906c5d787e688352fec0be464b4480698fec6e6f653896795777",
+      "google-gemini/gemini-2.5-pro": "371b2da7da5169a570475566bba41e3757a63c2e309a6f367c7be1f87deb0cb3"
+    },
+    "projection_after_sha256": {
+      "google-gemini/gemini-2.5-flash": "89d571450d9ce4d5776ad5b6ff340997b528e21bda63f6f8171c880371ae5d3b",
+      "google-gemini/gemini-2.5-pro": "b1fc3ef0d6769abab00698c8278c1b727309aada5d3840ec25305054fd3afff9"
+    },
+    "evidence": "Google's deprecations and pricing pages (ai.google.dev/gemini-api/docs/deprecations and /pricing, reports/price-evidence 20261103T042838Z and 20261103T042850Z, section extracts in .release-logs/g25-lifecycle-20261103) mark gemini-2.5-pro and gemini-2.5-flash deprecated, limit API access to existing users, and state that from December 1, 2026 all API requests route to gemini-3.8-flash and gemini-3.5-flash-lite respectively, billed at the target's rates. Release 2026-11-03 sets status deprecated, retirement_date 2026-12-01 with a retirement_redirect transition, adds the deprecations page as a source and re-verifies both models (all recorded prices unchanged), which produces these two lifecycle_update events. Google publishes no deprecation announcement date, so deprecation_date is left unset."
   }
 }

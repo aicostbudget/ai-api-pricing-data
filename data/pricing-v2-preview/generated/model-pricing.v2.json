@@ -9,7 +9,7 @@
     "review_required": "display only with warning; no default or recommendation placement",
     "unsafe": "exclude from default calculations and show warning only where explicitly allowed"
   },
-  "effectiveAt": "2026-11-02T07:16:04Z",
+  "effectiveAt": "2026-11-03T04:31:17Z",
   "effectiveTimezone": "UTC",
   "failureBehavior": {
     "atomicWrite": true,
@@ -18,7 +18,7 @@
     "partialJson": "not_written",
     "publicV1Mutation": "forbidden"
   },
-  "generatedAt": "2026-11-02T07:16:04Z",
+  "generatedAt": "2026-11-03T04:31:17Z",
   "generatedAtPolicy": "UTC artifact generation timestamp injected by the generation pipeline",
   "governancePolicy": {
     "classes": [
@@ -12842,12 +12842,12 @@
     },
     {
       "accessAuthority": {
-        "baseRevision": "80c2ec4991bcaaf795fe9192946f5ec770d57f48",
-        "factSha256": "7661f3b46ca23b3fe4e41e8f0d7461d37a6c7cdd0fb18967a078fbe4d516ea89",
+        "baseRevision": "29e0400043da2e304456761ebf557d3c4ceef953",
+        "factSha256": "e1b8beedfe3617de007e520cf60850d55da4492deae88e2877704913b17d2d7d",
         "kind": "canonical",
         "revisionScope": "base_revision_plus_fact_digest"
       },
-      "accessCheckedAt": "2026-10-07T04:26:40Z",
+      "accessCheckedAt": "2026-11-03T04:28:50Z",
       "accessEvidence": [
         {
           "claimType": "official_access_existing_users_only",
@@ -12861,8 +12861,8 @@
       "accessStatus": "existing_users_only",
       "aliasTargetInternalId": null,
       "availability": "Legacy reference",
-      "batchInputPrice": 0.15,
-      "batchOutputPrice": 1.25,
+      "batchInputPrice": null,
+      "batchOutputPrice": null,
       "billingModelInternalId": null,
       "bindingEvidence": [
         {
@@ -12875,11 +12875,14 @@
         }
       ],
       "bindingStatus": "approved",
-      "blockedFromDefaultReasons": [],
-      "cachedInputPrice": 0.03,
+      "blockedFromDefaultReasons": [
+        "deprecated_identity"
+      ],
+      "cachedInputPrice": null,
       "canonicalInternalId": "google-gemini/gemini-2.5-flash",
-      "checkedAt": "2026-10-27T05:59:36Z",
+      "checkedAt": "2026-11-03T04:28:50Z",
       "checkedSourceRefs": [
+        "source:google-gemini:ai-google-dev-gemini-api-docs-deprecations",
         "source:google-gemini:ai-google-dev-gemini-api-docs-pricing"
       ],
       "contextWindow": null,
@@ -12891,25 +12894,25 @@
         "text",
         "default_context_class"
       ],
-      "defaultSafe": true,
+      "defaultSafe": false,
       "deprecationDate": null,
       "governanceClass": "VERIFIED_CANONICAL",
       "governanceDetails": null,
-      "governanceReason": "canonical_verified_direct_public_projection",
+      "governanceReason": "canonical_verified_non_token_public_projection",
       "governanceSourceCandidateIds": [
         "google-gemini/gemini-2.5-flash"
       ],
       "id": "gemini-2.5-flash",
       "identityType": "canonical_model",
-      "inputPrice": 0.3,
-      "lifecycleStatus": "active",
+      "inputPrice": null,
+      "lifecycleStatus": "deprecated",
       "model": "Gemini 2.5 Flash",
       "officialSourceUrl": "https://ai.google.dev/gemini-api/docs/pricing",
-      "outputPrice": 2.5,
+      "outputPrice": null,
       "priceRecords": [
         {
           "calculationDefault": false,
-          "checkedAt": "2026-10-27T05:59:36Z",
+          "checkedAt": "2026-11-03T04:28:50Z",
           "contextClass": "short",
           "effectiveFrom": null,
           "effectiveUntil": null,
@@ -12917,14 +12920,15 @@
           "pricingStatus": "current",
           "processingMode": "batch",
           "sourceRefs": [
+            "source:google-gemini:ai-google-dev-gemini-api-docs-deprecations",
             "source:google-gemini:ai-google-dev-gemini-api-docs-pricing"
           ],
           "verificationStatus": "verified",
-          "verifiedAt": "2026-10-27T05:59:36Z"
+          "verifiedAt": "2026-11-03T04:28:50Z"
         },
         {
           "calculationDefault": true,
-          "checkedAt": "2026-10-27T05:59:36Z",
+          "checkedAt": "2026-11-03T04:28:50Z",
           "contextClass": "short",
           "effectiveFrom": null,
           "effectiveUntil": null,
@@ -12932,10 +12936,11 @@
           "pricingStatus": "current",
           "processingMode": "standard",
           "sourceRefs": [
+            "source:google-gemini:ai-google-dev-gemini-api-docs-deprecations",
             "source:google-gemini:ai-google-dev-gemini-api-docs-pricing"
           ],
           "verificationStatus": "verified",
-          "verifiedAt": "2026-10-27T05:59:36Z"
+          "verifiedAt": "2026-11-03T04:28:50Z"
         }
       ],
       "pricingComponents": [
@@ -12969,6 +12974,7 @@
           "modality": "text",
           "pricingId": "price:google-gemini/gemini-2.5-flash:batch:short:current",
           "sourceRefs": [
+            "source:google-gemini:ai-google-dev-gemini-api-docs-deprecations",
             "source:google-gemini:ai-google-dev-gemini-api-docs-pricing"
           ],
           "unit": "per_1m_tokens",
@@ -13004,6 +13010,7 @@
           "modality": "text",
           "pricingId": "price:google-gemini/gemini-2.5-flash:batch:short:current",
           "sourceRefs": [
+            "source:google-gemini:ai-google-dev-gemini-api-docs-deprecations",
             "source:google-gemini:ai-google-dev-gemini-api-docs-pricing"
           ],
           "unit": "per_1m_tokens",
@@ -13039,6 +13046,7 @@
           "modality": "text",
           "pricingId": "price:google-gemini/gemini-2.5-flash:batch:short:current",
           "sourceRefs": [
+            "source:google-gemini:ai-google-dev-gemini-api-docs-deprecations",
             "source:google-gemini:ai-google-dev-gemini-api-docs-pricing"
           ],
           "unit": "per_1m_tokens",
@@ -13074,6 +13082,7 @@
           "modality": "text",
           "pricingId": "price:google-gemini/gemini-2.5-flash:standard:short:current",
           "sourceRefs": [
+            "source:google-gemini:ai-google-dev-gemini-api-docs-deprecations",
             "source:google-gemini:ai-google-dev-gemini-api-docs-pricing"
           ],
           "unit": "per_1m_tokens",
@@ -13109,6 +13118,7 @@
           "modality": "text",
           "pricingId": "price:google-gemini/gemini-2.5-flash:standard:short:current",
           "sourceRefs": [
+            "source:google-gemini:ai-google-dev-gemini-api-docs-deprecations",
             "source:google-gemini:ai-google-dev-gemini-api-docs-pricing"
           ],
           "unit": "per_1m_tokens",
@@ -13144,13 +13154,14 @@
           "modality": "text",
           "pricingId": "price:google-gemini/gemini-2.5-flash:standard:short:current",
           "sourceRefs": [
+            "source:google-gemini:ai-google-dev-gemini-api-docs-deprecations",
             "source:google-gemini:ai-google-dev-gemini-api-docs-pricing"
           ],
           "unit": "per_1m_tokens",
           "verificationStatus": "verified"
         }
       ],
-      "pricingSourceType": "canonical_verified_price",
+      "pricingSourceType": "canonical_verified_structured_price",
       "provider": "google-gemini",
       "publicExposure": "public",
       "redirectTargetInternalId": null,
@@ -13158,25 +13169,42 @@
       "releaseSourceUrl": "https://ai.google.dev/gemini-api/docs/changelog",
       "releaseStage": "legacy",
       "releasedAt": "2025-06-17",
-      "replacementInternalId": null,
-      "retirementDate": null,
+      "replacementInternalId": "google-gemini/gemini-3.5-flash-lite",
+      "retirementDate": "2026-12-01",
       "routingBehavior": "direct",
       "routingDetails": {},
-      "selectedBatchPriceRecordId": "price:google-gemini/gemini-2.5-flash:batch:short:current",
+      "scheduledTransition": {
+        "billingConfiguration": {
+          "model": "gemini-3.5-flash-lite"
+        },
+        "billingModelInternalId": "google-gemini/gemini-3.5-flash-lite",
+        "billingSource": "redirect_target",
+        "effectiveFrom": "2026-12-01",
+        "kind": "retirement_redirect",
+        "redirectTargetInternalId": "google-gemini/gemini-3.5-flash-lite",
+        "sourceSlugRemainsResolvable": true,
+        "targetConfiguration": {
+          "model": "gemini-3.5-flash-lite"
+        }
+      },
+      "selectedBatchPriceRecordId": null,
       "selectedBillingPriceRecordId": "price:google-gemini/gemini-2.5-flash:standard:short:current",
       "selectedPriceEffectiveFrom": null,
       "selectedPriceEffectiveUntil": null,
-      "selectedPriceRecordId": "price:google-gemini/gemini-2.5-flash:standard:short:current",
+      "selectedPriceRecordId": null,
       "sourceRefs": [
+        "source:google-gemini:ai-google-dev-gemini-api-docs-deprecations",
         "source:google-gemini:ai-google-dev-gemini-api-docs-pricing"
       ],
       "sourceUrls": [
+        "https://ai.google.dev/gemini-api/docs/deprecations",
         "https://ai.google.dev/gemini-api/docs/pricing"
       ],
-      "status": "latest",
+      "status": "deprecated",
       "verificationStatus": "verified",
-      "verifiedAt": "2026-10-27T05:59:36Z",
+      "verifiedAt": "2026-11-03T04:28:50Z",
       "verifiedSourceRefs": [
+        "source:google-gemini:ai-google-dev-gemini-api-docs-deprecations",
         "source:google-gemini:ai-google-dev-gemini-api-docs-pricing"
       ]
     },
@@ -13284,12 +13312,12 @@
     },
     {
       "accessAuthority": {
-        "baseRevision": "80c2ec4991bcaaf795fe9192946f5ec770d57f48",
-        "factSha256": "cc8fadc38581ea833a2783af5c872d55b8d7c653f2f37478318a855538bc5d3a",
+        "baseRevision": "29e0400043da2e304456761ebf557d3c4ceef953",
+        "factSha256": "cc7bab9b66b698e99baf28856419594a29c450f9eccc51bcab674a5765a35463",
         "kind": "canonical",
         "revisionScope": "base_revision_plus_fact_digest"
       },
-      "accessCheckedAt": "2026-10-07T04:26:40Z",
+      "accessCheckedAt": "2026-11-03T04:28:38Z",
       "accessEvidence": [
         {
           "claimType": "official_access_existing_users_only",
@@ -13303,8 +13331,8 @@
       "accessStatus": "existing_users_only",
       "aliasTargetInternalId": null,
       "availability": "Legacy reference",
-      "batchInputPrice": 0.625,
-      "batchOutputPrice": 5,
+      "batchInputPrice": null,
+      "batchOutputPrice": null,
       "billingModelInternalId": null,
       "bindingEvidence": [
         {
@@ -13317,11 +13345,14 @@
         }
       ],
       "bindingStatus": "approved",
-      "blockedFromDefaultReasons": [],
-      "cachedInputPrice": 0.125,
+      "blockedFromDefaultReasons": [
+        "deprecated_identity"
+      ],
+      "cachedInputPrice": null,
       "canonicalInternalId": "google-gemini/gemini-2.5-pro",
-      "checkedAt": "2026-10-25T05:02:33Z",
+      "checkedAt": "2026-11-03T04:28:38Z",
       "checkedSourceRefs": [
+        "source:google-gemini:ai-google-dev-gemini-api-docs-deprecations",
         "source:google-gemini:ai-google-dev-gemini-api-docs-generate-content-caching",
         "source:google-gemini:ai-google-dev-gemini-api-docs-pricing"
       ],
@@ -13334,25 +13365,25 @@
         "text",
         "default_context_class"
       ],
-      "defaultSafe": true,
+      "defaultSafe": false,
       "deprecationDate": null,
       "governanceClass": "VERIFIED_CANONICAL",
       "governanceDetails": null,
-      "governanceReason": "canonical_verified_direct_public_projection",
+      "governanceReason": "canonical_verified_non_token_public_projection",
       "governanceSourceCandidateIds": [
         "google-gemini/gemini-2.5-pro"
       ],
       "id": "gemini-2.5-pro",
       "identityType": "canonical_model",
-      "inputPrice": 1.25,
-      "lifecycleStatus": "active",
+      "inputPrice": null,
+      "lifecycleStatus": "deprecated",
       "model": "Gemini 2.5 Pro",
       "officialSourceUrl": "https://ai.google.dev/gemini-api/docs/pricing",
-      "outputPrice": 10,
+      "outputPrice": null,
       "priceRecords": [
         {
           "calculationDefault": false,
-          "checkedAt": "2026-10-25T05:02:33Z",
+          "checkedAt": "2026-11-03T04:28:38Z",
           "contextClass": "long",
           "effectiveFrom": null,
           "effectiveUntil": null,
@@ -13360,15 +13391,16 @@
           "pricingStatus": "current",
           "processingMode": "batch",
           "sourceRefs": [
+            "source:google-gemini:ai-google-dev-gemini-api-docs-deprecations",
             "source:google-gemini:ai-google-dev-gemini-api-docs-generate-content-caching",
             "source:google-gemini:ai-google-dev-gemini-api-docs-pricing"
           ],
           "verificationStatus": "verified",
-          "verifiedAt": "2026-10-25T05:02:33Z"
+          "verifiedAt": "2026-11-03T04:28:38Z"
         },
         {
           "calculationDefault": false,
-          "checkedAt": "2026-10-25T05:02:33Z",
+          "checkedAt": "2026-11-03T04:28:38Z",
           "contextClass": "short",
           "effectiveFrom": null,
           "effectiveUntil": null,
@@ -13376,15 +13408,16 @@
           "pricingStatus": "current",
           "processingMode": "batch",
           "sourceRefs": [
+            "source:google-gemini:ai-google-dev-gemini-api-docs-deprecations",
             "source:google-gemini:ai-google-dev-gemini-api-docs-generate-content-caching",
             "source:google-gemini:ai-google-dev-gemini-api-docs-pricing"
           ],
           "verificationStatus": "verified",
-          "verifiedAt": "2026-10-25T05:02:33Z"
+          "verifiedAt": "2026-11-03T04:28:38Z"
         },
         {
           "calculationDefault": false,
-          "checkedAt": "2026-10-25T05:02:33Z",
+          "checkedAt": "2026-11-03T04:28:38Z",
           "contextClass": "long",
           "effectiveFrom": null,
           "effectiveUntil": null,
@@ -13392,15 +13425,16 @@
           "pricingStatus": "current",
           "processingMode": "flex",
           "sourceRefs": [
+            "source:google-gemini:ai-google-dev-gemini-api-docs-deprecations",
             "source:google-gemini:ai-google-dev-gemini-api-docs-generate-content-caching",
             "source:google-gemini:ai-google-dev-gemini-api-docs-pricing"
           ],
           "verificationStatus": "verified",
-          "verifiedAt": "2026-10-25T05:02:33Z"
+          "verifiedAt": "2026-11-03T04:28:38Z"
         },
         {
           "calculationDefault": false,
-          "checkedAt": "2026-10-25T05:02:33Z",
+          "checkedAt": "2026-11-03T04:28:38Z",
           "contextClass": "short",
           "effectiveFrom": null,
           "effectiveUntil": null,
@@ -13408,15 +13442,16 @@
           "pricingStatus": "current",
           "processingMode": "flex",
           "sourceRefs": [
+            "source:google-gemini:ai-google-dev-gemini-api-docs-deprecations",
             "source:google-gemini:ai-google-dev-gemini-api-docs-generate-content-caching",
             "source:google-gemini:ai-google-dev-gemini-api-docs-pricing"
           ],
           "verificationStatus": "verified",
-          "verifiedAt": "2026-10-25T05:02:33Z"
+          "verifiedAt": "2026-11-03T04:28:38Z"
         },
         {
           "calculationDefault": false,
-          "checkedAt": "2026-10-25T05:02:33Z",
+          "checkedAt": "2026-11-03T04:28:38Z",
           "contextClass": "long",
           "effectiveFrom": null,
           "effectiveUntil": null,
@@ -13424,15 +13459,16 @@
           "pricingStatus": "current",
           "processingMode": "priority",
           "sourceRefs": [
+            "source:google-gemini:ai-google-dev-gemini-api-docs-deprecations",
             "source:google-gemini:ai-google-dev-gemini-api-docs-generate-content-caching",
             "source:google-gemini:ai-google-dev-gemini-api-docs-pricing"
           ],
           "verificationStatus": "verified",
-          "verifiedAt": "2026-10-25T05:02:33Z"
+          "verifiedAt": "2026-11-03T04:28:38Z"
         },
         {
           "calculationDefault": false,
-          "checkedAt": "2026-10-25T05:02:33Z",
+          "checkedAt": "2026-11-03T04:28:38Z",
           "contextClass": "short",
           "effectiveFrom": null,
           "effectiveUntil": null,
@@ -13440,15 +13476,16 @@
           "pricingStatus": "current",
           "processingMode": "priority",
           "sourceRefs": [
+            "source:google-gemini:ai-google-dev-gemini-api-docs-deprecations",
             "source:google-gemini:ai-google-dev-gemini-api-docs-generate-content-caching",
             "source:google-gemini:ai-google-dev-gemini-api-docs-pricing"
           ],
           "verificationStatus": "verified",
-          "verifiedAt": "2026-10-25T05:02:33Z"
+          "verifiedAt": "2026-11-03T04:28:38Z"
         },
         {
           "calculationDefault": false,
-          "checkedAt": "2026-10-25T05:02:33Z",
+          "checkedAt": "2026-11-03T04:28:38Z",
           "contextClass": "long",
           "effectiveFrom": null,
           "effectiveUntil": null,
@@ -13456,15 +13493,16 @@
           "pricingStatus": "current",
           "processingMode": "standard",
           "sourceRefs": [
+            "source:google-gemini:ai-google-dev-gemini-api-docs-deprecations",
             "source:google-gemini:ai-google-dev-gemini-api-docs-generate-content-caching",
             "source:google-gemini:ai-google-dev-gemini-api-docs-pricing"
           ],
           "verificationStatus": "verified",
-          "verifiedAt": "2026-10-25T05:02:33Z"
+          "verifiedAt": "2026-11-03T04:28:38Z"
         },
         {
           "calculationDefault": true,
-          "checkedAt": "2026-10-25T05:02:33Z",
+          "checkedAt": "2026-11-03T04:28:38Z",
           "contextClass": "short",
           "effectiveFrom": null,
           "effectiveUntil": null,
@@ -13472,11 +13510,12 @@
           "pricingStatus": "current",
           "processingMode": "standard",
           "sourceRefs": [
+            "source:google-gemini:ai-google-dev-gemini-api-docs-deprecations",
             "source:google-gemini:ai-google-dev-gemini-api-docs-generate-content-caching",
             "source:google-gemini:ai-google-dev-gemini-api-docs-pricing"
           ],
           "verificationStatus": "verified",
-          "verifiedAt": "2026-10-25T05:02:33Z"
+          "verifiedAt": "2026-11-03T04:28:38Z"
         }
       ],
       "pricingComponents": [
@@ -13515,6 +13554,7 @@
           "modality": "text",
           "pricingId": "price:google-gemini/gemini-2.5-pro:batch:long:current",
           "sourceRefs": [
+            "source:google-gemini:ai-google-dev-gemini-api-docs-deprecations",
             "source:google-gemini:ai-google-dev-gemini-api-docs-generate-content-caching",
             "source:google-gemini:ai-google-dev-gemini-api-docs-pricing"
           ],
@@ -13556,6 +13596,7 @@
           "modality": "text",
           "pricingId": "price:google-gemini/gemini-2.5-pro:batch:long:current",
           "sourceRefs": [
+            "source:google-gemini:ai-google-dev-gemini-api-docs-deprecations",
             "source:google-gemini:ai-google-dev-gemini-api-docs-generate-content-caching",
             "source:google-gemini:ai-google-dev-gemini-api-docs-pricing"
           ],
@@ -13597,6 +13638,7 @@
           "modality": "text",
           "pricingId": "price:google-gemini/gemini-2.5-pro:batch:long:current",
           "sourceRefs": [
+            "source:google-gemini:ai-google-dev-gemini-api-docs-deprecations",
             "source:google-gemini:ai-google-dev-gemini-api-docs-generate-content-caching",
             "source:google-gemini:ai-google-dev-gemini-api-docs-pricing"
           ],
@@ -13638,6 +13680,7 @@
           "modality": "text",
           "pricingId": "price:google-gemini/gemini-2.5-pro:batch:short:current",
           "sourceRefs": [
+            "source:google-gemini:ai-google-dev-gemini-api-docs-deprecations",
             "source:google-gemini:ai-google-dev-gemini-api-docs-generate-content-caching",
             "source:google-gemini:ai-google-dev-gemini-api-docs-pricing"
           ],
@@ -13679,6 +13722,7 @@
           "modality": "text",
           "pricingId": "price:google-gemini/gemini-2.5-pro:batch:short:current",
           "sourceRefs": [
+            "source:google-gemini:ai-google-dev-gemini-api-docs-deprecations",
             "source:google-gemini:ai-google-dev-gemini-api-docs-generate-content-caching",
             "source:google-gemini:ai-google-dev-gemini-api-docs-pricing"
           ],
@@ -13720,6 +13764,7 @@
           "modality": "text",
           "pricingId": "price:google-gemini/gemini-2.5-pro:batch:short:current",
           "sourceRefs": [
+            "source:google-gemini:ai-google-dev-gemini-api-docs-deprecations",
             "source:google-gemini:ai-google-dev-gemini-api-docs-generate-content-caching",
             "source:google-gemini:ai-google-dev-gemini-api-docs-pricing"
           ],
@@ -13761,6 +13806,7 @@
           "modality": "text",
           "pricingId": "price:google-gemini/gemini-2.5-pro:flex:long:current",
           "sourceRefs": [
+            "source:google-gemini:ai-google-dev-gemini-api-docs-deprecations",
             "source:google-gemini:ai-google-dev-gemini-api-docs-generate-content-caching",
             "source:google-gemini:ai-google-dev-gemini-api-docs-pricing"
           ],
@@ -13802,6 +13848,7 @@
           "modality": "text",
           "pricingId": "price:google-gemini/gemini-2.5-pro:flex:long:current",
           "sourceRefs": [
+            "source:google-gemini:ai-google-dev-gemini-api-docs-deprecations",
             "source:google-gemini:ai-google-dev-gemini-api-docs-generate-content-caching",
             "source:google-gemini:ai-google-dev-gemini-api-docs-pricing"
           ],
@@ -13843,6 +13890,7 @@
           "modality": "text",
           "pricingId": "price:google-gemini/gemini-2.5-pro:flex:long:current",
           "sourceRefs": [
+            "source:google-gemini:ai-google-dev-gemini-api-docs-deprecations",
             "source:google-gemini:ai-google-dev-gemini-api-docs-generate-content-caching",
             "source:google-gemini:ai-google-dev-gemini-api-docs-pricing"
           ],
@@ -13884,6 +13932,7 @@
           "modality": "text",
           "pricingId": "price:google-gemini/gemini-2.5-pro:flex:short:current",
           "sourceRefs": [
+            "source:google-gemini:ai-google-dev-gemini-api-docs-deprecations",
             "source:google-gemini:ai-google-dev-gemini-api-docs-generate-content-caching",
             "source:google-gemini:ai-google-dev-gemini-api-docs-pricing"
           ],
@@ -13925,6 +13974,7 @@
           "modality": "text",
           "pricingId": "price:google-gemini/gemini-2.5-pro:flex:short:current",
           "sourceRefs": [
+            "source:google-gemini:ai-google-dev-gemini-api-docs-deprecations",
             "source:google-gemini:ai-google-dev-gemini-api-docs-generate-content-caching",
             "source:google-gemini:ai-google-dev-gemini-api-docs-pricing"
           ],
@@ -13966,6 +14016,7 @@
           "modality": "text",
           "pricingId": "price:google-gemini/gemini-2.5-pro:flex:short:current",
           "sourceRefs": [
+            "source:google-gemini:ai-google-dev-gemini-api-docs-deprecations",
             "source:google-gemini:ai-google-dev-gemini-api-docs-generate-content-caching",
             "source:google-gemini:ai-google-dev-gemini-api-docs-pricing"
           ],
@@ -14007,6 +14058,7 @@
           "modality": "text",
           "pricingId": "price:google-gemini/gemini-2.5-pro:priority:long:current",
           "sourceRefs": [
+            "source:google-gemini:ai-google-dev-gemini-api-docs-deprecations",
             "source:google-gemini:ai-google-dev-gemini-api-docs-generate-content-caching",
             "source:google-gemini:ai-google-dev-gemini-api-docs-pricing"
           ],
@@ -14048,6 +14100,7 @@
           "modality": "text",
           "pricingId": "price:google-gemini/gemini-2.5-pro:priority:long:current",
           "sourceRefs": [
+            "source:google-gemini:ai-google-dev-gemini-api-docs-deprecations",
             "source:google-gemini:ai-google-dev-gemini-api-docs-generate-content-caching",
             "source:google-gemini:ai-google-dev-gemini-api-docs-pricing"
           ],
@@ -14089,6 +14142,7 @@
           "modality": "text",
           "pricingId": "price:google-gemini/gemini-2.5-pro:priority:long:current",
           "sourceRefs": [
+            "source:google-gemini:ai-google-dev-gemini-api-docs-deprecations",
             "source:google-gemini:ai-google-dev-gemini-api-docs-generate-content-caching",
             "source:google-gemini:ai-google-dev-gemini-api-docs-pricing"
           ],
@@ -14130,6 +14184,7 @@
           "modality": "text",
           "pricingId": "price:google-gemini/gemini-2.5-pro:priority:short:current",
           "sourceRefs": [
+            "source:google-gemini:ai-google-dev-gemini-api-docs-deprecations",
             "source:google-gemini:ai-google-dev-gemini-api-docs-generate-content-caching",
             "source:google-gemini:ai-google-dev-gemini-api-docs-pricing"
           ],
@@ -14171,6 +14226,7 @@
           "modality": "text",
           "pricingId": "price:google-gemini/gemini-2.5-pro:priority:short:current",
           "sourceRefs": [
+            "source:google-gemini:ai-google-dev-gemini-api-docs-deprecations",
             "source:google-gemini:ai-google-dev-gemini-api-docs-generate-content-caching",
             "source:google-gemini:ai-google-dev-gemini-api-docs-pricing"
           ],
@@ -14212,6 +14268,7 @@
           "modality": "text",
           "pricingId": "price:google-gemini/gemini-2.5-pro:priority:short:current",
           "sourceRefs": [
+            "source:google-gemini:ai-google-dev-gemini-api-docs-deprecations",
             "source:google-gemini:ai-google-dev-gemini-api-docs-generate-content-caching",
             "source:google-gemini:ai-google-dev-gemini-api-docs-pricing"
           ],
@@ -14253,6 +14310,7 @@
           "modality": "text",
           "pricingId": "price:google-gemini/gemini-2.5-pro:standard:long:current",
           "sourceRefs": [
+            "source:google-gemini:ai-google-dev-gemini-api-docs-deprecations",
             "source:google-gemini:ai-google-dev-gemini-api-docs-generate-content-caching",
             "source:google-gemini:ai-google-dev-gemini-api-docs-pricing"
           ],
@@ -14294,6 +14352,7 @@
           "modality": "text",
           "pricingId": "price:google-gemini/gemini-2.5-pro:standard:long:current",
           "sourceRefs": [
+            "source:google-gemini:ai-google-dev-gemini-api-docs-deprecations",
             "source:google-gemini:ai-google-dev-gemini-api-docs-generate-content-caching",
             "source:google-gemini:ai-google-dev-gemini-api-docs-pricing"
           ],
@@ -14335,6 +14394,7 @@
           "modality": "text",
           "pricingId": "price:google-gemini/gemini-2.5-pro:standard:long:current",
           "sourceRefs": [
+            "source:google-gemini:ai-google-dev-gemini-api-docs-deprecations",
             "source:google-gemini:ai-google-dev-gemini-api-docs-generate-content-caching",
             "source:google-gemini:ai-google-dev-gemini-api-docs-pricing"
           ],
@@ -14376,6 +14436,7 @@
           "modality": "text",
           "pricingId": "price:google-gemini/gemini-2.5-pro:standard:short:current",
           "sourceRefs": [
+            "source:google-gemini:ai-google-dev-gemini-api-docs-deprecations",
             "source:google-gemini:ai-google-dev-gemini-api-docs-generate-content-caching",
             "source:google-gemini:ai-google-dev-gemini-api-docs-pricing"
           ],
@@ -14417,6 +14478,7 @@
           "modality": "text",
           "pricingId": "price:google-gemini/gemini-2.5-pro:standard:short:current",
           "sourceRefs": [
+            "source:google-gemini:ai-google-dev-gemini-api-docs-deprecations",
             "source:google-gemini:ai-google-dev-gemini-api-docs-generate-content-caching",
             "source:google-gemini:ai-google-dev-gemini-api-docs-pricing"
           ],
@@ -14458,6 +14520,7 @@
           "modality": "text",
           "pricingId": "price:google-gemini/gemini-2.5-pro:standard:short:current",
           "sourceRefs": [
+            "source:google-gemini:ai-google-dev-gemini-api-docs-deprecations",
             "source:google-gemini:ai-google-dev-gemini-api-docs-generate-content-caching",
             "source:google-gemini:ai-google-dev-gemini-api-docs-pricing"
           ],
@@ -14465,7 +14528,7 @@
           "verificationStatus": "verified"
         }
       ],
-      "pricingSourceType": "canonical_verified_price",
+      "pricingSourceType": "canonical_verified_structured_price",
       "pricingTiers": [
         {
           "cachedInputPrice": 0.25,
@@ -14482,6 +14545,7 @@
           "processingMode": "standard",
           "promptTokenThreshold": 200000,
           "sourceRefs": [
+            "source:google-gemini:ai-google-dev-gemini-api-docs-deprecations",
             "source:google-gemini:ai-google-dev-gemini-api-docs-generate-content-caching",
             "source:google-gemini:ai-google-dev-gemini-api-docs-pricing"
           ],
@@ -14505,6 +14569,7 @@
           "processingMode": "standard",
           "promptTokenThreshold": 200000,
           "sourceRefs": [
+            "source:google-gemini:ai-google-dev-gemini-api-docs-deprecations",
             "source:google-gemini:ai-google-dev-gemini-api-docs-generate-content-caching",
             "source:google-gemini:ai-google-dev-gemini-api-docs-pricing"
           ],
@@ -14521,27 +14586,44 @@
       "releaseSourceUrl": "https://ai.google.dev/gemini-api/docs/changelog",
       "releaseStage": "legacy",
       "releasedAt": "2025-06-17",
-      "replacementInternalId": null,
-      "retirementDate": null,
+      "replacementInternalId": "google-gemini/gemini-3.8-flash",
+      "retirementDate": "2026-12-01",
       "routingBehavior": "direct",
       "routingDetails": {},
-      "selectedBatchPriceRecordId": "price:google-gemini/gemini-2.5-pro:batch:short:current",
+      "scheduledTransition": {
+        "billingConfiguration": {
+          "model": "gemini-3.8-flash"
+        },
+        "billingModelInternalId": "google-gemini/gemini-3.8-flash",
+        "billingSource": "redirect_target",
+        "effectiveFrom": "2026-12-01",
+        "kind": "retirement_redirect",
+        "redirectTargetInternalId": "google-gemini/gemini-3.8-flash",
+        "sourceSlugRemainsResolvable": true,
+        "targetConfiguration": {
+          "model": "gemini-3.8-flash"
+        }
+      },
+      "selectedBatchPriceRecordId": null,
       "selectedBillingPriceRecordId": "price:google-gemini/gemini-2.5-pro:standard:short:current",
       "selectedPriceEffectiveFrom": null,
       "selectedPriceEffectiveUntil": null,
-      "selectedPriceRecordId": "price:google-gemini/gemini-2.5-pro:standard:short:current",
+      "selectedPriceRecordId": null,
       "sourceRefs": [
+        "source:google-gemini:ai-google-dev-gemini-api-docs-deprecations",
         "source:google-gemini:ai-google-dev-gemini-api-docs-generate-content-caching",
         "source:google-gemini:ai-google-dev-gemini-api-docs-pricing"
       ],
       "sourceUrls": [
+        "https://ai.google.dev/gemini-api/docs/deprecations",
         "https://ai.google.dev/gemini-api/docs/generate-content/caching",
         "https://ai.google.dev/gemini-api/docs/pricing"
       ],
-      "status": "latest",
+      "status": "deprecated",
       "verificationStatus": "verified",
-      "verifiedAt": "2026-10-25T05:02:33Z",
+      "verifiedAt": "2026-11-03T04:28:38Z",
       "verifiedSourceRefs": [
+        "source:google-gemini:ai-google-dev-gemini-api-docs-deprecations",
         "source:google-gemini:ai-google-dev-gemini-api-docs-generate-content-caching",
         "source:google-gemini:ai-google-dev-gemini-api-docs-pricing"
       ]
