@@ -6613,7 +6613,7 @@
     "model_id": "gemini-2.5-pro",
     "display_name": "Gemini 2.5 Pro",
     "model_family": "Gemini 2.5",
-    "status": "active",
+    "status": "deprecated",
     "pricing": {
       "currency": "USD",
       "unit": "1M tokens",
@@ -6626,13 +6626,32 @@
       "batch_output": 5.0
     },
     "official_source_url": "https://ai.google.dev/gemini-api/docs/pricing",
-    "accessed_at": "2026-10-25T05:02:33Z",
-    "last_verified_at": "2026-10-25T05:02:33Z",
+    "accessed_at": "2026-11-03T04:28:38Z",
+    "last_verified_at": "2026-11-03T04:28:38Z",
     "effective_from": null,
-    "notes": "Paid token rates depend on the full prompt length, including cached prefix: at most 200,000 tokens uses short rates, above 200,000 uses long rates for input, cached input and output. Batch and Flex cache-read rates equal Standard; Priority has its own rates. Cached-content storage per token-hour is a separate time charge and not included in token inference estimates; no pricing effective date is stated.",
+    "notes": "Paid token rates depend on the full prompt length, including cached prefix: at most 200,000 tokens uses short rates, above 200,000 uses long rates for input, cached input and output. Batch and Flex cache-read rates equal Standard; Priority has its own rates. Cached-content storage per token-hour is a separate time charge and not included in token inference estimates; no pricing effective date is stated. Deprecated: no longer selectable in Google AI Studio; API access is limited to users who actively used it before. Effective 2026-12-01, API requests to gemini-2.5-pro are automatically routed to gemini-3.8-flash and billed at Gemini 3.8 Flash rates (Google lists December 1, 2026 as the earliest possible shutdown date).",
+    "lifecycle": {
+      "retirement_date": "2026-12-01",
+      "replacement_model_id": "gemini-3.8-flash",
+      "scheduled_transition": {
+        "kind": "retirement_redirect",
+        "effective_from": "2026-12-01",
+        "source_slug_remains_resolvable": true,
+        "redirect_target_model_id": "gemini-3.8-flash",
+        "target_configuration": {
+          "model": "gemini-3.8-flash"
+        },
+        "billing_source": "redirect_target",
+        "billing_model_id": "gemini-3.8-flash",
+        "billing_configuration": {
+          "model": "gemini-3.8-flash"
+        }
+      }
+    },
     "official_source_urls": [
       "https://ai.google.dev/gemini-api/docs/pricing",
-      "https://ai.google.dev/gemini-api/docs/generate-content/caching"
+      "https://ai.google.dev/gemini-api/docs/generate-content/caching",
+      "https://ai.google.dev/gemini-api/docs/deprecations"
     ],
     "price_records": [
       {
@@ -6661,7 +6680,7 @@
             "unit": "per_1m_tokens"
           }
         ],
-        "checked_at": "2026-10-25T05:02:33Z",
+        "checked_at": "2026-11-03T04:28:38Z",
         "context_class": "short",
         "currency": "USD",
         "effective_from": null,
@@ -6686,7 +6705,8 @@
         },
         "source_refs": [
           "https://ai.google.dev/gemini-api/docs/pricing",
-          "https://ai.google.dev/gemini-api/docs/generate-content/caching"
+          "https://ai.google.dev/gemini-api/docs/generate-content/caching",
+          "https://ai.google.dev/gemini-api/docs/deprecations"
         ],
         "tier_selection": {
           "cached_prompt_tokens_included": true,
@@ -6695,7 +6715,7 @@
           "whole_request_pricing": true
         },
         "verification_status": "verified",
-        "verified_at": "2026-10-25T05:02:33Z"
+        "verified_at": "2026-11-03T04:28:38Z"
       },
       {
         "billing_note": "Paid token rates depend on the full prompt length, including cached prefix: at most 200,000 tokens uses short rates, above 200,000 uses long rates for input, cached input and output. Batch and Flex cache-read rates equal Standard; Priority has its own rates. Cached-content storage per token-hour is a separate time charge and not included in token inference estimates; no pricing effective date is stated.",
@@ -6723,7 +6743,7 @@
             "unit": "per_1m_tokens"
           }
         ],
-        "checked_at": "2026-10-25T05:02:33Z",
+        "checked_at": "2026-11-03T04:28:38Z",
         "context_class": "long",
         "currency": "USD",
         "effective_from": null,
@@ -6748,7 +6768,8 @@
         },
         "source_refs": [
           "https://ai.google.dev/gemini-api/docs/pricing",
-          "https://ai.google.dev/gemini-api/docs/generate-content/caching"
+          "https://ai.google.dev/gemini-api/docs/generate-content/caching",
+          "https://ai.google.dev/gemini-api/docs/deprecations"
         ],
         "tier_selection": {
           "cached_prompt_tokens_included": true,
@@ -6757,7 +6778,7 @@
           "whole_request_pricing": true
         },
         "verification_status": "verified",
-        "verified_at": "2026-10-25T05:02:33Z"
+        "verified_at": "2026-11-03T04:28:38Z"
       },
       {
         "billing_note": "Paid token rates depend on the full prompt length, including cached prefix: at most 200,000 tokens uses short rates, above 200,000 uses long rates for input, cached input and output. Batch and Flex cache-read rates equal Standard; Priority has its own rates. Cached-content storage per token-hour is a separate time charge and not included in token inference estimates; no pricing effective date is stated.",
@@ -6785,7 +6806,7 @@
             "unit": "per_1m_tokens"
           }
         ],
-        "checked_at": "2026-10-25T05:02:33Z",
+        "checked_at": "2026-11-03T04:28:38Z",
         "context_class": "short",
         "currency": "USD",
         "effective_from": null,
@@ -6810,7 +6831,8 @@
         },
         "source_refs": [
           "https://ai.google.dev/gemini-api/docs/pricing",
-          "https://ai.google.dev/gemini-api/docs/generate-content/caching"
+          "https://ai.google.dev/gemini-api/docs/generate-content/caching",
+          "https://ai.google.dev/gemini-api/docs/deprecations"
         ],
         "tier_selection": {
           "cached_prompt_tokens_included": true,
@@ -6819,7 +6841,7 @@
           "whole_request_pricing": true
         },
         "verification_status": "verified",
-        "verified_at": "2026-10-25T05:02:33Z"
+        "verified_at": "2026-11-03T04:28:38Z"
       },
       {
         "billing_note": "Paid token rates depend on the full prompt length, including cached prefix: at most 200,000 tokens uses short rates, above 200,000 uses long rates for input, cached input and output. Batch and Flex cache-read rates equal Standard; Priority has its own rates. Cached-content storage per token-hour is a separate time charge and not included in token inference estimates; no pricing effective date is stated.",
@@ -6847,7 +6869,7 @@
             "unit": "per_1m_tokens"
           }
         ],
-        "checked_at": "2026-10-25T05:02:33Z",
+        "checked_at": "2026-11-03T04:28:38Z",
         "context_class": "long",
         "currency": "USD",
         "effective_from": null,
@@ -6872,7 +6894,8 @@
         },
         "source_refs": [
           "https://ai.google.dev/gemini-api/docs/pricing",
-          "https://ai.google.dev/gemini-api/docs/generate-content/caching"
+          "https://ai.google.dev/gemini-api/docs/generate-content/caching",
+          "https://ai.google.dev/gemini-api/docs/deprecations"
         ],
         "tier_selection": {
           "cached_prompt_tokens_included": true,
@@ -6881,7 +6904,7 @@
           "whole_request_pricing": true
         },
         "verification_status": "verified",
-        "verified_at": "2026-10-25T05:02:33Z"
+        "verified_at": "2026-11-03T04:28:38Z"
       },
       {
         "billing_note": "Paid token rates depend on the full prompt length, including cached prefix: at most 200,000 tokens uses short rates, above 200,000 uses long rates for input, cached input and output. Batch and Flex cache-read rates equal Standard; Priority has its own rates. Cached-content storage per token-hour is a separate time charge and not included in token inference estimates; no pricing effective date is stated.",
@@ -6909,7 +6932,7 @@
             "unit": "per_1m_tokens"
           }
         ],
-        "checked_at": "2026-10-25T05:02:33Z",
+        "checked_at": "2026-11-03T04:28:38Z",
         "context_class": "short",
         "currency": "USD",
         "effective_from": null,
@@ -6934,7 +6957,8 @@
         },
         "source_refs": [
           "https://ai.google.dev/gemini-api/docs/pricing",
-          "https://ai.google.dev/gemini-api/docs/generate-content/caching"
+          "https://ai.google.dev/gemini-api/docs/generate-content/caching",
+          "https://ai.google.dev/gemini-api/docs/deprecations"
         ],
         "tier_selection": {
           "cached_prompt_tokens_included": true,
@@ -6943,7 +6967,7 @@
           "whole_request_pricing": true
         },
         "verification_status": "verified",
-        "verified_at": "2026-10-25T05:02:33Z"
+        "verified_at": "2026-11-03T04:28:38Z"
       },
       {
         "billing_note": "Paid token rates depend on the full prompt length, including cached prefix: at most 200,000 tokens uses short rates, above 200,000 uses long rates for input, cached input and output. Batch and Flex cache-read rates equal Standard; Priority has its own rates. Cached-content storage per token-hour is a separate time charge and not included in token inference estimates; no pricing effective date is stated.",
@@ -6971,7 +6995,7 @@
             "unit": "per_1m_tokens"
           }
         ],
-        "checked_at": "2026-10-25T05:02:33Z",
+        "checked_at": "2026-11-03T04:28:38Z",
         "context_class": "long",
         "currency": "USD",
         "effective_from": null,
@@ -6996,7 +7020,8 @@
         },
         "source_refs": [
           "https://ai.google.dev/gemini-api/docs/pricing",
-          "https://ai.google.dev/gemini-api/docs/generate-content/caching"
+          "https://ai.google.dev/gemini-api/docs/generate-content/caching",
+          "https://ai.google.dev/gemini-api/docs/deprecations"
         ],
         "tier_selection": {
           "cached_prompt_tokens_included": true,
@@ -7005,7 +7030,7 @@
           "whole_request_pricing": true
         },
         "verification_status": "verified",
-        "verified_at": "2026-10-25T05:02:33Z"
+        "verified_at": "2026-11-03T04:28:38Z"
       },
       {
         "billing_note": "Paid token rates depend on the full prompt length, including cached prefix: at most 200,000 tokens uses short rates, above 200,000 uses long rates for input, cached input and output. Batch and Flex cache-read rates equal Standard; Priority has its own rates. Cached-content storage per token-hour is a separate time charge and not included in token inference estimates; no pricing effective date is stated.",
@@ -7033,7 +7058,7 @@
             "unit": "per_1m_tokens"
           }
         ],
-        "checked_at": "2026-10-25T05:02:33Z",
+        "checked_at": "2026-11-03T04:28:38Z",
         "context_class": "short",
         "currency": "USD",
         "effective_from": null,
@@ -7058,7 +7083,8 @@
         },
         "source_refs": [
           "https://ai.google.dev/gemini-api/docs/pricing",
-          "https://ai.google.dev/gemini-api/docs/generate-content/caching"
+          "https://ai.google.dev/gemini-api/docs/generate-content/caching",
+          "https://ai.google.dev/gemini-api/docs/deprecations"
         ],
         "tier_selection": {
           "cached_prompt_tokens_included": true,
@@ -7067,7 +7093,7 @@
           "whole_request_pricing": true
         },
         "verification_status": "verified",
-        "verified_at": "2026-10-25T05:02:33Z"
+        "verified_at": "2026-11-03T04:28:38Z"
       },
       {
         "billing_note": "Paid token rates depend on the full prompt length, including cached prefix: at most 200,000 tokens uses short rates, above 200,000 uses long rates for input, cached input and output. Batch and Flex cache-read rates equal Standard; Priority has its own rates. Cached-content storage per token-hour is a separate time charge and not included in token inference estimates; no pricing effective date is stated.",
@@ -7095,7 +7121,7 @@
             "unit": "per_1m_tokens"
           }
         ],
-        "checked_at": "2026-10-25T05:02:33Z",
+        "checked_at": "2026-11-03T04:28:38Z",
         "context_class": "long",
         "currency": "USD",
         "effective_from": null,
@@ -7120,7 +7146,8 @@
         },
         "source_refs": [
           "https://ai.google.dev/gemini-api/docs/pricing",
-          "https://ai.google.dev/gemini-api/docs/generate-content/caching"
+          "https://ai.google.dev/gemini-api/docs/generate-content/caching",
+          "https://ai.google.dev/gemini-api/docs/deprecations"
         ],
         "tier_selection": {
           "cached_prompt_tokens_included": true,
@@ -7129,7 +7156,7 @@
           "whole_request_pricing": true
         },
         "verification_status": "verified",
-        "verified_at": "2026-10-25T05:02:33Z"
+        "verified_at": "2026-11-03T04:28:38Z"
       }
     ],
     "released_at": "2025-06-17",
@@ -7148,7 +7175,7 @@
         "scope": "Only users who previously actively used this exact model may continue; not all old Google projects."
       }
     ],
-    "access_checked_at": "2026-10-07T04:26:40Z",
+    "access_checked_at": "2026-11-03T04:28:38Z",
     "binding_status": "approved",
     "binding_evidence": [
       {
@@ -7165,7 +7192,7 @@
     "model_id": "gemini-2.5-flash",
     "display_name": "Gemini 2.5 Flash",
     "model_family": "Gemini 2.5",
-    "status": "active",
+    "status": "deprecated",
     "price_records": [
       {
         "billing_note": "Rates are for text/image/video input; Google lists separate audio rates in the official pricing table.",
@@ -7193,7 +7220,7 @@
             "unit": "per_1m_tokens"
           }
         ],
-        "checked_at": "2026-10-27T05:59:36Z",
+        "checked_at": "2026-11-03T04:28:50Z",
         "context_class": "short",
         "currency": "USD",
         "effective_from": null,
@@ -7217,10 +7244,11 @@
           "price_adjustments": []
         },
         "source_refs": [
-          "https://ai.google.dev/gemini-api/docs/pricing"
+          "https://ai.google.dev/gemini-api/docs/pricing",
+          "https://ai.google.dev/gemini-api/docs/deprecations"
         ],
         "verification_status": "verified",
-        "verified_at": "2026-10-27T05:59:36Z"
+        "verified_at": "2026-11-03T04:28:50Z"
       },
       {
         "billing_note": "Rates are for text/image/video input; Google lists separate audio rates in the official pricing table.",
@@ -7248,7 +7276,7 @@
             "unit": "per_1m_tokens"
           }
         ],
-        "checked_at": "2026-10-27T05:59:36Z",
+        "checked_at": "2026-11-03T04:28:50Z",
         "context_class": "short",
         "currency": "USD",
         "effective_from": null,
@@ -7272,10 +7300,11 @@
           "price_adjustments": []
         },
         "source_refs": [
-          "https://ai.google.dev/gemini-api/docs/pricing"
+          "https://ai.google.dev/gemini-api/docs/pricing",
+          "https://ai.google.dev/gemini-api/docs/deprecations"
         ],
         "verification_status": "verified",
-        "verified_at": "2026-10-27T05:59:36Z"
+        "verified_at": "2026-11-03T04:28:50Z"
       }
     ],
     "pricing": {
@@ -7290,10 +7319,32 @@
       "batch_output": 1.25
     },
     "official_source_url": "https://ai.google.dev/gemini-api/docs/pricing",
-    "accessed_at": "2026-10-25T05:02:36Z",
-    "last_verified_at": "2026-10-25T05:02:36Z",
+    "official_source_urls": [
+      "https://ai.google.dev/gemini-api/docs/pricing",
+      "https://ai.google.dev/gemini-api/docs/deprecations"
+    ],
+    "accessed_at": "2026-11-03T04:28:50Z",
+    "last_verified_at": "2026-11-03T04:28:50Z",
     "effective_from": null,
-    "notes": "Rates are for text/image/video input; Google lists separate audio rates in the official pricing table.",
+    "notes": "Rates are for text/image/video input; Google lists separate audio rates in the official pricing table. Deprecated: no longer selectable in Google AI Studio; API access is limited to users who actively used it before. Effective 2026-12-01, API requests to gemini-2.5-flash are automatically routed to gemini-3.5-flash-lite and billed at Gemini 3.5 Flash-Lite rates (Google lists December 1, 2026 as the earliest possible shutdown date).",
+    "lifecycle": {
+      "retirement_date": "2026-12-01",
+      "replacement_model_id": "gemini-3.5-flash-lite",
+      "scheduled_transition": {
+        "kind": "retirement_redirect",
+        "effective_from": "2026-12-01",
+        "source_slug_remains_resolvable": true,
+        "redirect_target_model_id": "gemini-3.5-flash-lite",
+        "target_configuration": {
+          "model": "gemini-3.5-flash-lite"
+        },
+        "billing_source": "redirect_target",
+        "billing_model_id": "gemini-3.5-flash-lite",
+        "billing_configuration": {
+          "model": "gemini-3.5-flash-lite"
+        }
+      }
+    },
     "released_at": "2025-06-17",
     "release_evidence": {
       "url": "https://ai.google.dev/gemini-api/docs/changelog",
@@ -7310,7 +7361,7 @@
         "scope": "Only users who previously actively used this exact model may continue; not all old Google projects."
       }
     ],
-    "access_checked_at": "2026-10-07T04:26:40Z",
+    "access_checked_at": "2026-11-03T04:28:50Z",
     "binding_status": "approved",
     "binding_evidence": [
       {
