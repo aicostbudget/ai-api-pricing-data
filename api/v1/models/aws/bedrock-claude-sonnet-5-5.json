@@ -1,0 +1,122 @@
+{
+  "accessed_at": "2026-11-01T05:21:12Z",
+  "display_name": "Claude Sonnet 5.5 on Amazon Bedrock",
+  "effective_from": null,
+  "hosted_model": {
+    "model_id": "claude-sonnet-5-5",
+    "platform": "amazon-bedrock",
+    "provider_id": "anthropic"
+  },
+  "input_modality": "text",
+  "last_verified_at": "2026-11-01T05:21:12Z",
+  "model_family": "Claude Sonnet",
+  "model_id": "bedrock-claude-sonnet-5-5",
+  "notes": "Claude Sonnet 5.5 served through Amazon Bedrock. Global endpoint per 1M tokens: input $2, cache read $0.1, cache write 5m $2.5, cache write 1h $4, output $10; no complete Batch rate published for this model. In-region endpoints (no cross-region inference profile) cost 10% more than the Global profile on every token type.",
+  "official_source_url": "https://pricing.us-east-1.amazonaws.com/offers/v1.0/aws/AmazonBedrockFoundationModels/current/us-east-1/index.json",
+  "official_source_urls": [
+    "https://pricing.us-east-1.amazonaws.com/offers/v1.0/aws/AmazonBedrockFoundationModels/current/us-east-1/index.json",
+    "https://aws.amazon.com/bedrock/pricing/"
+  ],
+  "output_modality": "text",
+  "price_records": [
+    {
+      "billing_note": "Global endpoint price on Amazon Bedrock. In-region endpoints (no cross-region inference profile) cost 10% more than the Global profile on every token type.",
+      "calculation_default": true,
+      "charges": [
+        {
+          "amount": "2",
+          "component": "input",
+          "id": "price:aws/bedrock-claude-sonnet-5-5:standard:short:current:input:text:per_1m_tokens",
+          "modality": "text",
+          "unit": "per_1m_tokens"
+        },
+        {
+          "amount": "0.1",
+          "component": "cache_read",
+          "id": "price:aws/bedrock-claude-sonnet-5-5:standard:short:current:cache_read:text:per_1m_tokens",
+          "modality": "text",
+          "unit": "per_1m_tokens"
+        },
+        {
+          "amount": "2.5",
+          "component": "cache_write_5m",
+          "id": "price:aws/bedrock-claude-sonnet-5-5:standard:short:current:cache_write_5m:text:per_1m_tokens",
+          "modality": "text",
+          "unit": "per_1m_tokens"
+        },
+        {
+          "amount": "4",
+          "component": "cache_write_1h",
+          "id": "price:aws/bedrock-claude-sonnet-5-5:standard:short:current:cache_write_1h:text:per_1m_tokens",
+          "modality": "text",
+          "unit": "per_1m_tokens"
+        },
+        {
+          "amount": "10",
+          "component": "output",
+          "id": "price:aws/bedrock-claude-sonnet-5-5:standard:short:current:output:text:per_1m_tokens",
+          "modality": "text",
+          "unit": "per_1m_tokens"
+        }
+      ],
+      "checked_at": "2026-11-01T05:21:12Z",
+      "context_class": "short",
+      "currency": "USD",
+      "effective_from": null,
+      "effective_until": null,
+      "id": "price:aws/bedrock-claude-sonnet-5-5:standard:short:current",
+      "pricing_status": "current",
+      "processing_mode": "standard",
+      "prompt_token_threshold": null,
+      "region_policy": {
+        "availability": {
+          "default": "available",
+          "rules": []
+        },
+        "data_residencies": [
+          "global"
+        ],
+        "endpoint_geographies": [
+          "global",
+          "regional"
+        ],
+        "price_adjustments": [
+          {
+            "factor": "1.10",
+            "id": "regional-endpoint-uplift",
+            "operation": "multiply",
+            "selector": {
+              "endpoint_geographies": [
+                "regional"
+              ]
+            },
+            "source_refs": [
+              "https://pricing.us-east-1.amazonaws.com/offers/v1.0/aws/AmazonBedrockFoundationModels/current/us-east-1/index.json"
+            ]
+          }
+        ],
+        "pricing_geography": "global_base"
+      },
+      "source_refs": [
+        "https://pricing.us-east-1.amazonaws.com/offers/v1.0/aws/AmazonBedrockFoundationModels/current/us-east-1/index.json"
+      ],
+      "verification_status": "verified",
+      "verified_at": "2026-11-01T05:21:12Z"
+    }
+  ],
+  "pricing": {
+    "batch_input": null,
+    "batch_output": null,
+    "cache_write": 2.5,
+    "cache_write_1h": 4.0,
+    "cached_input": 0.1,
+    "currency": "USD",
+    "input": 2.0,
+    "output": 10.0,
+    "unit": "1M tokens"
+  },
+  "provider_id": "aws",
+  "release_stage": "stable",
+  "released_at": null,
+  "status": "active"
+}

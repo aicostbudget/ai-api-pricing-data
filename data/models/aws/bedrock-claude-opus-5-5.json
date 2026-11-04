@@ -1,0 +1,122 @@
+{
+  "accessed_at": "2026-11-01T05:21:34Z",
+  "display_name": "Claude Opus 5.5 on Amazon Bedrock",
+  "effective_from": null,
+  "hosted_model": {
+    "model_id": "claude-opus-5-5",
+    "platform": "amazon-bedrock",
+    "provider_id": "anthropic"
+  },
+  "input_modality": "text",
+  "last_verified_at": "2026-11-01T05:21:34Z",
+  "model_family": "Claude Opus",
+  "model_id": "bedrock-claude-opus-5-5",
+  "notes": "Claude Opus 5.5 served through Amazon Bedrock. Global endpoint per 1M tokens: input $4, cache read $0.2, cache write 5m $5, cache write 1h $8, output $20; no complete Batch rate published for this model. In-region endpoints (no cross-region inference profile) cost 10% more than the Global profile on every token type.",
+  "official_source_url": "https://pricing.us-east-1.amazonaws.com/offers/v1.0/aws/AmazonBedrockFoundationModels/current/us-east-1/index.json",
+  "official_source_urls": [
+    "https://pricing.us-east-1.amazonaws.com/offers/v1.0/aws/AmazonBedrockFoundationModels/current/us-east-1/index.json",
+    "https://aws.amazon.com/bedrock/pricing/"
+  ],
+  "output_modality": "text",
+  "price_records": [
+    {
+      "billing_note": "Global endpoint price on Amazon Bedrock. In-region endpoints (no cross-region inference profile) cost 10% more than the Global profile on every token type.",
+      "calculation_default": true,
+      "charges": [
+        {
+          "amount": "4",
+          "component": "input",
+          "id": "price:aws/bedrock-claude-opus-5-5:standard:short:current:input:text:per_1m_tokens",
+          "modality": "text",
+          "unit": "per_1m_tokens"
+        },
+        {
+          "amount": "0.2",
+          "component": "cache_read",
+          "id": "price:aws/bedrock-claude-opus-5-5:standard:short:current:cache_read:text:per_1m_tokens",
+          "modality": "text",
+          "unit": "per_1m_tokens"
+        },
+        {
+          "amount": "5",
+          "component": "cache_write_5m",
+          "id": "price:aws/bedrock-claude-opus-5-5:standard:short:current:cache_write_5m:text:per_1m_tokens",
+          "modality": "text",
+          "unit": "per_1m_tokens"
+        },
+        {
+          "amount": "8",
+          "component": "cache_write_1h",
+          "id": "price:aws/bedrock-claude-opus-5-5:standard:short:current:cache_write_1h:text:per_1m_tokens",
+          "modality": "text",
+          "unit": "per_1m_tokens"
+        },
+        {
+          "amount": "20",
+          "component": "output",
+          "id": "price:aws/bedrock-claude-opus-5-5:standard:short:current:output:text:per_1m_tokens",
+          "modality": "text",
+          "unit": "per_1m_tokens"
+        }
+      ],
+      "checked_at": "2026-11-01T05:21:34Z",
+      "context_class": "short",
+      "currency": "USD",
+      "effective_from": null,
+      "effective_until": null,
+      "id": "price:aws/bedrock-claude-opus-5-5:standard:short:current",
+      "pricing_status": "current",
+      "processing_mode": "standard",
+      "prompt_token_threshold": null,
+      "region_policy": {
+        "availability": {
+          "default": "available",
+          "rules": []
+        },
+        "data_residencies": [
+          "global"
+        ],
+        "endpoint_geographies": [
+          "global",
+          "regional"
+        ],
+        "price_adjustments": [
+          {
+            "factor": "1.10",
+            "id": "regional-endpoint-uplift",
+            "operation": "multiply",
+            "selector": {
+              "endpoint_geographies": [
+                "regional"
+              ]
+            },
+            "source_refs": [
+              "https://pricing.us-east-1.amazonaws.com/offers/v1.0/aws/AmazonBedrockFoundationModels/current/us-east-1/index.json"
+            ]
+          }
+        ],
+        "pricing_geography": "global_base"
+      },
+      "source_refs": [
+        "https://pricing.us-east-1.amazonaws.com/offers/v1.0/aws/AmazonBedrockFoundationModels/current/us-east-1/index.json"
+      ],
+      "verification_status": "verified",
+      "verified_at": "2026-11-01T05:21:34Z"
+    }
+  ],
+  "pricing": {
+    "batch_input": null,
+    "batch_output": null,
+    "cache_write": 5.0,
+    "cache_write_1h": 8.0,
+    "cached_input": 0.2,
+    "currency": "USD",
+    "input": 4.0,
+    "output": 20.0,
+    "unit": "1M tokens"
+  },
+  "provider_id": "aws",
+  "release_stage": "stable",
+  "released_at": null,
+  "status": "active"
+}

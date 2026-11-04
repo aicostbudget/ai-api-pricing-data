@@ -226,8 +226,15 @@ class PricingGovernanceTests(unittest.TestCase):
             if self.projection[key]["governanceReason"] == "retired_identity_redirects_to_current_billing"
         }
         self.assertEqual(retired_redirect, {"xai/grok-imagine-image-quality"})
+        cloud_listings = {
+            key for key in excluded
+            if self.projection[key]["governanceReason"] == "cloud_platform_listing_deferred_from_public_dataset"
+        }
+        self.assertEqual(cloud_listings, {
+            key for key, row in self.canonical.items() if row.get("hosted_model")
+        })
         self.assertEqual(
-            excluded - contract_deferred - lifecycle_only - conflict_only - retired_redirect,
+            excluded - contract_deferred - lifecycle_only - conflict_only - retired_redirect - cloud_listings,
             set(self.excluded_decisions),
             "EXCLUSION_DECISION_DRIFT: non-contract exclusions differ from Phase 2.6",
         )
