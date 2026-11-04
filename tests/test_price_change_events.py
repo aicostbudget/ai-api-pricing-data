@@ -507,6 +507,7 @@ class PriceChangeEventTests(unittest.TestCase):
                 "cached_price_removed",
                 "component_price_update",
                 "temporal_price_schedule_update",
+                "scheduled_price_change",
                 "model_added",
                 "lifecycle_update",
                 "successor_transition",

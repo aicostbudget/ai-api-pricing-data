@@ -47,6 +47,17 @@ class MonthlyReleaseNotesTests(unittest.TestCase):
         self.assertIn("utm_content=release_2026-10", text)
         self.assertIn("Snapshot `2026-10-30-4`: 3 models from 2 providers, last verified 2026-10-30.", text)
 
+    def test_scheduled_price_change_has_its_own_section(self):
+        text = self.render([
+            event("google-gemini", "flash-tts", "scheduled_price_change", "2026-10-14", effective_from="2026-12-01",
+                  old_prices={"input": 2, "cached_input": 0.1, "output": 10},
+                  new_prices={"input": 4, "cached_input": 0.2, "output": 20}),
+        ])
+        self.assertIn("### Announced price changes", text)
+        self.assertIn("| 2026-10-14 |", text)
+        self.assertIn("| 2026-12-01 | input $2.00 → $4.00; cached input $0.10 → $0.20; output $10.00 → $20.00 |", text)
+        self.assertNotIn("### Price changes", text)
+
     def test_unchanged_status_is_not_repeated(self):
         text = self.render([event("openai", "gpt-5.6-sol", "lifecycle_update", "2026-10-05",
                                   old_status="deprecated", new_status="deprecated", new_lifecycle={})])

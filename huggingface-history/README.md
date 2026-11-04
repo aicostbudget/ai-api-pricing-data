@@ -120,7 +120,7 @@ Snapshots exist only on days the dataset was released, so there are gaps between
 | `detected_at` | Day the change was first observed in the dataset. |
 | `effective_from` | Provider-stated effective date when published. |
 | `date_basis` | Whether the date is provider-stated or first observed. |
-| `change_type` | `price_update`, `cached_price_added`, `cached_price_removed`, `component_price_update`, `temporal_price_schedule_update`, `model_added`, `lifecycle_update`, or `successor_transition`. |
+| `change_type` | `price_update`, `cached_price_added`, `cached_price_removed`, `component_price_update`, `temporal_price_schedule_update`, `scheduled_price_change` (an announced future price: `effective_from` is when it takes effect, not a past change), `model_added`, `lifecycle_update`, or `successor_transition`. |
 | `old_*_price`, `new_*_price` | Input, cached-input, and output prices before and after the change; empty when not applicable. |
 | `old_status`, `new_status` | Lifecycle status before and after, for lifecycle events. |
 | `predecessor_model_id`, `successor_model_id` | Models linked by a successor transition. |

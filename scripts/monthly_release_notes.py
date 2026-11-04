@@ -114,6 +114,7 @@ def render(month: str, events: list[dict], dataset: dict, snapshot: str) -> str:
     price = [event for event in events if event["change_type"] in PRICE_TYPES]
     added = [event for event in events if event["change_type"] == "model_added"]
     lifecycle = [event for event in events if event["change_type"] in LIFECYCLE_TYPES]
+    scheduled = [event for event in events if event["change_type"] == "scheduled_price_change"]
     lines = [
         f"## AI API prices in {label}",
         "",
@@ -125,6 +126,11 @@ def render(month: str, events: list[dict], dataset: dict, snapshot: str) -> str:
         lines += ["### Price changes", ""] + table(
             "| Date | Provider | Model | Change | Source |",
             [f"| {e['detected_at']} | {provider_link(e['provider_id'], month)} | {model_name(e, display)} | {describe_price(e)} | {source(e)} |" for e in price],
+        )
+    if scheduled:
+        lines += ["### Announced price changes", ""] + table(
+            "| Announced | Provider | Model | Takes effect | Change | Source |",
+            [f"| {e['detected_at']} | {provider_link(e['provider_id'], month)} | {model_name(e, display)} | {e['effective_from']} | {describe_price(e)} | {source(e)} |" for e in scheduled],
         )
     if added:
         lines += ["### New models", ""] + table(

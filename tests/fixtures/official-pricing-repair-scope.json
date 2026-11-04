@@ -710,5 +710,34 @@
       "data/snapshots/2026-11-04-2/prices.json"
     ],
     "evidence": "Release 2026-11-04-2 adds three first-party providers and their current models: Perplexity Sonar (Agent API models page, reports/price-evidence/perplexity/sonar/20261104T064309Z), Amazon Nova 2 Lite, Nova Pro, Nova Lite and Nova Micro (AWS Price List AmazonBedrock offer for us-east-1, publicationDate 2026-11-02T16:50:15Z, reports/price-evidence/amazon-nova/*/20261104T0641*Z), and Z.ai GLM-5.3, GLM-5.3-Flash, GLM-5.3-FlashX, GLM-5.2, GLM-5 and GLM-4.7 (docs.z.ai pricing page, reports/price-evidence/zhipu-ai/*/20261104T0643*Z). The generator emits one model_added event per new model with null old prices."
+  },
+  "scheduled_price_change_backfill_extension": {
+    "identities": [
+      "google-gemini/gemini-3.6-flash",
+      "google-gemini/gemini-3.8-flash",
+      "google-gemini/gemini-4-argon"
+    ],
+    "base_release": "p3_providers_model_added_extension",
+    "base_event_count": 67,
+    "appended_event_count": 3,
+    "full_event_count": 70,
+    "full_events_sha256": "c1144f9eaa97c576c58951291ddbfdc2ef647550d20a0ead5e8864c3f9afe610",
+    "appended_events_sha256": "6dab4eb6da1840e77db0bb12d2236cf4aedb424b2c352ef268a02c2beeb86d59",
+    "appended_event_ids": [
+      "google-gemini:gemini-3.6-flash:scheduled_price_change:4175d574420a",
+      "google-gemini:gemini-3.8-flash:scheduled_price_change:473827defa92",
+      "google-gemini:gemini-4-argon:scheduled_price_change:ea39fc267289"
+    ],
+    "appended_dedupe_keys": [
+      "sha256:4175d574420a33b51842fe7983740a539502714153a0b83ccb0a5443ae5e6fb7",
+      "sha256:473827defa9298171e26ec1a0525ee02860d2e8dadaee5e4dac74fc0b763495c",
+      "sha256:ea39fc2672893149e67f80689ce591087968c087515421e4f2f29598fdb01480"
+    ],
+    "effective_dates": {
+      "google-gemini/gemini-3.6-flash": "2027-01-01",
+      "google-gemini/gemini-3.8-flash": "2027-01-01",
+      "google-gemini/gemini-4-argon": "2026-12-01"
+    },
+    "rationale": "New change_type scheduled_price_change, backfilled by scripts/backfill_scheduled_price_change_events.py from the snapshot pair in which each verified future price record first appeared: Gemini 4 Argon (2026-10-14, doubles 2026-12-01), Gemini 3.8 Flash (2026-10-09) and Gemini 3.6 Flash (2026-10-27), both doubling 2027-01-01. Announcements of future prices, not applied price changes."
   }
 }

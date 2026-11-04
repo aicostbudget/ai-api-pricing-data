@@ -33,6 +33,7 @@ CHANGE_TYPES = {
     "cached_price_removed",
     "component_price_update",
     "temporal_price_schedule_update",
+    "scheduled_price_change",
     "model_added",
     "lifecycle_update",
     "successor_transition",
@@ -310,6 +311,9 @@ def canonical_dedupe_payload(event: dict[str, Any]) -> dict[str, Any]:
         payload["predecessor_model_id"] = event["predecessor_model_id"]
         payload["successor_model_id"] = event["successor_model_id"]
         payload["component_comparisons"] = event["component_comparisons"]
+    if event.get("change_type") == "scheduled_price_change":
+        # Two announcements of the same new prices for different dates are different events.
+        payload["effective_from"] = event["effective_from"]
     if "old_time_pricing" in event or "new_time_pricing" in event:
         payload["old_time_pricing"] = event.get("old_time_pricing")
         payload["new_time_pricing"] = event.get("new_time_pricing")
@@ -634,6 +638,124 @@ def redirect_billing_schedule_event(
     return event
 
 
+def record_scalar_prices(record: dict[str, Any]) -> dict[str, int | float | None] | None:
+    """input/cached_input/output of one price record, or None when it is not a plain text-token record."""
+    charges = record.get("charges") or []
+    per_token = [charge for charge in charges if charge.get("unit") == "per_1m_tokens"]
+    if any(charge.get("modality") != "text" for charge in per_token):
+        # Audio-output models (TTS) keep audio rates outside the scalar triple; a triple would show
+        # only half of their scheduled change.
+        return None
+    prices: dict[str, int | float | None] = {field: None for field in PRICE_EVENT_FIELDS}
+    for field in PRICE_EVENT_FIELDS:
+        matches = [charge for charge in per_token if charge.get("component") == field]
+        if len(matches) > 1:
+            return None
+        if matches:
+            prices[field] = normalized_price(float(Decimal(str(matches[0]["amount"]))), f"{record.get('id')}.{field}")
+    return prices
+
+
+def scheduled_price_changes(model: dict[str, Any] | None) -> dict[tuple[str, str], dict[str, Any]]:
+    """Future price records of the model's calculation-default mode, keyed by (effective_from, new prices).
+
+    The key leaves out record IDs and verification timestamps so a re-verify or an ID rename of the
+    same announced schedule is not a new announcement.
+    """
+    if model is None or (model.get("pricing") or {}).get("unit") != "1M tokens":
+        return {}
+    records = model.get("price_records") or []
+    default = next(
+        (record for record in records if record.get("pricing_status") == "current" and record.get("calculation_default")),
+        None,
+    )
+    if default is None:
+        return {}
+    selector = (default.get("processing_mode"), default.get("context_class"), default.get("prompt_token_threshold"))
+    result: dict[tuple[str, str], dict[str, Any]] = {}
+    for record in records:
+        if record.get("pricing_status") != "future" or not record.get("effective_from"):
+            continue
+        if (record.get("processing_mode"), record.get("context_class"), record.get("prompt_token_threshold")) != selector:
+            continue
+        prices = record_scalar_prices(record)
+        if prices is None or all(value is None for value in prices.values()):
+            continue
+        key = (record["effective_from"], json.dumps(prices, sort_keys=True))
+        result[key] = {"record": record, "prices": prices}
+    return result
+
+
+def scheduled_price_change_event(
+    after_model: dict[str, Any],
+    scheduled: dict[str, Any],
+    before_rel: str,
+    after_rel: str,
+    detected_at: str,
+) -> dict[str, Any] | None:
+    record = scheduled["record"]
+    old_prices = normalize_prices(after_model["pricing"], "scheduled old pricing")
+    if old_prices == scheduled["prices"] or record["effective_from"][:10] <= detected_at:
+        return None
+    refs = record.get("source_refs") or []
+    official_source_url = after_model["official_source_url"] if not refs or after_model["official_source_url"] in refs else refs[0]
+    announcement_url = next(
+        (url for url in refs if url != official_source_url and any(part in url for part in ("/changelog", "/news/", "/updates/", "/blog/"))),
+        None,
+    )
+    mode = record.get("processing_mode") or "standard"
+    event = {
+        "schema_version": SCHEMA_VERSION,
+        "event_id": "",
+        "provider_id": after_model["provider_id"],
+        "model_id": after_model["model_id"],
+        "change_type": "scheduled_price_change",
+        "old_prices": old_prices,
+        "new_prices": scheduled["prices"],
+        "unit": after_model["pricing"].get("unit"),
+        "currency": after_model["pricing"].get("currency"),
+        "effective_from": record["effective_from"],
+        "detected_at": detected_at,
+        "verified_at": timestamp_to_date(after_model["last_verified_at"], "last_verified_at"),
+        "date_basis": "provider_announced",
+        "official_source_url": official_source_url,
+        "announcement_url": announcement_url,
+        "source_snapshot_before": before_rel,
+        "source_snapshot_after": after_rel,
+        "dedupe_key": "",
+        "notes": (
+            f"The official pricing source lists new {mode} rates for {after_model.get('display_name') or after_model['model_id']} "
+            f"effective {record['effective_from']}; the current rates apply until then. This announces a future price; "
+            "it is not an applied price change."
+        ),
+    }
+    if event["verified_at"] < detected_at:
+        event["verified_at"] = detected_at
+    event["dedupe_key"] = build_dedupe_key(event)
+    event["event_id"] = build_event_id(event)
+    return event
+
+
+def scheduled_events_for_pair(
+    before_model: dict[str, Any] | None,
+    after_model: dict[str, Any],
+    before_rel: str,
+    after_rel: str,
+    detected_at: str,
+) -> list[dict[str, Any]]:
+    if after_model.get("lifecycle_conflict") or after_model.get("status") in {"deprecated", "retired"}:
+        return []
+    before_schedule = scheduled_price_changes(before_model)
+    events = []
+    for key, scheduled in sorted(scheduled_price_changes(after_model).items()):
+        if key in before_schedule:
+            continue
+        event = scheduled_price_change_event(after_model, scheduled, before_rel, after_rel, detected_at)
+        if event is not None:
+            events.append(event)
+    return events
+
+
 def generate_events(before: Path, after: Path, provider_id: str | None = None, model_ids: set[str] | None = None) -> list[dict[str, Any]]:
     all_before_models = load_snapshot(before)
     all_after_models = load_snapshot(after)
@@ -677,6 +799,7 @@ def generate_events(before: Path, after: Path, provider_id: str | None = None, m
             events.append(
                 lifecycle_event(None, after_model, before_rel, after_rel, detected_at, "model_added")
             )
+        events.extend(scheduled_events_for_pair(None, after_model, before_rel, after_rel, detected_at))
 
     for mapping in load_successor_transitions():
         if model_ids is not None and mapping["successor_model_id"] not in model_ids:
@@ -711,6 +834,7 @@ def generate_events(before: Path, after: Path, provider_id: str | None = None, m
         unit = after_pricing.get("unit")
         currency = after_pricing.get("currency")
         pricing_changed = old_prices != new_prices or bool(component_changes) or temporal_changed
+        events.extend(scheduled_events_for_pair(before_model, after_model, before_rel, after_rel, detected_at))
         if not pricing_changed and not lifecycle_changed:
             continue
         if before_pricing.get("unit") != unit:
@@ -757,6 +881,21 @@ def generate_events(before: Path, after: Path, provider_id: str | None = None, m
             "dedupe_key": "",
             "notes": "Effective date was not published by the provider in the source used for this event.",
         }
+        took_effect = next(
+            (
+                scheduled for (effective_from, _), scheduled in sorted(scheduled_price_changes(before_model).items())
+                if scheduled["prices"] == new_prices and effective_from[:10] <= detected_at
+            ),
+            None,
+        ) if event["change_type"] == "price_update" else None
+        if took_effect is not None:
+            # A previously announced schedule took effect: keep the provider's date, not the snapshot date.
+            event["effective_from"] = took_effect["record"]["effective_from"]
+            event["date_basis"] = "provider_announced"
+            event["notes"] = (
+                "The provider announced these rates in advance; they took effect on "
+                f"{event['effective_from']} as scheduled."
+            )
         if component_changes:
             event["component_changes"] = component_changes
             if after_model.get("price_change_evidence"):
@@ -1023,6 +1162,15 @@ def validate_event(event: dict[str, Any], path: Path | None = None, line_number:
                 for claim in claims
             ):
                 fail("successor_transition claims are invalid")
+        elif event.get("change_type") == "scheduled_price_change":
+            if old_prices == new_prices:
+                fail("scheduled_price_change requires new prices that differ from the current prices")
+            if event.get("date_basis") != "provider_announced" or not event.get("effective_from"):
+                fail("scheduled_price_change requires a provider-announced effective_from")
+            if str(event["effective_from"])[:10] <= str(event.get("detected_at")):
+                fail("scheduled_price_change effective_from must be later than detected_at")
+            if component_changes or "old_time_pricing" in event or "new_time_pricing" in event:
+                fail("scheduled_price_change carries only the scalar price triple")
         else:
             if old_prices == new_prices and not component_changes and not temporal_changed:
                 fail("old_prices/new_prices, component_changes, or temporal pricing must differ")
