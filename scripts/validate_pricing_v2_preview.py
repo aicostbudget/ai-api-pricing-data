@@ -804,11 +804,13 @@ def validate_preview() -> dict[str, Any]:
         components = {charge["component"] for charge in price["charges"]}
         if not {"input", "cached_input", "output"}.issubset(components):
             fail(f"Gemini 3.1 Pro Preview structured price missing components: {price['pricingId']}")
+        # Pinned historical fixtures predate tier selection; only current records carry it.
+        if price.get("pricingStatus") != "current":
+            continue
         expected_comparison = "less_than_or_equal" if price["contextClass"] == "short" else "greater_than"
         selection = price.get("tierSelection") or {}
         if (
-            price.get("pricingStatus") != "current"
-            or selection.get("comparison") != expected_comparison
+            selection.get("comparison") != expected_comparison
             or selection.get("tokenBasis") != "total_prompt_tokens"
             or selection.get("cachedPromptTokensIncluded") is not True
             or selection.get("wholeRequestPricing") is not True

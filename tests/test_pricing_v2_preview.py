@@ -733,6 +733,30 @@ class PricingV2PreviewTests(unittest.TestCase):
         self.assertEqual(self.phase26_readiness["defaultPricingReadiness"], "ready")
         self.assertEqual(self.phase26_readiness["integrationMappingCount"], len(self.phase25_blockers))
 
+    def test_gemini_31_pro_preview_long_context_tier_selection(self):
+        records = {
+            price["contextClass"]: price
+            for price in self.prices
+            if price["modelInternalId"] == "google-gemini/gemini-3.1-pro-preview"
+            and price["processingMode"] == "standard"
+        }
+        self.assertEqual(set(records), {"short", "long"})
+        expected = {"short": "less_than_or_equal", "long": "greater_than"}
+        for context_class, price in records.items():
+            self.assertEqual(price.get("pricingStatus"), "current")
+            self.assertEqual(price["promptTokenThreshold"], 200000)
+            self.assertEqual(
+                price.get("tierSelection"),
+                {
+                    "comparison": expected[context_class],
+                    "tokenBasis": "total_prompt_tokens",
+                    "cachedPromptTokensIncluded": True,
+                    "wholeRequestPricing": True,
+                },
+            )
+        self.assertTrue(records["short"]["calculationDefault"])
+        self.assertFalse(records["long"]["calculationDefault"])
+
     def test_phase2_6_website_usage_counts_are_mapping_entries(self):
         self.assertTrue(self.phase25_readiness["safeToEnterWebsiteIntegrationPlanning"])
         self.assertEqual(self.phase25_readiness["defaultPricingReadiness"], "ready")
