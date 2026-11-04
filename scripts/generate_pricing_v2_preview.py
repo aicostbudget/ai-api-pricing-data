@@ -356,6 +356,19 @@ def legacy_openai_gpt56_tier_selection(context_class: str) -> dict[str, Any]:
     }
 
 
+def gemini31_pro_tier_selection(context_class: str) -> dict[str, Any]:
+    return {
+        "pricingStatus": "current",
+        "promptTokenThreshold": 200000,
+        "tierSelection": {
+            "comparison": "less_than_or_equal" if context_class == "short" else "greater_than",
+            "tokenBasis": "total_prompt_tokens",
+            "cachedPromptTokensIncluded": True,
+            "wholeRequestPricing": True,
+        },
+    }
+
+
 def read_json(path: Path) -> Any:
     return json.loads(path.read_text(encoding="utf-8"))
 
@@ -3469,6 +3482,9 @@ def main() -> None:
                 "calculationDefault": verification not in {"review_required", "unconfirmed_price"} and not excluded_from_default,
                 "sourceDatasetIds": {"publicDatasetIds": [], "websiteIds": [website["id"]]},
             }
+            if model_internal_id == "google-gemini/gemini-3.1-pro-preview":
+                # Official page: "prompts <= 200k tokens" vs "prompts > 200k tokens"; the whole request moves to the long rate.
+                record.update(gemini31_pro_tier_selection("short"))
             add_price(model_internal_id, record)
             if model_internal_id == "google-gemini/gemini-3.1-pro-preview":
                 long_id = f"price:{model_internal_id}:standard:long:website-preview"
@@ -3476,9 +3492,9 @@ def main() -> None:
                     model_internal_id,
                     {
                         **record,
+                        **gemini31_pro_tier_selection("long"),
                         "pricingId": long_id,
                         "contextClass": "long",
-                        "promptTokenThreshold": 200000,
                         "charges": make_charges(
                             long_id,
                             {"input": "4", "cached_input": "0.4", "output": "18"},

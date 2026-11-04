@@ -804,6 +804,18 @@ def validate_preview() -> dict[str, Any]:
         components = {charge["component"] for charge in price["charges"]}
         if not {"input", "cached_input", "output"}.issubset(components):
             fail(f"Gemini 3.1 Pro Preview structured price missing components: {price['pricingId']}")
+        expected_comparison = "less_than_or_equal" if price["contextClass"] == "short" else "greater_than"
+        selection = price.get("tierSelection") or {}
+        if (
+            price.get("pricingStatus") != "current"
+            or selection.get("comparison") != expected_comparison
+            or selection.get("tokenBasis") != "total_prompt_tokens"
+            or selection.get("cachedPromptTokensIncluded") is not True
+            or selection.get("wholeRequestPricing") is not True
+        ):
+            fail(f"Gemini 3.1 Pro Preview tier selection must be <= 200k short / > 200k long: {price['pricingId']}")
+    if sum(1 for price in gemini31_pro if price["calculationDefault"]) != 1:
+        fail("Gemini 3.1 Pro Preview must have exactly one default tier")
 
     grok43 = [
         price
