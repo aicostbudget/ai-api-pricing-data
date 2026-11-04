@@ -61,7 +61,7 @@ def assert_gemini_facts_and_verification(test_case, before, after):
             test_case.assertTrue(all(set(record["source_refs"]) <= official for record in records))
             continue
         # Gemini 3.6 Flash moved its two pricing_periods into equivalent current and future
-        # Standard/Batch price_records (2026-10-27); only that notes sentence may change.
+        # Standard/Batch price_records (2026-10-27); those rates must stay unchanged.
         if current["model_id"] == "gemini-3.6-flash" and "pricing_periods" not in current:
             ignored = {"price_records", "pricing_periods", "notes", "last_verified_at", "accessed_at", "released_at",
                        "release_evidence", "access_status", "access_evidence", "access_checked_at", "binding_status",
@@ -70,13 +70,17 @@ def assert_gemini_facts_and_verification(test_case, before, after):
                 {key: value for key, value in current.items() if key not in ignored},
                 {key: value for key, value in old.items() if key not in ignored},
             )
+            # 2026-11-04 added the Flex and Priority tiers and the cache-storage charge (same rates as
+            # Gemini 3.8 Flash on aistudio.google.com/docs/pricing.md); the notes describe them.
+            test_case.assertIn("Standard, Batch, Flex and Priority prices", current["notes"])
+            test_case.assertIn("$0.50 and $1.00 per million cached tokens per hour", current["notes"])
             test_case.assertEqual(
-                current["notes"],
-                old["notes"].replace(
-                    "Structured pricing_periods preserves the 2027-01-01 Standard and Batch rates.",
-                    "Structured price records preserve the 2027-01-01 Standard and Batch rates as future records.",
-                ),
+                sorted((record["processing_mode"], record["pricing_status"]) for record in current["price_records"]),
+                sorted((mode, status) for mode in ("standard", "batch", "flex", "priority") for status in ("current", "future")),
             )
+            for record in current["price_records"]:
+                storage = [charge["amount"] for charge in record["charges"] if charge["component"] == "storage"]
+                test_case.assertEqual(storage, ["0.5" if record["pricing_status"] == "current" else "1"], record["id"])
             expected = []
             for period in old["pricing_periods"]:
                 for mode, prefix in (("standard", ""), ("batch", "batch_")):
@@ -84,6 +88,8 @@ def assert_gemini_facts_and_verification(test_case, before, after):
                                      tuple(float(period["pricing"][prefix + name]) for name in ("input", "cached_input", "output"))))
             actual = []
             for record in current["price_records"]:
+                if record["processing_mode"] not in ("standard", "batch"):
+                    continue
                 amounts = {charge["component"]: float(charge["amount"]) for charge in record["charges"]}
                 actual.append((record["processing_mode"], record["pricing_status"], record["effective_from"], record["effective_until"],
                                tuple(amounts[name] for name in ("input", "cached_input", "output"))))

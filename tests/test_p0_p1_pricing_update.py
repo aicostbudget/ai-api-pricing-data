@@ -181,7 +181,7 @@ class P0P1PricingUpdateTests(unittest.TestCase):
             )
             internal_id = f"google-gemini/{model_id}"
             prices = [row for row in self.v2_prices if row["modelInternalId"] == internal_id]
-            self.assertEqual(len(prices), 8 if model_id == "gemini-3.8-flash" else 4)
+            self.assertEqual(len(prices), 8 if model_id in {"gemini-3.6-flash", "gemini-3.8-flash"} else 4)
             self.assertEqual({row["pricingStatus"] for row in prices}, {"current", "future"})
             for boundary, expected_status in (("2026-12-31", "current"), ("2027-01-01", "future")):
                 for processing_mode in ("standard", "batch"):
@@ -205,7 +205,7 @@ class P0P1PricingUpdateTests(unittest.TestCase):
                 component for component in projection["pricingComponents"]
                 if component["condition"]["effectiveFrom"] == "2027-01-01"
             ]
-            self.assertEqual(len(future_components), 16 if model_id == "gemini-3.8-flash" else 6)
+            self.assertEqual(len(future_components), 16 if model_id in {"gemini-3.6-flash", "gemini-3.8-flash"} else 6)
 
         gemini_38 = self.canonical_by_id["gemini-3.8-flash"]
         self.assertEqual(gemini_38["effective_from"], "2026-09-02")

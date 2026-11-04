@@ -9603,7 +9603,7 @@
   },
   {
     "availabilityRules": [],
-    "billingNote": "Google applies Gemini 3.7 Flash introductory pricing to Gemini 3.6 Flash through 2026-12-31. V1 compatibility fields store the current Standard and Batch token rates. Structured price records preserve the 2027-01-01 Standard and Batch rates as future records. Separate audio input and cache-storage charges are not represented in V1 scalars.",
+    "billingNote": "Global paid-tier token prices, including cache storage charged per million cached tokens per hour. Grounding tool fees and free-tier allowances are outside this token/cache contract.",
     "calculationDefault": true,
     "charges": [
       {
@@ -9626,9 +9626,16 @@
         "component": "output",
         "modality": "text",
         "unit": "per_1m_tokens"
+      },
+      {
+        "amount": "0.5",
+        "chargeId": "price:google-gemini/gemini-3.6-flash:standard:short:current:introductory_2026:storage:text:per_1m_tokens_per_hour",
+        "component": "storage",
+        "modality": "text",
+        "unit": "per_1m_tokens_per_hour"
       }
     ],
-    "checkedAt": "2026-10-27T07:11:16Z",
+    "checkedAt": "2026-11-04T16:53:01Z",
     "contextClass": "short",
     "currency": "USD",
     "defaultAvailabilityStatus": "available",
@@ -9662,11 +9669,11 @@
       "source:google-gemini:ai-google-dev-gemini-api-docs-pricing"
     ],
     "verificationStatus": "verified",
-    "verifiedAt": "2026-10-27T07:11:16Z"
+    "verifiedAt": "2026-11-04T16:53:01Z"
   },
   {
     "availabilityRules": [],
-    "billingNote": "Google applies Gemini 3.7 Flash introductory pricing to Gemini 3.6 Flash through 2026-12-31. V1 compatibility fields store the current Standard and Batch token rates. Structured price records preserve the 2027-01-01 Standard and Batch rates as future records. Separate audio input and cache-storage charges are not represented in V1 scalars.",
+    "billingNote": "Global paid-tier token prices, including cache storage charged per million cached tokens per hour. Grounding tool fees and free-tier allowances are outside this token/cache contract.",
     "calculationDefault": false,
     "charges": [
       {
@@ -9689,9 +9696,16 @@
         "component": "output",
         "modality": "text",
         "unit": "per_1m_tokens"
+      },
+      {
+        "amount": "0.5",
+        "chargeId": "price:google-gemini/gemini-3.6-flash:batch:short:current:introductory_2026:storage:text:per_1m_tokens_per_hour",
+        "component": "storage",
+        "modality": "text",
+        "unit": "per_1m_tokens_per_hour"
       }
     ],
-    "checkedAt": "2026-10-27T07:11:16Z",
+    "checkedAt": "2026-11-04T16:53:01Z",
     "contextClass": "short",
     "currency": "USD",
     "defaultAvailabilityStatus": "available",
@@ -9725,11 +9739,151 @@
       "source:google-gemini:ai-google-dev-gemini-api-docs-pricing"
     ],
     "verificationStatus": "verified",
-    "verifiedAt": "2026-10-27T07:11:16Z"
+    "verifiedAt": "2026-11-04T16:53:01Z"
   },
   {
     "availabilityRules": [],
-    "billingNote": "Google applies Gemini 3.7 Flash introductory pricing to Gemini 3.6 Flash through 2026-12-31. V1 compatibility fields store the current Standard and Batch token rates. Structured price records preserve the 2027-01-01 Standard and Batch rates as future records. Separate audio input and cache-storage charges are not represented in V1 scalars.",
+    "billingNote": "Global paid-tier token prices, including cache storage charged per million cached tokens per hour. Grounding tool fees and free-tier allowances are outside this token/cache contract.",
+    "calculationDefault": false,
+    "charges": [
+      {
+        "amount": "0.375",
+        "chargeId": "price:google-gemini/gemini-3.6-flash:flex:short:current:introductory_2026:input:text:per_1m_tokens",
+        "component": "input",
+        "modality": "text",
+        "unit": "per_1m_tokens"
+      },
+      {
+        "amount": "0.0375",
+        "chargeId": "price:google-gemini/gemini-3.6-flash:flex:short:current:introductory_2026:cached_input:text:per_1m_tokens",
+        "component": "cached_input",
+        "modality": "text",
+        "unit": "per_1m_tokens"
+      },
+      {
+        "amount": "1.875",
+        "chargeId": "price:google-gemini/gemini-3.6-flash:flex:short:current:introductory_2026:output:text:per_1m_tokens",
+        "component": "output",
+        "modality": "text",
+        "unit": "per_1m_tokens"
+      },
+      {
+        "amount": "0.5",
+        "chargeId": "price:google-gemini/gemini-3.6-flash:flex:short:current:introductory_2026:storage:text:per_1m_tokens_per_hour",
+        "component": "storage",
+        "modality": "text",
+        "unit": "per_1m_tokens_per_hour"
+      }
+    ],
+    "checkedAt": "2026-11-04T16:53:01Z",
+    "contextClass": "short",
+    "currency": "USD",
+    "defaultAvailabilityStatus": "available",
+    "effectiveFrom": null,
+    "effectiveUntil": "2026-12-31",
+    "modelInternalId": "google-gemini/gemini-3.6-flash",
+    "priceAdjustments": [],
+    "pricingId": "price:google-gemini/gemini-3.6-flash:flex:short:current:introductory_2026",
+    "pricingStatus": "current",
+    "processingMode": "flex",
+    "promptTokenThreshold": null,
+    "regionPolicy": "global",
+    "regionSelector": {
+      "dataResidencies": [
+        "global"
+      ],
+      "endpointGeographies": [
+        "global"
+      ],
+      "pricingGeography": "global_base"
+    },
+    "sourceDatasetIds": {
+      "publicDatasetIds": [
+        "gemini-3.6-flash"
+      ],
+      "websiteIds": [
+        "gemini-3.6-flash"
+      ]
+    },
+    "sourceRefs": [
+      "source:google-gemini:ai-google-dev-gemini-api-docs-pricing"
+    ],
+    "verificationStatus": "verified",
+    "verifiedAt": "2026-11-04T16:53:01Z"
+  },
+  {
+    "availabilityRules": [],
+    "billingNote": "Global paid-tier token prices, including cache storage charged per million cached tokens per hour. Grounding tool fees and free-tier allowances are outside this token/cache contract.",
+    "calculationDefault": false,
+    "charges": [
+      {
+        "amount": "1.35",
+        "chargeId": "price:google-gemini/gemini-3.6-flash:priority:short:current:introductory_2026:input:text:per_1m_tokens",
+        "component": "input",
+        "modality": "text",
+        "unit": "per_1m_tokens"
+      },
+      {
+        "amount": "0.135",
+        "chargeId": "price:google-gemini/gemini-3.6-flash:priority:short:current:introductory_2026:cached_input:text:per_1m_tokens",
+        "component": "cached_input",
+        "modality": "text",
+        "unit": "per_1m_tokens"
+      },
+      {
+        "amount": "6.75",
+        "chargeId": "price:google-gemini/gemini-3.6-flash:priority:short:current:introductory_2026:output:text:per_1m_tokens",
+        "component": "output",
+        "modality": "text",
+        "unit": "per_1m_tokens"
+      },
+      {
+        "amount": "0.5",
+        "chargeId": "price:google-gemini/gemini-3.6-flash:priority:short:current:introductory_2026:storage:text:per_1m_tokens_per_hour",
+        "component": "storage",
+        "modality": "text",
+        "unit": "per_1m_tokens_per_hour"
+      }
+    ],
+    "checkedAt": "2026-11-04T16:53:01Z",
+    "contextClass": "short",
+    "currency": "USD",
+    "defaultAvailabilityStatus": "available",
+    "effectiveFrom": null,
+    "effectiveUntil": "2026-12-31",
+    "modelInternalId": "google-gemini/gemini-3.6-flash",
+    "priceAdjustments": [],
+    "pricingId": "price:google-gemini/gemini-3.6-flash:priority:short:current:introductory_2026",
+    "pricingStatus": "current",
+    "processingMode": "priority",
+    "promptTokenThreshold": null,
+    "regionPolicy": "global",
+    "regionSelector": {
+      "dataResidencies": [
+        "global"
+      ],
+      "endpointGeographies": [
+        "global"
+      ],
+      "pricingGeography": "global_base"
+    },
+    "sourceDatasetIds": {
+      "publicDatasetIds": [
+        "gemini-3.6-flash"
+      ],
+      "websiteIds": [
+        "gemini-3.6-flash"
+      ]
+    },
+    "sourceRefs": [
+      "source:google-gemini:ai-google-dev-gemini-api-docs-pricing"
+    ],
+    "verificationStatus": "verified",
+    "verifiedAt": "2026-11-04T16:53:01Z"
+  },
+  {
+    "availabilityRules": [],
+    "billingNote": "Global paid-tier token prices, including cache storage charged per million cached tokens per hour. Grounding tool fees and free-tier allowances are outside this token/cache contract.",
     "calculationDefault": false,
     "charges": [
       {
@@ -9752,9 +9906,16 @@
         "component": "output",
         "modality": "text",
         "unit": "per_1m_tokens"
+      },
+      {
+        "amount": "1",
+        "chargeId": "price:google-gemini/gemini-3.6-flash:standard:short:future:standard_2027:storage:text:per_1m_tokens_per_hour",
+        "component": "storage",
+        "modality": "text",
+        "unit": "per_1m_tokens_per_hour"
       }
     ],
-    "checkedAt": "2026-10-27T07:11:16Z",
+    "checkedAt": "2026-11-04T16:53:01Z",
     "contextClass": "short",
     "currency": "USD",
     "defaultAvailabilityStatus": "available",
@@ -9788,11 +9949,11 @@
       "source:google-gemini:ai-google-dev-gemini-api-docs-pricing"
     ],
     "verificationStatus": "verified",
-    "verifiedAt": "2026-10-27T07:11:16Z"
+    "verifiedAt": "2026-11-04T16:53:01Z"
   },
   {
     "availabilityRules": [],
-    "billingNote": "Google applies Gemini 3.7 Flash introductory pricing to Gemini 3.6 Flash through 2026-12-31. V1 compatibility fields store the current Standard and Batch token rates. Structured price records preserve the 2027-01-01 Standard and Batch rates as future records. Separate audio input and cache-storage charges are not represented in V1 scalars.",
+    "billingNote": "Global paid-tier token prices, including cache storage charged per million cached tokens per hour. Grounding tool fees and free-tier allowances are outside this token/cache contract.",
     "calculationDefault": false,
     "charges": [
       {
@@ -9815,9 +9976,16 @@
         "component": "output",
         "modality": "text",
         "unit": "per_1m_tokens"
+      },
+      {
+        "amount": "1",
+        "chargeId": "price:google-gemini/gemini-3.6-flash:batch:short:future:standard_2027:storage:text:per_1m_tokens_per_hour",
+        "component": "storage",
+        "modality": "text",
+        "unit": "per_1m_tokens_per_hour"
       }
     ],
-    "checkedAt": "2026-10-27T07:11:16Z",
+    "checkedAt": "2026-11-04T16:53:01Z",
     "contextClass": "short",
     "currency": "USD",
     "defaultAvailabilityStatus": "available",
@@ -9851,7 +10019,147 @@
       "source:google-gemini:ai-google-dev-gemini-api-docs-pricing"
     ],
     "verificationStatus": "verified",
-    "verifiedAt": "2026-10-27T07:11:16Z"
+    "verifiedAt": "2026-11-04T16:53:01Z"
+  },
+  {
+    "availabilityRules": [],
+    "billingNote": "Global paid-tier token prices, including cache storage charged per million cached tokens per hour. Grounding tool fees and free-tier allowances are outside this token/cache contract.",
+    "calculationDefault": false,
+    "charges": [
+      {
+        "amount": "0.75",
+        "chargeId": "price:google-gemini/gemini-3.6-flash:flex:short:future:standard_2027:input:text:per_1m_tokens",
+        "component": "input",
+        "modality": "text",
+        "unit": "per_1m_tokens"
+      },
+      {
+        "amount": "0.075",
+        "chargeId": "price:google-gemini/gemini-3.6-flash:flex:short:future:standard_2027:cached_input:text:per_1m_tokens",
+        "component": "cached_input",
+        "modality": "text",
+        "unit": "per_1m_tokens"
+      },
+      {
+        "amount": "3.75",
+        "chargeId": "price:google-gemini/gemini-3.6-flash:flex:short:future:standard_2027:output:text:per_1m_tokens",
+        "component": "output",
+        "modality": "text",
+        "unit": "per_1m_tokens"
+      },
+      {
+        "amount": "1",
+        "chargeId": "price:google-gemini/gemini-3.6-flash:flex:short:future:standard_2027:storage:text:per_1m_tokens_per_hour",
+        "component": "storage",
+        "modality": "text",
+        "unit": "per_1m_tokens_per_hour"
+      }
+    ],
+    "checkedAt": "2026-11-04T16:53:01Z",
+    "contextClass": "short",
+    "currency": "USD",
+    "defaultAvailabilityStatus": "available",
+    "effectiveFrom": "2027-01-01",
+    "effectiveUntil": null,
+    "modelInternalId": "google-gemini/gemini-3.6-flash",
+    "priceAdjustments": [],
+    "pricingId": "price:google-gemini/gemini-3.6-flash:flex:short:future:standard_2027",
+    "pricingStatus": "future",
+    "processingMode": "flex",
+    "promptTokenThreshold": null,
+    "regionPolicy": "global",
+    "regionSelector": {
+      "dataResidencies": [
+        "global"
+      ],
+      "endpointGeographies": [
+        "global"
+      ],
+      "pricingGeography": "global_base"
+    },
+    "sourceDatasetIds": {
+      "publicDatasetIds": [
+        "gemini-3.6-flash"
+      ],
+      "websiteIds": [
+        "gemini-3.6-flash"
+      ]
+    },
+    "sourceRefs": [
+      "source:google-gemini:ai-google-dev-gemini-api-docs-pricing"
+    ],
+    "verificationStatus": "verified",
+    "verifiedAt": "2026-11-04T16:53:01Z"
+  },
+  {
+    "availabilityRules": [],
+    "billingNote": "Global paid-tier token prices, including cache storage charged per million cached tokens per hour. Grounding tool fees and free-tier allowances are outside this token/cache contract.",
+    "calculationDefault": false,
+    "charges": [
+      {
+        "amount": "2.7",
+        "chargeId": "price:google-gemini/gemini-3.6-flash:priority:short:future:standard_2027:input:text:per_1m_tokens",
+        "component": "input",
+        "modality": "text",
+        "unit": "per_1m_tokens"
+      },
+      {
+        "amount": "0.27",
+        "chargeId": "price:google-gemini/gemini-3.6-flash:priority:short:future:standard_2027:cached_input:text:per_1m_tokens",
+        "component": "cached_input",
+        "modality": "text",
+        "unit": "per_1m_tokens"
+      },
+      {
+        "amount": "13.5",
+        "chargeId": "price:google-gemini/gemini-3.6-flash:priority:short:future:standard_2027:output:text:per_1m_tokens",
+        "component": "output",
+        "modality": "text",
+        "unit": "per_1m_tokens"
+      },
+      {
+        "amount": "1",
+        "chargeId": "price:google-gemini/gemini-3.6-flash:priority:short:future:standard_2027:storage:text:per_1m_tokens_per_hour",
+        "component": "storage",
+        "modality": "text",
+        "unit": "per_1m_tokens_per_hour"
+      }
+    ],
+    "checkedAt": "2026-11-04T16:53:01Z",
+    "contextClass": "short",
+    "currency": "USD",
+    "defaultAvailabilityStatus": "available",
+    "effectiveFrom": "2027-01-01",
+    "effectiveUntil": null,
+    "modelInternalId": "google-gemini/gemini-3.6-flash",
+    "priceAdjustments": [],
+    "pricingId": "price:google-gemini/gemini-3.6-flash:priority:short:future:standard_2027",
+    "pricingStatus": "future",
+    "processingMode": "priority",
+    "promptTokenThreshold": null,
+    "regionPolicy": "global",
+    "regionSelector": {
+      "dataResidencies": [
+        "global"
+      ],
+      "endpointGeographies": [
+        "global"
+      ],
+      "pricingGeography": "global_base"
+    },
+    "sourceDatasetIds": {
+      "publicDatasetIds": [
+        "gemini-3.6-flash"
+      ],
+      "websiteIds": [
+        "gemini-3.6-flash"
+      ]
+    },
+    "sourceRefs": [
+      "source:google-gemini:ai-google-dev-gemini-api-docs-pricing"
+    ],
+    "verificationStatus": "verified",
+    "verifiedAt": "2026-11-04T16:53:01Z"
   },
   {
     "billingNote": "Generally available on 2026-08-13 and deprecated on 2026-10-08. The gemini-3.7-flash endpoint is not shutting down; Gemini API requests are automatically routed to gemini-3.8-flash. The original model ID and historical price records remain preserved, but those historical rates must not be treated as proof of the routed request's settlement price. V1 compatibility fields store introductory Standard and Batch token rates through 2026-12-31. Structured pricing_periods preserves the 2027-01-01 Standard and Batch rates. Separate audio input and cache-storage charges are not represented in V1 scalars.",
