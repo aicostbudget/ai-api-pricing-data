@@ -65,6 +65,9 @@ PROVIDER_SLUGS = {
     "Alibaba": "alibaba-qwen",
     "Alibaba Qwen": "alibaba-qwen",
     "Meta": "meta",
+    "Perplexity": "perplexity",
+    "Amazon Nova": "amazon-nova",
+    "Z.ai (Zhipu)": "zhipu-ai",
 }
 
 PROVIDER_DISPLAY = {
@@ -81,6 +84,9 @@ PROVIDER_DISPLAY = {
     "moonshot-ai": "Moonshot AI",
     "alibaba-qwen": "Alibaba",
     "meta": "Meta",
+    "perplexity": "Perplexity",
+    "amazon-nova": "Amazon Nova",
+    "zhipu-ai": "Z.ai (Zhipu)",
 }
 
 OFFICIAL_DOMAINS = {
@@ -97,6 +103,9 @@ OFFICIAL_DOMAINS = {
     "moonshot-ai": ("platform.kimi.ai", "kimi.ai", "kimi.com", "moonshot.ai"),
     "alibaba-qwen": ("www.alibabacloud.com", "alibabacloud.com", "qwen.ai"),
     "meta": ("dev.meta.ai", "meta.ai"),
+    "perplexity": ("docs.perplexity.ai", "perplexity.ai"),
+    "amazon-nova": ("pricing.us-east-1.amazonaws.com", "aws.amazon.com", "docs.aws.amazon.com"),
+    "zhipu-ai": ("docs.z.ai", "z.ai"),
 }
 
 DEEPSEEK_V4_FLASH_RETIREMENT_AT = "2026-09-10T04:00:00Z"

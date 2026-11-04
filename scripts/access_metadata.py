@@ -17,6 +17,8 @@ OFFICIAL_HOSTS = {
     "mistral-ai": ("mistral.ai",), "moonshot-ai": ("kimi.ai", "moonshot.ai", "moonshot.cn"),
     "alibaba-qwen": ("alibabacloud.com", "qwen.ai"),
     "meta": ("meta.ai",),
+    "perplexity": ("perplexity.ai",), "zhipu-ai": ("z.ai",),
+    "amazon-nova": ("amazon.com", "amazonaws.com"),
     "aws": ("amazon.com", "amazonaws.com"), "azure": ("microsoft.com", "azure.com"),
     "google-cloud": ("google.com",),
 }

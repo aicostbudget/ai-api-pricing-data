@@ -95,6 +95,9 @@ PROVIDER_DISPLAY = {
     "moonshot-ai": "Moonshot AI",
     "alibaba-qwen": "Alibaba",
     "meta": "Meta",
+    "perplexity": "Perplexity",
+    "amazon-nova": "Amazon Nova",
+    "zhipu-ai": "Z.ai (Zhipu)",
     "openai": "OpenAI",
     "xai": "xAI",
 }
