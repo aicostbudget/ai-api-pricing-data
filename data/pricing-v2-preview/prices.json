@@ -397,6 +397,770 @@
   },
   {
     "availabilityRules": [],
+    "billingNote": "Global cross-region inference price on Amazon Bedrock. In-region and Geo (us., eu., jp.) inference profiles cost 10% more on every token type. Prompt cache writes are free.",
+    "calculationDefault": true,
+    "charges": [
+      {
+        "amount": "0.3",
+        "chargeId": "price:amazon-nova/nova-2-lite:standard:short:current:input:text:per_1m_tokens",
+        "component": "input",
+        "modality": "text",
+        "unit": "per_1m_tokens"
+      },
+      {
+        "amount": "0.075",
+        "chargeId": "price:amazon-nova/nova-2-lite:standard:short:current:cached_input:text:per_1m_tokens",
+        "component": "cached_input",
+        "modality": "text",
+        "unit": "per_1m_tokens"
+      },
+      {
+        "amount": "2.5",
+        "chargeId": "price:amazon-nova/nova-2-lite:standard:short:current:output:text:per_1m_tokens",
+        "component": "output",
+        "modality": "text",
+        "unit": "per_1m_tokens"
+      }
+    ],
+    "checkedAt": "2026-11-04T06:41:05Z",
+    "contextClass": "short",
+    "currency": "USD",
+    "defaultAvailabilityStatus": "available",
+    "effectiveFrom": null,
+    "effectiveUntil": null,
+    "modelInternalId": "amazon-nova/nova-2-lite",
+    "priceAdjustments": [
+      {
+        "factor": "1.1",
+        "operation": "multiply",
+        "priceAdjustmentId": "regional-endpoint-uplift",
+        "selector": {
+          "endpointGeographies": [
+            "regional"
+          ]
+        },
+        "sourceRefs": [
+          "source:amazon-nova:pricing-us-east-1-amazonaws-com-offers-v1-0-aws-AmazonBedrock-current-us-east-1-"
+        ]
+      }
+    ],
+    "pricingId": "price:amazon-nova/nova-2-lite:standard:short:current",
+    "pricingStatus": "current",
+    "processingMode": "standard",
+    "promptTokenThreshold": null,
+    "regionPolicy": "global",
+    "regionSelector": {
+      "dataResidencies": [
+        "global"
+      ],
+      "endpointGeographies": [
+        "global",
+        "regional"
+      ],
+      "pricingGeography": "global_base"
+    },
+    "sourceDatasetIds": {
+      "publicDatasetIds": [
+        "nova-2-lite"
+      ],
+      "websiteIds": []
+    },
+    "sourceRefs": [
+      "source:amazon-nova:pricing-us-east-1-amazonaws-com-offers-v1-0-aws-AmazonBedrock-current-us-east-1-"
+    ],
+    "verificationStatus": "verified",
+    "verifiedAt": "2026-11-04T06:41:05Z"
+  },
+  {
+    "availabilityRules": [],
+    "billingNote": "Global cross-region inference price on Amazon Bedrock. In-region and Geo (us., eu., jp.) inference profiles cost 10% more on every token type. Prompt cache writes are free. Batch inference rate.",
+    "calculationDefault": false,
+    "charges": [
+      {
+        "amount": "0.15",
+        "chargeId": "price:amazon-nova/nova-2-lite:batch:short:current:input:text:per_1m_tokens",
+        "component": "input",
+        "modality": "text",
+        "unit": "per_1m_tokens"
+      },
+      {
+        "amount": "1.25",
+        "chargeId": "price:amazon-nova/nova-2-lite:batch:short:current:output:text:per_1m_tokens",
+        "component": "output",
+        "modality": "text",
+        "unit": "per_1m_tokens"
+      }
+    ],
+    "checkedAt": "2026-11-04T06:41:05Z",
+    "contextClass": "short",
+    "currency": "USD",
+    "defaultAvailabilityStatus": "available",
+    "effectiveFrom": null,
+    "effectiveUntil": null,
+    "modelInternalId": "amazon-nova/nova-2-lite",
+    "priceAdjustments": [
+      {
+        "factor": "1.1",
+        "operation": "multiply",
+        "priceAdjustmentId": "regional-endpoint-uplift",
+        "selector": {
+          "endpointGeographies": [
+            "regional"
+          ]
+        },
+        "sourceRefs": [
+          "source:amazon-nova:pricing-us-east-1-amazonaws-com-offers-v1-0-aws-AmazonBedrock-current-us-east-1-"
+        ]
+      }
+    ],
+    "pricingId": "price:amazon-nova/nova-2-lite:batch:short:current",
+    "pricingStatus": "current",
+    "processingMode": "batch",
+    "promptTokenThreshold": null,
+    "regionPolicy": "global",
+    "regionSelector": {
+      "dataResidencies": [
+        "global"
+      ],
+      "endpointGeographies": [
+        "global",
+        "regional"
+      ],
+      "pricingGeography": "global_base"
+    },
+    "sourceDatasetIds": {
+      "publicDatasetIds": [
+        "nova-2-lite"
+      ],
+      "websiteIds": []
+    },
+    "sourceRefs": [
+      "source:amazon-nova:pricing-us-east-1-amazonaws-com-offers-v1-0-aws-AmazonBedrock-current-us-east-1-"
+    ],
+    "verificationStatus": "verified",
+    "verifiedAt": "2026-11-04T06:41:05Z"
+  },
+  {
+    "availabilityRules": [],
+    "billingNote": "Global cross-region inference price on Amazon Bedrock. In-region and Geo (us., eu., jp.) inference profiles cost 10% more on every token type. Prompt cache writes are free. Flex service tier.",
+    "calculationDefault": false,
+    "charges": [
+      {
+        "amount": "0.15",
+        "chargeId": "price:amazon-nova/nova-2-lite:flex:short:current:input:text:per_1m_tokens",
+        "component": "input",
+        "modality": "text",
+        "unit": "per_1m_tokens"
+      },
+      {
+        "amount": "0.0375",
+        "chargeId": "price:amazon-nova/nova-2-lite:flex:short:current:cached_input:text:per_1m_tokens",
+        "component": "cached_input",
+        "modality": "text",
+        "unit": "per_1m_tokens"
+      },
+      {
+        "amount": "1.25",
+        "chargeId": "price:amazon-nova/nova-2-lite:flex:short:current:output:text:per_1m_tokens",
+        "component": "output",
+        "modality": "text",
+        "unit": "per_1m_tokens"
+      }
+    ],
+    "checkedAt": "2026-11-04T06:41:05Z",
+    "contextClass": "short",
+    "currency": "USD",
+    "defaultAvailabilityStatus": "available",
+    "effectiveFrom": null,
+    "effectiveUntil": null,
+    "modelInternalId": "amazon-nova/nova-2-lite",
+    "priceAdjustments": [
+      {
+        "factor": "1.1",
+        "operation": "multiply",
+        "priceAdjustmentId": "regional-endpoint-uplift",
+        "selector": {
+          "endpointGeographies": [
+            "regional"
+          ]
+        },
+        "sourceRefs": [
+          "source:amazon-nova:pricing-us-east-1-amazonaws-com-offers-v1-0-aws-AmazonBedrock-current-us-east-1-"
+        ]
+      }
+    ],
+    "pricingId": "price:amazon-nova/nova-2-lite:flex:short:current",
+    "pricingStatus": "current",
+    "processingMode": "flex",
+    "promptTokenThreshold": null,
+    "regionPolicy": "global",
+    "regionSelector": {
+      "dataResidencies": [
+        "global"
+      ],
+      "endpointGeographies": [
+        "global",
+        "regional"
+      ],
+      "pricingGeography": "global_base"
+    },
+    "sourceDatasetIds": {
+      "publicDatasetIds": [
+        "nova-2-lite"
+      ],
+      "websiteIds": []
+    },
+    "sourceRefs": [
+      "source:amazon-nova:pricing-us-east-1-amazonaws-com-offers-v1-0-aws-AmazonBedrock-current-us-east-1-"
+    ],
+    "verificationStatus": "verified",
+    "verifiedAt": "2026-11-04T06:41:05Z"
+  },
+  {
+    "availabilityRules": [],
+    "billingNote": "Global cross-region inference price on Amazon Bedrock. In-region and Geo (us., eu., jp.) inference profiles cost 10% more on every token type. Prompt cache writes are free. Priority service tier.",
+    "calculationDefault": false,
+    "charges": [
+      {
+        "amount": "0.525",
+        "chargeId": "price:amazon-nova/nova-2-lite:priority:short:current:input:text:per_1m_tokens",
+        "component": "input",
+        "modality": "text",
+        "unit": "per_1m_tokens"
+      },
+      {
+        "amount": "0.13125",
+        "chargeId": "price:amazon-nova/nova-2-lite:priority:short:current:cached_input:text:per_1m_tokens",
+        "component": "cached_input",
+        "modality": "text",
+        "unit": "per_1m_tokens"
+      },
+      {
+        "amount": "4.375",
+        "chargeId": "price:amazon-nova/nova-2-lite:priority:short:current:output:text:per_1m_tokens",
+        "component": "output",
+        "modality": "text",
+        "unit": "per_1m_tokens"
+      }
+    ],
+    "checkedAt": "2026-11-04T06:41:05Z",
+    "contextClass": "short",
+    "currency": "USD",
+    "defaultAvailabilityStatus": "available",
+    "effectiveFrom": null,
+    "effectiveUntil": null,
+    "modelInternalId": "amazon-nova/nova-2-lite",
+    "priceAdjustments": [
+      {
+        "factor": "1.1",
+        "operation": "multiply",
+        "priceAdjustmentId": "regional-endpoint-uplift",
+        "selector": {
+          "endpointGeographies": [
+            "regional"
+          ]
+        },
+        "sourceRefs": [
+          "source:amazon-nova:pricing-us-east-1-amazonaws-com-offers-v1-0-aws-AmazonBedrock-current-us-east-1-"
+        ]
+      }
+    ],
+    "pricingId": "price:amazon-nova/nova-2-lite:priority:short:current",
+    "pricingStatus": "current",
+    "processingMode": "priority",
+    "promptTokenThreshold": null,
+    "regionPolicy": "global",
+    "regionSelector": {
+      "dataResidencies": [
+        "global"
+      ],
+      "endpointGeographies": [
+        "global",
+        "regional"
+      ],
+      "pricingGeography": "global_base"
+    },
+    "sourceDatasetIds": {
+      "publicDatasetIds": [
+        "nova-2-lite"
+      ],
+      "websiteIds": []
+    },
+    "sourceRefs": [
+      "source:amazon-nova:pricing-us-east-1-amazonaws-com-offers-v1-0-aws-AmazonBedrock-current-us-east-1-"
+    ],
+    "verificationStatus": "verified",
+    "verifiedAt": "2026-11-04T06:41:05Z"
+  },
+  {
+    "availabilityRules": [],
+    "billingNote": "On-demand price in us-east-1 (N. Virginia) on Amazon Bedrock, also charged for the US Geo cross-region profile. Other Regions can differ. Prompt cache writes are free.",
+    "calculationDefault": true,
+    "charges": [
+      {
+        "amount": "0.06",
+        "chargeId": "price:amazon-nova/nova-lite:standard:short:current:input:text:per_1m_tokens",
+        "component": "input",
+        "modality": "text",
+        "unit": "per_1m_tokens"
+      },
+      {
+        "amount": "0.015",
+        "chargeId": "price:amazon-nova/nova-lite:standard:short:current:cached_input:text:per_1m_tokens",
+        "component": "cached_input",
+        "modality": "text",
+        "unit": "per_1m_tokens"
+      },
+      {
+        "amount": "0.24",
+        "chargeId": "price:amazon-nova/nova-lite:standard:short:current:output:text:per_1m_tokens",
+        "component": "output",
+        "modality": "text",
+        "unit": "per_1m_tokens"
+      }
+    ],
+    "checkedAt": "2026-11-04T06:41:22Z",
+    "contextClass": "short",
+    "currency": "USD",
+    "defaultAvailabilityStatus": "available",
+    "effectiveFrom": null,
+    "effectiveUntil": null,
+    "modelInternalId": "amazon-nova/nova-lite",
+    "priceAdjustments": [],
+    "pricingId": "price:amazon-nova/nova-lite:standard:short:current",
+    "pricingStatus": "current",
+    "processingMode": "standard",
+    "promptTokenThreshold": null,
+    "regionPolicy": "global",
+    "regionSelector": {
+      "dataResidencies": [
+        "us-east-1"
+      ],
+      "endpointGeographies": [
+        "us-east-1"
+      ],
+      "pricingGeography": "global_base"
+    },
+    "sourceDatasetIds": {
+      "publicDatasetIds": [
+        "nova-lite"
+      ],
+      "websiteIds": []
+    },
+    "sourceRefs": [
+      "source:amazon-nova:pricing-us-east-1-amazonaws-com-offers-v1-0-aws-AmazonBedrock-current-us-east-1-"
+    ],
+    "verificationStatus": "verified",
+    "verifiedAt": "2026-11-04T06:41:22Z"
+  },
+  {
+    "availabilityRules": [],
+    "billingNote": "On-demand price in us-east-1 (N. Virginia) on Amazon Bedrock, also charged for the US Geo cross-region profile. Other Regions can differ. Prompt cache writes are free. Batch inference rate.",
+    "calculationDefault": false,
+    "charges": [
+      {
+        "amount": "0.03",
+        "chargeId": "price:amazon-nova/nova-lite:batch:short:current:input:text:per_1m_tokens",
+        "component": "input",
+        "modality": "text",
+        "unit": "per_1m_tokens"
+      },
+      {
+        "amount": "0.12",
+        "chargeId": "price:amazon-nova/nova-lite:batch:short:current:output:text:per_1m_tokens",
+        "component": "output",
+        "modality": "text",
+        "unit": "per_1m_tokens"
+      }
+    ],
+    "checkedAt": "2026-11-04T06:41:22Z",
+    "contextClass": "short",
+    "currency": "USD",
+    "defaultAvailabilityStatus": "available",
+    "effectiveFrom": null,
+    "effectiveUntil": null,
+    "modelInternalId": "amazon-nova/nova-lite",
+    "priceAdjustments": [],
+    "pricingId": "price:amazon-nova/nova-lite:batch:short:current",
+    "pricingStatus": "current",
+    "processingMode": "batch",
+    "promptTokenThreshold": null,
+    "regionPolicy": "global",
+    "regionSelector": {
+      "dataResidencies": [
+        "us-east-1"
+      ],
+      "endpointGeographies": [
+        "us-east-1"
+      ],
+      "pricingGeography": "global_base"
+    },
+    "sourceDatasetIds": {
+      "publicDatasetIds": [
+        "nova-lite"
+      ],
+      "websiteIds": []
+    },
+    "sourceRefs": [
+      "source:amazon-nova:pricing-us-east-1-amazonaws-com-offers-v1-0-aws-AmazonBedrock-current-us-east-1-"
+    ],
+    "verificationStatus": "verified",
+    "verifiedAt": "2026-11-04T06:41:22Z"
+  },
+  {
+    "availabilityRules": [],
+    "billingNote": "On-demand price in us-east-1 (N. Virginia) on Amazon Bedrock, also charged for the US Geo cross-region profile. Other Regions can differ. Prompt cache writes are free.",
+    "calculationDefault": true,
+    "charges": [
+      {
+        "amount": "0.035",
+        "chargeId": "price:amazon-nova/nova-micro:standard:short:current:input:text:per_1m_tokens",
+        "component": "input",
+        "modality": "text",
+        "unit": "per_1m_tokens"
+      },
+      {
+        "amount": "0.00875",
+        "chargeId": "price:amazon-nova/nova-micro:standard:short:current:cached_input:text:per_1m_tokens",
+        "component": "cached_input",
+        "modality": "text",
+        "unit": "per_1m_tokens"
+      },
+      {
+        "amount": "0.14",
+        "chargeId": "price:amazon-nova/nova-micro:standard:short:current:output:text:per_1m_tokens",
+        "component": "output",
+        "modality": "text",
+        "unit": "per_1m_tokens"
+      }
+    ],
+    "checkedAt": "2026-11-04T06:41:14Z",
+    "contextClass": "short",
+    "currency": "USD",
+    "defaultAvailabilityStatus": "available",
+    "effectiveFrom": null,
+    "effectiveUntil": null,
+    "modelInternalId": "amazon-nova/nova-micro",
+    "priceAdjustments": [],
+    "pricingId": "price:amazon-nova/nova-micro:standard:short:current",
+    "pricingStatus": "current",
+    "processingMode": "standard",
+    "promptTokenThreshold": null,
+    "regionPolicy": "global",
+    "regionSelector": {
+      "dataResidencies": [
+        "us-east-1"
+      ],
+      "endpointGeographies": [
+        "us-east-1"
+      ],
+      "pricingGeography": "global_base"
+    },
+    "sourceDatasetIds": {
+      "publicDatasetIds": [
+        "nova-micro"
+      ],
+      "websiteIds": []
+    },
+    "sourceRefs": [
+      "source:amazon-nova:pricing-us-east-1-amazonaws-com-offers-v1-0-aws-AmazonBedrock-current-us-east-1-"
+    ],
+    "verificationStatus": "verified",
+    "verifiedAt": "2026-11-04T06:41:14Z"
+  },
+  {
+    "availabilityRules": [],
+    "billingNote": "On-demand price in us-east-1 (N. Virginia) on Amazon Bedrock, also charged for the US Geo cross-region profile. Other Regions can differ. Prompt cache writes are free. Batch inference rate.",
+    "calculationDefault": false,
+    "charges": [
+      {
+        "amount": "0.0175",
+        "chargeId": "price:amazon-nova/nova-micro:batch:short:current:input:text:per_1m_tokens",
+        "component": "input",
+        "modality": "text",
+        "unit": "per_1m_tokens"
+      },
+      {
+        "amount": "0.07",
+        "chargeId": "price:amazon-nova/nova-micro:batch:short:current:output:text:per_1m_tokens",
+        "component": "output",
+        "modality": "text",
+        "unit": "per_1m_tokens"
+      }
+    ],
+    "checkedAt": "2026-11-04T06:41:14Z",
+    "contextClass": "short",
+    "currency": "USD",
+    "defaultAvailabilityStatus": "available",
+    "effectiveFrom": null,
+    "effectiveUntil": null,
+    "modelInternalId": "amazon-nova/nova-micro",
+    "priceAdjustments": [],
+    "pricingId": "price:amazon-nova/nova-micro:batch:short:current",
+    "pricingStatus": "current",
+    "processingMode": "batch",
+    "promptTokenThreshold": null,
+    "regionPolicy": "global",
+    "regionSelector": {
+      "dataResidencies": [
+        "us-east-1"
+      ],
+      "endpointGeographies": [
+        "us-east-1"
+      ],
+      "pricingGeography": "global_base"
+    },
+    "sourceDatasetIds": {
+      "publicDatasetIds": [
+        "nova-micro"
+      ],
+      "websiteIds": []
+    },
+    "sourceRefs": [
+      "source:amazon-nova:pricing-us-east-1-amazonaws-com-offers-v1-0-aws-AmazonBedrock-current-us-east-1-"
+    ],
+    "verificationStatus": "verified",
+    "verifiedAt": "2026-11-04T06:41:14Z"
+  },
+  {
+    "availabilityRules": [],
+    "billingNote": "On-demand price in us-east-1 (N. Virginia) on Amazon Bedrock, also charged for the US Geo cross-region profile. Other Regions can differ. Prompt cache writes are free.",
+    "calculationDefault": true,
+    "charges": [
+      {
+        "amount": "0.8",
+        "chargeId": "price:amazon-nova/nova-pro:standard:short:current:input:text:per_1m_tokens",
+        "component": "input",
+        "modality": "text",
+        "unit": "per_1m_tokens"
+      },
+      {
+        "amount": "0.2",
+        "chargeId": "price:amazon-nova/nova-pro:standard:short:current:cached_input:text:per_1m_tokens",
+        "component": "cached_input",
+        "modality": "text",
+        "unit": "per_1m_tokens"
+      },
+      {
+        "amount": "3.2",
+        "chargeId": "price:amazon-nova/nova-pro:standard:short:current:output:text:per_1m_tokens",
+        "component": "output",
+        "modality": "text",
+        "unit": "per_1m_tokens"
+      }
+    ],
+    "checkedAt": "2026-11-04T06:41:30Z",
+    "contextClass": "short",
+    "currency": "USD",
+    "defaultAvailabilityStatus": "available",
+    "effectiveFrom": null,
+    "effectiveUntil": null,
+    "modelInternalId": "amazon-nova/nova-pro",
+    "priceAdjustments": [],
+    "pricingId": "price:amazon-nova/nova-pro:standard:short:current",
+    "pricingStatus": "current",
+    "processingMode": "standard",
+    "promptTokenThreshold": null,
+    "regionPolicy": "global",
+    "regionSelector": {
+      "dataResidencies": [
+        "us-east-1"
+      ],
+      "endpointGeographies": [
+        "us-east-1"
+      ],
+      "pricingGeography": "global_base"
+    },
+    "sourceDatasetIds": {
+      "publicDatasetIds": [
+        "nova-pro"
+      ],
+      "websiteIds": []
+    },
+    "sourceRefs": [
+      "source:amazon-nova:pricing-us-east-1-amazonaws-com-offers-v1-0-aws-AmazonBedrock-current-us-east-1-"
+    ],
+    "verificationStatus": "verified",
+    "verifiedAt": "2026-11-04T06:41:30Z"
+  },
+  {
+    "availabilityRules": [],
+    "billingNote": "On-demand price in us-east-1 (N. Virginia) on Amazon Bedrock, also charged for the US Geo cross-region profile. Other Regions can differ. Prompt cache writes are free. Batch inference rate.",
+    "calculationDefault": false,
+    "charges": [
+      {
+        "amount": "0.4",
+        "chargeId": "price:amazon-nova/nova-pro:batch:short:current:input:text:per_1m_tokens",
+        "component": "input",
+        "modality": "text",
+        "unit": "per_1m_tokens"
+      },
+      {
+        "amount": "1.6",
+        "chargeId": "price:amazon-nova/nova-pro:batch:short:current:output:text:per_1m_tokens",
+        "component": "output",
+        "modality": "text",
+        "unit": "per_1m_tokens"
+      }
+    ],
+    "checkedAt": "2026-11-04T06:41:30Z",
+    "contextClass": "short",
+    "currency": "USD",
+    "defaultAvailabilityStatus": "available",
+    "effectiveFrom": null,
+    "effectiveUntil": null,
+    "modelInternalId": "amazon-nova/nova-pro",
+    "priceAdjustments": [],
+    "pricingId": "price:amazon-nova/nova-pro:batch:short:current",
+    "pricingStatus": "current",
+    "processingMode": "batch",
+    "promptTokenThreshold": null,
+    "regionPolicy": "global",
+    "regionSelector": {
+      "dataResidencies": [
+        "us-east-1"
+      ],
+      "endpointGeographies": [
+        "us-east-1"
+      ],
+      "pricingGeography": "global_base"
+    },
+    "sourceDatasetIds": {
+      "publicDatasetIds": [
+        "nova-pro"
+      ],
+      "websiteIds": []
+    },
+    "sourceRefs": [
+      "source:amazon-nova:pricing-us-east-1-amazonaws-com-offers-v1-0-aws-AmazonBedrock-current-us-east-1-"
+    ],
+    "verificationStatus": "verified",
+    "verifiedAt": "2026-11-04T06:41:30Z"
+  },
+  {
+    "availabilityRules": [],
+    "billingNote": "On-demand price in us-east-1 (N. Virginia) on Amazon Bedrock, also charged for the US Geo cross-region profile. Other Regions can differ. Prompt cache writes are free. Flex service tier.",
+    "calculationDefault": false,
+    "charges": [
+      {
+        "amount": "0.4",
+        "chargeId": "price:amazon-nova/nova-pro:flex:short:current:input:text:per_1m_tokens",
+        "component": "input",
+        "modality": "text",
+        "unit": "per_1m_tokens"
+      },
+      {
+        "amount": "0.1",
+        "chargeId": "price:amazon-nova/nova-pro:flex:short:current:cached_input:text:per_1m_tokens",
+        "component": "cached_input",
+        "modality": "text",
+        "unit": "per_1m_tokens"
+      },
+      {
+        "amount": "1.6",
+        "chargeId": "price:amazon-nova/nova-pro:flex:short:current:output:text:per_1m_tokens",
+        "component": "output",
+        "modality": "text",
+        "unit": "per_1m_tokens"
+      }
+    ],
+    "checkedAt": "2026-11-04T06:41:30Z",
+    "contextClass": "short",
+    "currency": "USD",
+    "defaultAvailabilityStatus": "available",
+    "effectiveFrom": null,
+    "effectiveUntil": null,
+    "modelInternalId": "amazon-nova/nova-pro",
+    "priceAdjustments": [],
+    "pricingId": "price:amazon-nova/nova-pro:flex:short:current",
+    "pricingStatus": "current",
+    "processingMode": "flex",
+    "promptTokenThreshold": null,
+    "regionPolicy": "global",
+    "regionSelector": {
+      "dataResidencies": [
+        "us-east-1"
+      ],
+      "endpointGeographies": [
+        "us-east-1"
+      ],
+      "pricingGeography": "global_base"
+    },
+    "sourceDatasetIds": {
+      "publicDatasetIds": [
+        "nova-pro"
+      ],
+      "websiteIds": []
+    },
+    "sourceRefs": [
+      "source:amazon-nova:pricing-us-east-1-amazonaws-com-offers-v1-0-aws-AmazonBedrock-current-us-east-1-"
+    ],
+    "verificationStatus": "verified",
+    "verifiedAt": "2026-11-04T06:41:30Z"
+  },
+  {
+    "availabilityRules": [],
+    "billingNote": "On-demand price in us-east-1 (N. Virginia) on Amazon Bedrock, also charged for the US Geo cross-region profile. Other Regions can differ. Prompt cache writes are free. Priority service tier.",
+    "calculationDefault": false,
+    "charges": [
+      {
+        "amount": "1.4",
+        "chargeId": "price:amazon-nova/nova-pro:priority:short:current:input:text:per_1m_tokens",
+        "component": "input",
+        "modality": "text",
+        "unit": "per_1m_tokens"
+      },
+      {
+        "amount": "0.35",
+        "chargeId": "price:amazon-nova/nova-pro:priority:short:current:cached_input:text:per_1m_tokens",
+        "component": "cached_input",
+        "modality": "text",
+        "unit": "per_1m_tokens"
+      },
+      {
+        "amount": "5.6",
+        "chargeId": "price:amazon-nova/nova-pro:priority:short:current:output:text:per_1m_tokens",
+        "component": "output",
+        "modality": "text",
+        "unit": "per_1m_tokens"
+      }
+    ],
+    "checkedAt": "2026-11-04T06:41:30Z",
+    "contextClass": "short",
+    "currency": "USD",
+    "defaultAvailabilityStatus": "available",
+    "effectiveFrom": null,
+    "effectiveUntil": null,
+    "modelInternalId": "amazon-nova/nova-pro",
+    "priceAdjustments": [],
+    "pricingId": "price:amazon-nova/nova-pro:priority:short:current",
+    "pricingStatus": "current",
+    "processingMode": "priority",
+    "promptTokenThreshold": null,
+    "regionPolicy": "global",
+    "regionSelector": {
+      "dataResidencies": [
+        "us-east-1"
+      ],
+      "endpointGeographies": [
+        "us-east-1"
+      ],
+      "pricingGeography": "global_base"
+    },
+    "sourceDatasetIds": {
+      "publicDatasetIds": [
+        "nova-pro"
+      ],
+      "websiteIds": []
+    },
+    "sourceRefs": [
+      "source:amazon-nova:pricing-us-east-1-amazonaws-com-offers-v1-0-aws-AmazonBedrock-current-us-east-1-"
+    ],
+    "verificationStatus": "verified",
+    "verifiedAt": "2026-11-04T06:41:30Z"
+  },
+  {
+    "availabilityRules": [],
     "billingNote": "Anthropic lists base input, 5-minute cache write, 1-hour cache write, cache hit, and output rates. cache_write stores the 5-minute write rate; cache_write_1h stores the 1-hour write rate. Batch input and output are 50% of Standard; prompt-cache multipliers stack with the Batch discount.",
     "calculationDefault": true,
     "charges": [
@@ -24659,6 +25423,67 @@
   },
   {
     "availabilityRules": [],
+    "billingNote": "Agent API price for perplexity/sonar, the only Perplexity-built model still offered. Tool calls bill on top of tokens: web_search $0.0025 per call ($0.001 for Fast Search), fetch_url $0.0005 per call. Sonar has no Flex or Priority tier. The old Sonar Chat Completions endpoint was retired on September 27, 2026; its requests are now served by the Agent API at these rates.",
+    "calculationDefault": true,
+    "charges": [
+      {
+        "amount": "0.25",
+        "chargeId": "price:perplexity/sonar:standard:short:current:input:text:per_1m_tokens",
+        "component": "input",
+        "modality": "text",
+        "unit": "per_1m_tokens"
+      },
+      {
+        "amount": "0.0625",
+        "chargeId": "price:perplexity/sonar:standard:short:current:cached_input:text:per_1m_tokens",
+        "component": "cached_input",
+        "modality": "text",
+        "unit": "per_1m_tokens"
+      },
+      {
+        "amount": "2.5",
+        "chargeId": "price:perplexity/sonar:standard:short:current:output:text:per_1m_tokens",
+        "component": "output",
+        "modality": "text",
+        "unit": "per_1m_tokens"
+      }
+    ],
+    "checkedAt": "2026-11-04T06:43:09Z",
+    "contextClass": "short",
+    "currency": "USD",
+    "defaultAvailabilityStatus": "available",
+    "effectiveFrom": null,
+    "effectiveUntil": null,
+    "modelInternalId": "perplexity/sonar",
+    "priceAdjustments": [],
+    "pricingId": "price:perplexity/sonar:standard:short:current",
+    "pricingStatus": "current",
+    "processingMode": "standard",
+    "promptTokenThreshold": null,
+    "regionPolicy": "global",
+    "regionSelector": {
+      "dataResidencies": [
+        "global"
+      ],
+      "endpointGeographies": [
+        "global"
+      ],
+      "pricingGeography": "global_base"
+    },
+    "sourceDatasetIds": {
+      "publicDatasetIds": [
+        "sonar"
+      ],
+      "websiteIds": []
+    },
+    "sourceRefs": [
+      "source:perplexity:docs-perplexity-ai-docs-agent-api-models-md"
+    ],
+    "verificationStatus": "verified",
+    "verifiedAt": "2026-11-04T06:43:09Z"
+  },
+  {
+    "availabilityRules": [],
     "billingNote": "xAI Standard pricing; all prompt tokens below 200,000 use this rate.",
     "calculationDefault": true,
     "charges": [
@@ -28117,5 +28942,371 @@
     ],
     "verificationStatus": "verified",
     "verifiedAt": "2026-10-30T08:31:34Z"
+  },
+  {
+    "availabilityRules": [],
+    "billingNote": "Z.ai international API price per 1M tokens. Cached input applies to tokens read from the context cache; cache storage is free for a limited time. The built-in Web Search tool bills $0.01 per use. Prices on the Chinese mainland platform (bigmodel.cn) are in CNY and differ.",
+    "calculationDefault": true,
+    "charges": [
+      {
+        "amount": "0.6",
+        "chargeId": "price:zhipu-ai/glm-4.7:standard:short:current:input:text:per_1m_tokens",
+        "component": "input",
+        "modality": "text",
+        "unit": "per_1m_tokens"
+      },
+      {
+        "amount": "0.11",
+        "chargeId": "price:zhipu-ai/glm-4.7:standard:short:current:cached_input:text:per_1m_tokens",
+        "component": "cached_input",
+        "modality": "text",
+        "unit": "per_1m_tokens"
+      },
+      {
+        "amount": "2.2",
+        "chargeId": "price:zhipu-ai/glm-4.7:standard:short:current:output:text:per_1m_tokens",
+        "component": "output",
+        "modality": "text",
+        "unit": "per_1m_tokens"
+      }
+    ],
+    "checkedAt": "2026-11-04T06:43:07Z",
+    "contextClass": "short",
+    "currency": "USD",
+    "defaultAvailabilityStatus": "available",
+    "effectiveFrom": null,
+    "effectiveUntil": null,
+    "modelInternalId": "zhipu-ai/glm-4.7",
+    "priceAdjustments": [],
+    "pricingId": "price:zhipu-ai/glm-4.7:standard:short:current",
+    "pricingStatus": "current",
+    "processingMode": "standard",
+    "promptTokenThreshold": null,
+    "regionPolicy": "global",
+    "regionSelector": {
+      "dataResidencies": [
+        "global"
+      ],
+      "endpointGeographies": [
+        "global"
+      ],
+      "pricingGeography": "global_base"
+    },
+    "sourceDatasetIds": {
+      "publicDatasetIds": [
+        "glm-4.7"
+      ],
+      "websiteIds": []
+    },
+    "sourceRefs": [
+      "source:zhipu-ai:docs-z-ai-guides-overview-pricing-md"
+    ],
+    "verificationStatus": "verified",
+    "verifiedAt": "2026-11-04T06:43:07Z"
+  },
+  {
+    "availabilityRules": [],
+    "billingNote": "Z.ai international API price per 1M tokens. Cached input applies to tokens read from the context cache; cache storage is free for a limited time. The built-in Web Search tool bills $0.01 per use. Prices on the Chinese mainland platform (bigmodel.cn) are in CNY and differ.",
+    "calculationDefault": true,
+    "charges": [
+      {
+        "amount": "1",
+        "chargeId": "price:zhipu-ai/glm-5:standard:short:current:input:text:per_1m_tokens",
+        "component": "input",
+        "modality": "text",
+        "unit": "per_1m_tokens"
+      },
+      {
+        "amount": "0.2",
+        "chargeId": "price:zhipu-ai/glm-5:standard:short:current:cached_input:text:per_1m_tokens",
+        "component": "cached_input",
+        "modality": "text",
+        "unit": "per_1m_tokens"
+      },
+      {
+        "amount": "3.2",
+        "chargeId": "price:zhipu-ai/glm-5:standard:short:current:output:text:per_1m_tokens",
+        "component": "output",
+        "modality": "text",
+        "unit": "per_1m_tokens"
+      }
+    ],
+    "checkedAt": "2026-11-04T06:43:06Z",
+    "contextClass": "short",
+    "currency": "USD",
+    "defaultAvailabilityStatus": "available",
+    "effectiveFrom": null,
+    "effectiveUntil": null,
+    "modelInternalId": "zhipu-ai/glm-5",
+    "priceAdjustments": [],
+    "pricingId": "price:zhipu-ai/glm-5:standard:short:current",
+    "pricingStatus": "current",
+    "processingMode": "standard",
+    "promptTokenThreshold": null,
+    "regionPolicy": "global",
+    "regionSelector": {
+      "dataResidencies": [
+        "global"
+      ],
+      "endpointGeographies": [
+        "global"
+      ],
+      "pricingGeography": "global_base"
+    },
+    "sourceDatasetIds": {
+      "publicDatasetIds": [
+        "glm-5"
+      ],
+      "websiteIds": []
+    },
+    "sourceRefs": [
+      "source:zhipu-ai:docs-z-ai-guides-overview-pricing-md"
+    ],
+    "verificationStatus": "verified",
+    "verifiedAt": "2026-11-04T06:43:06Z"
+  },
+  {
+    "availabilityRules": [],
+    "billingNote": "Z.ai international API price per 1M tokens. Cached input applies to tokens read from the context cache; cache storage is free for a limited time. The built-in Web Search tool bills $0.01 per use. Prices on the Chinese mainland platform (bigmodel.cn) are in CNY and differ.",
+    "calculationDefault": true,
+    "charges": [
+      {
+        "amount": "1.4",
+        "chargeId": "price:zhipu-ai/glm-5.2:standard:short:current:input:text:per_1m_tokens",
+        "component": "input",
+        "modality": "text",
+        "unit": "per_1m_tokens"
+      },
+      {
+        "amount": "0.26",
+        "chargeId": "price:zhipu-ai/glm-5.2:standard:short:current:cached_input:text:per_1m_tokens",
+        "component": "cached_input",
+        "modality": "text",
+        "unit": "per_1m_tokens"
+      },
+      {
+        "amount": "4.4",
+        "chargeId": "price:zhipu-ai/glm-5.2:standard:short:current:output:text:per_1m_tokens",
+        "component": "output",
+        "modality": "text",
+        "unit": "per_1m_tokens"
+      }
+    ],
+    "checkedAt": "2026-11-04T06:43:04Z",
+    "contextClass": "short",
+    "currency": "USD",
+    "defaultAvailabilityStatus": "available",
+    "effectiveFrom": null,
+    "effectiveUntil": null,
+    "modelInternalId": "zhipu-ai/glm-5.2",
+    "priceAdjustments": [],
+    "pricingId": "price:zhipu-ai/glm-5.2:standard:short:current",
+    "pricingStatus": "current",
+    "processingMode": "standard",
+    "promptTokenThreshold": null,
+    "regionPolicy": "global",
+    "regionSelector": {
+      "dataResidencies": [
+        "global"
+      ],
+      "endpointGeographies": [
+        "global"
+      ],
+      "pricingGeography": "global_base"
+    },
+    "sourceDatasetIds": {
+      "publicDatasetIds": [
+        "glm-5.2"
+      ],
+      "websiteIds": []
+    },
+    "sourceRefs": [
+      "source:zhipu-ai:docs-z-ai-guides-overview-pricing-md"
+    ],
+    "verificationStatus": "verified",
+    "verifiedAt": "2026-11-04T06:43:04Z"
+  },
+  {
+    "availabilityRules": [],
+    "billingNote": "Z.ai international API price per 1M tokens. Cached input applies to tokens read from the context cache; cache storage is free for a limited time. The built-in Web Search tool bills $0.01 per use. Prices on the Chinese mainland platform (bigmodel.cn) are in CNY and differ.",
+    "calculationDefault": true,
+    "charges": [
+      {
+        "amount": "1.4",
+        "chargeId": "price:zhipu-ai/glm-5.3:standard:short:current:input:text:per_1m_tokens",
+        "component": "input",
+        "modality": "text",
+        "unit": "per_1m_tokens"
+      },
+      {
+        "amount": "0.26",
+        "chargeId": "price:zhipu-ai/glm-5.3:standard:short:current:cached_input:text:per_1m_tokens",
+        "component": "cached_input",
+        "modality": "text",
+        "unit": "per_1m_tokens"
+      },
+      {
+        "amount": "4.4",
+        "chargeId": "price:zhipu-ai/glm-5.3:standard:short:current:output:text:per_1m_tokens",
+        "component": "output",
+        "modality": "text",
+        "unit": "per_1m_tokens"
+      }
+    ],
+    "checkedAt": "2026-11-04T06:42:58Z",
+    "contextClass": "short",
+    "currency": "USD",
+    "defaultAvailabilityStatus": "available",
+    "effectiveFrom": null,
+    "effectiveUntil": null,
+    "modelInternalId": "zhipu-ai/glm-5.3",
+    "priceAdjustments": [],
+    "pricingId": "price:zhipu-ai/glm-5.3:standard:short:current",
+    "pricingStatus": "current",
+    "processingMode": "standard",
+    "promptTokenThreshold": null,
+    "regionPolicy": "global",
+    "regionSelector": {
+      "dataResidencies": [
+        "global"
+      ],
+      "endpointGeographies": [
+        "global"
+      ],
+      "pricingGeography": "global_base"
+    },
+    "sourceDatasetIds": {
+      "publicDatasetIds": [
+        "glm-5.3"
+      ],
+      "websiteIds": []
+    },
+    "sourceRefs": [
+      "source:zhipu-ai:docs-z-ai-guides-overview-pricing-md"
+    ],
+    "verificationStatus": "verified",
+    "verifiedAt": "2026-11-04T06:42:58Z"
+  },
+  {
+    "availabilityRules": [],
+    "billingNote": "Z.ai international API price per 1M tokens. Cached input applies to tokens read from the context cache; cache storage is free for a limited time. The built-in Web Search tool bills $0.01 per use. Prices on the Chinese mainland platform (bigmodel.cn) are in CNY and differ.",
+    "calculationDefault": true,
+    "charges": [
+      {
+        "amount": "0.15",
+        "chargeId": "price:zhipu-ai/glm-5.3-flash:standard:short:current:input:text:per_1m_tokens",
+        "component": "input",
+        "modality": "text",
+        "unit": "per_1m_tokens"
+      },
+      {
+        "amount": "0.03",
+        "chargeId": "price:zhipu-ai/glm-5.3-flash:standard:short:current:cached_input:text:per_1m_tokens",
+        "component": "cached_input",
+        "modality": "text",
+        "unit": "per_1m_tokens"
+      },
+      {
+        "amount": "0.5",
+        "chargeId": "price:zhipu-ai/glm-5.3-flash:standard:short:current:output:text:per_1m_tokens",
+        "component": "output",
+        "modality": "text",
+        "unit": "per_1m_tokens"
+      }
+    ],
+    "checkedAt": "2026-11-04T06:43:00Z",
+    "contextClass": "short",
+    "currency": "USD",
+    "defaultAvailabilityStatus": "available",
+    "effectiveFrom": null,
+    "effectiveUntil": null,
+    "modelInternalId": "zhipu-ai/glm-5.3-flash",
+    "priceAdjustments": [],
+    "pricingId": "price:zhipu-ai/glm-5.3-flash:standard:short:current",
+    "pricingStatus": "current",
+    "processingMode": "standard",
+    "promptTokenThreshold": null,
+    "regionPolicy": "global",
+    "regionSelector": {
+      "dataResidencies": [
+        "global"
+      ],
+      "endpointGeographies": [
+        "global"
+      ],
+      "pricingGeography": "global_base"
+    },
+    "sourceDatasetIds": {
+      "publicDatasetIds": [
+        "glm-5.3-flash"
+      ],
+      "websiteIds": []
+    },
+    "sourceRefs": [
+      "source:zhipu-ai:docs-z-ai-guides-overview-pricing-md"
+    ],
+    "verificationStatus": "verified",
+    "verifiedAt": "2026-11-04T06:43:00Z"
+  },
+  {
+    "availabilityRules": [],
+    "billingNote": "Z.ai international API price per 1M tokens. Cached input applies to tokens read from the context cache; cache storage is free for a limited time. The built-in Web Search tool bills $0.01 per use. Prices on the Chinese mainland platform (bigmodel.cn) are in CNY and differ.",
+    "calculationDefault": true,
+    "charges": [
+      {
+        "amount": "0.37",
+        "chargeId": "price:zhipu-ai/glm-5.3-flashx:standard:short:current:input:text:per_1m_tokens",
+        "component": "input",
+        "modality": "text",
+        "unit": "per_1m_tokens"
+      },
+      {
+        "amount": "0.075",
+        "chargeId": "price:zhipu-ai/glm-5.3-flashx:standard:short:current:cached_input:text:per_1m_tokens",
+        "component": "cached_input",
+        "modality": "text",
+        "unit": "per_1m_tokens"
+      },
+      {
+        "amount": "1.25",
+        "chargeId": "price:zhipu-ai/glm-5.3-flashx:standard:short:current:output:text:per_1m_tokens",
+        "component": "output",
+        "modality": "text",
+        "unit": "per_1m_tokens"
+      }
+    ],
+    "checkedAt": "2026-11-04T06:43:02Z",
+    "contextClass": "short",
+    "currency": "USD",
+    "defaultAvailabilityStatus": "available",
+    "effectiveFrom": null,
+    "effectiveUntil": null,
+    "modelInternalId": "zhipu-ai/glm-5.3-flashx",
+    "priceAdjustments": [],
+    "pricingId": "price:zhipu-ai/glm-5.3-flashx:standard:short:current",
+    "pricingStatus": "current",
+    "processingMode": "standard",
+    "promptTokenThreshold": null,
+    "regionPolicy": "global",
+    "regionSelector": {
+      "dataResidencies": [
+        "global"
+      ],
+      "endpointGeographies": [
+        "global"
+      ],
+      "pricingGeography": "global_base"
+    },
+    "sourceDatasetIds": {
+      "publicDatasetIds": [
+        "glm-5.3-flashx"
+      ],
+      "websiteIds": []
+    },
+    "sourceRefs": [
+      "source:zhipu-ai:docs-z-ai-guides-overview-pricing-md"
+    ],
+    "verificationStatus": "verified",
+    "verifiedAt": "2026-11-04T06:43:02Z"
   }
 ]

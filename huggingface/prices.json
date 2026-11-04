@@ -4,12 +4,12 @@
     "version": "1.0.0",
     "schema_version": "1.11.0",
     "page_url": "https://aicostbudget.com/en/datasets/ai-api-pricing",
-    "last_updated": "2026-11-03T12:44:39Z",
-    "last_verified_at": "2026-11-03T12:44:39Z",
-    "generated_at": "2026-11-04T05:49:20Z",
-    "provider_count": 13,
-    "record_count": 123,
-    "official_source_count": 37,
+    "last_updated": "2026-11-04T06:43:09Z",
+    "last_verified_at": "2026-11-04T06:43:09Z",
+    "generated_at": "2026-11-04T06:48:28Z",
+    "provider_count": 16,
+    "record_count": 134,
+    "official_source_count": 40,
     "currency": "USD",
     "pricing_unit": "Multiple billing units",
     "statistics_scope": "public pricing records returned by the public pricing adapter with Pricing V2 enabled",
@@ -1137,6 +1137,1607 @@
           "sourceRef": "source:alibaba-qwen:www-alibabacloud-com-help-en-model-studio-qwen3-8-max",
           "title": "qwen3.8-max official identity documentation",
           "url": "https://www.alibabacloud.com/help/en/model-studio/qwen3-8-max"
+        }
+      ],
+      "conditional_usage_allowances": [],
+      "model_selection": null
+    },
+    {
+      "provider_id": "amazon-nova",
+      "provider": "Amazon Nova",
+      "model_id": "nova-2-lite",
+      "model": "Nova 2 Lite",
+      "input_price_per_1m_tokens": 0.3,
+      "cached_input_price_per_1m_tokens": 0.075,
+      "output_price_per_1m_tokens": 2.5,
+      "currency": "USD",
+      "pricing_unit": "1M tokens",
+      "status": "latest",
+      "availability": "active",
+      "official_source_url": "https://pricing.us-east-1.amazonaws.com/offers/v1.0/aws/AmazonBedrock/current/us-east-1/index.json",
+      "verification_status": "verified",
+      "last_verified_at": "2026-11-04",
+      "checked_at": "2026-11-04",
+      "effective_from": null,
+      "effective_until": null,
+      "notes": "",
+      "pricing_tier_count": 0,
+      "pricing_tiers": [],
+      "time_pricing": null,
+      "pricing_components": [
+        {
+          "pricing_id": "price:amazon-nova/nova-2-lite:batch:short:current",
+          "charge_id": "price:amazon-nova/nova-2-lite:batch:short:current:input:text:per_1m_tokens",
+          "component": "input",
+          "amount": "0.15",
+          "unit": "per_1m_tokens",
+          "currency": "USD",
+          "modality": "text",
+          "condition": {
+            "processing_mode": "batch",
+            "context_class": "short",
+            "prompt_token_threshold": null,
+            "tier_selection": null,
+            "region_policy": "global",
+            "effective_from": null,
+            "effective_until": null,
+            "region_selector": {
+              "dataResidencies": [
+                "global"
+              ],
+              "endpointGeographies": [
+                "global",
+                "regional"
+              ],
+              "pricingGeography": "global_base"
+            },
+            "default_availability_status": "available",
+            "availability_rules": [],
+            "price_adjustments": [
+              {
+                "factor": "1.1",
+                "operation": "multiply",
+                "priceAdjustmentId": "regional-endpoint-uplift",
+                "selector": {
+                  "endpointGeographies": [
+                    "regional"
+                  ]
+                },
+                "sourceRefs": [
+                  "source:amazon-nova:pricing-us-east-1-amazonaws-com-offers-v1-0-aws-AmazonBedrock-current-us-east-1-"
+                ]
+              }
+            ]
+          },
+          "calculation_default": false,
+          "source_refs": [
+            "source:amazon-nova:pricing-us-east-1-amazonaws-com-offers-v1-0-aws-AmazonBedrock-current-us-east-1-"
+          ],
+          "source_urls": [
+            "https://pricing.us-east-1.amazonaws.com/offers/v1.0/aws/AmazonBedrock/current/us-east-1/index.json"
+          ],
+          "verification_status": "verified"
+        },
+        {
+          "pricing_id": "price:amazon-nova/nova-2-lite:batch:short:current",
+          "charge_id": "price:amazon-nova/nova-2-lite:batch:short:current:output:text:per_1m_tokens",
+          "component": "output",
+          "amount": "1.25",
+          "unit": "per_1m_tokens",
+          "currency": "USD",
+          "modality": "text",
+          "condition": {
+            "processing_mode": "batch",
+            "context_class": "short",
+            "prompt_token_threshold": null,
+            "tier_selection": null,
+            "region_policy": "global",
+            "effective_from": null,
+            "effective_until": null,
+            "region_selector": {
+              "dataResidencies": [
+                "global"
+              ],
+              "endpointGeographies": [
+                "global",
+                "regional"
+              ],
+              "pricingGeography": "global_base"
+            },
+            "default_availability_status": "available",
+            "availability_rules": [],
+            "price_adjustments": [
+              {
+                "factor": "1.1",
+                "operation": "multiply",
+                "priceAdjustmentId": "regional-endpoint-uplift",
+                "selector": {
+                  "endpointGeographies": [
+                    "regional"
+                  ]
+                },
+                "sourceRefs": [
+                  "source:amazon-nova:pricing-us-east-1-amazonaws-com-offers-v1-0-aws-AmazonBedrock-current-us-east-1-"
+                ]
+              }
+            ]
+          },
+          "calculation_default": false,
+          "source_refs": [
+            "source:amazon-nova:pricing-us-east-1-amazonaws-com-offers-v1-0-aws-AmazonBedrock-current-us-east-1-"
+          ],
+          "source_urls": [
+            "https://pricing.us-east-1.amazonaws.com/offers/v1.0/aws/AmazonBedrock/current/us-east-1/index.json"
+          ],
+          "verification_status": "verified"
+        },
+        {
+          "pricing_id": "price:amazon-nova/nova-2-lite:flex:short:current",
+          "charge_id": "price:amazon-nova/nova-2-lite:flex:short:current:cached_input:text:per_1m_tokens",
+          "component": "cached_input",
+          "amount": "0.0375",
+          "unit": "per_1m_tokens",
+          "currency": "USD",
+          "modality": "text",
+          "condition": {
+            "processing_mode": "flex",
+            "context_class": "short",
+            "prompt_token_threshold": null,
+            "tier_selection": null,
+            "region_policy": "global",
+            "effective_from": null,
+            "effective_until": null,
+            "region_selector": {
+              "dataResidencies": [
+                "global"
+              ],
+              "endpointGeographies": [
+                "global",
+                "regional"
+              ],
+              "pricingGeography": "global_base"
+            },
+            "default_availability_status": "available",
+            "availability_rules": [],
+            "price_adjustments": [
+              {
+                "factor": "1.1",
+                "operation": "multiply",
+                "priceAdjustmentId": "regional-endpoint-uplift",
+                "selector": {
+                  "endpointGeographies": [
+                    "regional"
+                  ]
+                },
+                "sourceRefs": [
+                  "source:amazon-nova:pricing-us-east-1-amazonaws-com-offers-v1-0-aws-AmazonBedrock-current-us-east-1-"
+                ]
+              }
+            ]
+          },
+          "calculation_default": false,
+          "source_refs": [
+            "source:amazon-nova:pricing-us-east-1-amazonaws-com-offers-v1-0-aws-AmazonBedrock-current-us-east-1-"
+          ],
+          "source_urls": [
+            "https://pricing.us-east-1.amazonaws.com/offers/v1.0/aws/AmazonBedrock/current/us-east-1/index.json"
+          ],
+          "verification_status": "verified"
+        },
+        {
+          "pricing_id": "price:amazon-nova/nova-2-lite:flex:short:current",
+          "charge_id": "price:amazon-nova/nova-2-lite:flex:short:current:input:text:per_1m_tokens",
+          "component": "input",
+          "amount": "0.15",
+          "unit": "per_1m_tokens",
+          "currency": "USD",
+          "modality": "text",
+          "condition": {
+            "processing_mode": "flex",
+            "context_class": "short",
+            "prompt_token_threshold": null,
+            "tier_selection": null,
+            "region_policy": "global",
+            "effective_from": null,
+            "effective_until": null,
+            "region_selector": {
+              "dataResidencies": [
+                "global"
+              ],
+              "endpointGeographies": [
+                "global",
+                "regional"
+              ],
+              "pricingGeography": "global_base"
+            },
+            "default_availability_status": "available",
+            "availability_rules": [],
+            "price_adjustments": [
+              {
+                "factor": "1.1",
+                "operation": "multiply",
+                "priceAdjustmentId": "regional-endpoint-uplift",
+                "selector": {
+                  "endpointGeographies": [
+                    "regional"
+                  ]
+                },
+                "sourceRefs": [
+                  "source:amazon-nova:pricing-us-east-1-amazonaws-com-offers-v1-0-aws-AmazonBedrock-current-us-east-1-"
+                ]
+              }
+            ]
+          },
+          "calculation_default": false,
+          "source_refs": [
+            "source:amazon-nova:pricing-us-east-1-amazonaws-com-offers-v1-0-aws-AmazonBedrock-current-us-east-1-"
+          ],
+          "source_urls": [
+            "https://pricing.us-east-1.amazonaws.com/offers/v1.0/aws/AmazonBedrock/current/us-east-1/index.json"
+          ],
+          "verification_status": "verified"
+        },
+        {
+          "pricing_id": "price:amazon-nova/nova-2-lite:flex:short:current",
+          "charge_id": "price:amazon-nova/nova-2-lite:flex:short:current:output:text:per_1m_tokens",
+          "component": "output",
+          "amount": "1.25",
+          "unit": "per_1m_tokens",
+          "currency": "USD",
+          "modality": "text",
+          "condition": {
+            "processing_mode": "flex",
+            "context_class": "short",
+            "prompt_token_threshold": null,
+            "tier_selection": null,
+            "region_policy": "global",
+            "effective_from": null,
+            "effective_until": null,
+            "region_selector": {
+              "dataResidencies": [
+                "global"
+              ],
+              "endpointGeographies": [
+                "global",
+                "regional"
+              ],
+              "pricingGeography": "global_base"
+            },
+            "default_availability_status": "available",
+            "availability_rules": [],
+            "price_adjustments": [
+              {
+                "factor": "1.1",
+                "operation": "multiply",
+                "priceAdjustmentId": "regional-endpoint-uplift",
+                "selector": {
+                  "endpointGeographies": [
+                    "regional"
+                  ]
+                },
+                "sourceRefs": [
+                  "source:amazon-nova:pricing-us-east-1-amazonaws-com-offers-v1-0-aws-AmazonBedrock-current-us-east-1-"
+                ]
+              }
+            ]
+          },
+          "calculation_default": false,
+          "source_refs": [
+            "source:amazon-nova:pricing-us-east-1-amazonaws-com-offers-v1-0-aws-AmazonBedrock-current-us-east-1-"
+          ],
+          "source_urls": [
+            "https://pricing.us-east-1.amazonaws.com/offers/v1.0/aws/AmazonBedrock/current/us-east-1/index.json"
+          ],
+          "verification_status": "verified"
+        },
+        {
+          "pricing_id": "price:amazon-nova/nova-2-lite:priority:short:current",
+          "charge_id": "price:amazon-nova/nova-2-lite:priority:short:current:cached_input:text:per_1m_tokens",
+          "component": "cached_input",
+          "amount": "0.13125",
+          "unit": "per_1m_tokens",
+          "currency": "USD",
+          "modality": "text",
+          "condition": {
+            "processing_mode": "priority",
+            "context_class": "short",
+            "prompt_token_threshold": null,
+            "tier_selection": null,
+            "region_policy": "global",
+            "effective_from": null,
+            "effective_until": null,
+            "region_selector": {
+              "dataResidencies": [
+                "global"
+              ],
+              "endpointGeographies": [
+                "global",
+                "regional"
+              ],
+              "pricingGeography": "global_base"
+            },
+            "default_availability_status": "available",
+            "availability_rules": [],
+            "price_adjustments": [
+              {
+                "factor": "1.1",
+                "operation": "multiply",
+                "priceAdjustmentId": "regional-endpoint-uplift",
+                "selector": {
+                  "endpointGeographies": [
+                    "regional"
+                  ]
+                },
+                "sourceRefs": [
+                  "source:amazon-nova:pricing-us-east-1-amazonaws-com-offers-v1-0-aws-AmazonBedrock-current-us-east-1-"
+                ]
+              }
+            ]
+          },
+          "calculation_default": false,
+          "source_refs": [
+            "source:amazon-nova:pricing-us-east-1-amazonaws-com-offers-v1-0-aws-AmazonBedrock-current-us-east-1-"
+          ],
+          "source_urls": [
+            "https://pricing.us-east-1.amazonaws.com/offers/v1.0/aws/AmazonBedrock/current/us-east-1/index.json"
+          ],
+          "verification_status": "verified"
+        },
+        {
+          "pricing_id": "price:amazon-nova/nova-2-lite:priority:short:current",
+          "charge_id": "price:amazon-nova/nova-2-lite:priority:short:current:input:text:per_1m_tokens",
+          "component": "input",
+          "amount": "0.525",
+          "unit": "per_1m_tokens",
+          "currency": "USD",
+          "modality": "text",
+          "condition": {
+            "processing_mode": "priority",
+            "context_class": "short",
+            "prompt_token_threshold": null,
+            "tier_selection": null,
+            "region_policy": "global",
+            "effective_from": null,
+            "effective_until": null,
+            "region_selector": {
+              "dataResidencies": [
+                "global"
+              ],
+              "endpointGeographies": [
+                "global",
+                "regional"
+              ],
+              "pricingGeography": "global_base"
+            },
+            "default_availability_status": "available",
+            "availability_rules": [],
+            "price_adjustments": [
+              {
+                "factor": "1.1",
+                "operation": "multiply",
+                "priceAdjustmentId": "regional-endpoint-uplift",
+                "selector": {
+                  "endpointGeographies": [
+                    "regional"
+                  ]
+                },
+                "sourceRefs": [
+                  "source:amazon-nova:pricing-us-east-1-amazonaws-com-offers-v1-0-aws-AmazonBedrock-current-us-east-1-"
+                ]
+              }
+            ]
+          },
+          "calculation_default": false,
+          "source_refs": [
+            "source:amazon-nova:pricing-us-east-1-amazonaws-com-offers-v1-0-aws-AmazonBedrock-current-us-east-1-"
+          ],
+          "source_urls": [
+            "https://pricing.us-east-1.amazonaws.com/offers/v1.0/aws/AmazonBedrock/current/us-east-1/index.json"
+          ],
+          "verification_status": "verified"
+        },
+        {
+          "pricing_id": "price:amazon-nova/nova-2-lite:priority:short:current",
+          "charge_id": "price:amazon-nova/nova-2-lite:priority:short:current:output:text:per_1m_tokens",
+          "component": "output",
+          "amount": "4.375",
+          "unit": "per_1m_tokens",
+          "currency": "USD",
+          "modality": "text",
+          "condition": {
+            "processing_mode": "priority",
+            "context_class": "short",
+            "prompt_token_threshold": null,
+            "tier_selection": null,
+            "region_policy": "global",
+            "effective_from": null,
+            "effective_until": null,
+            "region_selector": {
+              "dataResidencies": [
+                "global"
+              ],
+              "endpointGeographies": [
+                "global",
+                "regional"
+              ],
+              "pricingGeography": "global_base"
+            },
+            "default_availability_status": "available",
+            "availability_rules": [],
+            "price_adjustments": [
+              {
+                "factor": "1.1",
+                "operation": "multiply",
+                "priceAdjustmentId": "regional-endpoint-uplift",
+                "selector": {
+                  "endpointGeographies": [
+                    "regional"
+                  ]
+                },
+                "sourceRefs": [
+                  "source:amazon-nova:pricing-us-east-1-amazonaws-com-offers-v1-0-aws-AmazonBedrock-current-us-east-1-"
+                ]
+              }
+            ]
+          },
+          "calculation_default": false,
+          "source_refs": [
+            "source:amazon-nova:pricing-us-east-1-amazonaws-com-offers-v1-0-aws-AmazonBedrock-current-us-east-1-"
+          ],
+          "source_urls": [
+            "https://pricing.us-east-1.amazonaws.com/offers/v1.0/aws/AmazonBedrock/current/us-east-1/index.json"
+          ],
+          "verification_status": "verified"
+        },
+        {
+          "pricing_id": "price:amazon-nova/nova-2-lite:standard:short:current",
+          "charge_id": "price:amazon-nova/nova-2-lite:standard:short:current:cached_input:text:per_1m_tokens",
+          "component": "cached_input",
+          "amount": "0.075",
+          "unit": "per_1m_tokens",
+          "currency": "USD",
+          "modality": "text",
+          "condition": {
+            "processing_mode": "standard",
+            "context_class": "short",
+            "prompt_token_threshold": null,
+            "tier_selection": null,
+            "region_policy": "global",
+            "effective_from": null,
+            "effective_until": null,
+            "region_selector": {
+              "dataResidencies": [
+                "global"
+              ],
+              "endpointGeographies": [
+                "global",
+                "regional"
+              ],
+              "pricingGeography": "global_base"
+            },
+            "default_availability_status": "available",
+            "availability_rules": [],
+            "price_adjustments": [
+              {
+                "factor": "1.1",
+                "operation": "multiply",
+                "priceAdjustmentId": "regional-endpoint-uplift",
+                "selector": {
+                  "endpointGeographies": [
+                    "regional"
+                  ]
+                },
+                "sourceRefs": [
+                  "source:amazon-nova:pricing-us-east-1-amazonaws-com-offers-v1-0-aws-AmazonBedrock-current-us-east-1-"
+                ]
+              }
+            ]
+          },
+          "calculation_default": true,
+          "source_refs": [
+            "source:amazon-nova:pricing-us-east-1-amazonaws-com-offers-v1-0-aws-AmazonBedrock-current-us-east-1-"
+          ],
+          "source_urls": [
+            "https://pricing.us-east-1.amazonaws.com/offers/v1.0/aws/AmazonBedrock/current/us-east-1/index.json"
+          ],
+          "verification_status": "verified"
+        },
+        {
+          "pricing_id": "price:amazon-nova/nova-2-lite:standard:short:current",
+          "charge_id": "price:amazon-nova/nova-2-lite:standard:short:current:input:text:per_1m_tokens",
+          "component": "input",
+          "amount": "0.3",
+          "unit": "per_1m_tokens",
+          "currency": "USD",
+          "modality": "text",
+          "condition": {
+            "processing_mode": "standard",
+            "context_class": "short",
+            "prompt_token_threshold": null,
+            "tier_selection": null,
+            "region_policy": "global",
+            "effective_from": null,
+            "effective_until": null,
+            "region_selector": {
+              "dataResidencies": [
+                "global"
+              ],
+              "endpointGeographies": [
+                "global",
+                "regional"
+              ],
+              "pricingGeography": "global_base"
+            },
+            "default_availability_status": "available",
+            "availability_rules": [],
+            "price_adjustments": [
+              {
+                "factor": "1.1",
+                "operation": "multiply",
+                "priceAdjustmentId": "regional-endpoint-uplift",
+                "selector": {
+                  "endpointGeographies": [
+                    "regional"
+                  ]
+                },
+                "sourceRefs": [
+                  "source:amazon-nova:pricing-us-east-1-amazonaws-com-offers-v1-0-aws-AmazonBedrock-current-us-east-1-"
+                ]
+              }
+            ]
+          },
+          "calculation_default": true,
+          "source_refs": [
+            "source:amazon-nova:pricing-us-east-1-amazonaws-com-offers-v1-0-aws-AmazonBedrock-current-us-east-1-"
+          ],
+          "source_urls": [
+            "https://pricing.us-east-1.amazonaws.com/offers/v1.0/aws/AmazonBedrock/current/us-east-1/index.json"
+          ],
+          "verification_status": "verified"
+        },
+        {
+          "pricing_id": "price:amazon-nova/nova-2-lite:standard:short:current",
+          "charge_id": "price:amazon-nova/nova-2-lite:standard:short:current:output:text:per_1m_tokens",
+          "component": "output",
+          "amount": "2.5",
+          "unit": "per_1m_tokens",
+          "currency": "USD",
+          "modality": "text",
+          "condition": {
+            "processing_mode": "standard",
+            "context_class": "short",
+            "prompt_token_threshold": null,
+            "tier_selection": null,
+            "region_policy": "global",
+            "effective_from": null,
+            "effective_until": null,
+            "region_selector": {
+              "dataResidencies": [
+                "global"
+              ],
+              "endpointGeographies": [
+                "global",
+                "regional"
+              ],
+              "pricingGeography": "global_base"
+            },
+            "default_availability_status": "available",
+            "availability_rules": [],
+            "price_adjustments": [
+              {
+                "factor": "1.1",
+                "operation": "multiply",
+                "priceAdjustmentId": "regional-endpoint-uplift",
+                "selector": {
+                  "endpointGeographies": [
+                    "regional"
+                  ]
+                },
+                "sourceRefs": [
+                  "source:amazon-nova:pricing-us-east-1-amazonaws-com-offers-v1-0-aws-AmazonBedrock-current-us-east-1-"
+                ]
+              }
+            ]
+          },
+          "calculation_default": true,
+          "source_refs": [
+            "source:amazon-nova:pricing-us-east-1-amazonaws-com-offers-v1-0-aws-AmazonBedrock-current-us-east-1-"
+          ],
+          "source_urls": [
+            "https://pricing.us-east-1.amazonaws.com/offers/v1.0/aws/AmazonBedrock/current/us-east-1/index.json"
+          ],
+          "verification_status": "verified"
+        }
+      ],
+      "unit_price": null,
+      "billing_unit": null,
+      "billing_quantity": null,
+      "pricing_dimension": null,
+      "released_at": null,
+      "access_status": "public",
+      "access_checked_at": "2026-11-04T06:41:05Z",
+      "access_evidence": [
+        {
+          "claimType": "official_access_public",
+          "officialModelId": "amazon.nova-2-lite-v1:0",
+          "scope": "Exact model on Amazon Bedrock under ordinary AWS account requirements.",
+          "sourceRef": "source:amazon-nova:docs-aws-amazon-com-bedrock-latest-userguide-model-card-amazon-nova-2-lite-html",
+          "title": "amazon.nova-2-lite-v1:0 official model availability documentation",
+          "url": "https://docs.aws.amazon.com/bedrock/latest/userguide/model-card-amazon-nova-2-lite.html"
+        }
+      ],
+      "binding_status": "approved",
+      "binding_evidence": [
+        {
+          "claimType": "official_identity_binding",
+          "officialModelId": "amazon.nova-2-lite-v1:0",
+          "reason": "Exact documented API model ID; no entitlement inherited from a billing target.",
+          "sourceRef": "source:amazon-nova:docs-aws-amazon-com-bedrock-latest-userguide-model-card-amazon-nova-2-lite-html",
+          "title": "amazon.nova-2-lite-v1:0 official identity documentation",
+          "url": "https://docs.aws.amazon.com/bedrock/latest/userguide/model-card-amazon-nova-2-lite.html"
+        }
+      ],
+      "conditional_usage_allowances": [],
+      "model_selection": null
+    },
+    {
+      "provider_id": "amazon-nova",
+      "provider": "Amazon Nova",
+      "model_id": "nova-lite",
+      "model": "Nova Lite",
+      "input_price_per_1m_tokens": 0.06,
+      "cached_input_price_per_1m_tokens": 0.015,
+      "output_price_per_1m_tokens": 0.24,
+      "currency": "USD",
+      "pricing_unit": "1M tokens",
+      "status": "latest",
+      "availability": "active",
+      "official_source_url": "https://pricing.us-east-1.amazonaws.com/offers/v1.0/aws/AmazonBedrock/current/us-east-1/index.json",
+      "verification_status": "verified",
+      "last_verified_at": "2026-11-04",
+      "checked_at": "2026-11-04",
+      "effective_from": null,
+      "effective_until": null,
+      "notes": "",
+      "pricing_tier_count": 0,
+      "pricing_tiers": [],
+      "time_pricing": null,
+      "pricing_components": [
+        {
+          "pricing_id": "price:amazon-nova/nova-lite:batch:short:current",
+          "charge_id": "price:amazon-nova/nova-lite:batch:short:current:input:text:per_1m_tokens",
+          "component": "input",
+          "amount": "0.03",
+          "unit": "per_1m_tokens",
+          "currency": "USD",
+          "modality": "text",
+          "condition": {
+            "processing_mode": "batch",
+            "context_class": "short",
+            "prompt_token_threshold": null,
+            "tier_selection": null,
+            "region_policy": "global",
+            "effective_from": null,
+            "effective_until": null,
+            "region_selector": {
+              "dataResidencies": [
+                "us-east-1"
+              ],
+              "endpointGeographies": [
+                "us-east-1"
+              ],
+              "pricingGeography": "global_base"
+            },
+            "default_availability_status": "available",
+            "availability_rules": [],
+            "price_adjustments": []
+          },
+          "calculation_default": false,
+          "source_refs": [
+            "source:amazon-nova:pricing-us-east-1-amazonaws-com-offers-v1-0-aws-AmazonBedrock-current-us-east-1-"
+          ],
+          "source_urls": [
+            "https://pricing.us-east-1.amazonaws.com/offers/v1.0/aws/AmazonBedrock/current/us-east-1/index.json"
+          ],
+          "verification_status": "verified"
+        },
+        {
+          "pricing_id": "price:amazon-nova/nova-lite:batch:short:current",
+          "charge_id": "price:amazon-nova/nova-lite:batch:short:current:output:text:per_1m_tokens",
+          "component": "output",
+          "amount": "0.12",
+          "unit": "per_1m_tokens",
+          "currency": "USD",
+          "modality": "text",
+          "condition": {
+            "processing_mode": "batch",
+            "context_class": "short",
+            "prompt_token_threshold": null,
+            "tier_selection": null,
+            "region_policy": "global",
+            "effective_from": null,
+            "effective_until": null,
+            "region_selector": {
+              "dataResidencies": [
+                "us-east-1"
+              ],
+              "endpointGeographies": [
+                "us-east-1"
+              ],
+              "pricingGeography": "global_base"
+            },
+            "default_availability_status": "available",
+            "availability_rules": [],
+            "price_adjustments": []
+          },
+          "calculation_default": false,
+          "source_refs": [
+            "source:amazon-nova:pricing-us-east-1-amazonaws-com-offers-v1-0-aws-AmazonBedrock-current-us-east-1-"
+          ],
+          "source_urls": [
+            "https://pricing.us-east-1.amazonaws.com/offers/v1.0/aws/AmazonBedrock/current/us-east-1/index.json"
+          ],
+          "verification_status": "verified"
+        },
+        {
+          "pricing_id": "price:amazon-nova/nova-lite:standard:short:current",
+          "charge_id": "price:amazon-nova/nova-lite:standard:short:current:cached_input:text:per_1m_tokens",
+          "component": "cached_input",
+          "amount": "0.015",
+          "unit": "per_1m_tokens",
+          "currency": "USD",
+          "modality": "text",
+          "condition": {
+            "processing_mode": "standard",
+            "context_class": "short",
+            "prompt_token_threshold": null,
+            "tier_selection": null,
+            "region_policy": "global",
+            "effective_from": null,
+            "effective_until": null,
+            "region_selector": {
+              "dataResidencies": [
+                "us-east-1"
+              ],
+              "endpointGeographies": [
+                "us-east-1"
+              ],
+              "pricingGeography": "global_base"
+            },
+            "default_availability_status": "available",
+            "availability_rules": [],
+            "price_adjustments": []
+          },
+          "calculation_default": true,
+          "source_refs": [
+            "source:amazon-nova:pricing-us-east-1-amazonaws-com-offers-v1-0-aws-AmazonBedrock-current-us-east-1-"
+          ],
+          "source_urls": [
+            "https://pricing.us-east-1.amazonaws.com/offers/v1.0/aws/AmazonBedrock/current/us-east-1/index.json"
+          ],
+          "verification_status": "verified"
+        },
+        {
+          "pricing_id": "price:amazon-nova/nova-lite:standard:short:current",
+          "charge_id": "price:amazon-nova/nova-lite:standard:short:current:input:text:per_1m_tokens",
+          "component": "input",
+          "amount": "0.06",
+          "unit": "per_1m_tokens",
+          "currency": "USD",
+          "modality": "text",
+          "condition": {
+            "processing_mode": "standard",
+            "context_class": "short",
+            "prompt_token_threshold": null,
+            "tier_selection": null,
+            "region_policy": "global",
+            "effective_from": null,
+            "effective_until": null,
+            "region_selector": {
+              "dataResidencies": [
+                "us-east-1"
+              ],
+              "endpointGeographies": [
+                "us-east-1"
+              ],
+              "pricingGeography": "global_base"
+            },
+            "default_availability_status": "available",
+            "availability_rules": [],
+            "price_adjustments": []
+          },
+          "calculation_default": true,
+          "source_refs": [
+            "source:amazon-nova:pricing-us-east-1-amazonaws-com-offers-v1-0-aws-AmazonBedrock-current-us-east-1-"
+          ],
+          "source_urls": [
+            "https://pricing.us-east-1.amazonaws.com/offers/v1.0/aws/AmazonBedrock/current/us-east-1/index.json"
+          ],
+          "verification_status": "verified"
+        },
+        {
+          "pricing_id": "price:amazon-nova/nova-lite:standard:short:current",
+          "charge_id": "price:amazon-nova/nova-lite:standard:short:current:output:text:per_1m_tokens",
+          "component": "output",
+          "amount": "0.24",
+          "unit": "per_1m_tokens",
+          "currency": "USD",
+          "modality": "text",
+          "condition": {
+            "processing_mode": "standard",
+            "context_class": "short",
+            "prompt_token_threshold": null,
+            "tier_selection": null,
+            "region_policy": "global",
+            "effective_from": null,
+            "effective_until": null,
+            "region_selector": {
+              "dataResidencies": [
+                "us-east-1"
+              ],
+              "endpointGeographies": [
+                "us-east-1"
+              ],
+              "pricingGeography": "global_base"
+            },
+            "default_availability_status": "available",
+            "availability_rules": [],
+            "price_adjustments": []
+          },
+          "calculation_default": true,
+          "source_refs": [
+            "source:amazon-nova:pricing-us-east-1-amazonaws-com-offers-v1-0-aws-AmazonBedrock-current-us-east-1-"
+          ],
+          "source_urls": [
+            "https://pricing.us-east-1.amazonaws.com/offers/v1.0/aws/AmazonBedrock/current/us-east-1/index.json"
+          ],
+          "verification_status": "verified"
+        }
+      ],
+      "unit_price": null,
+      "billing_unit": null,
+      "billing_quantity": null,
+      "pricing_dimension": null,
+      "released_at": null,
+      "access_status": "public",
+      "access_checked_at": "2026-11-04T06:41:22Z",
+      "access_evidence": [
+        {
+          "claimType": "official_access_public",
+          "officialModelId": "amazon.nova-lite-v1:0",
+          "scope": "Exact model on Amazon Bedrock under ordinary AWS account requirements.",
+          "sourceRef": "source:amazon-nova:docs-aws-amazon-com-bedrock-latest-userguide-model-card-amazon-nova-lite-html",
+          "title": "amazon.nova-lite-v1:0 official model availability documentation",
+          "url": "https://docs.aws.amazon.com/bedrock/latest/userguide/model-card-amazon-nova-lite.html"
+        }
+      ],
+      "binding_status": "approved",
+      "binding_evidence": [
+        {
+          "claimType": "official_identity_binding",
+          "officialModelId": "amazon.nova-lite-v1:0",
+          "reason": "Exact documented API model ID; no entitlement inherited from a billing target.",
+          "sourceRef": "source:amazon-nova:docs-aws-amazon-com-bedrock-latest-userguide-model-card-amazon-nova-lite-html",
+          "title": "amazon.nova-lite-v1:0 official identity documentation",
+          "url": "https://docs.aws.amazon.com/bedrock/latest/userguide/model-card-amazon-nova-lite.html"
+        }
+      ],
+      "conditional_usage_allowances": [],
+      "model_selection": null
+    },
+    {
+      "provider_id": "amazon-nova",
+      "provider": "Amazon Nova",
+      "model_id": "nova-micro",
+      "model": "Nova Micro",
+      "input_price_per_1m_tokens": 0.035,
+      "cached_input_price_per_1m_tokens": 0.00875,
+      "output_price_per_1m_tokens": 0.14,
+      "currency": "USD",
+      "pricing_unit": "1M tokens",
+      "status": "latest",
+      "availability": "active",
+      "official_source_url": "https://pricing.us-east-1.amazonaws.com/offers/v1.0/aws/AmazonBedrock/current/us-east-1/index.json",
+      "verification_status": "verified",
+      "last_verified_at": "2026-11-04",
+      "checked_at": "2026-11-04",
+      "effective_from": null,
+      "effective_until": null,
+      "notes": "",
+      "pricing_tier_count": 0,
+      "pricing_tiers": [],
+      "time_pricing": null,
+      "pricing_components": [
+        {
+          "pricing_id": "price:amazon-nova/nova-micro:batch:short:current",
+          "charge_id": "price:amazon-nova/nova-micro:batch:short:current:input:text:per_1m_tokens",
+          "component": "input",
+          "amount": "0.0175",
+          "unit": "per_1m_tokens",
+          "currency": "USD",
+          "modality": "text",
+          "condition": {
+            "processing_mode": "batch",
+            "context_class": "short",
+            "prompt_token_threshold": null,
+            "tier_selection": null,
+            "region_policy": "global",
+            "effective_from": null,
+            "effective_until": null,
+            "region_selector": {
+              "dataResidencies": [
+                "us-east-1"
+              ],
+              "endpointGeographies": [
+                "us-east-1"
+              ],
+              "pricingGeography": "global_base"
+            },
+            "default_availability_status": "available",
+            "availability_rules": [],
+            "price_adjustments": []
+          },
+          "calculation_default": false,
+          "source_refs": [
+            "source:amazon-nova:pricing-us-east-1-amazonaws-com-offers-v1-0-aws-AmazonBedrock-current-us-east-1-"
+          ],
+          "source_urls": [
+            "https://pricing.us-east-1.amazonaws.com/offers/v1.0/aws/AmazonBedrock/current/us-east-1/index.json"
+          ],
+          "verification_status": "verified"
+        },
+        {
+          "pricing_id": "price:amazon-nova/nova-micro:batch:short:current",
+          "charge_id": "price:amazon-nova/nova-micro:batch:short:current:output:text:per_1m_tokens",
+          "component": "output",
+          "amount": "0.07",
+          "unit": "per_1m_tokens",
+          "currency": "USD",
+          "modality": "text",
+          "condition": {
+            "processing_mode": "batch",
+            "context_class": "short",
+            "prompt_token_threshold": null,
+            "tier_selection": null,
+            "region_policy": "global",
+            "effective_from": null,
+            "effective_until": null,
+            "region_selector": {
+              "dataResidencies": [
+                "us-east-1"
+              ],
+              "endpointGeographies": [
+                "us-east-1"
+              ],
+              "pricingGeography": "global_base"
+            },
+            "default_availability_status": "available",
+            "availability_rules": [],
+            "price_adjustments": []
+          },
+          "calculation_default": false,
+          "source_refs": [
+            "source:amazon-nova:pricing-us-east-1-amazonaws-com-offers-v1-0-aws-AmazonBedrock-current-us-east-1-"
+          ],
+          "source_urls": [
+            "https://pricing.us-east-1.amazonaws.com/offers/v1.0/aws/AmazonBedrock/current/us-east-1/index.json"
+          ],
+          "verification_status": "verified"
+        },
+        {
+          "pricing_id": "price:amazon-nova/nova-micro:standard:short:current",
+          "charge_id": "price:amazon-nova/nova-micro:standard:short:current:cached_input:text:per_1m_tokens",
+          "component": "cached_input",
+          "amount": "0.00875",
+          "unit": "per_1m_tokens",
+          "currency": "USD",
+          "modality": "text",
+          "condition": {
+            "processing_mode": "standard",
+            "context_class": "short",
+            "prompt_token_threshold": null,
+            "tier_selection": null,
+            "region_policy": "global",
+            "effective_from": null,
+            "effective_until": null,
+            "region_selector": {
+              "dataResidencies": [
+                "us-east-1"
+              ],
+              "endpointGeographies": [
+                "us-east-1"
+              ],
+              "pricingGeography": "global_base"
+            },
+            "default_availability_status": "available",
+            "availability_rules": [],
+            "price_adjustments": []
+          },
+          "calculation_default": true,
+          "source_refs": [
+            "source:amazon-nova:pricing-us-east-1-amazonaws-com-offers-v1-0-aws-AmazonBedrock-current-us-east-1-"
+          ],
+          "source_urls": [
+            "https://pricing.us-east-1.amazonaws.com/offers/v1.0/aws/AmazonBedrock/current/us-east-1/index.json"
+          ],
+          "verification_status": "verified"
+        },
+        {
+          "pricing_id": "price:amazon-nova/nova-micro:standard:short:current",
+          "charge_id": "price:amazon-nova/nova-micro:standard:short:current:input:text:per_1m_tokens",
+          "component": "input",
+          "amount": "0.035",
+          "unit": "per_1m_tokens",
+          "currency": "USD",
+          "modality": "text",
+          "condition": {
+            "processing_mode": "standard",
+            "context_class": "short",
+            "prompt_token_threshold": null,
+            "tier_selection": null,
+            "region_policy": "global",
+            "effective_from": null,
+            "effective_until": null,
+            "region_selector": {
+              "dataResidencies": [
+                "us-east-1"
+              ],
+              "endpointGeographies": [
+                "us-east-1"
+              ],
+              "pricingGeography": "global_base"
+            },
+            "default_availability_status": "available",
+            "availability_rules": [],
+            "price_adjustments": []
+          },
+          "calculation_default": true,
+          "source_refs": [
+            "source:amazon-nova:pricing-us-east-1-amazonaws-com-offers-v1-0-aws-AmazonBedrock-current-us-east-1-"
+          ],
+          "source_urls": [
+            "https://pricing.us-east-1.amazonaws.com/offers/v1.0/aws/AmazonBedrock/current/us-east-1/index.json"
+          ],
+          "verification_status": "verified"
+        },
+        {
+          "pricing_id": "price:amazon-nova/nova-micro:standard:short:current",
+          "charge_id": "price:amazon-nova/nova-micro:standard:short:current:output:text:per_1m_tokens",
+          "component": "output",
+          "amount": "0.14",
+          "unit": "per_1m_tokens",
+          "currency": "USD",
+          "modality": "text",
+          "condition": {
+            "processing_mode": "standard",
+            "context_class": "short",
+            "prompt_token_threshold": null,
+            "tier_selection": null,
+            "region_policy": "global",
+            "effective_from": null,
+            "effective_until": null,
+            "region_selector": {
+              "dataResidencies": [
+                "us-east-1"
+              ],
+              "endpointGeographies": [
+                "us-east-1"
+              ],
+              "pricingGeography": "global_base"
+            },
+            "default_availability_status": "available",
+            "availability_rules": [],
+            "price_adjustments": []
+          },
+          "calculation_default": true,
+          "source_refs": [
+            "source:amazon-nova:pricing-us-east-1-amazonaws-com-offers-v1-0-aws-AmazonBedrock-current-us-east-1-"
+          ],
+          "source_urls": [
+            "https://pricing.us-east-1.amazonaws.com/offers/v1.0/aws/AmazonBedrock/current/us-east-1/index.json"
+          ],
+          "verification_status": "verified"
+        }
+      ],
+      "unit_price": null,
+      "billing_unit": null,
+      "billing_quantity": null,
+      "pricing_dimension": null,
+      "released_at": null,
+      "access_status": "public",
+      "access_checked_at": "2026-11-04T06:41:14Z",
+      "access_evidence": [
+        {
+          "claimType": "official_access_public",
+          "officialModelId": "amazon.nova-micro-v1:0",
+          "scope": "Exact model on Amazon Bedrock under ordinary AWS account requirements.",
+          "sourceRef": "source:amazon-nova:docs-aws-amazon-com-bedrock-latest-userguide-model-card-amazon-nova-micro-html",
+          "title": "amazon.nova-micro-v1:0 official model availability documentation",
+          "url": "https://docs.aws.amazon.com/bedrock/latest/userguide/model-card-amazon-nova-micro.html"
+        }
+      ],
+      "binding_status": "approved",
+      "binding_evidence": [
+        {
+          "claimType": "official_identity_binding",
+          "officialModelId": "amazon.nova-micro-v1:0",
+          "reason": "Exact documented API model ID; no entitlement inherited from a billing target.",
+          "sourceRef": "source:amazon-nova:docs-aws-amazon-com-bedrock-latest-userguide-model-card-amazon-nova-micro-html",
+          "title": "amazon.nova-micro-v1:0 official identity documentation",
+          "url": "https://docs.aws.amazon.com/bedrock/latest/userguide/model-card-amazon-nova-micro.html"
+        }
+      ],
+      "conditional_usage_allowances": [],
+      "model_selection": null
+    },
+    {
+      "provider_id": "amazon-nova",
+      "provider": "Amazon Nova",
+      "model_id": "nova-pro",
+      "model": "Nova Pro",
+      "input_price_per_1m_tokens": 0.8,
+      "cached_input_price_per_1m_tokens": 0.2,
+      "output_price_per_1m_tokens": 3.2,
+      "currency": "USD",
+      "pricing_unit": "1M tokens",
+      "status": "latest",
+      "availability": "active",
+      "official_source_url": "https://pricing.us-east-1.amazonaws.com/offers/v1.0/aws/AmazonBedrock/current/us-east-1/index.json",
+      "verification_status": "verified",
+      "last_verified_at": "2026-11-04",
+      "checked_at": "2026-11-04",
+      "effective_from": null,
+      "effective_until": null,
+      "notes": "",
+      "pricing_tier_count": 0,
+      "pricing_tiers": [],
+      "time_pricing": null,
+      "pricing_components": [
+        {
+          "pricing_id": "price:amazon-nova/nova-pro:batch:short:current",
+          "charge_id": "price:amazon-nova/nova-pro:batch:short:current:input:text:per_1m_tokens",
+          "component": "input",
+          "amount": "0.4",
+          "unit": "per_1m_tokens",
+          "currency": "USD",
+          "modality": "text",
+          "condition": {
+            "processing_mode": "batch",
+            "context_class": "short",
+            "prompt_token_threshold": null,
+            "tier_selection": null,
+            "region_policy": "global",
+            "effective_from": null,
+            "effective_until": null,
+            "region_selector": {
+              "dataResidencies": [
+                "us-east-1"
+              ],
+              "endpointGeographies": [
+                "us-east-1"
+              ],
+              "pricingGeography": "global_base"
+            },
+            "default_availability_status": "available",
+            "availability_rules": [],
+            "price_adjustments": []
+          },
+          "calculation_default": false,
+          "source_refs": [
+            "source:amazon-nova:pricing-us-east-1-amazonaws-com-offers-v1-0-aws-AmazonBedrock-current-us-east-1-"
+          ],
+          "source_urls": [
+            "https://pricing.us-east-1.amazonaws.com/offers/v1.0/aws/AmazonBedrock/current/us-east-1/index.json"
+          ],
+          "verification_status": "verified"
+        },
+        {
+          "pricing_id": "price:amazon-nova/nova-pro:batch:short:current",
+          "charge_id": "price:amazon-nova/nova-pro:batch:short:current:output:text:per_1m_tokens",
+          "component": "output",
+          "amount": "1.6",
+          "unit": "per_1m_tokens",
+          "currency": "USD",
+          "modality": "text",
+          "condition": {
+            "processing_mode": "batch",
+            "context_class": "short",
+            "prompt_token_threshold": null,
+            "tier_selection": null,
+            "region_policy": "global",
+            "effective_from": null,
+            "effective_until": null,
+            "region_selector": {
+              "dataResidencies": [
+                "us-east-1"
+              ],
+              "endpointGeographies": [
+                "us-east-1"
+              ],
+              "pricingGeography": "global_base"
+            },
+            "default_availability_status": "available",
+            "availability_rules": [],
+            "price_adjustments": []
+          },
+          "calculation_default": false,
+          "source_refs": [
+            "source:amazon-nova:pricing-us-east-1-amazonaws-com-offers-v1-0-aws-AmazonBedrock-current-us-east-1-"
+          ],
+          "source_urls": [
+            "https://pricing.us-east-1.amazonaws.com/offers/v1.0/aws/AmazonBedrock/current/us-east-1/index.json"
+          ],
+          "verification_status": "verified"
+        },
+        {
+          "pricing_id": "price:amazon-nova/nova-pro:flex:short:current",
+          "charge_id": "price:amazon-nova/nova-pro:flex:short:current:cached_input:text:per_1m_tokens",
+          "component": "cached_input",
+          "amount": "0.1",
+          "unit": "per_1m_tokens",
+          "currency": "USD",
+          "modality": "text",
+          "condition": {
+            "processing_mode": "flex",
+            "context_class": "short",
+            "prompt_token_threshold": null,
+            "tier_selection": null,
+            "region_policy": "global",
+            "effective_from": null,
+            "effective_until": null,
+            "region_selector": {
+              "dataResidencies": [
+                "us-east-1"
+              ],
+              "endpointGeographies": [
+                "us-east-1"
+              ],
+              "pricingGeography": "global_base"
+            },
+            "default_availability_status": "available",
+            "availability_rules": [],
+            "price_adjustments": []
+          },
+          "calculation_default": false,
+          "source_refs": [
+            "source:amazon-nova:pricing-us-east-1-amazonaws-com-offers-v1-0-aws-AmazonBedrock-current-us-east-1-"
+          ],
+          "source_urls": [
+            "https://pricing.us-east-1.amazonaws.com/offers/v1.0/aws/AmazonBedrock/current/us-east-1/index.json"
+          ],
+          "verification_status": "verified"
+        },
+        {
+          "pricing_id": "price:amazon-nova/nova-pro:flex:short:current",
+          "charge_id": "price:amazon-nova/nova-pro:flex:short:current:input:text:per_1m_tokens",
+          "component": "input",
+          "amount": "0.4",
+          "unit": "per_1m_tokens",
+          "currency": "USD",
+          "modality": "text",
+          "condition": {
+            "processing_mode": "flex",
+            "context_class": "short",
+            "prompt_token_threshold": null,
+            "tier_selection": null,
+            "region_policy": "global",
+            "effective_from": null,
+            "effective_until": null,
+            "region_selector": {
+              "dataResidencies": [
+                "us-east-1"
+              ],
+              "endpointGeographies": [
+                "us-east-1"
+              ],
+              "pricingGeography": "global_base"
+            },
+            "default_availability_status": "available",
+            "availability_rules": [],
+            "price_adjustments": []
+          },
+          "calculation_default": false,
+          "source_refs": [
+            "source:amazon-nova:pricing-us-east-1-amazonaws-com-offers-v1-0-aws-AmazonBedrock-current-us-east-1-"
+          ],
+          "source_urls": [
+            "https://pricing.us-east-1.amazonaws.com/offers/v1.0/aws/AmazonBedrock/current/us-east-1/index.json"
+          ],
+          "verification_status": "verified"
+        },
+        {
+          "pricing_id": "price:amazon-nova/nova-pro:flex:short:current",
+          "charge_id": "price:amazon-nova/nova-pro:flex:short:current:output:text:per_1m_tokens",
+          "component": "output",
+          "amount": "1.6",
+          "unit": "per_1m_tokens",
+          "currency": "USD",
+          "modality": "text",
+          "condition": {
+            "processing_mode": "flex",
+            "context_class": "short",
+            "prompt_token_threshold": null,
+            "tier_selection": null,
+            "region_policy": "global",
+            "effective_from": null,
+            "effective_until": null,
+            "region_selector": {
+              "dataResidencies": [
+                "us-east-1"
+              ],
+              "endpointGeographies": [
+                "us-east-1"
+              ],
+              "pricingGeography": "global_base"
+            },
+            "default_availability_status": "available",
+            "availability_rules": [],
+            "price_adjustments": []
+          },
+          "calculation_default": false,
+          "source_refs": [
+            "source:amazon-nova:pricing-us-east-1-amazonaws-com-offers-v1-0-aws-AmazonBedrock-current-us-east-1-"
+          ],
+          "source_urls": [
+            "https://pricing.us-east-1.amazonaws.com/offers/v1.0/aws/AmazonBedrock/current/us-east-1/index.json"
+          ],
+          "verification_status": "verified"
+        },
+        {
+          "pricing_id": "price:amazon-nova/nova-pro:priority:short:current",
+          "charge_id": "price:amazon-nova/nova-pro:priority:short:current:cached_input:text:per_1m_tokens",
+          "component": "cached_input",
+          "amount": "0.35",
+          "unit": "per_1m_tokens",
+          "currency": "USD",
+          "modality": "text",
+          "condition": {
+            "processing_mode": "priority",
+            "context_class": "short",
+            "prompt_token_threshold": null,
+            "tier_selection": null,
+            "region_policy": "global",
+            "effective_from": null,
+            "effective_until": null,
+            "region_selector": {
+              "dataResidencies": [
+                "us-east-1"
+              ],
+              "endpointGeographies": [
+                "us-east-1"
+              ],
+              "pricingGeography": "global_base"
+            },
+            "default_availability_status": "available",
+            "availability_rules": [],
+            "price_adjustments": []
+          },
+          "calculation_default": false,
+          "source_refs": [
+            "source:amazon-nova:pricing-us-east-1-amazonaws-com-offers-v1-0-aws-AmazonBedrock-current-us-east-1-"
+          ],
+          "source_urls": [
+            "https://pricing.us-east-1.amazonaws.com/offers/v1.0/aws/AmazonBedrock/current/us-east-1/index.json"
+          ],
+          "verification_status": "verified"
+        },
+        {
+          "pricing_id": "price:amazon-nova/nova-pro:priority:short:current",
+          "charge_id": "price:amazon-nova/nova-pro:priority:short:current:input:text:per_1m_tokens",
+          "component": "input",
+          "amount": "1.4",
+          "unit": "per_1m_tokens",
+          "currency": "USD",
+          "modality": "text",
+          "condition": {
+            "processing_mode": "priority",
+            "context_class": "short",
+            "prompt_token_threshold": null,
+            "tier_selection": null,
+            "region_policy": "global",
+            "effective_from": null,
+            "effective_until": null,
+            "region_selector": {
+              "dataResidencies": [
+                "us-east-1"
+              ],
+              "endpointGeographies": [
+                "us-east-1"
+              ],
+              "pricingGeography": "global_base"
+            },
+            "default_availability_status": "available",
+            "availability_rules": [],
+            "price_adjustments": []
+          },
+          "calculation_default": false,
+          "source_refs": [
+            "source:amazon-nova:pricing-us-east-1-amazonaws-com-offers-v1-0-aws-AmazonBedrock-current-us-east-1-"
+          ],
+          "source_urls": [
+            "https://pricing.us-east-1.amazonaws.com/offers/v1.0/aws/AmazonBedrock/current/us-east-1/index.json"
+          ],
+          "verification_status": "verified"
+        },
+        {
+          "pricing_id": "price:amazon-nova/nova-pro:priority:short:current",
+          "charge_id": "price:amazon-nova/nova-pro:priority:short:current:output:text:per_1m_tokens",
+          "component": "output",
+          "amount": "5.6",
+          "unit": "per_1m_tokens",
+          "currency": "USD",
+          "modality": "text",
+          "condition": {
+            "processing_mode": "priority",
+            "context_class": "short",
+            "prompt_token_threshold": null,
+            "tier_selection": null,
+            "region_policy": "global",
+            "effective_from": null,
+            "effective_until": null,
+            "region_selector": {
+              "dataResidencies": [
+                "us-east-1"
+              ],
+              "endpointGeographies": [
+                "us-east-1"
+              ],
+              "pricingGeography": "global_base"
+            },
+            "default_availability_status": "available",
+            "availability_rules": [],
+            "price_adjustments": []
+          },
+          "calculation_default": false,
+          "source_refs": [
+            "source:amazon-nova:pricing-us-east-1-amazonaws-com-offers-v1-0-aws-AmazonBedrock-current-us-east-1-"
+          ],
+          "source_urls": [
+            "https://pricing.us-east-1.amazonaws.com/offers/v1.0/aws/AmazonBedrock/current/us-east-1/index.json"
+          ],
+          "verification_status": "verified"
+        },
+        {
+          "pricing_id": "price:amazon-nova/nova-pro:standard:short:current",
+          "charge_id": "price:amazon-nova/nova-pro:standard:short:current:cached_input:text:per_1m_tokens",
+          "component": "cached_input",
+          "amount": "0.2",
+          "unit": "per_1m_tokens",
+          "currency": "USD",
+          "modality": "text",
+          "condition": {
+            "processing_mode": "standard",
+            "context_class": "short",
+            "prompt_token_threshold": null,
+            "tier_selection": null,
+            "region_policy": "global",
+            "effective_from": null,
+            "effective_until": null,
+            "region_selector": {
+              "dataResidencies": [
+                "us-east-1"
+              ],
+              "endpointGeographies": [
+                "us-east-1"
+              ],
+              "pricingGeography": "global_base"
+            },
+            "default_availability_status": "available",
+            "availability_rules": [],
+            "price_adjustments": []
+          },
+          "calculation_default": true,
+          "source_refs": [
+            "source:amazon-nova:pricing-us-east-1-amazonaws-com-offers-v1-0-aws-AmazonBedrock-current-us-east-1-"
+          ],
+          "source_urls": [
+            "https://pricing.us-east-1.amazonaws.com/offers/v1.0/aws/AmazonBedrock/current/us-east-1/index.json"
+          ],
+          "verification_status": "verified"
+        },
+        {
+          "pricing_id": "price:amazon-nova/nova-pro:standard:short:current",
+          "charge_id": "price:amazon-nova/nova-pro:standard:short:current:input:text:per_1m_tokens",
+          "component": "input",
+          "amount": "0.8",
+          "unit": "per_1m_tokens",
+          "currency": "USD",
+          "modality": "text",
+          "condition": {
+            "processing_mode": "standard",
+            "context_class": "short",
+            "prompt_token_threshold": null,
+            "tier_selection": null,
+            "region_policy": "global",
+            "effective_from": null,
+            "effective_until": null,
+            "region_selector": {
+              "dataResidencies": [
+                "us-east-1"
+              ],
+              "endpointGeographies": [
+                "us-east-1"
+              ],
+              "pricingGeography": "global_base"
+            },
+            "default_availability_status": "available",
+            "availability_rules": [],
+            "price_adjustments": []
+          },
+          "calculation_default": true,
+          "source_refs": [
+            "source:amazon-nova:pricing-us-east-1-amazonaws-com-offers-v1-0-aws-AmazonBedrock-current-us-east-1-"
+          ],
+          "source_urls": [
+            "https://pricing.us-east-1.amazonaws.com/offers/v1.0/aws/AmazonBedrock/current/us-east-1/index.json"
+          ],
+          "verification_status": "verified"
+        },
+        {
+          "pricing_id": "price:amazon-nova/nova-pro:standard:short:current",
+          "charge_id": "price:amazon-nova/nova-pro:standard:short:current:output:text:per_1m_tokens",
+          "component": "output",
+          "amount": "3.2",
+          "unit": "per_1m_tokens",
+          "currency": "USD",
+          "modality": "text",
+          "condition": {
+            "processing_mode": "standard",
+            "context_class": "short",
+            "prompt_token_threshold": null,
+            "tier_selection": null,
+            "region_policy": "global",
+            "effective_from": null,
+            "effective_until": null,
+            "region_selector": {
+              "dataResidencies": [
+                "us-east-1"
+              ],
+              "endpointGeographies": [
+                "us-east-1"
+              ],
+              "pricingGeography": "global_base"
+            },
+            "default_availability_status": "available",
+            "availability_rules": [],
+            "price_adjustments": []
+          },
+          "calculation_default": true,
+          "source_refs": [
+            "source:amazon-nova:pricing-us-east-1-amazonaws-com-offers-v1-0-aws-AmazonBedrock-current-us-east-1-"
+          ],
+          "source_urls": [
+            "https://pricing.us-east-1.amazonaws.com/offers/v1.0/aws/AmazonBedrock/current/us-east-1/index.json"
+          ],
+          "verification_status": "verified"
+        }
+      ],
+      "unit_price": null,
+      "billing_unit": null,
+      "billing_quantity": null,
+      "pricing_dimension": null,
+      "released_at": null,
+      "access_status": "public",
+      "access_checked_at": "2026-11-04T06:41:30Z",
+      "access_evidence": [
+        {
+          "claimType": "official_access_public",
+          "officialModelId": "amazon.nova-pro-v1:0",
+          "scope": "Exact model on Amazon Bedrock under ordinary AWS account requirements.",
+          "sourceRef": "source:amazon-nova:docs-aws-amazon-com-bedrock-latest-userguide-model-card-amazon-nova-pro-html",
+          "title": "amazon.nova-pro-v1:0 official model availability documentation",
+          "url": "https://docs.aws.amazon.com/bedrock/latest/userguide/model-card-amazon-nova-pro.html"
+        }
+      ],
+      "binding_status": "approved",
+      "binding_evidence": [
+        {
+          "claimType": "official_identity_binding",
+          "officialModelId": "amazon.nova-pro-v1:0",
+          "reason": "Exact documented API model ID; no entitlement inherited from a billing target.",
+          "sourceRef": "source:amazon-nova:docs-aws-amazon-com-bedrock-latest-userguide-model-card-amazon-nova-pro-html",
+          "title": "amazon.nova-pro-v1:0 official identity documentation",
+          "url": "https://docs.aws.amazon.com/bedrock/latest/userguide/model-card-amazon-nova-pro.html"
         }
       ],
       "conditional_usage_allowances": [],
@@ -49089,6 +50690,175 @@
       "model_selection": null
     },
     {
+      "provider_id": "perplexity",
+      "provider": "Perplexity",
+      "model_id": "sonar",
+      "model": "Sonar",
+      "input_price_per_1m_tokens": 0.25,
+      "cached_input_price_per_1m_tokens": 0.0625,
+      "output_price_per_1m_tokens": 2.5,
+      "currency": "USD",
+      "pricing_unit": "1M tokens",
+      "status": "latest",
+      "availability": "active",
+      "official_source_url": "https://docs.perplexity.ai/docs/agent-api/models.md",
+      "verification_status": "verified",
+      "last_verified_at": "2026-11-04",
+      "checked_at": "2026-11-04",
+      "effective_from": null,
+      "effective_until": null,
+      "notes": "",
+      "pricing_tier_count": 0,
+      "pricing_tiers": [],
+      "time_pricing": null,
+      "pricing_components": [
+        {
+          "pricing_id": "price:perplexity/sonar:standard:short:current",
+          "charge_id": "price:perplexity/sonar:standard:short:current:cached_input:text:per_1m_tokens",
+          "component": "cached_input",
+          "amount": "0.0625",
+          "unit": "per_1m_tokens",
+          "currency": "USD",
+          "modality": "text",
+          "condition": {
+            "processing_mode": "standard",
+            "context_class": "short",
+            "prompt_token_threshold": null,
+            "tier_selection": null,
+            "region_policy": "global",
+            "effective_from": null,
+            "effective_until": null,
+            "region_selector": {
+              "dataResidencies": [
+                "global"
+              ],
+              "endpointGeographies": [
+                "global"
+              ],
+              "pricingGeography": "global_base"
+            },
+            "default_availability_status": "available",
+            "availability_rules": [],
+            "price_adjustments": []
+          },
+          "calculation_default": true,
+          "source_refs": [
+            "source:perplexity:docs-perplexity-ai-docs-agent-api-models-md"
+          ],
+          "source_urls": [
+            "https://docs.perplexity.ai/docs/agent-api/models.md"
+          ],
+          "verification_status": "verified"
+        },
+        {
+          "pricing_id": "price:perplexity/sonar:standard:short:current",
+          "charge_id": "price:perplexity/sonar:standard:short:current:input:text:per_1m_tokens",
+          "component": "input",
+          "amount": "0.25",
+          "unit": "per_1m_tokens",
+          "currency": "USD",
+          "modality": "text",
+          "condition": {
+            "processing_mode": "standard",
+            "context_class": "short",
+            "prompt_token_threshold": null,
+            "tier_selection": null,
+            "region_policy": "global",
+            "effective_from": null,
+            "effective_until": null,
+            "region_selector": {
+              "dataResidencies": [
+                "global"
+              ],
+              "endpointGeographies": [
+                "global"
+              ],
+              "pricingGeography": "global_base"
+            },
+            "default_availability_status": "available",
+            "availability_rules": [],
+            "price_adjustments": []
+          },
+          "calculation_default": true,
+          "source_refs": [
+            "source:perplexity:docs-perplexity-ai-docs-agent-api-models-md"
+          ],
+          "source_urls": [
+            "https://docs.perplexity.ai/docs/agent-api/models.md"
+          ],
+          "verification_status": "verified"
+        },
+        {
+          "pricing_id": "price:perplexity/sonar:standard:short:current",
+          "charge_id": "price:perplexity/sonar:standard:short:current:output:text:per_1m_tokens",
+          "component": "output",
+          "amount": "2.5",
+          "unit": "per_1m_tokens",
+          "currency": "USD",
+          "modality": "text",
+          "condition": {
+            "processing_mode": "standard",
+            "context_class": "short",
+            "prompt_token_threshold": null,
+            "tier_selection": null,
+            "region_policy": "global",
+            "effective_from": null,
+            "effective_until": null,
+            "region_selector": {
+              "dataResidencies": [
+                "global"
+              ],
+              "endpointGeographies": [
+                "global"
+              ],
+              "pricingGeography": "global_base"
+            },
+            "default_availability_status": "available",
+            "availability_rules": [],
+            "price_adjustments": []
+          },
+          "calculation_default": true,
+          "source_refs": [
+            "source:perplexity:docs-perplexity-ai-docs-agent-api-models-md"
+          ],
+          "source_urls": [
+            "https://docs.perplexity.ai/docs/agent-api/models.md"
+          ],
+          "verification_status": "verified"
+        }
+      ],
+      "unit_price": null,
+      "billing_unit": null,
+      "billing_quantity": null,
+      "pricing_dimension": null,
+      "released_at": null,
+      "access_status": "public",
+      "access_checked_at": "2026-11-04T06:43:09Z",
+      "access_evidence": [
+        {
+          "claimType": "official_access_public",
+          "officialModelId": "perplexity/sonar",
+          "scope": "Exact model on the Perplexity Agent API under ordinary pay-as-you-go API account requirements.",
+          "sourceRef": "source:perplexity:docs-perplexity-ai-docs-agent-api-models-md",
+          "title": "perplexity/sonar official model availability documentation",
+          "url": "https://docs.perplexity.ai/docs/agent-api/models.md"
+        }
+      ],
+      "binding_status": "approved",
+      "binding_evidence": [
+        {
+          "claimType": "official_identity_binding",
+          "officialModelId": "perplexity/sonar",
+          "reason": "Exact documented API model ID; no entitlement inherited from a billing target.",
+          "sourceRef": "source:perplexity:docs-perplexity-ai-docs-agent-api-models-md",
+          "title": "perplexity/sonar official identity documentation",
+          "url": "https://docs.perplexity.ai/docs/agent-api/models.md"
+        }
+      ],
+      "conditional_usage_allowances": [],
+      "model_selection": null
+    },
+    {
       "provider_id": "xai",
       "provider": "xAI",
       "model_id": "grok-3",
@@ -56757,6 +58527,1020 @@
       "access_evidence": [],
       "binding_status": "unresolved",
       "binding_evidence": [],
+      "conditional_usage_allowances": [],
+      "model_selection": null
+    },
+    {
+      "provider_id": "zhipu-ai",
+      "provider": "Z.ai (Zhipu)",
+      "model_id": "glm-4.7",
+      "model": "GLM-4.7",
+      "input_price_per_1m_tokens": 0.6,
+      "cached_input_price_per_1m_tokens": 0.11,
+      "output_price_per_1m_tokens": 2.2,
+      "currency": "USD",
+      "pricing_unit": "1M tokens",
+      "status": "latest",
+      "availability": "active",
+      "official_source_url": "https://docs.z.ai/guides/overview/pricing.md",
+      "verification_status": "verified",
+      "last_verified_at": "2026-11-04",
+      "checked_at": "2026-11-04",
+      "effective_from": null,
+      "effective_until": null,
+      "notes": "",
+      "pricing_tier_count": 0,
+      "pricing_tiers": [],
+      "time_pricing": null,
+      "pricing_components": [
+        {
+          "pricing_id": "price:zhipu-ai/glm-4.7:standard:short:current",
+          "charge_id": "price:zhipu-ai/glm-4.7:standard:short:current:cached_input:text:per_1m_tokens",
+          "component": "cached_input",
+          "amount": "0.11",
+          "unit": "per_1m_tokens",
+          "currency": "USD",
+          "modality": "text",
+          "condition": {
+            "processing_mode": "standard",
+            "context_class": "short",
+            "prompt_token_threshold": null,
+            "tier_selection": null,
+            "region_policy": "global",
+            "effective_from": null,
+            "effective_until": null,
+            "region_selector": {
+              "dataResidencies": [
+                "global"
+              ],
+              "endpointGeographies": [
+                "global"
+              ],
+              "pricingGeography": "global_base"
+            },
+            "default_availability_status": "available",
+            "availability_rules": [],
+            "price_adjustments": []
+          },
+          "calculation_default": true,
+          "source_refs": [
+            "source:zhipu-ai:docs-z-ai-guides-overview-pricing-md"
+          ],
+          "source_urls": [
+            "https://docs.z.ai/guides/overview/pricing.md"
+          ],
+          "verification_status": "verified"
+        },
+        {
+          "pricing_id": "price:zhipu-ai/glm-4.7:standard:short:current",
+          "charge_id": "price:zhipu-ai/glm-4.7:standard:short:current:input:text:per_1m_tokens",
+          "component": "input",
+          "amount": "0.6",
+          "unit": "per_1m_tokens",
+          "currency": "USD",
+          "modality": "text",
+          "condition": {
+            "processing_mode": "standard",
+            "context_class": "short",
+            "prompt_token_threshold": null,
+            "tier_selection": null,
+            "region_policy": "global",
+            "effective_from": null,
+            "effective_until": null,
+            "region_selector": {
+              "dataResidencies": [
+                "global"
+              ],
+              "endpointGeographies": [
+                "global"
+              ],
+              "pricingGeography": "global_base"
+            },
+            "default_availability_status": "available",
+            "availability_rules": [],
+            "price_adjustments": []
+          },
+          "calculation_default": true,
+          "source_refs": [
+            "source:zhipu-ai:docs-z-ai-guides-overview-pricing-md"
+          ],
+          "source_urls": [
+            "https://docs.z.ai/guides/overview/pricing.md"
+          ],
+          "verification_status": "verified"
+        },
+        {
+          "pricing_id": "price:zhipu-ai/glm-4.7:standard:short:current",
+          "charge_id": "price:zhipu-ai/glm-4.7:standard:short:current:output:text:per_1m_tokens",
+          "component": "output",
+          "amount": "2.2",
+          "unit": "per_1m_tokens",
+          "currency": "USD",
+          "modality": "text",
+          "condition": {
+            "processing_mode": "standard",
+            "context_class": "short",
+            "prompt_token_threshold": null,
+            "tier_selection": null,
+            "region_policy": "global",
+            "effective_from": null,
+            "effective_until": null,
+            "region_selector": {
+              "dataResidencies": [
+                "global"
+              ],
+              "endpointGeographies": [
+                "global"
+              ],
+              "pricingGeography": "global_base"
+            },
+            "default_availability_status": "available",
+            "availability_rules": [],
+            "price_adjustments": []
+          },
+          "calculation_default": true,
+          "source_refs": [
+            "source:zhipu-ai:docs-z-ai-guides-overview-pricing-md"
+          ],
+          "source_urls": [
+            "https://docs.z.ai/guides/overview/pricing.md"
+          ],
+          "verification_status": "verified"
+        }
+      ],
+      "unit_price": null,
+      "billing_unit": null,
+      "billing_quantity": null,
+      "pricing_dimension": null,
+      "released_at": null,
+      "access_status": "public",
+      "access_checked_at": "2026-11-04T06:43:07Z",
+      "access_evidence": [
+        {
+          "claimType": "official_access_public",
+          "officialModelId": "glm-4.7",
+          "scope": "Exact model on the Z.ai international API under ordinary pay-as-you-go account requirements.",
+          "sourceRef": "source:zhipu-ai:docs-z-ai-guides-llm-glm-4-7-md",
+          "title": "glm-4.7 official model availability documentation",
+          "url": "https://docs.z.ai/guides/llm/glm-4.7.md"
+        }
+      ],
+      "binding_status": "approved",
+      "binding_evidence": [
+        {
+          "claimType": "official_identity_binding",
+          "officialModelId": "glm-4.7",
+          "reason": "Exact documented API model ID; no entitlement inherited from a billing target.",
+          "sourceRef": "source:zhipu-ai:docs-z-ai-guides-llm-glm-4-7-md",
+          "title": "glm-4.7 official identity documentation",
+          "url": "https://docs.z.ai/guides/llm/glm-4.7.md"
+        }
+      ],
+      "conditional_usage_allowances": [],
+      "model_selection": null
+    },
+    {
+      "provider_id": "zhipu-ai",
+      "provider": "Z.ai (Zhipu)",
+      "model_id": "glm-5",
+      "model": "GLM-5",
+      "input_price_per_1m_tokens": 1,
+      "cached_input_price_per_1m_tokens": 0.2,
+      "output_price_per_1m_tokens": 3.2,
+      "currency": "USD",
+      "pricing_unit": "1M tokens",
+      "status": "latest",
+      "availability": "active",
+      "official_source_url": "https://docs.z.ai/guides/overview/pricing.md",
+      "verification_status": "verified",
+      "last_verified_at": "2026-11-04",
+      "checked_at": "2026-11-04",
+      "effective_from": null,
+      "effective_until": null,
+      "notes": "",
+      "pricing_tier_count": 0,
+      "pricing_tiers": [],
+      "time_pricing": null,
+      "pricing_components": [
+        {
+          "pricing_id": "price:zhipu-ai/glm-5:standard:short:current",
+          "charge_id": "price:zhipu-ai/glm-5:standard:short:current:cached_input:text:per_1m_tokens",
+          "component": "cached_input",
+          "amount": "0.2",
+          "unit": "per_1m_tokens",
+          "currency": "USD",
+          "modality": "text",
+          "condition": {
+            "processing_mode": "standard",
+            "context_class": "short",
+            "prompt_token_threshold": null,
+            "tier_selection": null,
+            "region_policy": "global",
+            "effective_from": null,
+            "effective_until": null,
+            "region_selector": {
+              "dataResidencies": [
+                "global"
+              ],
+              "endpointGeographies": [
+                "global"
+              ],
+              "pricingGeography": "global_base"
+            },
+            "default_availability_status": "available",
+            "availability_rules": [],
+            "price_adjustments": []
+          },
+          "calculation_default": true,
+          "source_refs": [
+            "source:zhipu-ai:docs-z-ai-guides-overview-pricing-md"
+          ],
+          "source_urls": [
+            "https://docs.z.ai/guides/overview/pricing.md"
+          ],
+          "verification_status": "verified"
+        },
+        {
+          "pricing_id": "price:zhipu-ai/glm-5:standard:short:current",
+          "charge_id": "price:zhipu-ai/glm-5:standard:short:current:input:text:per_1m_tokens",
+          "component": "input",
+          "amount": "1",
+          "unit": "per_1m_tokens",
+          "currency": "USD",
+          "modality": "text",
+          "condition": {
+            "processing_mode": "standard",
+            "context_class": "short",
+            "prompt_token_threshold": null,
+            "tier_selection": null,
+            "region_policy": "global",
+            "effective_from": null,
+            "effective_until": null,
+            "region_selector": {
+              "dataResidencies": [
+                "global"
+              ],
+              "endpointGeographies": [
+                "global"
+              ],
+              "pricingGeography": "global_base"
+            },
+            "default_availability_status": "available",
+            "availability_rules": [],
+            "price_adjustments": []
+          },
+          "calculation_default": true,
+          "source_refs": [
+            "source:zhipu-ai:docs-z-ai-guides-overview-pricing-md"
+          ],
+          "source_urls": [
+            "https://docs.z.ai/guides/overview/pricing.md"
+          ],
+          "verification_status": "verified"
+        },
+        {
+          "pricing_id": "price:zhipu-ai/glm-5:standard:short:current",
+          "charge_id": "price:zhipu-ai/glm-5:standard:short:current:output:text:per_1m_tokens",
+          "component": "output",
+          "amount": "3.2",
+          "unit": "per_1m_tokens",
+          "currency": "USD",
+          "modality": "text",
+          "condition": {
+            "processing_mode": "standard",
+            "context_class": "short",
+            "prompt_token_threshold": null,
+            "tier_selection": null,
+            "region_policy": "global",
+            "effective_from": null,
+            "effective_until": null,
+            "region_selector": {
+              "dataResidencies": [
+                "global"
+              ],
+              "endpointGeographies": [
+                "global"
+              ],
+              "pricingGeography": "global_base"
+            },
+            "default_availability_status": "available",
+            "availability_rules": [],
+            "price_adjustments": []
+          },
+          "calculation_default": true,
+          "source_refs": [
+            "source:zhipu-ai:docs-z-ai-guides-overview-pricing-md"
+          ],
+          "source_urls": [
+            "https://docs.z.ai/guides/overview/pricing.md"
+          ],
+          "verification_status": "verified"
+        }
+      ],
+      "unit_price": null,
+      "billing_unit": null,
+      "billing_quantity": null,
+      "pricing_dimension": null,
+      "released_at": null,
+      "access_status": "public",
+      "access_checked_at": "2026-11-04T06:43:06Z",
+      "access_evidence": [
+        {
+          "claimType": "official_access_public",
+          "officialModelId": "glm-5",
+          "scope": "Exact model on the Z.ai international API under ordinary pay-as-you-go account requirements.",
+          "sourceRef": "source:zhipu-ai:docs-z-ai-guides-llm-glm-5-md",
+          "title": "glm-5 official model availability documentation",
+          "url": "https://docs.z.ai/guides/llm/glm-5.md"
+        }
+      ],
+      "binding_status": "approved",
+      "binding_evidence": [
+        {
+          "claimType": "official_identity_binding",
+          "officialModelId": "glm-5",
+          "reason": "Exact documented API model ID; no entitlement inherited from a billing target.",
+          "sourceRef": "source:zhipu-ai:docs-z-ai-guides-llm-glm-5-md",
+          "title": "glm-5 official identity documentation",
+          "url": "https://docs.z.ai/guides/llm/glm-5.md"
+        }
+      ],
+      "conditional_usage_allowances": [],
+      "model_selection": null
+    },
+    {
+      "provider_id": "zhipu-ai",
+      "provider": "Z.ai (Zhipu)",
+      "model_id": "glm-5.2",
+      "model": "GLM-5.2",
+      "input_price_per_1m_tokens": 1.4,
+      "cached_input_price_per_1m_tokens": 0.26,
+      "output_price_per_1m_tokens": 4.4,
+      "currency": "USD",
+      "pricing_unit": "1M tokens",
+      "status": "latest",
+      "availability": "active",
+      "official_source_url": "https://docs.z.ai/guides/overview/pricing.md",
+      "verification_status": "verified",
+      "last_verified_at": "2026-11-04",
+      "checked_at": "2026-11-04",
+      "effective_from": null,
+      "effective_until": null,
+      "notes": "",
+      "pricing_tier_count": 0,
+      "pricing_tiers": [],
+      "time_pricing": null,
+      "pricing_components": [
+        {
+          "pricing_id": "price:zhipu-ai/glm-5.2:standard:short:current",
+          "charge_id": "price:zhipu-ai/glm-5.2:standard:short:current:cached_input:text:per_1m_tokens",
+          "component": "cached_input",
+          "amount": "0.26",
+          "unit": "per_1m_tokens",
+          "currency": "USD",
+          "modality": "text",
+          "condition": {
+            "processing_mode": "standard",
+            "context_class": "short",
+            "prompt_token_threshold": null,
+            "tier_selection": null,
+            "region_policy": "global",
+            "effective_from": null,
+            "effective_until": null,
+            "region_selector": {
+              "dataResidencies": [
+                "global"
+              ],
+              "endpointGeographies": [
+                "global"
+              ],
+              "pricingGeography": "global_base"
+            },
+            "default_availability_status": "available",
+            "availability_rules": [],
+            "price_adjustments": []
+          },
+          "calculation_default": true,
+          "source_refs": [
+            "source:zhipu-ai:docs-z-ai-guides-overview-pricing-md"
+          ],
+          "source_urls": [
+            "https://docs.z.ai/guides/overview/pricing.md"
+          ],
+          "verification_status": "verified"
+        },
+        {
+          "pricing_id": "price:zhipu-ai/glm-5.2:standard:short:current",
+          "charge_id": "price:zhipu-ai/glm-5.2:standard:short:current:input:text:per_1m_tokens",
+          "component": "input",
+          "amount": "1.4",
+          "unit": "per_1m_tokens",
+          "currency": "USD",
+          "modality": "text",
+          "condition": {
+            "processing_mode": "standard",
+            "context_class": "short",
+            "prompt_token_threshold": null,
+            "tier_selection": null,
+            "region_policy": "global",
+            "effective_from": null,
+            "effective_until": null,
+            "region_selector": {
+              "dataResidencies": [
+                "global"
+              ],
+              "endpointGeographies": [
+                "global"
+              ],
+              "pricingGeography": "global_base"
+            },
+            "default_availability_status": "available",
+            "availability_rules": [],
+            "price_adjustments": []
+          },
+          "calculation_default": true,
+          "source_refs": [
+            "source:zhipu-ai:docs-z-ai-guides-overview-pricing-md"
+          ],
+          "source_urls": [
+            "https://docs.z.ai/guides/overview/pricing.md"
+          ],
+          "verification_status": "verified"
+        },
+        {
+          "pricing_id": "price:zhipu-ai/glm-5.2:standard:short:current",
+          "charge_id": "price:zhipu-ai/glm-5.2:standard:short:current:output:text:per_1m_tokens",
+          "component": "output",
+          "amount": "4.4",
+          "unit": "per_1m_tokens",
+          "currency": "USD",
+          "modality": "text",
+          "condition": {
+            "processing_mode": "standard",
+            "context_class": "short",
+            "prompt_token_threshold": null,
+            "tier_selection": null,
+            "region_policy": "global",
+            "effective_from": null,
+            "effective_until": null,
+            "region_selector": {
+              "dataResidencies": [
+                "global"
+              ],
+              "endpointGeographies": [
+                "global"
+              ],
+              "pricingGeography": "global_base"
+            },
+            "default_availability_status": "available",
+            "availability_rules": [],
+            "price_adjustments": []
+          },
+          "calculation_default": true,
+          "source_refs": [
+            "source:zhipu-ai:docs-z-ai-guides-overview-pricing-md"
+          ],
+          "source_urls": [
+            "https://docs.z.ai/guides/overview/pricing.md"
+          ],
+          "verification_status": "verified"
+        }
+      ],
+      "unit_price": null,
+      "billing_unit": null,
+      "billing_quantity": null,
+      "pricing_dimension": null,
+      "released_at": null,
+      "access_status": "public",
+      "access_checked_at": "2026-11-04T06:43:04Z",
+      "access_evidence": [
+        {
+          "claimType": "official_access_public",
+          "officialModelId": "glm-5.2",
+          "scope": "Exact model on the Z.ai international API under ordinary pay-as-you-go account requirements.",
+          "sourceRef": "source:zhipu-ai:docs-z-ai-guides-llm-glm-5-2-md",
+          "title": "glm-5.2 official model availability documentation",
+          "url": "https://docs.z.ai/guides/llm/glm-5.2.md"
+        }
+      ],
+      "binding_status": "approved",
+      "binding_evidence": [
+        {
+          "claimType": "official_identity_binding",
+          "officialModelId": "glm-5.2",
+          "reason": "Exact documented API model ID; no entitlement inherited from a billing target.",
+          "sourceRef": "source:zhipu-ai:docs-z-ai-guides-llm-glm-5-2-md",
+          "title": "glm-5.2 official identity documentation",
+          "url": "https://docs.z.ai/guides/llm/glm-5.2.md"
+        }
+      ],
+      "conditional_usage_allowances": [],
+      "model_selection": null
+    },
+    {
+      "provider_id": "zhipu-ai",
+      "provider": "Z.ai (Zhipu)",
+      "model_id": "glm-5.3",
+      "model": "GLM-5.3",
+      "input_price_per_1m_tokens": 1.4,
+      "cached_input_price_per_1m_tokens": 0.26,
+      "output_price_per_1m_tokens": 4.4,
+      "currency": "USD",
+      "pricing_unit": "1M tokens",
+      "status": "latest",
+      "availability": "active",
+      "official_source_url": "https://docs.z.ai/guides/overview/pricing.md",
+      "verification_status": "verified",
+      "last_verified_at": "2026-11-04",
+      "checked_at": "2026-11-04",
+      "effective_from": null,
+      "effective_until": null,
+      "notes": "",
+      "pricing_tier_count": 0,
+      "pricing_tiers": [],
+      "time_pricing": null,
+      "pricing_components": [
+        {
+          "pricing_id": "price:zhipu-ai/glm-5.3:standard:short:current",
+          "charge_id": "price:zhipu-ai/glm-5.3:standard:short:current:cached_input:text:per_1m_tokens",
+          "component": "cached_input",
+          "amount": "0.26",
+          "unit": "per_1m_tokens",
+          "currency": "USD",
+          "modality": "text",
+          "condition": {
+            "processing_mode": "standard",
+            "context_class": "short",
+            "prompt_token_threshold": null,
+            "tier_selection": null,
+            "region_policy": "global",
+            "effective_from": null,
+            "effective_until": null,
+            "region_selector": {
+              "dataResidencies": [
+                "global"
+              ],
+              "endpointGeographies": [
+                "global"
+              ],
+              "pricingGeography": "global_base"
+            },
+            "default_availability_status": "available",
+            "availability_rules": [],
+            "price_adjustments": []
+          },
+          "calculation_default": true,
+          "source_refs": [
+            "source:zhipu-ai:docs-z-ai-guides-overview-pricing-md"
+          ],
+          "source_urls": [
+            "https://docs.z.ai/guides/overview/pricing.md"
+          ],
+          "verification_status": "verified"
+        },
+        {
+          "pricing_id": "price:zhipu-ai/glm-5.3:standard:short:current",
+          "charge_id": "price:zhipu-ai/glm-5.3:standard:short:current:input:text:per_1m_tokens",
+          "component": "input",
+          "amount": "1.4",
+          "unit": "per_1m_tokens",
+          "currency": "USD",
+          "modality": "text",
+          "condition": {
+            "processing_mode": "standard",
+            "context_class": "short",
+            "prompt_token_threshold": null,
+            "tier_selection": null,
+            "region_policy": "global",
+            "effective_from": null,
+            "effective_until": null,
+            "region_selector": {
+              "dataResidencies": [
+                "global"
+              ],
+              "endpointGeographies": [
+                "global"
+              ],
+              "pricingGeography": "global_base"
+            },
+            "default_availability_status": "available",
+            "availability_rules": [],
+            "price_adjustments": []
+          },
+          "calculation_default": true,
+          "source_refs": [
+            "source:zhipu-ai:docs-z-ai-guides-overview-pricing-md"
+          ],
+          "source_urls": [
+            "https://docs.z.ai/guides/overview/pricing.md"
+          ],
+          "verification_status": "verified"
+        },
+        {
+          "pricing_id": "price:zhipu-ai/glm-5.3:standard:short:current",
+          "charge_id": "price:zhipu-ai/glm-5.3:standard:short:current:output:text:per_1m_tokens",
+          "component": "output",
+          "amount": "4.4",
+          "unit": "per_1m_tokens",
+          "currency": "USD",
+          "modality": "text",
+          "condition": {
+            "processing_mode": "standard",
+            "context_class": "short",
+            "prompt_token_threshold": null,
+            "tier_selection": null,
+            "region_policy": "global",
+            "effective_from": null,
+            "effective_until": null,
+            "region_selector": {
+              "dataResidencies": [
+                "global"
+              ],
+              "endpointGeographies": [
+                "global"
+              ],
+              "pricingGeography": "global_base"
+            },
+            "default_availability_status": "available",
+            "availability_rules": [],
+            "price_adjustments": []
+          },
+          "calculation_default": true,
+          "source_refs": [
+            "source:zhipu-ai:docs-z-ai-guides-overview-pricing-md"
+          ],
+          "source_urls": [
+            "https://docs.z.ai/guides/overview/pricing.md"
+          ],
+          "verification_status": "verified"
+        }
+      ],
+      "unit_price": null,
+      "billing_unit": null,
+      "billing_quantity": null,
+      "pricing_dimension": null,
+      "released_at": null,
+      "access_status": "public",
+      "access_checked_at": "2026-11-04T06:42:58Z",
+      "access_evidence": [
+        {
+          "claimType": "official_access_public",
+          "officialModelId": "glm-5.3",
+          "scope": "Exact model on the Z.ai international API under ordinary pay-as-you-go account requirements.",
+          "sourceRef": "source:zhipu-ai:docs-z-ai-guides-llm-glm-5-3-md",
+          "title": "glm-5.3 official model availability documentation",
+          "url": "https://docs.z.ai/guides/llm/glm-5.3.md"
+        }
+      ],
+      "binding_status": "approved",
+      "binding_evidence": [
+        {
+          "claimType": "official_identity_binding",
+          "officialModelId": "glm-5.3",
+          "reason": "Exact documented API model ID; no entitlement inherited from a billing target.",
+          "sourceRef": "source:zhipu-ai:docs-z-ai-guides-llm-glm-5-3-md",
+          "title": "glm-5.3 official identity documentation",
+          "url": "https://docs.z.ai/guides/llm/glm-5.3.md"
+        }
+      ],
+      "conditional_usage_allowances": [],
+      "model_selection": null
+    },
+    {
+      "provider_id": "zhipu-ai",
+      "provider": "Z.ai (Zhipu)",
+      "model_id": "glm-5.3-flash",
+      "model": "GLM-5.3-Flash",
+      "input_price_per_1m_tokens": 0.15,
+      "cached_input_price_per_1m_tokens": 0.03,
+      "output_price_per_1m_tokens": 0.5,
+      "currency": "USD",
+      "pricing_unit": "1M tokens",
+      "status": "latest",
+      "availability": "active",
+      "official_source_url": "https://docs.z.ai/guides/overview/pricing.md",
+      "verification_status": "verified",
+      "last_verified_at": "2026-11-04",
+      "checked_at": "2026-11-04",
+      "effective_from": null,
+      "effective_until": null,
+      "notes": "",
+      "pricing_tier_count": 0,
+      "pricing_tiers": [],
+      "time_pricing": null,
+      "pricing_components": [
+        {
+          "pricing_id": "price:zhipu-ai/glm-5.3-flash:standard:short:current",
+          "charge_id": "price:zhipu-ai/glm-5.3-flash:standard:short:current:cached_input:text:per_1m_tokens",
+          "component": "cached_input",
+          "amount": "0.03",
+          "unit": "per_1m_tokens",
+          "currency": "USD",
+          "modality": "text",
+          "condition": {
+            "processing_mode": "standard",
+            "context_class": "short",
+            "prompt_token_threshold": null,
+            "tier_selection": null,
+            "region_policy": "global",
+            "effective_from": null,
+            "effective_until": null,
+            "region_selector": {
+              "dataResidencies": [
+                "global"
+              ],
+              "endpointGeographies": [
+                "global"
+              ],
+              "pricingGeography": "global_base"
+            },
+            "default_availability_status": "available",
+            "availability_rules": [],
+            "price_adjustments": []
+          },
+          "calculation_default": true,
+          "source_refs": [
+            "source:zhipu-ai:docs-z-ai-guides-overview-pricing-md"
+          ],
+          "source_urls": [
+            "https://docs.z.ai/guides/overview/pricing.md"
+          ],
+          "verification_status": "verified"
+        },
+        {
+          "pricing_id": "price:zhipu-ai/glm-5.3-flash:standard:short:current",
+          "charge_id": "price:zhipu-ai/glm-5.3-flash:standard:short:current:input:text:per_1m_tokens",
+          "component": "input",
+          "amount": "0.15",
+          "unit": "per_1m_tokens",
+          "currency": "USD",
+          "modality": "text",
+          "condition": {
+            "processing_mode": "standard",
+            "context_class": "short",
+            "prompt_token_threshold": null,
+            "tier_selection": null,
+            "region_policy": "global",
+            "effective_from": null,
+            "effective_until": null,
+            "region_selector": {
+              "dataResidencies": [
+                "global"
+              ],
+              "endpointGeographies": [
+                "global"
+              ],
+              "pricingGeography": "global_base"
+            },
+            "default_availability_status": "available",
+            "availability_rules": [],
+            "price_adjustments": []
+          },
+          "calculation_default": true,
+          "source_refs": [
+            "source:zhipu-ai:docs-z-ai-guides-overview-pricing-md"
+          ],
+          "source_urls": [
+            "https://docs.z.ai/guides/overview/pricing.md"
+          ],
+          "verification_status": "verified"
+        },
+        {
+          "pricing_id": "price:zhipu-ai/glm-5.3-flash:standard:short:current",
+          "charge_id": "price:zhipu-ai/glm-5.3-flash:standard:short:current:output:text:per_1m_tokens",
+          "component": "output",
+          "amount": "0.5",
+          "unit": "per_1m_tokens",
+          "currency": "USD",
+          "modality": "text",
+          "condition": {
+            "processing_mode": "standard",
+            "context_class": "short",
+            "prompt_token_threshold": null,
+            "tier_selection": null,
+            "region_policy": "global",
+            "effective_from": null,
+            "effective_until": null,
+            "region_selector": {
+              "dataResidencies": [
+                "global"
+              ],
+              "endpointGeographies": [
+                "global"
+              ],
+              "pricingGeography": "global_base"
+            },
+            "default_availability_status": "available",
+            "availability_rules": [],
+            "price_adjustments": []
+          },
+          "calculation_default": true,
+          "source_refs": [
+            "source:zhipu-ai:docs-z-ai-guides-overview-pricing-md"
+          ],
+          "source_urls": [
+            "https://docs.z.ai/guides/overview/pricing.md"
+          ],
+          "verification_status": "verified"
+        }
+      ],
+      "unit_price": null,
+      "billing_unit": null,
+      "billing_quantity": null,
+      "pricing_dimension": null,
+      "released_at": null,
+      "access_status": "public",
+      "access_checked_at": "2026-11-04T06:43:00Z",
+      "access_evidence": [
+        {
+          "claimType": "official_access_public",
+          "officialModelId": "glm-5.3-flash",
+          "scope": "Exact model on the Z.ai international API under ordinary pay-as-you-go account requirements.",
+          "sourceRef": "source:zhipu-ai:docs-z-ai-guides-vlm-glm-5-3-flash-md",
+          "title": "glm-5.3-flash official model availability documentation",
+          "url": "https://docs.z.ai/guides/vlm/glm-5.3-flash.md"
+        }
+      ],
+      "binding_status": "approved",
+      "binding_evidence": [
+        {
+          "claimType": "official_identity_binding",
+          "officialModelId": "glm-5.3-flash",
+          "reason": "Exact documented API model ID; no entitlement inherited from a billing target.",
+          "sourceRef": "source:zhipu-ai:docs-z-ai-guides-vlm-glm-5-3-flash-md",
+          "title": "glm-5.3-flash official identity documentation",
+          "url": "https://docs.z.ai/guides/vlm/glm-5.3-flash.md"
+        }
+      ],
+      "conditional_usage_allowances": [],
+      "model_selection": null
+    },
+    {
+      "provider_id": "zhipu-ai",
+      "provider": "Z.ai (Zhipu)",
+      "model_id": "glm-5.3-flashx",
+      "model": "GLM-5.3-FlashX",
+      "input_price_per_1m_tokens": 0.37,
+      "cached_input_price_per_1m_tokens": 0.075,
+      "output_price_per_1m_tokens": 1.25,
+      "currency": "USD",
+      "pricing_unit": "1M tokens",
+      "status": "latest",
+      "availability": "active",
+      "official_source_url": "https://docs.z.ai/guides/overview/pricing.md",
+      "verification_status": "verified",
+      "last_verified_at": "2026-11-04",
+      "checked_at": "2026-11-04",
+      "effective_from": null,
+      "effective_until": null,
+      "notes": "",
+      "pricing_tier_count": 0,
+      "pricing_tiers": [],
+      "time_pricing": null,
+      "pricing_components": [
+        {
+          "pricing_id": "price:zhipu-ai/glm-5.3-flashx:standard:short:current",
+          "charge_id": "price:zhipu-ai/glm-5.3-flashx:standard:short:current:cached_input:text:per_1m_tokens",
+          "component": "cached_input",
+          "amount": "0.075",
+          "unit": "per_1m_tokens",
+          "currency": "USD",
+          "modality": "text",
+          "condition": {
+            "processing_mode": "standard",
+            "context_class": "short",
+            "prompt_token_threshold": null,
+            "tier_selection": null,
+            "region_policy": "global",
+            "effective_from": null,
+            "effective_until": null,
+            "region_selector": {
+              "dataResidencies": [
+                "global"
+              ],
+              "endpointGeographies": [
+                "global"
+              ],
+              "pricingGeography": "global_base"
+            },
+            "default_availability_status": "available",
+            "availability_rules": [],
+            "price_adjustments": []
+          },
+          "calculation_default": true,
+          "source_refs": [
+            "source:zhipu-ai:docs-z-ai-guides-overview-pricing-md"
+          ],
+          "source_urls": [
+            "https://docs.z.ai/guides/overview/pricing.md"
+          ],
+          "verification_status": "verified"
+        },
+        {
+          "pricing_id": "price:zhipu-ai/glm-5.3-flashx:standard:short:current",
+          "charge_id": "price:zhipu-ai/glm-5.3-flashx:standard:short:current:input:text:per_1m_tokens",
+          "component": "input",
+          "amount": "0.37",
+          "unit": "per_1m_tokens",
+          "currency": "USD",
+          "modality": "text",
+          "condition": {
+            "processing_mode": "standard",
+            "context_class": "short",
+            "prompt_token_threshold": null,
+            "tier_selection": null,
+            "region_policy": "global",
+            "effective_from": null,
+            "effective_until": null,
+            "region_selector": {
+              "dataResidencies": [
+                "global"
+              ],
+              "endpointGeographies": [
+                "global"
+              ],
+              "pricingGeography": "global_base"
+            },
+            "default_availability_status": "available",
+            "availability_rules": [],
+            "price_adjustments": []
+          },
+          "calculation_default": true,
+          "source_refs": [
+            "source:zhipu-ai:docs-z-ai-guides-overview-pricing-md"
+          ],
+          "source_urls": [
+            "https://docs.z.ai/guides/overview/pricing.md"
+          ],
+          "verification_status": "verified"
+        },
+        {
+          "pricing_id": "price:zhipu-ai/glm-5.3-flashx:standard:short:current",
+          "charge_id": "price:zhipu-ai/glm-5.3-flashx:standard:short:current:output:text:per_1m_tokens",
+          "component": "output",
+          "amount": "1.25",
+          "unit": "per_1m_tokens",
+          "currency": "USD",
+          "modality": "text",
+          "condition": {
+            "processing_mode": "standard",
+            "context_class": "short",
+            "prompt_token_threshold": null,
+            "tier_selection": null,
+            "region_policy": "global",
+            "effective_from": null,
+            "effective_until": null,
+            "region_selector": {
+              "dataResidencies": [
+                "global"
+              ],
+              "endpointGeographies": [
+                "global"
+              ],
+              "pricingGeography": "global_base"
+            },
+            "default_availability_status": "available",
+            "availability_rules": [],
+            "price_adjustments": []
+          },
+          "calculation_default": true,
+          "source_refs": [
+            "source:zhipu-ai:docs-z-ai-guides-overview-pricing-md"
+          ],
+          "source_urls": [
+            "https://docs.z.ai/guides/overview/pricing.md"
+          ],
+          "verification_status": "verified"
+        }
+      ],
+      "unit_price": null,
+      "billing_unit": null,
+      "billing_quantity": null,
+      "pricing_dimension": null,
+      "released_at": null,
+      "access_status": "public",
+      "access_checked_at": "2026-11-04T06:43:02Z",
+      "access_evidence": [
+        {
+          "claimType": "official_access_public",
+          "officialModelId": "glm-5.3-flashx",
+          "scope": "Exact model on the Z.ai international API under ordinary pay-as-you-go account requirements.",
+          "sourceRef": "source:zhipu-ai:docs-z-ai-guides-vlm-glm-5-3-flash-md",
+          "title": "glm-5.3-flashx official model availability documentation",
+          "url": "https://docs.z.ai/guides/vlm/glm-5.3-flash.md"
+        }
+      ],
+      "binding_status": "approved",
+      "binding_evidence": [
+        {
+          "claimType": "official_identity_binding",
+          "officialModelId": "glm-5.3-flashx",
+          "reason": "Exact documented API model ID; no entitlement inherited from a billing target.",
+          "sourceRef": "source:zhipu-ai:docs-z-ai-guides-vlm-glm-5-3-flash-md",
+          "title": "glm-5.3-flashx official identity documentation",
+          "url": "https://docs.z.ai/guides/vlm/glm-5.3-flash.md"
+        }
+      ],
       "conditional_usage_allowances": [],
       "model_selection": null
     }

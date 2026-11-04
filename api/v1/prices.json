@@ -2,14 +2,14 @@
   "dataset_name": "AICostBudget AI API Pricing Dataset",
   "dataset_version": "1.0.0",
   "description": "Open, machine-readable pricing data for LLM and AI APIs.",
-  "generated_at": "2026-11-04T05:49:20Z",
+  "generated_at": "2026-11-04T06:48:28Z",
   "homepage": "https://aicostbudget.com",
-  "last_verified_at": "2026-11-03T12:44:39Z",
+  "last_verified_at": "2026-11-04T06:43:09Z",
   "licenses": {
     "code": "MIT",
     "data": "CC BY 4.0"
   },
-  "model_count": 151,
+  "model_count": 162,
   "models": [
     {
       "access_checked_at": "2026-10-28T16:44:42Z",
@@ -589,6 +589,918 @@
       },
       "project_context_window": true,
       "provider_id": "alibaba-qwen",
+      "release_evidence": null,
+      "release_stage": "stable",
+      "released_at": null,
+      "status": "active"
+    },
+    {
+      "access_checked_at": "2026-11-04T06:41:05Z",
+      "access_evidence": [
+        {
+          "claim_type": "official_access_public",
+          "official_model_id": "amazon.nova-2-lite-v1:0",
+          "scope": "Exact model on Amazon Bedrock under ordinary AWS account requirements.",
+          "title": "amazon.nova-2-lite-v1:0 official model availability documentation",
+          "url": "https://docs.aws.amazon.com/bedrock/latest/userguide/model-card-amazon-nova-2-lite.html"
+        }
+      ],
+      "access_status": "public",
+      "accessed_at": "2026-11-04T06:41:05Z",
+      "binding_evidence": [
+        {
+          "claim_type": "official_identity_binding",
+          "official_model_id": "amazon.nova-2-lite-v1:0",
+          "reason": "Exact documented API model ID; no entitlement inherited from a billing target.",
+          "title": "amazon.nova-2-lite-v1:0 official identity documentation",
+          "url": "https://docs.aws.amazon.com/bedrock/latest/userguide/model-card-amazon-nova-2-lite.html"
+        }
+      ],
+      "binding_status": "approved",
+      "context_window_tokens": 1000000,
+      "display_name": "Nova 2 Lite",
+      "effective_from": null,
+      "last_verified_at": "2026-11-04T06:41:05Z",
+      "model_family": "Nova",
+      "model_id": "nova-2-lite",
+      "notes": "Bedrock model ID amazon.nova-2-lite-v1:0 (Global profile global.amazon.nova-2-lite-v1:0). Text, image and video input; text output; 1M-token context, up to 64K output tokens; optional reasoning. Launched December 2, 2025. Web grounding bills $0.03 per request. Available through Geo and Global cross-region profiles only (no single-Region endpoint in us-east-1).",
+      "official_source_url": "https://pricing.us-east-1.amazonaws.com/offers/v1.0/aws/AmazonBedrock/current/us-east-1/index.json",
+      "official_source_urls": [
+        "https://pricing.us-east-1.amazonaws.com/offers/v1.0/aws/AmazonBedrock/current/us-east-1/index.json",
+        "https://aws.amazon.com/bedrock/pricing/"
+      ],
+      "price_records": [
+        {
+          "billing_note": "Global cross-region inference price on Amazon Bedrock. In-region and Geo (us., eu., jp.) inference profiles cost 10% more on every token type. Prompt cache writes are free.",
+          "calculation_default": true,
+          "charges": [
+            {
+              "amount": "0.3",
+              "component": "input",
+              "id": "price:amazon-nova/nova-2-lite:standard:short:current:input:text:per_1m_tokens",
+              "modality": "text",
+              "unit": "per_1m_tokens"
+            },
+            {
+              "amount": "0.075",
+              "component": "cached_input",
+              "id": "price:amazon-nova/nova-2-lite:standard:short:current:cached_input:text:per_1m_tokens",
+              "modality": "text",
+              "unit": "per_1m_tokens"
+            },
+            {
+              "amount": "2.5",
+              "component": "output",
+              "id": "price:amazon-nova/nova-2-lite:standard:short:current:output:text:per_1m_tokens",
+              "modality": "text",
+              "unit": "per_1m_tokens"
+            }
+          ],
+          "checked_at": "2026-11-04T06:41:05Z",
+          "context_class": "short",
+          "currency": "USD",
+          "effective_from": null,
+          "effective_until": null,
+          "id": "price:amazon-nova/nova-2-lite:standard:short:current",
+          "pricing_status": "current",
+          "processing_mode": "standard",
+          "prompt_token_threshold": null,
+          "region_policy": {
+            "availability": {
+              "default": "available",
+              "rules": []
+            },
+            "data_residencies": [
+              "global"
+            ],
+            "endpoint_geographies": [
+              "global",
+              "regional"
+            ],
+            "price_adjustments": [
+              {
+                "factor": "1.10",
+                "id": "regional-endpoint-uplift",
+                "operation": "multiply",
+                "selector": {
+                  "endpoint_geographies": [
+                    "regional"
+                  ]
+                },
+                "source_refs": [
+                  "https://pricing.us-east-1.amazonaws.com/offers/v1.0/aws/AmazonBedrock/current/us-east-1/index.json"
+                ]
+              }
+            ],
+            "pricing_geography": "global_base"
+          },
+          "source_refs": [
+            "https://pricing.us-east-1.amazonaws.com/offers/v1.0/aws/AmazonBedrock/current/us-east-1/index.json"
+          ],
+          "verification_status": "verified",
+          "verified_at": "2026-11-04T06:41:05Z"
+        },
+        {
+          "billing_note": "Global cross-region inference price on Amazon Bedrock. In-region and Geo (us., eu., jp.) inference profiles cost 10% more on every token type. Prompt cache writes are free. Batch inference rate.",
+          "calculation_default": false,
+          "charges": [
+            {
+              "amount": "0.15",
+              "component": "input",
+              "id": "price:amazon-nova/nova-2-lite:batch:short:current:input:text:per_1m_tokens",
+              "modality": "text",
+              "unit": "per_1m_tokens"
+            },
+            {
+              "amount": "1.25",
+              "component": "output",
+              "id": "price:amazon-nova/nova-2-lite:batch:short:current:output:text:per_1m_tokens",
+              "modality": "text",
+              "unit": "per_1m_tokens"
+            }
+          ],
+          "checked_at": "2026-11-04T06:41:05Z",
+          "context_class": "short",
+          "currency": "USD",
+          "effective_from": null,
+          "effective_until": null,
+          "id": "price:amazon-nova/nova-2-lite:batch:short:current",
+          "pricing_status": "current",
+          "processing_mode": "batch",
+          "prompt_token_threshold": null,
+          "region_policy": {
+            "availability": {
+              "default": "available",
+              "rules": []
+            },
+            "data_residencies": [
+              "global"
+            ],
+            "endpoint_geographies": [
+              "global",
+              "regional"
+            ],
+            "price_adjustments": [
+              {
+                "factor": "1.10",
+                "id": "regional-endpoint-uplift",
+                "operation": "multiply",
+                "selector": {
+                  "endpoint_geographies": [
+                    "regional"
+                  ]
+                },
+                "source_refs": [
+                  "https://pricing.us-east-1.amazonaws.com/offers/v1.0/aws/AmazonBedrock/current/us-east-1/index.json"
+                ]
+              }
+            ],
+            "pricing_geography": "global_base"
+          },
+          "source_refs": [
+            "https://pricing.us-east-1.amazonaws.com/offers/v1.0/aws/AmazonBedrock/current/us-east-1/index.json"
+          ],
+          "verification_status": "verified",
+          "verified_at": "2026-11-04T06:41:05Z"
+        },
+        {
+          "billing_note": "Global cross-region inference price on Amazon Bedrock. In-region and Geo (us., eu., jp.) inference profiles cost 10% more on every token type. Prompt cache writes are free. Flex service tier.",
+          "calculation_default": false,
+          "charges": [
+            {
+              "amount": "0.15",
+              "component": "input",
+              "id": "price:amazon-nova/nova-2-lite:flex:short:current:input:text:per_1m_tokens",
+              "modality": "text",
+              "unit": "per_1m_tokens"
+            },
+            {
+              "amount": "0.0375",
+              "component": "cached_input",
+              "id": "price:amazon-nova/nova-2-lite:flex:short:current:cached_input:text:per_1m_tokens",
+              "modality": "text",
+              "unit": "per_1m_tokens"
+            },
+            {
+              "amount": "1.25",
+              "component": "output",
+              "id": "price:amazon-nova/nova-2-lite:flex:short:current:output:text:per_1m_tokens",
+              "modality": "text",
+              "unit": "per_1m_tokens"
+            }
+          ],
+          "checked_at": "2026-11-04T06:41:05Z",
+          "context_class": "short",
+          "currency": "USD",
+          "effective_from": null,
+          "effective_until": null,
+          "id": "price:amazon-nova/nova-2-lite:flex:short:current",
+          "pricing_status": "current",
+          "processing_mode": "flex",
+          "prompt_token_threshold": null,
+          "region_policy": {
+            "availability": {
+              "default": "available",
+              "rules": []
+            },
+            "data_residencies": [
+              "global"
+            ],
+            "endpoint_geographies": [
+              "global",
+              "regional"
+            ],
+            "price_adjustments": [
+              {
+                "factor": "1.10",
+                "id": "regional-endpoint-uplift",
+                "operation": "multiply",
+                "selector": {
+                  "endpoint_geographies": [
+                    "regional"
+                  ]
+                },
+                "source_refs": [
+                  "https://pricing.us-east-1.amazonaws.com/offers/v1.0/aws/AmazonBedrock/current/us-east-1/index.json"
+                ]
+              }
+            ],
+            "pricing_geography": "global_base"
+          },
+          "source_refs": [
+            "https://pricing.us-east-1.amazonaws.com/offers/v1.0/aws/AmazonBedrock/current/us-east-1/index.json"
+          ],
+          "verification_status": "verified",
+          "verified_at": "2026-11-04T06:41:05Z"
+        },
+        {
+          "billing_note": "Global cross-region inference price on Amazon Bedrock. In-region and Geo (us., eu., jp.) inference profiles cost 10% more on every token type. Prompt cache writes are free. Priority service tier.",
+          "calculation_default": false,
+          "charges": [
+            {
+              "amount": "0.525",
+              "component": "input",
+              "id": "price:amazon-nova/nova-2-lite:priority:short:current:input:text:per_1m_tokens",
+              "modality": "text",
+              "unit": "per_1m_tokens"
+            },
+            {
+              "amount": "0.13125",
+              "component": "cached_input",
+              "id": "price:amazon-nova/nova-2-lite:priority:short:current:cached_input:text:per_1m_tokens",
+              "modality": "text",
+              "unit": "per_1m_tokens"
+            },
+            {
+              "amount": "4.375",
+              "component": "output",
+              "id": "price:amazon-nova/nova-2-lite:priority:short:current:output:text:per_1m_tokens",
+              "modality": "text",
+              "unit": "per_1m_tokens"
+            }
+          ],
+          "checked_at": "2026-11-04T06:41:05Z",
+          "context_class": "short",
+          "currency": "USD",
+          "effective_from": null,
+          "effective_until": null,
+          "id": "price:amazon-nova/nova-2-lite:priority:short:current",
+          "pricing_status": "current",
+          "processing_mode": "priority",
+          "prompt_token_threshold": null,
+          "region_policy": {
+            "availability": {
+              "default": "available",
+              "rules": []
+            },
+            "data_residencies": [
+              "global"
+            ],
+            "endpoint_geographies": [
+              "global",
+              "regional"
+            ],
+            "price_adjustments": [
+              {
+                "factor": "1.10",
+                "id": "regional-endpoint-uplift",
+                "operation": "multiply",
+                "selector": {
+                  "endpoint_geographies": [
+                    "regional"
+                  ]
+                },
+                "source_refs": [
+                  "https://pricing.us-east-1.amazonaws.com/offers/v1.0/aws/AmazonBedrock/current/us-east-1/index.json"
+                ]
+              }
+            ],
+            "pricing_geography": "global_base"
+          },
+          "source_refs": [
+            "https://pricing.us-east-1.amazonaws.com/offers/v1.0/aws/AmazonBedrock/current/us-east-1/index.json"
+          ],
+          "verification_status": "verified",
+          "verified_at": "2026-11-04T06:41:05Z"
+        }
+      ],
+      "pricing": {
+        "batch_input": 0.15,
+        "batch_output": 1.25,
+        "cache_write": null,
+        "cache_write_1h": null,
+        "cached_input": 0.075,
+        "currency": "USD",
+        "input": 0.3,
+        "output": 2.5,
+        "unit": "1M tokens"
+      },
+      "project_context_window": true,
+      "provider_id": "amazon-nova",
+      "release_evidence": null,
+      "release_stage": "stable",
+      "released_at": null,
+      "status": "active"
+    },
+    {
+      "access_checked_at": "2026-11-04T06:41:22Z",
+      "access_evidence": [
+        {
+          "claim_type": "official_access_public",
+          "official_model_id": "amazon.nova-lite-v1:0",
+          "scope": "Exact model on Amazon Bedrock under ordinary AWS account requirements.",
+          "title": "amazon.nova-lite-v1:0 official model availability documentation",
+          "url": "https://docs.aws.amazon.com/bedrock/latest/userguide/model-card-amazon-nova-lite.html"
+        }
+      ],
+      "access_status": "public",
+      "accessed_at": "2026-11-04T06:41:22Z",
+      "binding_evidence": [
+        {
+          "claim_type": "official_identity_binding",
+          "official_model_id": "amazon.nova-lite-v1:0",
+          "reason": "Exact documented API model ID; no entitlement inherited from a billing target.",
+          "title": "amazon.nova-lite-v1:0 official identity documentation",
+          "url": "https://docs.aws.amazon.com/bedrock/latest/userguide/model-card-amazon-nova-lite.html"
+        }
+      ],
+      "binding_status": "approved",
+      "context_window_tokens": 300000,
+      "display_name": "Nova Lite",
+      "effective_from": null,
+      "last_verified_at": "2026-11-04T06:41:22Z",
+      "model_family": "Nova",
+      "model_id": "nova-lite",
+      "notes": "Bedrock model ID amazon.nova-lite-v1:0. Text, image and video input; text output; 300K-token context, up to 10K output tokens. Launched December 5, 2024. No Global cross-region profile.",
+      "official_source_url": "https://pricing.us-east-1.amazonaws.com/offers/v1.0/aws/AmazonBedrock/current/us-east-1/index.json",
+      "official_source_urls": [
+        "https://pricing.us-east-1.amazonaws.com/offers/v1.0/aws/AmazonBedrock/current/us-east-1/index.json",
+        "https://aws.amazon.com/bedrock/pricing/"
+      ],
+      "price_records": [
+        {
+          "billing_note": "On-demand price in us-east-1 (N. Virginia) on Amazon Bedrock, also charged for the US Geo cross-region profile. Other Regions can differ. Prompt cache writes are free.",
+          "calculation_default": true,
+          "charges": [
+            {
+              "amount": "0.06",
+              "component": "input",
+              "id": "price:amazon-nova/nova-lite:standard:short:current:input:text:per_1m_tokens",
+              "modality": "text",
+              "unit": "per_1m_tokens"
+            },
+            {
+              "amount": "0.015",
+              "component": "cached_input",
+              "id": "price:amazon-nova/nova-lite:standard:short:current:cached_input:text:per_1m_tokens",
+              "modality": "text",
+              "unit": "per_1m_tokens"
+            },
+            {
+              "amount": "0.24",
+              "component": "output",
+              "id": "price:amazon-nova/nova-lite:standard:short:current:output:text:per_1m_tokens",
+              "modality": "text",
+              "unit": "per_1m_tokens"
+            }
+          ],
+          "checked_at": "2026-11-04T06:41:22Z",
+          "context_class": "short",
+          "currency": "USD",
+          "effective_from": null,
+          "effective_until": null,
+          "id": "price:amazon-nova/nova-lite:standard:short:current",
+          "pricing_status": "current",
+          "processing_mode": "standard",
+          "prompt_token_threshold": null,
+          "region_policy": {
+            "availability": {
+              "default": "available",
+              "rules": []
+            },
+            "data_residencies": [
+              "us-east-1"
+            ],
+            "endpoint_geographies": [
+              "us-east-1"
+            ],
+            "price_adjustments": [],
+            "pricing_geography": "global_base"
+          },
+          "source_refs": [
+            "https://pricing.us-east-1.amazonaws.com/offers/v1.0/aws/AmazonBedrock/current/us-east-1/index.json"
+          ],
+          "verification_status": "verified",
+          "verified_at": "2026-11-04T06:41:22Z"
+        },
+        {
+          "billing_note": "On-demand price in us-east-1 (N. Virginia) on Amazon Bedrock, also charged for the US Geo cross-region profile. Other Regions can differ. Prompt cache writes are free. Batch inference rate.",
+          "calculation_default": false,
+          "charges": [
+            {
+              "amount": "0.03",
+              "component": "input",
+              "id": "price:amazon-nova/nova-lite:batch:short:current:input:text:per_1m_tokens",
+              "modality": "text",
+              "unit": "per_1m_tokens"
+            },
+            {
+              "amount": "0.12",
+              "component": "output",
+              "id": "price:amazon-nova/nova-lite:batch:short:current:output:text:per_1m_tokens",
+              "modality": "text",
+              "unit": "per_1m_tokens"
+            }
+          ],
+          "checked_at": "2026-11-04T06:41:22Z",
+          "context_class": "short",
+          "currency": "USD",
+          "effective_from": null,
+          "effective_until": null,
+          "id": "price:amazon-nova/nova-lite:batch:short:current",
+          "pricing_status": "current",
+          "processing_mode": "batch",
+          "prompt_token_threshold": null,
+          "region_policy": {
+            "availability": {
+              "default": "available",
+              "rules": []
+            },
+            "data_residencies": [
+              "us-east-1"
+            ],
+            "endpoint_geographies": [
+              "us-east-1"
+            ],
+            "price_adjustments": [],
+            "pricing_geography": "global_base"
+          },
+          "source_refs": [
+            "https://pricing.us-east-1.amazonaws.com/offers/v1.0/aws/AmazonBedrock/current/us-east-1/index.json"
+          ],
+          "verification_status": "verified",
+          "verified_at": "2026-11-04T06:41:22Z"
+        }
+      ],
+      "pricing": {
+        "batch_input": 0.03,
+        "batch_output": 0.12,
+        "cache_write": null,
+        "cache_write_1h": null,
+        "cached_input": 0.015,
+        "currency": "USD",
+        "input": 0.06,
+        "output": 0.24,
+        "unit": "1M tokens"
+      },
+      "project_context_window": true,
+      "provider_id": "amazon-nova",
+      "release_evidence": null,
+      "release_stage": "stable",
+      "released_at": null,
+      "status": "active"
+    },
+    {
+      "access_checked_at": "2026-11-04T06:41:14Z",
+      "access_evidence": [
+        {
+          "claim_type": "official_access_public",
+          "official_model_id": "amazon.nova-micro-v1:0",
+          "scope": "Exact model on Amazon Bedrock under ordinary AWS account requirements.",
+          "title": "amazon.nova-micro-v1:0 official model availability documentation",
+          "url": "https://docs.aws.amazon.com/bedrock/latest/userguide/model-card-amazon-nova-micro.html"
+        }
+      ],
+      "access_status": "public",
+      "accessed_at": "2026-11-04T06:41:14Z",
+      "binding_evidence": [
+        {
+          "claim_type": "official_identity_binding",
+          "official_model_id": "amazon.nova-micro-v1:0",
+          "reason": "Exact documented API model ID; no entitlement inherited from a billing target.",
+          "title": "amazon.nova-micro-v1:0 official identity documentation",
+          "url": "https://docs.aws.amazon.com/bedrock/latest/userguide/model-card-amazon-nova-micro.html"
+        }
+      ],
+      "binding_status": "approved",
+      "context_window_tokens": 128000,
+      "display_name": "Nova Micro",
+      "effective_from": null,
+      "last_verified_at": "2026-11-04T06:41:14Z",
+      "model_family": "Nova",
+      "model_id": "nova-micro",
+      "notes": "Bedrock model ID amazon.nova-micro-v1:0. Text-only model; 128K-token context, up to 10K output tokens. Launched December 5, 2024. No Global cross-region profile.",
+      "official_source_url": "https://pricing.us-east-1.amazonaws.com/offers/v1.0/aws/AmazonBedrock/current/us-east-1/index.json",
+      "official_source_urls": [
+        "https://pricing.us-east-1.amazonaws.com/offers/v1.0/aws/AmazonBedrock/current/us-east-1/index.json",
+        "https://aws.amazon.com/bedrock/pricing/"
+      ],
+      "price_records": [
+        {
+          "billing_note": "On-demand price in us-east-1 (N. Virginia) on Amazon Bedrock, also charged for the US Geo cross-region profile. Other Regions can differ. Prompt cache writes are free.",
+          "calculation_default": true,
+          "charges": [
+            {
+              "amount": "0.035",
+              "component": "input",
+              "id": "price:amazon-nova/nova-micro:standard:short:current:input:text:per_1m_tokens",
+              "modality": "text",
+              "unit": "per_1m_tokens"
+            },
+            {
+              "amount": "0.00875",
+              "component": "cached_input",
+              "id": "price:amazon-nova/nova-micro:standard:short:current:cached_input:text:per_1m_tokens",
+              "modality": "text",
+              "unit": "per_1m_tokens"
+            },
+            {
+              "amount": "0.14",
+              "component": "output",
+              "id": "price:amazon-nova/nova-micro:standard:short:current:output:text:per_1m_tokens",
+              "modality": "text",
+              "unit": "per_1m_tokens"
+            }
+          ],
+          "checked_at": "2026-11-04T06:41:14Z",
+          "context_class": "short",
+          "currency": "USD",
+          "effective_from": null,
+          "effective_until": null,
+          "id": "price:amazon-nova/nova-micro:standard:short:current",
+          "pricing_status": "current",
+          "processing_mode": "standard",
+          "prompt_token_threshold": null,
+          "region_policy": {
+            "availability": {
+              "default": "available",
+              "rules": []
+            },
+            "data_residencies": [
+              "us-east-1"
+            ],
+            "endpoint_geographies": [
+              "us-east-1"
+            ],
+            "price_adjustments": [],
+            "pricing_geography": "global_base"
+          },
+          "source_refs": [
+            "https://pricing.us-east-1.amazonaws.com/offers/v1.0/aws/AmazonBedrock/current/us-east-1/index.json"
+          ],
+          "verification_status": "verified",
+          "verified_at": "2026-11-04T06:41:14Z"
+        },
+        {
+          "billing_note": "On-demand price in us-east-1 (N. Virginia) on Amazon Bedrock, also charged for the US Geo cross-region profile. Other Regions can differ. Prompt cache writes are free. Batch inference rate.",
+          "calculation_default": false,
+          "charges": [
+            {
+              "amount": "0.0175",
+              "component": "input",
+              "id": "price:amazon-nova/nova-micro:batch:short:current:input:text:per_1m_tokens",
+              "modality": "text",
+              "unit": "per_1m_tokens"
+            },
+            {
+              "amount": "0.07",
+              "component": "output",
+              "id": "price:amazon-nova/nova-micro:batch:short:current:output:text:per_1m_tokens",
+              "modality": "text",
+              "unit": "per_1m_tokens"
+            }
+          ],
+          "checked_at": "2026-11-04T06:41:14Z",
+          "context_class": "short",
+          "currency": "USD",
+          "effective_from": null,
+          "effective_until": null,
+          "id": "price:amazon-nova/nova-micro:batch:short:current",
+          "pricing_status": "current",
+          "processing_mode": "batch",
+          "prompt_token_threshold": null,
+          "region_policy": {
+            "availability": {
+              "default": "available",
+              "rules": []
+            },
+            "data_residencies": [
+              "us-east-1"
+            ],
+            "endpoint_geographies": [
+              "us-east-1"
+            ],
+            "price_adjustments": [],
+            "pricing_geography": "global_base"
+          },
+          "source_refs": [
+            "https://pricing.us-east-1.amazonaws.com/offers/v1.0/aws/AmazonBedrock/current/us-east-1/index.json"
+          ],
+          "verification_status": "verified",
+          "verified_at": "2026-11-04T06:41:14Z"
+        }
+      ],
+      "pricing": {
+        "batch_input": 0.0175,
+        "batch_output": 0.07,
+        "cache_write": null,
+        "cache_write_1h": null,
+        "cached_input": 0.00875,
+        "currency": "USD",
+        "input": 0.035,
+        "output": 0.14,
+        "unit": "1M tokens"
+      },
+      "project_context_window": true,
+      "provider_id": "amazon-nova",
+      "release_evidence": null,
+      "release_stage": "stable",
+      "released_at": null,
+      "status": "active"
+    },
+    {
+      "access_checked_at": "2026-11-04T06:41:30Z",
+      "access_evidence": [
+        {
+          "claim_type": "official_access_public",
+          "official_model_id": "amazon.nova-pro-v1:0",
+          "scope": "Exact model on Amazon Bedrock under ordinary AWS account requirements.",
+          "title": "amazon.nova-pro-v1:0 official model availability documentation",
+          "url": "https://docs.aws.amazon.com/bedrock/latest/userguide/model-card-amazon-nova-pro.html"
+        }
+      ],
+      "access_status": "public",
+      "accessed_at": "2026-11-04T06:41:30Z",
+      "binding_evidence": [
+        {
+          "claim_type": "official_identity_binding",
+          "official_model_id": "amazon.nova-pro-v1:0",
+          "reason": "Exact documented API model ID; no entitlement inherited from a billing target.",
+          "title": "amazon.nova-pro-v1:0 official identity documentation",
+          "url": "https://docs.aws.amazon.com/bedrock/latest/userguide/model-card-amazon-nova-pro.html"
+        }
+      ],
+      "binding_status": "approved",
+      "context_window_tokens": 300000,
+      "display_name": "Nova Pro",
+      "effective_from": null,
+      "last_verified_at": "2026-11-04T06:41:30Z",
+      "model_family": "Nova",
+      "model_id": "nova-pro",
+      "notes": "Bedrock model ID amazon.nova-pro-v1:0. Text, image and video input; text output; 300K-token context, up to 10K output tokens. Launched December 5, 2024. No Global cross-region profile.",
+      "official_source_url": "https://pricing.us-east-1.amazonaws.com/offers/v1.0/aws/AmazonBedrock/current/us-east-1/index.json",
+      "official_source_urls": [
+        "https://pricing.us-east-1.amazonaws.com/offers/v1.0/aws/AmazonBedrock/current/us-east-1/index.json",
+        "https://aws.amazon.com/bedrock/pricing/"
+      ],
+      "price_records": [
+        {
+          "billing_note": "On-demand price in us-east-1 (N. Virginia) on Amazon Bedrock, also charged for the US Geo cross-region profile. Other Regions can differ. Prompt cache writes are free.",
+          "calculation_default": true,
+          "charges": [
+            {
+              "amount": "0.8",
+              "component": "input",
+              "id": "price:amazon-nova/nova-pro:standard:short:current:input:text:per_1m_tokens",
+              "modality": "text",
+              "unit": "per_1m_tokens"
+            },
+            {
+              "amount": "0.2",
+              "component": "cached_input",
+              "id": "price:amazon-nova/nova-pro:standard:short:current:cached_input:text:per_1m_tokens",
+              "modality": "text",
+              "unit": "per_1m_tokens"
+            },
+            {
+              "amount": "3.2",
+              "component": "output",
+              "id": "price:amazon-nova/nova-pro:standard:short:current:output:text:per_1m_tokens",
+              "modality": "text",
+              "unit": "per_1m_tokens"
+            }
+          ],
+          "checked_at": "2026-11-04T06:41:30Z",
+          "context_class": "short",
+          "currency": "USD",
+          "effective_from": null,
+          "effective_until": null,
+          "id": "price:amazon-nova/nova-pro:standard:short:current",
+          "pricing_status": "current",
+          "processing_mode": "standard",
+          "prompt_token_threshold": null,
+          "region_policy": {
+            "availability": {
+              "default": "available",
+              "rules": []
+            },
+            "data_residencies": [
+              "us-east-1"
+            ],
+            "endpoint_geographies": [
+              "us-east-1"
+            ],
+            "price_adjustments": [],
+            "pricing_geography": "global_base"
+          },
+          "source_refs": [
+            "https://pricing.us-east-1.amazonaws.com/offers/v1.0/aws/AmazonBedrock/current/us-east-1/index.json"
+          ],
+          "verification_status": "verified",
+          "verified_at": "2026-11-04T06:41:30Z"
+        },
+        {
+          "billing_note": "On-demand price in us-east-1 (N. Virginia) on Amazon Bedrock, also charged for the US Geo cross-region profile. Other Regions can differ. Prompt cache writes are free. Batch inference rate.",
+          "calculation_default": false,
+          "charges": [
+            {
+              "amount": "0.4",
+              "component": "input",
+              "id": "price:amazon-nova/nova-pro:batch:short:current:input:text:per_1m_tokens",
+              "modality": "text",
+              "unit": "per_1m_tokens"
+            },
+            {
+              "amount": "1.6",
+              "component": "output",
+              "id": "price:amazon-nova/nova-pro:batch:short:current:output:text:per_1m_tokens",
+              "modality": "text",
+              "unit": "per_1m_tokens"
+            }
+          ],
+          "checked_at": "2026-11-04T06:41:30Z",
+          "context_class": "short",
+          "currency": "USD",
+          "effective_from": null,
+          "effective_until": null,
+          "id": "price:amazon-nova/nova-pro:batch:short:current",
+          "pricing_status": "current",
+          "processing_mode": "batch",
+          "prompt_token_threshold": null,
+          "region_policy": {
+            "availability": {
+              "default": "available",
+              "rules": []
+            },
+            "data_residencies": [
+              "us-east-1"
+            ],
+            "endpoint_geographies": [
+              "us-east-1"
+            ],
+            "price_adjustments": [],
+            "pricing_geography": "global_base"
+          },
+          "source_refs": [
+            "https://pricing.us-east-1.amazonaws.com/offers/v1.0/aws/AmazonBedrock/current/us-east-1/index.json"
+          ],
+          "verification_status": "verified",
+          "verified_at": "2026-11-04T06:41:30Z"
+        },
+        {
+          "billing_note": "On-demand price in us-east-1 (N. Virginia) on Amazon Bedrock, also charged for the US Geo cross-region profile. Other Regions can differ. Prompt cache writes are free. Flex service tier.",
+          "calculation_default": false,
+          "charges": [
+            {
+              "amount": "0.4",
+              "component": "input",
+              "id": "price:amazon-nova/nova-pro:flex:short:current:input:text:per_1m_tokens",
+              "modality": "text",
+              "unit": "per_1m_tokens"
+            },
+            {
+              "amount": "0.1",
+              "component": "cached_input",
+              "id": "price:amazon-nova/nova-pro:flex:short:current:cached_input:text:per_1m_tokens",
+              "modality": "text",
+              "unit": "per_1m_tokens"
+            },
+            {
+              "amount": "1.6",
+              "component": "output",
+              "id": "price:amazon-nova/nova-pro:flex:short:current:output:text:per_1m_tokens",
+              "modality": "text",
+              "unit": "per_1m_tokens"
+            }
+          ],
+          "checked_at": "2026-11-04T06:41:30Z",
+          "context_class": "short",
+          "currency": "USD",
+          "effective_from": null,
+          "effective_until": null,
+          "id": "price:amazon-nova/nova-pro:flex:short:current",
+          "pricing_status": "current",
+          "processing_mode": "flex",
+          "prompt_token_threshold": null,
+          "region_policy": {
+            "availability": {
+              "default": "available",
+              "rules": []
+            },
+            "data_residencies": [
+              "us-east-1"
+            ],
+            "endpoint_geographies": [
+              "us-east-1"
+            ],
+            "price_adjustments": [],
+            "pricing_geography": "global_base"
+          },
+          "source_refs": [
+            "https://pricing.us-east-1.amazonaws.com/offers/v1.0/aws/AmazonBedrock/current/us-east-1/index.json"
+          ],
+          "verification_status": "verified",
+          "verified_at": "2026-11-04T06:41:30Z"
+        },
+        {
+          "billing_note": "On-demand price in us-east-1 (N. Virginia) on Amazon Bedrock, also charged for the US Geo cross-region profile. Other Regions can differ. Prompt cache writes are free. Priority service tier.",
+          "calculation_default": false,
+          "charges": [
+            {
+              "amount": "1.4",
+              "component": "input",
+              "id": "price:amazon-nova/nova-pro:priority:short:current:input:text:per_1m_tokens",
+              "modality": "text",
+              "unit": "per_1m_tokens"
+            },
+            {
+              "amount": "0.35",
+              "component": "cached_input",
+              "id": "price:amazon-nova/nova-pro:priority:short:current:cached_input:text:per_1m_tokens",
+              "modality": "text",
+              "unit": "per_1m_tokens"
+            },
+            {
+              "amount": "5.6",
+              "component": "output",
+              "id": "price:amazon-nova/nova-pro:priority:short:current:output:text:per_1m_tokens",
+              "modality": "text",
+              "unit": "per_1m_tokens"
+            }
+          ],
+          "checked_at": "2026-11-04T06:41:30Z",
+          "context_class": "short",
+          "currency": "USD",
+          "effective_from": null,
+          "effective_until": null,
+          "id": "price:amazon-nova/nova-pro:priority:short:current",
+          "pricing_status": "current",
+          "processing_mode": "priority",
+          "prompt_token_threshold": null,
+          "region_policy": {
+            "availability": {
+              "default": "available",
+              "rules": []
+            },
+            "data_residencies": [
+              "us-east-1"
+            ],
+            "endpoint_geographies": [
+              "us-east-1"
+            ],
+            "price_adjustments": [],
+            "pricing_geography": "global_base"
+          },
+          "source_refs": [
+            "https://pricing.us-east-1.amazonaws.com/offers/v1.0/aws/AmazonBedrock/current/us-east-1/index.json"
+          ],
+          "verification_status": "verified",
+          "verified_at": "2026-11-04T06:41:30Z"
+        }
+      ],
+      "pricing": {
+        "batch_input": 0.4,
+        "batch_output": 1.6,
+        "cache_write": null,
+        "cache_write_1h": null,
+        "cached_input": 0.2,
+        "currency": "USD",
+        "input": 0.8,
+        "output": 3.2,
+        "unit": "1M tokens"
+      },
+      "project_context_window": true,
+      "provider_id": "amazon-nova",
       "release_evidence": null,
       "release_stage": "stable",
       "released_at": null,
@@ -26742,6 +27654,114 @@
       "status": "deprecated"
     },
     {
+      "access_checked_at": "2026-11-04T06:43:09Z",
+      "access_evidence": [
+        {
+          "claim_type": "official_access_public",
+          "official_model_id": "perplexity/sonar",
+          "scope": "Exact model on the Perplexity Agent API under ordinary pay-as-you-go API account requirements.",
+          "title": "perplexity/sonar official model availability documentation",
+          "url": "https://docs.perplexity.ai/docs/agent-api/models.md"
+        }
+      ],
+      "access_status": "public",
+      "accessed_at": "2026-11-04T06:43:09Z",
+      "binding_evidence": [
+        {
+          "claim_type": "official_identity_binding",
+          "official_model_id": "perplexity/sonar",
+          "reason": "Exact documented API model ID; no entitlement inherited from a billing target.",
+          "title": "perplexity/sonar official identity documentation",
+          "url": "https://docs.perplexity.ai/docs/agent-api/models.md"
+        }
+      ],
+      "binding_status": "approved",
+      "display_name": "Sonar",
+      "effective_from": null,
+      "last_verified_at": "2026-11-04T06:43:09Z",
+      "model_family": "Sonar",
+      "model_id": "sonar",
+      "notes": "Official Agent API model ID perplexity/sonar. Search-grounded answers with citations. Sonar Pro, Sonar Reasoning Pro and Sonar Deep Research are no longer listed after the September 27, 2026 Chat Completions retirement. Perplexity does not publish a context window or maximum output length for Sonar in the Agent API docs; unknown values are not represented as zero.",
+      "official_source_url": "https://docs.perplexity.ai/docs/agent-api/models.md",
+      "official_source_urls": [
+        "https://docs.perplexity.ai/docs/agent-api/models.md",
+        "https://docs.perplexity.ai/docs/getting-started/pricing.md"
+      ],
+      "price_records": [
+        {
+          "billing_note": "Agent API price for perplexity/sonar, the only Perplexity-built model still offered. Tool calls bill on top of tokens: web_search $0.0025 per call ($0.001 for Fast Search), fetch_url $0.0005 per call. Sonar has no Flex or Priority tier. The old Sonar Chat Completions endpoint was retired on September 27, 2026; its requests are now served by the Agent API at these rates.",
+          "calculation_default": true,
+          "charges": [
+            {
+              "amount": "0.25",
+              "component": "input",
+              "id": "price:perplexity/sonar:standard:short:current:input:text:per_1m_tokens",
+              "modality": "text",
+              "unit": "per_1m_tokens"
+            },
+            {
+              "amount": "0.0625",
+              "component": "cached_input",
+              "id": "price:perplexity/sonar:standard:short:current:cached_input:text:per_1m_tokens",
+              "modality": "text",
+              "unit": "per_1m_tokens"
+            },
+            {
+              "amount": "2.5",
+              "component": "output",
+              "id": "price:perplexity/sonar:standard:short:current:output:text:per_1m_tokens",
+              "modality": "text",
+              "unit": "per_1m_tokens"
+            }
+          ],
+          "checked_at": "2026-11-04T06:43:09Z",
+          "context_class": "short",
+          "currency": "USD",
+          "effective_from": null,
+          "effective_until": null,
+          "id": "price:perplexity/sonar:standard:short:current",
+          "pricing_status": "current",
+          "processing_mode": "standard",
+          "prompt_token_threshold": null,
+          "region_policy": {
+            "availability": {
+              "default": "available",
+              "rules": []
+            },
+            "data_residencies": [
+              "global"
+            ],
+            "endpoint_geographies": [
+              "global"
+            ],
+            "price_adjustments": [],
+            "pricing_geography": "global_base"
+          },
+          "source_refs": [
+            "https://docs.perplexity.ai/docs/agent-api/models.md"
+          ],
+          "verification_status": "verified",
+          "verified_at": "2026-11-04T06:43:09Z"
+        }
+      ],
+      "pricing": {
+        "batch_input": null,
+        "batch_output": null,
+        "cache_write": null,
+        "cache_write_1h": null,
+        "cached_input": 0.0625,
+        "currency": "USD",
+        "input": 0.25,
+        "output": 2.5,
+        "unit": "1M tokens"
+      },
+      "provider_id": "perplexity",
+      "release_evidence": null,
+      "release_stage": "stable",
+      "released_at": null,
+      "status": "active"
+    },
+    {
       "access_checked_at": "2026-10-07T04:26:40Z",
       "access_evidence": [
         {
@@ -30301,9 +31321,669 @@
       "provider_id": "xai",
       "release_stage": "stable",
       "status": "active"
+    },
+    {
+      "access_checked_at": "2026-11-04T06:43:07Z",
+      "access_evidence": [
+        {
+          "claim_type": "official_access_public",
+          "official_model_id": "glm-4.7",
+          "scope": "Exact model on the Z.ai international API under ordinary pay-as-you-go account requirements.",
+          "title": "glm-4.7 official model availability documentation",
+          "url": "https://docs.z.ai/guides/llm/glm-4.7.md"
+        }
+      ],
+      "access_status": "public",
+      "accessed_at": "2026-11-04T06:43:07Z",
+      "binding_evidence": [
+        {
+          "claim_type": "official_identity_binding",
+          "official_model_id": "glm-4.7",
+          "reason": "Exact documented API model ID; no entitlement inherited from a billing target.",
+          "title": "glm-4.7 official identity documentation",
+          "url": "https://docs.z.ai/guides/llm/glm-4.7.md"
+        }
+      ],
+      "binding_status": "approved",
+      "context_window_tokens": 200000,
+      "display_name": "GLM-4.7",
+      "effective_from": null,
+      "last_verified_at": "2026-11-04T06:43:07Z",
+      "model_family": "GLM",
+      "model_id": "glm-4.7",
+      "notes": "Official API model ID glm-4.7. Text model with a 200K-token context window and up to 128K output tokens. Z.ai does not publish a release date or Batch rate in its API pricing; unknown values are not represented as zero.",
+      "official_source_url": "https://docs.z.ai/guides/overview/pricing.md",
+      "official_source_urls": [
+        "https://docs.z.ai/guides/overview/pricing.md",
+        "https://docs.z.ai/guides/llm/glm-4.7.md"
+      ],
+      "price_records": [
+        {
+          "billing_note": "Z.ai international API price per 1M tokens. Cached input applies to tokens read from the context cache; cache storage is free for a limited time. The built-in Web Search tool bills $0.01 per use. Prices on the Chinese mainland platform (bigmodel.cn) are in CNY and differ.",
+          "calculation_default": true,
+          "charges": [
+            {
+              "amount": "0.6",
+              "component": "input",
+              "id": "price:zhipu-ai/glm-4.7:standard:short:current:input:text:per_1m_tokens",
+              "modality": "text",
+              "unit": "per_1m_tokens"
+            },
+            {
+              "amount": "0.11",
+              "component": "cached_input",
+              "id": "price:zhipu-ai/glm-4.7:standard:short:current:cached_input:text:per_1m_tokens",
+              "modality": "text",
+              "unit": "per_1m_tokens"
+            },
+            {
+              "amount": "2.2",
+              "component": "output",
+              "id": "price:zhipu-ai/glm-4.7:standard:short:current:output:text:per_1m_tokens",
+              "modality": "text",
+              "unit": "per_1m_tokens"
+            }
+          ],
+          "checked_at": "2026-11-04T06:43:07Z",
+          "context_class": "short",
+          "currency": "USD",
+          "effective_from": null,
+          "effective_until": null,
+          "id": "price:zhipu-ai/glm-4.7:standard:short:current",
+          "pricing_status": "current",
+          "processing_mode": "standard",
+          "prompt_token_threshold": null,
+          "region_policy": {
+            "availability": {
+              "default": "available",
+              "rules": []
+            },
+            "data_residencies": [
+              "global"
+            ],
+            "endpoint_geographies": [
+              "global"
+            ],
+            "price_adjustments": [],
+            "pricing_geography": "global_base"
+          },
+          "source_refs": [
+            "https://docs.z.ai/guides/overview/pricing.md"
+          ],
+          "verification_status": "verified",
+          "verified_at": "2026-11-04T06:43:07Z"
+        }
+      ],
+      "pricing": {
+        "batch_input": null,
+        "batch_output": null,
+        "cache_write": null,
+        "cache_write_1h": null,
+        "cached_input": 0.11,
+        "currency": "USD",
+        "input": 0.6,
+        "output": 2.2,
+        "unit": "1M tokens"
+      },
+      "project_context_window": true,
+      "provider_id": "zhipu-ai",
+      "release_evidence": null,
+      "release_stage": "stable",
+      "released_at": null,
+      "status": "active"
+    },
+    {
+      "access_checked_at": "2026-11-04T06:43:06Z",
+      "access_evidence": [
+        {
+          "claim_type": "official_access_public",
+          "official_model_id": "glm-5",
+          "scope": "Exact model on the Z.ai international API under ordinary pay-as-you-go account requirements.",
+          "title": "glm-5 official model availability documentation",
+          "url": "https://docs.z.ai/guides/llm/glm-5.md"
+        }
+      ],
+      "access_status": "public",
+      "accessed_at": "2026-11-04T06:43:06Z",
+      "binding_evidence": [
+        {
+          "claim_type": "official_identity_binding",
+          "official_model_id": "glm-5",
+          "reason": "Exact documented API model ID; no entitlement inherited from a billing target.",
+          "title": "glm-5 official identity documentation",
+          "url": "https://docs.z.ai/guides/llm/glm-5.md"
+        }
+      ],
+      "binding_status": "approved",
+      "context_window_tokens": 200000,
+      "display_name": "GLM-5",
+      "effective_from": null,
+      "last_verified_at": "2026-11-04T06:43:06Z",
+      "model_family": "GLM",
+      "model_id": "glm-5",
+      "notes": "Official API model ID glm-5. Text model with a 200K-token context window and up to 128K output tokens. Z.ai does not publish a release date or Batch rate in its API pricing; unknown values are not represented as zero.",
+      "official_source_url": "https://docs.z.ai/guides/overview/pricing.md",
+      "official_source_urls": [
+        "https://docs.z.ai/guides/overview/pricing.md",
+        "https://docs.z.ai/guides/llm/glm-5.md"
+      ],
+      "price_records": [
+        {
+          "billing_note": "Z.ai international API price per 1M tokens. Cached input applies to tokens read from the context cache; cache storage is free for a limited time. The built-in Web Search tool bills $0.01 per use. Prices on the Chinese mainland platform (bigmodel.cn) are in CNY and differ.",
+          "calculation_default": true,
+          "charges": [
+            {
+              "amount": "1",
+              "component": "input",
+              "id": "price:zhipu-ai/glm-5:standard:short:current:input:text:per_1m_tokens",
+              "modality": "text",
+              "unit": "per_1m_tokens"
+            },
+            {
+              "amount": "0.2",
+              "component": "cached_input",
+              "id": "price:zhipu-ai/glm-5:standard:short:current:cached_input:text:per_1m_tokens",
+              "modality": "text",
+              "unit": "per_1m_tokens"
+            },
+            {
+              "amount": "3.2",
+              "component": "output",
+              "id": "price:zhipu-ai/glm-5:standard:short:current:output:text:per_1m_tokens",
+              "modality": "text",
+              "unit": "per_1m_tokens"
+            }
+          ],
+          "checked_at": "2026-11-04T06:43:06Z",
+          "context_class": "short",
+          "currency": "USD",
+          "effective_from": null,
+          "effective_until": null,
+          "id": "price:zhipu-ai/glm-5:standard:short:current",
+          "pricing_status": "current",
+          "processing_mode": "standard",
+          "prompt_token_threshold": null,
+          "region_policy": {
+            "availability": {
+              "default": "available",
+              "rules": []
+            },
+            "data_residencies": [
+              "global"
+            ],
+            "endpoint_geographies": [
+              "global"
+            ],
+            "price_adjustments": [],
+            "pricing_geography": "global_base"
+          },
+          "source_refs": [
+            "https://docs.z.ai/guides/overview/pricing.md"
+          ],
+          "verification_status": "verified",
+          "verified_at": "2026-11-04T06:43:06Z"
+        }
+      ],
+      "pricing": {
+        "batch_input": null,
+        "batch_output": null,
+        "cache_write": null,
+        "cache_write_1h": null,
+        "cached_input": 0.2,
+        "currency": "USD",
+        "input": 1.0,
+        "output": 3.2,
+        "unit": "1M tokens"
+      },
+      "project_context_window": true,
+      "provider_id": "zhipu-ai",
+      "release_evidence": null,
+      "release_stage": "stable",
+      "released_at": null,
+      "status": "active"
+    },
+    {
+      "access_checked_at": "2026-11-04T06:43:04Z",
+      "access_evidence": [
+        {
+          "claim_type": "official_access_public",
+          "official_model_id": "glm-5.2",
+          "scope": "Exact model on the Z.ai international API under ordinary pay-as-you-go account requirements.",
+          "title": "glm-5.2 official model availability documentation",
+          "url": "https://docs.z.ai/guides/llm/glm-5.2.md"
+        }
+      ],
+      "access_status": "public",
+      "accessed_at": "2026-11-04T06:43:04Z",
+      "binding_evidence": [
+        {
+          "claim_type": "official_identity_binding",
+          "official_model_id": "glm-5.2",
+          "reason": "Exact documented API model ID; no entitlement inherited from a billing target.",
+          "title": "glm-5.2 official identity documentation",
+          "url": "https://docs.z.ai/guides/llm/glm-5.2.md"
+        }
+      ],
+      "binding_status": "approved",
+      "context_window_tokens": 1000000,
+      "display_name": "GLM-5.2",
+      "effective_from": null,
+      "last_verified_at": "2026-11-04T06:43:04Z",
+      "model_family": "GLM",
+      "model_id": "glm-5.2",
+      "notes": "Official API model ID glm-5.2. Previous flagship, same base model as GLM-5.3 and the same price. 1M-token context, up to 128K output tokens. Z.ai does not publish a release date or Batch rate in its API pricing; unknown values are not represented as zero.",
+      "official_source_url": "https://docs.z.ai/guides/overview/pricing.md",
+      "official_source_urls": [
+        "https://docs.z.ai/guides/overview/pricing.md",
+        "https://docs.z.ai/guides/llm/glm-5.2.md"
+      ],
+      "price_records": [
+        {
+          "billing_note": "Z.ai international API price per 1M tokens. Cached input applies to tokens read from the context cache; cache storage is free for a limited time. The built-in Web Search tool bills $0.01 per use. Prices on the Chinese mainland platform (bigmodel.cn) are in CNY and differ.",
+          "calculation_default": true,
+          "charges": [
+            {
+              "amount": "1.4",
+              "component": "input",
+              "id": "price:zhipu-ai/glm-5.2:standard:short:current:input:text:per_1m_tokens",
+              "modality": "text",
+              "unit": "per_1m_tokens"
+            },
+            {
+              "amount": "0.26",
+              "component": "cached_input",
+              "id": "price:zhipu-ai/glm-5.2:standard:short:current:cached_input:text:per_1m_tokens",
+              "modality": "text",
+              "unit": "per_1m_tokens"
+            },
+            {
+              "amount": "4.4",
+              "component": "output",
+              "id": "price:zhipu-ai/glm-5.2:standard:short:current:output:text:per_1m_tokens",
+              "modality": "text",
+              "unit": "per_1m_tokens"
+            }
+          ],
+          "checked_at": "2026-11-04T06:43:04Z",
+          "context_class": "short",
+          "currency": "USD",
+          "effective_from": null,
+          "effective_until": null,
+          "id": "price:zhipu-ai/glm-5.2:standard:short:current",
+          "pricing_status": "current",
+          "processing_mode": "standard",
+          "prompt_token_threshold": null,
+          "region_policy": {
+            "availability": {
+              "default": "available",
+              "rules": []
+            },
+            "data_residencies": [
+              "global"
+            ],
+            "endpoint_geographies": [
+              "global"
+            ],
+            "price_adjustments": [],
+            "pricing_geography": "global_base"
+          },
+          "source_refs": [
+            "https://docs.z.ai/guides/overview/pricing.md"
+          ],
+          "verification_status": "verified",
+          "verified_at": "2026-11-04T06:43:04Z"
+        }
+      ],
+      "pricing": {
+        "batch_input": null,
+        "batch_output": null,
+        "cache_write": null,
+        "cache_write_1h": null,
+        "cached_input": 0.26,
+        "currency": "USD",
+        "input": 1.4,
+        "output": 4.4,
+        "unit": "1M tokens"
+      },
+      "project_context_window": true,
+      "provider_id": "zhipu-ai",
+      "release_evidence": null,
+      "release_stage": "stable",
+      "released_at": null,
+      "status": "active"
+    },
+    {
+      "access_checked_at": "2026-11-04T06:42:58Z",
+      "access_evidence": [
+        {
+          "claim_type": "official_access_public",
+          "official_model_id": "glm-5.3",
+          "scope": "Exact model on the Z.ai international API under ordinary pay-as-you-go account requirements.",
+          "title": "glm-5.3 official model availability documentation",
+          "url": "https://docs.z.ai/guides/llm/glm-5.3.md"
+        }
+      ],
+      "access_status": "public",
+      "accessed_at": "2026-11-04T06:42:58Z",
+      "binding_evidence": [
+        {
+          "claim_type": "official_identity_binding",
+          "official_model_id": "glm-5.3",
+          "reason": "Exact documented API model ID; no entitlement inherited from a billing target.",
+          "title": "glm-5.3 official identity documentation",
+          "url": "https://docs.z.ai/guides/llm/glm-5.3.md"
+        }
+      ],
+      "binding_status": "approved",
+      "context_window_tokens": 1000000,
+      "display_name": "GLM-5.3",
+      "effective_from": null,
+      "last_verified_at": "2026-11-04T06:42:58Z",
+      "model_family": "GLM",
+      "model_id": "glm-5.3",
+      "notes": "Official API model ID glm-5.3. Flagship model. Text input only, 1M-token context, up to 128K output tokens. Reasoning is always on (effort low, high or max). Z.ai does not publish a release date or Batch rate in its API pricing; unknown values are not represented as zero.",
+      "official_source_url": "https://docs.z.ai/guides/overview/pricing.md",
+      "official_source_urls": [
+        "https://docs.z.ai/guides/overview/pricing.md",
+        "https://docs.z.ai/guides/llm/glm-5.3.md"
+      ],
+      "price_records": [
+        {
+          "billing_note": "Z.ai international API price per 1M tokens. Cached input applies to tokens read from the context cache; cache storage is free for a limited time. The built-in Web Search tool bills $0.01 per use. Prices on the Chinese mainland platform (bigmodel.cn) are in CNY and differ.",
+          "calculation_default": true,
+          "charges": [
+            {
+              "amount": "1.4",
+              "component": "input",
+              "id": "price:zhipu-ai/glm-5.3:standard:short:current:input:text:per_1m_tokens",
+              "modality": "text",
+              "unit": "per_1m_tokens"
+            },
+            {
+              "amount": "0.26",
+              "component": "cached_input",
+              "id": "price:zhipu-ai/glm-5.3:standard:short:current:cached_input:text:per_1m_tokens",
+              "modality": "text",
+              "unit": "per_1m_tokens"
+            },
+            {
+              "amount": "4.4",
+              "component": "output",
+              "id": "price:zhipu-ai/glm-5.3:standard:short:current:output:text:per_1m_tokens",
+              "modality": "text",
+              "unit": "per_1m_tokens"
+            }
+          ],
+          "checked_at": "2026-11-04T06:42:58Z",
+          "context_class": "short",
+          "currency": "USD",
+          "effective_from": null,
+          "effective_until": null,
+          "id": "price:zhipu-ai/glm-5.3:standard:short:current",
+          "pricing_status": "current",
+          "processing_mode": "standard",
+          "prompt_token_threshold": null,
+          "region_policy": {
+            "availability": {
+              "default": "available",
+              "rules": []
+            },
+            "data_residencies": [
+              "global"
+            ],
+            "endpoint_geographies": [
+              "global"
+            ],
+            "price_adjustments": [],
+            "pricing_geography": "global_base"
+          },
+          "source_refs": [
+            "https://docs.z.ai/guides/overview/pricing.md"
+          ],
+          "verification_status": "verified",
+          "verified_at": "2026-11-04T06:42:58Z"
+        }
+      ],
+      "pricing": {
+        "batch_input": null,
+        "batch_output": null,
+        "cache_write": null,
+        "cache_write_1h": null,
+        "cached_input": 0.26,
+        "currency": "USD",
+        "input": 1.4,
+        "output": 4.4,
+        "unit": "1M tokens"
+      },
+      "project_context_window": true,
+      "provider_id": "zhipu-ai",
+      "release_evidence": null,
+      "release_stage": "stable",
+      "released_at": null,
+      "status": "active"
+    },
+    {
+      "access_checked_at": "2026-11-04T06:43:00Z",
+      "access_evidence": [
+        {
+          "claim_type": "official_access_public",
+          "official_model_id": "glm-5.3-flash",
+          "scope": "Exact model on the Z.ai international API under ordinary pay-as-you-go account requirements.",
+          "title": "glm-5.3-flash official model availability documentation",
+          "url": "https://docs.z.ai/guides/vlm/glm-5.3-flash.md"
+        }
+      ],
+      "access_status": "public",
+      "accessed_at": "2026-11-04T06:43:00Z",
+      "binding_evidence": [
+        {
+          "claim_type": "official_identity_binding",
+          "official_model_id": "glm-5.3-flash",
+          "reason": "Exact documented API model ID; no entitlement inherited from a billing target.",
+          "title": "glm-5.3-flash official identity documentation",
+          "url": "https://docs.z.ai/guides/vlm/glm-5.3-flash.md"
+        }
+      ],
+      "binding_status": "approved",
+      "context_window_tokens": 1000000,
+      "display_name": "GLM-5.3-Flash",
+      "effective_from": null,
+      "last_verified_at": "2026-11-04T06:43:00Z",
+      "model_family": "GLM",
+      "model_id": "glm-5.3-flash",
+      "notes": "Official API model ID glm-5.3-flash. Low-cost multimodal model: text, image, video and file input; text output; 1M-token context, up to 128K output tokens. Z.ai does not publish a release date or Batch rate in its API pricing; unknown values are not represented as zero.",
+      "official_source_url": "https://docs.z.ai/guides/overview/pricing.md",
+      "official_source_urls": [
+        "https://docs.z.ai/guides/overview/pricing.md",
+        "https://docs.z.ai/guides/vlm/glm-5.3-flash.md"
+      ],
+      "price_records": [
+        {
+          "billing_note": "Z.ai international API price per 1M tokens. Cached input applies to tokens read from the context cache; cache storage is free for a limited time. The built-in Web Search tool bills $0.01 per use. Prices on the Chinese mainland platform (bigmodel.cn) are in CNY and differ.",
+          "calculation_default": true,
+          "charges": [
+            {
+              "amount": "0.15",
+              "component": "input",
+              "id": "price:zhipu-ai/glm-5.3-flash:standard:short:current:input:text:per_1m_tokens",
+              "modality": "text",
+              "unit": "per_1m_tokens"
+            },
+            {
+              "amount": "0.03",
+              "component": "cached_input",
+              "id": "price:zhipu-ai/glm-5.3-flash:standard:short:current:cached_input:text:per_1m_tokens",
+              "modality": "text",
+              "unit": "per_1m_tokens"
+            },
+            {
+              "amount": "0.5",
+              "component": "output",
+              "id": "price:zhipu-ai/glm-5.3-flash:standard:short:current:output:text:per_1m_tokens",
+              "modality": "text",
+              "unit": "per_1m_tokens"
+            }
+          ],
+          "checked_at": "2026-11-04T06:43:00Z",
+          "context_class": "short",
+          "currency": "USD",
+          "effective_from": null,
+          "effective_until": null,
+          "id": "price:zhipu-ai/glm-5.3-flash:standard:short:current",
+          "pricing_status": "current",
+          "processing_mode": "standard",
+          "prompt_token_threshold": null,
+          "region_policy": {
+            "availability": {
+              "default": "available",
+              "rules": []
+            },
+            "data_residencies": [
+              "global"
+            ],
+            "endpoint_geographies": [
+              "global"
+            ],
+            "price_adjustments": [],
+            "pricing_geography": "global_base"
+          },
+          "source_refs": [
+            "https://docs.z.ai/guides/overview/pricing.md"
+          ],
+          "verification_status": "verified",
+          "verified_at": "2026-11-04T06:43:00Z"
+        }
+      ],
+      "pricing": {
+        "batch_input": null,
+        "batch_output": null,
+        "cache_write": null,
+        "cache_write_1h": null,
+        "cached_input": 0.03,
+        "currency": "USD",
+        "input": 0.15,
+        "output": 0.5,
+        "unit": "1M tokens"
+      },
+      "project_context_window": true,
+      "provider_id": "zhipu-ai",
+      "release_evidence": null,
+      "release_stage": "stable",
+      "released_at": null,
+      "status": "active"
+    },
+    {
+      "access_checked_at": "2026-11-04T06:43:02Z",
+      "access_evidence": [
+        {
+          "claim_type": "official_access_public",
+          "official_model_id": "glm-5.3-flashx",
+          "scope": "Exact model on the Z.ai international API under ordinary pay-as-you-go account requirements.",
+          "title": "glm-5.3-flashx official model availability documentation",
+          "url": "https://docs.z.ai/guides/vlm/glm-5.3-flash.md"
+        }
+      ],
+      "access_status": "public",
+      "accessed_at": "2026-11-04T06:43:02Z",
+      "binding_evidence": [
+        {
+          "claim_type": "official_identity_binding",
+          "official_model_id": "glm-5.3-flashx",
+          "reason": "Exact documented API model ID; no entitlement inherited from a billing target.",
+          "title": "glm-5.3-flashx official identity documentation",
+          "url": "https://docs.z.ai/guides/vlm/glm-5.3-flash.md"
+        }
+      ],
+      "binding_status": "approved",
+      "context_window_tokens": 1000000,
+      "display_name": "GLM-5.3-FlashX",
+      "effective_from": null,
+      "last_verified_at": "2026-11-04T06:43:02Z",
+      "model_family": "GLM",
+      "model_id": "glm-5.3-flashx",
+      "notes": "Official API model ID glm-5.3-flashx. Faster serving of GLM-5.3-Flash (about 200 tokens/s per Z.ai). Text, image, video and file input; 1M-token context, up to 128K output tokens. Z.ai does not publish a release date or Batch rate in its API pricing; unknown values are not represented as zero.",
+      "official_source_url": "https://docs.z.ai/guides/overview/pricing.md",
+      "official_source_urls": [
+        "https://docs.z.ai/guides/overview/pricing.md",
+        "https://docs.z.ai/guides/vlm/glm-5.3-flash.md"
+      ],
+      "price_records": [
+        {
+          "billing_note": "Z.ai international API price per 1M tokens. Cached input applies to tokens read from the context cache; cache storage is free for a limited time. The built-in Web Search tool bills $0.01 per use. Prices on the Chinese mainland platform (bigmodel.cn) are in CNY and differ.",
+          "calculation_default": true,
+          "charges": [
+            {
+              "amount": "0.37",
+              "component": "input",
+              "id": "price:zhipu-ai/glm-5.3-flashx:standard:short:current:input:text:per_1m_tokens",
+              "modality": "text",
+              "unit": "per_1m_tokens"
+            },
+            {
+              "amount": "0.075",
+              "component": "cached_input",
+              "id": "price:zhipu-ai/glm-5.3-flashx:standard:short:current:cached_input:text:per_1m_tokens",
+              "modality": "text",
+              "unit": "per_1m_tokens"
+            },
+            {
+              "amount": "1.25",
+              "component": "output",
+              "id": "price:zhipu-ai/glm-5.3-flashx:standard:short:current:output:text:per_1m_tokens",
+              "modality": "text",
+              "unit": "per_1m_tokens"
+            }
+          ],
+          "checked_at": "2026-11-04T06:43:02Z",
+          "context_class": "short",
+          "currency": "USD",
+          "effective_from": null,
+          "effective_until": null,
+          "id": "price:zhipu-ai/glm-5.3-flashx:standard:short:current",
+          "pricing_status": "current",
+          "processing_mode": "standard",
+          "prompt_token_threshold": null,
+          "region_policy": {
+            "availability": {
+              "default": "available",
+              "rules": []
+            },
+            "data_residencies": [
+              "global"
+            ],
+            "endpoint_geographies": [
+              "global"
+            ],
+            "price_adjustments": [],
+            "pricing_geography": "global_base"
+          },
+          "source_refs": [
+            "https://docs.z.ai/guides/overview/pricing.md"
+          ],
+          "verification_status": "verified",
+          "verified_at": "2026-11-04T06:43:02Z"
+        }
+      ],
+      "pricing": {
+        "batch_input": null,
+        "batch_output": null,
+        "cache_write": null,
+        "cache_write_1h": null,
+        "cached_input": 0.075,
+        "currency": "USD",
+        "input": 0.37,
+        "output": 1.25,
+        "unit": "1M tokens"
+      },
+      "project_context_window": true,
+      "provider_id": "zhipu-ai",
+      "release_evidence": null,
+      "release_stage": "stable",
+      "released_at": null,
+      "status": "active"
     }
   ],
-  "official_source_count": 62,
+  "official_source_count": 65,
   "official_sources": [
     "https://ai.google.dev/gemini-api/docs/deprecations",
     "https://ai.google.dev/gemini-api/docs/models/gemini-nano-banana-2.1",
@@ -30340,6 +32020,7 @@
     "https://docs.mistral.ai/models/voxtral-mini-transcribe-realtime-3-0",
     "https://docs.mistral.ai/models/voxtral-mini-tts-3-0",
     "https://docs.mistral.ai/models/voxtral-small-transcribe-3-0",
+    "https://docs.perplexity.ai/docs/agent-api/models.md",
     "https://docs.x.ai/developers/model-capabilities/audio/speech-to-speech",
     "https://docs.x.ai/developers/models",
     "https://docs.x.ai/developers/models/grok-4.20-0309-non-reasoning",
@@ -30352,6 +32033,7 @@
     "https://docs.x.ai/developers/models/speech-to-text",
     "https://docs.x.ai/developers/pricing",
     "https://docs.x.ai/developers/release-notes",
+    "https://docs.z.ai/guides/overview/pricing.md",
     "https://platform.claude.com/docs/en/about-claude/pricing",
     "https://platform.claude.com/docs/en/models/haiku-5-5/overview",
     "https://platform.claude.com/docs/en/models/opus-5-5/overview",
@@ -30362,13 +32044,14 @@
     "https://platform.kimi.ai/docs/pricing/chat-k3",
     "https://platform.openai.com/docs/pricing",
     "https://prices.azure.com/api/retail/prices",
+    "https://pricing.us-east-1.amazonaws.com/offers/v1.0/aws/AmazonBedrock/current/us-east-1/index.json",
     "https://pricing.us-east-1.amazonaws.com/offers/v1.0/aws/AmazonBedrockFoundationModels/current/us-east-1/index.json",
     "https://www.alibabacloud.com/help/en/model-studio/qwen-flash",
     "https://www.alibabacloud.com/help/en/model-studio/qwen3-7-plus",
     "https://www.alibabacloud.com/help/en/model-studio/qwen3-8-flash",
     "https://www.alibabacloud.com/help/en/model-studio/qwen3-8-max"
   ],
-  "provider_count": 13,
+  "provider_count": 16,
   "providers": [
     {
       "display_name": "Alibaba Qwen",
@@ -30377,6 +32060,14 @@
       "pricing_url": "https://www.alibabacloud.com/help/en/model-studio/model-pricing",
       "provider_id": "alibaba-qwen",
       "website_url": "https://www.alibabacloud.com/en/product/modelstudio"
+    },
+    {
+      "display_name": "Amazon Nova",
+      "docs_url": "https://docs.aws.amazon.com/bedrock/latest/userguide/model-cards-amazon.html",
+      "notes": "Amazon's own Nova models on Amazon Bedrock. Prices come from the AWS Price List offer file for us-east-1. Third-party models hosted on Bedrock are listed under their own makers or under AWS.",
+      "pricing_url": "https://aws.amazon.com/bedrock/pricing/",
+      "provider_id": "amazon-nova",
+      "website_url": "https://aws.amazon.com/nova/"
     },
     {
       "display_name": "Anthropic",
@@ -30467,12 +32158,28 @@
       "website_url": "https://openai.com"
     },
     {
+      "display_name": "Perplexity",
+      "docs_url": "https://docs.perplexity.ai",
+      "notes": "Official Perplexity Agent API pricing. Sonar is Perplexity's own model; third-party models resold through the Agent API are not listed under Perplexity.",
+      "pricing_url": "https://docs.perplexity.ai/docs/getting-started/pricing",
+      "provider_id": "perplexity",
+      "website_url": "https://www.perplexity.ai"
+    },
+    {
       "display_name": "xAI",
       "docs_url": "https://docs.x.ai",
       "notes": "Official xAI model documentation.",
       "pricing_url": "https://docs.x.ai/developers/models",
       "provider_id": "xai",
       "website_url": "https://x.ai"
+    },
+    {
+      "display_name": "Z.ai (Zhipu)",
+      "docs_url": "https://docs.z.ai",
+      "notes": "Official Z.ai (Zhipu AI) international API pricing in USD. The Chinese mainland platform bigmodel.cn publishes separate CNY prices that are not listed here.",
+      "pricing_url": "https://docs.z.ai/guides/overview/pricing",
+      "provider_id": "zhipu-ai",
+      "website_url": "https://z.ai"
     }
   ]
 }
