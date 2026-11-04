@@ -108,6 +108,9 @@ class MoonshotAIOnboardingTests(unittest.TestCase):
         expected_batch = {
             "kimi-k2.7-code": {"input": "0.57", "cached_input": "0.114", "output": "2.4"},
             "kimi-k2.6": {"input": "0.57", "cached_input": "0.1", "output": "2.4"},
+            # Batch pricing table, captured 2026-11-04: 60% of standard, cache writes included.
+            "kimi-k3.1-pro": {"input": "1.2", "cache_write_5m": "1.2", "cache_write_1h": "2.4", "cached_input": "0.12", "output": "6"},
+            "kimi-k3": {"input": "1.8", "cache_write_5m": "1.8", "cache_write_1h": "3.6", "cached_input": "0.18", "output": "9"},
         }
         for model_id, expected in expected_batch.items():
             batch = self.prices[f"price:moonshot-ai/{model_id}:batch:short:current"]
@@ -115,7 +118,7 @@ class MoonshotAIOnboardingTests(unittest.TestCase):
                 {charge["component"]: charge["amount"] for charge in batch["charges"]},
                 expected,
             )
-        for model_id in ("kimi-k3.1-pro", "kimi-k3.1-pro-highspeed", "kimi-k3"):
+        for model_id in ("kimi-k3.1-pro-highspeed",):
             self.assertNotIn(f"price:moonshot-ai/{model_id}:batch:short:current", self.prices)
         moonshot_charges = [
             charge

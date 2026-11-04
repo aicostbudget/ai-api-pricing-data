@@ -362,12 +362,29 @@ class HuggingFaceExportTests(unittest.TestCase):
             item
             for item in kimi_record["pricing_components"]
             if item["component"].startswith("cache_write")
+            and item["condition"]["processing_mode"] == "standard"
         ]
         self.assertEqual(
             {item["component"]: item["amount"] for item in kimi_writes},
             {"cache_write_5m": "3", "cache_write_1h": "6"},
         )
         self.assertEqual(len(kimi_writes), 2)
+        # K3-series batch jobs also bill cache writes (Batch pricing table, captured 2026-11-04).
+        kimi_batch_expected = {
+            "kimi-k3": {"cache_write_5m": "1.8", "cache_write_1h": "3.6"},
+            "kimi-k3.1-pro": {"cache_write_5m": "1.2", "cache_write_1h": "2.4"},
+        }
+        kimi_batch_writes = []
+        for model_id, expected in kimi_batch_expected.items():
+            record = next(row for row in self.records if row["model_id"] == model_id)
+            batch_writes = [
+                item
+                for item in record["pricing_components"]
+                if item["component"].startswith("cache_write")
+                and item["condition"]["processing_mode"] == "batch"
+            ]
+            self.assertEqual({item["component"]: item["amount"] for item in batch_writes}, expected, model_id)
+            kimi_batch_writes.extend(batch_writes)
         kimi_k31_expected = {
             "kimi-k3.1-pro": {"cache_write_5m": "2", "cache_write_1h": "4"},
             "kimi-k3.1-pro-highspeed": {"cache_write_5m": "4", "cache_write_1h": "8"},
@@ -378,6 +395,7 @@ class HuggingFaceExportTests(unittest.TestCase):
                 item
                 for item in record["pricing_components"]
                 if item["component"].startswith("cache_write")
+                and item["condition"]["processing_mode"] == "standard"
             ]
             self.assertEqual({item["component"]: item["amount"] for item in writes}, expected)
             self.assertEqual(len(writes), 2)
@@ -403,11 +421,11 @@ class HuggingFaceExportTests(unittest.TestCase):
                          {"short": "75", "long": "150"})
         self.assertEqual(
             cache_write_count - phase_b_cache_write_count,
-            45 + 4 + len(expected_new_writes) + len(kimi_writes) + len(sonnet_55_writes) + len(ultrafast_writes),
+            45 + 4 + len(expected_new_writes) + len(kimi_writes) + len(kimi_batch_writes) + len(sonnet_55_writes) + len(ultrafast_writes),
         )
         self.assertEqual(
             cache_write_count,
-            45 + 4 + len(expected_new_writes) + len(kimi_writes) + len(sonnet_55_writes) + phase_b_cache_write_count + len(ultrafast_writes),
+            45 + 4 + len(expected_new_writes) + len(kimi_writes) + len(kimi_batch_writes) + len(sonnet_55_writes) + phase_b_cache_write_count + len(ultrafast_writes),
         )
         # OpenAI 12-hour cache writes: every price record of the eight GPT-5.6+ models, at 2.5x input.
         self.assertEqual(len(twelve_hour_writes), 68)

@@ -23,6 +23,19 @@ def without_check_times(value):
         return {k: without_check_times(v) for k, v in value.items() if k not in ('checkedAt','verifiedAt','checked_at','verified_at')}
     return value
 
+# K3 and K3.1 Pro Batch rates were added on 2026-11-04 from the official Batch pricing table;
+# everything else about those models must still be unchanged.
+BATCH_ADDED_20261104 = {'moonshot-ai/kimi-k3', 'moonshot-ai/kimi-k3.1-pro'}
+
+def without_added_batch(key, field, value):
+    if key not in BATCH_ADDED_20261104 or not isinstance(value, list):
+        return value
+    if field == 'priceRecords':
+        return [item for item in value if item.get('processingMode') != 'batch']
+    if field == 'pricingComponents':
+        return [item for item in value if (item.get('condition') or {}).get('processingMode') != 'batch']
+    return value
+
 def read(path):
     return json.loads((ROOT / path).read_text(encoding='utf-8'))
 
@@ -141,4 +154,4 @@ class KimiPublishedRateTests(unittest.TestCase):
                         # Kimi closed the K2 series to newly registered users on 2026-10-31.
                         self.assertEqual(current[key].get(field), 'existing_users_only', key)
                         continue
-                    self.assertEqual(without_check_times(current[key].get(field)), without_check_times(old.get(field)), (key,field))
+                    self.assertEqual(without_check_times(without_added_batch(key, field, current[key].get(field))), without_check_times(old.get(field)), (key,field))

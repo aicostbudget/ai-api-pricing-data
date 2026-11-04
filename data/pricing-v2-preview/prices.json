@@ -14609,7 +14609,7 @@
         "unit": "per_1m_tokens"
       }
     ],
-    "checkedAt": "2026-10-25T05:03:53Z",
+    "checkedAt": "2026-11-04T06:43:27Z",
     "contextClass": "short",
     "currency": "USD",
     "defaultAvailabilityStatus": "available",
@@ -14646,7 +14646,85 @@
       "source:moonshot-ai:platform-kimi-ai-docs-pricing-chat-k3"
     ],
     "verificationStatus": "verified",
-    "verifiedAt": "2026-10-25T05:03:53Z"
+    "verifiedAt": "2026-11-04T06:43:27Z"
+  },
+  {
+    "availabilityRules": [],
+    "billingNote": "Moonshot Batch API explicitly supports kimi-k3 and charges 60% of the standard model price. The official Batch pricing table lists K3 at $1.8 input, $9 output, $0.18 cached input, $1.8 5-minute cache writes and $3.6 1-hour cache writes per 1M tokens; batch jobs on K3-series models incur cache write fees.",
+    "calculationDefault": false,
+    "charges": [
+      {
+        "amount": "1.8",
+        "chargeId": "price:moonshot-ai/kimi-k3:batch:short:current:input:text:per_1m_tokens",
+        "component": "input",
+        "modality": "text",
+        "unit": "per_1m_tokens"
+      },
+      {
+        "amount": "1.8",
+        "chargeId": "price:moonshot-ai/kimi-k3:batch:short:current:cache_write_5m:text:per_1m_tokens",
+        "component": "cache_write_5m",
+        "modality": "text",
+        "unit": "per_1m_tokens"
+      },
+      {
+        "amount": "3.6",
+        "chargeId": "price:moonshot-ai/kimi-k3:batch:short:current:cache_write_1h:text:per_1m_tokens",
+        "component": "cache_write_1h",
+        "modality": "text",
+        "unit": "per_1m_tokens"
+      },
+      {
+        "amount": "0.18",
+        "chargeId": "price:moonshot-ai/kimi-k3:batch:short:current:cached_input:text:per_1m_tokens",
+        "component": "cached_input",
+        "modality": "text",
+        "unit": "per_1m_tokens"
+      },
+      {
+        "amount": "9",
+        "chargeId": "price:moonshot-ai/kimi-k3:batch:short:current:output:text:per_1m_tokens",
+        "component": "output",
+        "modality": "text",
+        "unit": "per_1m_tokens"
+      }
+    ],
+    "checkedAt": "2026-11-04T06:43:27Z",
+    "contextClass": "short",
+    "currency": "USD",
+    "defaultAvailabilityStatus": "available",
+    "effectiveFrom": null,
+    "effectiveUntil": null,
+    "modelInternalId": "moonshot-ai/kimi-k3",
+    "priceAdjustments": [],
+    "pricingId": "price:moonshot-ai/kimi-k3:batch:short:current",
+    "pricingStatus": "current",
+    "processingMode": "batch",
+    "promptTokenThreshold": null,
+    "regionPolicy": "global",
+    "regionSelector": {
+      "dataResidencies": [
+        "global"
+      ],
+      "endpointGeographies": [
+        "global"
+      ],
+      "pricingGeography": "global_base"
+    },
+    "sourceDatasetIds": {
+      "publicDatasetIds": [
+        "kimi-k3"
+      ],
+      "websiteIds": [
+        "kimi-k3"
+      ]
+    },
+    "sourceRefs": [
+      "source:moonshot-ai:platform-kimi-ai-docs-pricing-batch",
+      "source:moonshot-ai:platform-kimi-ai-docs-pricing-chat-k3"
+    ],
+    "verificationStatus": "verified",
+    "verifiedAt": "2026-11-04T06:43:27Z"
   },
   {
     "availabilityRules": [],
@@ -14689,7 +14767,7 @@
         "unit": "per_1m_tokens"
       }
     ],
-    "checkedAt": "2026-10-24T11:44:50Z",
+    "checkedAt": "2026-11-04T06:43:16Z",
     "contextClass": "short",
     "currency": "USD",
     "defaultAvailabilityStatus": "available",
@@ -14724,7 +14802,83 @@
       "source:moonshot-ai:platform-kimi-ai-docs-pricing-chat"
     ],
     "verificationStatus": "verified",
-    "verifiedAt": "2026-10-24T11:44:50Z"
+    "verifiedAt": "2026-11-04T06:43:16Z"
+  },
+  {
+    "availabilityRules": [],
+    "billingNote": "Moonshot Batch API explicitly supports kimi-k3.1-pro and charges 60% of the standard model price. The official Batch pricing table lists K3.1 Pro at $1.2 input, $6 output, $0.12 cached input, $1.2 5-minute cache writes and $2.4 1-hour cache writes per 1M tokens; batch jobs on K3-series models incur cache write fees.",
+    "calculationDefault": false,
+    "charges": [
+      {
+        "amount": "1.2",
+        "chargeId": "price:moonshot-ai/kimi-k3.1-pro:batch:short:current:input:text:per_1m_tokens",
+        "component": "input",
+        "modality": "text",
+        "unit": "per_1m_tokens"
+      },
+      {
+        "amount": "1.2",
+        "chargeId": "price:moonshot-ai/kimi-k3.1-pro:batch:short:current:cache_write_5m:text:per_1m_tokens",
+        "component": "cache_write_5m",
+        "modality": "text",
+        "unit": "per_1m_tokens"
+      },
+      {
+        "amount": "2.4",
+        "chargeId": "price:moonshot-ai/kimi-k3.1-pro:batch:short:current:cache_write_1h:text:per_1m_tokens",
+        "component": "cache_write_1h",
+        "modality": "text",
+        "unit": "per_1m_tokens"
+      },
+      {
+        "amount": "0.12",
+        "chargeId": "price:moonshot-ai/kimi-k3.1-pro:batch:short:current:cached_input:text:per_1m_tokens",
+        "component": "cached_input",
+        "modality": "text",
+        "unit": "per_1m_tokens"
+      },
+      {
+        "amount": "6",
+        "chargeId": "price:moonshot-ai/kimi-k3.1-pro:batch:short:current:output:text:per_1m_tokens",
+        "component": "output",
+        "modality": "text",
+        "unit": "per_1m_tokens"
+      }
+    ],
+    "checkedAt": "2026-11-04T06:43:16Z",
+    "contextClass": "short",
+    "currency": "USD",
+    "defaultAvailabilityStatus": "available",
+    "effectiveFrom": null,
+    "effectiveUntil": null,
+    "modelInternalId": "moonshot-ai/kimi-k3.1-pro",
+    "priceAdjustments": [],
+    "pricingId": "price:moonshot-ai/kimi-k3.1-pro:batch:short:current",
+    "pricingStatus": "current",
+    "processingMode": "batch",
+    "promptTokenThreshold": null,
+    "regionPolicy": "global",
+    "regionSelector": {
+      "dataResidencies": [
+        "global"
+      ],
+      "endpointGeographies": [
+        "global"
+      ],
+      "pricingGeography": "global_base"
+    },
+    "sourceDatasetIds": {
+      "publicDatasetIds": [
+        "kimi-k3.1-pro"
+      ],
+      "websiteIds": []
+    },
+    "sourceRefs": [
+      "source:moonshot-ai:platform-kimi-ai-docs-pricing-batch",
+      "source:moonshot-ai:platform-kimi-ai-docs-pricing-chat"
+    ],
+    "verificationStatus": "verified",
+    "verifiedAt": "2026-11-04T06:43:16Z"
   },
   {
     "availabilityRules": [],

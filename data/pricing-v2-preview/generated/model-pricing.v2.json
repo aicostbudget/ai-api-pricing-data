@@ -9,7 +9,7 @@
     "review_required": "display only with warning; no default or recommendation placement",
     "unsafe": "exclude from default calculations and show warning only where explicitly allowed"
   },
-  "effectiveAt": "2026-11-04T06:48:28Z",
+  "effectiveAt": "2026-11-04T07:10:18Z",
   "effectiveTimezone": "UTC",
   "failureBehavior": {
     "atomicWrite": true,
@@ -18,7 +18,7 @@
     "partialJson": "not_written",
     "publicV1Mutation": "forbidden"
   },
-  "generatedAt": "2026-11-04T06:48:28Z",
+  "generatedAt": "2026-11-04T07:10:18Z",
   "generatedAtPolicy": "UTC artifact generation timestamp injected by the generation pipeline",
   "governancePolicy": {
     "classes": [
@@ -40979,8 +40979,8 @@
       "accessStatus": "public",
       "aliasTargetInternalId": null,
       "availability": "Standard",
-      "batchInputPrice": null,
-      "batchOutputPrice": null,
+      "batchInputPrice": 1.8,
+      "batchOutputPrice": 9,
       "billingModelInternalId": null,
       "bindingEvidence": [
         {
@@ -40996,7 +40996,7 @@
       "blockedFromDefaultReasons": [],
       "cachedInputPrice": 0.3,
       "canonicalInternalId": "moonshot-ai/kimi-k3",
-      "checkedAt": "2026-10-25T05:03:53Z",
+      "checkedAt": "2026-11-04T06:43:27Z",
       "checkedSourceRefs": [
         "source:moonshot-ai:platform-kimi-ai-docs-guide-kimi-k3-quickstart",
         "source:moonshot-ai:platform-kimi-ai-docs-guide-use-context-caching-feature-of-kimi-api",
@@ -41030,8 +41030,24 @@
       "outputPrice": 15,
       "priceRecords": [
         {
+          "calculationDefault": false,
+          "checkedAt": "2026-11-04T06:43:27Z",
+          "contextClass": "short",
+          "effectiveFrom": null,
+          "effectiveUntil": null,
+          "pricingId": "price:moonshot-ai/kimi-k3:batch:short:current",
+          "pricingStatus": "current",
+          "processingMode": "batch",
+          "sourceRefs": [
+            "source:moonshot-ai:platform-kimi-ai-docs-pricing-batch",
+            "source:moonshot-ai:platform-kimi-ai-docs-pricing-chat-k3"
+          ],
+          "verificationStatus": "verified",
+          "verifiedAt": "2026-11-04T06:43:27Z"
+        },
+        {
           "calculationDefault": true,
-          "checkedAt": "2026-10-25T05:03:53Z",
+          "checkedAt": "2026-11-04T06:43:27Z",
           "contextClass": "short",
           "effectiveFrom": null,
           "effectiveUntil": null,
@@ -41045,10 +41061,190 @@
             "source:moonshot-ai:platform-kimi-ai-docs-pricing-chat-k3"
           ],
           "verificationStatus": "verified",
-          "verifiedAt": "2026-10-25T05:03:53Z"
+          "verifiedAt": "2026-11-04T06:43:27Z"
         }
       ],
       "pricingComponents": [
+        {
+          "amount": "3.6",
+          "calculationDefault": false,
+          "chargeId": "price:moonshot-ai/kimi-k3:batch:short:current:cache_write_1h:text:per_1m_tokens",
+          "component": "cache_write_1h",
+          "condition": {
+            "availabilityRules": [],
+            "contextClass": "short",
+            "defaultAvailabilityStatus": "available",
+            "effectiveFrom": null,
+            "effectiveUntil": null,
+            "priceAdjustments": [],
+            "processingMode": "batch",
+            "promptTokenThreshold": null,
+            "regionPolicy": "global",
+            "regionSelector": {
+              "dataResidencies": [
+                "global"
+              ],
+              "endpointGeographies": [
+                "global"
+              ],
+              "pricingGeography": "global_base"
+            },
+            "tierSelection": null
+          },
+          "currency": "USD",
+          "modality": "text",
+          "pricingId": "price:moonshot-ai/kimi-k3:batch:short:current",
+          "sourceRefs": [
+            "source:moonshot-ai:platform-kimi-ai-docs-pricing-batch",
+            "source:moonshot-ai:platform-kimi-ai-docs-pricing-chat-k3"
+          ],
+          "unit": "per_1m_tokens",
+          "verificationStatus": "verified"
+        },
+        {
+          "amount": "1.8",
+          "calculationDefault": false,
+          "chargeId": "price:moonshot-ai/kimi-k3:batch:short:current:cache_write_5m:text:per_1m_tokens",
+          "component": "cache_write_5m",
+          "condition": {
+            "availabilityRules": [],
+            "contextClass": "short",
+            "defaultAvailabilityStatus": "available",
+            "effectiveFrom": null,
+            "effectiveUntil": null,
+            "priceAdjustments": [],
+            "processingMode": "batch",
+            "promptTokenThreshold": null,
+            "regionPolicy": "global",
+            "regionSelector": {
+              "dataResidencies": [
+                "global"
+              ],
+              "endpointGeographies": [
+                "global"
+              ],
+              "pricingGeography": "global_base"
+            },
+            "tierSelection": null
+          },
+          "currency": "USD",
+          "modality": "text",
+          "pricingId": "price:moonshot-ai/kimi-k3:batch:short:current",
+          "sourceRefs": [
+            "source:moonshot-ai:platform-kimi-ai-docs-pricing-batch",
+            "source:moonshot-ai:platform-kimi-ai-docs-pricing-chat-k3"
+          ],
+          "unit": "per_1m_tokens",
+          "verificationStatus": "verified"
+        },
+        {
+          "amount": "0.18",
+          "calculationDefault": false,
+          "chargeId": "price:moonshot-ai/kimi-k3:batch:short:current:cached_input:text:per_1m_tokens",
+          "component": "cached_input",
+          "condition": {
+            "availabilityRules": [],
+            "contextClass": "short",
+            "defaultAvailabilityStatus": "available",
+            "effectiveFrom": null,
+            "effectiveUntil": null,
+            "priceAdjustments": [],
+            "processingMode": "batch",
+            "promptTokenThreshold": null,
+            "regionPolicy": "global",
+            "regionSelector": {
+              "dataResidencies": [
+                "global"
+              ],
+              "endpointGeographies": [
+                "global"
+              ],
+              "pricingGeography": "global_base"
+            },
+            "tierSelection": null
+          },
+          "currency": "USD",
+          "modality": "text",
+          "pricingId": "price:moonshot-ai/kimi-k3:batch:short:current",
+          "sourceRefs": [
+            "source:moonshot-ai:platform-kimi-ai-docs-pricing-batch",
+            "source:moonshot-ai:platform-kimi-ai-docs-pricing-chat-k3"
+          ],
+          "unit": "per_1m_tokens",
+          "verificationStatus": "verified"
+        },
+        {
+          "amount": "1.8",
+          "calculationDefault": false,
+          "chargeId": "price:moonshot-ai/kimi-k3:batch:short:current:input:text:per_1m_tokens",
+          "component": "input",
+          "condition": {
+            "availabilityRules": [],
+            "contextClass": "short",
+            "defaultAvailabilityStatus": "available",
+            "effectiveFrom": null,
+            "effectiveUntil": null,
+            "priceAdjustments": [],
+            "processingMode": "batch",
+            "promptTokenThreshold": null,
+            "regionPolicy": "global",
+            "regionSelector": {
+              "dataResidencies": [
+                "global"
+              ],
+              "endpointGeographies": [
+                "global"
+              ],
+              "pricingGeography": "global_base"
+            },
+            "tierSelection": null
+          },
+          "currency": "USD",
+          "modality": "text",
+          "pricingId": "price:moonshot-ai/kimi-k3:batch:short:current",
+          "sourceRefs": [
+            "source:moonshot-ai:platform-kimi-ai-docs-pricing-batch",
+            "source:moonshot-ai:platform-kimi-ai-docs-pricing-chat-k3"
+          ],
+          "unit": "per_1m_tokens",
+          "verificationStatus": "verified"
+        },
+        {
+          "amount": "9",
+          "calculationDefault": false,
+          "chargeId": "price:moonshot-ai/kimi-k3:batch:short:current:output:text:per_1m_tokens",
+          "component": "output",
+          "condition": {
+            "availabilityRules": [],
+            "contextClass": "short",
+            "defaultAvailabilityStatus": "available",
+            "effectiveFrom": null,
+            "effectiveUntil": null,
+            "priceAdjustments": [],
+            "processingMode": "batch",
+            "promptTokenThreshold": null,
+            "regionPolicy": "global",
+            "regionSelector": {
+              "dataResidencies": [
+                "global"
+              ],
+              "endpointGeographies": [
+                "global"
+              ],
+              "pricingGeography": "global_base"
+            },
+            "tierSelection": null
+          },
+          "currency": "USD",
+          "modality": "text",
+          "pricingId": "price:moonshot-ai/kimi-k3:batch:short:current",
+          "sourceRefs": [
+            "source:moonshot-ai:platform-kimi-ai-docs-pricing-batch",
+            "source:moonshot-ai:platform-kimi-ai-docs-pricing-chat-k3"
+          ],
+          "unit": "per_1m_tokens",
+          "verificationStatus": "verified"
+        },
         {
           "amount": "6",
           "calculationDefault": true,
@@ -41252,7 +41448,7 @@
       "retirementDate": null,
       "routingBehavior": "direct",
       "routingDetails": {},
-      "selectedBatchPriceRecordId": null,
+      "selectedBatchPriceRecordId": "price:moonshot-ai/kimi-k3:batch:short:current",
       "selectedBillingPriceRecordId": "price:moonshot-ai/kimi-k3:standard:short:current",
       "selectedPriceEffectiveFrom": null,
       "selectedPriceEffectiveUntil": null,
@@ -41263,6 +41459,7 @@
         "source:moonshot-ai:platform-kimi-ai-docs-guide-use-reasoning-effort",
         "source:moonshot-ai:platform-kimi-ai-docs-guide-use-thinking-models",
         "source:moonshot-ai:platform-kimi-ai-docs-models",
+        "source:moonshot-ai:platform-kimi-ai-docs-pricing-batch",
         "source:moonshot-ai:platform-kimi-ai-docs-pricing-chat-k3"
       ],
       "sourceUrls": [
@@ -41271,11 +41468,12 @@
         "https://platform.kimi.ai/docs/guide/use-reasoning-effort",
         "https://platform.kimi.ai/docs/guide/use-thinking-models",
         "https://platform.kimi.ai/docs/models",
+        "https://platform.kimi.ai/docs/pricing/batch",
         "https://platform.kimi.ai/docs/pricing/chat-k3"
       ],
       "status": "latest",
       "verificationStatus": "verified",
-      "verifiedAt": "2026-10-25T05:03:53Z",
+      "verifiedAt": "2026-11-04T06:43:27Z",
       "verifiedSourceRefs": [
         "source:moonshot-ai:platform-kimi-ai-docs-guide-kimi-k3-quickstart",
         "source:moonshot-ai:platform-kimi-ai-docs-guide-use-context-caching-feature-of-kimi-api",
@@ -41312,8 +41510,8 @@
       "accessStatus": "public",
       "aliasTargetInternalId": null,
       "availability": "active",
-      "batchInputPrice": null,
-      "batchOutputPrice": null,
+      "batchInputPrice": 1.2,
+      "batchOutputPrice": 6,
       "billingModelInternalId": null,
       "bindingEvidence": [
         {
@@ -41329,7 +41527,7 @@
       "blockedFromDefaultReasons": [],
       "cachedInputPrice": 0.2,
       "canonicalInternalId": "moonshot-ai/kimi-k3.1-pro",
-      "checkedAt": "2026-10-24T11:44:50Z",
+      "checkedAt": "2026-11-04T06:43:16Z",
       "checkedSourceRefs": [
         "source:moonshot-ai:platform-kimi-ai",
         "source:moonshot-ai:platform-kimi-ai-docs-guide-kimi-k3-1-pro-quickstart",
@@ -41363,8 +41561,24 @@
       "outputPrice": 10,
       "priceRecords": [
         {
+          "calculationDefault": false,
+          "checkedAt": "2026-11-04T06:43:16Z",
+          "contextClass": "short",
+          "effectiveFrom": null,
+          "effectiveUntil": null,
+          "pricingId": "price:moonshot-ai/kimi-k3.1-pro:batch:short:current",
+          "pricingStatus": "current",
+          "processingMode": "batch",
+          "sourceRefs": [
+            "source:moonshot-ai:platform-kimi-ai-docs-pricing-batch",
+            "source:moonshot-ai:platform-kimi-ai-docs-pricing-chat"
+          ],
+          "verificationStatus": "verified",
+          "verifiedAt": "2026-11-04T06:43:16Z"
+        },
+        {
           "calculationDefault": true,
-          "checkedAt": "2026-10-24T11:44:50Z",
+          "checkedAt": "2026-11-04T06:43:16Z",
           "contextClass": "short",
           "effectiveFrom": null,
           "effectiveUntil": null,
@@ -41378,10 +41592,190 @@
             "source:moonshot-ai:platform-kimi-ai-docs-pricing-chat"
           ],
           "verificationStatus": "verified",
-          "verifiedAt": "2026-10-24T11:44:50Z"
+          "verifiedAt": "2026-11-04T06:43:16Z"
         }
       ],
       "pricingComponents": [
+        {
+          "amount": "2.4",
+          "calculationDefault": false,
+          "chargeId": "price:moonshot-ai/kimi-k3.1-pro:batch:short:current:cache_write_1h:text:per_1m_tokens",
+          "component": "cache_write_1h",
+          "condition": {
+            "availabilityRules": [],
+            "contextClass": "short",
+            "defaultAvailabilityStatus": "available",
+            "effectiveFrom": null,
+            "effectiveUntil": null,
+            "priceAdjustments": [],
+            "processingMode": "batch",
+            "promptTokenThreshold": null,
+            "regionPolicy": "global",
+            "regionSelector": {
+              "dataResidencies": [
+                "global"
+              ],
+              "endpointGeographies": [
+                "global"
+              ],
+              "pricingGeography": "global_base"
+            },
+            "tierSelection": null
+          },
+          "currency": "USD",
+          "modality": "text",
+          "pricingId": "price:moonshot-ai/kimi-k3.1-pro:batch:short:current",
+          "sourceRefs": [
+            "source:moonshot-ai:platform-kimi-ai-docs-pricing-batch",
+            "source:moonshot-ai:platform-kimi-ai-docs-pricing-chat"
+          ],
+          "unit": "per_1m_tokens",
+          "verificationStatus": "verified"
+        },
+        {
+          "amount": "1.2",
+          "calculationDefault": false,
+          "chargeId": "price:moonshot-ai/kimi-k3.1-pro:batch:short:current:cache_write_5m:text:per_1m_tokens",
+          "component": "cache_write_5m",
+          "condition": {
+            "availabilityRules": [],
+            "contextClass": "short",
+            "defaultAvailabilityStatus": "available",
+            "effectiveFrom": null,
+            "effectiveUntil": null,
+            "priceAdjustments": [],
+            "processingMode": "batch",
+            "promptTokenThreshold": null,
+            "regionPolicy": "global",
+            "regionSelector": {
+              "dataResidencies": [
+                "global"
+              ],
+              "endpointGeographies": [
+                "global"
+              ],
+              "pricingGeography": "global_base"
+            },
+            "tierSelection": null
+          },
+          "currency": "USD",
+          "modality": "text",
+          "pricingId": "price:moonshot-ai/kimi-k3.1-pro:batch:short:current",
+          "sourceRefs": [
+            "source:moonshot-ai:platform-kimi-ai-docs-pricing-batch",
+            "source:moonshot-ai:platform-kimi-ai-docs-pricing-chat"
+          ],
+          "unit": "per_1m_tokens",
+          "verificationStatus": "verified"
+        },
+        {
+          "amount": "0.12",
+          "calculationDefault": false,
+          "chargeId": "price:moonshot-ai/kimi-k3.1-pro:batch:short:current:cached_input:text:per_1m_tokens",
+          "component": "cached_input",
+          "condition": {
+            "availabilityRules": [],
+            "contextClass": "short",
+            "defaultAvailabilityStatus": "available",
+            "effectiveFrom": null,
+            "effectiveUntil": null,
+            "priceAdjustments": [],
+            "processingMode": "batch",
+            "promptTokenThreshold": null,
+            "regionPolicy": "global",
+            "regionSelector": {
+              "dataResidencies": [
+                "global"
+              ],
+              "endpointGeographies": [
+                "global"
+              ],
+              "pricingGeography": "global_base"
+            },
+            "tierSelection": null
+          },
+          "currency": "USD",
+          "modality": "text",
+          "pricingId": "price:moonshot-ai/kimi-k3.1-pro:batch:short:current",
+          "sourceRefs": [
+            "source:moonshot-ai:platform-kimi-ai-docs-pricing-batch",
+            "source:moonshot-ai:platform-kimi-ai-docs-pricing-chat"
+          ],
+          "unit": "per_1m_tokens",
+          "verificationStatus": "verified"
+        },
+        {
+          "amount": "1.2",
+          "calculationDefault": false,
+          "chargeId": "price:moonshot-ai/kimi-k3.1-pro:batch:short:current:input:text:per_1m_tokens",
+          "component": "input",
+          "condition": {
+            "availabilityRules": [],
+            "contextClass": "short",
+            "defaultAvailabilityStatus": "available",
+            "effectiveFrom": null,
+            "effectiveUntil": null,
+            "priceAdjustments": [],
+            "processingMode": "batch",
+            "promptTokenThreshold": null,
+            "regionPolicy": "global",
+            "regionSelector": {
+              "dataResidencies": [
+                "global"
+              ],
+              "endpointGeographies": [
+                "global"
+              ],
+              "pricingGeography": "global_base"
+            },
+            "tierSelection": null
+          },
+          "currency": "USD",
+          "modality": "text",
+          "pricingId": "price:moonshot-ai/kimi-k3.1-pro:batch:short:current",
+          "sourceRefs": [
+            "source:moonshot-ai:platform-kimi-ai-docs-pricing-batch",
+            "source:moonshot-ai:platform-kimi-ai-docs-pricing-chat"
+          ],
+          "unit": "per_1m_tokens",
+          "verificationStatus": "verified"
+        },
+        {
+          "amount": "6",
+          "calculationDefault": false,
+          "chargeId": "price:moonshot-ai/kimi-k3.1-pro:batch:short:current:output:text:per_1m_tokens",
+          "component": "output",
+          "condition": {
+            "availabilityRules": [],
+            "contextClass": "short",
+            "defaultAvailabilityStatus": "available",
+            "effectiveFrom": null,
+            "effectiveUntil": null,
+            "priceAdjustments": [],
+            "processingMode": "batch",
+            "promptTokenThreshold": null,
+            "regionPolicy": "global",
+            "regionSelector": {
+              "dataResidencies": [
+                "global"
+              ],
+              "endpointGeographies": [
+                "global"
+              ],
+              "pricingGeography": "global_base"
+            },
+            "tierSelection": null
+          },
+          "currency": "USD",
+          "modality": "text",
+          "pricingId": "price:moonshot-ai/kimi-k3.1-pro:batch:short:current",
+          "sourceRefs": [
+            "source:moonshot-ai:platform-kimi-ai-docs-pricing-batch",
+            "source:moonshot-ai:platform-kimi-ai-docs-pricing-chat"
+          ],
+          "unit": "per_1m_tokens",
+          "verificationStatus": "verified"
+        },
         {
           "amount": "4",
           "calculationDefault": true,
@@ -41585,7 +41979,7 @@
       "retirementDate": null,
       "routingBehavior": "direct",
       "routingDetails": {},
-      "selectedBatchPriceRecordId": null,
+      "selectedBatchPriceRecordId": "price:moonshot-ai/kimi-k3.1-pro:batch:short:current",
       "selectedBillingPriceRecordId": "price:moonshot-ai/kimi-k3.1-pro:standard:short:current",
       "selectedPriceEffectiveFrom": null,
       "selectedPriceEffectiveUntil": null,
@@ -41596,6 +41990,7 @@
         "source:moonshot-ai:platform-kimi-ai-docs-guide-use-context-caching-feature-of-kimi-api",
         "source:moonshot-ai:platform-kimi-ai-docs-guide-use-reasoning-effort",
         "source:moonshot-ai:platform-kimi-ai-docs-models",
+        "source:moonshot-ai:platform-kimi-ai-docs-pricing-batch",
         "source:moonshot-ai:platform-kimi-ai-docs-pricing-chat"
       ],
       "sourceUrls": [
@@ -41604,11 +41999,12 @@
         "https://platform.kimi.ai/docs/guide/use-context-caching-feature-of-kimi-api",
         "https://platform.kimi.ai/docs/guide/use-reasoning-effort",
         "https://platform.kimi.ai/docs/models",
+        "https://platform.kimi.ai/docs/pricing/batch",
         "https://platform.kimi.ai/docs/pricing/chat"
       ],
       "status": "latest",
       "verificationStatus": "verified",
-      "verifiedAt": "2026-10-24T11:44:50Z",
+      "verifiedAt": "2026-11-04T06:43:16Z",
       "verifiedSourceRefs": [
         "source:moonshot-ai:platform-kimi-ai",
         "source:moonshot-ai:platform-kimi-ai-docs-guide-kimi-k3-1-pro-quickstart",
