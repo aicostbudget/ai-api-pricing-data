@@ -1020,11 +1020,13 @@ def resolve_generated_at(
     existing_value = (existing_projection or {}).get("generatedAt")
     if isinstance(existing_value, str) and existing_value:
         return existing_value
+    # A non-default record (e.g. a Fast row verified later) can be newer than its row.
     timestamps = [
-        row[field]
+        item[field]
         for row in rows
+        for item in (row, *(row.get("priceRecords") or []))
         for field in ("checkedAt", "verifiedAt")
-        if isinstance(row.get(field), str) and row[field]
+        if isinstance(item.get(field), str) and item[field]
     ]
     if not timestamps:
         return DEFAULT_GENERATED_AT

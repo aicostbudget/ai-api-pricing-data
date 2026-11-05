@@ -34,8 +34,9 @@ class Issue22LongContextTests(unittest.TestCase):
                 model = models[model_id]
                 validate_model_price_records(model)
                 self.assertIsNone(model["effective_from"])
-                self.assertEqual(len(model["price_records"]), 2 * len(modes))
-                prices = [row for row in all_prices if row["modelInternalId"] == model_id]
+                # Short-only modes without a long tier (gpt-5.5 Fast) have no tier_selection.
+                self.assertEqual(sum(1 for record in model["price_records"] if record.get("tier_selection")), 2 * len(modes))
+                prices = [row for row in all_prices if row["modelInternalId"] == model_id and row.get("tierSelection")]
                 self.assertEqual(len(prices), 2 * len(modes))
                 self.assertEqual(sum(row["calculationDefault"] for row in prices), 1)
                 for mode, (short, long) in modes.items():

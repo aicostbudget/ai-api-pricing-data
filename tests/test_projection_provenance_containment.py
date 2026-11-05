@@ -85,10 +85,11 @@ class ProjectionProvenanceContainmentTests(unittest.TestCase):
         self.assertEqual(first, second)
         self.assertEqual(first, third)
         timestamps = [
-            row[field]
+            item[field]
             for row in first["models"]
+            for item in (row, *row.get("priceRecords", []))
             for field in ("checkedAt", "verifiedAt")
-            if row[field]
+            if item[field]
         ]
         self.assertEqual(first["generatedAt"], max(timestamps))
 
