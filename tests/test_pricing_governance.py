@@ -194,6 +194,8 @@ class PricingGovernanceTests(unittest.TestCase):
             "xai/grok-imagine-image",
             "openai/gpt-image-2.5-sunburst",
             "openai/gpt-image-2.5-flare",
+            "openai/gpt-image-2.6-sunburst",
+            "openai/gpt-image-2.6-flare",
             "openai/gpt-image-2",
             "google-gemini/gemini-3.1-flash-image",
             "google-gemini/gemini-3.1-flash-lite-image",
