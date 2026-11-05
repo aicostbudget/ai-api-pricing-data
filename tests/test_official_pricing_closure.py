@@ -396,12 +396,20 @@ class ClosureScopeTests(unittest.TestCase):
   old=pinned('data/canonical/models.json');current=read('data/canonical/models.json')
   old_by_id={key(row):row for row in old};current_by_id={key(row):row for row in current}
   old_deepseek=old_by_id[identity];refreshed_deepseek=current_by_id[identity]
-  # A later re-verification may only advance the time_pricing schedule timestamps;
-  # every other fact must still equal the approved metadata release.
+  # A later re-verification may only advance the verification timestamps and (2026-11-05)
+  # add the official Chinese-public-holiday off-peak rule to the notes; every other fact
+  # must still equal the approved metadata release.
   current_deepseek=copy.deepcopy(refreshed_deepseek)
   for field in ('schedule_accessed_at','schedule_verified_at'):
    self.assertGreaterEqual(refreshed_deepseek['time_pricing'][field],old_deepseek['time_pricing'][field])
    current_deepseek['time_pricing'][field]=old_deepseek['time_pricing'][field]
+  for field in ('accessed_at','last_verified_at'):
+   self.assertGreaterEqual(refreshed_deepseek[field],old_deepseek[field])
+   current_deepseek[field]=old_deepseek[field]
+  holiday_rule=('Peak hours are 01:00-04:00 and 06:00-10:00 UTC, Monday through Friday, excluding Chinese public holidays; '
+   'weekends and Chinese public holidays are off-peak in full.')
+  self.assertIn(holiday_rule,refreshed_deepseek['notes'])
+  current_deepseek['notes']=refreshed_deepseek['notes'].replace(holiday_rule,'Peak hours are 01:00-04:00 and 06:00-10:00 UTC, Monday through Friday.')
   self.assertEqual(digest(old_deepseek),approval['canonical_before_sha256'])
   self.assertEqual(digest(current_deepseek),approval['canonical_after_sha256'])
   self.assertEqual({name for name in set(old_deepseek)|set(current_deepseek) if old_deepseek.get(name)!=current_deepseek.get(name)},{'notes'})
