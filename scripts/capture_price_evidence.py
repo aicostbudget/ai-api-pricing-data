@@ -39,7 +39,8 @@ MDX_SKIPPED_KEYS = {"href", "width", "tip", "className"}
 
 def page_lines(markup: str) -> list[str]:
     text = re.sub(r"(?is)<(script|style|noscript|svg)[^>]*>.*?</\1>", " ", markup)
-    text = html.unescape(re.sub(r"(?s)<[^>]+>", "\n", text))
+    # Only real tags start with a letter, "/", "!" or "?"; Markdown pages say "(<272K context length)".
+    text = html.unescape(re.sub(r"(?s)<[A-Za-z/!?][^>]*>", "\n", text))
     return [line for line in (re.sub(r"\s+", " ", raw).strip() for raw in text.splitlines()) if line]
 
 
@@ -55,14 +56,17 @@ def script_table_lines(markup: str) -> list[str]:
     return lines
 
 
-def price_passages(lines: list[str], context: int = 2) -> list[str]:
+def price_passages(lines: list[str], context: int = 2, expect: list[str] = ()) -> list[str]:
+    """Price passages in page order, except that passages holding an --expect value come first,
+    so the rows a release publishes survive the MAX_PASSAGES cap on long pricing pages."""
     passages: list[str] = []
     for index, line in enumerate(lines):
         if PRICE_LINE.search(line):
             passage = " ".join(lines[max(0, index - context): index + context + 1])[:MAX_PASSAGE_CHARS]
             if passage not in passages:
                 passages.append(passage)
-    return passages[:MAX_PASSAGES]
+    expected = [passage for passage in passages if any(value in passage for value in expect)]
+    return (expected + [passage for passage in passages if passage not in expected])[:MAX_PASSAGES]
 
 
 def fetch(url: str, timeout: float = 30) -> tuple[int, str]:
@@ -79,7 +83,7 @@ def capture(url: str, expect: list[str], fetcher=fetch, script_tables: bool = Fa
         "url": url,
         "http_status": status,
         "text_sha256": hashlib.sha256(text.encode("utf-8")).hexdigest(),
-        "passages": price_passages(lines),
+        "passages": price_passages(lines, expect=expect),
         "missing_expected": [value for value in expect if value not in text],
     }
 

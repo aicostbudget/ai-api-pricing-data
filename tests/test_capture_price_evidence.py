@@ -26,6 +26,17 @@ class CapturePriceEvidenceTests(unittest.TestCase):
         self.assertTrue(any("$13" in passage and "/M Chars" in passage for passage in passages))
         self.assertFalse(any("$99" in passage for passage in passages))
 
+    def test_markdown_angle_brackets_survive_and_expected_rows_beat_the_passage_cap(self):
+        rows = [f"| model-{index} | ${index}.00 | ${index}.50 |" for index in range(80)]
+        page = "\n".join(rows + ["| gpt-5.5 (<272K context length) | $12.50 | $75.00 | $1.25 |"])
+        lines = page_lines(page)
+        self.assertIn("| gpt-5.5 (<272K context length) | $12.50 | $75.00 | $1.25 |", lines)
+        expect = ["gpt-5.5 (<272K context length) | $12.50 | $75.00 | $1.25"]
+        self.assertFalse(any(expect[0] in passage for passage in price_passages(lines)))
+        passages = price_passages(lines, expect=expect)
+        self.assertIn(expect[0], passages[0])
+        self.assertEqual(len(passages), 60)
+
     def test_capture_records_pages_and_reports_changes_since_the_previous_capture(self):
         url = "https://docs.example/tts"
         with tempfile.TemporaryDirectory() as tmp:
