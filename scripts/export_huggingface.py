@@ -69,7 +69,20 @@ VIEWER_OMITTED_FIELDS = frozenset(
 )
 # Providers people search for first lead the Dataset Viewer preview; the rest keep export order.
 VIEWER_PROVIDER_ORDER = ("openai", "anthropic", "google-gemini", "xai", "deepseek")
-VIEWER_CSV_HEADERS = tuple(field for field in CSV_HEADERS if field not in VIEWER_OMITTED_FIELDS)
+# Viewer-only columns derived from the scalar price columns of the same row. They are appended to
+# train.csv only, so prices.csv / prices.json and the public schema are unchanged.
+# Cache-heavy chat mix (token shares per 1M tokens, proposed on the HF forum, topic 191216):
+# 850k cached input + 100k uncached input + 50k output.
+CACHE_HEAVY_CHAT_FIELD = "cache_heavy_chat_price_per_1m_tokens"
+CACHE_HEAVY_CHAT_SHARES = (
+    ("cached_input_price_per_1m_tokens", Decimal("0.85")),
+    ("input_price_per_1m_tokens", Decimal("0.10")),
+    ("output_price_per_1m_tokens", Decimal("0.05")),
+)
+VIEWER_DERIVED_FIELDS = (CACHE_HEAVY_CHAT_FIELD,)
+VIEWER_CSV_HEADERS = (
+    tuple(field for field in CSV_HEADERS if field not in VIEWER_OMITTED_FIELDS) + VIEWER_DERIVED_FIELDS
+)
 PUBLIC_SCHEMA_VERSION = "1.11.0"
 SUPPORTED_PUBLIC_SCHEMA_VERSIONS = {"1.8.0", "1.9.0", "1.10.0", PUBLIC_SCHEMA_VERSION}
 PUBLIC_VERIFICATION_STATUSES = {
@@ -709,6 +722,25 @@ def validate_payload(
         raise ValueError("Hugging Face generated_at precedes max(checked_at)")
 
 
+def cache_heavy_chat_price(record: dict[str, Any]) -> str | None:
+    """Share-weighted price per 1M tokens of the cache-heavy chat mix, or None.
+
+    Uses only the row's own scalar input, cached-input and output prices (the default tier for
+    tiered models). Empty unless all three are known and the row is priced per 1M tokens; an
+    unknown rate is never treated as zero.
+    """
+    if record.get("pricing_unit") != "1M tokens":
+        return None
+    total = Decimal(0)
+    for field, share in CACHE_HEAVY_CHAT_SHARES:
+        value = record.get(field)
+        if not is_number(value):
+            return None
+        total += Decimal(str(value)) * share
+    text = format(total.quantize(Decimal("0.000001")).normalize(), "f")
+    return "0" if text in {"-0", ""} else text
+
+
 def csv_text(
     records: list[dict[str, Any]],
     fieldnames: tuple[str, ...] = CSV_HEADERS,
@@ -727,6 +759,8 @@ def csv_text(
             "conditional_usage_allowances_json": json.dumps(record["conditional_usage_allowances"], separators=(",", ":"), ensure_ascii=False),
             "model_selection_json": json.dumps(record["model_selection"], separators=(",", ":"), ensure_ascii=False),
         }
+        if CACHE_HEAVY_CHAT_FIELD in fieldnames:
+            serialized[CACHE_HEAVY_CHAT_FIELD] = cache_heavy_chat_price(record)
         writer.writerow({field: serialized.get(field) for field in fieldnames})
     return output.getvalue()
 
