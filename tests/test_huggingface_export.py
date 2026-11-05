@@ -4,10 +4,14 @@ import re
 import tempfile
 import unittest
 from datetime import datetime, timezone
+from decimal import Decimal
 from pathlib import Path
 
 from scripts.export_huggingface import (
+    CACHE_HEAVY_CHAT_FIELD,
     CSV_HEADERS,
+    VIEWER_DERIVED_FIELDS,
+    cache_heavy_chat_price,
     HF_DIR,
     META_PATH,
     PROJECTION_PATH,
@@ -72,10 +76,70 @@ class HuggingFaceExportTests(unittest.TestCase):
         self.assertIn("moonshot-ai", {row["provider_id"] for row in self.train_csv_rows})
         for key, train_row in train_by_key.items():
             self.assertEqual(
-                train_row,
-                {field: prices_by_key[key][field] for field in VIEWER_CSV_HEADERS},
+                {field: value for field, value in train_row.items() if field not in VIEWER_DERIVED_FIELDS},
+                {
+                    field: prices_by_key[key][field]
+                    for field in VIEWER_CSV_HEADERS
+                    if field not in VIEWER_DERIVED_FIELDS
+                },
                 key,
             )
+
+    def test_cache_heavy_chat_price_is_share_weighted_sum_of_row_prices(self):
+        self.assertEqual(VIEWER_CSV_HEADERS[-len(VIEWER_DERIVED_FIELDS):], VIEWER_DERIVED_FIELDS)
+        self.assertNotIn(CACHE_HEAVY_CHAT_FIELD, CSV_HEADERS)
+        self.assertNotIn(CACHE_HEAVY_CHAT_FIELD, self.prices_csv_headers)
+        self.assertTrue(all(CACHE_HEAVY_CHAT_FIELD not in record for record in self.records))
+        filled = 0
+        for row in self.train_csv_rows:
+            prices = [
+                row["cached_input_price_per_1m_tokens"],
+                row["input_price_per_1m_tokens"],
+                row["output_price_per_1m_tokens"],
+            ]
+            value = row[CACHE_HEAVY_CHAT_FIELD]
+            key = (row["provider_id"], row["model_id"])
+            if row["pricing_unit"] != "1M tokens" or "" in prices:
+                self.assertEqual(value, "", key)
+                continue
+            cached, uncached, output = (Decimal(price) for price in prices)
+            expected = cached * Decimal("0.85") + uncached * Decimal("0.10") + output * Decimal("0.05")
+            self.assertEqual(Decimal(value), expected.quantize(Decimal("0.000001")), key)
+            filled += 1
+        self.assertGreater(filled, 50)
+
+    def test_cache_heavy_chat_price_examples(self):
+        self.assertEqual(
+            cache_heavy_chat_price({
+                "pricing_unit": "1M tokens",
+                "input_price_per_1m_tokens": 2,
+                "cached_input_price_per_1m_tokens": 0.1,
+                "output_price_per_1m_tokens": 10,
+            }),
+            "0.785",
+        )
+        self.assertEqual(
+            cache_heavy_chat_price({
+                "pricing_unit": "1M tokens",
+                "input_price_per_1m_tokens": 20,
+                "cached_input_price_per_1m_tokens": 20,
+                "output_price_per_1m_tokens": 20,
+            }),
+            "20",
+        )
+        # An unknown cached rate is never read as zero.
+        self.assertIsNone(cache_heavy_chat_price({
+            "pricing_unit": "1M tokens",
+            "input_price_per_1m_tokens": 2,
+            "cached_input_price_per_1m_tokens": None,
+            "output_price_per_1m_tokens": 10,
+        }))
+        self.assertIsNone(cache_heavy_chat_price({
+            "pricing_unit": None,
+            "input_price_per_1m_tokens": 2,
+            "cached_input_price_per_1m_tokens": 0.1,
+            "output_price_per_1m_tokens": 10,
+        }))
 
     def test_viewer_projection_omits_only_heavy_serialized_fields(self):
         self.assertEqual(self.prices_csv_headers, CSV_HEADERS)

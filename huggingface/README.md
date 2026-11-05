@@ -128,7 +128,7 @@ https://huggingface.co/datasets/aicostbudget-ai/ai-api-pricing/resolve/main/pric
 https://huggingface.co/datasets/aicostbudget-ai/ai-api-pricing/resolve/main/meta.json
 ```
 
-`train.csv` lists the most-searched providers first and intentionally omits the large serialized `pricing_tiers_json`, `time_pricing_json`, `pricing_components_json`, `conditional_usage_allowances_json`, `model_selection_json`, `access_evidence_json`, and `binding_evidence_json` columns for Dataset Viewer usability. It preserves every exported model and all other CSV fields. Complete tier, time, component, conditional allowance, transport, alternative-measurement, optional-feature, model-selection, and access-evidence details remain available in `prices.csv` and `prices.json`. Schema 1.8.0 keeps eligibility-scoped short-term allowances separate from standard paid usage tiers.
+`train.csv` lists the most-searched providers first and intentionally omits the large serialized `pricing_tiers_json`, `time_pricing_json`, `pricing_components_json`, `conditional_usage_allowances_json`, `model_selection_json`, `access_evidence_json`, and `binding_evidence_json` columns for Dataset Viewer usability. It preserves every exported model and all other CSV fields, and appends one derived column, `cache_heavy_chat_price_per_1m_tokens` (see Fields). Complete tier, time, component, conditional allowance, transport, alternative-measurement, optional-feature, model-selection, and access-evidence details remain available in `prices.csv` and `prices.json`. Schema 1.8.0 keeps eligibility-scoped short-term allowances separate from standard paid usage tiers.
 
 Unknown or unavailable prices are `null` in JSON and empty in CSV; they are never rewritten as zero.
 
@@ -161,6 +161,21 @@ Hugging Face generates the Dataset Viewer and auto-converted Parquet from `train
 | `pricing_tiers_json` | CSV-only lossless JSON serialization of `pricing_tiers`; `[]` when no tiers apply. |
 | `pricing_components` | JSON-only full conditional pricing representation: component, decimal-string amount, conditions, effective range, source IDs and URLs, and verification status; `[]` when none apply. |
 | `pricing_components_json` | Final CSV column containing the same `pricing_components` array as compact deterministic JSON; `[]` when none apply. |
+| `cache_heavy_chat_price_per_1m_tokens` | `train.csv` only. Effective price per 1M tokens of a cache-heavy chat mix, computed from the same row; empty when any of the three prices is unknown. See below. |
+
+### Effective price for a cache-heavy chat workload
+
+List prices alone mislead for chat apps that resend a long cached prompt. `train.csv` adds one derived column, `cache_heavy_chat_price_per_1m_tokens`, for a fixed mix of 1M tokens:
+
+| Share | Tokens | Rate used |
+| --- | --- | --- |
+| 85% | 850,000 cached input | `cached_input_price_per_1m_tokens` |
+| 10% | 100,000 uncached input | `input_price_per_1m_tokens` |
+| 5% | 50,000 output | `output_price_per_1m_tokens` |
+
+`cache_heavy_chat_price_per_1m_tokens = 0.85 × cached input + 0.10 × input + 0.05 × output`, rounded to 6 decimals. Example: $2 input, $0.10 cached input and $10 output give $0.785.
+
+You can recompute every value from the three price columns of the same row. It uses the row's scalar (default-tier) rates only and ignores cache-write charges, long-context tiers, batch and off-peak rates. It is empty when the cached-input price or any other rate is unknown, never computed as if the missing rate were zero. The mix was proposed on the [Hugging Face forum](https://discuss.huggingface.co/t/open-llm-api-price-history-3-months-of-verified-price-changes-dataset-calculator-space/191216). Batch-only and off-peak mixes will follow once batch and peak rates are structured columns. The column is not in `prices.csv` or `prices.json`, so the public schema version is unchanged.
 
 The scalar input, cached-input, and output fields remain the compatibility/default pricing view. They are not deprecated. `pricing_components` represents conditions and units that one scalar cannot: context thresholds, batch and processing modes, cache writes, multimodal usage, tiered pricing, and non-token services. The [pricing contract](https://github.com/aicostbudget/ai-api-pricing-data/blob/main/docs/pricing-contract.md) defines the full structure. For structured pricing details, see the repository's [model schema](https://github.com/aicostbudget/ai-api-pricing-data/blob/main/schema/model.schema.json).
 
