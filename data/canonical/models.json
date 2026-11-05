@@ -29525,6 +29525,586 @@
   },
   {
     "provider_id": "openai",
+    "model_id": "gpt-image-2.6-sunburst",
+    "display_name": "GPT Image 2.6 Sunburst",
+    "model_family": "GPT Image 2.6",
+    "model_category": "image_generation",
+    "status": "active",
+    "release_stage": "stable",
+    "input_modality": "image",
+    "output_modality": "image",
+    "pricing": {
+      "currency": "USD",
+      "unit": null,
+      "input": null,
+      "output": null,
+      "cached_input": null,
+      "cache_write": null,
+      "cache_write_1h": null,
+      "batch_input": null,
+      "batch_output": null
+    },
+    "pricing_components": [
+      {
+        "id": "output_image_1024x1024_low",
+        "component": "output",
+        "modality": "image",
+        "unit": "per_image",
+        "amount": 0.02469,
+        "currency": "USD",
+        "processing_mode": "standard",
+        "pricing_status": "current",
+        "calculation_default": false,
+        "effective_from": null,
+        "effective_until": null,
+        "configuration": {
+          "quality": "low",
+          "size": "1024x1024"
+        }
+      },
+      {
+        "id": "output_image_1024x1536_low",
+        "component": "output",
+        "modality": "image",
+        "unit": "per_image",
+        "amount": 0.01992,
+        "currency": "USD",
+        "processing_mode": "standard",
+        "pricing_status": "current",
+        "calculation_default": false,
+        "effective_from": null,
+        "effective_until": null,
+        "configuration": {
+          "quality": "low",
+          "size": "1024x1536"
+        }
+      },
+      {
+        "id": "output_image_1536x1024_low",
+        "component": "output",
+        "modality": "image",
+        "unit": "per_image",
+        "amount": 0.01992,
+        "currency": "USD",
+        "processing_mode": "standard",
+        "pricing_status": "current",
+        "calculation_default": false,
+        "effective_from": null,
+        "effective_until": null,
+        "configuration": {
+          "quality": "low",
+          "size": "1536x1024"
+        }
+      },
+      {
+        "id": "output_image_1024x1024_medium",
+        "component": "output",
+        "modality": "image",
+        "unit": "per_image",
+        "amount": 0.04347,
+        "currency": "USD",
+        "processing_mode": "standard",
+        "pricing_status": "current",
+        "calculation_default": true,
+        "effective_from": null,
+        "effective_until": null,
+        "configuration": {
+          "quality": "medium",
+          "size": "1024x1024"
+        }
+      },
+      {
+        "id": "output_image_1024x1536_medium",
+        "component": "output",
+        "modality": "image",
+        "unit": "per_image",
+        "amount": 0.03396,
+        "currency": "USD",
+        "processing_mode": "standard",
+        "pricing_status": "current",
+        "calculation_default": false,
+        "effective_from": null,
+        "effective_until": null,
+        "configuration": {
+          "quality": "medium",
+          "size": "1024x1536"
+        }
+      },
+      {
+        "id": "output_image_1536x1024_medium",
+        "component": "output",
+        "modality": "image",
+        "unit": "per_image",
+        "amount": 0.03396,
+        "currency": "USD",
+        "processing_mode": "standard",
+        "pricing_status": "current",
+        "calculation_default": false,
+        "effective_from": null,
+        "effective_until": null,
+        "configuration": {
+          "quality": "medium",
+          "size": "1536x1024"
+        }
+      },
+      {
+        "id": "output_image_1024x1024_high",
+        "component": "output",
+        "modality": "image",
+        "unit": "per_image",
+        "amount": 0.05268,
+        "currency": "USD",
+        "processing_mode": "standard",
+        "pricing_status": "current",
+        "calculation_default": false,
+        "effective_from": null,
+        "effective_until": null,
+        "configuration": {
+          "quality": "high",
+          "size": "1024x1024"
+        }
+      },
+      {
+        "id": "output_image_1024x1536_high",
+        "component": "output",
+        "modality": "image",
+        "unit": "per_image",
+        "amount": 0.04116,
+        "currency": "USD",
+        "processing_mode": "standard",
+        "pricing_status": "current",
+        "calculation_default": false,
+        "effective_from": null,
+        "effective_until": null,
+        "configuration": {
+          "quality": "high",
+          "size": "1024x1536"
+        }
+      },
+      {
+        "id": "output_image_1536x1024_high",
+        "component": "output",
+        "modality": "image",
+        "unit": "per_image",
+        "amount": 0.04116,
+        "currency": "USD",
+        "processing_mode": "standard",
+        "pricing_status": "current",
+        "calculation_default": false,
+        "effective_from": null,
+        "effective_until": null,
+        "configuration": {
+          "quality": "high",
+          "size": "1536x1024"
+        }
+      },
+      {
+        "id": "output_image_1024x1024_xhigh",
+        "component": "output",
+        "modality": "image",
+        "unit": "per_image",
+        "amount": 0.09366,
+        "currency": "USD",
+        "processing_mode": "standard",
+        "pricing_status": "current",
+        "calculation_default": false,
+        "effective_from": null,
+        "effective_until": null,
+        "configuration": {
+          "quality": "xhigh",
+          "size": "1024x1024"
+        }
+      },
+      {
+        "id": "output_image_1024x1536_xhigh",
+        "component": "output",
+        "modality": "image",
+        "unit": "per_image",
+        "amount": 0.07377,
+        "currency": "USD",
+        "processing_mode": "standard",
+        "pricing_status": "current",
+        "calculation_default": false,
+        "effective_from": null,
+        "effective_until": null,
+        "configuration": {
+          "quality": "xhigh",
+          "size": "1024x1536"
+        }
+      },
+      {
+        "id": "output_image_1536x1024_xhigh",
+        "component": "output",
+        "modality": "image",
+        "unit": "per_image",
+        "amount": 0.07377,
+        "currency": "USD",
+        "processing_mode": "standard",
+        "pricing_status": "current",
+        "calculation_default": false,
+        "effective_from": null,
+        "effective_until": null,
+        "configuration": {
+          "quality": "xhigh",
+          "size": "1536x1024"
+        }
+      },
+      {
+        "id": "output_image_1024x1024_max",
+        "component": "output",
+        "modality": "image",
+        "unit": "per_image",
+        "amount": 0.21072,
+        "currency": "USD",
+        "processing_mode": "standard",
+        "pricing_status": "current",
+        "calculation_default": false,
+        "effective_from": null,
+        "effective_until": null,
+        "configuration": {
+          "quality": "max",
+          "size": "1024x1024"
+        }
+      },
+      {
+        "id": "output_image_1024x1536_max",
+        "component": "output",
+        "modality": "image",
+        "unit": "per_image",
+        "amount": 0.16464,
+        "currency": "USD",
+        "processing_mode": "standard",
+        "pricing_status": "current",
+        "calculation_default": false,
+        "effective_from": null,
+        "effective_until": null,
+        "configuration": {
+          "quality": "max",
+          "size": "1024x1536"
+        }
+      },
+      {
+        "id": "output_image_1536x1024_max",
+        "component": "output",
+        "modality": "image",
+        "unit": "per_image",
+        "amount": 0.16464,
+        "currency": "USD",
+        "processing_mode": "standard",
+        "pricing_status": "current",
+        "calculation_default": false,
+        "effective_from": null,
+        "effective_until": null,
+        "configuration": {
+          "quality": "max",
+          "size": "1536x1024"
+        }
+      }
+    ],
+    "official_source_url": "https://developers.openai.com/api/docs/pricing",
+    "official_source_urls": [
+      "https://developers.openai.com/api/docs/pricing",
+      "https://developers.openai.com/api/docs/guides/image-generation",
+      "https://developers.openai.com/api/docs/models/gpt-image-2.6-sunburst"
+    ],
+    "accessed_at": "2026-11-05T18:06:58Z",
+    "last_verified_at": "2026-11-05T18:06:58Z",
+    "effective_from": null,
+    "notes": "Released 2026-11-04 (Image API only: generations and edits; no Responses API or Batch). Quality options low, medium, high, xhigh and max. Billed as tokens: image output $30, image input $8 (cached $2), text input $5 (cached $1.25) per 1M tokens. Per-image amounts are image output token cost only, from the token formula in OpenAI's image-generation guide calculator, which bills GPT Image 2.6 low and medium quality at 4.2x and 3.3x the GPT Image 2.5 token counts (high, xhigh and max are unchanged); prompt and reference-image input tokens are extra. The complexity setting has no separate fee.",
+    "released_at": null
+  },
+  {
+    "provider_id": "openai",
+    "model_id": "gpt-image-2.6-flare",
+    "display_name": "GPT Image 2.6 Flare",
+    "model_family": "GPT Image 2.6",
+    "model_category": "image_generation",
+    "status": "active",
+    "release_stage": "stable",
+    "input_modality": "image",
+    "output_modality": "image",
+    "pricing": {
+      "currency": "USD",
+      "unit": null,
+      "input": null,
+      "output": null,
+      "cached_input": null,
+      "cache_write": null,
+      "cache_write_1h": null,
+      "batch_input": null,
+      "batch_output": null
+    },
+    "pricing_components": [
+      {
+        "id": "output_image_1024x1024_low",
+        "component": "output",
+        "modality": "image",
+        "unit": "per_image",
+        "amount": 0.02469,
+        "currency": "USD",
+        "processing_mode": "standard",
+        "pricing_status": "current",
+        "calculation_default": false,
+        "effective_from": null,
+        "effective_until": null,
+        "configuration": {
+          "quality": "low",
+          "size": "1024x1024"
+        }
+      },
+      {
+        "id": "output_image_1024x1536_low",
+        "component": "output",
+        "modality": "image",
+        "unit": "per_image",
+        "amount": 0.01992,
+        "currency": "USD",
+        "processing_mode": "standard",
+        "pricing_status": "current",
+        "calculation_default": false,
+        "effective_from": null,
+        "effective_until": null,
+        "configuration": {
+          "quality": "low",
+          "size": "1024x1536"
+        }
+      },
+      {
+        "id": "output_image_1536x1024_low",
+        "component": "output",
+        "modality": "image",
+        "unit": "per_image",
+        "amount": 0.01992,
+        "currency": "USD",
+        "processing_mode": "standard",
+        "pricing_status": "current",
+        "calculation_default": false,
+        "effective_from": null,
+        "effective_until": null,
+        "configuration": {
+          "quality": "low",
+          "size": "1536x1024"
+        }
+      },
+      {
+        "id": "output_image_1024x1024_medium",
+        "component": "output",
+        "modality": "image",
+        "unit": "per_image",
+        "amount": 0.04347,
+        "currency": "USD",
+        "processing_mode": "standard",
+        "pricing_status": "current",
+        "calculation_default": true,
+        "effective_from": null,
+        "effective_until": null,
+        "configuration": {
+          "quality": "medium",
+          "size": "1024x1024"
+        }
+      },
+      {
+        "id": "output_image_1024x1536_medium",
+        "component": "output",
+        "modality": "image",
+        "unit": "per_image",
+        "amount": 0.03396,
+        "currency": "USD",
+        "processing_mode": "standard",
+        "pricing_status": "current",
+        "calculation_default": false,
+        "effective_from": null,
+        "effective_until": null,
+        "configuration": {
+          "quality": "medium",
+          "size": "1024x1536"
+        }
+      },
+      {
+        "id": "output_image_1536x1024_medium",
+        "component": "output",
+        "modality": "image",
+        "unit": "per_image",
+        "amount": 0.03396,
+        "currency": "USD",
+        "processing_mode": "standard",
+        "pricing_status": "current",
+        "calculation_default": false,
+        "effective_from": null,
+        "effective_until": null,
+        "configuration": {
+          "quality": "medium",
+          "size": "1536x1024"
+        }
+      },
+      {
+        "id": "output_image_1024x1024_high",
+        "component": "output",
+        "modality": "image",
+        "unit": "per_image",
+        "amount": 0.05268,
+        "currency": "USD",
+        "processing_mode": "standard",
+        "pricing_status": "current",
+        "calculation_default": false,
+        "effective_from": null,
+        "effective_until": null,
+        "configuration": {
+          "quality": "high",
+          "size": "1024x1024"
+        }
+      },
+      {
+        "id": "output_image_1024x1536_high",
+        "component": "output",
+        "modality": "image",
+        "unit": "per_image",
+        "amount": 0.04116,
+        "currency": "USD",
+        "processing_mode": "standard",
+        "pricing_status": "current",
+        "calculation_default": false,
+        "effective_from": null,
+        "effective_until": null,
+        "configuration": {
+          "quality": "high",
+          "size": "1024x1536"
+        }
+      },
+      {
+        "id": "output_image_1536x1024_high",
+        "component": "output",
+        "modality": "image",
+        "unit": "per_image",
+        "amount": 0.04116,
+        "currency": "USD",
+        "processing_mode": "standard",
+        "pricing_status": "current",
+        "calculation_default": false,
+        "effective_from": null,
+        "effective_until": null,
+        "configuration": {
+          "quality": "high",
+          "size": "1536x1024"
+        }
+      },
+      {
+        "id": "output_image_1024x1024_xhigh",
+        "component": "output",
+        "modality": "image",
+        "unit": "per_image",
+        "amount": 0.09366,
+        "currency": "USD",
+        "processing_mode": "standard",
+        "pricing_status": "current",
+        "calculation_default": false,
+        "effective_from": null,
+        "effective_until": null,
+        "configuration": {
+          "quality": "xhigh",
+          "size": "1024x1024"
+        }
+      },
+      {
+        "id": "output_image_1024x1536_xhigh",
+        "component": "output",
+        "modality": "image",
+        "unit": "per_image",
+        "amount": 0.07377,
+        "currency": "USD",
+        "processing_mode": "standard",
+        "pricing_status": "current",
+        "calculation_default": false,
+        "effective_from": null,
+        "effective_until": null,
+        "configuration": {
+          "quality": "xhigh",
+          "size": "1024x1536"
+        }
+      },
+      {
+        "id": "output_image_1536x1024_xhigh",
+        "component": "output",
+        "modality": "image",
+        "unit": "per_image",
+        "amount": 0.07377,
+        "currency": "USD",
+        "processing_mode": "standard",
+        "pricing_status": "current",
+        "calculation_default": false,
+        "effective_from": null,
+        "effective_until": null,
+        "configuration": {
+          "quality": "xhigh",
+          "size": "1536x1024"
+        }
+      },
+      {
+        "id": "output_image_1024x1024_max",
+        "component": "output",
+        "modality": "image",
+        "unit": "per_image",
+        "amount": 0.21072,
+        "currency": "USD",
+        "processing_mode": "standard",
+        "pricing_status": "current",
+        "calculation_default": false,
+        "effective_from": null,
+        "effective_until": null,
+        "configuration": {
+          "quality": "max",
+          "size": "1024x1024"
+        }
+      },
+      {
+        "id": "output_image_1024x1536_max",
+        "component": "output",
+        "modality": "image",
+        "unit": "per_image",
+        "amount": 0.16464,
+        "currency": "USD",
+        "processing_mode": "standard",
+        "pricing_status": "current",
+        "calculation_default": false,
+        "effective_from": null,
+        "effective_until": null,
+        "configuration": {
+          "quality": "max",
+          "size": "1024x1536"
+        }
+      },
+      {
+        "id": "output_image_1536x1024_max",
+        "component": "output",
+        "modality": "image",
+        "unit": "per_image",
+        "amount": 0.16464,
+        "currency": "USD",
+        "processing_mode": "standard",
+        "pricing_status": "current",
+        "calculation_default": false,
+        "effective_from": null,
+        "effective_until": null,
+        "configuration": {
+          "quality": "max",
+          "size": "1536x1024"
+        }
+      }
+    ],
+    "official_source_url": "https://developers.openai.com/api/docs/pricing",
+    "official_source_urls": [
+      "https://developers.openai.com/api/docs/pricing",
+      "https://developers.openai.com/api/docs/guides/image-generation",
+      "https://developers.openai.com/api/docs/models/gpt-image-2.6-flare"
+    ],
+    "accessed_at": "2026-11-05T18:07:06Z",
+    "last_verified_at": "2026-11-05T18:07:06Z",
+    "effective_from": null,
+    "notes": "Same token rates and calculator token counts as GPT Image 2.6 Sunburst. Released 2026-11-04 (Image API only: generations and edits; no Responses API or Batch). Quality options low, medium, high, xhigh and max. Billed as tokens: image output $30, image input $8 (cached $2), text input $5 (cached $1.25) per 1M tokens. Per-image amounts are image output token cost only, from the token formula in OpenAI's image-generation guide calculator, which bills GPT Image 2.6 low and medium quality at 4.2x and 3.3x the GPT Image 2.5 token counts (high, xhigh and max are unchanged); prompt and reference-image input tokens are extra. The complexity setting has no separate fee.",
+    "released_at": null
+  },
+  {
+    "provider_id": "openai",
     "model_id": "gpt-image-2.5-sunburst",
     "display_name": "GPT Image 2.5 Sunburst",
     "model_family": "GPT Image 2.5",
