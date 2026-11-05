@@ -1,9 +1,13 @@
+import json
+import tempfile
 import copy
 import unittest
+from pathlib import Path
 
 from scripts.generate_pricing_v2_preview import (
     reconcile_existing_sources,
     refresh_verified_record_sources,
+    reverification_evidence_urls,
     source_id,
 )
 
@@ -117,6 +121,43 @@ class SourceReconciliationTests(unittest.TestCase):
         self.assertEqual(refreshed[self.openai_url]["checkedAt"], "2026-09-29T12:00:00Z")
         self.assertEqual(refreshed[self.openai_url]["verifiedAt"], "2026-09-29T11:59:00Z")
         self.assertEqual(refreshed[self.anthropic_url], reconciled[self.anthropic_url])
+
+    def test_record_refresh_skips_listed_pages_that_were_not_fetched(self):
+        blog = "https://openai.com/index/gpt-test/"
+        public_by_key = {
+            ("openai", "gpt-test"): {
+                "provider_id": "openai",
+                "model_id": "gpt-test",
+                "official_source_url": self.openai_url,
+                "official_source_urls": [self.openai_url, blog],
+                "accessed_at": "2026-09-29T12:00:00Z",
+                "last_verified_at": "2026-09-29T11:59:00Z",
+            }
+        }
+        reconciled = reconcile_existing_sources(self.derived, self.existing)
+        old_blog = {"providerId": "openai", "url": blog, "verifiedAt": "2026-09-01T00:00:00Z",
+                    "accessedAt": "2026-09-01T00:00:00Z", "checkedAt": "2026-09-01T00:00:00Z"}
+        reconciled[blog] = dict(old_blog)
+        refreshed = refresh_verified_record_sources(
+            reconciled, public_by_key, [("openai", "gpt-test")],
+            {("openai", "gpt-test"): {self.openai_url}},
+        )
+        self.assertEqual(refreshed[self.openai_url]["verifiedAt"], "2026-09-29T11:59:00Z")
+        self.assertEqual(refreshed[blog], old_blog)
+
+    def test_reverification_evidence_urls_reads_same_day_captures_up_to_stamp(self):
+        with tempfile.TemporaryDirectory() as tmp:
+            folder = Path(tmp) / "openai" / "gpt-test"
+            folder.mkdir(parents=True)
+            for stem, url in (("20260929T115000Z", "https://a.test/"), ("20260929T115900Z", "https://b.test/"),
+                              ("20260929T120500Z", "https://late.test/"), ("20260928T110000Z", "https://old.test/")):
+                (folder / f"{stem}.json").write_text(json.dumps({"pages": [{"url": url}]}), encoding="utf-8")
+            found = reverification_evidence_urls(
+                {("openai", "gpt-test"): {"last_verified_at": "2026-09-29T11:59:00Z"},
+                 ("openai", "none"): {"last_verified_at": "2026-09-29T11:59:00Z"}},
+                [("openai", "gpt-test"), ("openai", "none")], Path(tmp),
+            )
+        self.assertEqual(found, {("openai", "gpt-test"): {"https://a.test/", "https://b.test/"}})
 
     def test_explicit_record_refresh_rejects_unknown_record(self):
         with self.assertRaisesRegex(ValueError, "Unknown canonical source refresh record"):

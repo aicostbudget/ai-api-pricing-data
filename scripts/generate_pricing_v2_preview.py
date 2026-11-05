@@ -1963,8 +1963,14 @@ def refresh_verified_record_sources(
     sources_by_url: dict[str, dict[str, Any]],
     public_by_key: dict[tuple[str, str], dict[str, Any]],
     refresh_keys: list[tuple[str, str]],
+    fetched_urls: dict[tuple[str, str], set[str]] | None = None,
 ) -> dict[str, dict[str, Any]]:
-    """Refresh source metadata only for explicitly reverified canonical records."""
+    """Refresh source metadata only for explicitly reverified canonical records.
+
+    When ``fetched_urls`` names the pages captured for a record's re-verification, only those
+    pages are re-stamped: a listed page that was not fetched (an announcement that answers 403
+    to scripts, say) keeps the date it was last actually checked.
+    """
     refreshed = {url: dict(source) for url, source in sources_by_url.items()}
     for key in refresh_keys:
         public = public_by_key.get(key)
@@ -1974,7 +1980,10 @@ def refresh_verified_record_sources(
         verified_at = public.get("last_verified_at")
         if not accessed_at or not verified_at:
             raise ValueError(f"Canonical source refresh record lacks timestamps {key[0]}/{key[1]}")
+        fetched = (fetched_urls or {}).get(key)
         for url in public_source_urls(public):
+            if fetched is not None and url not in fetched:
+                continue
             source = refreshed.get(url)
             if source is None:
                 raise ValueError(f"Canonical source refresh URL is missing from registry: {url}")
@@ -1983,6 +1992,35 @@ def refresh_verified_record_sources(
             source["verifiedAt"] = max(source.get("verifiedAt") or verified_at, verified_at)
             source["verificationStatus"] = "verified"
     return refreshed
+
+
+def reverification_evidence_urls(
+    public_by_key: dict[tuple[str, str], dict[str, Any]],
+    refresh_keys: list[tuple[str, str]],
+    evidence_root: Path | None = None,
+) -> dict[tuple[str, str], set[str]]:
+    """Pages captured under reports/price-evidence at each record's last_verified_at stamp.
+
+    Records with no capture at that stamp are left out, so their refresh keeps the old
+    behaviour of re-stamping every listed source.
+    """
+    root = evidence_root or ROOT / "reports/price-evidence"
+    found: dict[tuple[str, str], set[str]] = {}
+    for key in refresh_keys:
+        verified_at = (public_by_key.get(key) or {}).get("last_verified_at") or ""
+        stamp = verified_at.replace("-", "").replace(":", "")
+        if not stamp:
+            continue
+        urls: set[str] = set()
+        for path in sorted((root / key[0] / key[1]).glob(f"{stamp[:8]}T*.json")):
+            # Same-day captures up to the stamp belong to this re-verification (one model can need
+            # several captures, e.g. a docs page and a separate pricing page).
+            if path.stem <= stamp:
+                capture = json.loads(path.read_text(encoding="utf-8"))
+                urls.update(page["url"] for page in capture.get("pages", []))
+        if urls:
+            found[key] = urls
+    return found
 
 
 def website_provider_id(record: dict[str, Any]) -> str:
@@ -2917,6 +2955,7 @@ def main() -> None:
         source_urls,
         public_by_key,
         refresh_source_keys,
+        reverification_evidence_urls(public_by_key, refresh_source_keys),
     )
 
     # Release evidence is model metadata. Keep its source identity separate from price records.
