@@ -202,6 +202,16 @@ class ProjectionProvenanceContainmentTests(unittest.TestCase):
             "https://example.test/news/update",
         )
 
+    def test_model_bound_page_beats_shared_catalog_page_at_equal_freshness(self):
+        stamp = "2026-11-05T15:05:31Z"
+        catalog = source("catalog", "https://example.test/help/model-pricing", timestamp=stamp)
+        own = dict(source("own", "https://example.test/help/qwen-flash", timestamp=stamp), supports=["access", "binding", "pricing"])
+        self.assertEqual(select_official_source_url(
+            ["catalog", "own"], {"catalog": catalog, "own": own}, existing_url=None,
+            price_source_refs=["catalog", "own"], public_official_url=None,
+            website_official_url=None,
+        ), "https://example.test/help/qwen-flash")
+
     def test_semantically_ambiguous_sources_fail_instead_of_using_lexical_order(self):
         sources = {
             "a": source("a", "https://example.test/guides/alpha"),

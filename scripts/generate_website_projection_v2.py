@@ -468,12 +468,15 @@ def select_official_source_url(
 
     price_refs = set(price_source_refs)
 
-    def semantic_score(source: dict[str, Any]) -> tuple[int, int, int, int, str, str]:
+    def semantic_score(source: dict[str, Any]) -> tuple[int, int, int, int, int, str, str]:
         return (
             int(source.get("sourceId") in price_refs),
             SOURCE_EVIDENCE_PRIORITY[source_evidence_role(source)],
             int(source.get("url") == public_official_url),
             int(source.get("url") == website_official_url),
+            # A page bound to this model beats a catalog page several models share
+            # (Alibaba's model-pricing overview vs each model's own page).
+            int("binding" in source.get("supports", [])),
             source_timestamp(source, "verifiedAt") or "",
             source_timestamp(source, "checkedAt") or "",
         )
