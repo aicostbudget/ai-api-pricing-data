@@ -2,14 +2,14 @@
   "dataset_name": "AICostBudget AI API Pricing Dataset",
   "dataset_version": "1.0.0",
   "description": "Open, machine-readable pricing data for LLM and AI APIs.",
-  "generated_at": "2026-11-04T16:54:00Z",
+  "generated_at": "2026-11-05T12:17:20Z",
   "homepage": "https://aicostbudget.com",
-  "last_verified_at": "2026-11-04T16:53:01Z",
+  "last_verified_at": "2026-11-05T12:07:09Z",
   "licenses": {
     "code": "MIT",
     "data": "CC BY 4.0"
   },
-  "model_count": 162,
+  "model_count": 165,
   "models": [
     {
       "access_checked_at": "2026-10-28T16:44:42Z",
@@ -9737,6 +9737,1912 @@
         "currency": "USD",
         "input": 2.0,
         "output": 10.0,
+        "unit": "1M tokens"
+      },
+      "provider_id": "google-cloud",
+      "release_stage": "stable",
+      "released_at": null,
+      "status": "active"
+    },
+    {
+      "accessed_at": "2026-11-05T12:07:09Z",
+      "display_name": "Gemini 3.6 Flash on Google Vertex AI",
+      "effective_from": null,
+      "hosted_model": {
+        "model_id": "gemini-3.6-flash",
+        "platform": "google-vertex-ai",
+        "provider_id": "google-gemini"
+      },
+      "input_modality": "text",
+      "last_verified_at": "2026-11-05T12:07:09Z",
+      "model_family": "Gemini 3.6",
+      "model_id": "vertex-gemini-3.6-flash",
+      "notes": "Gemini 3.6 Flash served through Google Vertex AI (Agent Platform). Global endpoint per 1M tokens through 2026-12-31: input $0.75, cached input $0.075, output $3.75 (Priority $1.35 / $0.135 / $6.75; Batch and Flex $0.375 / $0.0375 / $1.875). From 2027-01-01: input $1.50, cached input $0.15, output $7.50 (Priority $2.70 / $0.27 / $13.50; Batch and Flex $0.75 / $0.075 / $3.75). Explicit cache storage is $1.00 per 1M tokens per hour throughout, unlike the Gemini API's $0.50 introductory storage rate. Non-global (regional and multi-region) endpoints cost 10% more than the global endpoint on every token type. The rates through 2026-12-31 are promotional: Google Cloud provides the promotional rate as credits worth 50% of net spend on this model, issued monthly and expiring 30 days after issue, rather than as a lower invoice price.",
+      "official_source_url": "https://cloud.google.com/vertex-ai/generative-ai/pricing",
+      "official_source_urls": [
+        "https://cloud.google.com/vertex-ai/generative-ai/pricing"
+      ],
+      "output_modality": "text",
+      "price_records": [
+        {
+          "billing_note": "Global endpoint price on Google Vertex AI, including explicit cache storage per million cached tokens per hour. Non-global (regional and multi-region) endpoints cost 10% more than the global endpoint on every token type. Grounding is priced separately. Promotional rate: Google Cloud provides the promotional rate as credits worth 50% of net spend on this model, issued monthly and expiring 30 days after issue, rather than as a lower invoice price.",
+          "calculation_default": true,
+          "charges": [
+            {
+              "amount": "0.75",
+              "component": "input",
+              "id": "price:google-cloud/vertex-gemini-3.6-flash:standard:short:current:introductory_2026:input:text:per_1m_tokens",
+              "modality": "text",
+              "unit": "per_1m_tokens"
+            },
+            {
+              "amount": "0.075",
+              "component": "cached_input",
+              "id": "price:google-cloud/vertex-gemini-3.6-flash:standard:short:current:introductory_2026:cached_input:text:per_1m_tokens",
+              "modality": "text",
+              "unit": "per_1m_tokens"
+            },
+            {
+              "amount": "3.75",
+              "component": "output",
+              "id": "price:google-cloud/vertex-gemini-3.6-flash:standard:short:current:introductory_2026:output:text:per_1m_tokens",
+              "modality": "text",
+              "unit": "per_1m_tokens"
+            },
+            {
+              "amount": "1",
+              "component": "storage",
+              "id": "price:google-cloud/vertex-gemini-3.6-flash:standard:short:current:introductory_2026:storage:text:per_1m_tokens_per_hour",
+              "modality": "text",
+              "unit": "per_1m_tokens_per_hour"
+            }
+          ],
+          "checked_at": "2026-11-05T12:07:09Z",
+          "context_class": "short",
+          "currency": "USD",
+          "effective_from": "2026-08-13",
+          "effective_until": "2026-12-31",
+          "id": "price:google-cloud/vertex-gemini-3.6-flash:standard:short:current:introductory_2026",
+          "pricing_status": "current",
+          "processing_mode": "standard",
+          "prompt_token_threshold": null,
+          "region_policy": {
+            "availability": {
+              "default": "available",
+              "rules": []
+            },
+            "data_residencies": [
+              "global"
+            ],
+            "endpoint_geographies": [
+              "global",
+              "regional"
+            ],
+            "price_adjustments": [
+              {
+                "factor": "1.10",
+                "id": "regional-endpoint-uplift",
+                "operation": "multiply",
+                "selector": {
+                  "endpoint_geographies": [
+                    "regional"
+                  ]
+                },
+                "source_refs": [
+                  "https://cloud.google.com/vertex-ai/generative-ai/pricing"
+                ]
+              }
+            ],
+            "pricing_geography": "global_base"
+          },
+          "source_refs": [
+            "https://cloud.google.com/vertex-ai/generative-ai/pricing"
+          ],
+          "verification_status": "verified",
+          "verified_at": "2026-11-05T12:07:09Z"
+        },
+        {
+          "billing_note": "Global endpoint price on Google Vertex AI, including explicit cache storage per million cached tokens per hour. Non-global (regional and multi-region) endpoints cost 10% more than the global endpoint on every token type. Grounding is priced separately. Promotional rate: Google Cloud provides the promotional rate as credits worth 50% of net spend on this model, issued monthly and expiring 30 days after issue, rather than as a lower invoice price. Batch rate.",
+          "calculation_default": false,
+          "charges": [
+            {
+              "amount": "0.375",
+              "component": "input",
+              "id": "price:google-cloud/vertex-gemini-3.6-flash:batch:short:current:introductory_2026:input:text:per_1m_tokens",
+              "modality": "text",
+              "unit": "per_1m_tokens"
+            },
+            {
+              "amount": "0.0375",
+              "component": "cached_input",
+              "id": "price:google-cloud/vertex-gemini-3.6-flash:batch:short:current:introductory_2026:cached_input:text:per_1m_tokens",
+              "modality": "text",
+              "unit": "per_1m_tokens"
+            },
+            {
+              "amount": "1.875",
+              "component": "output",
+              "id": "price:google-cloud/vertex-gemini-3.6-flash:batch:short:current:introductory_2026:output:text:per_1m_tokens",
+              "modality": "text",
+              "unit": "per_1m_tokens"
+            },
+            {
+              "amount": "1",
+              "component": "storage",
+              "id": "price:google-cloud/vertex-gemini-3.6-flash:batch:short:current:introductory_2026:storage:text:per_1m_tokens_per_hour",
+              "modality": "text",
+              "unit": "per_1m_tokens_per_hour"
+            }
+          ],
+          "checked_at": "2026-11-05T12:07:09Z",
+          "context_class": "short",
+          "currency": "USD",
+          "effective_from": "2026-08-13",
+          "effective_until": "2026-12-31",
+          "id": "price:google-cloud/vertex-gemini-3.6-flash:batch:short:current:introductory_2026",
+          "pricing_status": "current",
+          "processing_mode": "batch",
+          "prompt_token_threshold": null,
+          "region_policy": {
+            "availability": {
+              "default": "available",
+              "rules": []
+            },
+            "data_residencies": [
+              "global"
+            ],
+            "endpoint_geographies": [
+              "global",
+              "regional"
+            ],
+            "price_adjustments": [
+              {
+                "factor": "1.10",
+                "id": "regional-endpoint-uplift",
+                "operation": "multiply",
+                "selector": {
+                  "endpoint_geographies": [
+                    "regional"
+                  ]
+                },
+                "source_refs": [
+                  "https://cloud.google.com/vertex-ai/generative-ai/pricing"
+                ]
+              }
+            ],
+            "pricing_geography": "global_base"
+          },
+          "source_refs": [
+            "https://cloud.google.com/vertex-ai/generative-ai/pricing"
+          ],
+          "verification_status": "verified",
+          "verified_at": "2026-11-05T12:07:09Z"
+        },
+        {
+          "billing_note": "Global endpoint price on Google Vertex AI, including explicit cache storage per million cached tokens per hour. Non-global (regional and multi-region) endpoints cost 10% more than the global endpoint on every token type. Grounding is priced separately. Promotional rate: Google Cloud provides the promotional rate as credits worth 50% of net spend on this model, issued monthly and expiring 30 days after issue, rather than as a lower invoice price. Flex rate.",
+          "calculation_default": false,
+          "charges": [
+            {
+              "amount": "0.375",
+              "component": "input",
+              "id": "price:google-cloud/vertex-gemini-3.6-flash:flex:short:current:introductory_2026:input:text:per_1m_tokens",
+              "modality": "text",
+              "unit": "per_1m_tokens"
+            },
+            {
+              "amount": "0.0375",
+              "component": "cached_input",
+              "id": "price:google-cloud/vertex-gemini-3.6-flash:flex:short:current:introductory_2026:cached_input:text:per_1m_tokens",
+              "modality": "text",
+              "unit": "per_1m_tokens"
+            },
+            {
+              "amount": "1.875",
+              "component": "output",
+              "id": "price:google-cloud/vertex-gemini-3.6-flash:flex:short:current:introductory_2026:output:text:per_1m_tokens",
+              "modality": "text",
+              "unit": "per_1m_tokens"
+            },
+            {
+              "amount": "1",
+              "component": "storage",
+              "id": "price:google-cloud/vertex-gemini-3.6-flash:flex:short:current:introductory_2026:storage:text:per_1m_tokens_per_hour",
+              "modality": "text",
+              "unit": "per_1m_tokens_per_hour"
+            }
+          ],
+          "checked_at": "2026-11-05T12:07:09Z",
+          "context_class": "short",
+          "currency": "USD",
+          "effective_from": null,
+          "effective_until": "2026-12-31",
+          "id": "price:google-cloud/vertex-gemini-3.6-flash:flex:short:current:introductory_2026",
+          "pricing_status": "current",
+          "processing_mode": "flex",
+          "prompt_token_threshold": null,
+          "region_policy": {
+            "availability": {
+              "default": "available",
+              "rules": []
+            },
+            "data_residencies": [
+              "global"
+            ],
+            "endpoint_geographies": [
+              "global",
+              "regional"
+            ],
+            "price_adjustments": [
+              {
+                "factor": "1.10",
+                "id": "regional-endpoint-uplift",
+                "operation": "multiply",
+                "selector": {
+                  "endpoint_geographies": [
+                    "regional"
+                  ]
+                },
+                "source_refs": [
+                  "https://cloud.google.com/vertex-ai/generative-ai/pricing"
+                ]
+              }
+            ],
+            "pricing_geography": "global_base"
+          },
+          "source_refs": [
+            "https://cloud.google.com/vertex-ai/generative-ai/pricing"
+          ],
+          "verification_status": "verified",
+          "verified_at": "2026-11-05T12:07:09Z"
+        },
+        {
+          "billing_note": "Global endpoint price on Google Vertex AI, including explicit cache storage per million cached tokens per hour. Non-global (regional and multi-region) endpoints cost 10% more than the global endpoint on every token type. Grounding is priced separately. Promotional rate: Google Cloud provides the promotional rate as credits worth 50% of net spend on this model, issued monthly and expiring 30 days after issue, rather than as a lower invoice price. Priority rate.",
+          "calculation_default": false,
+          "charges": [
+            {
+              "amount": "1.35",
+              "component": "input",
+              "id": "price:google-cloud/vertex-gemini-3.6-flash:priority:short:current:introductory_2026:input:text:per_1m_tokens",
+              "modality": "text",
+              "unit": "per_1m_tokens"
+            },
+            {
+              "amount": "0.135",
+              "component": "cached_input",
+              "id": "price:google-cloud/vertex-gemini-3.6-flash:priority:short:current:introductory_2026:cached_input:text:per_1m_tokens",
+              "modality": "text",
+              "unit": "per_1m_tokens"
+            },
+            {
+              "amount": "6.75",
+              "component": "output",
+              "id": "price:google-cloud/vertex-gemini-3.6-flash:priority:short:current:introductory_2026:output:text:per_1m_tokens",
+              "modality": "text",
+              "unit": "per_1m_tokens"
+            },
+            {
+              "amount": "1",
+              "component": "storage",
+              "id": "price:google-cloud/vertex-gemini-3.6-flash:priority:short:current:introductory_2026:storage:text:per_1m_tokens_per_hour",
+              "modality": "text",
+              "unit": "per_1m_tokens_per_hour"
+            }
+          ],
+          "checked_at": "2026-11-05T12:07:09Z",
+          "context_class": "short",
+          "currency": "USD",
+          "effective_from": null,
+          "effective_until": "2026-12-31",
+          "id": "price:google-cloud/vertex-gemini-3.6-flash:priority:short:current:introductory_2026",
+          "pricing_status": "current",
+          "processing_mode": "priority",
+          "prompt_token_threshold": null,
+          "region_policy": {
+            "availability": {
+              "default": "available",
+              "rules": []
+            },
+            "data_residencies": [
+              "global"
+            ],
+            "endpoint_geographies": [
+              "global",
+              "regional"
+            ],
+            "price_adjustments": [
+              {
+                "factor": "1.10",
+                "id": "regional-endpoint-uplift",
+                "operation": "multiply",
+                "selector": {
+                  "endpoint_geographies": [
+                    "regional"
+                  ]
+                },
+                "source_refs": [
+                  "https://cloud.google.com/vertex-ai/generative-ai/pricing"
+                ]
+              }
+            ],
+            "pricing_geography": "global_base"
+          },
+          "source_refs": [
+            "https://cloud.google.com/vertex-ai/generative-ai/pricing"
+          ],
+          "verification_status": "verified",
+          "verified_at": "2026-11-05T12:07:09Z"
+        },
+        {
+          "billing_note": "Global endpoint price on Google Vertex AI, including explicit cache storage per million cached tokens per hour. Non-global (regional and multi-region) endpoints cost 10% more than the global endpoint on every token type. Grounding is priced separately.",
+          "calculation_default": false,
+          "charges": [
+            {
+              "amount": "1.5",
+              "component": "input",
+              "id": "price:google-cloud/vertex-gemini-3.6-flash:standard:short:future:standard_2027:input:text:per_1m_tokens",
+              "modality": "text",
+              "unit": "per_1m_tokens"
+            },
+            {
+              "amount": "0.15",
+              "component": "cached_input",
+              "id": "price:google-cloud/vertex-gemini-3.6-flash:standard:short:future:standard_2027:cached_input:text:per_1m_tokens",
+              "modality": "text",
+              "unit": "per_1m_tokens"
+            },
+            {
+              "amount": "7.5",
+              "component": "output",
+              "id": "price:google-cloud/vertex-gemini-3.6-flash:standard:short:future:standard_2027:output:text:per_1m_tokens",
+              "modality": "text",
+              "unit": "per_1m_tokens"
+            },
+            {
+              "amount": "1",
+              "component": "storage",
+              "id": "price:google-cloud/vertex-gemini-3.6-flash:standard:short:future:standard_2027:storage:text:per_1m_tokens_per_hour",
+              "modality": "text",
+              "unit": "per_1m_tokens_per_hour"
+            }
+          ],
+          "checked_at": "2026-11-05T12:07:09Z",
+          "context_class": "short",
+          "currency": "USD",
+          "effective_from": "2027-01-01",
+          "effective_until": null,
+          "id": "price:google-cloud/vertex-gemini-3.6-flash:standard:short:future:standard_2027",
+          "pricing_status": "future",
+          "processing_mode": "standard",
+          "prompt_token_threshold": null,
+          "region_policy": {
+            "availability": {
+              "default": "available",
+              "rules": []
+            },
+            "data_residencies": [
+              "global"
+            ],
+            "endpoint_geographies": [
+              "global",
+              "regional"
+            ],
+            "price_adjustments": [
+              {
+                "factor": "1.10",
+                "id": "regional-endpoint-uplift",
+                "operation": "multiply",
+                "selector": {
+                  "endpoint_geographies": [
+                    "regional"
+                  ]
+                },
+                "source_refs": [
+                  "https://cloud.google.com/vertex-ai/generative-ai/pricing"
+                ]
+              }
+            ],
+            "pricing_geography": "global_base"
+          },
+          "source_refs": [
+            "https://cloud.google.com/vertex-ai/generative-ai/pricing"
+          ],
+          "verification_status": "verified",
+          "verified_at": "2026-11-05T12:07:09Z"
+        },
+        {
+          "billing_note": "Global endpoint price on Google Vertex AI, including explicit cache storage per million cached tokens per hour. Non-global (regional and multi-region) endpoints cost 10% more than the global endpoint on every token type. Grounding is priced separately. Batch rate.",
+          "calculation_default": false,
+          "charges": [
+            {
+              "amount": "0.75",
+              "component": "input",
+              "id": "price:google-cloud/vertex-gemini-3.6-flash:batch:short:future:standard_2027:input:text:per_1m_tokens",
+              "modality": "text",
+              "unit": "per_1m_tokens"
+            },
+            {
+              "amount": "0.075",
+              "component": "cached_input",
+              "id": "price:google-cloud/vertex-gemini-3.6-flash:batch:short:future:standard_2027:cached_input:text:per_1m_tokens",
+              "modality": "text",
+              "unit": "per_1m_tokens"
+            },
+            {
+              "amount": "3.75",
+              "component": "output",
+              "id": "price:google-cloud/vertex-gemini-3.6-flash:batch:short:future:standard_2027:output:text:per_1m_tokens",
+              "modality": "text",
+              "unit": "per_1m_tokens"
+            },
+            {
+              "amount": "1",
+              "component": "storage",
+              "id": "price:google-cloud/vertex-gemini-3.6-flash:batch:short:future:standard_2027:storage:text:per_1m_tokens_per_hour",
+              "modality": "text",
+              "unit": "per_1m_tokens_per_hour"
+            }
+          ],
+          "checked_at": "2026-11-05T12:07:09Z",
+          "context_class": "short",
+          "currency": "USD",
+          "effective_from": "2027-01-01",
+          "effective_until": null,
+          "id": "price:google-cloud/vertex-gemini-3.6-flash:batch:short:future:standard_2027",
+          "pricing_status": "future",
+          "processing_mode": "batch",
+          "prompt_token_threshold": null,
+          "region_policy": {
+            "availability": {
+              "default": "available",
+              "rules": []
+            },
+            "data_residencies": [
+              "global"
+            ],
+            "endpoint_geographies": [
+              "global",
+              "regional"
+            ],
+            "price_adjustments": [
+              {
+                "factor": "1.10",
+                "id": "regional-endpoint-uplift",
+                "operation": "multiply",
+                "selector": {
+                  "endpoint_geographies": [
+                    "regional"
+                  ]
+                },
+                "source_refs": [
+                  "https://cloud.google.com/vertex-ai/generative-ai/pricing"
+                ]
+              }
+            ],
+            "pricing_geography": "global_base"
+          },
+          "source_refs": [
+            "https://cloud.google.com/vertex-ai/generative-ai/pricing"
+          ],
+          "verification_status": "verified",
+          "verified_at": "2026-11-05T12:07:09Z"
+        },
+        {
+          "billing_note": "Global endpoint price on Google Vertex AI, including explicit cache storage per million cached tokens per hour. Non-global (regional and multi-region) endpoints cost 10% more than the global endpoint on every token type. Grounding is priced separately. Flex rate.",
+          "calculation_default": false,
+          "charges": [
+            {
+              "amount": "0.75",
+              "component": "input",
+              "id": "price:google-cloud/vertex-gemini-3.6-flash:flex:short:future:standard_2027:input:text:per_1m_tokens",
+              "modality": "text",
+              "unit": "per_1m_tokens"
+            },
+            {
+              "amount": "0.075",
+              "component": "cached_input",
+              "id": "price:google-cloud/vertex-gemini-3.6-flash:flex:short:future:standard_2027:cached_input:text:per_1m_tokens",
+              "modality": "text",
+              "unit": "per_1m_tokens"
+            },
+            {
+              "amount": "3.75",
+              "component": "output",
+              "id": "price:google-cloud/vertex-gemini-3.6-flash:flex:short:future:standard_2027:output:text:per_1m_tokens",
+              "modality": "text",
+              "unit": "per_1m_tokens"
+            },
+            {
+              "amount": "1",
+              "component": "storage",
+              "id": "price:google-cloud/vertex-gemini-3.6-flash:flex:short:future:standard_2027:storage:text:per_1m_tokens_per_hour",
+              "modality": "text",
+              "unit": "per_1m_tokens_per_hour"
+            }
+          ],
+          "checked_at": "2026-11-05T12:07:09Z",
+          "context_class": "short",
+          "currency": "USD",
+          "effective_from": "2027-01-01",
+          "effective_until": null,
+          "id": "price:google-cloud/vertex-gemini-3.6-flash:flex:short:future:standard_2027",
+          "pricing_status": "future",
+          "processing_mode": "flex",
+          "prompt_token_threshold": null,
+          "region_policy": {
+            "availability": {
+              "default": "available",
+              "rules": []
+            },
+            "data_residencies": [
+              "global"
+            ],
+            "endpoint_geographies": [
+              "global",
+              "regional"
+            ],
+            "price_adjustments": [
+              {
+                "factor": "1.10",
+                "id": "regional-endpoint-uplift",
+                "operation": "multiply",
+                "selector": {
+                  "endpoint_geographies": [
+                    "regional"
+                  ]
+                },
+                "source_refs": [
+                  "https://cloud.google.com/vertex-ai/generative-ai/pricing"
+                ]
+              }
+            ],
+            "pricing_geography": "global_base"
+          },
+          "source_refs": [
+            "https://cloud.google.com/vertex-ai/generative-ai/pricing"
+          ],
+          "verification_status": "verified",
+          "verified_at": "2026-11-05T12:07:09Z"
+        },
+        {
+          "billing_note": "Global endpoint price on Google Vertex AI, including explicit cache storage per million cached tokens per hour. Non-global (regional and multi-region) endpoints cost 10% more than the global endpoint on every token type. Grounding is priced separately. Priority rate.",
+          "calculation_default": false,
+          "charges": [
+            {
+              "amount": "2.7",
+              "component": "input",
+              "id": "price:google-cloud/vertex-gemini-3.6-flash:priority:short:future:standard_2027:input:text:per_1m_tokens",
+              "modality": "text",
+              "unit": "per_1m_tokens"
+            },
+            {
+              "amount": "0.27",
+              "component": "cached_input",
+              "id": "price:google-cloud/vertex-gemini-3.6-flash:priority:short:future:standard_2027:cached_input:text:per_1m_tokens",
+              "modality": "text",
+              "unit": "per_1m_tokens"
+            },
+            {
+              "amount": "13.5",
+              "component": "output",
+              "id": "price:google-cloud/vertex-gemini-3.6-flash:priority:short:future:standard_2027:output:text:per_1m_tokens",
+              "modality": "text",
+              "unit": "per_1m_tokens"
+            },
+            {
+              "amount": "1",
+              "component": "storage",
+              "id": "price:google-cloud/vertex-gemini-3.6-flash:priority:short:future:standard_2027:storage:text:per_1m_tokens_per_hour",
+              "modality": "text",
+              "unit": "per_1m_tokens_per_hour"
+            }
+          ],
+          "checked_at": "2026-11-05T12:07:09Z",
+          "context_class": "short",
+          "currency": "USD",
+          "effective_from": "2027-01-01",
+          "effective_until": null,
+          "id": "price:google-cloud/vertex-gemini-3.6-flash:priority:short:future:standard_2027",
+          "pricing_status": "future",
+          "processing_mode": "priority",
+          "prompt_token_threshold": null,
+          "region_policy": {
+            "availability": {
+              "default": "available",
+              "rules": []
+            },
+            "data_residencies": [
+              "global"
+            ],
+            "endpoint_geographies": [
+              "global",
+              "regional"
+            ],
+            "price_adjustments": [
+              {
+                "factor": "1.10",
+                "id": "regional-endpoint-uplift",
+                "operation": "multiply",
+                "selector": {
+                  "endpoint_geographies": [
+                    "regional"
+                  ]
+                },
+                "source_refs": [
+                  "https://cloud.google.com/vertex-ai/generative-ai/pricing"
+                ]
+              }
+            ],
+            "pricing_geography": "global_base"
+          },
+          "source_refs": [
+            "https://cloud.google.com/vertex-ai/generative-ai/pricing"
+          ],
+          "verification_status": "verified",
+          "verified_at": "2026-11-05T12:07:09Z"
+        }
+      ],
+      "pricing": {
+        "batch_cached_input": 0.0375,
+        "batch_input": 0.375,
+        "batch_output": 1.875,
+        "cache_write": null,
+        "cache_write_1h": null,
+        "cached_input": 0.075,
+        "currency": "USD",
+        "input": 0.75,
+        "output": 3.75,
+        "unit": "1M tokens"
+      },
+      "provider_id": "google-cloud",
+      "release_stage": "stable",
+      "released_at": null,
+      "status": "active"
+    },
+    {
+      "accessed_at": "2026-11-05T12:07:09Z",
+      "display_name": "Gemini 3.8 Flash on Google Vertex AI",
+      "effective_from": null,
+      "hosted_model": {
+        "model_id": "gemini-3.8-flash",
+        "platform": "google-vertex-ai",
+        "provider_id": "google-gemini"
+      },
+      "input_modality": "text",
+      "last_verified_at": "2026-11-05T12:07:09Z",
+      "model_family": "Gemini 3.8",
+      "model_id": "vertex-gemini-3.8-flash",
+      "notes": "Gemini 3.8 Flash served through Google Vertex AI (Agent Platform). Global endpoint per 1M tokens through 2026-12-31: input $0.75, cached input $0.075, output $3.75 (Priority $1.35 / $0.135 / $6.75; Batch and Flex $0.375 / $0.0375 / $1.875). From 2027-01-01: input $1.50, cached input $0.15, output $7.50 (Priority $2.70 / $0.27 / $13.50; Batch and Flex $0.75 / $0.075 / $3.75). Explicit cache storage is $1.00 per 1M tokens per hour throughout, unlike the Gemini API's $0.50 introductory storage rate. Non-global (regional and multi-region) endpoints cost 10% more than the global endpoint on every token type. The rates through 2026-12-31 are promotional: Google Cloud provides the promotional rate as credits worth 50% of net spend on this model, issued monthly and expiring 30 days after issue, rather than as a lower invoice price.",
+      "official_source_url": "https://cloud.google.com/vertex-ai/generative-ai/pricing",
+      "official_source_urls": [
+        "https://cloud.google.com/vertex-ai/generative-ai/pricing"
+      ],
+      "output_modality": "text",
+      "price_records": [
+        {
+          "billing_note": "Global endpoint price on Google Vertex AI, including explicit cache storage per million cached tokens per hour. Non-global (regional and multi-region) endpoints cost 10% more than the global endpoint on every token type. Grounding is priced separately. Promotional rate: Google Cloud provides the promotional rate as credits worth 50% of net spend on this model, issued monthly and expiring 30 days after issue, rather than as a lower invoice price.",
+          "calculation_default": true,
+          "charges": [
+            {
+              "amount": "0.75",
+              "component": "input",
+              "id": "price:google-cloud/vertex-gemini-3.8-flash:standard:short:current:introductory_2026:input:text:per_1m_tokens",
+              "modality": "text",
+              "unit": "per_1m_tokens"
+            },
+            {
+              "amount": "0.075",
+              "component": "cached_input",
+              "id": "price:google-cloud/vertex-gemini-3.8-flash:standard:short:current:introductory_2026:cached_input:text:per_1m_tokens",
+              "modality": "text",
+              "unit": "per_1m_tokens"
+            },
+            {
+              "amount": "3.75",
+              "component": "output",
+              "id": "price:google-cloud/vertex-gemini-3.8-flash:standard:short:current:introductory_2026:output:text:per_1m_tokens",
+              "modality": "text",
+              "unit": "per_1m_tokens"
+            },
+            {
+              "amount": "1",
+              "component": "storage",
+              "id": "price:google-cloud/vertex-gemini-3.8-flash:standard:short:current:introductory_2026:storage:text:per_1m_tokens_per_hour",
+              "modality": "text",
+              "unit": "per_1m_tokens_per_hour"
+            }
+          ],
+          "checked_at": "2026-11-05T12:07:09Z",
+          "context_class": "short",
+          "currency": "USD",
+          "effective_from": "2026-09-02",
+          "effective_until": "2026-12-31",
+          "id": "price:google-cloud/vertex-gemini-3.8-flash:standard:short:current:introductory_2026",
+          "pricing_status": "current",
+          "processing_mode": "standard",
+          "prompt_token_threshold": null,
+          "region_policy": {
+            "availability": {
+              "default": "available",
+              "rules": []
+            },
+            "data_residencies": [
+              "global"
+            ],
+            "endpoint_geographies": [
+              "global",
+              "regional"
+            ],
+            "price_adjustments": [
+              {
+                "factor": "1.10",
+                "id": "regional-endpoint-uplift",
+                "operation": "multiply",
+                "selector": {
+                  "endpoint_geographies": [
+                    "regional"
+                  ]
+                },
+                "source_refs": [
+                  "https://cloud.google.com/vertex-ai/generative-ai/pricing"
+                ]
+              }
+            ],
+            "pricing_geography": "global_base"
+          },
+          "source_refs": [
+            "https://cloud.google.com/vertex-ai/generative-ai/pricing"
+          ],
+          "verification_status": "verified",
+          "verified_at": "2026-11-05T12:07:09Z"
+        },
+        {
+          "billing_note": "Global endpoint price on Google Vertex AI, including explicit cache storage per million cached tokens per hour. Non-global (regional and multi-region) endpoints cost 10% more than the global endpoint on every token type. Grounding is priced separately. Promotional rate: Google Cloud provides the promotional rate as credits worth 50% of net spend on this model, issued monthly and expiring 30 days after issue, rather than as a lower invoice price. Batch rate.",
+          "calculation_default": false,
+          "charges": [
+            {
+              "amount": "0.375",
+              "component": "input",
+              "id": "price:google-cloud/vertex-gemini-3.8-flash:batch:short:current:introductory_2026:input:text:per_1m_tokens",
+              "modality": "text",
+              "unit": "per_1m_tokens"
+            },
+            {
+              "amount": "0.0375",
+              "component": "cached_input",
+              "id": "price:google-cloud/vertex-gemini-3.8-flash:batch:short:current:introductory_2026:cached_input:text:per_1m_tokens",
+              "modality": "text",
+              "unit": "per_1m_tokens"
+            },
+            {
+              "amount": "1.875",
+              "component": "output",
+              "id": "price:google-cloud/vertex-gemini-3.8-flash:batch:short:current:introductory_2026:output:text:per_1m_tokens",
+              "modality": "text",
+              "unit": "per_1m_tokens"
+            },
+            {
+              "amount": "1",
+              "component": "storage",
+              "id": "price:google-cloud/vertex-gemini-3.8-flash:batch:short:current:introductory_2026:storage:text:per_1m_tokens_per_hour",
+              "modality": "text",
+              "unit": "per_1m_tokens_per_hour"
+            }
+          ],
+          "checked_at": "2026-11-05T12:07:09Z",
+          "context_class": "short",
+          "currency": "USD",
+          "effective_from": "2026-09-02",
+          "effective_until": "2026-12-31",
+          "id": "price:google-cloud/vertex-gemini-3.8-flash:batch:short:current:introductory_2026",
+          "pricing_status": "current",
+          "processing_mode": "batch",
+          "prompt_token_threshold": null,
+          "region_policy": {
+            "availability": {
+              "default": "available",
+              "rules": []
+            },
+            "data_residencies": [
+              "global"
+            ],
+            "endpoint_geographies": [
+              "global",
+              "regional"
+            ],
+            "price_adjustments": [
+              {
+                "factor": "1.10",
+                "id": "regional-endpoint-uplift",
+                "operation": "multiply",
+                "selector": {
+                  "endpoint_geographies": [
+                    "regional"
+                  ]
+                },
+                "source_refs": [
+                  "https://cloud.google.com/vertex-ai/generative-ai/pricing"
+                ]
+              }
+            ],
+            "pricing_geography": "global_base"
+          },
+          "source_refs": [
+            "https://cloud.google.com/vertex-ai/generative-ai/pricing"
+          ],
+          "verification_status": "verified",
+          "verified_at": "2026-11-05T12:07:09Z"
+        },
+        {
+          "billing_note": "Global endpoint price on Google Vertex AI, including explicit cache storage per million cached tokens per hour. Non-global (regional and multi-region) endpoints cost 10% more than the global endpoint on every token type. Grounding is priced separately. Promotional rate: Google Cloud provides the promotional rate as credits worth 50% of net spend on this model, issued monthly and expiring 30 days after issue, rather than as a lower invoice price. Flex rate.",
+          "calculation_default": false,
+          "charges": [
+            {
+              "amount": "0.375",
+              "component": "input",
+              "id": "price:google-cloud/vertex-gemini-3.8-flash:flex:short:current:introductory_2026:input:text:per_1m_tokens",
+              "modality": "text",
+              "unit": "per_1m_tokens"
+            },
+            {
+              "amount": "0.0375",
+              "component": "cached_input",
+              "id": "price:google-cloud/vertex-gemini-3.8-flash:flex:short:current:introductory_2026:cached_input:text:per_1m_tokens",
+              "modality": "text",
+              "unit": "per_1m_tokens"
+            },
+            {
+              "amount": "1.875",
+              "component": "output",
+              "id": "price:google-cloud/vertex-gemini-3.8-flash:flex:short:current:introductory_2026:output:text:per_1m_tokens",
+              "modality": "text",
+              "unit": "per_1m_tokens"
+            },
+            {
+              "amount": "1",
+              "component": "storage",
+              "id": "price:google-cloud/vertex-gemini-3.8-flash:flex:short:current:introductory_2026:storage:text:per_1m_tokens_per_hour",
+              "modality": "text",
+              "unit": "per_1m_tokens_per_hour"
+            }
+          ],
+          "checked_at": "2026-11-05T12:07:09Z",
+          "context_class": "short",
+          "currency": "USD",
+          "effective_from": null,
+          "effective_until": "2026-12-31",
+          "id": "price:google-cloud/vertex-gemini-3.8-flash:flex:short:current:introductory_2026",
+          "pricing_status": "current",
+          "processing_mode": "flex",
+          "prompt_token_threshold": null,
+          "region_policy": {
+            "availability": {
+              "default": "available",
+              "rules": []
+            },
+            "data_residencies": [
+              "global"
+            ],
+            "endpoint_geographies": [
+              "global",
+              "regional"
+            ],
+            "price_adjustments": [
+              {
+                "factor": "1.10",
+                "id": "regional-endpoint-uplift",
+                "operation": "multiply",
+                "selector": {
+                  "endpoint_geographies": [
+                    "regional"
+                  ]
+                },
+                "source_refs": [
+                  "https://cloud.google.com/vertex-ai/generative-ai/pricing"
+                ]
+              }
+            ],
+            "pricing_geography": "global_base"
+          },
+          "source_refs": [
+            "https://cloud.google.com/vertex-ai/generative-ai/pricing"
+          ],
+          "verification_status": "verified",
+          "verified_at": "2026-11-05T12:07:09Z"
+        },
+        {
+          "billing_note": "Global endpoint price on Google Vertex AI, including explicit cache storage per million cached tokens per hour. Non-global (regional and multi-region) endpoints cost 10% more than the global endpoint on every token type. Grounding is priced separately. Promotional rate: Google Cloud provides the promotional rate as credits worth 50% of net spend on this model, issued monthly and expiring 30 days after issue, rather than as a lower invoice price. Priority rate.",
+          "calculation_default": false,
+          "charges": [
+            {
+              "amount": "1.35",
+              "component": "input",
+              "id": "price:google-cloud/vertex-gemini-3.8-flash:priority:short:current:introductory_2026:input:text:per_1m_tokens",
+              "modality": "text",
+              "unit": "per_1m_tokens"
+            },
+            {
+              "amount": "0.135",
+              "component": "cached_input",
+              "id": "price:google-cloud/vertex-gemini-3.8-flash:priority:short:current:introductory_2026:cached_input:text:per_1m_tokens",
+              "modality": "text",
+              "unit": "per_1m_tokens"
+            },
+            {
+              "amount": "6.75",
+              "component": "output",
+              "id": "price:google-cloud/vertex-gemini-3.8-flash:priority:short:current:introductory_2026:output:text:per_1m_tokens",
+              "modality": "text",
+              "unit": "per_1m_tokens"
+            },
+            {
+              "amount": "1",
+              "component": "storage",
+              "id": "price:google-cloud/vertex-gemini-3.8-flash:priority:short:current:introductory_2026:storage:text:per_1m_tokens_per_hour",
+              "modality": "text",
+              "unit": "per_1m_tokens_per_hour"
+            }
+          ],
+          "checked_at": "2026-11-05T12:07:09Z",
+          "context_class": "short",
+          "currency": "USD",
+          "effective_from": null,
+          "effective_until": "2026-12-31",
+          "id": "price:google-cloud/vertex-gemini-3.8-flash:priority:short:current:introductory_2026",
+          "pricing_status": "current",
+          "processing_mode": "priority",
+          "prompt_token_threshold": null,
+          "region_policy": {
+            "availability": {
+              "default": "available",
+              "rules": []
+            },
+            "data_residencies": [
+              "global"
+            ],
+            "endpoint_geographies": [
+              "global",
+              "regional"
+            ],
+            "price_adjustments": [
+              {
+                "factor": "1.10",
+                "id": "regional-endpoint-uplift",
+                "operation": "multiply",
+                "selector": {
+                  "endpoint_geographies": [
+                    "regional"
+                  ]
+                },
+                "source_refs": [
+                  "https://cloud.google.com/vertex-ai/generative-ai/pricing"
+                ]
+              }
+            ],
+            "pricing_geography": "global_base"
+          },
+          "source_refs": [
+            "https://cloud.google.com/vertex-ai/generative-ai/pricing"
+          ],
+          "verification_status": "verified",
+          "verified_at": "2026-11-05T12:07:09Z"
+        },
+        {
+          "billing_note": "Global endpoint price on Google Vertex AI, including explicit cache storage per million cached tokens per hour. Non-global (regional and multi-region) endpoints cost 10% more than the global endpoint on every token type. Grounding is priced separately.",
+          "calculation_default": false,
+          "charges": [
+            {
+              "amount": "1.5",
+              "component": "input",
+              "id": "price:google-cloud/vertex-gemini-3.8-flash:standard:short:future:standard_2027:input:text:per_1m_tokens",
+              "modality": "text",
+              "unit": "per_1m_tokens"
+            },
+            {
+              "amount": "0.15",
+              "component": "cached_input",
+              "id": "price:google-cloud/vertex-gemini-3.8-flash:standard:short:future:standard_2027:cached_input:text:per_1m_tokens",
+              "modality": "text",
+              "unit": "per_1m_tokens"
+            },
+            {
+              "amount": "7.5",
+              "component": "output",
+              "id": "price:google-cloud/vertex-gemini-3.8-flash:standard:short:future:standard_2027:output:text:per_1m_tokens",
+              "modality": "text",
+              "unit": "per_1m_tokens"
+            },
+            {
+              "amount": "1",
+              "component": "storage",
+              "id": "price:google-cloud/vertex-gemini-3.8-flash:standard:short:future:standard_2027:storage:text:per_1m_tokens_per_hour",
+              "modality": "text",
+              "unit": "per_1m_tokens_per_hour"
+            }
+          ],
+          "checked_at": "2026-11-05T12:07:09Z",
+          "context_class": "short",
+          "currency": "USD",
+          "effective_from": "2027-01-01",
+          "effective_until": null,
+          "id": "price:google-cloud/vertex-gemini-3.8-flash:standard:short:future:standard_2027",
+          "pricing_status": "future",
+          "processing_mode": "standard",
+          "prompt_token_threshold": null,
+          "region_policy": {
+            "availability": {
+              "default": "available",
+              "rules": []
+            },
+            "data_residencies": [
+              "global"
+            ],
+            "endpoint_geographies": [
+              "global",
+              "regional"
+            ],
+            "price_adjustments": [
+              {
+                "factor": "1.10",
+                "id": "regional-endpoint-uplift",
+                "operation": "multiply",
+                "selector": {
+                  "endpoint_geographies": [
+                    "regional"
+                  ]
+                },
+                "source_refs": [
+                  "https://cloud.google.com/vertex-ai/generative-ai/pricing"
+                ]
+              }
+            ],
+            "pricing_geography": "global_base"
+          },
+          "source_refs": [
+            "https://cloud.google.com/vertex-ai/generative-ai/pricing"
+          ],
+          "verification_status": "verified",
+          "verified_at": "2026-11-05T12:07:09Z"
+        },
+        {
+          "billing_note": "Global endpoint price on Google Vertex AI, including explicit cache storage per million cached tokens per hour. Non-global (regional and multi-region) endpoints cost 10% more than the global endpoint on every token type. Grounding is priced separately. Batch rate.",
+          "calculation_default": false,
+          "charges": [
+            {
+              "amount": "0.75",
+              "component": "input",
+              "id": "price:google-cloud/vertex-gemini-3.8-flash:batch:short:future:standard_2027:input:text:per_1m_tokens",
+              "modality": "text",
+              "unit": "per_1m_tokens"
+            },
+            {
+              "amount": "0.075",
+              "component": "cached_input",
+              "id": "price:google-cloud/vertex-gemini-3.8-flash:batch:short:future:standard_2027:cached_input:text:per_1m_tokens",
+              "modality": "text",
+              "unit": "per_1m_tokens"
+            },
+            {
+              "amount": "3.75",
+              "component": "output",
+              "id": "price:google-cloud/vertex-gemini-3.8-flash:batch:short:future:standard_2027:output:text:per_1m_tokens",
+              "modality": "text",
+              "unit": "per_1m_tokens"
+            },
+            {
+              "amount": "1",
+              "component": "storage",
+              "id": "price:google-cloud/vertex-gemini-3.8-flash:batch:short:future:standard_2027:storage:text:per_1m_tokens_per_hour",
+              "modality": "text",
+              "unit": "per_1m_tokens_per_hour"
+            }
+          ],
+          "checked_at": "2026-11-05T12:07:09Z",
+          "context_class": "short",
+          "currency": "USD",
+          "effective_from": "2027-01-01",
+          "effective_until": null,
+          "id": "price:google-cloud/vertex-gemini-3.8-flash:batch:short:future:standard_2027",
+          "pricing_status": "future",
+          "processing_mode": "batch",
+          "prompt_token_threshold": null,
+          "region_policy": {
+            "availability": {
+              "default": "available",
+              "rules": []
+            },
+            "data_residencies": [
+              "global"
+            ],
+            "endpoint_geographies": [
+              "global",
+              "regional"
+            ],
+            "price_adjustments": [
+              {
+                "factor": "1.10",
+                "id": "regional-endpoint-uplift",
+                "operation": "multiply",
+                "selector": {
+                  "endpoint_geographies": [
+                    "regional"
+                  ]
+                },
+                "source_refs": [
+                  "https://cloud.google.com/vertex-ai/generative-ai/pricing"
+                ]
+              }
+            ],
+            "pricing_geography": "global_base"
+          },
+          "source_refs": [
+            "https://cloud.google.com/vertex-ai/generative-ai/pricing"
+          ],
+          "verification_status": "verified",
+          "verified_at": "2026-11-05T12:07:09Z"
+        },
+        {
+          "billing_note": "Global endpoint price on Google Vertex AI, including explicit cache storage per million cached tokens per hour. Non-global (regional and multi-region) endpoints cost 10% more than the global endpoint on every token type. Grounding is priced separately. Flex rate.",
+          "calculation_default": false,
+          "charges": [
+            {
+              "amount": "0.75",
+              "component": "input",
+              "id": "price:google-cloud/vertex-gemini-3.8-flash:flex:short:future:standard_2027:input:text:per_1m_tokens",
+              "modality": "text",
+              "unit": "per_1m_tokens"
+            },
+            {
+              "amount": "0.075",
+              "component": "cached_input",
+              "id": "price:google-cloud/vertex-gemini-3.8-flash:flex:short:future:standard_2027:cached_input:text:per_1m_tokens",
+              "modality": "text",
+              "unit": "per_1m_tokens"
+            },
+            {
+              "amount": "3.75",
+              "component": "output",
+              "id": "price:google-cloud/vertex-gemini-3.8-flash:flex:short:future:standard_2027:output:text:per_1m_tokens",
+              "modality": "text",
+              "unit": "per_1m_tokens"
+            },
+            {
+              "amount": "1",
+              "component": "storage",
+              "id": "price:google-cloud/vertex-gemini-3.8-flash:flex:short:future:standard_2027:storage:text:per_1m_tokens_per_hour",
+              "modality": "text",
+              "unit": "per_1m_tokens_per_hour"
+            }
+          ],
+          "checked_at": "2026-11-05T12:07:09Z",
+          "context_class": "short",
+          "currency": "USD",
+          "effective_from": "2027-01-01",
+          "effective_until": null,
+          "id": "price:google-cloud/vertex-gemini-3.8-flash:flex:short:future:standard_2027",
+          "pricing_status": "future",
+          "processing_mode": "flex",
+          "prompt_token_threshold": null,
+          "region_policy": {
+            "availability": {
+              "default": "available",
+              "rules": []
+            },
+            "data_residencies": [
+              "global"
+            ],
+            "endpoint_geographies": [
+              "global",
+              "regional"
+            ],
+            "price_adjustments": [
+              {
+                "factor": "1.10",
+                "id": "regional-endpoint-uplift",
+                "operation": "multiply",
+                "selector": {
+                  "endpoint_geographies": [
+                    "regional"
+                  ]
+                },
+                "source_refs": [
+                  "https://cloud.google.com/vertex-ai/generative-ai/pricing"
+                ]
+              }
+            ],
+            "pricing_geography": "global_base"
+          },
+          "source_refs": [
+            "https://cloud.google.com/vertex-ai/generative-ai/pricing"
+          ],
+          "verification_status": "verified",
+          "verified_at": "2026-11-05T12:07:09Z"
+        },
+        {
+          "billing_note": "Global endpoint price on Google Vertex AI, including explicit cache storage per million cached tokens per hour. Non-global (regional and multi-region) endpoints cost 10% more than the global endpoint on every token type. Grounding is priced separately. Priority rate.",
+          "calculation_default": false,
+          "charges": [
+            {
+              "amount": "2.7",
+              "component": "input",
+              "id": "price:google-cloud/vertex-gemini-3.8-flash:priority:short:future:standard_2027:input:text:per_1m_tokens",
+              "modality": "text",
+              "unit": "per_1m_tokens"
+            },
+            {
+              "amount": "0.27",
+              "component": "cached_input",
+              "id": "price:google-cloud/vertex-gemini-3.8-flash:priority:short:future:standard_2027:cached_input:text:per_1m_tokens",
+              "modality": "text",
+              "unit": "per_1m_tokens"
+            },
+            {
+              "amount": "13.5",
+              "component": "output",
+              "id": "price:google-cloud/vertex-gemini-3.8-flash:priority:short:future:standard_2027:output:text:per_1m_tokens",
+              "modality": "text",
+              "unit": "per_1m_tokens"
+            },
+            {
+              "amount": "1",
+              "component": "storage",
+              "id": "price:google-cloud/vertex-gemini-3.8-flash:priority:short:future:standard_2027:storage:text:per_1m_tokens_per_hour",
+              "modality": "text",
+              "unit": "per_1m_tokens_per_hour"
+            }
+          ],
+          "checked_at": "2026-11-05T12:07:09Z",
+          "context_class": "short",
+          "currency": "USD",
+          "effective_from": "2027-01-01",
+          "effective_until": null,
+          "id": "price:google-cloud/vertex-gemini-3.8-flash:priority:short:future:standard_2027",
+          "pricing_status": "future",
+          "processing_mode": "priority",
+          "prompt_token_threshold": null,
+          "region_policy": {
+            "availability": {
+              "default": "available",
+              "rules": []
+            },
+            "data_residencies": [
+              "global"
+            ],
+            "endpoint_geographies": [
+              "global",
+              "regional"
+            ],
+            "price_adjustments": [
+              {
+                "factor": "1.10",
+                "id": "regional-endpoint-uplift",
+                "operation": "multiply",
+                "selector": {
+                  "endpoint_geographies": [
+                    "regional"
+                  ]
+                },
+                "source_refs": [
+                  "https://cloud.google.com/vertex-ai/generative-ai/pricing"
+                ]
+              }
+            ],
+            "pricing_geography": "global_base"
+          },
+          "source_refs": [
+            "https://cloud.google.com/vertex-ai/generative-ai/pricing"
+          ],
+          "verification_status": "verified",
+          "verified_at": "2026-11-05T12:07:09Z"
+        }
+      ],
+      "pricing": {
+        "batch_cached_input": 0.0375,
+        "batch_input": 0.375,
+        "batch_output": 1.875,
+        "cache_write": null,
+        "cache_write_1h": null,
+        "cached_input": 0.075,
+        "currency": "USD",
+        "input": 0.75,
+        "output": 3.75,
+        "unit": "1M tokens"
+      },
+      "provider_id": "google-cloud",
+      "release_stage": "stable",
+      "released_at": null,
+      "status": "active"
+    },
+    {
+      "accessed_at": "2026-11-05T12:07:09Z",
+      "display_name": "Gemini 4 Argon on Google Vertex AI",
+      "effective_from": null,
+      "hosted_model": {
+        "model_id": "gemini-4-argon",
+        "platform": "google-vertex-ai",
+        "provider_id": "google-gemini"
+      },
+      "input_modality": "text",
+      "last_verified_at": "2026-11-05T12:07:09Z",
+      "model_family": "Gemini 4",
+      "model_id": "vertex-gemini-4-argon",
+      "notes": "Gemini 4 Argon served through Google Vertex AI (Agent Platform). Global endpoint per 1M tokens through 2026-11-30: input $2, cached input $0.10, output $10 (Priority $3.60 / $0.18 / $18; Batch and Flex $1 / $0.05 / $5). From 2026-12-01: input $4, cached input $0.20, output $20 (Priority $7.20 / $0.36 / $36; Batch and Flex $2 / $0.10 / $10). Non-global (regional and multi-region) endpoints cost 10% more than the global endpoint on every token type. The rates through 2026-11-30 are promotional: Google Cloud provides the promotional rate as credits worth 50% of net spend on this model, issued monthly and expiring 30 days after issue, rather than as a lower invoice price. From 2026-11-13, a completion longer than 32K tokens is billed for its retrievable token usage even if the request fails on a client or server timeout.",
+      "official_source_url": "https://cloud.google.com/vertex-ai/generative-ai/pricing",
+      "official_source_urls": [
+        "https://cloud.google.com/vertex-ai/generative-ai/pricing"
+      ],
+      "output_modality": "text",
+      "price_records": [
+        {
+          "billing_note": "Global endpoint price on Google Vertex AI. Non-global (regional and multi-region) endpoints cost 10% more than the global endpoint on every token type. Cached input is implicit caching only. Thinking tokens are billed as output. Grounding is priced separately. Promotional rate: Google Cloud provides the promotional rate as credits worth 50% of net spend on this model, issued monthly and expiring 30 days after issue, rather than as a lower invoice price. From 2026-11-13, a completion longer than 32K tokens is billed for its retrievable token usage even if the request fails on a client or server timeout.",
+          "calculation_default": true,
+          "charges": [
+            {
+              "amount": "2",
+              "component": "input",
+              "id": "price:google-cloud/vertex-gemini-4-argon:standard:short:current:introductory_2026:input:text:per_1m_tokens",
+              "modality": "text",
+              "unit": "per_1m_tokens"
+            },
+            {
+              "amount": "0.10",
+              "component": "cached_input",
+              "id": "price:google-cloud/vertex-gemini-4-argon:standard:short:current:introductory_2026:cached_input:text:per_1m_tokens",
+              "modality": "text",
+              "unit": "per_1m_tokens"
+            },
+            {
+              "amount": "10",
+              "component": "output",
+              "id": "price:google-cloud/vertex-gemini-4-argon:standard:short:current:introductory_2026:output:text:per_1m_tokens",
+              "modality": "text",
+              "unit": "per_1m_tokens"
+            }
+          ],
+          "checked_at": "2026-11-05T12:07:09Z",
+          "context_class": "short",
+          "currency": "USD",
+          "effective_from": "2026-10-13",
+          "effective_until": "2026-11-30",
+          "id": "price:google-cloud/vertex-gemini-4-argon:standard:short:current:introductory_2026",
+          "pricing_status": "current",
+          "processing_mode": "standard",
+          "prompt_token_threshold": null,
+          "region_policy": {
+            "availability": {
+              "default": "available",
+              "rules": []
+            },
+            "data_residencies": [
+              "global"
+            ],
+            "endpoint_geographies": [
+              "global",
+              "regional"
+            ],
+            "price_adjustments": [
+              {
+                "factor": "1.10",
+                "id": "regional-endpoint-uplift",
+                "operation": "multiply",
+                "selector": {
+                  "endpoint_geographies": [
+                    "regional"
+                  ]
+                },
+                "source_refs": [
+                  "https://cloud.google.com/vertex-ai/generative-ai/pricing"
+                ]
+              }
+            ],
+            "pricing_geography": "global_base"
+          },
+          "source_refs": [
+            "https://cloud.google.com/vertex-ai/generative-ai/pricing"
+          ],
+          "verification_status": "verified",
+          "verified_at": "2026-11-05T12:07:09Z"
+        },
+        {
+          "billing_note": "Global endpoint price on Google Vertex AI. Non-global (regional and multi-region) endpoints cost 10% more than the global endpoint on every token type. Cached input is implicit caching only. Thinking tokens are billed as output. Grounding is priced separately. From 2026-11-13, a completion longer than 32K tokens is billed for its retrievable token usage even if the request fails on a client or server timeout.",
+          "calculation_default": false,
+          "charges": [
+            {
+              "amount": "4",
+              "component": "input",
+              "id": "price:google-cloud/vertex-gemini-4-argon:standard:short:future:standard_2026_12:input:text:per_1m_tokens",
+              "modality": "text",
+              "unit": "per_1m_tokens"
+            },
+            {
+              "amount": "0.20",
+              "component": "cached_input",
+              "id": "price:google-cloud/vertex-gemini-4-argon:standard:short:future:standard_2026_12:cached_input:text:per_1m_tokens",
+              "modality": "text",
+              "unit": "per_1m_tokens"
+            },
+            {
+              "amount": "20",
+              "component": "output",
+              "id": "price:google-cloud/vertex-gemini-4-argon:standard:short:future:standard_2026_12:output:text:per_1m_tokens",
+              "modality": "text",
+              "unit": "per_1m_tokens"
+            }
+          ],
+          "checked_at": "2026-11-05T12:07:09Z",
+          "context_class": "short",
+          "currency": "USD",
+          "effective_from": "2026-12-01",
+          "effective_until": null,
+          "id": "price:google-cloud/vertex-gemini-4-argon:standard:short:future:standard_2026_12",
+          "pricing_status": "future",
+          "processing_mode": "standard",
+          "prompt_token_threshold": null,
+          "region_policy": {
+            "availability": {
+              "default": "available",
+              "rules": []
+            },
+            "data_residencies": [
+              "global"
+            ],
+            "endpoint_geographies": [
+              "global",
+              "regional"
+            ],
+            "price_adjustments": [
+              {
+                "factor": "1.10",
+                "id": "regional-endpoint-uplift",
+                "operation": "multiply",
+                "selector": {
+                  "endpoint_geographies": [
+                    "regional"
+                  ]
+                },
+                "source_refs": [
+                  "https://cloud.google.com/vertex-ai/generative-ai/pricing"
+                ]
+              }
+            ],
+            "pricing_geography": "global_base"
+          },
+          "source_refs": [
+            "https://cloud.google.com/vertex-ai/generative-ai/pricing"
+          ],
+          "verification_status": "verified",
+          "verified_at": "2026-11-05T12:07:09Z"
+        },
+        {
+          "billing_note": "Global endpoint price on Google Vertex AI. Non-global (regional and multi-region) endpoints cost 10% more than the global endpoint on every token type. Cached input is implicit caching only. Thinking tokens are billed as output. Grounding is priced separately. Promotional rate: Google Cloud provides the promotional rate as credits worth 50% of net spend on this model, issued monthly and expiring 30 days after issue, rather than as a lower invoice price. From 2026-11-13, a completion longer than 32K tokens is billed for its retrievable token usage even if the request fails on a client or server timeout. Batch rate.",
+          "calculation_default": false,
+          "charges": [
+            {
+              "amount": "1",
+              "component": "input",
+              "id": "price:google-cloud/vertex-gemini-4-argon:batch:short:current:introductory_2026:input:text:per_1m_tokens",
+              "modality": "text",
+              "unit": "per_1m_tokens"
+            },
+            {
+              "amount": "0.05",
+              "component": "cached_input",
+              "id": "price:google-cloud/vertex-gemini-4-argon:batch:short:current:introductory_2026:cached_input:text:per_1m_tokens",
+              "modality": "text",
+              "unit": "per_1m_tokens"
+            },
+            {
+              "amount": "5",
+              "component": "output",
+              "id": "price:google-cloud/vertex-gemini-4-argon:batch:short:current:introductory_2026:output:text:per_1m_tokens",
+              "modality": "text",
+              "unit": "per_1m_tokens"
+            }
+          ],
+          "checked_at": "2026-11-05T12:07:09Z",
+          "context_class": "short",
+          "currency": "USD",
+          "effective_from": "2026-10-13",
+          "effective_until": "2026-11-30",
+          "id": "price:google-cloud/vertex-gemini-4-argon:batch:short:current:introductory_2026",
+          "pricing_status": "current",
+          "processing_mode": "batch",
+          "prompt_token_threshold": null,
+          "region_policy": {
+            "availability": {
+              "default": "available",
+              "rules": []
+            },
+            "data_residencies": [
+              "global"
+            ],
+            "endpoint_geographies": [
+              "global",
+              "regional"
+            ],
+            "price_adjustments": [
+              {
+                "factor": "1.10",
+                "id": "regional-endpoint-uplift",
+                "operation": "multiply",
+                "selector": {
+                  "endpoint_geographies": [
+                    "regional"
+                  ]
+                },
+                "source_refs": [
+                  "https://cloud.google.com/vertex-ai/generative-ai/pricing"
+                ]
+              }
+            ],
+            "pricing_geography": "global_base"
+          },
+          "source_refs": [
+            "https://cloud.google.com/vertex-ai/generative-ai/pricing"
+          ],
+          "verification_status": "verified",
+          "verified_at": "2026-11-05T12:07:09Z"
+        },
+        {
+          "billing_note": "Global endpoint price on Google Vertex AI. Non-global (regional and multi-region) endpoints cost 10% more than the global endpoint on every token type. Cached input is implicit caching only. Thinking tokens are billed as output. Grounding is priced separately. From 2026-11-13, a completion longer than 32K tokens is billed for its retrievable token usage even if the request fails on a client or server timeout. Batch rate.",
+          "calculation_default": false,
+          "charges": [
+            {
+              "amount": "2",
+              "component": "input",
+              "id": "price:google-cloud/vertex-gemini-4-argon:batch:short:future:standard_2026_12:input:text:per_1m_tokens",
+              "modality": "text",
+              "unit": "per_1m_tokens"
+            },
+            {
+              "amount": "0.10",
+              "component": "cached_input",
+              "id": "price:google-cloud/vertex-gemini-4-argon:batch:short:future:standard_2026_12:cached_input:text:per_1m_tokens",
+              "modality": "text",
+              "unit": "per_1m_tokens"
+            },
+            {
+              "amount": "10",
+              "component": "output",
+              "id": "price:google-cloud/vertex-gemini-4-argon:batch:short:future:standard_2026_12:output:text:per_1m_tokens",
+              "modality": "text",
+              "unit": "per_1m_tokens"
+            }
+          ],
+          "checked_at": "2026-11-05T12:07:09Z",
+          "context_class": "short",
+          "currency": "USD",
+          "effective_from": "2026-12-01",
+          "effective_until": null,
+          "id": "price:google-cloud/vertex-gemini-4-argon:batch:short:future:standard_2026_12",
+          "pricing_status": "future",
+          "processing_mode": "batch",
+          "prompt_token_threshold": null,
+          "region_policy": {
+            "availability": {
+              "default": "available",
+              "rules": []
+            },
+            "data_residencies": [
+              "global"
+            ],
+            "endpoint_geographies": [
+              "global",
+              "regional"
+            ],
+            "price_adjustments": [
+              {
+                "factor": "1.10",
+                "id": "regional-endpoint-uplift",
+                "operation": "multiply",
+                "selector": {
+                  "endpoint_geographies": [
+                    "regional"
+                  ]
+                },
+                "source_refs": [
+                  "https://cloud.google.com/vertex-ai/generative-ai/pricing"
+                ]
+              }
+            ],
+            "pricing_geography": "global_base"
+          },
+          "source_refs": [
+            "https://cloud.google.com/vertex-ai/generative-ai/pricing"
+          ],
+          "verification_status": "verified",
+          "verified_at": "2026-11-05T12:07:09Z"
+        },
+        {
+          "billing_note": "Global endpoint price on Google Vertex AI. Non-global (regional and multi-region) endpoints cost 10% more than the global endpoint on every token type. Cached input is implicit caching only. Thinking tokens are billed as output. Grounding is priced separately. Promotional rate: Google Cloud provides the promotional rate as credits worth 50% of net spend on this model, issued monthly and expiring 30 days after issue, rather than as a lower invoice price. From 2026-11-13, a completion longer than 32K tokens is billed for its retrievable token usage even if the request fails on a client or server timeout. Flex rate.",
+          "calculation_default": false,
+          "charges": [
+            {
+              "amount": "1",
+              "component": "input",
+              "id": "price:google-cloud/vertex-gemini-4-argon:flex:short:current:introductory_2026:input:text:per_1m_tokens",
+              "modality": "text",
+              "unit": "per_1m_tokens"
+            },
+            {
+              "amount": "0.05",
+              "component": "cached_input",
+              "id": "price:google-cloud/vertex-gemini-4-argon:flex:short:current:introductory_2026:cached_input:text:per_1m_tokens",
+              "modality": "text",
+              "unit": "per_1m_tokens"
+            },
+            {
+              "amount": "5",
+              "component": "output",
+              "id": "price:google-cloud/vertex-gemini-4-argon:flex:short:current:introductory_2026:output:text:per_1m_tokens",
+              "modality": "text",
+              "unit": "per_1m_tokens"
+            }
+          ],
+          "checked_at": "2026-11-05T12:07:09Z",
+          "context_class": "short",
+          "currency": "USD",
+          "effective_from": "2026-10-13",
+          "effective_until": "2026-11-30",
+          "id": "price:google-cloud/vertex-gemini-4-argon:flex:short:current:introductory_2026",
+          "pricing_status": "current",
+          "processing_mode": "flex",
+          "prompt_token_threshold": null,
+          "region_policy": {
+            "availability": {
+              "default": "available",
+              "rules": []
+            },
+            "data_residencies": [
+              "global"
+            ],
+            "endpoint_geographies": [
+              "global",
+              "regional"
+            ],
+            "price_adjustments": [
+              {
+                "factor": "1.10",
+                "id": "regional-endpoint-uplift",
+                "operation": "multiply",
+                "selector": {
+                  "endpoint_geographies": [
+                    "regional"
+                  ]
+                },
+                "source_refs": [
+                  "https://cloud.google.com/vertex-ai/generative-ai/pricing"
+                ]
+              }
+            ],
+            "pricing_geography": "global_base"
+          },
+          "source_refs": [
+            "https://cloud.google.com/vertex-ai/generative-ai/pricing"
+          ],
+          "verification_status": "verified",
+          "verified_at": "2026-11-05T12:07:09Z"
+        },
+        {
+          "billing_note": "Global endpoint price on Google Vertex AI. Non-global (regional and multi-region) endpoints cost 10% more than the global endpoint on every token type. Cached input is implicit caching only. Thinking tokens are billed as output. Grounding is priced separately. From 2026-11-13, a completion longer than 32K tokens is billed for its retrievable token usage even if the request fails on a client or server timeout. Flex rate.",
+          "calculation_default": false,
+          "charges": [
+            {
+              "amount": "2",
+              "component": "input",
+              "id": "price:google-cloud/vertex-gemini-4-argon:flex:short:future:standard_2026_12:input:text:per_1m_tokens",
+              "modality": "text",
+              "unit": "per_1m_tokens"
+            },
+            {
+              "amount": "0.10",
+              "component": "cached_input",
+              "id": "price:google-cloud/vertex-gemini-4-argon:flex:short:future:standard_2026_12:cached_input:text:per_1m_tokens",
+              "modality": "text",
+              "unit": "per_1m_tokens"
+            },
+            {
+              "amount": "10",
+              "component": "output",
+              "id": "price:google-cloud/vertex-gemini-4-argon:flex:short:future:standard_2026_12:output:text:per_1m_tokens",
+              "modality": "text",
+              "unit": "per_1m_tokens"
+            }
+          ],
+          "checked_at": "2026-11-05T12:07:09Z",
+          "context_class": "short",
+          "currency": "USD",
+          "effective_from": "2026-12-01",
+          "effective_until": null,
+          "id": "price:google-cloud/vertex-gemini-4-argon:flex:short:future:standard_2026_12",
+          "pricing_status": "future",
+          "processing_mode": "flex",
+          "prompt_token_threshold": null,
+          "region_policy": {
+            "availability": {
+              "default": "available",
+              "rules": []
+            },
+            "data_residencies": [
+              "global"
+            ],
+            "endpoint_geographies": [
+              "global",
+              "regional"
+            ],
+            "price_adjustments": [
+              {
+                "factor": "1.10",
+                "id": "regional-endpoint-uplift",
+                "operation": "multiply",
+                "selector": {
+                  "endpoint_geographies": [
+                    "regional"
+                  ]
+                },
+                "source_refs": [
+                  "https://cloud.google.com/vertex-ai/generative-ai/pricing"
+                ]
+              }
+            ],
+            "pricing_geography": "global_base"
+          },
+          "source_refs": [
+            "https://cloud.google.com/vertex-ai/generative-ai/pricing"
+          ],
+          "verification_status": "verified",
+          "verified_at": "2026-11-05T12:07:09Z"
+        },
+        {
+          "billing_note": "Global endpoint price on Google Vertex AI. Non-global (regional and multi-region) endpoints cost 10% more than the global endpoint on every token type. Cached input is implicit caching only. Thinking tokens are billed as output. Grounding is priced separately. Promotional rate: Google Cloud provides the promotional rate as credits worth 50% of net spend on this model, issued monthly and expiring 30 days after issue, rather than as a lower invoice price. From 2026-11-13, a completion longer than 32K tokens is billed for its retrievable token usage even if the request fails on a client or server timeout. Priority rate.",
+          "calculation_default": false,
+          "charges": [
+            {
+              "amount": "3.60",
+              "component": "input",
+              "id": "price:google-cloud/vertex-gemini-4-argon:priority:short:current:introductory_2026:input:text:per_1m_tokens",
+              "modality": "text",
+              "unit": "per_1m_tokens"
+            },
+            {
+              "amount": "0.18",
+              "component": "cached_input",
+              "id": "price:google-cloud/vertex-gemini-4-argon:priority:short:current:introductory_2026:cached_input:text:per_1m_tokens",
+              "modality": "text",
+              "unit": "per_1m_tokens"
+            },
+            {
+              "amount": "18",
+              "component": "output",
+              "id": "price:google-cloud/vertex-gemini-4-argon:priority:short:current:introductory_2026:output:text:per_1m_tokens",
+              "modality": "text",
+              "unit": "per_1m_tokens"
+            }
+          ],
+          "checked_at": "2026-11-05T12:07:09Z",
+          "context_class": "short",
+          "currency": "USD",
+          "effective_from": "2026-10-13",
+          "effective_until": "2026-11-30",
+          "id": "price:google-cloud/vertex-gemini-4-argon:priority:short:current:introductory_2026",
+          "pricing_status": "current",
+          "processing_mode": "priority",
+          "prompt_token_threshold": null,
+          "region_policy": {
+            "availability": {
+              "default": "available",
+              "rules": []
+            },
+            "data_residencies": [
+              "global"
+            ],
+            "endpoint_geographies": [
+              "global",
+              "regional"
+            ],
+            "price_adjustments": [
+              {
+                "factor": "1.10",
+                "id": "regional-endpoint-uplift",
+                "operation": "multiply",
+                "selector": {
+                  "endpoint_geographies": [
+                    "regional"
+                  ]
+                },
+                "source_refs": [
+                  "https://cloud.google.com/vertex-ai/generative-ai/pricing"
+                ]
+              }
+            ],
+            "pricing_geography": "global_base"
+          },
+          "source_refs": [
+            "https://cloud.google.com/vertex-ai/generative-ai/pricing"
+          ],
+          "verification_status": "verified",
+          "verified_at": "2026-11-05T12:07:09Z"
+        },
+        {
+          "billing_note": "Global endpoint price on Google Vertex AI. Non-global (regional and multi-region) endpoints cost 10% more than the global endpoint on every token type. Cached input is implicit caching only. Thinking tokens are billed as output. Grounding is priced separately. From 2026-11-13, a completion longer than 32K tokens is billed for its retrievable token usage even if the request fails on a client or server timeout. Priority rate.",
+          "calculation_default": false,
+          "charges": [
+            {
+              "amount": "7.20",
+              "component": "input",
+              "id": "price:google-cloud/vertex-gemini-4-argon:priority:short:future:standard_2026_12:input:text:per_1m_tokens",
+              "modality": "text",
+              "unit": "per_1m_tokens"
+            },
+            {
+              "amount": "0.36",
+              "component": "cached_input",
+              "id": "price:google-cloud/vertex-gemini-4-argon:priority:short:future:standard_2026_12:cached_input:text:per_1m_tokens",
+              "modality": "text",
+              "unit": "per_1m_tokens"
+            },
+            {
+              "amount": "36",
+              "component": "output",
+              "id": "price:google-cloud/vertex-gemini-4-argon:priority:short:future:standard_2026_12:output:text:per_1m_tokens",
+              "modality": "text",
+              "unit": "per_1m_tokens"
+            }
+          ],
+          "checked_at": "2026-11-05T12:07:09Z",
+          "context_class": "short",
+          "currency": "USD",
+          "effective_from": "2026-12-01",
+          "effective_until": null,
+          "id": "price:google-cloud/vertex-gemini-4-argon:priority:short:future:standard_2026_12",
+          "pricing_status": "future",
+          "processing_mode": "priority",
+          "prompt_token_threshold": null,
+          "region_policy": {
+            "availability": {
+              "default": "available",
+              "rules": []
+            },
+            "data_residencies": [
+              "global"
+            ],
+            "endpoint_geographies": [
+              "global",
+              "regional"
+            ],
+            "price_adjustments": [
+              {
+                "factor": "1.10",
+                "id": "regional-endpoint-uplift",
+                "operation": "multiply",
+                "selector": {
+                  "endpoint_geographies": [
+                    "regional"
+                  ]
+                },
+                "source_refs": [
+                  "https://cloud.google.com/vertex-ai/generative-ai/pricing"
+                ]
+              }
+            ],
+            "pricing_geography": "global_base"
+          },
+          "source_refs": [
+            "https://cloud.google.com/vertex-ai/generative-ai/pricing"
+          ],
+          "verification_status": "verified",
+          "verified_at": "2026-11-05T12:07:09Z"
+        }
+      ],
+      "pricing": {
+        "batch_cached_input": 0.05,
+        "batch_input": 1,
+        "batch_output": 5,
+        "cache_write": null,
+        "cache_write_1h": null,
+        "cached_input": 0.1,
+        "currency": "USD",
+        "input": 2,
+        "output": 10,
         "unit": "1M tokens"
       },
       "provider_id": "google-cloud",
@@ -32403,7 +34309,7 @@
       "status": "active"
     }
   ],
-  "official_source_count": 65,
+  "official_source_count": 66,
   "official_sources": [
     "https://ai.google.dev/gemini-api/docs/deprecations",
     "https://ai.google.dev/gemini-api/docs/models/gemini-nano-banana-2.1",
@@ -32415,6 +34321,7 @@
     "https://cloud.google.com/model-garden/partner-models/pricing",
     "https://cloud.google.com/products/document-ai/pricing",
     "https://cloud.google.com/text-to-speech/pricing",
+    "https://cloud.google.com/vertex-ai/generative-ai/pricing",
     "https://cohere.com/blog/embed-5",
     "https://cohere.com/blog/parse",
     "https://cohere.com/pricing",
