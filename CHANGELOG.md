@@ -2,6 +2,8 @@
 
 ## Unreleased
 
+- Added `data/archive-history/price-changes-2024-2026.v1.json`: 40 price changes from 2024 to 2026 across OpenAI, Anthropic, Google, DeepSeek, Mistral and xAI, each with Wayback Machine captures of the official pricing page before and after the change, plus the announcement when one exists.
+
 - Added a dependency-free Python developer utility, synthetic attempt input, tests, and documentation for estimating first-attempt, retry, fallback, and cost-per-successful-task totals from verified default-safe Pricing V2 token rates.
 - Unsupported or ambiguous billing conditions fail explicitly instead of being treated as zero cost.
 
