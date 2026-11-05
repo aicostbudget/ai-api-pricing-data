@@ -32,7 +32,9 @@
     "https://developers.openai.com/api/docs/models/gpt-5.5",
     "https://developers.openai.com/api/docs/guides/prompt-caching",
     "https://developers.openai.com/api/docs/guides/batch",
-    "https://developers.openai.com/api/docs/guides/flex-processing"
+    "https://developers.openai.com/api/docs/guides/flex-processing",
+    "https://developers.openai.com/api/docs/pricing",
+    "https://developers.openai.com/api/docs/guides/fast-mode"
   ],
   "price_records": [
     {
@@ -410,6 +412,63 @@
       },
       "verification_status": "verified",
       "verified_at": "2026-11-05T15:04:52Z"
+    },
+    {
+      "billing_note": "Fast text token rates per 1M tokens (Fast mode, formerly Priority processing), listed by OpenAI only for prompts under 272K tokens; OpenAI says long context in Fast mode is a GPT-5.6 feature and publishes no long-context Fast rate for gpt-5.5. The official pages do not state a pricing effective date.",
+      "calculation_default": false,
+      "charges": [
+        {
+          "amount": "12.5",
+          "component": "input",
+          "id": "price:openai/gpt-5.5:fast:short:current:input:text:per_1m_tokens",
+          "modality": "text",
+          "unit": "per_1m_tokens"
+        },
+        {
+          "amount": "1.25",
+          "component": "cached_input",
+          "id": "price:openai/gpt-5.5:fast:short:current:cached_input:text:per_1m_tokens",
+          "modality": "text",
+          "unit": "per_1m_tokens"
+        },
+        {
+          "amount": "75",
+          "component": "output",
+          "id": "price:openai/gpt-5.5:fast:short:current:output:text:per_1m_tokens",
+          "modality": "text",
+          "unit": "per_1m_tokens"
+        }
+      ],
+      "checked_at": "2026-11-05T18:44:06Z",
+      "context_class": "short",
+      "currency": "USD",
+      "effective_from": null,
+      "effective_until": null,
+      "id": "price:openai/gpt-5.5:fast:short:current",
+      "pricing_status": "current",
+      "processing_mode": "fast",
+      "prompt_token_threshold": null,
+      "region_policy": {
+        "availability": {
+          "default": "available",
+          "rules": []
+        },
+        "data_residencies": [
+          "global"
+        ],
+        "endpoint_geographies": [
+          "global"
+        ],
+        "price_adjustments": [],
+        "pricing_geography": "global_base"
+      },
+      "source_refs": [
+        "https://developers.openai.com/api/docs/models/gpt-5.5",
+        "https://developers.openai.com/api/docs/pricing",
+        "https://developers.openai.com/api/docs/guides/fast-mode"
+      ],
+      "verification_status": "verified",
+      "verified_at": "2026-11-05T18:44:06Z"
     }
   ],
   "pricing": {
