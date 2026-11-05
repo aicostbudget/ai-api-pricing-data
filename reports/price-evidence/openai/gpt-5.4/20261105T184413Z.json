@@ -1,0 +1,21 @@
+{
+  "model": "openai/gpt-5.4",
+  "captured_at": "20261105T184413Z",
+  "expect": [
+    "GPT-5.6 models support long context"
+  ],
+  "pages": [
+    {
+      "url": "https://developers.openai.com/api/docs/guides/fast-mode",
+      "http_status": 200,
+      "text_sha256": "5eee069c70fff5c548558ec0a6f4a29af7b7e795a951798c6d29b443798c86ee",
+      "passages": [
+        "If your traffic ramps too fast, the system may downgrade some Fast mode requests to standard speeds and charge standard rates. When this happens, the response contains service_tier: \"default\" . As a rule of thumb, once your traffic reaches 1 million input tokens per minute (TPM), increase it by no more than 50% every 15 minutes. The exact point at which the ramp-rate limit applies can vary by model and traffic conditions. To avoid triggering the ramp rate limit: Ramp gradually when changing mode",
+        "How is Fast mode billed? Fast mode charges a per-token premium compared with Standard processing. All processing modes count toward your annual Enterprise spend commitment, and eligible cached input tokens receive the same discounts available for Standard processing. For GPT-5.6 Sol, Fast mode costs twice the corresponding Standard rate. Short-context requests cost $8 per 1 million input tokens and $40 per 1 million output tokens; long-context requests cost $16 per 1 million input tokens and $60"
+      ],
+      "missing_expected": []
+    }
+  ],
+  "changes_since_previous": [],
+  "previous_capture": "20261105T184410Z"
+}
