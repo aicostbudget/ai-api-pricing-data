@@ -221,6 +221,8 @@ The first pricing release of a UTC day uses the plain date. A later release on t
 
 Price changes between snapshots are recorded as events in `data/price-change-events/events.jsonl`; see [price change events](docs/price-change-events.md) for the rules.
 
+Older price changes from OpenAI, Anthropic, Google, DeepSeek, Mistral and xAI, going back to 2024, are in `data/archive-history/price-changes-2024-2026.v1.json`. Each one links the archived pricing page before and after the change; see [archived price changes](docs/archive-price-changes.md).
+
 ## Cost per successful task
 
 Token prices are only half of the bill: retries and fallbacks decide what one correct answer costs. [`examples/llm_cost_diagnostics.py`](docs/llm-cost-diagnostics.md) splits first-attempt, retry and fallback spend from your own attempt logs, and the open [LLM cost-per-task benchmark](https://github.com/aicostbudget/llm-cost-per-task-benchmark) measures it on 16 tasks with your own API keys. Its first run found a flagship model matching a cheap one on accuracy at 5–9× the cost per successful task.
