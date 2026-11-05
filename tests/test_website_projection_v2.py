@@ -504,8 +504,8 @@ class WebsiteProjectionV2Tests(unittest.TestCase):
             )
             for record in row["priceRecords"]:
                 self.assertEqual(record["pricingStatus"], "current")
-                self.assertEqual(record["verifiedAt"], "2026-10-21T17:19:34Z")
-                self.assertEqual(record["checkedAt"], "2026-10-21T17:19:34Z")
+                for field in ("verifiedAt", "checkedAt"):
+                    assert_evidence_backed_timestamp(self, internal_id, record[field], "2026-10-21T17:19:34Z")
                 self.assertTrue(record["sourceRefs"])
 
     def test_pricing_component_projection_preserves_supported_cache_variants(self):

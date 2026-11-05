@@ -5,6 +5,7 @@ from datetime import datetime, time, timedelta
 from unittest.mock import patch
 
 from scripts.lib import CANONICAL
+from tests.freshness_assertions import assert_evidence_backed_timestamp
 from scripts.generate_pricing_v2_preview import (
     RICH_COMPATIBILITY_REASON,
     reconcile_preserved_compatibility_rows,
@@ -326,8 +327,8 @@ class PricingV2PreviewTests(unittest.TestCase):
                 for ref in record["sourceRefs"]:
                     if source_by_id[ref]["url"] == expected_model_sources[model_internal_id]:
                         expected_timestamp = expected_model_source_timestamps[model_internal_id]
-                        self.assertEqual(source_by_id[ref]["checkedAt"], expected_timestamp)
-                        self.assertEqual(source_by_id[ref]["verifiedAt"], expected_timestamp)
+                        for field in ("checkedAt", "verifiedAt"):
+                            assert_evidence_backed_timestamp(self, model_internal_id, source_by_id[ref][field], expected_timestamp)
 
             def selected(prompt_tokens):
                 return sorted(
@@ -406,8 +407,8 @@ class PricingV2PreviewTests(unittest.TestCase):
             for record in projected_records:
                 key = (record["processingMode"], record["contextClass"])
                 self.assertEqual(record["pricingStatus"], "current")
-                self.assertEqual(record["verifiedAt"], "2026-10-21T17:19:34Z")
-                self.assertEqual(record["checkedAt"], "2026-10-21T17:19:34Z")
+                for field in ("verifiedAt", "checkedAt"):
+                    assert_evidence_backed_timestamp(self, internal_id, record[field], "2026-10-21T17:19:34Z")
                 self.assertTrue(record["sourceRefs"])
                 self.assertEqual(record["promptTokenThreshold"], 272000)
                 self.assertEqual(record["tierSelection"]["tokenBasis"], "total_prompt_tokens")

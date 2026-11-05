@@ -17,6 +17,7 @@ GROK_QUALITY_EXTENSION=SCOPE['grok_imagine_quality_retirement_extension']
 GEMINI_25_EXTENSION=SCOPE['gemini_25_shutdown_redirect_extension']
 P3_EXTENSION=SCOPE['p3_providers_model_added_extension']
 SCHEDULED_EXTENSION=SCOPE['scheduled_price_change_backfill_extension']
+REVERIFY_1105_EXTENSION=SCOPE['reverify_2026_11_05_extension']
 EVENTS_PATH='data/price-change-events/events.jsonl'
 DEEPSEEK_METADATA_APPROVAL={
  'identity':'deepseek/deepseek-flash',
@@ -374,6 +375,22 @@ def verify_rows(old,current,targets):
  assert set(current)==set(old)|set(targets),'unapproved identity universe'
  for id,row in current.items():assert digest(row)==(targets[id] if id in targets else digest(old[id])),'unapproved change: '+id
 def key(row):return row.get('canonicalInternalId') or row.get('provider_id','')+'/'+row.get('model_id','')
+REVERIFY_TIMESTAMP_FIELDS={'accessed_at','last_verified_at','checked_at','verified_at','checkedAt','verifiedAt'}
+def restamp(current,base):
+ """Copy base's verification timestamps into current; every other field stays as current has it."""
+ if isinstance(current,dict) and isinstance(base,dict):
+  return {k:(base.get(k,v) if k in REVERIFY_TIMESTAMP_FIELDS else restamp(v,base.get(k))) for k,v in current.items()}
+ if isinstance(current,list) and isinstance(base,list) and len(current)==len(base):
+  return [restamp(c,b) for c,b in zip(current,base)]
+ return current
+def apply_reverify_1105(tc,approved,current,path,rows_of):
+ """2026-11-05 re-verification: only the verification timestamps moved."""
+ ext=REVERIFY_1105_EXTENSION;base={key(r):r for r in rows_of(json.loads(git_output('show',ext['base_commit']+':'+path)))}
+ now={key(r):r for r in current}
+ for identity in ext['identities']:
+  tc.assertEqual(digest(restamp(now[identity],base[identity])),approved[identity],identity)
+  tc.assertEqual(digest(base[identity]),approved[identity],identity)
+  approved[identity]=digest(now[identity])
 class ClosureScopeTests(unittest.TestCase):
  def test_grok_voice_identity_additions_are_exactly_authorized_without_rewriting_baseline(self):
   approved={'xai/grok-voice-2.0','xai/grok-voice-3.0'}
@@ -435,6 +452,7 @@ class ClosureScopeTests(unittest.TestCase):
   for identity_g25 in GEMINI_25_EXTENSION['identities']:
    self.assertEqual(approved[identity_g25],GEMINI_25_EXTENSION['canonical_before_sha256'][identity_g25])
    approved[identity_g25]=GEMINI_25_EXTENSION['canonical_after_sha256'][identity_g25]
+  apply_reverify_1105(self,approved,current,'data/canonical/models.json',lambda d:d)
   verify_rows(old,current,approved)
   mutated=copy.deepcopy(current);next(r for r in mutated if r['model_id']=='gpt-6-sol')['pricing']['input']=999
   with self.assertRaisesRegex(AssertionError,'unapproved change'):verify_rows(old,mutated,approved)
@@ -457,6 +475,7 @@ class ClosureScopeTests(unittest.TestCase):
   for identity_g25 in GEMINI_25_EXTENSION['identities']:
    self.assertEqual(approved[identity_g25],GEMINI_25_EXTENSION['projection_before_sha256'][identity_g25])
    approved[identity_g25]=GEMINI_25_EXTENSION['projection_after_sha256'][identity_g25]
+  apply_reverify_1105(self,approved,current,'data/pricing-v2-preview/generated/model-pricing.v2.json',lambda d:d['models'])
   verify_rows(old,current,approved)
   mutated=copy.deepcopy(current);next(r for r in mutated if r['id']=='gpt-6-luna')['pricingComponents'][0]['amount']='999'
   with self.assertRaisesRegex(AssertionError,'unapproved change: openai/gpt-6-luna'):verify_rows(old,mutated,approved)
