@@ -5226,10 +5226,120 @@
       "https://developers.openai.com/api/docs/guides/batch",
       "https://developers.openai.com/api/docs/deprecations"
     ],
-    "accessed_at": "2026-10-09T06:29:38Z",
-    "last_verified_at": "2026-10-09T06:29:38Z",
+    "accessed_at": "2026-11-06T08:16:37Z",
+    "last_verified_at": "2026-11-06T08:16:37Z",
     "effective_from": null,
-    "notes": "OpenAI lists the gpt-5 model page as Deprecated (with a Default alias) and continues to publish Chat Completions, Responses, and Batch endpoints for it. Standard pricing is $1.25 input, $0.125 cached input, and $10 output per 1M tokens. The Batch guide states a 50% discount, represented in V1 as $0.625 input and $5 output. The dated snapshot gpt-5-2025-08-07 is deprecated and scheduled for API shutdown on 2026-12-11; OpenAI recommends gpt-5.6-sol as its replacement. The Deprecated model-page label is lifecycle evidence for this record. The announced 2026-12-11 shutdown names the dated snapshot; no alias retirement date or automatic routing change is asserted."
+    "notes": "OpenAI lists gpt-5 as Deprecated; gpt-5 and its snapshot gpt-5-2025-08-07 shut down on 2026-12-11 (notice 2026-06-11) with gpt-5.6-sol as the recommended replacement. V1 batch fields keep the Batch guide's 50% discount.",
+    "price_records": [
+      {
+        "id": "price:openai/gpt-5:standard:short:current",
+        "processing_mode": "standard",
+        "context_class": "short",
+        "pricing_status": "current",
+        "calculation_default": true,
+        "prompt_token_threshold": null,
+        "effective_from": null,
+        "effective_until": null,
+        "currency": "USD",
+        "charges": [
+          {
+            "id": "charge:openai/gpt-5:standard:input:text:tokens",
+            "component": "input",
+            "modality": "text",
+            "unit": "per_1m_tokens",
+            "amount": "1.25"
+          },
+          {
+            "id": "charge:openai/gpt-5:standard:cached_input:text:tokens",
+            "component": "cached_input",
+            "modality": "text",
+            "unit": "per_1m_tokens",
+            "amount": "0.125"
+          },
+          {
+            "id": "charge:openai/gpt-5:standard:output:text:tokens",
+            "component": "output",
+            "modality": "text",
+            "unit": "per_1m_tokens",
+            "amount": "10.00"
+          }
+        ],
+        "region_policy": {
+          "pricing_geography": "global_base",
+          "endpoint_geographies": [
+            "global"
+          ],
+          "data_residencies": [
+            "global"
+          ],
+          "availability": {
+            "default": "available",
+            "rules": []
+          },
+          "price_adjustments": []
+        },
+        "source_refs": [
+          "https://developers.openai.com/api/docs/models/gpt-5"
+        ],
+        "verification_status": "verified",
+        "checked_at": "2026-11-06T08:16:37Z",
+        "verified_at": "2026-11-06T08:16:37Z",
+        "billing_note": "Current Standard token rates per 1M tokens from the official model page; no official pricing effective date is stated."
+      },
+      {
+        "id": "price:openai/gpt-5:batch:short:current",
+        "processing_mode": "batch",
+        "context_class": "short",
+        "pricing_status": "current",
+        "calculation_default": false,
+        "prompt_token_threshold": null,
+        "effective_from": null,
+        "effective_until": null,
+        "currency": "USD",
+        "charges": [
+          {
+            "id": "charge:openai/gpt-5:batch:input:text:tokens",
+            "component": "input",
+            "modality": "text",
+            "unit": "per_1m_tokens",
+            "amount": "0.625"
+          },
+          {
+            "id": "charge:openai/gpt-5:batch:output:text:tokens",
+            "component": "output",
+            "modality": "text",
+            "unit": "per_1m_tokens",
+            "amount": "5.00"
+          }
+        ],
+        "region_policy": {
+          "pricing_geography": "global_base",
+          "endpoint_geographies": [
+            "global"
+          ],
+          "data_residencies": [
+            "global"
+          ],
+          "availability": {
+            "default": "available",
+            "rules": []
+          },
+          "price_adjustments": []
+        },
+        "source_refs": [
+          "https://developers.openai.com/api/docs/guides/batch"
+        ],
+        "verification_status": "verified",
+        "checked_at": "2026-11-06T08:16:37Z",
+        "verified_at": "2026-11-06T08:16:37Z",
+        "billing_note": "Batch API rates per 1M tokens: the official Batch guide's 50% discount on Standard input and output."
+      }
+    ],
+    "lifecycle": {
+      "deprecation_date": "2026-06-11",
+      "retirement_date": "2026-12-11",
+      "replacement_model_id": "gpt-5.6-sol"
+    }
   },
   {
     "provider_id": "openai",
@@ -5284,10 +5394,127 @@
       "https://developers.openai.com/api/docs/guides/batch",
       "https://developers.openai.com/api/docs/deprecations"
     ],
-    "accessed_at": "2026-10-09T06:29:38Z",
-    "last_verified_at": "2026-10-09T06:29:38Z",
+    "accessed_at": "2026-11-06T08:16:37Z",
+    "last_verified_at": "2026-11-06T08:16:37Z",
     "effective_from": null,
-    "notes": "OpenAI lists the o3 model page as Deprecated (with a Default alias) and continues to publish Chat Completions, Responses, and Batch endpoints for it. Standard pricing is $2 input, $0.50 cached input, and $8 output per 1M tokens; the model page also lists Batch pricing of $1 input, $0.25 cached input, and $4 output. The dated snapshot o3-2025-04-16 is deprecated and scheduled for API shutdown on 2026-12-11; OpenAI recommends gpt-5.6-sol as its replacement. V1 has no batch_cached_input field. The Deprecated model-page label is lifecycle evidence for this record. The announced 2026-12-11 shutdown names the dated snapshot; no alias retirement date or automatic routing change is asserted."
+    "notes": "OpenAI lists o3 as Deprecated; o3 and its snapshot o3-2025-04-16 shut down on 2026-12-11 (notice 2026-06-11) with gpt-5.6-sol as the recommended replacement. The model page also lists Batch prices of $1 input, $0.25 cached input and $4 output; V1 has no batch_cached_input field.",
+    "price_records": [
+      {
+        "id": "price:openai/o3:standard:short:current",
+        "processing_mode": "standard",
+        "context_class": "short",
+        "pricing_status": "current",
+        "calculation_default": true,
+        "prompt_token_threshold": null,
+        "effective_from": null,
+        "effective_until": null,
+        "currency": "USD",
+        "charges": [
+          {
+            "id": "charge:openai/o3:standard:input:text:tokens",
+            "component": "input",
+            "modality": "text",
+            "unit": "per_1m_tokens",
+            "amount": "2.00"
+          },
+          {
+            "id": "charge:openai/o3:standard:cached_input:text:tokens",
+            "component": "cached_input",
+            "modality": "text",
+            "unit": "per_1m_tokens",
+            "amount": "0.50"
+          },
+          {
+            "id": "charge:openai/o3:standard:output:text:tokens",
+            "component": "output",
+            "modality": "text",
+            "unit": "per_1m_tokens",
+            "amount": "8.00"
+          }
+        ],
+        "region_policy": {
+          "pricing_geography": "global_base",
+          "endpoint_geographies": [
+            "global"
+          ],
+          "data_residencies": [
+            "global"
+          ],
+          "availability": {
+            "default": "available",
+            "rules": []
+          },
+          "price_adjustments": []
+        },
+        "source_refs": [
+          "https://developers.openai.com/api/docs/models/o3"
+        ],
+        "verification_status": "verified",
+        "checked_at": "2026-11-06T08:16:37Z",
+        "verified_at": "2026-11-06T08:16:37Z",
+        "billing_note": "Current Standard token rates per 1M tokens from the official model page; no official pricing effective date is stated."
+      },
+      {
+        "id": "price:openai/o3:batch:short:current",
+        "processing_mode": "batch",
+        "context_class": "short",
+        "pricing_status": "current",
+        "calculation_default": false,
+        "prompt_token_threshold": null,
+        "effective_from": null,
+        "effective_until": null,
+        "currency": "USD",
+        "charges": [
+          {
+            "id": "charge:openai/o3:batch:input:text:tokens",
+            "component": "input",
+            "modality": "text",
+            "unit": "per_1m_tokens",
+            "amount": "1.00"
+          },
+          {
+            "id": "charge:openai/o3:batch:cached_input:text:tokens",
+            "component": "cached_input",
+            "modality": "text",
+            "unit": "per_1m_tokens",
+            "amount": "0.25"
+          },
+          {
+            "id": "charge:openai/o3:batch:output:text:tokens",
+            "component": "output",
+            "modality": "text",
+            "unit": "per_1m_tokens",
+            "amount": "4.00"
+          }
+        ],
+        "region_policy": {
+          "pricing_geography": "global_base",
+          "endpoint_geographies": [
+            "global"
+          ],
+          "data_residencies": [
+            "global"
+          ],
+          "availability": {
+            "default": "available",
+            "rules": []
+          },
+          "price_adjustments": []
+        },
+        "source_refs": [
+          "https://developers.openai.com/api/docs/models/o3"
+        ],
+        "verification_status": "verified",
+        "checked_at": "2026-11-06T08:16:37Z",
+        "verified_at": "2026-11-06T08:16:37Z",
+        "billing_note": "Batch API rates per 1M tokens as listed on the official o3 model page."
+      }
+    ],
+    "lifecycle": {
+      "deprecation_date": "2026-06-11",
+      "retirement_date": "2026-12-11",
+      "replacement_model_id": "gpt-5.6-sol"
+    }
   },
   {
     "provider_id": "anthropic",
@@ -31504,6 +31731,282 @@
     "effective_from": null,
     "notes": "Quality options low, medium and high; the guide's per-image table lists $0.006/$0.053/$0.211 at 1024x1024. Billed as tokens: image output $30, image input $8 (cached $2), text input $5 (cached $1.25) per 1M tokens; Batch is half. Per-image amounts are image output token cost only, from the token formula in OpenAI's image-generation guide calculator; prompt and reference-image input tokens are extra.",
     "released_at": null
+  },
+  {
+    "provider_id": "openai",
+    "model_id": "gpt-4o",
+    "display_name": "GPT-4o",
+    "model_family": "GPT-4o",
+    "status": "deprecated",
+    "release_stage": "legacy",
+    "input_modality": "text",
+    "output_modality": "text",
+    "pricing": {
+      "currency": "USD",
+      "unit": "1M tokens",
+      "input": 2.5,
+      "output": 10.0,
+      "cached_input": 1.25,
+      "cache_write": null,
+      "cache_write_1h": null,
+      "batch_input": null,
+      "batch_output": null
+    },
+    "price_records": [
+      {
+        "id": "price:openai/gpt-4o:standard:short:current",
+        "processing_mode": "standard",
+        "context_class": "short",
+        "pricing_status": "current",
+        "calculation_default": true,
+        "prompt_token_threshold": null,
+        "effective_from": null,
+        "effective_until": null,
+        "currency": "USD",
+        "charges": [
+          {
+            "id": "charge:openai/gpt-4o:standard:input:text:tokens",
+            "component": "input",
+            "modality": "text",
+            "unit": "per_1m_tokens",
+            "amount": "2.50"
+          },
+          {
+            "id": "charge:openai/gpt-4o:standard:cached_input:text:tokens",
+            "component": "cached_input",
+            "modality": "text",
+            "unit": "per_1m_tokens",
+            "amount": "1.25"
+          },
+          {
+            "id": "charge:openai/gpt-4o:standard:output:text:tokens",
+            "component": "output",
+            "modality": "text",
+            "unit": "per_1m_tokens",
+            "amount": "10.00"
+          }
+        ],
+        "region_policy": {
+          "pricing_geography": "global_base",
+          "endpoint_geographies": [
+            "global"
+          ],
+          "data_residencies": [
+            "global"
+          ],
+          "availability": {
+            "default": "available",
+            "rules": []
+          },
+          "price_adjustments": []
+        },
+        "source_refs": [
+          "https://developers.openai.com/api/docs/models/gpt-4o"
+        ],
+        "verification_status": "verified",
+        "checked_at": "2026-11-06T08:16:37Z",
+        "verified_at": "2026-11-06T08:16:37Z",
+        "billing_note": "Current Standard token rates per 1M tokens from the official model page; no official pricing effective date is stated."
+      }
+    ],
+    "official_source_url": "https://developers.openai.com/api/docs/models/gpt-4o",
+    "official_source_urls": [
+      "https://developers.openai.com/api/docs/models/gpt-4o",
+      "https://developers.openai.com/api/docs/deprecations"
+    ],
+    "accessed_at": "2026-11-06T08:16:37Z",
+    "last_verified_at": "2026-11-06T08:16:37Z",
+    "effective_from": null,
+    "notes": "OpenAI lists gpt-4o as Deprecated; the dated snapshots gpt-4o-2024-08-06 and gpt-4o-2024-11-20 shut down on 2027-01-14 (notice 2026-10-14) with gpt-6-luna as the recommended replacement. The older snapshot gpt-4o-2024-05-13 shut down on 2026-10-23.",
+    "lifecycle": {
+      "deprecation_date": "2026-10-14",
+      "retirement_date": "2027-01-14",
+      "replacement_model_id": "gpt-6-luna"
+    }
+  },
+  {
+    "provider_id": "openai",
+    "model_id": "gpt-4o-mini",
+    "display_name": "GPT-4o mini",
+    "model_family": "GPT-4o",
+    "status": "deprecated",
+    "release_stage": "legacy",
+    "input_modality": "text",
+    "output_modality": "text",
+    "pricing": {
+      "currency": "USD",
+      "unit": "1M tokens",
+      "input": 0.15,
+      "output": 0.6,
+      "cached_input": 0.075,
+      "cache_write": null,
+      "cache_write_1h": null,
+      "batch_input": null,
+      "batch_output": null
+    },
+    "price_records": [
+      {
+        "id": "price:openai/gpt-4o-mini:standard:short:current",
+        "processing_mode": "standard",
+        "context_class": "short",
+        "pricing_status": "current",
+        "calculation_default": true,
+        "prompt_token_threshold": null,
+        "effective_from": null,
+        "effective_until": null,
+        "currency": "USD",
+        "charges": [
+          {
+            "id": "charge:openai/gpt-4o-mini:standard:input:text:tokens",
+            "component": "input",
+            "modality": "text",
+            "unit": "per_1m_tokens",
+            "amount": "0.15"
+          },
+          {
+            "id": "charge:openai/gpt-4o-mini:standard:cached_input:text:tokens",
+            "component": "cached_input",
+            "modality": "text",
+            "unit": "per_1m_tokens",
+            "amount": "0.075"
+          },
+          {
+            "id": "charge:openai/gpt-4o-mini:standard:output:text:tokens",
+            "component": "output",
+            "modality": "text",
+            "unit": "per_1m_tokens",
+            "amount": "0.60"
+          }
+        ],
+        "region_policy": {
+          "pricing_geography": "global_base",
+          "endpoint_geographies": [
+            "global"
+          ],
+          "data_residencies": [
+            "global"
+          ],
+          "availability": {
+            "default": "available",
+            "rules": []
+          },
+          "price_adjustments": []
+        },
+        "source_refs": [
+          "https://developers.openai.com/api/docs/models/gpt-4o-mini"
+        ],
+        "verification_status": "verified",
+        "checked_at": "2026-11-06T08:16:37Z",
+        "verified_at": "2026-11-06T08:16:37Z",
+        "billing_note": "Current Standard token rates per 1M tokens from the official model page; no official pricing effective date is stated."
+      }
+    ],
+    "official_source_url": "https://developers.openai.com/api/docs/models/gpt-4o-mini",
+    "official_source_urls": [
+      "https://developers.openai.com/api/docs/models/gpt-4o-mini",
+      "https://developers.openai.com/api/docs/deprecations"
+    ],
+    "accessed_at": "2026-11-06T08:16:37Z",
+    "last_verified_at": "2026-11-06T08:16:37Z",
+    "effective_from": null,
+    "notes": "OpenAI lists gpt-4o-mini as Deprecated; the snapshot gpt-4o-mini-2024-07-18 shuts down on 2027-01-14 (notice 2026-10-14) with gpt-6-luna as the recommended replacement.",
+    "lifecycle": {
+      "deprecation_date": "2026-10-14",
+      "retirement_date": "2027-01-14",
+      "replacement_model_id": "gpt-6-luna"
+    }
+  },
+  {
+    "provider_id": "openai",
+    "model_id": "gpt-5-mini",
+    "display_name": "GPT-5 mini",
+    "model_family": "GPT-5",
+    "status": "deprecated",
+    "release_stage": "legacy",
+    "input_modality": "text",
+    "output_modality": "text",
+    "pricing": {
+      "currency": "USD",
+      "unit": "1M tokens",
+      "input": 0.25,
+      "output": 2.0,
+      "cached_input": 0.025,
+      "cache_write": null,
+      "cache_write_1h": null,
+      "batch_input": null,
+      "batch_output": null
+    },
+    "price_records": [
+      {
+        "id": "price:openai/gpt-5-mini:standard:short:current",
+        "processing_mode": "standard",
+        "context_class": "short",
+        "pricing_status": "current",
+        "calculation_default": true,
+        "prompt_token_threshold": null,
+        "effective_from": null,
+        "effective_until": null,
+        "currency": "USD",
+        "charges": [
+          {
+            "id": "charge:openai/gpt-5-mini:standard:input:text:tokens",
+            "component": "input",
+            "modality": "text",
+            "unit": "per_1m_tokens",
+            "amount": "0.25"
+          },
+          {
+            "id": "charge:openai/gpt-5-mini:standard:cached_input:text:tokens",
+            "component": "cached_input",
+            "modality": "text",
+            "unit": "per_1m_tokens",
+            "amount": "0.025"
+          },
+          {
+            "id": "charge:openai/gpt-5-mini:standard:output:text:tokens",
+            "component": "output",
+            "modality": "text",
+            "unit": "per_1m_tokens",
+            "amount": "2.00"
+          }
+        ],
+        "region_policy": {
+          "pricing_geography": "global_base",
+          "endpoint_geographies": [
+            "global"
+          ],
+          "data_residencies": [
+            "global"
+          ],
+          "availability": {
+            "default": "available",
+            "rules": []
+          },
+          "price_adjustments": []
+        },
+        "source_refs": [
+          "https://developers.openai.com/api/docs/models/gpt-5-mini"
+        ],
+        "verification_status": "verified",
+        "checked_at": "2026-11-06T08:16:37Z",
+        "verified_at": "2026-11-06T08:16:37Z",
+        "billing_note": "Current Standard token rates per 1M tokens from the official model page; no official pricing effective date is stated."
+      }
+    ],
+    "official_source_url": "https://developers.openai.com/api/docs/models/gpt-5-mini",
+    "official_source_urls": [
+      "https://developers.openai.com/api/docs/models/gpt-5-mini",
+      "https://developers.openai.com/api/docs/deprecations"
+    ],
+    "accessed_at": "2026-11-06T08:16:37Z",
+    "last_verified_at": "2026-11-06T08:16:37Z",
+    "effective_from": null,
+    "notes": "OpenAI lists gpt-5-mini as Deprecated; gpt-5-mini and its snapshot gpt-5-mini-2025-08-07 shut down on 2026-12-11 (notice 2026-06-11) with gpt-5.6-terra as the recommended replacement.",
+    "lifecycle": {
+      "deprecation_date": "2026-06-11",
+      "retirement_date": "2026-12-11",
+      "replacement_model_id": "gpt-5.6-terra"
+    }
   },
   {
     "provider_id": "anthropic",
