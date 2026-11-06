@@ -90,10 +90,19 @@ def read_website_rows(path: Path) -> list[dict[str, Any]]:
 def load_governance_inputs() -> tuple[dict[str, str], dict[str, list[str]]]:
     dispositions = read_json(PREVIEW / "candidate-disposition-map.json")
     phase26 = read_json(PREVIEW / "phase2-6-p0-resolution.json")
+    # The Phase 2.6 decisions are a frozen audit. A model that later gained verified canonical
+    # price records (OpenAI gpt-5 and o3 model pages, 2026-11-06) is no longer excluded by them.
+    canonical = read_json(ROOT / "data" / "canonical" / "models.json")
+    later_verified = {
+        f"{model['provider_id']}/{model['model_id']}"
+        for model in canonical
+        if any(record.get("verification_status") == "verified" for record in model.get("price_records") or [])
+    }
     excluded_reasons = {
         decision["modelInternalId"]: decision["blockerReason"]
         for decision in phase26["perModelDecisions"]
         if decision["finalAction"] == "exclude_from_default"
+        and decision["modelInternalId"] not in later_verified
     }
     merged_sources: dict[str, list[str]] = {}
     for disposition in dispositions:

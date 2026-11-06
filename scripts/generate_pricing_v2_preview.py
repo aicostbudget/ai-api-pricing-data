@@ -957,10 +957,18 @@ def build_phase26_artifacts(
         "openai/gpt-5",
         "openai/o3",
     ]
+    # A Phase 2.6 exclusion is lifted once canonical carries verified price records for the
+    # model (OpenAI gpt-5 and o3 model pages, verified 2026-11-06); a default price is then expected.
+    later_verified = {
+        f"{model['provider_id']}/{model['model_id']}"
+        for model in read_json(CANONICAL / "models.json")
+        if any(record.get("verification_status") == "verified" for record in model.get("price_records") or [])
+    }
     p0_after = [
         model_id
         for model_id in p0_before
         if model_id in PHASE26_EXCLUDED_DEFAULT_MODELS
+        and model_id not in later_verified
         and model_by_id.get(model_id, {}).get("defaultPriceRecordId") is not None
     ]
     verified_upgrade_models = [

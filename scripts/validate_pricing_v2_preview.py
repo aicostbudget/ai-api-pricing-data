@@ -1273,10 +1273,17 @@ def validate_preview() -> dict[str, Any]:
         row = phase4a_by_internal_id[internal_id]
         if row["verificationStatus"] != "review_required" or row["defaultSafe"] is not False:
             fail(f"phase4a GPT-4.1 family safety mismatch: {internal_id}")
-    for internal_id in ("cohere/command-a-plus", "openai/gpt-5", "openai/o3"):
+    for internal_id in ("cohere/command-a-plus",):
         row = phase4a_by_internal_id[internal_id]
         if row["defaultSafe"] is not False or "excluded_default_candidate" not in row["blockedFromDefaultReasons"]:
             fail(f"phase4a excluded default candidate mismatch: {internal_id}")
+    # gpt-5 and o3 gained verified canonical prices on 2026-11-06 and are deprecated: they stay
+    # out of the defaults through their lifecycle, not through the frozen Phase 2.6 exclusion.
+    for internal_id in ("openai/gpt-5", "openai/o3"):
+        row = phase4a_by_internal_id[internal_id]
+        blocked = set(row["blockedFromDefaultReasons"])
+        if row["defaultSafe"] is not False or not blocked & {"deprecated_identity", "excluded_default_candidate"}:
+            fail(f"phase4a deprecated default candidate mismatch: {internal_id}")
     grok3 = phase4a_by_internal_id["xai/grok-3"]
     if grok3["status"] != "retired" or grok3["billingModelInternalId"] != "xai/grok-4.3":
         fail("phase4a grok-3 projection must stay retired with redirected billing")
