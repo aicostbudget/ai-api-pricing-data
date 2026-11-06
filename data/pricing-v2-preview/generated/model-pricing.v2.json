@@ -9,7 +9,7 @@
     "review_required": "display only with warning; no default or recommendation placement",
     "unsafe": "exclude from default calculations and show warning only where explicitly allowed"
   },
-  "effectiveAt": "2026-11-06T06:52:19Z",
+  "effectiveAt": "2026-11-06T08:22:46Z",
   "effectiveTimezone": "UTC",
   "failureBehavior": {
     "atomicWrite": true,
@@ -18,7 +18,7 @@
     "partialJson": "not_written",
     "publicV1Mutation": "forbidden"
   },
-  "generatedAt": "2026-11-06T06:52:19Z",
+  "generatedAt": "2026-11-06T08:22:46Z",
   "generatedAtPolicy": "UTC artifact generation timestamp injected by the generation pipeline",
   "governancePolicy": {
     "classes": [
@@ -49063,6 +49063,418 @@
     },
     {
       "accessAuthority": {
+        "baseRevision": "2ec5a2e9923e2dd29b4d19139ef781300e9b097a",
+        "factSha256": "96ff893e6c3e833719098f61e87a8d7fe9a3b3899bddb56ee72dbc52e92ae756",
+        "kind": "canonical",
+        "revisionScope": "base_revision_plus_fact_digest"
+      },
+      "accessCheckedAt": null,
+      "accessEvidence": [],
+      "accessStatus": "unknown",
+      "aliasTargetInternalId": null,
+      "availability": "deprecated",
+      "batchInputPrice": null,
+      "batchOutputPrice": null,
+      "billingModelInternalId": null,
+      "bindingEvidence": [],
+      "bindingStatus": "unresolved",
+      "blockedFromDefaultReasons": [
+        "deprecated_identity"
+      ],
+      "cachedInputPrice": null,
+      "canonicalInternalId": "openai/gpt-4o",
+      "checkedAt": "2026-11-06T08:16:37Z",
+      "checkedSourceRefs": [
+        "source:openai:developers-openai-com-api-docs-models-gpt-4o"
+      ],
+      "contextWindow": null,
+      "contextWindowStatus": "unknown_not_guessed",
+      "defaultPriceSelectionRule": [
+        "current_effective_utc",
+        "verified",
+        "standard",
+        "text",
+        "default_context_class"
+      ],
+      "defaultSafe": false,
+      "deprecationDate": "2026-10-14",
+      "governanceClass": "VERIFIED_CANONICAL",
+      "governanceDetails": null,
+      "governanceReason": "canonical_verified_non_token_public_projection",
+      "governanceSourceCandidateIds": [
+        "openai/gpt-4o"
+      ],
+      "id": "gpt-4o",
+      "identityType": "canonical_model",
+      "inputPrice": null,
+      "lifecycleStatus": "deprecated",
+      "model": "GPT-4o",
+      "officialSourceUrl": "https://developers.openai.com/api/docs/models/gpt-4o",
+      "outputPrice": null,
+      "priceRecords": [
+        {
+          "calculationDefault": true,
+          "checkedAt": "2026-11-06T08:16:37Z",
+          "contextClass": "short",
+          "effectiveFrom": null,
+          "effectiveUntil": null,
+          "pricingId": "price:openai/gpt-4o:standard:short:current",
+          "pricingStatus": "current",
+          "processingMode": "standard",
+          "sourceRefs": [
+            "source:openai:developers-openai-com-api-docs-models-gpt-4o"
+          ],
+          "verificationStatus": "verified",
+          "verifiedAt": "2026-11-06T08:16:37Z"
+        }
+      ],
+      "pricingComponents": [
+        {
+          "amount": "1.25",
+          "calculationDefault": true,
+          "chargeId": "charge:openai/gpt-4o:standard:cached_input:text:tokens",
+          "component": "cached_input",
+          "condition": {
+            "availabilityRules": [],
+            "contextClass": "short",
+            "defaultAvailabilityStatus": "available",
+            "effectiveFrom": null,
+            "effectiveUntil": null,
+            "priceAdjustments": [],
+            "processingMode": "standard",
+            "promptTokenThreshold": null,
+            "regionPolicy": "global",
+            "regionSelector": {
+              "dataResidencies": [
+                "global"
+              ],
+              "endpointGeographies": [
+                "global"
+              ],
+              "pricingGeography": "global_base"
+            },
+            "tierSelection": null
+          },
+          "currency": "USD",
+          "modality": "text",
+          "pricingId": "price:openai/gpt-4o:standard:short:current",
+          "sourceRefs": [
+            "source:openai:developers-openai-com-api-docs-models-gpt-4o"
+          ],
+          "unit": "per_1m_tokens",
+          "verificationStatus": "verified"
+        },
+        {
+          "amount": "2.5",
+          "calculationDefault": true,
+          "chargeId": "charge:openai/gpt-4o:standard:input:text:tokens",
+          "component": "input",
+          "condition": {
+            "availabilityRules": [],
+            "contextClass": "short",
+            "defaultAvailabilityStatus": "available",
+            "effectiveFrom": null,
+            "effectiveUntil": null,
+            "priceAdjustments": [],
+            "processingMode": "standard",
+            "promptTokenThreshold": null,
+            "regionPolicy": "global",
+            "regionSelector": {
+              "dataResidencies": [
+                "global"
+              ],
+              "endpointGeographies": [
+                "global"
+              ],
+              "pricingGeography": "global_base"
+            },
+            "tierSelection": null
+          },
+          "currency": "USD",
+          "modality": "text",
+          "pricingId": "price:openai/gpt-4o:standard:short:current",
+          "sourceRefs": [
+            "source:openai:developers-openai-com-api-docs-models-gpt-4o"
+          ],
+          "unit": "per_1m_tokens",
+          "verificationStatus": "verified"
+        },
+        {
+          "amount": "10",
+          "calculationDefault": true,
+          "chargeId": "charge:openai/gpt-4o:standard:output:text:tokens",
+          "component": "output",
+          "condition": {
+            "availabilityRules": [],
+            "contextClass": "short",
+            "defaultAvailabilityStatus": "available",
+            "effectiveFrom": null,
+            "effectiveUntil": null,
+            "priceAdjustments": [],
+            "processingMode": "standard",
+            "promptTokenThreshold": null,
+            "regionPolicy": "global",
+            "regionSelector": {
+              "dataResidencies": [
+                "global"
+              ],
+              "endpointGeographies": [
+                "global"
+              ],
+              "pricingGeography": "global_base"
+            },
+            "tierSelection": null
+          },
+          "currency": "USD",
+          "modality": "text",
+          "pricingId": "price:openai/gpt-4o:standard:short:current",
+          "sourceRefs": [
+            "source:openai:developers-openai-com-api-docs-models-gpt-4o"
+          ],
+          "unit": "per_1m_tokens",
+          "verificationStatus": "verified"
+        }
+      ],
+      "pricingSourceType": "canonical_verified_structured_price",
+      "provider": "openai",
+      "publicExposure": "public",
+      "redirectTargetInternalId": null,
+      "releaseSourceRef": null,
+      "releaseSourceUrl": null,
+      "releaseStage": "legacy",
+      "releasedAt": null,
+      "replacementInternalId": "openai/gpt-6-luna",
+      "retirementDate": "2027-01-14",
+      "routingBehavior": "direct",
+      "routingDetails": {},
+      "selectedBatchPriceRecordId": null,
+      "selectedBillingPriceRecordId": "price:openai/gpt-4o:standard:short:current",
+      "selectedPriceEffectiveFrom": null,
+      "selectedPriceEffectiveUntil": null,
+      "selectedPriceRecordId": null,
+      "sourceRefs": [
+        "source:openai:developers-openai-com-api-docs-deprecations",
+        "source:openai:developers-openai-com-api-docs-models-gpt-4o"
+      ],
+      "sourceUrls": [
+        "https://developers.openai.com/api/docs/deprecations",
+        "https://developers.openai.com/api/docs/models/gpt-4o"
+      ],
+      "status": "deprecated",
+      "verificationStatus": "verified",
+      "verifiedAt": "2026-11-06T08:16:37Z",
+      "verifiedSourceRefs": [
+        "source:openai:developers-openai-com-api-docs-models-gpt-4o"
+      ]
+    },
+    {
+      "accessAuthority": {
+        "baseRevision": "2ec5a2e9923e2dd29b4d19139ef781300e9b097a",
+        "factSha256": "96ff893e6c3e833719098f61e87a8d7fe9a3b3899bddb56ee72dbc52e92ae756",
+        "kind": "canonical",
+        "revisionScope": "base_revision_plus_fact_digest"
+      },
+      "accessCheckedAt": null,
+      "accessEvidence": [],
+      "accessStatus": "unknown",
+      "aliasTargetInternalId": null,
+      "availability": "deprecated",
+      "batchInputPrice": null,
+      "batchOutputPrice": null,
+      "billingModelInternalId": null,
+      "bindingEvidence": [],
+      "bindingStatus": "unresolved",
+      "blockedFromDefaultReasons": [
+        "deprecated_identity"
+      ],
+      "cachedInputPrice": null,
+      "canonicalInternalId": "openai/gpt-4o-mini",
+      "checkedAt": "2026-11-06T08:16:37Z",
+      "checkedSourceRefs": [
+        "source:openai:developers-openai-com-api-docs-models-gpt-4o-mini"
+      ],
+      "contextWindow": null,
+      "contextWindowStatus": "unknown_not_guessed",
+      "defaultPriceSelectionRule": [
+        "current_effective_utc",
+        "verified",
+        "standard",
+        "text",
+        "default_context_class"
+      ],
+      "defaultSafe": false,
+      "deprecationDate": "2026-10-14",
+      "governanceClass": "VERIFIED_CANONICAL",
+      "governanceDetails": null,
+      "governanceReason": "canonical_verified_non_token_public_projection",
+      "governanceSourceCandidateIds": [
+        "openai/gpt-4o-mini"
+      ],
+      "id": "gpt-4o-mini",
+      "identityType": "canonical_model",
+      "inputPrice": null,
+      "lifecycleStatus": "deprecated",
+      "model": "GPT-4o mini",
+      "officialSourceUrl": "https://developers.openai.com/api/docs/models/gpt-4o-mini",
+      "outputPrice": null,
+      "priceRecords": [
+        {
+          "calculationDefault": true,
+          "checkedAt": "2026-11-06T08:16:37Z",
+          "contextClass": "short",
+          "effectiveFrom": null,
+          "effectiveUntil": null,
+          "pricingId": "price:openai/gpt-4o-mini:standard:short:current",
+          "pricingStatus": "current",
+          "processingMode": "standard",
+          "sourceRefs": [
+            "source:openai:developers-openai-com-api-docs-models-gpt-4o-mini"
+          ],
+          "verificationStatus": "verified",
+          "verifiedAt": "2026-11-06T08:16:37Z"
+        }
+      ],
+      "pricingComponents": [
+        {
+          "amount": "0.075",
+          "calculationDefault": true,
+          "chargeId": "charge:openai/gpt-4o-mini:standard:cached_input:text:tokens",
+          "component": "cached_input",
+          "condition": {
+            "availabilityRules": [],
+            "contextClass": "short",
+            "defaultAvailabilityStatus": "available",
+            "effectiveFrom": null,
+            "effectiveUntil": null,
+            "priceAdjustments": [],
+            "processingMode": "standard",
+            "promptTokenThreshold": null,
+            "regionPolicy": "global",
+            "regionSelector": {
+              "dataResidencies": [
+                "global"
+              ],
+              "endpointGeographies": [
+                "global"
+              ],
+              "pricingGeography": "global_base"
+            },
+            "tierSelection": null
+          },
+          "currency": "USD",
+          "modality": "text",
+          "pricingId": "price:openai/gpt-4o-mini:standard:short:current",
+          "sourceRefs": [
+            "source:openai:developers-openai-com-api-docs-models-gpt-4o-mini"
+          ],
+          "unit": "per_1m_tokens",
+          "verificationStatus": "verified"
+        },
+        {
+          "amount": "0.15",
+          "calculationDefault": true,
+          "chargeId": "charge:openai/gpt-4o-mini:standard:input:text:tokens",
+          "component": "input",
+          "condition": {
+            "availabilityRules": [],
+            "contextClass": "short",
+            "defaultAvailabilityStatus": "available",
+            "effectiveFrom": null,
+            "effectiveUntil": null,
+            "priceAdjustments": [],
+            "processingMode": "standard",
+            "promptTokenThreshold": null,
+            "regionPolicy": "global",
+            "regionSelector": {
+              "dataResidencies": [
+                "global"
+              ],
+              "endpointGeographies": [
+                "global"
+              ],
+              "pricingGeography": "global_base"
+            },
+            "tierSelection": null
+          },
+          "currency": "USD",
+          "modality": "text",
+          "pricingId": "price:openai/gpt-4o-mini:standard:short:current",
+          "sourceRefs": [
+            "source:openai:developers-openai-com-api-docs-models-gpt-4o-mini"
+          ],
+          "unit": "per_1m_tokens",
+          "verificationStatus": "verified"
+        },
+        {
+          "amount": "0.6",
+          "calculationDefault": true,
+          "chargeId": "charge:openai/gpt-4o-mini:standard:output:text:tokens",
+          "component": "output",
+          "condition": {
+            "availabilityRules": [],
+            "contextClass": "short",
+            "defaultAvailabilityStatus": "available",
+            "effectiveFrom": null,
+            "effectiveUntil": null,
+            "priceAdjustments": [],
+            "processingMode": "standard",
+            "promptTokenThreshold": null,
+            "regionPolicy": "global",
+            "regionSelector": {
+              "dataResidencies": [
+                "global"
+              ],
+              "endpointGeographies": [
+                "global"
+              ],
+              "pricingGeography": "global_base"
+            },
+            "tierSelection": null
+          },
+          "currency": "USD",
+          "modality": "text",
+          "pricingId": "price:openai/gpt-4o-mini:standard:short:current",
+          "sourceRefs": [
+            "source:openai:developers-openai-com-api-docs-models-gpt-4o-mini"
+          ],
+          "unit": "per_1m_tokens",
+          "verificationStatus": "verified"
+        }
+      ],
+      "pricingSourceType": "canonical_verified_structured_price",
+      "provider": "openai",
+      "publicExposure": "public",
+      "redirectTargetInternalId": null,
+      "releaseSourceRef": null,
+      "releaseSourceUrl": null,
+      "releaseStage": "legacy",
+      "releasedAt": null,
+      "replacementInternalId": "openai/gpt-6-luna",
+      "retirementDate": "2027-01-14",
+      "routingBehavior": "direct",
+      "routingDetails": {},
+      "selectedBatchPriceRecordId": null,
+      "selectedBillingPriceRecordId": "price:openai/gpt-4o-mini:standard:short:current",
+      "selectedPriceEffectiveFrom": null,
+      "selectedPriceEffectiveUntil": null,
+      "selectedPriceRecordId": null,
+      "sourceRefs": [
+        "source:openai:developers-openai-com-api-docs-deprecations",
+        "source:openai:developers-openai-com-api-docs-models-gpt-4o-mini"
+      ],
+      "sourceUrls": [
+        "https://developers.openai.com/api/docs/deprecations",
+        "https://developers.openai.com/api/docs/models/gpt-4o-mini"
+      ],
+      "status": "deprecated",
+      "verificationStatus": "verified",
+      "verifiedAt": "2026-11-06T08:16:37Z",
+      "verifiedSourceRefs": [
+        "source:openai:developers-openai-com-api-docs-models-gpt-4o-mini"
+      ]
+    },
+    {
+      "accessAuthority": {
         "baseRevision": "80c2ec4991bcaaf795fe9192946f5ec770d57f48",
         "factSha256": "96ff893e6c3e833719098f61e87a8d7fe9a3b3899bddb56ee72dbc52e92ae756",
         "kind": "canonical",
@@ -49237,18 +49649,13 @@
       "bindingEvidence": [],
       "bindingStatus": "unresolved",
       "blockedFromDefaultReasons": [
-        "deprecated_identity",
-        "excluded_default_candidate",
-        "missing_verified_current_price"
+        "deprecated_identity"
       ],
       "cachedInputPrice": null,
       "canonicalInternalId": "openai/gpt-5",
-      "checkedAt": "2026-08-08T18:00:00Z",
+      "checkedAt": "2026-11-06T08:16:37Z",
       "checkedSourceRefs": [
-        "source:openai:developers-openai-com-api-docs-deprecations",
-        "source:openai:developers-openai-com-api-docs-guides-batch",
-        "source:openai:developers-openai-com-api-docs-models-gpt-5",
-        "source:openai:developers-openai-com-api-docs-pricing"
+        "source:openai:developers-openai-com-api-docs-models-gpt-5"
       ],
       "contextWindow": null,
       "contextWindowStatus": "unknown_not_guessed",
@@ -49260,10 +49667,10 @@
         "default_context_class"
       ],
       "defaultSafe": false,
-      "deprecationDate": null,
-      "governanceClass": "EXCLUDED",
-      "governanceDetails": "current OpenAI API pricing page does not list gpt-5 current API pricing as a callable default model.",
-      "governanceReason": "official_price_incomplete_excluded_from_public_projection",
+      "deprecationDate": "2026-06-11",
+      "governanceClass": "VERIFIED_CANONICAL",
+      "governanceDetails": null,
+      "governanceReason": "canonical_verified_non_token_public_projection",
       "governanceSourceCandidateIds": [
         "openai/gpt-5"
       ],
@@ -49274,20 +49681,229 @@
       "model": "GPT-5",
       "officialSourceUrl": "https://developers.openai.com/api/docs/pricing",
       "outputPrice": null,
-      "pricingSourceType": "none",
+      "priceRecords": [
+        {
+          "calculationDefault": false,
+          "checkedAt": "2026-11-06T08:16:37Z",
+          "contextClass": "short",
+          "effectiveFrom": null,
+          "effectiveUntil": null,
+          "pricingId": "price:openai/gpt-5:batch:short:current",
+          "pricingStatus": "current",
+          "processingMode": "batch",
+          "sourceRefs": [
+            "source:openai:developers-openai-com-api-docs-guides-batch"
+          ],
+          "verificationStatus": "verified",
+          "verifiedAt": "2026-11-06T08:16:37Z"
+        },
+        {
+          "calculationDefault": true,
+          "checkedAt": "2026-11-06T08:16:37Z",
+          "contextClass": "short",
+          "effectiveFrom": null,
+          "effectiveUntil": null,
+          "pricingId": "price:openai/gpt-5:standard:short:current",
+          "pricingStatus": "current",
+          "processingMode": "standard",
+          "sourceRefs": [
+            "source:openai:developers-openai-com-api-docs-models-gpt-5"
+          ],
+          "verificationStatus": "verified",
+          "verifiedAt": "2026-11-06T08:16:37Z"
+        }
+      ],
+      "pricingComponents": [
+        {
+          "amount": "0.625",
+          "calculationDefault": false,
+          "chargeId": "charge:openai/gpt-5:batch:input:text:tokens",
+          "component": "input",
+          "condition": {
+            "availabilityRules": [],
+            "contextClass": "short",
+            "defaultAvailabilityStatus": "available",
+            "effectiveFrom": null,
+            "effectiveUntil": null,
+            "priceAdjustments": [],
+            "processingMode": "batch",
+            "promptTokenThreshold": null,
+            "regionPolicy": "global",
+            "regionSelector": {
+              "dataResidencies": [
+                "global"
+              ],
+              "endpointGeographies": [
+                "global"
+              ],
+              "pricingGeography": "global_base"
+            },
+            "tierSelection": null
+          },
+          "currency": "USD",
+          "modality": "text",
+          "pricingId": "price:openai/gpt-5:batch:short:current",
+          "sourceRefs": [
+            "source:openai:developers-openai-com-api-docs-guides-batch"
+          ],
+          "unit": "per_1m_tokens",
+          "verificationStatus": "verified"
+        },
+        {
+          "amount": "5",
+          "calculationDefault": false,
+          "chargeId": "charge:openai/gpt-5:batch:output:text:tokens",
+          "component": "output",
+          "condition": {
+            "availabilityRules": [],
+            "contextClass": "short",
+            "defaultAvailabilityStatus": "available",
+            "effectiveFrom": null,
+            "effectiveUntil": null,
+            "priceAdjustments": [],
+            "processingMode": "batch",
+            "promptTokenThreshold": null,
+            "regionPolicy": "global",
+            "regionSelector": {
+              "dataResidencies": [
+                "global"
+              ],
+              "endpointGeographies": [
+                "global"
+              ],
+              "pricingGeography": "global_base"
+            },
+            "tierSelection": null
+          },
+          "currency": "USD",
+          "modality": "text",
+          "pricingId": "price:openai/gpt-5:batch:short:current",
+          "sourceRefs": [
+            "source:openai:developers-openai-com-api-docs-guides-batch"
+          ],
+          "unit": "per_1m_tokens",
+          "verificationStatus": "verified"
+        },
+        {
+          "amount": "0.125",
+          "calculationDefault": true,
+          "chargeId": "charge:openai/gpt-5:standard:cached_input:text:tokens",
+          "component": "cached_input",
+          "condition": {
+            "availabilityRules": [],
+            "contextClass": "short",
+            "defaultAvailabilityStatus": "available",
+            "effectiveFrom": null,
+            "effectiveUntil": null,
+            "priceAdjustments": [],
+            "processingMode": "standard",
+            "promptTokenThreshold": null,
+            "regionPolicy": "global",
+            "regionSelector": {
+              "dataResidencies": [
+                "global"
+              ],
+              "endpointGeographies": [
+                "global"
+              ],
+              "pricingGeography": "global_base"
+            },
+            "tierSelection": null
+          },
+          "currency": "USD",
+          "modality": "text",
+          "pricingId": "price:openai/gpt-5:standard:short:current",
+          "sourceRefs": [
+            "source:openai:developers-openai-com-api-docs-models-gpt-5"
+          ],
+          "unit": "per_1m_tokens",
+          "verificationStatus": "verified"
+        },
+        {
+          "amount": "1.25",
+          "calculationDefault": true,
+          "chargeId": "charge:openai/gpt-5:standard:input:text:tokens",
+          "component": "input",
+          "condition": {
+            "availabilityRules": [],
+            "contextClass": "short",
+            "defaultAvailabilityStatus": "available",
+            "effectiveFrom": null,
+            "effectiveUntil": null,
+            "priceAdjustments": [],
+            "processingMode": "standard",
+            "promptTokenThreshold": null,
+            "regionPolicy": "global",
+            "regionSelector": {
+              "dataResidencies": [
+                "global"
+              ],
+              "endpointGeographies": [
+                "global"
+              ],
+              "pricingGeography": "global_base"
+            },
+            "tierSelection": null
+          },
+          "currency": "USD",
+          "modality": "text",
+          "pricingId": "price:openai/gpt-5:standard:short:current",
+          "sourceRefs": [
+            "source:openai:developers-openai-com-api-docs-models-gpt-5"
+          ],
+          "unit": "per_1m_tokens",
+          "verificationStatus": "verified"
+        },
+        {
+          "amount": "10",
+          "calculationDefault": true,
+          "chargeId": "charge:openai/gpt-5:standard:output:text:tokens",
+          "component": "output",
+          "condition": {
+            "availabilityRules": [],
+            "contextClass": "short",
+            "defaultAvailabilityStatus": "available",
+            "effectiveFrom": null,
+            "effectiveUntil": null,
+            "priceAdjustments": [],
+            "processingMode": "standard",
+            "promptTokenThreshold": null,
+            "regionPolicy": "global",
+            "regionSelector": {
+              "dataResidencies": [
+                "global"
+              ],
+              "endpointGeographies": [
+                "global"
+              ],
+              "pricingGeography": "global_base"
+            },
+            "tierSelection": null
+          },
+          "currency": "USD",
+          "modality": "text",
+          "pricingId": "price:openai/gpt-5:standard:short:current",
+          "sourceRefs": [
+            "source:openai:developers-openai-com-api-docs-models-gpt-5"
+          ],
+          "unit": "per_1m_tokens",
+          "verificationStatus": "verified"
+        }
+      ],
+      "pricingSourceType": "canonical_verified_structured_price",
       "provider": "openai",
-      "publicExposure": "excluded",
+      "publicExposure": "public",
       "redirectTargetInternalId": null,
       "releaseSourceRef": null,
       "releaseSourceUrl": null,
       "releaseStage": "stable",
       "releasedAt": null,
-      "replacementInternalId": null,
-      "retirementDate": null,
+      "replacementInternalId": "openai/gpt-5.6-sol",
+      "retirementDate": "2026-12-11",
       "routingBehavior": "direct",
       "routingDetails": {},
       "selectedBatchPriceRecordId": null,
-      "selectedBillingPriceRecordId": null,
+      "selectedBillingPriceRecordId": "price:openai/gpt-5:standard:short:current",
       "selectedPriceEffectiveFrom": null,
       "selectedPriceEffectiveUntil": null,
       "selectedPriceRecordId": null,
@@ -49304,9 +49920,217 @@
         "https://developers.openai.com/api/docs/pricing"
       ],
       "status": "deprecated",
-      "verificationStatus": "partially_verified",
-      "verifiedAt": null,
-      "verifiedSourceRefs": []
+      "verificationStatus": "verified",
+      "verifiedAt": "2026-11-06T08:16:37Z",
+      "verifiedSourceRefs": [
+        "source:openai:developers-openai-com-api-docs-models-gpt-5"
+      ]
+    },
+    {
+      "accessAuthority": {
+        "baseRevision": "2ec5a2e9923e2dd29b4d19139ef781300e9b097a",
+        "factSha256": "96ff893e6c3e833719098f61e87a8d7fe9a3b3899bddb56ee72dbc52e92ae756",
+        "kind": "canonical",
+        "revisionScope": "base_revision_plus_fact_digest"
+      },
+      "accessCheckedAt": null,
+      "accessEvidence": [],
+      "accessStatus": "unknown",
+      "aliasTargetInternalId": null,
+      "availability": "deprecated",
+      "batchInputPrice": null,
+      "batchOutputPrice": null,
+      "billingModelInternalId": null,
+      "bindingEvidence": [],
+      "bindingStatus": "unresolved",
+      "blockedFromDefaultReasons": [
+        "deprecated_identity"
+      ],
+      "cachedInputPrice": null,
+      "canonicalInternalId": "openai/gpt-5-mini",
+      "checkedAt": "2026-11-06T08:16:37Z",
+      "checkedSourceRefs": [
+        "source:openai:developers-openai-com-api-docs-models-gpt-5-mini"
+      ],
+      "contextWindow": null,
+      "contextWindowStatus": "unknown_not_guessed",
+      "defaultPriceSelectionRule": [
+        "current_effective_utc",
+        "verified",
+        "standard",
+        "text",
+        "default_context_class"
+      ],
+      "defaultSafe": false,
+      "deprecationDate": "2026-06-11",
+      "governanceClass": "VERIFIED_CANONICAL",
+      "governanceDetails": null,
+      "governanceReason": "canonical_verified_non_token_public_projection",
+      "governanceSourceCandidateIds": [
+        "openai/gpt-5-mini"
+      ],
+      "id": "gpt-5-mini",
+      "identityType": "canonical_model",
+      "inputPrice": null,
+      "lifecycleStatus": "deprecated",
+      "model": "GPT-5 mini",
+      "officialSourceUrl": "https://developers.openai.com/api/docs/models/gpt-5-mini",
+      "outputPrice": null,
+      "priceRecords": [
+        {
+          "calculationDefault": true,
+          "checkedAt": "2026-11-06T08:16:37Z",
+          "contextClass": "short",
+          "effectiveFrom": null,
+          "effectiveUntil": null,
+          "pricingId": "price:openai/gpt-5-mini:standard:short:current",
+          "pricingStatus": "current",
+          "processingMode": "standard",
+          "sourceRefs": [
+            "source:openai:developers-openai-com-api-docs-models-gpt-5-mini"
+          ],
+          "verificationStatus": "verified",
+          "verifiedAt": "2026-11-06T08:16:37Z"
+        }
+      ],
+      "pricingComponents": [
+        {
+          "amount": "0.025",
+          "calculationDefault": true,
+          "chargeId": "charge:openai/gpt-5-mini:standard:cached_input:text:tokens",
+          "component": "cached_input",
+          "condition": {
+            "availabilityRules": [],
+            "contextClass": "short",
+            "defaultAvailabilityStatus": "available",
+            "effectiveFrom": null,
+            "effectiveUntil": null,
+            "priceAdjustments": [],
+            "processingMode": "standard",
+            "promptTokenThreshold": null,
+            "regionPolicy": "global",
+            "regionSelector": {
+              "dataResidencies": [
+                "global"
+              ],
+              "endpointGeographies": [
+                "global"
+              ],
+              "pricingGeography": "global_base"
+            },
+            "tierSelection": null
+          },
+          "currency": "USD",
+          "modality": "text",
+          "pricingId": "price:openai/gpt-5-mini:standard:short:current",
+          "sourceRefs": [
+            "source:openai:developers-openai-com-api-docs-models-gpt-5-mini"
+          ],
+          "unit": "per_1m_tokens",
+          "verificationStatus": "verified"
+        },
+        {
+          "amount": "0.25",
+          "calculationDefault": true,
+          "chargeId": "charge:openai/gpt-5-mini:standard:input:text:tokens",
+          "component": "input",
+          "condition": {
+            "availabilityRules": [],
+            "contextClass": "short",
+            "defaultAvailabilityStatus": "available",
+            "effectiveFrom": null,
+            "effectiveUntil": null,
+            "priceAdjustments": [],
+            "processingMode": "standard",
+            "promptTokenThreshold": null,
+            "regionPolicy": "global",
+            "regionSelector": {
+              "dataResidencies": [
+                "global"
+              ],
+              "endpointGeographies": [
+                "global"
+              ],
+              "pricingGeography": "global_base"
+            },
+            "tierSelection": null
+          },
+          "currency": "USD",
+          "modality": "text",
+          "pricingId": "price:openai/gpt-5-mini:standard:short:current",
+          "sourceRefs": [
+            "source:openai:developers-openai-com-api-docs-models-gpt-5-mini"
+          ],
+          "unit": "per_1m_tokens",
+          "verificationStatus": "verified"
+        },
+        {
+          "amount": "2",
+          "calculationDefault": true,
+          "chargeId": "charge:openai/gpt-5-mini:standard:output:text:tokens",
+          "component": "output",
+          "condition": {
+            "availabilityRules": [],
+            "contextClass": "short",
+            "defaultAvailabilityStatus": "available",
+            "effectiveFrom": null,
+            "effectiveUntil": null,
+            "priceAdjustments": [],
+            "processingMode": "standard",
+            "promptTokenThreshold": null,
+            "regionPolicy": "global",
+            "regionSelector": {
+              "dataResidencies": [
+                "global"
+              ],
+              "endpointGeographies": [
+                "global"
+              ],
+              "pricingGeography": "global_base"
+            },
+            "tierSelection": null
+          },
+          "currency": "USD",
+          "modality": "text",
+          "pricingId": "price:openai/gpt-5-mini:standard:short:current",
+          "sourceRefs": [
+            "source:openai:developers-openai-com-api-docs-models-gpt-5-mini"
+          ],
+          "unit": "per_1m_tokens",
+          "verificationStatus": "verified"
+        }
+      ],
+      "pricingSourceType": "canonical_verified_structured_price",
+      "provider": "openai",
+      "publicExposure": "public",
+      "redirectTargetInternalId": null,
+      "releaseSourceRef": null,
+      "releaseSourceUrl": null,
+      "releaseStage": "legacy",
+      "releasedAt": null,
+      "replacementInternalId": "openai/gpt-5.6-terra",
+      "retirementDate": "2026-12-11",
+      "routingBehavior": "direct",
+      "routingDetails": {},
+      "selectedBatchPriceRecordId": null,
+      "selectedBillingPriceRecordId": "price:openai/gpt-5-mini:standard:short:current",
+      "selectedPriceEffectiveFrom": null,
+      "selectedPriceEffectiveUntil": null,
+      "selectedPriceRecordId": null,
+      "sourceRefs": [
+        "source:openai:developers-openai-com-api-docs-deprecations",
+        "source:openai:developers-openai-com-api-docs-models-gpt-5-mini"
+      ],
+      "sourceUrls": [
+        "https://developers.openai.com/api/docs/deprecations",
+        "https://developers.openai.com/api/docs/models/gpt-5-mini"
+      ],
+      "status": "deprecated",
+      "verificationStatus": "verified",
+      "verifiedAt": "2026-11-06T08:16:37Z",
+      "verifiedSourceRefs": [
+        "source:openai:developers-openai-com-api-docs-models-gpt-5-mini"
+      ]
     },
     {
       "accessAuthority": {
@@ -79825,18 +80649,13 @@
       "bindingEvidence": [],
       "bindingStatus": "unresolved",
       "blockedFromDefaultReasons": [
-        "deprecated_identity",
-        "excluded_default_candidate",
-        "missing_verified_current_price"
+        "deprecated_identity"
       ],
       "cachedInputPrice": null,
       "canonicalInternalId": "openai/o3",
-      "checkedAt": "2026-08-08T18:00:00Z",
+      "checkedAt": "2026-11-06T08:16:37Z",
       "checkedSourceRefs": [
-        "source:openai:developers-openai-com-api-docs-deprecations",
-        "source:openai:developers-openai-com-api-docs-guides-batch",
-        "source:openai:developers-openai-com-api-docs-models-o3",
-        "source:openai:developers-openai-com-api-docs-pricing"
+        "source:openai:developers-openai-com-api-docs-models-o3"
       ],
       "contextWindow": null,
       "contextWindowStatus": "unknown_not_guessed",
@@ -79848,10 +80667,10 @@
         "default_context_class"
       ],
       "defaultSafe": false,
-      "deprecationDate": null,
-      "governanceClass": "EXCLUDED",
-      "governanceDetails": "current OpenAI API pricing page lists o3-deep-research, not a current o3 default API price with cached-input semantics.",
-      "governanceReason": "official_price_incomplete_excluded_from_public_projection",
+      "deprecationDate": "2026-06-11",
+      "governanceClass": "VERIFIED_CANONICAL",
+      "governanceDetails": null,
+      "governanceReason": "canonical_verified_non_token_public_projection",
       "governanceSourceCandidateIds": [
         "openai/o3"
       ],
@@ -79862,20 +80681,264 @@
       "model": "o3",
       "officialSourceUrl": "https://developers.openai.com/api/docs/pricing",
       "outputPrice": null,
-      "pricingSourceType": "none",
+      "priceRecords": [
+        {
+          "calculationDefault": false,
+          "checkedAt": "2026-11-06T08:16:37Z",
+          "contextClass": "short",
+          "effectiveFrom": null,
+          "effectiveUntil": null,
+          "pricingId": "price:openai/o3:batch:short:current",
+          "pricingStatus": "current",
+          "processingMode": "batch",
+          "sourceRefs": [
+            "source:openai:developers-openai-com-api-docs-models-o3"
+          ],
+          "verificationStatus": "verified",
+          "verifiedAt": "2026-11-06T08:16:37Z"
+        },
+        {
+          "calculationDefault": true,
+          "checkedAt": "2026-11-06T08:16:37Z",
+          "contextClass": "short",
+          "effectiveFrom": null,
+          "effectiveUntil": null,
+          "pricingId": "price:openai/o3:standard:short:current",
+          "pricingStatus": "current",
+          "processingMode": "standard",
+          "sourceRefs": [
+            "source:openai:developers-openai-com-api-docs-models-o3"
+          ],
+          "verificationStatus": "verified",
+          "verifiedAt": "2026-11-06T08:16:37Z"
+        }
+      ],
+      "pricingComponents": [
+        {
+          "amount": "0.25",
+          "calculationDefault": false,
+          "chargeId": "charge:openai/o3:batch:cached_input:text:tokens",
+          "component": "cached_input",
+          "condition": {
+            "availabilityRules": [],
+            "contextClass": "short",
+            "defaultAvailabilityStatus": "available",
+            "effectiveFrom": null,
+            "effectiveUntil": null,
+            "priceAdjustments": [],
+            "processingMode": "batch",
+            "promptTokenThreshold": null,
+            "regionPolicy": "global",
+            "regionSelector": {
+              "dataResidencies": [
+                "global"
+              ],
+              "endpointGeographies": [
+                "global"
+              ],
+              "pricingGeography": "global_base"
+            },
+            "tierSelection": null
+          },
+          "currency": "USD",
+          "modality": "text",
+          "pricingId": "price:openai/o3:batch:short:current",
+          "sourceRefs": [
+            "source:openai:developers-openai-com-api-docs-models-o3"
+          ],
+          "unit": "per_1m_tokens",
+          "verificationStatus": "verified"
+        },
+        {
+          "amount": "1",
+          "calculationDefault": false,
+          "chargeId": "charge:openai/o3:batch:input:text:tokens",
+          "component": "input",
+          "condition": {
+            "availabilityRules": [],
+            "contextClass": "short",
+            "defaultAvailabilityStatus": "available",
+            "effectiveFrom": null,
+            "effectiveUntil": null,
+            "priceAdjustments": [],
+            "processingMode": "batch",
+            "promptTokenThreshold": null,
+            "regionPolicy": "global",
+            "regionSelector": {
+              "dataResidencies": [
+                "global"
+              ],
+              "endpointGeographies": [
+                "global"
+              ],
+              "pricingGeography": "global_base"
+            },
+            "tierSelection": null
+          },
+          "currency": "USD",
+          "modality": "text",
+          "pricingId": "price:openai/o3:batch:short:current",
+          "sourceRefs": [
+            "source:openai:developers-openai-com-api-docs-models-o3"
+          ],
+          "unit": "per_1m_tokens",
+          "verificationStatus": "verified"
+        },
+        {
+          "amount": "4",
+          "calculationDefault": false,
+          "chargeId": "charge:openai/o3:batch:output:text:tokens",
+          "component": "output",
+          "condition": {
+            "availabilityRules": [],
+            "contextClass": "short",
+            "defaultAvailabilityStatus": "available",
+            "effectiveFrom": null,
+            "effectiveUntil": null,
+            "priceAdjustments": [],
+            "processingMode": "batch",
+            "promptTokenThreshold": null,
+            "regionPolicy": "global",
+            "regionSelector": {
+              "dataResidencies": [
+                "global"
+              ],
+              "endpointGeographies": [
+                "global"
+              ],
+              "pricingGeography": "global_base"
+            },
+            "tierSelection": null
+          },
+          "currency": "USD",
+          "modality": "text",
+          "pricingId": "price:openai/o3:batch:short:current",
+          "sourceRefs": [
+            "source:openai:developers-openai-com-api-docs-models-o3"
+          ],
+          "unit": "per_1m_tokens",
+          "verificationStatus": "verified"
+        },
+        {
+          "amount": "0.5",
+          "calculationDefault": true,
+          "chargeId": "charge:openai/o3:standard:cached_input:text:tokens",
+          "component": "cached_input",
+          "condition": {
+            "availabilityRules": [],
+            "contextClass": "short",
+            "defaultAvailabilityStatus": "available",
+            "effectiveFrom": null,
+            "effectiveUntil": null,
+            "priceAdjustments": [],
+            "processingMode": "standard",
+            "promptTokenThreshold": null,
+            "regionPolicy": "global",
+            "regionSelector": {
+              "dataResidencies": [
+                "global"
+              ],
+              "endpointGeographies": [
+                "global"
+              ],
+              "pricingGeography": "global_base"
+            },
+            "tierSelection": null
+          },
+          "currency": "USD",
+          "modality": "text",
+          "pricingId": "price:openai/o3:standard:short:current",
+          "sourceRefs": [
+            "source:openai:developers-openai-com-api-docs-models-o3"
+          ],
+          "unit": "per_1m_tokens",
+          "verificationStatus": "verified"
+        },
+        {
+          "amount": "2",
+          "calculationDefault": true,
+          "chargeId": "charge:openai/o3:standard:input:text:tokens",
+          "component": "input",
+          "condition": {
+            "availabilityRules": [],
+            "contextClass": "short",
+            "defaultAvailabilityStatus": "available",
+            "effectiveFrom": null,
+            "effectiveUntil": null,
+            "priceAdjustments": [],
+            "processingMode": "standard",
+            "promptTokenThreshold": null,
+            "regionPolicy": "global",
+            "regionSelector": {
+              "dataResidencies": [
+                "global"
+              ],
+              "endpointGeographies": [
+                "global"
+              ],
+              "pricingGeography": "global_base"
+            },
+            "tierSelection": null
+          },
+          "currency": "USD",
+          "modality": "text",
+          "pricingId": "price:openai/o3:standard:short:current",
+          "sourceRefs": [
+            "source:openai:developers-openai-com-api-docs-models-o3"
+          ],
+          "unit": "per_1m_tokens",
+          "verificationStatus": "verified"
+        },
+        {
+          "amount": "8",
+          "calculationDefault": true,
+          "chargeId": "charge:openai/o3:standard:output:text:tokens",
+          "component": "output",
+          "condition": {
+            "availabilityRules": [],
+            "contextClass": "short",
+            "defaultAvailabilityStatus": "available",
+            "effectiveFrom": null,
+            "effectiveUntil": null,
+            "priceAdjustments": [],
+            "processingMode": "standard",
+            "promptTokenThreshold": null,
+            "regionPolicy": "global",
+            "regionSelector": {
+              "dataResidencies": [
+                "global"
+              ],
+              "endpointGeographies": [
+                "global"
+              ],
+              "pricingGeography": "global_base"
+            },
+            "tierSelection": null
+          },
+          "currency": "USD",
+          "modality": "text",
+          "pricingId": "price:openai/o3:standard:short:current",
+          "sourceRefs": [
+            "source:openai:developers-openai-com-api-docs-models-o3"
+          ],
+          "unit": "per_1m_tokens",
+          "verificationStatus": "verified"
+        }
+      ],
+      "pricingSourceType": "canonical_verified_structured_price",
       "provider": "openai",
-      "publicExposure": "excluded",
+      "publicExposure": "public",
       "redirectTargetInternalId": null,
       "releaseSourceRef": null,
       "releaseSourceUrl": null,
       "releaseStage": "stable",
       "releasedAt": null,
-      "replacementInternalId": null,
-      "retirementDate": null,
+      "replacementInternalId": "openai/gpt-5.6-sol",
+      "retirementDate": "2026-12-11",
       "routingBehavior": "direct",
       "routingDetails": {},
       "selectedBatchPriceRecordId": null,
-      "selectedBillingPriceRecordId": null,
+      "selectedBillingPriceRecordId": "price:openai/o3:standard:short:current",
       "selectedPriceEffectiveFrom": null,
       "selectedPriceEffectiveUntil": null,
       "selectedPriceRecordId": null,
@@ -79892,9 +80955,11 @@
         "https://developers.openai.com/api/docs/pricing"
       ],
       "status": "deprecated",
-      "verificationStatus": "partially_verified",
-      "verifiedAt": null,
-      "verifiedSourceRefs": []
+      "verificationStatus": "verified",
+      "verifiedAt": "2026-11-06T08:16:37Z",
+      "verifiedSourceRefs": [
+        "source:openai:developers-openai-com-api-docs-models-o3"
+      ]
     },
     {
       "accessAuthority": {

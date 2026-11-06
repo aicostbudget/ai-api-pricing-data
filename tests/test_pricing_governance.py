@@ -53,10 +53,17 @@ class PricingGovernanceTests(unittest.TestCase):
             f"{row['provider_id']}/{row['model_id']}": row for row in cls.hf_payload["records"]
         }
         phase26 = read_json(PREVIEW / "phase2-6-p0-resolution.json")
+        # A frozen Phase 2.6 exclusion is lifted once canonical has verified price records for
+        # the model (OpenAI gpt-5 and o3, 2026-11-06).
+        later_verified = {
+            f"{model['provider_id']}/{model['model_id']}"
+            for model in read_json(ROOT / "data" / "canonical" / "models.json")
+            if any(record.get("verification_status") == "verified" for record in model.get("price_records") or [])
+        }
         cls.excluded_decisions = {
             row["modelInternalId"]: row
             for row in phase26["perModelDecisions"]
-            if row["finalAction"] == "exclude_from_default"
+            if row["finalAction"] == "exclude_from_default" and row["modelInternalId"] not in later_verified
         }
 
     def test_all_candidates_and_projection_rows_have_governance(self):

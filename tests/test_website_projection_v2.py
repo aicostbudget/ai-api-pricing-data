@@ -388,10 +388,18 @@ class WebsiteProjectionV2Tests(unittest.TestCase):
             self.assertFalse(row["defaultSafe"])
             self.assertIsNone(row["inputPrice"])
             self.assertIsNone(row["outputPrice"])
-        for internal_id in ("cohere/command-a-plus", "openai/gpt-5", "openai/o3"):
+        row = self.by_internal["cohere/command-a-plus"]
+        self.assertFalse(row["defaultSafe"])
+        self.assertIn("excluded_default_candidate", row["blockedFromDefaultReasons"])
+        self.assertIsNone(row["inputPrice"])
+        self.assertIsNone(row["outputPrice"])
+        # gpt-5 and o3 have verified model-page prices since 2026-11-06 but are deprecated, so they
+        # stay out of defaults and current calculation prices through their lifecycle.
+        for internal_id in ("openai/gpt-5", "openai/o3"):
             row = self.by_internal[internal_id]
             self.assertFalse(row["defaultSafe"])
-            self.assertIn("excluded_default_candidate", row["blockedFromDefaultReasons"])
+            self.assertIn("deprecated_identity", row["blockedFromDefaultReasons"])
+            self.assertNotIn("excluded_default_candidate", row["blockedFromDefaultReasons"])
             self.assertIsNone(row["inputPrice"])
             self.assertIsNone(row["outputPrice"])
 
