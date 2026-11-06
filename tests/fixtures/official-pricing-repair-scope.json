@@ -145,7 +145,8 @@
     "openai/gpt-4o-mini": "1d11eeb572b15361c521720b31d0e7a67a1981867e92788d4e52c0ca90164758",
     "openai/gpt-5": "b0b2092e76216a31e42361fe50b1abb361bccf70369bc6a4e5a3198b5cd58a79",
     "openai/gpt-5-mini": "ebf7d0022a00aeae022a0308b6925b7290f26d4f9432d65f1c5a59af858b1c6d",
-    "openai/o3": "dec1d323d06968667ae1adac106acfacf42b191051fd275ba64dd59dcbf47029"
+    "openai/o3": "dec1d323d06968667ae1adac106acfacf42b191051fd275ba64dd59dcbf47029",
+    "openai/gpt-5.5-cyber-preview": "a9bf230f3dfd53c55a3df14590180540f14fd9d9bff5cf1edb4099b46de878cb"
   },
   "projection": {
     "anthropic/claude-haiku-5-5": "af29b32c2ccf35ff1c0444c94ef97aeb28fa3a230f6207e8ec41b673f4efb078",
@@ -302,7 +303,8 @@
     "openai/gpt-4o": "c5516ec94c054a6e21f4332abcf2fdbb5fb9ec73ab1db793f69d38134ef6adc5",
     "openai/gpt-4o-mini": "a7544e206516b56b40a751d90594b024828e5646d325c54b28c382d15223ba45",
     "openai/gpt-4.1-nano": "5176a2e0b226905c08c54f96e81a43777e87ffe5b1704c889edc85c08a793335",
-    "openai/gpt-5-mini": "b1ab13a5ecc33e9f9d90c1a41713873cc71f34257e8cfd655c4280989ed57aba"
+    "openai/gpt-5-mini": "b1ab13a5ecc33e9f9d90c1a41713873cc71f34257e8cfd655c4280989ed57aba",
+    "openai/gpt-5.5-cyber-preview": "1be9a45d110997339546592e658c1171e4c9c9b92ba63af49b5804c1eba64c73"
   },
   "evidence_report": "official-pricing-repair-report.md",
   "events_sha256": "a04e3fbb1d4cb049f2d9cfcadfca3b6383fc1bcdc3df6ca0ee6cfddc38e706ed",
@@ -844,5 +846,26 @@
       "openai/o3": "deprecated"
     },
     "rationale": "Release 2026-11-06-4 records official lifecycle dates for legacy OpenAI models from the deprecations page (gpt-4o and gpt-4o-mini shut down 2027-01-14; gpt-5, gpt-5-mini and o3 on 2026-12-11) and their model-page prices; the generator appends one lifecycle_update event per model."
+  },
+  "gpt_5_5_cyber_lifecycle_extension": {
+    "identities": [
+      "openai/gpt-5.5-cyber-preview"
+    ],
+    "base_release": "openai_legacy_lifecycle_extension",
+    "base_event_count": 76,
+    "appended_event_count": 1,
+    "full_event_count": 77,
+    "full_events_sha256": "445f15c75f2fe4b293c7fd5c1f546e3b5fd1106cd7d703ac2546f7b881680a3d",
+    "appended_events_sha256": "3e26ef79ced73e629d892f43f34f1abcf0cbcce0923993af15c191b30ee643a3",
+    "appended_event_ids": [
+      "openai:gpt-5.5-cyber-preview:lifecycle_update:452bb91c1850"
+    ],
+    "appended_dedupe_keys": [
+      "sha256:452bb91c185069867e6013a1f9e36db844fb4a57747f03d83095b68b61125469"
+    ],
+    "new_statuses": {
+      "openai/gpt-5.5-cyber-preview": "deprecated"
+    },
+    "rationale": "Release 2026-11-06-6 records the gpt-5.5-cyber-preview deprecation from the OpenAI deprecations page (announced 2026-11-05, shut down 2027-02-01, no named replacement, no public price); the generator appends one lifecycle_update event."
   }
 }

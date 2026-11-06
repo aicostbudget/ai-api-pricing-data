@@ -20,6 +20,7 @@ SCHEDULED_EXTENSION=SCOPE['scheduled_price_change_backfill_extension']
 REVERIFY_1105_EXTENSION=SCOPE['reverify_2026_11_05_extension']
 ROSALIND_EXTENSION=SCOPE['gpt_6_rosalind_model_added_extension']
 LEGACY_LIFECYCLE_EXTENSION=SCOPE['openai_legacy_lifecycle_extension']
+CYBER_55_EXTENSION=SCOPE['gpt_5_5_cyber_lifecycle_extension']
 EVENTS_PATH='data/price-change-events/events.jsonl'
 DEEPSEEK_METADATA_APPROVAL={
  'identity':'deepseek/deepseek-flash',
@@ -368,6 +369,26 @@ def verify_legacy_lifecycle_release_event_bytes(raw):
   assert row['change_type']=='lifecycle_update' and row['new_status']==ext['new_statuses'][identity],identity
   assert row['date_basis']=='provider_announced' and row['official_source_url']=='https://developers.openai.com/api/docs/deprecations'
  return normalized,lines,rows
+def verify_cyber_55_release_event_bytes(raw):
+ normalized,lines,rows=event_lines_rows(raw)
+ ext=CYBER_55_EXTENSION
+ assert ext['base_release']=='openai_legacy_lifecycle_extension','unexpected GPT-5.5 Cyber base release'
+ assert hashlib.sha256(normalized).hexdigest()==ext['full_events_sha256'],'unapproved GPT-5.5 Cyber release event content'
+ assert len(rows)==ext['full_event_count']==ext['base_event_count']+ext['appended_event_count']==77
+ id_set=set(ext['appended_event_ids'])
+ appended=[(line,row) for line,row in zip(lines,rows) if row['event_id'] in id_set]
+ verify_legacy_lifecycle_release_event_bytes(b''.join(line for line,row in zip(lines,rows) if row['event_id'] not in id_set))
+ assert [row['event_id'] for _,row in appended]==ext['appended_event_ids']
+ assert [row['dedupe_key'] for _,row in appended]==ext['appended_dedupe_keys']
+ assert hashlib.sha256(b''.join(line for line,_ in appended)).hexdigest()==ext['appended_events_sha256']
+ for _,row in appended:
+  identity=row['provider_id']+'/'+row['model_id']
+  assert identity in ext['identities'],identity
+  assert row['change_type']=='lifecycle_update' and row['new_status']==ext['new_statuses'][identity],identity
+  assert row['date_basis']=='provider_announced' and row['official_source_url']=='https://developers.openai.com/api/docs/deprecations'
+  assert row['new_lifecycle']=={'deprecation_date':'2026-11-05','retirement_date':'2027-02-01'}
+  assert row['new_prices']=={'cached_input':None,'input':None,'output':None}
+ return normalized,lines,rows
 def verify_checkpoint(checkpoint=CHECKPOINT,current_raw=None):
  assert re.fullmatch(r'[0-9a-f]{40}',checkpoint['source_commit']),'invalid checkpoint source commit'
  assert re.fullmatch(r'[0-9a-f]{40}',checkpoint['parent_commit']),'invalid checkpoint parent commit'
@@ -523,7 +544,7 @@ class ClosureScopeTests(unittest.TestCase):
   with self.assertRaisesRegex(AssertionError,'unapproved change: '+mistral['identity']):verify_rows(old,mutated,approved)
  def test_all_current_events_exact_and_correction_is_not_provider_event(self):
   verify_checkpoint(CHECKPOINT)
-  _,_,events=verify_legacy_lifecycle_release_event_bytes((ROOT/EVENTS_PATH).read_bytes())
+  _,_,events=verify_cyber_55_release_event_bytes((ROOT/EVENTS_PATH).read_bytes())
   self.assertFalse(any(e['model_id']=='gemini-2.5-flash-image' and e['detected_at']=='2026-10-09' for e in events))
  def test_event_digest_pinned_to_approved_commit(self):
   self.assertEqual(SCOPE['events_source_commit'],'1c7ec3eca94f0bfdc99b7ae18616bdce38be8833')
@@ -533,8 +554,10 @@ class ClosureScopeTests(unittest.TestCase):
  def test_e1_checkpoint_identity_scope_and_increment(self):
   self.assertEqual(len(SCOPE['event_checkpoints']),1);blob,rows=verify_checkpoint();self.assertEqual(len(blob.splitlines()),37);self.assertEqual(len(rows),37)
  def test_argon_release_is_the_38_event_base_of_the_mistral_release(self):
-  current=(ROOT/EVENTS_PATH).read_bytes();normalized,lines,rows=verify_legacy_lifecycle_release_event_bytes(current)
-  self.assertEqual(normalized,normalize_event_newlines(current));self.assertEqual(len(rows),76)
+  current=(ROOT/EVENTS_PATH).read_bytes();normalized,lines,rows=verify_cyber_55_release_event_bytes(current)
+  self.assertEqual(normalized,normalize_event_newlines(current));self.assertEqual(len(rows),77)
+  cyber_ids=set(CYBER_55_EXTENSION['appended_event_ids']);legacy_release=b''.join(line for line,row in zip(lines,rows) if row['event_id'] not in cyber_ids)
+  normalized,lines,rows=verify_legacy_lifecycle_release_event_bytes(legacy_release);self.assertEqual(len(rows),76)
   legacy_ids=set(LEGACY_LIFECYCLE_EXTENSION['appended_event_ids']);rosalind_release=b''.join(line for line,row in zip(lines,rows) if row['event_id'] not in legacy_ids)
   normalized,lines,rows=verify_rosalind_release_event_bytes(rosalind_release);self.assertEqual(len(rows),71)
   rosalind_ids=set(ROSALIND_EXTENSION['appended_event_ids']);scheduled_release=b''.join(line for line,row in zip(lines,rows) if row['event_id'] not in rosalind_ids)
@@ -560,7 +583,7 @@ class ClosureScopeTests(unittest.TestCase):
  def test_event_lf_and_crlf_have_same_approved_digest(self):
   historical=approved_event_bytes();self.assertEqual(verify_event_bytes(historical),historical);self.assertEqual(verify_event_bytes(historical.replace(b'\n',b'\r\n')),historical)
   current=checkpoint_event_bytes();self.assertEqual(verify_current_event_bytes(current)[0],current);self.assertEqual(verify_current_event_bytes(current.replace(b'\n',b'\r\n'))[0],current)
-  release=normalize_event_newlines((ROOT/EVENTS_PATH).read_bytes());self.assertEqual(verify_legacy_lifecycle_release_event_bytes(release)[0],release);self.assertEqual(verify_legacy_lifecycle_release_event_bytes(release.replace(b'\n',b'\r\n'))[0],release)
+  release=normalize_event_newlines((ROOT/EVENTS_PATH).read_bytes());self.assertEqual(verify_cyber_55_release_event_bytes(release)[0],release);self.assertEqual(verify_cyber_55_release_event_bytes(release.replace(b'\n',b'\r\n'))[0],release)
  def test_event_field_mutations_rejected(self):
   historical=approved_event_bytes();rows=[json.loads(line) for line in historical.splitlines()];self.assertEqual(encode(rows),historical)
   def fields(value,path=()):

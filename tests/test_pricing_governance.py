@@ -218,6 +218,7 @@ class PricingGovernanceTests(unittest.TestCase):
             "openai/gpt-4o-mini-tts-2025-12-15",
             "openai/gpt-4o-mini-tts-2025-03-20",
             "openai/gpt-5.4-cyber",
+            "openai/gpt-5.5-cyber-preview",
         })
         for internal_id in lifecycle_only:
             self.assertEqual(self.projection[internal_id]["pricingSourceType"], "none")
