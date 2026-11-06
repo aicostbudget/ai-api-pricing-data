@@ -950,8 +950,11 @@ class XaiImageLifecycleTests(unittest.TestCase):
         records = {row["model_id"]: row for row in self.hf_records if row["provider_id"] == "xai"}
         self.assertNotIn(self.OLD_ID, records)
         self.assertNotIn(self.NEW_ID, records)
+        # per_image is a public billing unit (docs/billing-unit-vnext-decision.md); only image generation
+        # priced by configuration stays deferred. Meta SAM 3.1 bills a flat price per segmented image.
+        per_image = {(record["provider_id"], record["model_id"]) for record in self.hf_records if record["billing_unit"] == "per_image"}
+        self.assertEqual(per_image, {("meta", "sam-3.1")})
         for record in self.hf_records:
-            self.assertNotEqual(record["billing_unit"], "per_image")
             for component in record["pricing_components"]:
                 self.assertNotIn("configuration", component["condition"])
 

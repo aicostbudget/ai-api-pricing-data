@@ -15040,6 +15040,53 @@
   },
   {
     "availabilityRules": [],
+    "billingNote": "Meta Model API pay-as-you-go price for audio processed, metered in whole seconds (rounded down). Streaming (realtime WebSocket) and file transcription cost the same, and zero data retention is priced at parity. Contributor mode is not available.",
+    "calculationDefault": true,
+    "charges": [
+      {
+        "amount": "0.18",
+        "chargeId": "price:meta/muse-voice-transcribe-1.0:standard:short:current:session_duration:audio:per_hour",
+        "component": "session_duration",
+        "modality": "audio",
+        "unit": "per_hour"
+      }
+    ],
+    "checkedAt": "2026-11-06T06:26:15Z",
+    "contextClass": "short",
+    "currency": "USD",
+    "defaultAvailabilityStatus": "available",
+    "effectiveFrom": null,
+    "effectiveUntil": null,
+    "modelInternalId": "meta/muse-voice-transcribe-1.0",
+    "priceAdjustments": [],
+    "pricingId": "price:meta/muse-voice-transcribe-1.0:standard:short:current",
+    "pricingStatus": "current",
+    "processingMode": "standard",
+    "promptTokenThreshold": null,
+    "regionPolicy": "global",
+    "regionSelector": {
+      "dataResidencies": [
+        "global"
+      ],
+      "endpointGeographies": [
+        "global"
+      ],
+      "pricingGeography": "global_base"
+    },
+    "sourceDatasetIds": {
+      "publicDatasetIds": [
+        "muse-voice-transcribe-1.0"
+      ],
+      "websiteIds": []
+    },
+    "sourceRefs": [
+      "source:meta:dev-meta-ai-docs-pricing-rate-limits-md"
+    ],
+    "verificationStatus": "verified",
+    "verifiedAt": "2026-11-06T06:26:15Z"
+  },
+  {
+    "availabilityRules": [],
     "billingNote": "Standard mode pay-as-you-go pricing on Meta Model API. Cached input applies to tokens served from a cached prompt prefix. No long-context premium. Contributor mode is not available for Muse Wonder on Model API. Web search grounding is billed separately at $2.50 per 1,000 queries.",
     "calculationDefault": true,
     "charges": [
@@ -15098,6 +15145,53 @@
     ],
     "verificationStatus": "verified",
     "verifiedAt": "2026-11-05T15:05:40Z"
+  },
+  {
+    "availabilityRules": [],
+    "billingNote": "Image segmentation at $2.50 per 1,000 images on Meta Model API. Video segmentation costs $0.20 per 1,000 frames, with each video request billed for at least 50 frames (usage.video_frames_processed reports the frames billed); the dataset has no per-frame unit, so the video rate is kept in this note. Streaming and non-streaming requests cost the same.",
+    "calculationDefault": true,
+    "charges": [
+      {
+        "amount": "0.0025",
+        "chargeId": "price:meta/sam-3.1:standard:short:current:input:image:per_image",
+        "component": "input",
+        "modality": "image",
+        "unit": "per_image"
+      }
+    ],
+    "checkedAt": "2026-11-06T06:26:18Z",
+    "contextClass": "short",
+    "currency": "USD",
+    "defaultAvailabilityStatus": "available",
+    "effectiveFrom": null,
+    "effectiveUntil": null,
+    "modelInternalId": "meta/sam-3.1",
+    "priceAdjustments": [],
+    "pricingId": "price:meta/sam-3.1:standard:short:current",
+    "pricingStatus": "current",
+    "processingMode": "standard",
+    "promptTokenThreshold": null,
+    "regionPolicy": "global",
+    "regionSelector": {
+      "dataResidencies": [
+        "global"
+      ],
+      "endpointGeographies": [
+        "global"
+      ],
+      "pricingGeography": "global_base"
+    },
+    "sourceDatasetIds": {
+      "publicDatasetIds": [
+        "sam-3.1"
+      ],
+      "websiteIds": []
+    },
+    "sourceRefs": [
+      "source:meta:dev-meta-ai-docs-pricing-rate-limits-md"
+    ],
+    "verificationStatus": "verified",
+    "verifiedAt": "2026-11-06T06:26:18Z"
   },
   {
     "availabilityRules": [],

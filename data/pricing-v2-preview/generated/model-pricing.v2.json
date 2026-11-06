@@ -9,7 +9,7 @@
     "review_required": "display only with warning; no default or recommendation placement",
     "unsafe": "exclude from default calculations and show warning only where explicitly allowed"
   },
-  "effectiveAt": "2026-11-06T05:53:00Z",
+  "effectiveAt": "2026-11-06T06:27:13Z",
   "effectiveTimezone": "UTC",
   "failureBehavior": {
     "atomicWrite": true,
@@ -18,7 +18,7 @@
     "partialJson": "not_written",
     "publicV1Mutation": "forbidden"
   },
-  "generatedAt": "2026-11-06T05:53:00Z",
+  "generatedAt": "2026-11-06T06:27:13Z",
   "generatedAtPolicy": "UTC artifact generation timestamp injected by the generation pipeline",
   "governancePolicy": {
     "classes": [
@@ -41958,6 +41958,161 @@
     },
     {
       "accessAuthority": {
+        "baseRevision": "59a05c56c33ab847157a28905875846453e8b3d4",
+        "factSha256": "df310f1ce61e6636e8925ba1c5ad9dd9d0b95912c5e5428534942d0ca5881407",
+        "kind": "canonical",
+        "revisionScope": "base_revision_plus_fact_digest"
+      },
+      "accessCheckedAt": "2026-11-06T06:26:15Z",
+      "accessEvidence": [
+        {
+          "claimType": "official_access_public",
+          "officialModelId": "muse-voice-transcribe-1.0",
+          "scope": "Exact hosted model on Meta Model API (realtime and file transcription) under ordinary pay-as-you-go account requirements, subject to the Geographic Use Policy.",
+          "sourceRef": "source:meta:dev-meta-ai-docs-models-md",
+          "title": "muse-voice-transcribe-1.0 official model availability documentation",
+          "url": "https://dev.meta.ai/docs/models.md"
+        }
+      ],
+      "accessStatus": "public",
+      "aliasTargetInternalId": null,
+      "availability": "active",
+      "batchInputPrice": null,
+      "batchOutputPrice": null,
+      "billingModelInternalId": null,
+      "billingNote": "Meta Model API pay-as-you-go price for audio processed, metered in whole seconds (rounded down). Streaming (realtime WebSocket) and file transcription cost the same, and zero data retention is priced at parity. Contributor mode is not available.",
+      "bindingEvidence": [
+        {
+          "claimType": "official_identity_binding",
+          "officialModelId": "muse-voice-transcribe-1.0",
+          "reason": "Exact documented API model ID; no entitlement inherited from a billing target.",
+          "sourceRef": "source:meta:dev-meta-ai-docs-models-md",
+          "title": "muse-voice-transcribe-1.0 official identity documentation",
+          "url": "https://dev.meta.ai/docs/models.md"
+        }
+      ],
+      "bindingStatus": "approved",
+      "blockedFromDefaultReasons": [
+        "missing_verified_current_price"
+      ],
+      "cachedInputPrice": null,
+      "canonicalInternalId": "meta/muse-voice-transcribe-1.0",
+      "checkedAt": "2026-11-06T06:26:15Z",
+      "checkedSourceRefs": [
+        "source:meta:dev-meta-ai-docs-pricing-rate-limits-md"
+      ],
+      "contextWindow": null,
+      "contextWindowStatus": "unknown_not_guessed",
+      "defaultPriceSelectionRule": [
+        "current_effective_utc",
+        "verified",
+        "standard",
+        "text",
+        "default_context_class"
+      ],
+      "defaultSafe": false,
+      "deprecationDate": null,
+      "governanceClass": "VERIFIED_CANONICAL",
+      "governanceDetails": null,
+      "governanceReason": "canonical_verified_non_token_public_projection",
+      "governanceSourceCandidateIds": [
+        "meta/muse-voice-transcribe-1.0"
+      ],
+      "id": "muse-voice-transcribe-1.0",
+      "identityType": "canonical_model",
+      "inputPrice": null,
+      "lifecycleStatus": "active",
+      "model": "Muse Voice Transcribe 1.0",
+      "officialSourceUrl": "https://dev.meta.ai/docs/pricing-rate-limits.md",
+      "outputPrice": null,
+      "priceRecords": [
+        {
+          "calculationDefault": true,
+          "checkedAt": "2026-11-06T06:26:15Z",
+          "contextClass": "short",
+          "effectiveFrom": null,
+          "effectiveUntil": null,
+          "pricingId": "price:meta/muse-voice-transcribe-1.0:standard:short:current",
+          "pricingStatus": "current",
+          "processingMode": "standard",
+          "sourceRefs": [
+            "source:meta:dev-meta-ai-docs-pricing-rate-limits-md"
+          ],
+          "verificationStatus": "verified",
+          "verifiedAt": "2026-11-06T06:26:15Z"
+        }
+      ],
+      "pricingComponents": [
+        {
+          "amount": "0.18",
+          "calculationDefault": true,
+          "chargeId": "price:meta/muse-voice-transcribe-1.0:standard:short:current:session_duration:audio:per_hour",
+          "component": "session_duration",
+          "condition": {
+            "availabilityRules": [],
+            "contextClass": "short",
+            "defaultAvailabilityStatus": "available",
+            "effectiveFrom": null,
+            "effectiveUntil": null,
+            "priceAdjustments": [],
+            "processingMode": "standard",
+            "promptTokenThreshold": null,
+            "regionPolicy": "global",
+            "regionSelector": {
+              "dataResidencies": [
+                "global"
+              ],
+              "endpointGeographies": [
+                "global"
+              ],
+              "pricingGeography": "global_base"
+            },
+            "tierSelection": null
+          },
+          "currency": "USD",
+          "modality": "audio",
+          "pricingId": "price:meta/muse-voice-transcribe-1.0:standard:short:current",
+          "sourceRefs": [
+            "source:meta:dev-meta-ai-docs-pricing-rate-limits-md"
+          ],
+          "unit": "per_hour",
+          "verificationStatus": "verified"
+        }
+      ],
+      "pricingSourceType": "canonical_verified_structured_price",
+      "provider": "meta",
+      "publicExposure": "public",
+      "redirectTargetInternalId": null,
+      "releaseSourceRef": null,
+      "releaseSourceUrl": null,
+      "releaseStage": "stable",
+      "releasedAt": null,
+      "replacementInternalId": null,
+      "retirementDate": null,
+      "routingBehavior": "direct",
+      "routingDetails": {},
+      "selectedBatchPriceRecordId": null,
+      "selectedBillingPriceRecordId": "price:meta/muse-voice-transcribe-1.0:standard:short:current",
+      "selectedPriceEffectiveFrom": null,
+      "selectedPriceEffectiveUntil": null,
+      "selectedPriceRecordId": null,
+      "sourceRefs": [
+        "source:meta:dev-meta-ai-docs-models-md",
+        "source:meta:dev-meta-ai-docs-pricing-rate-limits-md"
+      ],
+      "sourceUrls": [
+        "https://dev.meta.ai/docs/models.md",
+        "https://dev.meta.ai/docs/pricing-rate-limits.md"
+      ],
+      "status": "latest",
+      "verificationStatus": "verified",
+      "verifiedAt": "2026-11-06T06:26:15Z",
+      "verifiedSourceRefs": [
+        "source:meta:dev-meta-ai-docs-pricing-rate-limits-md"
+      ]
+    },
+    {
+      "accessAuthority": {
         "baseRevision": "f4bf7755332cb31c26cb910a08cfb8b6b3a59ce6",
         "factSha256": "1c181d779f1e13044f95ef8b10f0631899d4efe884b51a1c1d6a3ae9ea2243d6",
         "kind": "canonical",
@@ -42175,6 +42330,160 @@
       "status": "preview",
       "verificationStatus": "verified",
       "verifiedAt": "2026-11-05T15:05:40Z",
+      "verifiedSourceRefs": [
+        "source:meta:dev-meta-ai-docs-pricing-rate-limits-md"
+      ]
+    },
+    {
+      "accessAuthority": {
+        "baseRevision": "59a05c56c33ab847157a28905875846453e8b3d4",
+        "factSha256": "dc9c6bf28145ba740e43f1ca181c4ef76f1531d3467166cc3f1225c0c348e477",
+        "kind": "canonical",
+        "revisionScope": "base_revision_plus_fact_digest"
+      },
+      "accessCheckedAt": "2026-11-06T06:26:18Z",
+      "accessEvidence": [
+        {
+          "claimType": "official_access_public",
+          "officialModelId": "sam-3.1",
+          "scope": "Exact hosted model on Meta Model API (image and video segmentation) under ordinary pay-as-you-go account requirements, subject to the Geographic Use Policy.",
+          "sourceRef": "source:meta:dev-meta-ai-docs-models-md",
+          "title": "sam-3.1 official model availability documentation",
+          "url": "https://dev.meta.ai/docs/models.md"
+        }
+      ],
+      "accessStatus": "public",
+      "aliasTargetInternalId": null,
+      "availability": "active",
+      "batchInputPrice": null,
+      "batchOutputPrice": null,
+      "billingModelInternalId": null,
+      "bindingEvidence": [
+        {
+          "claimType": "official_identity_binding",
+          "officialModelId": "sam-3.1",
+          "reason": "Exact documented API model ID; no entitlement inherited from a billing target.",
+          "sourceRef": "source:meta:dev-meta-ai-docs-models-md",
+          "title": "sam-3.1 official identity documentation",
+          "url": "https://dev.meta.ai/docs/models.md"
+        }
+      ],
+      "bindingStatus": "approved",
+      "blockedFromDefaultReasons": [
+        "missing_verified_current_price"
+      ],
+      "cachedInputPrice": null,
+      "canonicalInternalId": "meta/sam-3.1",
+      "checkedAt": "2026-11-06T06:26:18Z",
+      "checkedSourceRefs": [
+        "source:meta:dev-meta-ai-docs-pricing-rate-limits-md"
+      ],
+      "contextWindow": null,
+      "contextWindowStatus": "unknown_not_guessed",
+      "defaultPriceSelectionRule": [
+        "current_effective_utc",
+        "verified",
+        "standard",
+        "text",
+        "default_context_class"
+      ],
+      "defaultSafe": false,
+      "deprecationDate": null,
+      "governanceClass": "VERIFIED_CANONICAL",
+      "governanceDetails": null,
+      "governanceReason": "canonical_verified_non_token_public_projection",
+      "governanceSourceCandidateIds": [
+        "meta/sam-3.1"
+      ],
+      "id": "sam-3.1",
+      "identityType": "canonical_model",
+      "inputPrice": null,
+      "lifecycleStatus": "active",
+      "model": "Segment Anything Model 3.1",
+      "officialSourceUrl": "https://dev.meta.ai/docs/pricing-rate-limits.md",
+      "outputPrice": null,
+      "priceRecords": [
+        {
+          "calculationDefault": true,
+          "checkedAt": "2026-11-06T06:26:18Z",
+          "contextClass": "short",
+          "effectiveFrom": null,
+          "effectiveUntil": null,
+          "pricingId": "price:meta/sam-3.1:standard:short:current",
+          "pricingStatus": "current",
+          "processingMode": "standard",
+          "sourceRefs": [
+            "source:meta:dev-meta-ai-docs-pricing-rate-limits-md"
+          ],
+          "verificationStatus": "verified",
+          "verifiedAt": "2026-11-06T06:26:18Z"
+        }
+      ],
+      "pricingComponents": [
+        {
+          "amount": "0.0025",
+          "calculationDefault": true,
+          "chargeId": "price:meta/sam-3.1:standard:short:current:input:image:per_image",
+          "component": "input",
+          "condition": {
+            "availabilityRules": [],
+            "contextClass": "short",
+            "defaultAvailabilityStatus": "available",
+            "effectiveFrom": null,
+            "effectiveUntil": null,
+            "priceAdjustments": [],
+            "processingMode": "standard",
+            "promptTokenThreshold": null,
+            "regionPolicy": "global",
+            "regionSelector": {
+              "dataResidencies": [
+                "global"
+              ],
+              "endpointGeographies": [
+                "global"
+              ],
+              "pricingGeography": "global_base"
+            },
+            "tierSelection": null
+          },
+          "currency": "USD",
+          "modality": "image",
+          "pricingId": "price:meta/sam-3.1:standard:short:current",
+          "sourceRefs": [
+            "source:meta:dev-meta-ai-docs-pricing-rate-limits-md"
+          ],
+          "unit": "per_image",
+          "verificationStatus": "verified"
+        }
+      ],
+      "pricingSourceType": "canonical_verified_structured_price",
+      "provider": "meta",
+      "publicExposure": "public",
+      "redirectTargetInternalId": null,
+      "releaseSourceRef": null,
+      "releaseSourceUrl": null,
+      "releaseStage": "stable",
+      "releasedAt": null,
+      "replacementInternalId": null,
+      "retirementDate": null,
+      "routingBehavior": "direct",
+      "routingDetails": {},
+      "selectedBatchPriceRecordId": null,
+      "selectedBillingPriceRecordId": "price:meta/sam-3.1:standard:short:current",
+      "selectedPriceEffectiveFrom": null,
+      "selectedPriceEffectiveUntil": null,
+      "selectedPriceRecordId": null,
+      "sourceRefs": [
+        "source:meta:dev-meta-ai-docs-models-md",
+        "source:meta:dev-meta-ai-docs-pricing-rate-limits-md"
+      ],
+      "sourceUrls": [
+        "https://dev.meta.ai/docs/models.md",
+        "https://dev.meta.ai/docs/pricing-rate-limits.md"
+      ],
+      "status": "latest",
+      "verificationStatus": "verified",
+      "verifiedAt": "2026-11-06T06:26:18Z",
       "verifiedSourceRefs": [
         "source:meta:dev-meta-ai-docs-pricing-rate-limits-md"
       ]

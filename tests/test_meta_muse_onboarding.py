@@ -17,6 +17,11 @@ EXPECTED = {
 }
 # Muse Image is billed per generated image, not per token.
 IMAGE_MODEL = "muse-image-1.0"
+# Non-token public models: (unit, amount) of their single Standard charge.
+NON_TOKEN = {
+    "muse-voice-transcribe-1.0": ("session_duration", "audio", "per_hour", "0.18"),
+    "sam-3.1": ("input", "image", "per_image", "0.0025"),
+}
 
 
 def read_json(path: Path):
@@ -43,8 +48,17 @@ class MetaMuseOnboardingTests(unittest.TestCase):
         self.assertTrue(provider["pricing_url"].startswith("https://dev.meta.ai/"))
         self.assertEqual(
             {model_id for provider_id, model_id in self.canonical if provider_id == PROVIDER},
-            set(EXPECTED) | {IMAGE_MODEL},
+            set(EXPECTED) | {IMAGE_MODEL} | set(NON_TOKEN),
         )
+
+    def test_voice_transcribe_and_sam_are_public_non_token_prices(self):
+        for model_id, expected in NON_TOKEN.items():
+            [record] = self.canonical[(PROVIDER, model_id)]["price_records"]
+            [charge] = record["charges"]
+            self.assertEqual((charge["component"], charge["modality"], charge["unit"], charge["amount"]), expected, model_id)
+            self.assertIn((PROVIDER, model_id), self.hf_records)
+        # No per-frame unit exists, so SAM's video rate lives in the billing note.
+        self.assertIn("$0.20 per 1,000 frames", self.canonical[(PROVIDER, "sam-3.1")]["price_records"][0]["billing_note"])
 
     def test_muse_image_is_a_flat_per_image_price(self):
         model = self.canonical[(PROVIDER, IMAGE_MODEL)]
