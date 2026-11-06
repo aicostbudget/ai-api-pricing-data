@@ -15,6 +15,8 @@ EXPECTED = {
     "muse-wonder-1.0": ("4", "0.2", "20"),
     "muse-spark-1.3": ("1.25", "0.15", "4.25"),
 }
+# Muse Image is billed per generated image, not per token.
+IMAGE_MODEL = "muse-image-1.0"
 
 
 def read_json(path: Path):
@@ -41,8 +43,17 @@ class MetaMuseOnboardingTests(unittest.TestCase):
         self.assertTrue(provider["pricing_url"].startswith("https://dev.meta.ai/"))
         self.assertEqual(
             {model_id for provider_id, model_id in self.canonical if provider_id == PROVIDER},
-            set(EXPECTED),
+            set(EXPECTED) | {IMAGE_MODEL},
         )
+
+    def test_muse_image_is_a_flat_per_image_price(self):
+        model = self.canonical[(PROVIDER, IMAGE_MODEL)]
+        self.assertNotIn("price_records", model)
+        [component] = model["pricing_components"]
+        self.assertEqual((component["component"], component["unit"], component["amount"]), ("output", "per_image", 0.01))
+        self.assertEqual(component["configuration"], {"size": "any"})
+        # Structured per-image pricing stays out of the public token dataset, like the other image models.
+        self.assertNotIn((PROVIDER, IMAGE_MODEL), self.hf_records)
 
     def test_standard_mode_prices_only(self):
         for model_id, values in EXPECTED.items():

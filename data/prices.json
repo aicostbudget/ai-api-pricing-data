@@ -2,14 +2,14 @@
   "dataset_name": "AICostBudget AI API Pricing Dataset",
   "dataset_version": "1.0.0",
   "description": "Open, machine-readable pricing data for LLM and AI APIs.",
-  "generated_at": "2026-11-05T18:58:18Z",
+  "generated_at": "2026-11-06T05:53:00Z",
   "homepage": "https://aicostbudget.com",
-  "last_verified_at": "2026-11-05T18:07:06Z",
+  "last_verified_at": "2026-11-06T05:51:06Z",
   "licenses": {
     "code": "MIT",
     "data": "CC BY 4.0"
   },
-  "model_count": 167,
+  "model_count": 168,
   "models": [
     {
       "access_checked_at": "2026-10-28T16:44:42Z",
@@ -16608,6 +16608,56 @@
       },
       "release_stage": "stable",
       "released_at": "2026-10-06",
+      "status": "active"
+    },
+    {
+      "accessed_at": "2026-11-06T05:51:06Z",
+      "display_name": "Muse Image 1.0",
+      "effective_from": null,
+      "input_modality": "image",
+      "last_verified_at": "2026-11-06T05:51:06Z",
+      "model_category": "image_generation",
+      "model_family": "Muse Image",
+      "model_id": "muse-image-1.0",
+      "notes": "Official API model ID muse-image-1.0 on Meta Model API (Responses API and the OpenAI-compatible /v1/images/generations and /v1/images/edits endpoints). Flat $0.01 per generated image regardless of prompt length, size (which only sets the aspect ratio), reasoning_strength, reference images or the built-in web and image search; a request for n images is billed for n, and images that fail or are removed by safety filtering are not billed. No Batch or Contributor-mode rate. Availability varies by country under Meta's Geographic Use Policy. Meta does not publish a release date.",
+      "official_source_url": "https://dev.meta.ai/docs/pricing-rate-limits.md",
+      "official_source_urls": [
+        "https://dev.meta.ai/docs/pricing-rate-limits.md",
+        "https://dev.meta.ai/docs/models.md"
+      ],
+      "output_modality": "image",
+      "pricing": {
+        "batch_input": null,
+        "batch_output": null,
+        "cache_write": null,
+        "cache_write_1h": null,
+        "cached_input": null,
+        "currency": "USD",
+        "input": null,
+        "output": null,
+        "unit": null
+      },
+      "pricing_components": [
+        {
+          "amount": 0.01,
+          "calculation_default": true,
+          "component": "output",
+          "configuration": {
+            "size": "any"
+          },
+          "currency": "USD",
+          "effective_from": null,
+          "effective_until": null,
+          "id": "output_image_any_size",
+          "modality": "image",
+          "pricing_status": "current",
+          "processing_mode": "standard",
+          "unit": "per_image"
+        }
+      ],
+      "provider_id": "meta",
+      "release_stage": "stable",
+      "released_at": null,
       "status": "active"
     },
     {

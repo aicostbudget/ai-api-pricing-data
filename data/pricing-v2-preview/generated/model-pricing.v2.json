@@ -9,7 +9,7 @@
     "review_required": "display only with warning; no default or recommendation placement",
     "unsafe": "exclude from default calculations and show warning only where explicitly allowed"
   },
-  "effectiveAt": "2026-11-05T18:58:18Z",
+  "effectiveAt": "2026-11-06T05:53:00Z",
   "effectiveTimezone": "UTC",
   "failureBehavior": {
     "atomicWrite": true,
@@ -18,7 +18,7 @@
     "partialJson": "not_written",
     "publicV1Mutation": "forbidden"
   },
-  "generatedAt": "2026-11-05T18:58:18Z",
+  "generatedAt": "2026-11-06T05:53:00Z",
   "generatedAtPolicy": "UTC artifact generation timestamp injected by the generation pipeline",
   "governancePolicy": {
     "classes": [
@@ -41600,6 +41600,137 @@
         "source:google-gemini:ai-google-dev-gemini-api-docs-deprecations",
         "source:google-gemini:ai-google-dev-gemini-api-docs-models-gemini-nano-banana-2-1",
         "source:google-gemini:ai-google-dev-gemini-api-docs-pricing"
+      ]
+    },
+    {
+      "accessAuthority": {
+        "baseRevision": "8305c10f5ffac955916f4ccdf2efbf9602582486",
+        "factSha256": "96ff893e6c3e833719098f61e87a8d7fe9a3b3899bddb56ee72dbc52e92ae756",
+        "kind": "canonical",
+        "revisionScope": "base_revision_plus_fact_digest"
+      },
+      "accessCheckedAt": null,
+      "accessEvidence": [],
+      "accessStatus": "unknown",
+      "aliasTargetInternalId": null,
+      "availability": "active",
+      "batchInputPrice": null,
+      "batchOutputPrice": null,
+      "billingModelInternalId": null,
+      "bindingEvidence": [],
+      "bindingStatus": "unresolved",
+      "blockedFromDefaultReasons": [
+        "missing_verified_current_price"
+      ],
+      "cachedInputPrice": null,
+      "canonicalInternalId": "meta/muse-image-1.0",
+      "checkedAt": "2026-11-06T05:51:06Z",
+      "checkedSourceRefs": [
+        "source:meta:dev-meta-ai-docs-models-md",
+        "source:meta:dev-meta-ai-docs-pricing-rate-limits-md"
+      ],
+      "contextWindow": null,
+      "contextWindowStatus": "unknown_not_guessed",
+      "defaultPriceSelectionRule": [
+        "current_effective_utc",
+        "verified",
+        "standard",
+        "text",
+        "default_context_class"
+      ],
+      "defaultSafe": false,
+      "deprecationDate": null,
+      "governanceClass": "PROJECTED_IDENTITY",
+      "governanceDetails": "Structured pricing cannot be represented losslessly by the current public Dataset 1.5 contract.",
+      "governanceReason": "internal_structured_pricing_deferred_from_public_dataset",
+      "governanceSourceCandidateIds": [
+        "meta/muse-image-1.0"
+      ],
+      "id": "muse-image-1.0",
+      "identityType": "canonical_model",
+      "inputPrice": null,
+      "lifecycleStatus": "active",
+      "model": "Muse Image 1.0",
+      "officialSourceUrl": "https://dev.meta.ai/docs/models.md",
+      "outputPrice": null,
+      "priceRecords": [
+        {
+          "calculationDefault": true,
+          "checkedAt": "2026-11-06T05:51:06Z",
+          "contextClass": "short",
+          "effectiveFrom": null,
+          "effectiveUntil": null,
+          "pricingId": "price:meta/muse-image-1.0:standard:short:current:output_image_any_size",
+          "pricingStatus": "current",
+          "processingMode": "standard",
+          "sourceRefs": [
+            "source:meta:dev-meta-ai-docs-models-md",
+            "source:meta:dev-meta-ai-docs-pricing-rate-limits-md"
+          ],
+          "verificationStatus": "verified",
+          "verifiedAt": "2026-11-06T05:51:06Z"
+        }
+      ],
+      "pricingComponents": [
+        {
+          "amount": "0.01",
+          "calculationDefault": true,
+          "chargeId": "price:meta/muse-image-1.0:standard:short:current:output_image_any_size:output:image:per_image",
+          "component": "output",
+          "condition": {
+            "configuration": {
+              "size": "any"
+            },
+            "contextClass": "short",
+            "effectiveFrom": null,
+            "effectiveUntil": null,
+            "processingMode": "standard",
+            "promptTokenThreshold": null,
+            "regionPolicy": "global",
+            "tierSelection": null
+          },
+          "currency": "USD",
+          "modality": "image",
+          "pricingId": "price:meta/muse-image-1.0:standard:short:current:output_image_any_size",
+          "sourceRefs": [
+            "source:meta:dev-meta-ai-docs-models-md",
+            "source:meta:dev-meta-ai-docs-pricing-rate-limits-md"
+          ],
+          "unit": "per_image",
+          "verificationStatus": "verified"
+        }
+      ],
+      "pricingSourceType": "canonical_verified_structured_price",
+      "provider": "meta",
+      "publicExposure": "excluded",
+      "redirectTargetInternalId": null,
+      "releaseSourceRef": null,
+      "releaseSourceUrl": null,
+      "releaseStage": "stable",
+      "releasedAt": null,
+      "replacementInternalId": null,
+      "retirementDate": null,
+      "routingBehavior": "direct",
+      "routingDetails": {},
+      "selectedBatchPriceRecordId": null,
+      "selectedBillingPriceRecordId": "price:meta/muse-image-1.0:standard:short:current:output_image_any_size",
+      "selectedPriceEffectiveFrom": null,
+      "selectedPriceEffectiveUntil": null,
+      "selectedPriceRecordId": null,
+      "sourceRefs": [
+        "source:meta:dev-meta-ai-docs-models-md",
+        "source:meta:dev-meta-ai-docs-pricing-rate-limits-md"
+      ],
+      "sourceUrls": [
+        "https://dev.meta.ai/docs/models.md",
+        "https://dev.meta.ai/docs/pricing-rate-limits.md"
+      ],
+      "status": "latest",
+      "verificationStatus": "verified",
+      "verifiedAt": "2026-11-06T05:51:06Z",
+      "verifiedSourceRefs": [
+        "source:meta:dev-meta-ai-docs-models-md",
+        "source:meta:dev-meta-ai-docs-pricing-rate-limits-md"
       ]
     },
     {
