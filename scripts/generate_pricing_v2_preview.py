@@ -2069,6 +2069,10 @@ def status_parts(provider_id: str, model_id: str, public: dict[str, Any] | None,
             authority = (lifecycle_authority.load_authority() if mini_authority is None
                          else lifecycle_authority.validate_authority([mini_authority]))
             lifecycle = authority["normalizedLifecycleStatus"]
+        elif (provider_id, model_id) == ("openai", "gpt-4.1-nano") and website_status == "retired":
+            # OpenAI shut gpt-4.1-nano down on 2026-10-23 (deprecations page); the Website
+            # editorial row records it as retired. The family review gate is unchanged.
+            lifecycle = "retired"
         return {
             "lifecycleStatus": lifecycle,
             "releaseStage": "legacy",
