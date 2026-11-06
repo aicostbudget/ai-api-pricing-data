@@ -23535,6 +23535,168 @@
   },
   {
     "availabilityRules": [],
+    "billingNote": "Standard pricing for prompts with 272,000 or fewer total input tokens; cached prompt tokens are included and the selected tier applies to the full request.",
+    "calculationDefault": true,
+    "charges": [
+      {
+        "amount": "15",
+        "chargeId": "price:openai/gpt-6-rosalind:standard:short:current:input:text:per_1m_tokens",
+        "component": "input",
+        "modality": "text",
+        "unit": "per_1m_tokens"
+      },
+      {
+        "amount": "1.5",
+        "chargeId": "price:openai/gpt-6-rosalind:standard:short:current:cached_input:text:per_1m_tokens",
+        "component": "cached_input",
+        "modality": "text",
+        "unit": "per_1m_tokens"
+      },
+      {
+        "amount": "18.75",
+        "chargeId": "price:openai/gpt-6-rosalind:standard:short:current:cache_write:text:per_1m_tokens",
+        "component": "cache_write",
+        "modality": "text",
+        "unit": "per_1m_tokens"
+      },
+      {
+        "amount": "37.5",
+        "chargeId": "price:openai/gpt-6-rosalind:standard:short:current:cache_write_12h:text:per_1m_tokens",
+        "component": "cache_write_12h",
+        "modality": "text",
+        "unit": "per_1m_tokens"
+      },
+      {
+        "amount": "75",
+        "chargeId": "price:openai/gpt-6-rosalind:standard:short:current:output:text:per_1m_tokens",
+        "component": "output",
+        "modality": "text",
+        "unit": "per_1m_tokens"
+      }
+    ],
+    "checkedAt": "2026-11-06T06:51:23Z",
+    "contextClass": "short",
+    "currency": "USD",
+    "defaultAvailabilityStatus": "available",
+    "effectiveFrom": "2026-10-30",
+    "effectiveUntil": null,
+    "modelInternalId": "openai/gpt-6-rosalind",
+    "priceAdjustments": [],
+    "pricingId": "price:openai/gpt-6-rosalind:standard:short:current",
+    "pricingStatus": "current",
+    "processingMode": "standard",
+    "promptTokenThreshold": 272000,
+    "regionPolicy": "global",
+    "regionSelector": {
+      "dataResidencies": [
+        "global"
+      ],
+      "endpointGeographies": [
+        "global"
+      ],
+      "pricingGeography": "global_base"
+    },
+    "sourceDatasetIds": {
+      "publicDatasetIds": [
+        "gpt-6-rosalind"
+      ],
+      "websiteIds": []
+    },
+    "sourceRefs": [
+      "source:openai:developers-openai-com-api-docs-pricing"
+    ],
+    "tierSelection": {
+      "cachedPromptTokensIncluded": true,
+      "comparison": "less_than_or_equal",
+      "tokenBasis": "input_tokens",
+      "wholeRequestPricing": true
+    },
+    "verificationStatus": "verified",
+    "verifiedAt": "2026-11-06T06:51:23Z"
+  },
+  {
+    "availabilityRules": [],
+    "billingNote": "Standard pricing for prompts with more than 272,000 total input tokens; cached prompt tokens are included and long-context rates apply to the full request.",
+    "calculationDefault": false,
+    "charges": [
+      {
+        "amount": "30",
+        "chargeId": "price:openai/gpt-6-rosalind:standard:long:current:input:text:per_1m_tokens",
+        "component": "input",
+        "modality": "text",
+        "unit": "per_1m_tokens"
+      },
+      {
+        "amount": "3",
+        "chargeId": "price:openai/gpt-6-rosalind:standard:long:current:cached_input:text:per_1m_tokens",
+        "component": "cached_input",
+        "modality": "text",
+        "unit": "per_1m_tokens"
+      },
+      {
+        "amount": "37.5",
+        "chargeId": "price:openai/gpt-6-rosalind:standard:long:current:cache_write:text:per_1m_tokens",
+        "component": "cache_write",
+        "modality": "text",
+        "unit": "per_1m_tokens"
+      },
+      {
+        "amount": "75",
+        "chargeId": "price:openai/gpt-6-rosalind:standard:long:current:cache_write_12h:text:per_1m_tokens",
+        "component": "cache_write_12h",
+        "modality": "text",
+        "unit": "per_1m_tokens"
+      },
+      {
+        "amount": "112.5",
+        "chargeId": "price:openai/gpt-6-rosalind:standard:long:current:output:text:per_1m_tokens",
+        "component": "output",
+        "modality": "text",
+        "unit": "per_1m_tokens"
+      }
+    ],
+    "checkedAt": "2026-11-06T06:51:23Z",
+    "contextClass": "long",
+    "currency": "USD",
+    "defaultAvailabilityStatus": "available",
+    "effectiveFrom": "2026-10-30",
+    "effectiveUntil": null,
+    "modelInternalId": "openai/gpt-6-rosalind",
+    "priceAdjustments": [],
+    "pricingId": "price:openai/gpt-6-rosalind:standard:long:current",
+    "pricingStatus": "current",
+    "processingMode": "standard",
+    "promptTokenThreshold": 272000,
+    "regionPolicy": "global",
+    "regionSelector": {
+      "dataResidencies": [
+        "global"
+      ],
+      "endpointGeographies": [
+        "global"
+      ],
+      "pricingGeography": "global_base"
+    },
+    "sourceDatasetIds": {
+      "publicDatasetIds": [
+        "gpt-6-rosalind"
+      ],
+      "websiteIds": []
+    },
+    "sourceRefs": [
+      "source:openai:developers-openai-com-api-docs-pricing"
+    ],
+    "tierSelection": {
+      "cachedPromptTokensIncluded": true,
+      "comparison": "greater_than",
+      "tokenBasis": "input_tokens",
+      "wholeRequestPricing": true
+    },
+    "verificationStatus": "verified",
+    "verifiedAt": "2026-11-06T06:51:23Z"
+  },
+  {
+    "availabilityRules": [],
     "billingNote": "standard short-context pricing; the 272,000 threshold is based on input tokens, includes cached input tokens, and applies the selected tier to the full request.",
     "calculationDefault": true,
     "charges": [

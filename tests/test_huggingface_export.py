@@ -483,17 +483,23 @@ class HuggingFaceExportTests(unittest.TestCase):
                            and item["condition"]["processing_mode"] == "ultrafast"]
         self.assertEqual({item["condition"]["context_class"]: item["amount"] for item in ultrafast_writes},
                          {"short": "75", "long": "150"})
+        rosalind = next(row for row in self.records if row["model_id"] == "gpt-6-rosalind")
+        rosalind_writes = [item for item in rosalind["pricing_components"]
+                           if item["component"] == "cache_write"]
+        self.assertEqual({item["condition"]["context_class"]: item["amount"] for item in rosalind_writes},
+                         {"short": "18.75", "long": "37.5"})
         self.assertEqual(
             cache_write_count - phase_b_cache_write_count,
-            45 + 4 + len(expected_new_writes) + len(kimi_writes) + len(kimi_batch_writes) + len(sonnet_55_writes) + len(ultrafast_writes),
+            45 + 4 + len(expected_new_writes) + len(kimi_writes) + len(kimi_batch_writes) + len(sonnet_55_writes) + len(ultrafast_writes) + len(rosalind_writes),
         )
         self.assertEqual(
             cache_write_count,
-            45 + 4 + len(expected_new_writes) + len(kimi_writes) + len(kimi_batch_writes) + len(sonnet_55_writes) + phase_b_cache_write_count + len(ultrafast_writes),
+            45 + 4 + len(expected_new_writes) + len(kimi_writes) + len(kimi_batch_writes) + len(sonnet_55_writes) + phase_b_cache_write_count + len(ultrafast_writes) + len(rosalind_writes),
         )
-        # OpenAI 12-hour cache writes: every price record of the eight GPT-5.6+ models, at 2.5x input.
-        self.assertEqual(len(twelve_hour_writes), 68)
-        self.assertEqual(len({item["charge_id"] for item in twelve_hour_writes}), 68)
+        # OpenAI 12-hour cache writes: every price record of the eight GPT-5.6+ models, at 2.5x input,
+        # plus GPT-6 Rosalind's two Standard records.
+        self.assertEqual(len(twelve_hour_writes), 70)
+        self.assertEqual(len({item["charge_id"] for item in twelve_hour_writes}), 70)
         self.assertTrue(all(item["charge_id"].startswith("price:openai/gpt-") for item in twelve_hour_writes))
         self.assertTrue(any(not record["pricing_components"] for record in self.records))
 

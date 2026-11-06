@@ -18,6 +18,7 @@ GEMINI_25_EXTENSION=SCOPE['gemini_25_shutdown_redirect_extension']
 P3_EXTENSION=SCOPE['p3_providers_model_added_extension']
 SCHEDULED_EXTENSION=SCOPE['scheduled_price_change_backfill_extension']
 REVERIFY_1105_EXTENSION=SCOPE['reverify_2026_11_05_extension']
+ROSALIND_EXTENSION=SCOPE['gpt_6_rosalind_model_added_extension']
 EVENTS_PATH='data/price-change-events/events.jsonl'
 DEEPSEEK_METADATA_APPROVAL={
  'identity':'deepseek/deepseek-flash',
@@ -330,6 +331,24 @@ def verify_scheduled_release_event_bytes(raw):
   assert row['official_source_url']=='https://ai.google.dev/gemini-api/docs/pricing'
   assert all(row['new_prices'][k]==2*row['old_prices'][k] for k in ('input','cached_input','output')),identity
  return normalized,lines,rows
+def verify_rosalind_release_event_bytes(raw):
+ normalized,lines,rows=event_lines_rows(raw)
+ ext=ROSALIND_EXTENSION
+ assert ext['base_release']=='scheduled_price_change_backfill_extension','unexpected Rosalind base release'
+ assert hashlib.sha256(normalized).hexdigest()==ext['full_events_sha256'],'unapproved Rosalind release event content'
+ assert len(rows)==ext['full_event_count']==ext['base_event_count']+ext['appended_event_count']==71
+ id_set=set(ext['appended_event_ids'])
+ appended=[(line,row) for line,row in zip(lines,rows) if row['event_id'] in id_set]
+ verify_scheduled_release_event_bytes(b''.join(line for line,row in zip(lines,rows) if row['event_id'] not in id_set))
+ assert [row['event_id'] for _,row in appended]==ext['appended_event_ids']
+ assert [row['dedupe_key'] for _,row in appended]==ext['appended_dedupe_keys']
+ assert hashlib.sha256(b''.join(line for line,_ in appended)).hexdigest()==ext['appended_events_sha256']
+ for _,row in appended:
+  assert row['provider_id']+'/'+row['model_id'] in ext['identities']
+  assert row['change_type']=='model_added' and row['old_status'] is None and row['new_status']=='active'
+  assert row['date_basis']=='provider_announced' and row['effective_from']=='2026-10-30'
+  assert row['new_prices']=={'cached_input':1.5,'input':15,'output':75}
+ return normalized,lines,rows
 def verify_checkpoint(checkpoint=CHECKPOINT,current_raw=None):
  assert re.fullmatch(r'[0-9a-f]{40}',checkpoint['source_commit']),'invalid checkpoint source commit'
  assert re.fullmatch(r'[0-9a-f]{40}',checkpoint['parent_commit']),'invalid checkpoint parent commit'
@@ -485,7 +504,7 @@ class ClosureScopeTests(unittest.TestCase):
   with self.assertRaisesRegex(AssertionError,'unapproved change: '+mistral['identity']):verify_rows(old,mutated,approved)
  def test_all_current_events_exact_and_correction_is_not_provider_event(self):
   verify_checkpoint(CHECKPOINT)
-  _,_,events=verify_scheduled_release_event_bytes((ROOT/EVENTS_PATH).read_bytes())
+  _,_,events=verify_rosalind_release_event_bytes((ROOT/EVENTS_PATH).read_bytes())
   self.assertFalse(any(e['model_id']=='gemini-2.5-flash-image' and e['detected_at']=='2026-10-09' for e in events))
  def test_event_digest_pinned_to_approved_commit(self):
   self.assertEqual(SCOPE['events_source_commit'],'1c7ec3eca94f0bfdc99b7ae18616bdce38be8833')
@@ -495,8 +514,10 @@ class ClosureScopeTests(unittest.TestCase):
  def test_e1_checkpoint_identity_scope_and_increment(self):
   self.assertEqual(len(SCOPE['event_checkpoints']),1);blob,rows=verify_checkpoint();self.assertEqual(len(blob.splitlines()),37);self.assertEqual(len(rows),37)
  def test_argon_release_is_the_38_event_base_of_the_mistral_release(self):
-  current=(ROOT/EVENTS_PATH).read_bytes();normalized,lines,rows=verify_scheduled_release_event_bytes(current)
-  self.assertEqual(normalized,normalize_event_newlines(current));self.assertEqual(len(rows),70)
+  current=(ROOT/EVENTS_PATH).read_bytes();normalized,lines,rows=verify_rosalind_release_event_bytes(current)
+  self.assertEqual(normalized,normalize_event_newlines(current));self.assertEqual(len(rows),71)
+  rosalind_ids=set(ROSALIND_EXTENSION['appended_event_ids']);scheduled_release=b''.join(line for line,row in zip(lines,rows) if row['event_id'] not in rosalind_ids)
+  normalized,lines,rows=verify_scheduled_release_event_bytes(scheduled_release);self.assertEqual(len(rows),70)
   scheduled_ids=set(SCHEDULED_EXTENSION['appended_event_ids']);p3_release=b''.join(line for line,row in zip(lines,rows) if row['event_id'] not in scheduled_ids)
   normalized,lines,rows=verify_p3_release_event_bytes(p3_release);self.assertEqual(len(rows),67)
   p3_ids=set(P3_EXTENSION['appended_event_ids']);g25_release=b''.join(line for line,row in zip(lines,rows) if row['event_id'] not in p3_ids)
@@ -518,7 +539,7 @@ class ClosureScopeTests(unittest.TestCase):
  def test_event_lf_and_crlf_have_same_approved_digest(self):
   historical=approved_event_bytes();self.assertEqual(verify_event_bytes(historical),historical);self.assertEqual(verify_event_bytes(historical.replace(b'\n',b'\r\n')),historical)
   current=checkpoint_event_bytes();self.assertEqual(verify_current_event_bytes(current)[0],current);self.assertEqual(verify_current_event_bytes(current.replace(b'\n',b'\r\n'))[0],current)
-  release=normalize_event_newlines((ROOT/EVENTS_PATH).read_bytes());self.assertEqual(verify_scheduled_release_event_bytes(release)[0],release);self.assertEqual(verify_scheduled_release_event_bytes(release.replace(b'\n',b'\r\n'))[0],release)
+  release=normalize_event_newlines((ROOT/EVENTS_PATH).read_bytes());self.assertEqual(verify_rosalind_release_event_bytes(release)[0],release);self.assertEqual(verify_rosalind_release_event_bytes(release.replace(b'\n',b'\r\n'))[0],release)
  def test_event_field_mutations_rejected(self):
   historical=approved_event_bytes();rows=[json.loads(line) for line in historical.splitlines()];self.assertEqual(encode(rows),historical)
   def fields(value,path=()):

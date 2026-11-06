@@ -1,0 +1,217 @@
+{
+  "access_checked_at": "2026-11-06T06:51:23Z",
+  "access_evidence": [
+    {
+      "claim_type": "official_access_restricted",
+      "official_model_id": "gpt-6-rosalind",
+      "scope": "Access is limited to approved internal research through the trusted-access program; organization approval required.",
+      "title": "gpt-6-rosalind official model access documentation",
+      "url": "https://developers.openai.com/api/docs/pricing"
+    },
+    {
+      "claim_type": "official_access_restricted",
+      "official_model_id": "gpt-6-rosalind",
+      "scope": "Access is limited to approved internal research through the trusted-access program; organization approval required.",
+      "title": "openai GPT-Rosalind trusted-access program",
+      "url": "https://help.openai.com/en/articles/20001193-gpt-rosalind-for-life-sciences-research"
+    }
+  ],
+  "access_status": "restricted",
+  "accessed_at": "2026-11-06T06:51:23Z",
+  "binding_evidence": [
+    {
+      "claim_type": "official_identity_binding",
+      "official_model_id": "gpt-6-rosalind",
+      "reason": "Exact documented API ID or exact provider/version spelling; no entitlement inherited from billing target.",
+      "title": "gpt-6-rosalind official identity documentation",
+      "url": "https://developers.openai.com/api/docs/pricing"
+    }
+  ],
+  "binding_status": "approved",
+  "display_name": "GPT-6 Rosalind",
+  "effective_from": "2026-10-30",
+  "input_modality": "text",
+  "last_verified_at": "2026-11-06T06:51:23Z",
+  "model_family": "GPT-6",
+  "model_id": "gpt-6-rosalind",
+  "notes": "OpenAI released GPT-6 Rosalind on 2026-10-30 as a life sciences model. Access is limited to organizations approved for Rosalind Research through OpenAI's trusted-access program, for internal research by authorized users. The pricing page lists only Standard short- and long-context rates (no Batch, Flex, Fast or Priority rows); short context is 272K input tokens or fewer, per OpenAI's short/long context definition. Rosalind is not listed among the data-residency models, so no regional uplift is recorded. OpenAI publishes no model page or context window for it.",
+  "official_source_url": "https://developers.openai.com/api/docs/pricing",
+  "official_source_urls": [
+    "https://developers.openai.com/api/docs/pricing",
+    "https://developers.openai.com/api/docs/changelog",
+    "https://help.openai.com/en/articles/20001193-gpt-rosalind-for-life-sciences-research"
+  ],
+  "output_modality": "text",
+  "price_records": [
+    {
+      "billing_note": "Standard pricing for prompts with 272,000 or fewer total input tokens; cached prompt tokens are included and the selected tier applies to the full request.",
+      "calculation_default": true,
+      "charges": [
+        {
+          "amount": "15",
+          "component": "input",
+          "id": "price:openai/gpt-6-rosalind:standard:short:current:input:text:per_1m_tokens",
+          "modality": "text",
+          "unit": "per_1m_tokens"
+        },
+        {
+          "amount": "1.5",
+          "component": "cached_input",
+          "id": "price:openai/gpt-6-rosalind:standard:short:current:cached_input:text:per_1m_tokens",
+          "modality": "text",
+          "unit": "per_1m_tokens"
+        },
+        {
+          "amount": "18.75",
+          "component": "cache_write",
+          "id": "price:openai/gpt-6-rosalind:standard:short:current:cache_write:text:per_1m_tokens",
+          "modality": "text",
+          "unit": "per_1m_tokens"
+        },
+        {
+          "amount": "37.5",
+          "component": "cache_write_12h",
+          "id": "price:openai/gpt-6-rosalind:standard:short:current:cache_write_12h:text:per_1m_tokens",
+          "modality": "text",
+          "unit": "per_1m_tokens"
+        },
+        {
+          "amount": "75",
+          "component": "output",
+          "id": "price:openai/gpt-6-rosalind:standard:short:current:output:text:per_1m_tokens",
+          "modality": "text",
+          "unit": "per_1m_tokens"
+        }
+      ],
+      "checked_at": "2026-11-06T06:51:23Z",
+      "context_class": "short",
+      "currency": "USD",
+      "effective_from": "2026-10-30",
+      "effective_until": null,
+      "id": "price:openai/gpt-6-rosalind:standard:short:current",
+      "pricing_status": "current",
+      "processing_mode": "standard",
+      "prompt_token_threshold": 272000,
+      "region_policy": {
+        "availability": {
+          "default": "available",
+          "rules": []
+        },
+        "data_residencies": [
+          "global"
+        ],
+        "endpoint_geographies": [
+          "global"
+        ],
+        "price_adjustments": [],
+        "pricing_geography": "global_base"
+      },
+      "source_refs": [
+        "https://developers.openai.com/api/docs/pricing"
+      ],
+      "tier_selection": {
+        "cached_prompt_tokens_included": true,
+        "comparison": "less_than_or_equal",
+        "token_basis": "input_tokens",
+        "whole_request_pricing": true
+      },
+      "verification_status": "verified",
+      "verified_at": "2026-11-06T06:51:23Z"
+    },
+    {
+      "billing_note": "Standard pricing for prompts with more than 272,000 total input tokens; cached prompt tokens are included and long-context rates apply to the full request.",
+      "calculation_default": false,
+      "charges": [
+        {
+          "amount": "30",
+          "component": "input",
+          "id": "price:openai/gpt-6-rosalind:standard:long:current:input:text:per_1m_tokens",
+          "modality": "text",
+          "unit": "per_1m_tokens"
+        },
+        {
+          "amount": "3",
+          "component": "cached_input",
+          "id": "price:openai/gpt-6-rosalind:standard:long:current:cached_input:text:per_1m_tokens",
+          "modality": "text",
+          "unit": "per_1m_tokens"
+        },
+        {
+          "amount": "37.5",
+          "component": "cache_write",
+          "id": "price:openai/gpt-6-rosalind:standard:long:current:cache_write:text:per_1m_tokens",
+          "modality": "text",
+          "unit": "per_1m_tokens"
+        },
+        {
+          "amount": "75",
+          "component": "cache_write_12h",
+          "id": "price:openai/gpt-6-rosalind:standard:long:current:cache_write_12h:text:per_1m_tokens",
+          "modality": "text",
+          "unit": "per_1m_tokens"
+        },
+        {
+          "amount": "112.5",
+          "component": "output",
+          "id": "price:openai/gpt-6-rosalind:standard:long:current:output:text:per_1m_tokens",
+          "modality": "text",
+          "unit": "per_1m_tokens"
+        }
+      ],
+      "checked_at": "2026-11-06T06:51:23Z",
+      "context_class": "long",
+      "currency": "USD",
+      "effective_from": "2026-10-30",
+      "effective_until": null,
+      "id": "price:openai/gpt-6-rosalind:standard:long:current",
+      "pricing_status": "current",
+      "processing_mode": "standard",
+      "prompt_token_threshold": 272000,
+      "region_policy": {
+        "availability": {
+          "default": "available",
+          "rules": []
+        },
+        "data_residencies": [
+          "global"
+        ],
+        "endpoint_geographies": [
+          "global"
+        ],
+        "price_adjustments": [],
+        "pricing_geography": "global_base"
+      },
+      "source_refs": [
+        "https://developers.openai.com/api/docs/pricing"
+      ],
+      "tier_selection": {
+        "cached_prompt_tokens_included": true,
+        "comparison": "greater_than",
+        "token_basis": "input_tokens",
+        "whole_request_pricing": true
+      },
+      "verification_status": "verified",
+      "verified_at": "2026-11-06T06:51:23Z"
+    }
+  ],
+  "pricing": {
+    "batch_input": null,
+    "batch_output": null,
+    "cache_write": 18.75,
+    "cache_write_1h": null,
+    "cached_input": 1.5,
+    "currency": "USD",
+    "input": 15.0,
+    "output": 75.0,
+    "unit": "1M tokens"
+  },
+  "provider_id": "openai",
+  "release_evidence": {
+    "source_type": "official_changelog",
+    "title": "OpenAI API Changelog - GPT-6 Rosalind",
+    "url": "https://developers.openai.com/api/docs/changelog"
+  },
+  "release_stage": "stable",
+  "released_at": "2026-10-30",
+  "status": "active"
+}

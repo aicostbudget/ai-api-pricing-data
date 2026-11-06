@@ -139,7 +139,8 @@
     "openai/gpt-image-2.6-sunburst": "80b0a3ba76a8936b102c4f9aec9973831af6b84d1e27f71acfaa99fd8476227a",
     "meta/muse-image-1.0": "d2f4088a78b98b606e9519b922ac6c7db9a0ed5e2d377b8b66a7eddb3cfc1b96",
     "meta/muse-voice-transcribe-1.0": "280e5a58dd93ceca21ca2f9a60dddc9e32adfd35ad5667cc0e7df6a4af662403",
-    "meta/sam-3.1": "bf2eba6c47be30092c927b1b60925e188f6bd7a68c39c87f6b7b89ebf8d16506"
+    "meta/sam-3.1": "bf2eba6c47be30092c927b1b60925e188f6bd7a68c39c87f6b7b89ebf8d16506",
+    "openai/gpt-6-rosalind": "614d91c49f06bb9ef2c5251fb82dd2b3532ea423eb04adc513058a9267469580"
   },
   "projection": {
     "anthropic/claude-haiku-5-5": "af29b32c2ccf35ff1c0444c94ef97aeb28fa3a230f6207e8ec41b673f4efb078",
@@ -291,7 +292,8 @@
     "openai/gpt-image-2.6-sunburst": "baf834b0302a994e01aae53355059eb2c443492981c483d35abc831fd0d80e00",
     "meta/muse-image-1.0": "cf04c77543fbfe69a7bc9d5c2650b6030d9f8745066d8a44b6f161b62ff3d3db",
     "meta/muse-voice-transcribe-1.0": "c02094f9d0e6502b806cacdfbaa177e03ac200960c7ab68de3b3a5f0303ef6a0",
-    "meta/sam-3.1": "edbb1cfa688008e42975c3c418d09e4eb85f0c36cd48a20e58fcf1ea8ed05df4"
+    "meta/sam-3.1": "edbb1cfa688008e42975c3c418d09e4eb85f0c36cd48a20e58fcf1ea8ed05df4",
+    "openai/gpt-6-rosalind": "e074377193cf9fb041ba7f88b3a78258384d7180677cb833d1847c9c4596cb66"
   },
   "evidence_report": "official-pricing-repair-report.md",
   "events_sha256": "a04e3fbb1d4cb049f2d9cfcadfca3b6383fc1bcdc3df6ca0ee6cfddc38e706ed",
@@ -778,5 +780,23 @@
       "openai/gpt-6.1-sol",
       "openai/gpt-6.1-terra"
     ]
+  },
+  "gpt_6_rosalind_model_added_extension": {
+    "identities": [
+      "openai/gpt-6-rosalind"
+    ],
+    "base_release": "scheduled_price_change_backfill_extension",
+    "base_event_count": 70,
+    "appended_event_count": 1,
+    "full_event_count": 71,
+    "full_events_sha256": "a6e77d88607fb76f415cd005e648e134d6bdb188ce9ec931ef88d095a02a213c",
+    "appended_events_sha256": "4fa0b9ae35f3203e2f2ae753527667bd21313acd59aef78c0d5ffd6a7dbeeafd",
+    "appended_event_ids": [
+      "openai:gpt-6-rosalind:model_added:170bbeab59dd"
+    ],
+    "appended_dedupe_keys": [
+      "sha256:170bbeab59dd4e41f3b77fa782eed4aa6f67f62de77e10ef64e42646290e0a59"
+    ],
+    "rationale": "Release 2026-11-06-3 adds openai/gpt-6-rosalind (released 2026-10-30 per the OpenAI API changelog, restricted to the Rosalind Research trusted-access program); the generator appends one model_added event dated from the changelog."
   }
 }

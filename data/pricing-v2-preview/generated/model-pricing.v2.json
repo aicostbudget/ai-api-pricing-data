@@ -9,7 +9,7 @@
     "review_required": "display only with warning; no default or recommendation placement",
     "unsafe": "exclude from default calculations and show warning only where explicitly allowed"
   },
-  "effectiveAt": "2026-11-06T06:27:13Z",
+  "effectiveAt": "2026-11-06T06:52:19Z",
   "effectiveTimezone": "UTC",
   "failureBehavior": {
     "atomicWrite": true,
@@ -18,7 +18,7 @@
     "partialJson": "not_written",
     "publicV1Mutation": "forbidden"
   },
-  "generatedAt": "2026-11-06T06:27:13Z",
+  "generatedAt": "2026-11-06T06:52:19Z",
   "generatedAtPolicy": "UTC artifact generation timestamp injected by the generation pipeline",
   "governancePolicy": {
     "classes": [
@@ -66394,6 +66394,594 @@
       "verifiedSourceRefs": [
         "source:openai:developers-openai-com-api-docs-guides-prompt-caching",
         "source:openai:developers-openai-com-api-docs-models-gpt-6-luna",
+        "source:openai:developers-openai-com-api-docs-pricing"
+      ]
+    },
+    {
+      "accessAuthority": {
+        "baseRevision": "2d3bc297762668a22a922f4ab787d4f33d0974be",
+        "factSha256": "f311fca789cea70c9131e7b6373d8c5a8b8012f5044fe155cf6009ee53742d74",
+        "kind": "canonical",
+        "revisionScope": "base_revision_plus_fact_digest"
+      },
+      "accessCheckedAt": "2026-11-06T06:51:23Z",
+      "accessEvidence": [
+        {
+          "claimType": "official_access_restricted",
+          "officialModelId": "gpt-6-rosalind",
+          "scope": "Access is limited to approved internal research through the trusted-access program; organization approval required.",
+          "sourceRef": "source:openai:developers-openai-com-api-docs-pricing",
+          "title": "gpt-6-rosalind official model access documentation",
+          "url": "https://developers.openai.com/api/docs/pricing"
+        },
+        {
+          "claimType": "official_access_restricted",
+          "officialModelId": "gpt-6-rosalind",
+          "scope": "Access is limited to approved internal research through the trusted-access program; organization approval required.",
+          "sourceRef": "source:openai:help-openai-com-en-articles-20001193-gpt-rosalind-for-life-sciences-research",
+          "title": "openai GPT-Rosalind trusted-access program",
+          "url": "https://help.openai.com/en/articles/20001193-gpt-rosalind-for-life-sciences-research"
+        }
+      ],
+      "accessStatus": "restricted",
+      "aliasTargetInternalId": null,
+      "availability": "active",
+      "batchInputPrice": null,
+      "batchOutputPrice": null,
+      "billingModelInternalId": null,
+      "bindingEvidence": [
+        {
+          "claimType": "official_identity_binding",
+          "officialModelId": "gpt-6-rosalind",
+          "reason": "Exact documented API ID or exact provider/version spelling; no entitlement inherited from billing target.",
+          "sourceRef": "source:openai:developers-openai-com-api-docs-pricing",
+          "title": "gpt-6-rosalind official identity documentation",
+          "url": "https://developers.openai.com/api/docs/pricing"
+        }
+      ],
+      "bindingStatus": "approved",
+      "blockedFromDefaultReasons": [],
+      "cachedInputPrice": 1.5,
+      "canonicalInternalId": "openai/gpt-6-rosalind",
+      "checkedAt": "2026-11-06T06:51:23Z",
+      "checkedSourceRefs": [
+        "source:openai:developers-openai-com-api-docs-pricing"
+      ],
+      "contextWindow": null,
+      "contextWindowStatus": "unknown_not_guessed",
+      "defaultPriceSelectionRule": [
+        "current_effective_utc",
+        "verified",
+        "standard",
+        "text",
+        "default_context_class"
+      ],
+      "defaultSafe": true,
+      "deprecationDate": null,
+      "governanceClass": "VERIFIED_CANONICAL",
+      "governanceDetails": null,
+      "governanceReason": "canonical_verified_direct_public_projection",
+      "governanceSourceCandidateIds": [
+        "openai/gpt-6-rosalind"
+      ],
+      "id": "gpt-6-rosalind",
+      "identityType": "canonical_model",
+      "inputPrice": 15,
+      "lifecycleStatus": "active",
+      "model": "GPT-6 Rosalind",
+      "officialSourceUrl": "https://developers.openai.com/api/docs/pricing",
+      "outputPrice": 75,
+      "priceRecords": [
+        {
+          "calculationDefault": false,
+          "checkedAt": "2026-11-06T06:51:23Z",
+          "contextClass": "long",
+          "effectiveFrom": "2026-10-30",
+          "effectiveUntil": null,
+          "pricingId": "price:openai/gpt-6-rosalind:standard:long:current",
+          "pricingStatus": "current",
+          "processingMode": "standard",
+          "sourceRefs": [
+            "source:openai:developers-openai-com-api-docs-pricing"
+          ],
+          "verificationStatus": "verified",
+          "verifiedAt": "2026-11-06T06:51:23Z"
+        },
+        {
+          "calculationDefault": true,
+          "checkedAt": "2026-11-06T06:51:23Z",
+          "contextClass": "short",
+          "effectiveFrom": "2026-10-30",
+          "effectiveUntil": null,
+          "pricingId": "price:openai/gpt-6-rosalind:standard:short:current",
+          "pricingStatus": "current",
+          "processingMode": "standard",
+          "sourceRefs": [
+            "source:openai:developers-openai-com-api-docs-pricing"
+          ],
+          "verificationStatus": "verified",
+          "verifiedAt": "2026-11-06T06:51:23Z"
+        }
+      ],
+      "pricingComponents": [
+        {
+          "amount": "37.5",
+          "calculationDefault": false,
+          "chargeId": "price:openai/gpt-6-rosalind:standard:long:current:cache_write:text:per_1m_tokens",
+          "component": "cache_write",
+          "condition": {
+            "availabilityRules": [],
+            "contextClass": "long",
+            "defaultAvailabilityStatus": "available",
+            "effectiveFrom": "2026-10-30",
+            "effectiveUntil": null,
+            "priceAdjustments": [],
+            "processingMode": "standard",
+            "promptTokenThreshold": 272000,
+            "regionPolicy": "global",
+            "regionSelector": {
+              "dataResidencies": [
+                "global"
+              ],
+              "endpointGeographies": [
+                "global"
+              ],
+              "pricingGeography": "global_base"
+            },
+            "tierSelection": {
+              "cachedPromptTokensIncluded": true,
+              "comparison": "greater_than",
+              "tokenBasis": "input_tokens",
+              "wholeRequestPricing": true
+            }
+          },
+          "currency": "USD",
+          "modality": "text",
+          "pricingId": "price:openai/gpt-6-rosalind:standard:long:current",
+          "sourceRefs": [
+            "source:openai:developers-openai-com-api-docs-pricing"
+          ],
+          "unit": "per_1m_tokens",
+          "verificationStatus": "verified"
+        },
+        {
+          "amount": "75",
+          "calculationDefault": false,
+          "chargeId": "price:openai/gpt-6-rosalind:standard:long:current:cache_write_12h:text:per_1m_tokens",
+          "component": "cache_write_12h",
+          "condition": {
+            "availabilityRules": [],
+            "contextClass": "long",
+            "defaultAvailabilityStatus": "available",
+            "effectiveFrom": "2026-10-30",
+            "effectiveUntil": null,
+            "priceAdjustments": [],
+            "processingMode": "standard",
+            "promptTokenThreshold": 272000,
+            "regionPolicy": "global",
+            "regionSelector": {
+              "dataResidencies": [
+                "global"
+              ],
+              "endpointGeographies": [
+                "global"
+              ],
+              "pricingGeography": "global_base"
+            },
+            "tierSelection": {
+              "cachedPromptTokensIncluded": true,
+              "comparison": "greater_than",
+              "tokenBasis": "input_tokens",
+              "wholeRequestPricing": true
+            }
+          },
+          "currency": "USD",
+          "modality": "text",
+          "pricingId": "price:openai/gpt-6-rosalind:standard:long:current",
+          "sourceRefs": [
+            "source:openai:developers-openai-com-api-docs-pricing"
+          ],
+          "unit": "per_1m_tokens",
+          "verificationStatus": "verified"
+        },
+        {
+          "amount": "3",
+          "calculationDefault": false,
+          "chargeId": "price:openai/gpt-6-rosalind:standard:long:current:cached_input:text:per_1m_tokens",
+          "component": "cached_input",
+          "condition": {
+            "availabilityRules": [],
+            "contextClass": "long",
+            "defaultAvailabilityStatus": "available",
+            "effectiveFrom": "2026-10-30",
+            "effectiveUntil": null,
+            "priceAdjustments": [],
+            "processingMode": "standard",
+            "promptTokenThreshold": 272000,
+            "regionPolicy": "global",
+            "regionSelector": {
+              "dataResidencies": [
+                "global"
+              ],
+              "endpointGeographies": [
+                "global"
+              ],
+              "pricingGeography": "global_base"
+            },
+            "tierSelection": {
+              "cachedPromptTokensIncluded": true,
+              "comparison": "greater_than",
+              "tokenBasis": "input_tokens",
+              "wholeRequestPricing": true
+            }
+          },
+          "currency": "USD",
+          "modality": "text",
+          "pricingId": "price:openai/gpt-6-rosalind:standard:long:current",
+          "sourceRefs": [
+            "source:openai:developers-openai-com-api-docs-pricing"
+          ],
+          "unit": "per_1m_tokens",
+          "verificationStatus": "verified"
+        },
+        {
+          "amount": "30",
+          "calculationDefault": false,
+          "chargeId": "price:openai/gpt-6-rosalind:standard:long:current:input:text:per_1m_tokens",
+          "component": "input",
+          "condition": {
+            "availabilityRules": [],
+            "contextClass": "long",
+            "defaultAvailabilityStatus": "available",
+            "effectiveFrom": "2026-10-30",
+            "effectiveUntil": null,
+            "priceAdjustments": [],
+            "processingMode": "standard",
+            "promptTokenThreshold": 272000,
+            "regionPolicy": "global",
+            "regionSelector": {
+              "dataResidencies": [
+                "global"
+              ],
+              "endpointGeographies": [
+                "global"
+              ],
+              "pricingGeography": "global_base"
+            },
+            "tierSelection": {
+              "cachedPromptTokensIncluded": true,
+              "comparison": "greater_than",
+              "tokenBasis": "input_tokens",
+              "wholeRequestPricing": true
+            }
+          },
+          "currency": "USD",
+          "modality": "text",
+          "pricingId": "price:openai/gpt-6-rosalind:standard:long:current",
+          "sourceRefs": [
+            "source:openai:developers-openai-com-api-docs-pricing"
+          ],
+          "unit": "per_1m_tokens",
+          "verificationStatus": "verified"
+        },
+        {
+          "amount": "112.5",
+          "calculationDefault": false,
+          "chargeId": "price:openai/gpt-6-rosalind:standard:long:current:output:text:per_1m_tokens",
+          "component": "output",
+          "condition": {
+            "availabilityRules": [],
+            "contextClass": "long",
+            "defaultAvailabilityStatus": "available",
+            "effectiveFrom": "2026-10-30",
+            "effectiveUntil": null,
+            "priceAdjustments": [],
+            "processingMode": "standard",
+            "promptTokenThreshold": 272000,
+            "regionPolicy": "global",
+            "regionSelector": {
+              "dataResidencies": [
+                "global"
+              ],
+              "endpointGeographies": [
+                "global"
+              ],
+              "pricingGeography": "global_base"
+            },
+            "tierSelection": {
+              "cachedPromptTokensIncluded": true,
+              "comparison": "greater_than",
+              "tokenBasis": "input_tokens",
+              "wholeRequestPricing": true
+            }
+          },
+          "currency": "USD",
+          "modality": "text",
+          "pricingId": "price:openai/gpt-6-rosalind:standard:long:current",
+          "sourceRefs": [
+            "source:openai:developers-openai-com-api-docs-pricing"
+          ],
+          "unit": "per_1m_tokens",
+          "verificationStatus": "verified"
+        },
+        {
+          "amount": "18.75",
+          "calculationDefault": true,
+          "chargeId": "price:openai/gpt-6-rosalind:standard:short:current:cache_write:text:per_1m_tokens",
+          "component": "cache_write",
+          "condition": {
+            "availabilityRules": [],
+            "contextClass": "short",
+            "defaultAvailabilityStatus": "available",
+            "effectiveFrom": "2026-10-30",
+            "effectiveUntil": null,
+            "priceAdjustments": [],
+            "processingMode": "standard",
+            "promptTokenThreshold": 272000,
+            "regionPolicy": "global",
+            "regionSelector": {
+              "dataResidencies": [
+                "global"
+              ],
+              "endpointGeographies": [
+                "global"
+              ],
+              "pricingGeography": "global_base"
+            },
+            "tierSelection": {
+              "cachedPromptTokensIncluded": true,
+              "comparison": "less_than_or_equal",
+              "tokenBasis": "input_tokens",
+              "wholeRequestPricing": true
+            }
+          },
+          "currency": "USD",
+          "modality": "text",
+          "pricingId": "price:openai/gpt-6-rosalind:standard:short:current",
+          "sourceRefs": [
+            "source:openai:developers-openai-com-api-docs-pricing"
+          ],
+          "unit": "per_1m_tokens",
+          "verificationStatus": "verified"
+        },
+        {
+          "amount": "37.5",
+          "calculationDefault": true,
+          "chargeId": "price:openai/gpt-6-rosalind:standard:short:current:cache_write_12h:text:per_1m_tokens",
+          "component": "cache_write_12h",
+          "condition": {
+            "availabilityRules": [],
+            "contextClass": "short",
+            "defaultAvailabilityStatus": "available",
+            "effectiveFrom": "2026-10-30",
+            "effectiveUntil": null,
+            "priceAdjustments": [],
+            "processingMode": "standard",
+            "promptTokenThreshold": 272000,
+            "regionPolicy": "global",
+            "regionSelector": {
+              "dataResidencies": [
+                "global"
+              ],
+              "endpointGeographies": [
+                "global"
+              ],
+              "pricingGeography": "global_base"
+            },
+            "tierSelection": {
+              "cachedPromptTokensIncluded": true,
+              "comparison": "less_than_or_equal",
+              "tokenBasis": "input_tokens",
+              "wholeRequestPricing": true
+            }
+          },
+          "currency": "USD",
+          "modality": "text",
+          "pricingId": "price:openai/gpt-6-rosalind:standard:short:current",
+          "sourceRefs": [
+            "source:openai:developers-openai-com-api-docs-pricing"
+          ],
+          "unit": "per_1m_tokens",
+          "verificationStatus": "verified"
+        },
+        {
+          "amount": "1.5",
+          "calculationDefault": true,
+          "chargeId": "price:openai/gpt-6-rosalind:standard:short:current:cached_input:text:per_1m_tokens",
+          "component": "cached_input",
+          "condition": {
+            "availabilityRules": [],
+            "contextClass": "short",
+            "defaultAvailabilityStatus": "available",
+            "effectiveFrom": "2026-10-30",
+            "effectiveUntil": null,
+            "priceAdjustments": [],
+            "processingMode": "standard",
+            "promptTokenThreshold": 272000,
+            "regionPolicy": "global",
+            "regionSelector": {
+              "dataResidencies": [
+                "global"
+              ],
+              "endpointGeographies": [
+                "global"
+              ],
+              "pricingGeography": "global_base"
+            },
+            "tierSelection": {
+              "cachedPromptTokensIncluded": true,
+              "comparison": "less_than_or_equal",
+              "tokenBasis": "input_tokens",
+              "wholeRequestPricing": true
+            }
+          },
+          "currency": "USD",
+          "modality": "text",
+          "pricingId": "price:openai/gpt-6-rosalind:standard:short:current",
+          "sourceRefs": [
+            "source:openai:developers-openai-com-api-docs-pricing"
+          ],
+          "unit": "per_1m_tokens",
+          "verificationStatus": "verified"
+        },
+        {
+          "amount": "15",
+          "calculationDefault": true,
+          "chargeId": "price:openai/gpt-6-rosalind:standard:short:current:input:text:per_1m_tokens",
+          "component": "input",
+          "condition": {
+            "availabilityRules": [],
+            "contextClass": "short",
+            "defaultAvailabilityStatus": "available",
+            "effectiveFrom": "2026-10-30",
+            "effectiveUntil": null,
+            "priceAdjustments": [],
+            "processingMode": "standard",
+            "promptTokenThreshold": 272000,
+            "regionPolicy": "global",
+            "regionSelector": {
+              "dataResidencies": [
+                "global"
+              ],
+              "endpointGeographies": [
+                "global"
+              ],
+              "pricingGeography": "global_base"
+            },
+            "tierSelection": {
+              "cachedPromptTokensIncluded": true,
+              "comparison": "less_than_or_equal",
+              "tokenBasis": "input_tokens",
+              "wholeRequestPricing": true
+            }
+          },
+          "currency": "USD",
+          "modality": "text",
+          "pricingId": "price:openai/gpt-6-rosalind:standard:short:current",
+          "sourceRefs": [
+            "source:openai:developers-openai-com-api-docs-pricing"
+          ],
+          "unit": "per_1m_tokens",
+          "verificationStatus": "verified"
+        },
+        {
+          "amount": "75",
+          "calculationDefault": true,
+          "chargeId": "price:openai/gpt-6-rosalind:standard:short:current:output:text:per_1m_tokens",
+          "component": "output",
+          "condition": {
+            "availabilityRules": [],
+            "contextClass": "short",
+            "defaultAvailabilityStatus": "available",
+            "effectiveFrom": "2026-10-30",
+            "effectiveUntil": null,
+            "priceAdjustments": [],
+            "processingMode": "standard",
+            "promptTokenThreshold": 272000,
+            "regionPolicy": "global",
+            "regionSelector": {
+              "dataResidencies": [
+                "global"
+              ],
+              "endpointGeographies": [
+                "global"
+              ],
+              "pricingGeography": "global_base"
+            },
+            "tierSelection": {
+              "cachedPromptTokensIncluded": true,
+              "comparison": "less_than_or_equal",
+              "tokenBasis": "input_tokens",
+              "wholeRequestPricing": true
+            }
+          },
+          "currency": "USD",
+          "modality": "text",
+          "pricingId": "price:openai/gpt-6-rosalind:standard:short:current",
+          "sourceRefs": [
+            "source:openai:developers-openai-com-api-docs-pricing"
+          ],
+          "unit": "per_1m_tokens",
+          "verificationStatus": "verified"
+        }
+      ],
+      "pricingSourceType": "canonical_verified_price",
+      "pricingTiers": [
+        {
+          "cachedInputPrice": 3,
+          "cachedPromptTokensIncluded": true,
+          "calculationDefault": false,
+          "comparison": "greater_than",
+          "contextClass": "long",
+          "currency": "USD",
+          "id": "price:openai/gpt-6-rosalind:standard:long:current",
+          "inputPrice": 30,
+          "label": "Long context",
+          "outputPrice": 112.5,
+          "pricingId": "price:openai/gpt-6-rosalind:standard:long:current",
+          "processingMode": "standard",
+          "promptTokenThreshold": 272000,
+          "sourceRefs": [
+            "source:openai:developers-openai-com-api-docs-pricing"
+          ],
+          "tokenBasis": "input_tokens",
+          "unit": "per_1m_tokens",
+          "verificationStatus": "verified",
+          "wholeRequestPricing": true
+        },
+        {
+          "cachedInputPrice": 1.5,
+          "cachedPromptTokensIncluded": true,
+          "calculationDefault": true,
+          "comparison": "less_than_or_equal",
+          "contextClass": "short",
+          "currency": "USD",
+          "id": "price:openai/gpt-6-rosalind:standard:short:current",
+          "inputPrice": 15,
+          "label": "Short context",
+          "outputPrice": 75,
+          "pricingId": "price:openai/gpt-6-rosalind:standard:short:current",
+          "processingMode": "standard",
+          "promptTokenThreshold": 272000,
+          "sourceRefs": [
+            "source:openai:developers-openai-com-api-docs-pricing"
+          ],
+          "tokenBasis": "input_tokens",
+          "unit": "per_1m_tokens",
+          "verificationStatus": "verified",
+          "wholeRequestPricing": true
+        }
+      ],
+      "provider": "openai",
+      "publicExposure": "public",
+      "redirectTargetInternalId": null,
+      "releaseSourceRef": "source:openai:developers-openai-com-api-docs-changelog",
+      "releaseSourceUrl": "https://developers.openai.com/api/docs/changelog",
+      "releaseStage": "stable",
+      "releasedAt": "2026-10-30",
+      "replacementInternalId": null,
+      "retirementDate": null,
+      "routingBehavior": "direct",
+      "routingDetails": {},
+      "selectedBatchPriceRecordId": null,
+      "selectedBillingPriceRecordId": "price:openai/gpt-6-rosalind:standard:short:current",
+      "selectedPriceEffectiveFrom": "2026-10-30",
+      "selectedPriceEffectiveUntil": null,
+      "selectedPriceRecordId": "price:openai/gpt-6-rosalind:standard:short:current",
+      "sourceRefs": [
+        "source:openai:developers-openai-com-api-docs-changelog",
+        "source:openai:developers-openai-com-api-docs-pricing",
+        "source:openai:help-openai-com-en-articles-20001193-gpt-rosalind-for-life-sciences-research"
+      ],
+      "sourceUrls": [
+        "https://developers.openai.com/api/docs/changelog",
+        "https://developers.openai.com/api/docs/pricing",
+        "https://help.openai.com/en/articles/20001193-gpt-rosalind-for-life-sciences-research"
+      ],
+      "status": "latest",
+      "verificationStatus": "verified",
+      "verifiedAt": "2026-11-06T06:51:23Z",
+      "verifiedSourceRefs": [
         "source:openai:developers-openai-com-api-docs-pricing"
       ]
     },
