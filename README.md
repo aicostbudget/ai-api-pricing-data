@@ -1,6 +1,6 @@
 # AI API Pricing Dataset: LLM prices as JSON, CSV and a free API
 
-Current input, output, cached-input and batch prices for OpenAI, Anthropic Claude, Google Gemini, xAI Grok, DeepSeek, Mistral AI, Cohere, Moonshot AI (Kimi), Alibaba Qwen and Meta. Every record links to the provider's own pricing page and carries the date it was last checked. Unknown prices stay `null`, never `0`.
+Current input, output, cached-input and batch prices for OpenAI, Anthropic Claude, Google Gemini, xAI Grok, DeepSeek, Mistral AI, Cohere, Moonshot AI (Kimi), Alibaba Qwen, Meta, Perplexity, Amazon Nova and Z.ai (Zhipu). Every record links to the provider's own pricing page and carries the date it was last checked. Unknown prices stay `null`, never `0`.
 
 [![Last verified](https://img.shields.io/badge/dynamic/json?url=https%3A%2F%2Faicostbudget.github.io%2Fai-api-pricing-data%2Fapi%2Fv1%2Fmeta.json&query=%24.last_verified_at&label=last%20verified&color=blue)](https://aicostbudget.github.io/ai-api-pricing-data/api/v1/meta.json)
 [![Models](https://img.shields.io/badge/dynamic/json?url=https%3A%2F%2Faicostbudget.github.io%2Fai-api-pricing-data%2Fapi%2Fv1%2Fmeta.json&query=%24.model_count&label=models&color=blue)](https://aicostbudget.github.io/ai-api-pricing-data/api/v1/prices.json)
@@ -32,6 +32,9 @@ USD per 1M tokens, standard list price. 177 models tracked, last verified **2026
 | [Moonshot AI (Kimi)](https://aicostbudget.com/en/providers/moonshot-ai-api-pricing?utm_source=github&utm_medium=referral&utm_campaign=pricing_dataset&utm_content=readme_table_moonshot_ai) | 3 | [Kimi K3.1 Pro](https://aicostbudget.github.io/ai-api-pricing-data/api/v1/models/moonshot-ai/kimi-k3.1-pro.json) $2.00 / $10.00 | [Kimi K3.1 Pro Highspeed](https://aicostbudget.github.io/ai-api-pricing-data/api/v1/models/moonshot-ai/kimi-k3.1-pro-highspeed.json) $4.00 / $20.00 |
 | [Alibaba Qwen](https://aicostbudget.com/en/providers/alibaba-qwen-api-pricing?utm_source=github&utm_medium=referral&utm_campaign=pricing_dataset&utm_content=readme_table_alibaba_qwen) | 4 | [Qwen Flash](https://aicostbudget.github.io/ai-api-pricing-data/api/v1/models/alibaba-qwen/qwen-flash.json) $0.05 / $0.40 | [Qwen3.8 Max](https://aicostbudget.github.io/ai-api-pricing-data/api/v1/models/alibaba-qwen/qwen3.8-max.json) $2.00 / $6.00 |
 | [Meta](https://aicostbudget.com/en/providers/meta-api-pricing?utm_source=github&utm_medium=referral&utm_campaign=pricing_dataset&utm_content=readme_table_meta) | 1 | [Muse Spark 1.3](https://aicostbudget.github.io/ai-api-pricing-data/api/v1/models/meta/muse-spark-1.3.json) $1.25 / $4.25 | same model |
+| [Perplexity](https://aicostbudget.com/en/providers/perplexity-api-pricing?utm_source=github&utm_medium=referral&utm_campaign=pricing_dataset&utm_content=readme_table_perplexity) | 1 | [Sonar](https://aicostbudget.github.io/ai-api-pricing-data/api/v1/models/perplexity/sonar.json) $0.25 / $2.50 | same model |
+| [Amazon Nova](https://aicostbudget.com/en/providers/amazon-nova-api-pricing?utm_source=github&utm_medium=referral&utm_campaign=pricing_dataset&utm_content=readme_table_amazon_nova) | 4 | [Nova Micro](https://aicostbudget.github.io/ai-api-pricing-data/api/v1/models/amazon-nova/nova-micro.json) $0.035 / $0.14 | [Nova Pro](https://aicostbudget.github.io/ai-api-pricing-data/api/v1/models/amazon-nova/nova-pro.json) $0.80 / $3.20 |
+| [Z.ai (Zhipu)](https://aicostbudget.com/en/providers/zhipu-ai-api-pricing?utm_source=github&utm_medium=referral&utm_campaign=pricing_dataset&utm_content=readme_table_zhipu_ai) | 6 | [GLM-5.3-Flash](https://aicostbudget.github.io/ai-api-pricing-data/api/v1/models/zhipu-ai/glm-5.3-flash.json) $0.15 / $0.50 | [GLM-5.3](https://aicostbudget.github.io/ai-api-pricing-data/api/v1/models/zhipu-ai/glm-5.3.json) $1.40 / $4.40 |
 
 Batch, cached-input, cache-write, long-context and non-token prices are in the full data.
 <!-- price-table:end -->
@@ -85,10 +88,12 @@ main();
 ## Interactive Tools
 
 - [Calculate your API cost](https://aicostbudget.com/en/ai-api-cost-calculator?utm_source=github&utm_medium=referral&utm_campaign=pricing_dataset&utm_content=readme_calculator)
+- [Estimate the tokens in a prompt](https://aicostbudget.com/en/token-calculator?utm_source=github&utm_medium=referral&utm_campaign=pricing_dataset&utm_content=readme_token_calculator)
 - [Compare AI model prices](https://aicostbudget.com/en/model-pricing-comparison?utm_source=github&utm_medium=referral&utm_campaign=pricing_dataset&utm_content=readme_comparison)
 - [Track AI model price changes](https://aicostbudget.com/en/model-price-monitor?utm_source=github&utm_medium=referral&utm_campaign=pricing_dataset&utm_content=readme_price_monitor)
 - [Analyze retry cost](https://aicostbudget.com/en/llm-retry-cost-calculator?utm_source=github&utm_medium=referral&utm_campaign=pricing_dataset&utm_content=readme_retry_cost_calculator)
 - [Compare model-switch cost](https://aicostbudget.com/en/model-switch-cost-calculator?utm_source=github&utm_medium=referral&utm_campaign=pricing_dataset&utm_content=readme_model_switch_cost_calculator)
+- [Compare cached input prices by model](https://aicostbudget.com/en/prompt-caching-pricing?utm_source=github&utm_medium=referral&utm_campaign=pricing_dataset&utm_content=readme_prompt_caching_pricing)
 - [Estimate prompt caching savings](https://aicostbudget.com/en/prompt-caching-savings-calculator?utm_source=github&utm_medium=referral&utm_campaign=pricing_dataset&utm_content=readme_prompt_caching_calculator)
 - [Find the cheapest LLM API for a use case](https://aicostbudget.com/en/cheapest-llm-api?utm_source=github&utm_medium=referral&utm_campaign=pricing_dataset&utm_content=readme_cheapest_llm_api)
 - [Compare AI coding plans (Claude Code, Codex, Cursor, Copilot)](https://aicostbudget.com/en/ai-coding-plans?utm_source=github&utm_medium=referral&utm_campaign=pricing_dataset&utm_content=readme_ai_coding_plans)
@@ -116,6 +121,9 @@ Some APIs bill per character, per image or per page instead of per chat token. T
 | Moonshot AI | [Moonshot AI API pricing](https://aicostbudget.com/en/providers/moonshot-ai-api-pricing?utm_source=github&utm_medium=referral&utm_campaign=pricing_dataset&utm_content=moonshot_ai) | Kimi model pricing with automatic prefix-cache hit rates |
 | Alibaba Qwen | [Alibaba Qwen API pricing](https://aicostbudget.com/en/providers/alibaba-qwen-api-pricing?utm_source=github&utm_medium=referral&utm_campaign=pricing_dataset&utm_content=alibaba_qwen) | Qwen list prices for the International (Singapore) scope, including per-request 256K tiers |
 | Meta | [Meta Muse API pricing](https://aicostbudget.com/en/providers/meta-api-pricing?utm_source=github&utm_medium=referral&utm_campaign=pricing_dataset&utm_content=meta) | Muse Wonder and Muse Spark Standard-mode prices from Meta Model API |
+| Perplexity | [Perplexity Sonar API pricing](https://aicostbudget.com/en/providers/perplexity-api-pricing?utm_source=github&utm_medium=referral&utm_campaign=pricing_dataset&utm_content=perplexity) | Sonar token prices, plus the per-call web search and fetch fees billed on top |
+| Amazon Nova | [Amazon Nova API pricing](https://aicostbudget.com/en/providers/amazon-nova-api-pricing?utm_source=github&utm_medium=referral&utm_campaign=pricing_dataset&utm_content=amazon_nova) | Nova 2 Lite, Pro, Lite and Micro on Amazon Bedrock, with batch and cached input rates |
+| Z.ai (Zhipu) | [Z.ai GLM API pricing](https://aicostbudget.com/en/providers/zhipu-ai-api-pricing?utm_source=github&utm_medium=referral&utm_campaign=pricing_dataset&utm_content=zhipu_ai) | GLM-5.3, GLM-5 and GLM-4.7 international USD prices with cached input |
 
 ## Dataset Trust & Freshness
 
@@ -203,6 +211,8 @@ Unknown or unverified prices are represented as `null`, never `0`.
 The CSV output includes normalized pricing fields for provider, model, pricing unit, source URL, verification dates, and notes.
 
 ## Historical Pricing
+
+To read the history instead of parsing it, see the [LLM API price history page](https://aicostbudget.com/en/llm-api-price-history?utm_source=github&utm_medium=referral&utm_campaign=pricing_dataset&utm_content=readme_price_history).
 
 Per-model history files are stored under:
 
