@@ -2,14 +2,14 @@
   "dataset_name": "AICostBudget AI API Pricing Dataset",
   "dataset_version": "1.0.0",
   "description": "Open, machine-readable pricing data for LLM and AI APIs.",
-  "generated_at": "2026-11-06T12:41:27Z",
+  "generated_at": "2026-11-08T04:27:32Z",
   "homepage": "https://aicostbudget.com",
-  "last_verified_at": "2026-11-06T12:40:01Z",
+  "last_verified_at": "2026-11-08T04:25:25Z",
   "licenses": {
     "code": "MIT",
     "data": "CC BY 4.0"
   },
-  "model_count": 177,
+  "model_count": 179,
   "models": [
     {
       "access_checked_at": "2026-10-28T16:44:42Z",
@@ -16608,6 +16608,297 @@
       },
       "release_stage": "stable",
       "released_at": "2026-10-06",
+      "status": "active"
+    },
+    {
+      "access_checked_at": "2026-11-08T04:25:25Z",
+      "access_evidence": [
+        {
+          "claim_type": "official_access_public",
+          "official_model_id": "gemini-omni-1.1-flash",
+          "scope": "The exact model is documented for paid Gemini API access; it is not available on the Free tier.",
+          "title": "gemini-omni-1.1-flash official model access documentation",
+          "url": "https://ai.google.dev/gemini-api/docs/models/gemini-omni-flash"
+        }
+      ],
+      "access_status": "public",
+      "accessed_at": "2026-11-08T04:25:25Z",
+      "binding_evidence": [
+        {
+          "claim_type": "official_identity_binding",
+          "official_model_id": "gemini-omni-1.1-flash",
+          "reason": "The official model page documents the exact Gemini API model code.",
+          "title": "gemini-omni-1.1-flash official identity documentation",
+          "url": "https://ai.google.dev/gemini-api/docs/models/gemini-omni-flash"
+        }
+      ],
+      "binding_status": "approved",
+      "context_window_tokens": 131072,
+      "display_name": "Gemini Omni 1.1 Flash",
+      "effective_from": "2026-08-27",
+      "input_modality": "text",
+      "last_verified_at": "2026-11-08T04:25:25Z",
+      "lifecycle": {
+        "replacement_model_id": "gemini-omni-1.2-flash",
+        "retirement_date": "2026-12-03",
+        "retirement_notice_date": "2026-11-05",
+        "scheduled_transition": {
+          "billing_configuration": {
+            "model": "gemini-omni-1.2-flash"
+          },
+          "billing_model_id": "gemini-omni-1.2-flash",
+          "billing_source": "redirect_target",
+          "effective_from": "2026-12-03",
+          "kind": "retirement_redirect",
+          "redirect_target_model_id": "gemini-omni-1.2-flash",
+          "source_slug_remains_resolvable": true,
+          "target_configuration": {
+            "model": "gemini-omni-1.2-flash"
+          }
+        }
+      },
+      "max_output_tokens": 65536,
+      "model_category": "video_generation",
+      "model_family": "Gemini Omni Flash",
+      "model_id": "gemini-omni-1.1-flash",
+      "notes": "Generally available 2026-08-27. Previous-generation video generation and editing model: text, image and video input, video output, clips 3 to 10 seconds at 360p, 720p, 1080p or 4K. Paid tier only. Video output is $17.50 per 1M tokens, about $0.10 per second of 720p video (5,792 tokens per second). Google announced on 2026-11-05 that from 2026-12-03 API requests to gemini-omni-1.1-flash automatically route to gemini-omni-1.2-flash and are billed at Gemini Omni 1.2 Flash rates.",
+      "official_source_url": "https://ai.google.dev/gemini-api/docs/pricing",
+      "official_source_urls": [
+        "https://ai.google.dev/gemini-api/docs/pricing",
+        "https://ai.google.dev/gemini-api/docs/models/gemini-omni-flash",
+        "https://ai.google.dev/gemini-api/docs/changelog",
+        "https://ai.google.dev/gemini-api/docs/deprecations"
+      ],
+      "output_modality": "video",
+      "price_records": [
+        {
+          "billing_note": "Paid-tier Standard token rates; no Free tier, Batch, Flex, Priority or caching. Video output is billed per output token: Google counts 5,792 tokens per second of 720p video, about $0.10 per second. Text output includes thinking tokens. From 2026-12-03 requests route to gemini-omni-1.2-flash and are billed at its rates.",
+          "calculation_default": true,
+          "charges": [
+            {
+              "amount": "1.5",
+              "component": "input",
+              "id": "price:google-gemini/gemini-omni-1.1-flash:standard:short:current:input:text:per_1m_tokens",
+              "modality": "text",
+              "unit": "per_1m_tokens"
+            },
+            {
+              "amount": "1.5",
+              "component": "input",
+              "id": "price:google-gemini/gemini-omni-1.1-flash:standard:short:current:input:image:per_1m_tokens",
+              "modality": "image",
+              "unit": "per_1m_tokens"
+            },
+            {
+              "amount": "1.5",
+              "component": "input",
+              "id": "price:google-gemini/gemini-omni-1.1-flash:standard:short:current:input:video:per_1m_tokens",
+              "modality": "video",
+              "unit": "per_1m_tokens"
+            },
+            {
+              "amount": "9",
+              "component": "output",
+              "id": "price:google-gemini/gemini-omni-1.1-flash:standard:short:current:output:text:per_1m_tokens",
+              "modality": "text",
+              "unit": "per_1m_tokens"
+            },
+            {
+              "amount": "17.5",
+              "component": "output",
+              "id": "price:google-gemini/gemini-omni-1.1-flash:standard:short:current:output:video:per_1m_tokens",
+              "modality": "video",
+              "unit": "per_1m_tokens"
+            }
+          ],
+          "checked_at": "2026-11-08T04:25:25Z",
+          "context_class": "short",
+          "currency": "USD",
+          "effective_from": "2026-08-27",
+          "effective_until": null,
+          "id": "price:google-gemini/gemini-omni-1.1-flash:standard:short:current",
+          "pricing_status": "current",
+          "processing_mode": "standard",
+          "prompt_token_threshold": null,
+          "region_policy": {
+            "availability": {
+              "default": "available",
+              "rules": []
+            },
+            "data_residencies": [
+              "global"
+            ],
+            "endpoint_geographies": [
+              "global"
+            ],
+            "price_adjustments": [],
+            "pricing_geography": "global_base"
+          },
+          "source_refs": [
+            "https://ai.google.dev/gemini-api/docs/pricing",
+            "https://ai.google.dev/gemini-api/docs/models/gemini-omni-flash",
+            "https://ai.google.dev/gemini-api/docs/changelog",
+            "https://ai.google.dev/gemini-api/docs/deprecations"
+          ],
+          "verification_status": "verified",
+          "verified_at": "2026-11-08T04:25:25Z"
+        }
+      ],
+      "pricing": {
+        "batch_input": null,
+        "batch_output": null,
+        "cache_write": null,
+        "cache_write_1h": null,
+        "cached_input": null,
+        "currency": "USD",
+        "input": 1.5,
+        "output": 9.0,
+        "unit": "1M tokens"
+      },
+      "project_context_window": true,
+      "provider_id": "google-gemini",
+      "release_evidence": {
+        "source_type": "official_changelog",
+        "title": "Gemini API release notes: Gemini Omni 1.1 Flash generally available",
+        "url": "https://ai.google.dev/gemini-api/docs/changelog"
+      },
+      "release_stage": "stable",
+      "released_at": "2026-08-27",
+      "status": "deprecated"
+    },
+    {
+      "access_checked_at": "2026-11-08T04:25:19Z",
+      "access_evidence": [
+        {
+          "claim_type": "official_access_public",
+          "official_model_id": "gemini-omni-1.2-flash",
+          "scope": "The exact model is documented for paid Gemini API access; it is not available on the Free tier.",
+          "title": "gemini-omni-1.2-flash official model access documentation",
+          "url": "https://ai.google.dev/gemini-api/docs/models/gemini-omni-flash"
+        }
+      ],
+      "access_status": "public",
+      "accessed_at": "2026-11-08T04:25:19Z",
+      "binding_evidence": [
+        {
+          "claim_type": "official_identity_binding",
+          "official_model_id": "gemini-omni-1.2-flash",
+          "reason": "The official model page documents the exact Gemini API model code.",
+          "title": "gemini-omni-1.2-flash official identity documentation",
+          "url": "https://ai.google.dev/gemini-api/docs/models/gemini-omni-flash"
+        }
+      ],
+      "binding_status": "approved",
+      "context_window_tokens": 131072,
+      "display_name": "Gemini Omni 1.2 Flash",
+      "effective_from": "2026-11-05",
+      "input_modality": "text",
+      "last_verified_at": "2026-11-08T04:25:19Z",
+      "max_output_tokens": 65536,
+      "model_category": "video_generation",
+      "model_family": "Gemini Omni Flash",
+      "model_id": "gemini-omni-1.2-flash",
+      "notes": "Generally available 2026-11-05. Video generation and conversational editing model: text, image and video input; video with native audio and text output. Clips are 3 to 15 seconds at 360p, 720p, 1080p or 4K (24 FPS); 1080p and 4K use upsampling. Input limit 131,072 tokens, output limit 65,536 tokens. Paid tier only; no Batch or caching. Video output is $12 per 1M tokens, which Google puts at about $0.07 per second of 720p video (5,792 tokens per second), 30% below Gemini Omni 1.1 Flash.",
+      "official_source_url": "https://ai.google.dev/gemini-api/docs/pricing",
+      "official_source_urls": [
+        "https://ai.google.dev/gemini-api/docs/pricing",
+        "https://ai.google.dev/gemini-api/docs/models/gemini-omni-flash",
+        "https://ai.google.dev/gemini-api/docs/changelog"
+      ],
+      "output_modality": "video",
+      "price_records": [
+        {
+          "billing_note": "Paid-tier Standard token rates; no Free tier, Batch, Flex, Priority or caching. Video output is billed per output token: Google counts 5,792 tokens per second of 720p video, about $0.07 per second (about $0.70 for 10 s, $1.04 for 15 s). Google's per-second estimates for other resolutions: $0.023/s for 360p (1,931 tokens/s), $0.104/s for 1080p (8,688 tokens/s) and $0.209/s for 4K (17,376 tokens/s); 1080p and 4K use upsampling. Text output includes thinking tokens.",
+          "calculation_default": true,
+          "charges": [
+            {
+              "amount": "1.5",
+              "component": "input",
+              "id": "price:google-gemini/gemini-omni-1.2-flash:standard:short:current:input:text:per_1m_tokens",
+              "modality": "text",
+              "unit": "per_1m_tokens"
+            },
+            {
+              "amount": "1.5",
+              "component": "input",
+              "id": "price:google-gemini/gemini-omni-1.2-flash:standard:short:current:input:image:per_1m_tokens",
+              "modality": "image",
+              "unit": "per_1m_tokens"
+            },
+            {
+              "amount": "1.5",
+              "component": "input",
+              "id": "price:google-gemini/gemini-omni-1.2-flash:standard:short:current:input:video:per_1m_tokens",
+              "modality": "video",
+              "unit": "per_1m_tokens"
+            },
+            {
+              "amount": "9",
+              "component": "output",
+              "id": "price:google-gemini/gemini-omni-1.2-flash:standard:short:current:output:text:per_1m_tokens",
+              "modality": "text",
+              "unit": "per_1m_tokens"
+            },
+            {
+              "amount": "12",
+              "component": "output",
+              "id": "price:google-gemini/gemini-omni-1.2-flash:standard:short:current:output:video:per_1m_tokens",
+              "modality": "video",
+              "unit": "per_1m_tokens"
+            }
+          ],
+          "checked_at": "2026-11-08T04:25:19Z",
+          "context_class": "short",
+          "currency": "USD",
+          "effective_from": "2026-11-05",
+          "effective_until": null,
+          "id": "price:google-gemini/gemini-omni-1.2-flash:standard:short:current",
+          "pricing_status": "current",
+          "processing_mode": "standard",
+          "prompt_token_threshold": null,
+          "region_policy": {
+            "availability": {
+              "default": "available",
+              "rules": []
+            },
+            "data_residencies": [
+              "global"
+            ],
+            "endpoint_geographies": [
+              "global"
+            ],
+            "price_adjustments": [],
+            "pricing_geography": "global_base"
+          },
+          "source_refs": [
+            "https://ai.google.dev/gemini-api/docs/pricing",
+            "https://ai.google.dev/gemini-api/docs/models/gemini-omni-flash",
+            "https://ai.google.dev/gemini-api/docs/changelog"
+          ],
+          "verification_status": "verified",
+          "verified_at": "2026-11-08T04:25:19Z"
+        }
+      ],
+      "pricing": {
+        "batch_input": null,
+        "batch_output": null,
+        "cache_write": null,
+        "cache_write_1h": null,
+        "cached_input": null,
+        "currency": "USD",
+        "input": 1.5,
+        "output": 9.0,
+        "unit": "1M tokens"
+      },
+      "project_context_window": true,
+      "provider_id": "google-gemini",
+      "release_evidence": {
+        "source_type": "official_changelog",
+        "title": "Gemini API release notes: Gemini Omni 1.2 Flash generally available",
+        "url": "https://ai.google.dev/gemini-api/docs/changelog"
+      },
+      "release_stage": "stable",
+      "released_at": "2026-11-05",
       "status": "active"
     },
     {

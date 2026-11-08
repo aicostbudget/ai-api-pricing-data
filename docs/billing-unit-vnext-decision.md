@@ -107,3 +107,18 @@ multi-modality public contract is adopted.
 Official sources: https://ai.google.dev/gemini-api/docs/changelog,
 https://ai.google.dev/gemini-api/docs/models/gemini-omni-flash, and
 https://ai.google.dev/gemini-api/docs/pricing.
+
+**Update 2026-11-08: both Omni models added.** The structured contract this
+section waited for now exists: canonical `price_records` carry per-modality
+charges, and the Website shows them (Gemini Nano Banana 2.1 has used the same
+shape since 2026-10-09). `gemini-omni-1.2-flash` (GA 2026-11-05, video output
+USD 12.00 per 1M tokens, about USD 0.07 per second at 720p) and
+`gemini-omni-1.1-flash` (USD 17.50, about USD 0.10 per second; routed to 1.2
+Flash and billed at its rates from 2026-12-03) are added with the V1 output
+column holding the text rate (USD 9.00) only, as text/thinking compatibility;
+video output is a separate `output`/`video`/`per_1m_tokens` charge, and the
+billing note gives Google's per-second estimates. Google bills video by output
+tokens (5,792 tokens per second of 720p), so no `per_second` charge is stored.
+Token calculators exclude models with video output, as they exclude image
+output. `gemini-omni-flash-preview` is shut down and stays out. Audio input is
+no longer listed on the pricing page (text / image / video only).

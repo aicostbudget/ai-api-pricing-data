@@ -314,8 +314,24 @@ class P0P1PricingUpdateTests(unittest.TestCase):
             "batch_output",
         ):
             self.assertIsNone(parse["pricing"][field], field)
-        self.assertNotIn("gemini-omni-1.1-flash", self.canonical_by_id)
+        # Omni joined canonical on 2026-11-08 (docs/billing-unit-vnext-decision.md): the V1
+        # output column carries the text rate only; video output must stay a structured charge.
         self.assertNotIn("gemini-omni-flash-preview", self.canonical_by_id)
+        for model_id, text_out, video_out in (
+            ("gemini-omni-1.2-flash", "9", "12"),
+            ("gemini-omni-1.1-flash", "9", "17.5"),
+        ):
+            omni = self.canonical_by_id[model_id]
+            self.assertEqual(omni["output_modality"], "video", model_id)
+            self.assertEqual(omni["pricing"]["output"], float(text_out), model_id)
+            charges = {
+                (charge["component"], charge["modality"]): charge
+                for charge in omni["price_records"][0]["charges"]
+            }
+            self.assertEqual(charges[("output", "text")]["amount"], text_out, model_id)
+            self.assertEqual(charges[("output", "video")]["amount"], video_out, model_id)
+            self.assertEqual(charges[("output", "video")]["unit"], "per_1m_tokens", model_id)
+            self.assertIn("per second", omni["price_records"][0]["billing_note"], model_id)
         schema = read_json("schema/pricing-v2-preview.schema.json")
         units = schema["$defs"]["chargeRecord"]["properties"]["unit"]["enum"]
         for unit in (

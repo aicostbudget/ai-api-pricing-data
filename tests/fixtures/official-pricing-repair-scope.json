@@ -148,7 +148,9 @@
     "openai/o3": "dec1d323d06968667ae1adac106acfacf42b191051fd275ba64dd59dcbf47029",
     "openai/gpt-5.5-cyber-preview": "a9bf230f3dfd53c55a3df14590180540f14fd9d9bff5cf1edb4099b46de878cb",
     "openai/gpt-5.6-cyber": "cb4b161c05f0b0f79fba83e3387909aaa7a5582546b722628c253385fd7e0c42",
-    "openai/gpt-6-cyber": "fd6075de40a6f47b3cfd6625d6373cf9be643e7631ac73bf34985697992eb5a5"
+    "openai/gpt-6-cyber": "fd6075de40a6f47b3cfd6625d6373cf9be643e7631ac73bf34985697992eb5a5",
+    "google-gemini/gemini-omni-1.1-flash": "360c46bf2acb2ef5ccd49668cddbeb58af7e5a02da62d36161d05de6c1af2ec1",
+    "google-gemini/gemini-omni-1.2-flash": "1a4296219b425356a0ec24c82038a862add610b29855cfa5b1da16a51a0166f1"
   },
   "projection": {
     "anthropic/claude-haiku-5-5": "af29b32c2ccf35ff1c0444c94ef97aeb28fa3a230f6207e8ec41b673f4efb078",
@@ -308,7 +310,9 @@
     "openai/gpt-5-mini": "b1ab13a5ecc33e9f9d90c1a41713873cc71f34257e8cfd655c4280989ed57aba",
     "openai/gpt-5.5-cyber-preview": "1be9a45d110997339546592e658c1171e4c9c9b92ba63af49b5804c1eba64c73",
     "openai/gpt-5.6-cyber": "ae892a6b0c9307cb85d193f8027b4a5f320cd0a9af0aca95a014572dbd9cc28c",
-    "openai/gpt-6-cyber": "7ea244732b9f118d4a237d0a7f1a792c5e23da056ddaa5a0b16a3b02be5d30b3"
+    "openai/gpt-6-cyber": "7ea244732b9f118d4a237d0a7f1a792c5e23da056ddaa5a0b16a3b02be5d30b3",
+    "google-gemini/gemini-omni-1.1-flash": "80e536da8eedc653b2ded0cd64cf5e8ce29d336beef5fd9993c9c3510dcaa3f2",
+    "google-gemini/gemini-omni-1.2-flash": "e7f66d7efa9e4de87915e422a2870a909123a2fcb57f47ea3981e6049cc99420"
   },
   "evidence_report": "official-pricing-repair-report.md",
   "events_sha256": "a04e3fbb1d4cb049f2d9cfcadfca3b6383fc1bcdc3df6ca0ee6cfddc38e706ed",
@@ -908,5 +912,46 @@
       }
     },
     "rationale": "Release 2026-11-06-7 adds the restricted Daybreak Red cyber models gpt-6-cyber (changelog 2026-11-05) and gpt-5.6-cyber (changelog 2026-08-07) with their Standard short-context prices from the pricing page and model pages; the generator appends one model_added event per model."
+  },
+  "gemini_omni_models_added_extension": {
+    "identities": [
+      "google-gemini/gemini-omni-1.1-flash",
+      "google-gemini/gemini-omni-1.2-flash"
+    ],
+    "base_release": "openai_cyber_models_added_extension",
+    "base_event_count": 79,
+    "appended_event_count": 2,
+    "full_event_count": 81,
+    "full_events_sha256": "c94ac75277d05bfd51dad806252d2c1a078c9e561e1e41c1d0617bd74f6553d2",
+    "appended_events_sha256": "5aafd9fb7adbe10b523867ddb90eeadf18619c332c7f91e6224e9b7bb91b4c36",
+    "appended_event_ids": [
+      "google-gemini:gemini-omni-1.1-flash:model_added:4c3f3a5ed020",
+      "google-gemini:gemini-omni-1.2-flash:model_added:a68bdf92e34f"
+    ],
+    "appended_dedupe_keys": [
+      "sha256:4c3f3a5ed0205a7af44159f44433d007f33ec969a1a1491e851ad023c68b58b4",
+      "sha256:a68bdf92e34f3690f106daee178c5ef97d6353fc04d618d8f3455349488b1f6d"
+    ],
+    "effective_dates": {
+      "google-gemini/gemini-omni-1.1-flash": "2026-08-27",
+      "google-gemini/gemini-omni-1.2-flash": "2026-11-05"
+    },
+    "new_statuses": {
+      "google-gemini/gemini-omni-1.1-flash": "deprecated",
+      "google-gemini/gemini-omni-1.2-flash": "active"
+    },
+    "new_prices": {
+      "google-gemini/gemini-omni-1.1-flash": {
+        "cached_input": null,
+        "input": 1.5,
+        "output": 9
+      },
+      "google-gemini/gemini-omni-1.2-flash": {
+        "cached_input": null,
+        "input": 1.5,
+        "output": 9
+      }
+    },
+    "rationale": "Release 2026-11-08 adds Google's Gemini Omni Flash video models: gemini-omni-1.2-flash (GA 2026-11-05, video output $12 per 1M tokens) and gemini-omni-1.1-flash (GA 2026-08-27, video output $17.50 per 1M tokens, routed to 1.2 Flash from 2026-12-03); the generator appends one model_added event per model."
   }
 }
