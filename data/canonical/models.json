@@ -34140,6 +34140,297 @@
     "released_at": null
   },
   {
+    "provider_id": "google-gemini",
+    "model_id": "gemini-omni-1.2-flash",
+    "display_name": "Gemini Omni 1.2 Flash",
+    "model_family": "Gemini Omni Flash",
+    "model_category": "video_generation",
+    "status": "active",
+    "release_stage": "stable",
+    "released_at": "2026-11-05",
+    "release_evidence": {
+      "url": "https://ai.google.dev/gemini-api/docs/changelog",
+      "title": "Gemini API release notes: Gemini Omni 1.2 Flash generally available",
+      "source_type": "official_changelog"
+    },
+    "context_window_tokens": 131072,
+    "project_context_window": true,
+    "max_output_tokens": 65536,
+    "input_modality": "text",
+    "output_modality": "video",
+    "official_source_url": "https://ai.google.dev/gemini-api/docs/pricing",
+    "official_source_urls": [
+      "https://ai.google.dev/gemini-api/docs/pricing",
+      "https://ai.google.dev/gemini-api/docs/models/gemini-omni-flash",
+      "https://ai.google.dev/gemini-api/docs/changelog"
+    ],
+    "accessed_at": "2026-11-08T04:25:19Z",
+    "last_verified_at": "2026-11-08T04:25:19Z",
+    "effective_from": "2026-11-05",
+    "notes": "Generally available 2026-11-05. Video generation and conversational editing model: text, image and video input; video with native audio and text output. Clips are 3 to 15 seconds at 360p, 720p, 1080p or 4K (24 FPS); 1080p and 4K use upsampling. Input limit 131,072 tokens, output limit 65,536 tokens. Paid tier only; no Batch or caching. Video output is $12 per 1M tokens, which Google puts at about $0.07 per second of 720p video (5,792 tokens per second), 30% below Gemini Omni 1.1 Flash.",
+    "access_status": "public",
+    "access_checked_at": "2026-11-08T04:25:19Z",
+    "access_evidence": [
+      {
+        "url": "https://ai.google.dev/gemini-api/docs/models/gemini-omni-flash",
+        "title": "gemini-omni-1.2-flash official model access documentation",
+        "claim_type": "official_access_public",
+        "official_model_id": "gemini-omni-1.2-flash",
+        "scope": "The exact model is documented for paid Gemini API access; it is not available on the Free tier."
+      }
+    ],
+    "binding_status": "approved",
+    "binding_evidence": [
+      {
+        "url": "https://ai.google.dev/gemini-api/docs/models/gemini-omni-flash",
+        "title": "gemini-omni-1.2-flash official identity documentation",
+        "claim_type": "official_identity_binding",
+        "official_model_id": "gemini-omni-1.2-flash",
+        "reason": "The official model page documents the exact Gemini API model code."
+      }
+    ],
+    "price_records": [
+      {
+        "id": "price:google-gemini/gemini-omni-1.2-flash:standard:short:current",
+        "processing_mode": "standard",
+        "context_class": "short",
+        "pricing_status": "current",
+        "calculation_default": true,
+        "prompt_token_threshold": null,
+        "effective_from": "2026-11-05",
+        "effective_until": null,
+        "currency": "USD",
+        "charges": [
+          {
+            "id": "price:google-gemini/gemini-omni-1.2-flash:standard:short:current:input:text:per_1m_tokens",
+            "component": "input",
+            "modality": "text",
+            "unit": "per_1m_tokens",
+            "amount": "1.5"
+          },
+          {
+            "id": "price:google-gemini/gemini-omni-1.2-flash:standard:short:current:input:image:per_1m_tokens",
+            "component": "input",
+            "modality": "image",
+            "unit": "per_1m_tokens",
+            "amount": "1.5"
+          },
+          {
+            "id": "price:google-gemini/gemini-omni-1.2-flash:standard:short:current:input:video:per_1m_tokens",
+            "component": "input",
+            "modality": "video",
+            "unit": "per_1m_tokens",
+            "amount": "1.5"
+          },
+          {
+            "id": "price:google-gemini/gemini-omni-1.2-flash:standard:short:current:output:text:per_1m_tokens",
+            "component": "output",
+            "modality": "text",
+            "unit": "per_1m_tokens",
+            "amount": "9"
+          },
+          {
+            "id": "price:google-gemini/gemini-omni-1.2-flash:standard:short:current:output:video:per_1m_tokens",
+            "component": "output",
+            "modality": "video",
+            "unit": "per_1m_tokens",
+            "amount": "12"
+          }
+        ],
+        "region_policy": {
+          "pricing_geography": "global_base",
+          "endpoint_geographies": [
+            "global"
+          ],
+          "data_residencies": [
+            "global"
+          ],
+          "availability": {
+            "default": "available",
+            "rules": []
+          },
+          "price_adjustments": []
+        },
+        "source_refs": [
+          "https://ai.google.dev/gemini-api/docs/pricing",
+          "https://ai.google.dev/gemini-api/docs/models/gemini-omni-flash",
+          "https://ai.google.dev/gemini-api/docs/changelog"
+        ],
+        "verification_status": "verified",
+        "checked_at": "2026-11-08T04:25:19Z",
+        "verified_at": "2026-11-08T04:25:19Z",
+        "billing_note": "Paid-tier Standard token rates; no Free tier, Batch, Flex, Priority or caching. Video output is billed per output token: Google counts 5,792 tokens per second of 720p video, about $0.07 per second (about $0.70 for 10 s, $1.04 for 15 s). Google's per-second estimates for other resolutions: $0.023/s for 360p (1,931 tokens/s), $0.104/s for 1080p (8,688 tokens/s) and $0.209/s for 4K (17,376 tokens/s); 1080p and 4K use upsampling. Text output includes thinking tokens."
+      }
+    ],
+    "pricing": {
+      "currency": "USD",
+      "unit": "1M tokens",
+      "input": 1.5,
+      "output": 9.0,
+      "cached_input": null,
+      "cache_write": null,
+      "cache_write_1h": null,
+      "batch_input": null,
+      "batch_output": null
+    }
+  },
+  {
+    "provider_id": "google-gemini",
+    "model_id": "gemini-omni-1.1-flash",
+    "display_name": "Gemini Omni 1.1 Flash",
+    "model_family": "Gemini Omni Flash",
+    "model_category": "video_generation",
+    "status": "deprecated",
+    "release_stage": "stable",
+    "released_at": "2026-08-27",
+    "release_evidence": {
+      "url": "https://ai.google.dev/gemini-api/docs/changelog",
+      "title": "Gemini API release notes: Gemini Omni 1.1 Flash generally available",
+      "source_type": "official_changelog"
+    },
+    "context_window_tokens": 131072,
+    "project_context_window": true,
+    "max_output_tokens": 65536,
+    "input_modality": "text",
+    "output_modality": "video",
+    "official_source_url": "https://ai.google.dev/gemini-api/docs/pricing",
+    "official_source_urls": [
+      "https://ai.google.dev/gemini-api/docs/pricing",
+      "https://ai.google.dev/gemini-api/docs/models/gemini-omni-flash",
+      "https://ai.google.dev/gemini-api/docs/changelog",
+      "https://ai.google.dev/gemini-api/docs/deprecations"
+    ],
+    "accessed_at": "2026-11-08T04:25:25Z",
+    "last_verified_at": "2026-11-08T04:25:25Z",
+    "effective_from": "2026-08-27",
+    "notes": "Generally available 2026-08-27. Previous-generation video generation and editing model: text, image and video input, video output, clips 3 to 10 seconds at 360p, 720p, 1080p or 4K. Paid tier only. Video output is $17.50 per 1M tokens, about $0.10 per second of 720p video (5,792 tokens per second). Google announced on 2026-11-05 that from 2026-12-03 API requests to gemini-omni-1.1-flash automatically route to gemini-omni-1.2-flash and are billed at Gemini Omni 1.2 Flash rates.",
+    "access_status": "public",
+    "access_checked_at": "2026-11-08T04:25:25Z",
+    "access_evidence": [
+      {
+        "url": "https://ai.google.dev/gemini-api/docs/models/gemini-omni-flash",
+        "title": "gemini-omni-1.1-flash official model access documentation",
+        "claim_type": "official_access_public",
+        "official_model_id": "gemini-omni-1.1-flash",
+        "scope": "The exact model is documented for paid Gemini API access; it is not available on the Free tier."
+      }
+    ],
+    "binding_status": "approved",
+    "binding_evidence": [
+      {
+        "url": "https://ai.google.dev/gemini-api/docs/models/gemini-omni-flash",
+        "title": "gemini-omni-1.1-flash official identity documentation",
+        "claim_type": "official_identity_binding",
+        "official_model_id": "gemini-omni-1.1-flash",
+        "reason": "The official model page documents the exact Gemini API model code."
+      }
+    ],
+    "price_records": [
+      {
+        "id": "price:google-gemini/gemini-omni-1.1-flash:standard:short:current",
+        "processing_mode": "standard",
+        "context_class": "short",
+        "pricing_status": "current",
+        "calculation_default": true,
+        "prompt_token_threshold": null,
+        "effective_from": "2026-08-27",
+        "effective_until": null,
+        "currency": "USD",
+        "charges": [
+          {
+            "id": "price:google-gemini/gemini-omni-1.1-flash:standard:short:current:input:text:per_1m_tokens",
+            "component": "input",
+            "modality": "text",
+            "unit": "per_1m_tokens",
+            "amount": "1.5"
+          },
+          {
+            "id": "price:google-gemini/gemini-omni-1.1-flash:standard:short:current:input:image:per_1m_tokens",
+            "component": "input",
+            "modality": "image",
+            "unit": "per_1m_tokens",
+            "amount": "1.5"
+          },
+          {
+            "id": "price:google-gemini/gemini-omni-1.1-flash:standard:short:current:input:video:per_1m_tokens",
+            "component": "input",
+            "modality": "video",
+            "unit": "per_1m_tokens",
+            "amount": "1.5"
+          },
+          {
+            "id": "price:google-gemini/gemini-omni-1.1-flash:standard:short:current:output:text:per_1m_tokens",
+            "component": "output",
+            "modality": "text",
+            "unit": "per_1m_tokens",
+            "amount": "9"
+          },
+          {
+            "id": "price:google-gemini/gemini-omni-1.1-flash:standard:short:current:output:video:per_1m_tokens",
+            "component": "output",
+            "modality": "video",
+            "unit": "per_1m_tokens",
+            "amount": "17.5"
+          }
+        ],
+        "region_policy": {
+          "pricing_geography": "global_base",
+          "endpoint_geographies": [
+            "global"
+          ],
+          "data_residencies": [
+            "global"
+          ],
+          "availability": {
+            "default": "available",
+            "rules": []
+          },
+          "price_adjustments": []
+        },
+        "source_refs": [
+          "https://ai.google.dev/gemini-api/docs/pricing",
+          "https://ai.google.dev/gemini-api/docs/models/gemini-omni-flash",
+          "https://ai.google.dev/gemini-api/docs/changelog",
+          "https://ai.google.dev/gemini-api/docs/deprecations"
+        ],
+        "verification_status": "verified",
+        "checked_at": "2026-11-08T04:25:25Z",
+        "verified_at": "2026-11-08T04:25:25Z",
+        "billing_note": "Paid-tier Standard token rates; no Free tier, Batch, Flex, Priority or caching. Video output is billed per output token: Google counts 5,792 tokens per second of 720p video, about $0.10 per second. Text output includes thinking tokens. From 2026-12-03 requests route to gemini-omni-1.2-flash and are billed at its rates."
+      }
+    ],
+    "pricing": {
+      "currency": "USD",
+      "unit": "1M tokens",
+      "input": 1.5,
+      "output": 9.0,
+      "cached_input": null,
+      "cache_write": null,
+      "cache_write_1h": null,
+      "batch_input": null,
+      "batch_output": null
+    },
+    "lifecycle": {
+      "retirement_notice_date": "2026-11-05",
+      "retirement_date": "2026-12-03",
+      "replacement_model_id": "gemini-omni-1.2-flash",
+      "scheduled_transition": {
+        "kind": "retirement_redirect",
+        "effective_from": "2026-12-03",
+        "source_slug_remains_resolvable": true,
+        "redirect_target_model_id": "gemini-omni-1.2-flash",
+        "target_configuration": {
+          "model": "gemini-omni-1.2-flash"
+        },
+        "billing_source": "redirect_target",
+        "billing_model_id": "gemini-omni-1.2-flash",
+        "billing_configuration": {
+          "model": "gemini-omni-1.2-flash"
+        }
+      }
+    }
+  },
+  {
     "provider_id": "mistral-ai",
     "model_id": "voxtral-mini-transcribe-3-0",
     "display_name": "Voxtral Mini Transcribe 3",
