@@ -233,9 +233,10 @@ class TargetedSqlSeedTests(unittest.TestCase):
 
     def test_round1_notes_and_ten_astra_record_payloads_preserved(self):
         cohere = self.after[('prices', 'price:cohere/command-a-plus:standard:short:current')].payload
-        self.assertIn('$32.50', cohere['billingNote'])
-        self.assertIn('$17.50', cohere['billingNote'])
-        self.assertNotIn('$57.50', cohere['billingNote'])
+        # 2026-11-09: Model Vault is now priced by GPU type, so no per-model instance-hour rate is kept.
+        self.assertIn('no Command A+ instance-hour price is recorded', cohere['billingNote'])
+        for stale in ('$17.50', '$32.50', '$57.50'):
+            self.assertNotIn(stale, cohere['billingNote'])
         mythos = self.after[('prices', 'price:anthropic/claude-mythos-5-1:standard:short:current')].payload
         self.assertIn('verification required', mythos['billingNote'])
         self.assertNotIn('Glasswing', mythos['billingNote'])

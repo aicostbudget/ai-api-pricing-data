@@ -28,6 +28,15 @@ def lifecycle_fixture(generator):
     prefix = "data/pricing-v2-preview/"
     return {p[len(prefix):]: subprocess.check_output(["git", "show", BASELINE + ":" + p], cwd=ROOT) for p in paths}
 
+def reviewed_gpt41_canonical(generator):
+    # The targeted GPT-4.1 tool replays the reviewed 2026-10 repair, whose input was an active gpt-4.1.
+    # OpenAI deprecated gpt-4.1 on 2026-10-14 (canonical updated 2026-11-09), so pin that one row.
+    canonical = generator.read_json(generator.CANONICAL / "models.json")
+    row = next(r for r in canonical if (r["provider_id"], r["model_id"]) == ("openai", "gpt-4.1"))
+    row["status"] = "active"
+    row.pop("lifecycle", None)
+    return canonical
+
 def assert_grok46_contract(test, row):
     test.assertEqual((row["provider_id"], row["model_id"], row["status"], row["context_window_tokens"]), ("xai", "grok-4.6", "active", 500000))
     test.assertEqual(tuple(row["pricing"][k] for k in ("input", "cached_input", "output", "batch_input", "batch_output")), (2, .5, 6, 1.6, 4.8))

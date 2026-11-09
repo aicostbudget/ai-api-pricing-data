@@ -220,19 +220,20 @@ class PricingGovernanceTests(unittest.TestCase):
             "openai/gpt-4o-mini-tts-2025-03-20",
             "openai/gpt-5.4-cyber",
             "openai/gpt-5.5-cyber-preview",
+            "google-gemini/gemini-2.5-flash-image",
         })
         for internal_id in lifecycle_only:
             self.assertEqual(self.projection[internal_id]["pricingSourceType"], "none")
             self.assertIsNone(self.projection[internal_id]["selectedPriceRecordId"])
 
-        conflict = self.projection["google-gemini/gemini-2.5-flash-image"]
-        self.assertEqual(conflict["lifecycleStatus"], "unknown")
-        self.assertEqual(conflict["verificationStatus"], "review_required")
-        self.assertFalse(conflict["defaultSafe"])
-        self.assertIsNone(conflict["retirementDate"])
-        self.assertEqual(conflict["lifecycleConflict"]["resolution"], "unresolved")
+        # The 2026-10 shutdown-date conflict resolved on 2026-11-09: deprecated, shutdown 2027-03-15, no price.
+        resolved = self.projection["google-gemini/gemini-2.5-flash-image"]
+        self.assertEqual(resolved["lifecycleStatus"], "deprecated")
+        self.assertEqual(resolved["retirementDate"], "2027-03-15")
+        self.assertFalse(resolved["defaultSafe"])
+        self.assertNotIn("lifecycleConflict", resolved)
         conflict_only = {key for key in excluded if self.projection[key].get("lifecycleConflict", {}).get("resolution") == "unresolved"}
-        self.assertEqual(conflict_only, {"google-gemini/gemini-2.5-flash-image"})
+        self.assertEqual(conflict_only, set())
         retired_redirect = {
             key for key in excluded
             if self.projection[key]["governanceReason"] == "retired_identity_redirects_to_current_billing"

@@ -598,7 +598,7 @@ class ClosureScopeTests(unittest.TestCase):
   verify_rows(old,current,approved)
   mutated=copy.deepcopy(current);next(r for r in mutated if r['id']=='gpt-6-luna')['pricingComponents'][0]['amount']='999'
   with self.assertRaisesRegex(AssertionError,'unapproved change: openai/gpt-6-luna'):verify_rows(old,mutated,approved)
-  mutated=copy.deepcopy(current);next(r for r in mutated if r['id']=='gemini-2.5-flash-image')['retirementDate']='2027-03-15'
+  mutated=copy.deepcopy(current);next(r for r in mutated if r['id']=='gemini-2.5-flash-image')['retirementDate']='2027-03-16'
   with self.assertRaisesRegex(AssertionError,'unapproved change'):verify_rows(old,mutated,approved)
   mutated=copy.deepcopy(current);next(r for r in mutated if r['id']=='mistral-large-4')['inputPrice']=0.68
   with self.assertRaisesRegex(AssertionError,'unapproved change: '+mistral['identity']):verify_rows(old,mutated,approved)
@@ -698,12 +698,14 @@ class ClosureScopeTests(unittest.TestCase):
    for name,raw in cases.items():
     with self.subTest(contract=contract,case=name):
      with self.assertRaises(AssertionError):verify(raw)
- def test_conflict_is_persistent_and_historical_assertion_retained(self):
+ def test_resolved_conflict_keeps_historical_assertion(self):
+  # Resolved 2026-11-09: the Deprecations page and the Pricing page warning both give shutdown 2027-03-15 and
+  # gemini-3.1-flash-lite-image. The conflict record leaves canonical; history keeps the old 2026-10-02 assertion.
   row=next(r for r in read('data/canonical/models.json') if r['model_id']=='gemini-2.5-flash-image')
-  conflict=row['lifecycle_conflict'];self.assertEqual(conflict['previous_assertion']['retirement_date'],'2026-10-02')
-  self.assertEqual({r['shutdown_date'] for r in conflict['sources']},{'2026-10-02','2027-03-15'})
-  self.assertTrue(all(r['url'].startswith('https://ai.google.dev/') for r in conflict['sources']))
+  self.assertNotIn('lifecycle_conflict',row)
+  self.assertEqual((row['status'],row['lifecycle']),('deprecated',{'retirement_date':'2027-03-15','replacement_model_id':'gemini-3.1-flash-lite-image'}))
+  self.assertTrue(all(row['pricing'][k] is None for k in ('input','output','cached_input')))
   historical=[json.loads(l) for l in (ROOT/'data/history/google-gemini/gemini-2.5-flash-image.jsonl').read_text().splitlines()]
   self.assertTrue(any(r.get('lifecycle',{}).get('retirement_date')=='2026-10-02' for r in historical))
-  report=read('data/pricing-v2-preview/phase2-conflict-resolution-report.json');self.assertIn('google-gemini/gemini-2.5-flash-image',report['unresolvedIdentitiesAfter'])
+  report=read('data/pricing-v2-preview/phase2-conflict-resolution-report.json');self.assertNotIn('google-gemini/gemini-2.5-flash-image',report['unresolvedIdentitiesAfter'])
 if __name__=='__main__':unittest.main()

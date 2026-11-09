@@ -13,6 +13,8 @@ def read_json(path: str):
     return json.loads((ROOT / path).read_text(encoding="utf-8"))
 
 
+# Deprecated 2026-10-31, retiring 2027-04-30 (model cards checked 2026-11-09); prices are the last published.
+DEPRECATED = {"mistral-large", "mistral-medium-3-5"}
 EXPECTED = {
     "mistral-large": {
         "name": "Mistral Large 3",
@@ -89,7 +91,7 @@ class MistralCurrentCoverageTests(unittest.TestCase):
                 pricing = row["pricing"]
                 self.assertEqual(row["provider_id"], "mistral-ai")
                 self.assertEqual(row["display_name"], expected["name"])
-                self.assertEqual(row["status"], "active")
+                self.assertEqual(row["status"], "deprecated" if model_id in DEPRECATED else "active")
                 self.assertEqual(pricing["unit"], "1M tokens")
                 self.assertEqual(
                     (
@@ -120,13 +122,14 @@ class MistralCurrentCoverageTests(unittest.TestCase):
         row = self.canonical["mistral-large"]
         self.assertEqual(row["display_name"], "Mistral Large 3")
         self.assertEqual(row["model_family"], "Mistral Large")
-        self.assertEqual(row["status"], "active")
+        # Deprecated 2026-10-31, retiring 2027-04-30 (model card, checked 2026-11-09); prices are the last published.
+        self.assertEqual(row["status"], "deprecated")
         self.assertEqual(row["official_source_url"], "https://docs.mistral.ai/inference/pricing")
         from tests.freshness_assertions import assert_verified_timestamp
         assert_verified_timestamp(self, row["accessed_at"], "2026-09-02T11:29:12Z")
         assert_verified_timestamp(self, row["last_verified_at"], "2026-09-02T11:29:12Z")
         self.assertNotIn("aliases", row)
-        self.assertNotIn("lifecycle", row)
+        self.assertEqual(row["lifecycle"], {"deprecation_date": "2026-10-31", "retirement_date": "2027-04-30"})
 
     def test_v2_and_hugging_face_include_all_current_models(self):
         self.assertEqual(set(self.v2), set(EXPECTED))
@@ -135,16 +138,23 @@ class MistralCurrentCoverageTests(unittest.TestCase):
             with self.subTest(model_id=model_id):
                 v2 = self.v2[model_id]
                 hf = self.hf[model_id]
-                self.assertTrue(v2["defaultSafe"])
                 self.assertEqual(v2["verificationStatus"], "verified")
-                self.assertEqual(
-                    (v2["inputPrice"], v2["cachedInputPrice"], v2["outputPrice"]),
-                    expected["prices"][:3],
-                )
-                self.assertEqual(
-                    (v2["batchInputPrice"], v2["batchOutputPrice"]),
-                    expected["prices"][3:],
-                )
+                if model_id in DEPRECATED:
+                    # Like every deprecated model, V2 keeps it out of calculator defaults and top-level prices.
+                    self.assertFalse(v2["defaultSafe"])
+                    self.assertEqual(v2["lifecycleStatus"], "deprecated")
+                    self.assertEqual((v2["deprecationDate"], v2["retirementDate"]), ("2026-10-31", "2027-04-30"))
+                    self.assertIsNone(v2["inputPrice"])
+                else:
+                    self.assertTrue(v2["defaultSafe"])
+                    self.assertEqual(
+                        (v2["inputPrice"], v2["cachedInputPrice"], v2["outputPrice"]),
+                        expected["prices"][:3],
+                    )
+                    self.assertEqual(
+                        (v2["batchInputPrice"], v2["batchOutputPrice"]),
+                        expected["prices"][3:],
+                    )
                 self.assertEqual(hf["pricing_unit"], "1M tokens")
                 self.assertEqual(hf["verification_status"], "verified")
                 processing_modes = {

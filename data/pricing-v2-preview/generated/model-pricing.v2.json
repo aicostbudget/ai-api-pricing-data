@@ -9,7 +9,7 @@
     "review_required": "display only with warning; no default or recommendation placement",
     "unsafe": "exclude from default calculations and show warning only where explicitly allowed"
   },
-  "effectiveAt": "2026-11-09T10:31:35Z",
+  "effectiveAt": "2026-11-09T11:15:51Z",
   "effectiveTimezone": "UTC",
   "failureBehavior": {
     "atomicWrite": true,
@@ -18,7 +18,7 @@
     "partialJson": "not_written",
     "publicV1Mutation": "forbidden"
   },
-  "generatedAt": "2026-11-09T10:31:35Z",
+  "generatedAt": "2026-11-09T11:15:51Z",
   "generatedAtPolicy": "UTC artifact generation timestamp injected by the generation pipeline",
   "governancePolicy": {
     "classes": [
@@ -29452,15 +29452,15 @@
       "accessEvidence": [],
       "accessStatus": "unknown",
       "aliasTargetInternalId": null,
-      "availability": "Lifecycle source conflict",
+      "availability": "deprecated",
       "batchInputPrice": null,
       "batchOutputPrice": null,
       "billingModelInternalId": null,
       "bindingEvidence": [],
       "bindingStatus": "unresolved",
       "blockedFromDefaultReasons": [
-        "missing_verified_current_price",
-        "review_required"
+        "deprecated_identity",
+        "missing_verified_current_price"
       ],
       "cachedInputPrice": null,
       "canonicalInternalId": "google-gemini/gemini-2.5-flash-image",
@@ -29479,37 +29479,16 @@
       ],
       "defaultSafe": false,
       "deprecationDate": null,
-      "governanceClass": "REVIEW_REQUIRED",
-      "governanceDetails": "Deprecations tracks earliest possible shutdown schedules, but no official revision or supersession evidence resolves the contradictory Pricing warning. No certain lifecycle or shutdown date normalized.",
-      "governanceReason": "verified_price_unresolved_legacy_compatibility_retained",
+      "governanceClass": "EXCLUDED",
+      "governanceDetails": "Official lifecycle evidence is retained without a verified public price.",
+      "governanceReason": "lifecycle_only_without_public_price",
       "governanceSourceCandidateIds": [
         "google-gemini/gemini-2.5-flash-image"
       ],
       "id": "gemini-2.5-flash-image",
       "identityType": "canonical_model",
       "inputPrice": null,
-      "lifecycleConflict": {
-        "authority_analysis": "Deprecations tracks earliest possible shutdown schedules, but no official revision or supersession evidence resolves the contradictory Pricing warning. No certain lifecycle or shutdown date normalized.",
-        "observed_at": "2026-10-09T12:39:41Z",
-        "previous_assertion": {
-          "replacement_model_id": "gemini-3.1-flash-image-preview",
-          "retirement_date": "2026-10-02"
-        },
-        "resolution": "unresolved",
-        "sources": [
-          {
-            "replacement_model_id": "gemini-3.1-flash-lite-image",
-            "shutdown_date": "2027-03-15",
-            "url": "https://ai.google.dev/gemini-api/docs/deprecations"
-          },
-          {
-            "replacement_model_id": "gemini-3.1-flash-image / gemini-3.1-flash-lite-image",
-            "shutdown_date": "2026-10-02",
-            "url": "https://ai.google.dev/gemini-api/docs/pricing"
-          }
-        ]
-      },
-      "lifecycleStatus": "unknown",
+      "lifecycleStatus": "deprecated",
       "model": "Gemini 2.5 Flash Image",
       "officialSourceUrl": "https://ai.google.dev/gemini-api/docs/deprecations",
       "outputPrice": null,
@@ -29519,10 +29498,10 @@
       "redirectTargetInternalId": null,
       "releaseSourceRef": null,
       "releaseSourceUrl": null,
-      "releaseStage": "unknown",
+      "releaseStage": "legacy",
       "releasedAt": null,
-      "replacementInternalId": null,
-      "retirementDate": null,
+      "replacementInternalId": "google-gemini/gemini-3.1-flash-lite-image",
+      "retirementDate": "2027-03-15",
       "routingBehavior": "direct",
       "routingDetails": {},
       "selectedBatchPriceRecordId": null,
@@ -29538,8 +29517,8 @@
         "https://ai.google.dev/gemini-api/docs/deprecations",
         "https://ai.google.dev/gemini-api/docs/pricing"
       ],
-      "status": "legacy",
-      "verificationStatus": "review_required",
+      "status": "deprecated",
+      "verificationStatus": "partially_verified",
       "verifiedAt": null,
       "verifiedSourceRefs": []
     },
@@ -46233,9 +46212,9 @@
       ],
       "accessStatus": "public",
       "aliasTargetInternalId": null,
-      "availability": "active",
-      "batchInputPrice": 0.25,
-      "batchOutputPrice": 0.75,
+      "availability": "deprecated",
+      "batchInputPrice": null,
+      "batchOutputPrice": null,
       "billingModelInternalId": null,
       "bindingEvidence": [
         {
@@ -46248,8 +46227,10 @@
         }
       ],
       "bindingStatus": "unresolved",
-      "blockedFromDefaultReasons": [],
-      "cachedInputPrice": 0.05,
+      "blockedFromDefaultReasons": [
+        "deprecated_identity"
+      ],
+      "cachedInputPrice": null,
       "canonicalInternalId": "mistral-ai/mistral-large",
       "checkedAt": "2026-10-09T06:29:38Z",
       "checkedSourceRefs": [
@@ -46266,21 +46247,21 @@
         "text",
         "default_context_class"
       ],
-      "defaultSafe": true,
-      "deprecationDate": null,
+      "defaultSafe": false,
+      "deprecationDate": "2026-10-31",
       "governanceClass": "VERIFIED_CANONICAL",
       "governanceDetails": null,
-      "governanceReason": "canonical_verified_direct_public_projection",
+      "governanceReason": "canonical_verified_non_token_public_projection",
       "governanceSourceCandidateIds": [
         "mistral-ai/mistral-large"
       ],
       "id": "mistral-large",
       "identityType": "canonical_model",
-      "inputPrice": 0.5,
-      "lifecycleStatus": "active",
+      "inputPrice": null,
+      "lifecycleStatus": "deprecated",
       "model": "Mistral Large 3",
       "officialSourceUrl": "https://docs.mistral.ai/inference/pricing",
-      "outputPrice": 1.5,
+      "outputPrice": null,
       "priceRecords": [
         {
           "calculationDefault": false,
@@ -46504,7 +46485,7 @@
           "verificationStatus": "verified"
         }
       ],
-      "pricingSourceType": "canonical_verified_price",
+      "pricingSourceType": "canonical_verified_structured_price",
       "provider": "mistral-ai",
       "publicExposure": "public",
       "redirectTargetInternalId": null,
@@ -46513,14 +46494,14 @@
       "releaseStage": "stable",
       "releasedAt": null,
       "replacementInternalId": null,
-      "retirementDate": null,
+      "retirementDate": "2027-04-30",
       "routingBehavior": "direct",
       "routingDetails": {},
-      "selectedBatchPriceRecordId": "price:mistral-ai/mistral-large:batch:short:current",
+      "selectedBatchPriceRecordId": null,
       "selectedBillingPriceRecordId": "price:mistral-ai/mistral-large:standard:short:current",
       "selectedPriceEffectiveFrom": null,
       "selectedPriceEffectiveUntil": null,
-      "selectedPriceRecordId": "price:mistral-ai/mistral-large:standard:short:current",
+      "selectedPriceRecordId": null,
       "sourceRefs": [
         "source:mistral-ai:docs-mistral-ai-inference-pricing",
         "source:mistral-ai:docs-mistral-ai-models-mistral-large-3-25-12",
@@ -46535,7 +46516,7 @@
         "https://docs.mistral.ai/studio/conversations/advanced/prompt-caching",
         "https://docs.mistral.ai/studio/conversations/function-calling"
       ],
-      "status": "latest",
+      "status": "deprecated",
       "verificationStatus": "verified",
       "verifiedAt": "2026-10-09T06:29:38Z",
       "verifiedSourceRefs": [
@@ -46809,9 +46790,9 @@
       ],
       "accessStatus": "public",
       "aliasTargetInternalId": null,
-      "availability": "active",
-      "batchInputPrice": 0.75,
-      "batchOutputPrice": 3.75,
+      "availability": "deprecated",
+      "batchInputPrice": null,
+      "batchOutputPrice": null,
       "billingModelInternalId": null,
       "bindingEvidence": [
         {
@@ -46824,8 +46805,10 @@
         }
       ],
       "bindingStatus": "approved",
-      "blockedFromDefaultReasons": [],
-      "cachedInputPrice": 0.15,
+      "blockedFromDefaultReasons": [
+        "deprecated_identity"
+      ],
+      "cachedInputPrice": null,
       "canonicalInternalId": "mistral-ai/mistral-medium-3-5",
       "checkedAt": "2026-10-09T06:29:38Z",
       "checkedSourceRefs": [
@@ -46843,21 +46826,21 @@
         "text",
         "default_context_class"
       ],
-      "defaultSafe": true,
-      "deprecationDate": null,
+      "defaultSafe": false,
+      "deprecationDate": "2026-10-31",
       "governanceClass": "VERIFIED_CANONICAL",
       "governanceDetails": null,
-      "governanceReason": "canonical_verified_direct_public_projection",
+      "governanceReason": "canonical_verified_non_token_public_projection",
       "governanceSourceCandidateIds": [
         "mistral-ai/mistral-medium-3-5"
       ],
       "id": "mistral-medium-3-5",
       "identityType": "canonical_model",
-      "inputPrice": 1.5,
-      "lifecycleStatus": "active",
+      "inputPrice": null,
+      "lifecycleStatus": "deprecated",
       "model": "Mistral Medium 3.5",
       "officialSourceUrl": "https://docs.mistral.ai/inference/pricing",
-      "outputPrice": 7.5,
+      "outputPrice": null,
       "priceRecords": [
         {
           "calculationDefault": false,
@@ -47081,23 +47064,23 @@
           "verificationStatus": "verified"
         }
       ],
-      "pricingSourceType": "canonical_verified_price",
+      "pricingSourceType": "canonical_verified_structured_price",
       "provider": "mistral-ai",
       "publicExposure": "public",
       "redirectTargetInternalId": null,
       "releaseSourceRef": "source:mistral-ai:docs-mistral-ai-resources-changelogs",
       "releaseSourceUrl": "https://docs.mistral.ai/resources/changelogs",
-      "releaseStage": "stable",
+      "releaseStage": "legacy",
       "releasedAt": "2026-04-28",
       "replacementInternalId": null,
-      "retirementDate": null,
+      "retirementDate": "2027-04-30",
       "routingBehavior": "direct",
       "routingDetails": {},
-      "selectedBatchPriceRecordId": "price:mistral-ai/mistral-medium-3-5:batch:short:current",
+      "selectedBatchPriceRecordId": null,
       "selectedBillingPriceRecordId": "price:mistral-ai/mistral-medium-3-5:standard:short:current",
       "selectedPriceEffectiveFrom": null,
       "selectedPriceEffectiveUntil": null,
-      "selectedPriceRecordId": "price:mistral-ai/mistral-medium-3-5:standard:short:current",
+      "selectedPriceRecordId": null,
       "sourceRefs": [
         "source:mistral-ai:docs-mistral-ai-inference-pricing",
         "source:mistral-ai:docs-mistral-ai-models-mistral-medium-3-5-26-04",
@@ -47112,7 +47095,7 @@
         "https://docs.mistral.ai/studio/batch-processing",
         "https://docs.mistral.ai/studio/conversations/advanced/prompt-caching"
       ],
-      "status": "latest",
+      "status": "deprecated",
       "verificationStatus": "verified",
       "verifiedAt": "2026-10-09T06:29:38Z",
       "verifiedSourceRefs": [
@@ -50848,6 +50831,7 @@
       "bindingEvidence": [],
       "bindingStatus": "unresolved",
       "blockedFromDefaultReasons": [
+        "deprecated_identity",
         "missing_verified_current_price",
         "review_required"
       ],
@@ -50867,7 +50851,7 @@
         "default_context_class"
       ],
       "defaultSafe": false,
-      "deprecationDate": null,
+      "deprecationDate": "2026-10-14",
       "governanceClass": "REVIEW_REQUIRED",
       "governanceDetails": null,
       "governanceReason": "verified_price_unresolved_legacy_compatibility_retained",
@@ -50877,7 +50861,7 @@
       "id": "gpt-4.1",
       "identityType": "canonical_model",
       "inputPrice": null,
-      "lifecycleStatus": "active",
+      "lifecycleStatus": "deprecated",
       "model": "GPT-4.1",
       "officialSourceUrl": "https://developers.openai.com/api/docs/pricing",
       "outputPrice": null,
@@ -50889,8 +50873,8 @@
       "releaseSourceUrl": null,
       "releaseStage": "legacy",
       "releasedAt": null,
-      "replacementInternalId": null,
-      "retirementDate": null,
+      "replacementInternalId": "openai/gpt-6-luna",
+      "retirementDate": "2027-01-14",
       "routingBehavior": "direct",
       "routingDetails": {},
       "selectedBatchPriceRecordId": null,
@@ -50910,7 +50894,7 @@
         "https://developers.openai.com/api/docs/models/gpt-4.1",
         "https://developers.openai.com/api/docs/pricing"
       ],
-      "status": "legacy",
+      "status": "deprecated",
       "verificationStatus": "review_required",
       "verifiedAt": null,
       "verifiedSourceRefs": []

@@ -6,7 +6,7 @@ from pathlib import Path
 from unittest.mock import patch
 
 from scripts import generate_pricing_v2_preview as g
-from tests.freshness_assertions import lifecycle_fixture, BASELINE
+from tests.freshness_assertions import lifecycle_fixture, BASELINE, reviewed_gpt41_canonical
 from scripts import lifecycle_authority as authority
 from scripts.sql_seed import parse_seed, render_sql_seed
 
@@ -304,7 +304,7 @@ class TargetedMiniLifecycleTests(unittest.TestCase):
             self.assertEqual(g.frozen_preview(preview), self.baseline); self.assertEqual(source.read_bytes(), b"concurrent")
 
     def test_old_base_mode_preserves_reconciled_mini_and_nano(self):
-        self.assertEqual(g.gpt41_candidates(self.candidate, g.read_json(g.CANONICAL / "models.json")), self.candidate)
+        self.assertEqual(g.gpt41_candidates(self.candidate, reviewed_gpt41_canonical(g)), self.candidate)
 
 
 if __name__ == "__main__":

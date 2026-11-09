@@ -33,14 +33,15 @@ class LifecycleNormalizationTests(unittest.TestCase):
         result = self.parts(None, {"status": "retired"})
         self.assertEqual((result["lifecycleStatus"], result["releaseStage"]), ("retired", "legacy"))
 
-    def test_real_gpt41_canonical_active_keeps_review_gate(self):
+    def test_real_gpt41_canonical_deprecated_keeps_review_gate(self):
         canonical = json.loads((generator.CANONICAL / "models.json").read_text(encoding="utf-8"))
         website = json.loads((generator.GENERATED / "model-pricing.website-preview.json").read_text(encoding="utf-8"))
         public = next(row for row in canonical if (row["provider_id"], row["model_id"]) == ("openai", "gpt-4.1"))
         editorial = next(row for row in website if row["id"] == "gpt-4.1")
-        self.assertEqual(public["status"], "active")
+        # OpenAI deprecated gpt-4.1 on 2026-10-14 (shutdown 2027-01-14); canonical updated 2026-11-09.
+        self.assertEqual(public["status"], "deprecated")
         self.assertEqual(status_parts("openai", "gpt-4.1", public, editorial), {
-            "lifecycleStatus": "active", "releaseStage": "legacy",
+            "lifecycleStatus": "deprecated", "releaseStage": "legacy",
             "availability": "Legacy", "verificationStatus": "review_required",
         })
 
@@ -102,7 +103,7 @@ class LifecycleNormalizationTests(unittest.TestCase):
                 existing_projection_data=baseline,
             )
         candidate = next(row for row in artifact["models"] if row["id"] == "gpt-4.1")
-        self.assertEqual(candidate["lifecycleStatus"], "active")
+        self.assertEqual(candidate["lifecycleStatus"], "deprecated")
         self.assertIs(candidate["defaultSafe"], False)
         self.assertEqual(candidate["verificationStatus"], "review_required")
         self.assertIsNone(candidate["selectedPriceRecordId"])

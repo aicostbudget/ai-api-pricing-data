@@ -6,14 +6,14 @@ from pathlib import Path
 from unittest.mock import patch
 
 from scripts import generate_pricing_v2_preview as g
-from tests.freshness_assertions import lifecycle_fixture
+from tests.freshness_assertions import lifecycle_fixture, reviewed_gpt41_canonical
 from scripts.sql_seed import parse_seed, render_sql_seed, reconcile_astra_ultrafast
 
 
 class TargetedGpt41LifecycleTests(unittest.TestCase):
     @classmethod
     def setUpClass(cls):
-        cls.canonical = g.read_json(g.CANONICAL / "models.json")
+        cls.canonical = reviewed_gpt41_canonical(g)
         cls.baseline = lifecycle_fixture(g)
         # Reconstruct the reviewed pre-repair lifecycle from actual persisted records.
         for name, (container, field) in g.GPT41_JSON_TARGETS.items():
@@ -31,6 +31,12 @@ class TargetedGpt41LifecycleTests(unittest.TestCase):
         mutate(document)
         result[name] = g.render_json(document).encode()
         return result
+
+    def reviewed_canonical_dir(self, directory):
+        canonical = Path(directory) / "canonical"
+        canonical.mkdir()
+        (canonical / "models.json").write_text(json.dumps(self.canonical), encoding="utf-8")
+        return patch.object(g, "CANONICAL", canonical)
 
     def isolated(self, directory, baseline):
         preview = Path(directory) / "preview"
@@ -108,7 +114,7 @@ class TargetedGpt41LifecycleTests(unittest.TestCase):
     def test_cli_check_is_read_only_when_stale(self):
         with tempfile.TemporaryDirectory() as directory:
             preview = self.isolated(directory, self.baseline)
-            with patch.object(g, "PREVIEW", preview), patch.object(g.sys, "argv", ["generator", "--targeted-gpt41-lifecycle", "--check"]):
+            with patch.object(g, "PREVIEW", preview), patch.object(g.sys, "argv", ["generator", "--targeted-gpt41-lifecycle", "--check"]), self.reviewed_canonical_dir(directory):
                 with self.assertRaisesRegex(ValueError, "GPT41_CHECK"):
                     g.main()
             self.assertEqual(g.frozen_preview(preview), self.baseline)
@@ -116,7 +122,7 @@ class TargetedGpt41LifecycleTests(unittest.TestCase):
     def test_cli_check_is_read_only_when_in_sync(self):
         with tempfile.TemporaryDirectory() as directory:
             preview = self.isolated(directory, self.candidate)
-            with patch.object(g, "PREVIEW", preview), patch.object(g.sys, "argv", ["generator", "--targeted-gpt41-lifecycle", "--check"]), patch("builtins.print"):
+            with patch.object(g, "PREVIEW", preview), patch.object(g.sys, "argv", ["generator", "--targeted-gpt41-lifecycle", "--check"]), self.reviewed_canonical_dir(directory), patch("builtins.print"):
                 g.main()
             self.assertEqual(g.frozen_preview(preview), self.candidate)
 
@@ -148,7 +154,7 @@ class TargetedGpt41LifecycleTests(unittest.TestCase):
     def test_cli_write_is_idempotent_and_preserves_all_other_files(self):
         with tempfile.TemporaryDirectory() as directory:
             preview = self.isolated(directory, self.baseline)
-            with patch.object(g, "PREVIEW", preview), patch.object(g.sys, "argv", ["generator", "--targeted-gpt41-lifecycle", "--write"]), patch("builtins.print"):
+            with patch.object(g, "PREVIEW", preview), patch.object(g.sys, "argv", ["generator", "--targeted-gpt41-lifecycle", "--write"]), self.reviewed_canonical_dir(directory), patch("builtins.print"):
                 g.main()
                 self.assertEqual(g.frozen_preview(preview), self.candidate)
                 g.main()

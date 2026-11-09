@@ -76,8 +76,10 @@ class OctoberOfficialRepairTests(unittest.TestCase):
   m=copy.deepcopy(self.models['mistral-large-4']); next(r for r in m['price_records'] if r.get('promotion'))['promotion']['list_charges'][0]['amount']='0.68'
   with self.assertRaises(PricingContractError): validate_model_price_records(m)
  def test_unresolved_conflict_blocks_certain_facts(self):
-  m=self.models['gemini-2.5-flash-image']; validate_unresolved_conflict(m)
-  row=self.projection[m['model_id']]; self.assertFalse(row['defaultSafe']); self.assertEqual(row['lifecycleStatus'],'unknown'); self.assertIsNone(row['retirementDate']); self.assertIsNone(row['verifiedAt'])
+  # The conflict resolved on 2026-11-09; keep checking the validator against the recorded 2026-10-09 conflict.
+  m=next(x for x in json.loads((ROOT/'data/snapshots/2026-10-09/prices.json').read_text(encoding='utf-8'))['models'] if x['model_id']=='gemini-2.5-flash-image'); validate_unresolved_conflict(m)
+  self.assertNotIn('lifecycle_conflict',self.models['gemini-2.5-flash-image'])
+  row=self.projection[m['model_id']]; self.assertFalse(row['defaultSafe']); self.assertEqual(row['lifecycleStatus'],'deprecated'); self.assertEqual(row['retirementDate'],'2027-03-15'); self.assertIsNone(row['verifiedAt'])
   for status in ['active','retired']:
    bad=copy.deepcopy(m); bad['status']=status
    with self.assertRaises(ValueError): validate_unresolved_conflict(bad)

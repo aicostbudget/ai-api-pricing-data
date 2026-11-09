@@ -663,7 +663,7 @@ class PricingV2PreviewTests(unittest.TestCase):
         self.assertFalse(self.phase2_readiness["safeToEnterWebsiteIntegrationPlanning"])
         self.assertEqual(
             self.phase2_conflict["unresolvedIdentitiesAfter"],
-            ["google-gemini/gemini-2.5-flash-image", "openai/gpt-4.1", "openai/gpt-4.1-mini", "openai/gpt-4.1-nano"],
+            ["openai/gpt-4.1", "openai/gpt-4.1-mini", "openai/gpt-4.1-nano"],
         )
         self.assertFalse(self.phase2_conflict["gpt4_1Family"]["safeDefaultCalculationPrice"])
         self.assertIsNone(self.phase2_conflict["grok3"]["replacementInternalId"])

@@ -21,7 +21,8 @@ TARGETS = {
     ("openai", "gpt-4o-mini-tts-2025-12-15"): ("deprecated", "2026-10-01", "gpt-realtime-2.1-mini", False),
     ("openai", "gpt-5.4-cyber"): ("retired", "2026-10-01", None, False),
     ("xai", "grok-voice-transcribe-1.0"): ("retired", "2026-10-02", "grok-voice-transcribe-2.0", True),
-    ("google-gemini", "gemini-2.5-flash-image"): ("retired", "2026-10-02", "gemini-3.1-flash-image-preview", False),
+    # 2026-11-09: the October conflict resolved; both official pages give shutdown 2027-03-15 and no deprecation date.
+    ("google-gemini", "gemini-2.5-flash-image"): ("deprecated", "2027-03-15", "gemini-3.1-flash-lite-image", False),
 }
 
 
@@ -50,7 +51,7 @@ class OctoberLifecycleTests(unittest.TestCase):
                 if redirect:
                     self.assertEqual(lifecycle["scheduled_transition"]["kind"], "retirement_redirect")
                 self.assertEqual(
-                    lifecycle["retirement_date"] if status == "retired" else lifecycle["deprecation_date"],
+                    lifecycle["retirement_date"] if status == "retired" or "deprecation_date" not in lifecycle else lifecycle["deprecation_date"],
                     date,
                 )
 
@@ -68,6 +69,11 @@ class OctoberLifecycleTests(unittest.TestCase):
             events = generate_events(before, after)
         by_key = {(event["provider_id"], event["model_id"]): event for event in events}
         conflicted = {key for key in TARGETS if self.current[key].get("lifecycle_conflict")}
+        # gemini-2.5-flash-image (resolved 2026-11-09) has no deprecation date and a future shutdown,
+        # so a delta in which it first appears has no dated lifecycle fact to emit.
+        conflicted |= {key for key in TARGETS
+                       if key not in self.before and self.current[key]["status"] == "deprecated"
+                       and "deprecation_date" not in self.current[key].get("lifecycle", {})}
         self.assertEqual(set(by_key), set(TARGETS) - conflicted)
         self.assertTrue(conflicted.isdisjoint(by_key))
         for key, (status, date, replacement, redirect) in TARGETS.items():

@@ -21,10 +21,12 @@ class FreshnessFactualCorrectionTests(unittest.TestCase):
 
     def test_command_a_plus_vault_rates_are_instance_prices(self):
         row = self.models[TARGETS[0]]
-        self.assertIn("USD $17.50 per L instance-hour", row["notes"])
-        self.assertIn("USD $32.50 per XL instance-hour", row["notes"])
-        self.assertIn("Standard Model Vault is a separate managed deployment option", row["notes"])
-        self.assertNotIn("$57.50", row["notes"])
+        # 2026-11-09: the Model Vault pricing link redirects to cohere.com/pricing, which prices Vault by
+        # GPU type per hour, not per model, so the old $17.50 L / $32.50 XL instance-hour rates were dropped.
+        self.assertIn("lists Model Vault by GPU type per hour rather than per model", row["notes"])
+        self.assertIn("no Command A+ instance-hour price is recorded", row["notes"])
+        for stale in ("$17.50", "$32.50", "$57.50"):
+            self.assertNotIn(stale, row["notes"])
         self.assertIn("null is not zero", row["notes"])
         self.assertIn("https://docs.cohere.com/docs/model-vault/standard/pricing", row["official_source_urls"])
 

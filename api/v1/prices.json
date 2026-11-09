@@ -2,9 +2,9 @@
   "dataset_name": "AICostBudget AI API Pricing Dataset",
   "dataset_version": "1.0.0",
   "description": "Open, machine-readable pricing data for LLM and AI APIs.",
-  "generated_at": "2026-11-09T10:31:35Z",
+  "generated_at": "2026-11-09T11:15:51Z",
   "homepage": "https://aicostbudget.com",
-  "last_verified_at": "2026-11-09T10:29:42Z",
+  "last_verified_at": "2026-11-09T11:13:24Z",
   "licenses": {
     "code": "MIT",
     "data": "CC BY 4.0"
@@ -6563,13 +6563,13 @@
       "status": "active"
     },
     {
-      "accessed_at": "2026-10-09T06:29:38Z",
+      "accessed_at": "2026-11-09T11:13:24Z",
       "display_name": "Command A+",
       "effective_from": null,
-      "last_verified_at": "2026-10-09T06:29:38Z",
+      "last_verified_at": "2026-11-09T11:13:24Z",
       "model_family": "Command",
       "model_id": "command-a-plus",
-      "notes": "Cohere lists command-a-plus-05-2026 as Live and available through standard API endpoints, with no deprecation date. Its model page says both trial and production keys are free until rate limits are reached, while general pricing documentation says generative models including Command A+ are priced per token and the public pricing page says production keys are billed pay-as-you-go without publishing a Command A+ token rate. Standard Model Vault is a separate managed deployment option and lists Command A+ at USD $17.50 per L instance-hour and USD $32.50 per XL instance-hour. V1 keeps Standard token, cached-input, and Batch prices null; null is not zero.",
+      "notes": "Cohere lists command-a-plus-05-2026 as Live with no deprecation date. Cohere's pricing documentation says generative models including Command A+ are priced per token, with input and output tokens priced differently, and that trial API key usage is free but rate limited; cohere.com/pricing does not publish a Command A+ token rate. The Model Vault pricing link now redirects to cohere.com/pricing, which lists Model Vault by GPU type per hour rather than per model, so no Command A+ instance-hour price is recorded. V1 keeps Standard token, cached-input, and Batch prices null; null is not zero.",
       "official_source_url": "https://docs.cohere.com/docs/command-a-plus",
       "official_source_urls": [
         "https://docs.cohere.com/docs/command-a-plus",
@@ -11837,34 +11837,17 @@
       "status": "deprecated"
     },
     {
-      "accessed_at": "2026-10-09T12:39:41Z",
+      "accessed_at": "2026-11-09T11:13:10Z",
       "display_name": "Gemini 2.5 Flash Image",
       "effective_from": null,
-      "last_verified_at": "2026-10-05T02:42:02Z",
-      "lifecycle_conflict": {
-        "authority_analysis": "Deprecations tracks earliest possible shutdown schedules, but no official revision or supersession evidence resolves the contradictory Pricing warning. No certain lifecycle or shutdown date normalized.",
-        "observed_at": "2026-10-09T12:39:41Z",
-        "previous_assertion": {
-          "replacement_model_id": "gemini-3.1-flash-image-preview",
-          "retirement_date": "2026-10-02"
-        },
-        "resolution": "unresolved",
-        "sources": [
-          {
-            "replacement_model_id": "gemini-3.1-flash-lite-image",
-            "shutdown_date": "2027-03-15",
-            "url": "https://ai.google.dev/gemini-api/docs/deprecations"
-          },
-          {
-            "replacement_model_id": "gemini-3.1-flash-image / gemini-3.1-flash-lite-image",
-            "shutdown_date": "2026-10-02",
-            "url": "https://ai.google.dev/gemini-api/docs/pricing"
-          }
-        ]
+      "last_verified_at": "2026-11-09T11:13:10Z",
+      "lifecycle": {
+        "replacement_model_id": "gemini-3.1-flash-lite-image",
+        "retirement_date": "2027-03-15"
       },
       "model_family": "Gemini 2.5 Flash Image",
       "model_id": "gemini-2.5-flash-image",
-      "notes": "SOURCE CONFLICT \u2014 NOT RESOLVED. Deprecations currently lists March 15, 2027 and gemini-3.1-flash-lite-image; Pricing still warns October 2, 2026. Previous retired assertion is retained only as contested evidence. No current price or API availability asserted; excluded from calculator defaults.",
+      "notes": "Gemini 2.5 Flash Image is deprecated. As of 2026-11-09 both official sources agree: the Deprecations page lists release date 2025-10-02, shutdown date 2027-03-15 and gemini-3.1-flash-lite-image as the recommended replacement, and the Pricing page warning now gives the same shutdown date and replacement. This resolves the earlier conflict (the Pricing page used to warn of an October 2, 2026 shutdown). No price is asserted in this lifecycle record; it stays out of calculator defaults.",
       "official_source_url": "https://ai.google.dev/gemini-api/docs/deprecations",
       "official_source_urls": [
         "https://ai.google.dev/gemini-api/docs/deprecations",
@@ -11882,8 +11865,8 @@
         "unit": null
       },
       "provider_id": "google-gemini",
-      "release_stage": "unknown",
-      "status": "unknown"
+      "release_stage": "legacy",
+      "status": "deprecated"
     },
     {
       "access_checked_at": "2026-11-03T04:28:38Z",
@@ -18940,7 +18923,7 @@
         }
       ],
       "access_status": "public",
-      "accessed_at": "2026-10-09T06:29:38Z",
+      "accessed_at": "2026-11-09T11:12:55Z",
       "binding_evidence": [
         {
           "claim_type": "official_identity_unresolved",
@@ -18953,10 +18936,14 @@
       "binding_status": "unresolved",
       "display_name": "Mistral Large 3",
       "effective_from": null,
-      "last_verified_at": "2026-10-09T06:29:38Z",
+      "last_verified_at": "2026-11-09T11:12:55Z",
+      "lifecycle": {
+        "deprecation_date": "2026-10-31",
+        "retirement_date": "2027-04-30"
+      },
       "model_family": "Mistral Large",
       "model_id": "mistral-large",
-      "notes": "Mistral's current documentation maps mistral-large-latest to Mistral Large 3 (mistral-large-2512), which remains GA and available through Chat Completions and Batch. Standard pricing is $0.50 input, $0.05 cached input, and $1.50 output per 1M tokens. Cached prompt tokens are billed at 10% of standard input, and Batch processing receives a 50% discount, represented in V1 as $0.25 input and $0.75 output. The official docs do not separately specify whether cached-input and Batch discounts combine. This existing Dataset identity specifically represents Large 3 (mistral-large-2512), not Large 4; the separately listed Large 4 rates are not applied to it.",
+      "notes": "Mistral's current documentation maps mistral-large-latest to Mistral Large 3 (mistral-large-2512), which remains GA and available through Chat Completions and Batch. Standard pricing is $0.50 input, $0.05 cached input, and $1.50 output per 1M tokens. Cached prompt tokens are billed at 10% of standard input, and Batch processing receives a 50% discount, represented in V1 as $0.25 input and $0.75 output. The official docs do not separately specify whether cached-input and Batch discounts combine. This existing Dataset identity specifically represents Large 3 (mistral-large-2512), not Large 4; the separately listed Large 4 rates are not applied to it. Lifecycle update 2026-11-09: the official Mistral Large 3 model card (docs.mistral.ai/models/mistral-large-3-25-12) lists the model as Deprecated with deprecation date 2026-10-31 and retirement date 2027-04-30, and names no replacement. Mistral removed it from the API pricing table after deprecation, so the rates above are the last published rates, verified 2026-10-09; they were not re-confirmed on 2026-11-09.",
       "official_source_url": "https://docs.mistral.ai/inference/pricing",
       "official_source_urls": [
         "https://docs.mistral.ai/inference/pricing",
@@ -19086,7 +19073,7 @@
         "unit": "1M tokens"
       },
       "provider_id": "mistral-ai",
-      "status": "active"
+      "status": "deprecated"
     },
     {
       "access_checked_at": "2026-10-09T12:36:29Z",
@@ -19368,7 +19355,7 @@
         }
       ],
       "access_status": "public",
-      "accessed_at": "2026-10-09T06:29:38Z",
+      "accessed_at": "2026-11-09T11:13:03Z",
       "aliases": [
         "mistral-medium-latest"
       ],
@@ -19385,10 +19372,14 @@
       "context_window_tokens": 262144,
       "display_name": "Mistral Medium 3.5",
       "effective_from": null,
-      "last_verified_at": "2026-10-09T06:29:38Z",
+      "last_verified_at": "2026-11-09T11:13:03Z",
+      "lifecycle": {
+        "deprecation_date": "2026-10-31",
+        "retirement_date": "2027-04-30"
+      },
       "model_family": "Mistral Medium",
       "model_id": "mistral-medium-3-5",
-      "notes": "Official API model ID mistral-medium-3-5; mistral-medium-latest is the current alias. Mistral lists the model as GA with a 256k context window. Standard pricing is $1.50 input, $0.15 cached input, and $7.50 output per 1M tokens. Cached prompt tokens are billed at 10% of standard input, and the model supports Batch processing at the documented 50% discount, represented as $0.75 input and $3.75 output. The official docs do not specify a separate cache-write price or whether cached-input and Batch discounts combine.",
+      "notes": "Official API model ID mistral-medium-3-5; mistral-medium-latest is the current alias. Mistral lists the model as GA with a 256k context window. Standard pricing is $1.50 input, $0.15 cached input, and $7.50 output per 1M tokens. Cached prompt tokens are billed at 10% of standard input, and the model supports Batch processing at the documented 50% discount, represented as $0.75 input and $3.75 output. The official docs do not specify a separate cache-write price or whether cached-input and Batch discounts combine. Lifecycle update 2026-11-09: the official Mistral Medium 3.5 model card (docs.mistral.ai/models/mistral-medium-3-5-26-04) lists the model as Deprecated with deprecation date 2026-10-31 and retirement date 2027-04-30, and names no replacement. Mistral removed it from the API pricing table after deprecation, so the rates above are the last published rates, verified 2026-10-09; they were not re-confirmed on 2026-11-09.",
       "official_source_url": "https://docs.mistral.ai/inference/pricing",
       "official_source_urls": [
         "https://docs.mistral.ai/inference/pricing",
@@ -19524,9 +19515,9 @@
         "title": "Mistral Changelog - Mistral Medium 3.5",
         "url": "https://docs.mistral.ai/resources/changelogs"
       },
-      "release_stage": "stable",
+      "release_stage": "legacy",
       "released_at": "2026-04-28",
-      "status": "active"
+      "status": "deprecated"
     },
     {
       "accessed_at": "2026-11-09T10:28:56Z",
@@ -21159,13 +21150,18 @@
       "status": "active"
     },
     {
-      "accessed_at": "2026-10-09T06:29:38Z",
+      "accessed_at": "2026-11-09T11:12:47Z",
       "display_name": "GPT-4.1",
       "effective_from": null,
-      "last_verified_at": "2026-10-09T06:29:38Z",
+      "last_verified_at": "2026-11-09T11:12:47Z",
+      "lifecycle": {
+        "deprecation_date": "2026-10-14",
+        "replacement_model_id": "gpt-6-luna",
+        "retirement_date": "2027-01-14"
+      },
       "model_family": "GPT-4.1",
       "model_id": "gpt-4.1",
-      "notes": "OpenAI lists gpt-4.1 with default snapshot gpt-4.1-2025-04-14 and continues to expose Chat Completions, Responses, and Batch endpoints. Standard pricing is $2 input, $0.50 cached input, and $8 output per 1M tokens. The Batch guide states a 50% discount, represented in V1 as $1 input and $4 output. No GPT-4.1 deprecation is listed in the current official deprecations documentation.",
+      "notes": "OpenAI lists gpt-4.1 as Deprecated: on 2026-10-14 OpenAI notified developers that GPT-4.1 (gpt-4.1-2025-04-14) shuts down on 2027-01-14, with gpt-6-luna as the recommended replacement. Until then it remains callable through Chat Completions, Responses, and Batch. Standard pricing is $2 input, $0.50 cached input, and $8 output per 1M tokens; Batch is $1 input and $4 output (pricing page, re-checked 2026-11-09).",
       "official_source_url": "https://developers.openai.com/api/docs/models/gpt-4.1",
       "official_source_urls": [
         "https://developers.openai.com/api/docs/models/gpt-4.1",
@@ -21185,7 +21181,7 @@
         "unit": "1M tokens"
       },
       "provider_id": "openai",
-      "status": "active"
+      "status": "deprecated"
     },
     {
       "accessed_at": "2026-11-06T08:16:37Z",
