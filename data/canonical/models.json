@@ -36614,5 +36614,424 @@
         "reason": "Exact documented API model ID; no entitlement inherited from a billing target."
       }
     ]
+  },
+  {
+    "provider_id": "minimax",
+    "model_id": "minimax-m3.1-flash",
+    "display_name": "MiniMax M3.1 Flash",
+    "model_family": "MiniMax M3",
+    "status": "active",
+    "release_stage": "stable",
+    "context_window_tokens": 1000000,
+    "project_context_window": true,
+    "pricing": {
+      "currency": "USD",
+      "unit": "1M tokens",
+      "input": 0.15,
+      "output": 0.6,
+      "cached_input": 0.015,
+      "cache_write": null,
+      "cache_write_1h": null,
+      "batch_input": null,
+      "batch_output": null
+    },
+    "price_records": [
+      {
+        "id": "price:minimax/minimax-m3.1-flash:standard:short:current",
+        "processing_mode": "standard",
+        "context_class": "short",
+        "pricing_status": "current",
+        "calculation_default": true,
+        "prompt_token_threshold": null,
+        "effective_from": null,
+        "effective_until": null,
+        "currency": "USD",
+        "charges": [
+          {
+            "id": "price:minimax/minimax-m3.1-flash:standard:short:current:input:text:per_1m_tokens",
+            "component": "input",
+            "modality": "text",
+            "unit": "per_1m_tokens",
+            "amount": "0.15"
+          },
+          {
+            "id": "price:minimax/minimax-m3.1-flash:standard:short:current:cached_input:text:per_1m_tokens",
+            "component": "cached_input",
+            "modality": "text",
+            "unit": "per_1m_tokens",
+            "amount": "0.015"
+          },
+          {
+            "id": "price:minimax/minimax-m3.1-flash:standard:short:current:output:text:per_1m_tokens",
+            "component": "output",
+            "modality": "text",
+            "unit": "per_1m_tokens",
+            "amount": "0.6"
+          }
+        ],
+        "region_policy": {
+          "pricing_geography": "global_base",
+          "endpoint_geographies": [
+            "global"
+          ],
+          "data_residencies": [
+            "global"
+          ],
+          "availability": {
+            "default": "available",
+            "rules": []
+          },
+          "price_adjustments": []
+        },
+        "source_refs": [
+          "https://platform.minimax.io/docs/pricing/overview.md"
+        ],
+        "verification_status": "verified",
+        "checked_at": "2026-11-09T04:57:31Z",
+        "verified_at": "2026-11-09T04:57:31Z",
+        "billing_note": "MiniMax international pay-as-you-go price per 1M tokens. Prompt caching is automatic: cache reads are billed, cache writes are not. MiniMax lists no long-context premium or Priority rate for this model. The web_search server tool bills $0.01 per request. Prices on the Chinese mainland platform (minimaxi.com) are in CNY and differ."
+      }
+    ],
+    "official_source_url": "https://platform.minimax.io/docs/pricing/overview.md",
+    "official_source_urls": [
+      "https://platform.minimax.io/docs/pricing/overview.md",
+      "https://platform.minimax.io/docs/guides/text-generation.md",
+      "https://platform.minimax.io/docs/release-notes/models.md"
+    ],
+    "accessed_at": "2026-11-09T04:57:31Z",
+    "last_verified_at": "2026-11-09T04:57:31Z",
+    "effective_from": "2026-10-19",
+    "notes": "Official API model ID MiniMax-M3.1-Flash. Released 2026-10-19 as an open-weight model. Text, image and video input, 1,000,000-token context window, up to 524,288 (512K) output tokens, thinking depth set with effort (low to max). MiniMax publishes no Batch, Priority or long-context rate for it.",
+    "released_at": "2026-10-19",
+    "release_evidence": {
+      "url": "https://platform.minimax.io/docs/release-notes/models.md",
+      "title": "MiniMax model release notes: MiniMax M3.1 Flash",
+      "source_type": "official_changelog"
+    },
+    "access_status": "public",
+    "access_evidence": [
+      {
+        "url": "https://platform.minimax.io/docs/guides/text-generation.md",
+        "title": "MiniMax-M3.1-Flash official model availability documentation",
+        "claim_type": "official_access_public",
+        "official_model_id": "MiniMax-M3.1-Flash",
+        "scope": "Exact model on the MiniMax Open Platform international pay-as-you-go API."
+      }
+    ],
+    "access_checked_at": "2026-11-09T04:57:31Z",
+    "binding_status": "approved",
+    "binding_evidence": [
+      {
+        "url": "https://platform.minimax.io/docs/guides/text-generation.md",
+        "title": "MiniMax-M3.1-Flash official identity documentation",
+        "claim_type": "official_identity_binding",
+        "official_model_id": "MiniMax-M3.1-Flash",
+        "reason": "Exact documented API model ID; no entitlement inherited from a billing target."
+      }
+    ]
+  },
+  {
+    "provider_id": "minimax",
+    "model_id": "minimax-m3",
+    "display_name": "MiniMax M3",
+    "model_family": "MiniMax M3",
+    "status": "active",
+    "release_stage": "stable",
+    "context_window_tokens": 1000000,
+    "project_context_window": true,
+    "pricing": {
+      "currency": "USD",
+      "unit": "1M tokens",
+      "input": 0.3,
+      "output": 1.2,
+      "cached_input": 0.06,
+      "cache_write": null,
+      "cache_write_1h": null,
+      "batch_input": null,
+      "batch_output": null
+    },
+    "price_records": [
+      {
+        "id": "price:minimax/minimax-m3:standard:short:current",
+        "processing_mode": "standard",
+        "context_class": "short",
+        "pricing_status": "current",
+        "calculation_default": true,
+        "prompt_token_threshold": 524288,
+        "effective_from": null,
+        "effective_until": null,
+        "currency": "USD",
+        "charges": [
+          {
+            "id": "price:minimax/minimax-m3:standard:short:current:input:text:per_1m_tokens",
+            "component": "input",
+            "modality": "text",
+            "unit": "per_1m_tokens",
+            "amount": "0.3"
+          },
+          {
+            "id": "price:minimax/minimax-m3:standard:short:current:cached_input:text:per_1m_tokens",
+            "component": "cached_input",
+            "modality": "text",
+            "unit": "per_1m_tokens",
+            "amount": "0.06"
+          },
+          {
+            "id": "price:minimax/minimax-m3:standard:short:current:output:text:per_1m_tokens",
+            "component": "output",
+            "modality": "text",
+            "unit": "per_1m_tokens",
+            "amount": "1.2"
+          }
+        ],
+        "region_policy": {
+          "pricing_geography": "global_base",
+          "endpoint_geographies": [
+            "global"
+          ],
+          "data_residencies": [
+            "global"
+          ],
+          "availability": {
+            "default": "available",
+            "rules": []
+          },
+          "price_adjustments": []
+        },
+        "source_refs": [
+          "https://platform.minimax.io/docs/pricing/overview.md"
+        ],
+        "verification_status": "verified",
+        "checked_at": "2026-11-09T04:57:27Z",
+        "verified_at": "2026-11-09T04:57:27Z",
+        "billing_note": "MiniMax international pay-as-you-go price per 1M tokens after MiniMax's permanent 50% discount (list prices $0.60 input, $0.12 cache read and $2.40 output up to 512K input tokens). Requests with more than 512K (524,288) input tokens use the higher long-context rate. Priority (service_tier priority) costs 1.5x Standard. Prompt caching is automatic: cache reads are billed, cache writes are not. The web_search server tool bills $0.01 per request. Prices on the Chinese mainland platform (minimaxi.com) are in CNY and differ.",
+        "tier_selection": {
+          "cached_prompt_tokens_included": true,
+          "comparison": "less_than_or_equal",
+          "token_basis": "total_prompt_tokens",
+          "whole_request_pricing": true
+        }
+      },
+      {
+        "id": "price:minimax/minimax-m3:standard:long:current",
+        "processing_mode": "standard",
+        "context_class": "long",
+        "pricing_status": "current",
+        "calculation_default": false,
+        "prompt_token_threshold": 524288,
+        "effective_from": null,
+        "effective_until": null,
+        "currency": "USD",
+        "charges": [
+          {
+            "id": "price:minimax/minimax-m3:standard:long:current:input:text:per_1m_tokens",
+            "component": "input",
+            "modality": "text",
+            "unit": "per_1m_tokens",
+            "amount": "0.6"
+          },
+          {
+            "id": "price:minimax/minimax-m3:standard:long:current:cached_input:text:per_1m_tokens",
+            "component": "cached_input",
+            "modality": "text",
+            "unit": "per_1m_tokens",
+            "amount": "0.12"
+          },
+          {
+            "id": "price:minimax/minimax-m3:standard:long:current:output:text:per_1m_tokens",
+            "component": "output",
+            "modality": "text",
+            "unit": "per_1m_tokens",
+            "amount": "2.4"
+          }
+        ],
+        "region_policy": {
+          "pricing_geography": "global_base",
+          "endpoint_geographies": [
+            "global"
+          ],
+          "data_residencies": [
+            "global"
+          ],
+          "availability": {
+            "default": "available",
+            "rules": []
+          },
+          "price_adjustments": []
+        },
+        "source_refs": [
+          "https://platform.minimax.io/docs/pricing/overview.md"
+        ],
+        "verification_status": "verified",
+        "checked_at": "2026-11-09T04:57:27Z",
+        "verified_at": "2026-11-09T04:57:27Z",
+        "billing_note": "MiniMax international pay-as-you-go price per 1M tokens after MiniMax's permanent 50% discount (list prices $0.60 input, $0.12 cache read and $2.40 output up to 512K input tokens). Requests with more than 512K (524,288) input tokens use the higher long-context rate. Priority (service_tier priority) costs 1.5x Standard. Prompt caching is automatic: cache reads are billed, cache writes are not. The web_search server tool bills $0.01 per request. Prices on the Chinese mainland platform (minimaxi.com) are in CNY and differ.",
+        "tier_selection": {
+          "cached_prompt_tokens_included": true,
+          "comparison": "greater_than",
+          "token_basis": "total_prompt_tokens",
+          "whole_request_pricing": true
+        }
+      },
+      {
+        "id": "price:minimax/minimax-m3:priority:short:current",
+        "processing_mode": "priority",
+        "context_class": "short",
+        "pricing_status": "current",
+        "calculation_default": false,
+        "prompt_token_threshold": 524288,
+        "effective_from": null,
+        "effective_until": null,
+        "currency": "USD",
+        "charges": [
+          {
+            "id": "price:minimax/minimax-m3:priority:short:current:input:text:per_1m_tokens",
+            "component": "input",
+            "modality": "text",
+            "unit": "per_1m_tokens",
+            "amount": "0.45"
+          },
+          {
+            "id": "price:minimax/minimax-m3:priority:short:current:cached_input:text:per_1m_tokens",
+            "component": "cached_input",
+            "modality": "text",
+            "unit": "per_1m_tokens",
+            "amount": "0.09"
+          },
+          {
+            "id": "price:minimax/minimax-m3:priority:short:current:output:text:per_1m_tokens",
+            "component": "output",
+            "modality": "text",
+            "unit": "per_1m_tokens",
+            "amount": "1.8"
+          }
+        ],
+        "region_policy": {
+          "pricing_geography": "global_base",
+          "endpoint_geographies": [
+            "global"
+          ],
+          "data_residencies": [
+            "global"
+          ],
+          "availability": {
+            "default": "available",
+            "rules": []
+          },
+          "price_adjustments": []
+        },
+        "source_refs": [
+          "https://platform.minimax.io/docs/pricing/overview.md"
+        ],
+        "verification_status": "verified",
+        "checked_at": "2026-11-09T04:57:27Z",
+        "verified_at": "2026-11-09T04:57:27Z",
+        "billing_note": "MiniMax international pay-as-you-go price per 1M tokens after MiniMax's permanent 50% discount (list prices $0.60 input, $0.12 cache read and $2.40 output up to 512K input tokens). Requests with more than 512K (524,288) input tokens use the higher long-context rate. Priority (service_tier priority) costs 1.5x Standard. Prompt caching is automatic: cache reads are billed, cache writes are not. The web_search server tool bills $0.01 per request. Prices on the Chinese mainland platform (minimaxi.com) are in CNY and differ.",
+        "tier_selection": {
+          "cached_prompt_tokens_included": true,
+          "comparison": "less_than_or_equal",
+          "token_basis": "total_prompt_tokens",
+          "whole_request_pricing": true
+        }
+      },
+      {
+        "id": "price:minimax/minimax-m3:priority:long:current",
+        "processing_mode": "priority",
+        "context_class": "long",
+        "pricing_status": "current",
+        "calculation_default": false,
+        "prompt_token_threshold": 524288,
+        "effective_from": null,
+        "effective_until": null,
+        "currency": "USD",
+        "charges": [
+          {
+            "id": "price:minimax/minimax-m3:priority:long:current:input:text:per_1m_tokens",
+            "component": "input",
+            "modality": "text",
+            "unit": "per_1m_tokens",
+            "amount": "0.9"
+          },
+          {
+            "id": "price:minimax/minimax-m3:priority:long:current:cached_input:text:per_1m_tokens",
+            "component": "cached_input",
+            "modality": "text",
+            "unit": "per_1m_tokens",
+            "amount": "0.18"
+          },
+          {
+            "id": "price:minimax/minimax-m3:priority:long:current:output:text:per_1m_tokens",
+            "component": "output",
+            "modality": "text",
+            "unit": "per_1m_tokens",
+            "amount": "3.6"
+          }
+        ],
+        "region_policy": {
+          "pricing_geography": "global_base",
+          "endpoint_geographies": [
+            "global"
+          ],
+          "data_residencies": [
+            "global"
+          ],
+          "availability": {
+            "default": "available",
+            "rules": []
+          },
+          "price_adjustments": []
+        },
+        "source_refs": [
+          "https://platform.minimax.io/docs/pricing/overview.md"
+        ],
+        "verification_status": "verified",
+        "checked_at": "2026-11-09T04:57:27Z",
+        "verified_at": "2026-11-09T04:57:27Z",
+        "billing_note": "MiniMax international pay-as-you-go price per 1M tokens after MiniMax's permanent 50% discount (list prices $0.60 input, $0.12 cache read and $2.40 output up to 512K input tokens). Requests with more than 512K (524,288) input tokens use the higher long-context rate. Priority (service_tier priority) costs 1.5x Standard. Prompt caching is automatic: cache reads are billed, cache writes are not. The web_search server tool bills $0.01 per request. Prices on the Chinese mainland platform (minimaxi.com) are in CNY and differ.",
+        "tier_selection": {
+          "cached_prompt_tokens_included": true,
+          "comparison": "greater_than",
+          "token_basis": "total_prompt_tokens",
+          "whole_request_pricing": true
+        }
+      }
+    ],
+    "official_source_url": "https://platform.minimax.io/docs/pricing/overview.md",
+    "official_source_urls": [
+      "https://platform.minimax.io/docs/pricing/overview.md",
+      "https://platform.minimax.io/docs/guides/text-generation.md",
+      "https://platform.minimax.io/docs/release-notes/models.md"
+    ],
+    "accessed_at": "2026-11-09T04:57:27Z",
+    "last_verified_at": "2026-11-09T04:57:27Z",
+    "effective_from": "2026-06-01",
+    "notes": "Official API model ID MiniMax-M3. Released 2026-06-01. Multimodal coding and agent model: text, image and video input, 1,000,000-token context window, up to 524,288 (512K) output tokens. Billed at Standard or Priority, with a higher rate above 512K input tokens; MiniMax publishes no Batch rate.",
+    "released_at": "2026-06-01",
+    "release_evidence": {
+      "url": "https://platform.minimax.io/docs/release-notes/models.md",
+      "title": "MiniMax model release notes: MiniMax M3",
+      "source_type": "official_changelog"
+    },
+    "access_status": "public",
+    "access_evidence": [
+      {
+        "url": "https://platform.minimax.io/docs/guides/text-generation.md",
+        "title": "MiniMax-M3 official model availability documentation",
+        "claim_type": "official_access_public",
+        "official_model_id": "MiniMax-M3",
+        "scope": "Exact model on the MiniMax Open Platform international pay-as-you-go API."
+      }
+    ],
+    "access_checked_at": "2026-11-09T04:57:27Z",
+    "binding_status": "approved",
+    "binding_evidence": [
+      {
+        "url": "https://platform.minimax.io/docs/guides/text-generation.md",
+        "title": "MiniMax-M3 official identity documentation",
+        "claim_type": "official_identity_binding",
+        "official_model_id": "MiniMax-M3",
+        "reason": "Exact documented API model ID; no entitlement inherited from a billing target."
+      }
+    ]
   }
 ]
