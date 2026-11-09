@@ -15349,6 +15349,46 @@
     "verifiedAt": "2026-11-06T06:26:18Z"
   },
   {
+    "billingNote": "Official API model ID image-01 (POST /v1/image_generation, text-to-image and image-to-image with a subject reference). Released 2025-02-15. MiniMax lists one price, USD 0.0035 per image, for every aspect ratio and for custom sizes from 512 to 2048 px; a request can return up to 9 images (n). No Batch rate. Prices on the Chinese mainland platform (minimaxi.com) are in CNY and differ.",
+    "calculationDefault": true,
+    "charges": [
+      {
+        "amount": "0.0035",
+        "chargeId": "price:minimax/image-01:standard:short:current:output_image_any_size:output:image:per_image",
+        "component": "output",
+        "modality": "image",
+        "unit": "per_image"
+      }
+    ],
+    "checkedAt": "2026-11-09T05:38:59Z",
+    "configuration": {
+      "size": "any"
+    },
+    "contextClass": "short",
+    "currency": "USD",
+    "effectiveFrom": null,
+    "effectiveUntil": null,
+    "modelInternalId": "minimax/image-01",
+    "pricingId": "price:minimax/image-01:standard:short:current:output_image_any_size",
+    "pricingStatus": "current",
+    "processingMode": "standard",
+    "promptTokenThreshold": null,
+    "regionPolicy": "global",
+    "sourceDatasetIds": {
+      "publicDatasetIds": [
+        "image-01"
+      ],
+      "websiteIds": []
+    },
+    "sourceRefs": [
+      "source:minimax:platform-minimax-io-docs-api-reference-image-generation-t2i-md",
+      "source:minimax:platform-minimax-io-docs-pricing-overview-md",
+      "source:minimax:platform-minimax-io-docs-release-notes-models-md"
+    ],
+    "verificationStatus": "verified",
+    "verifiedAt": "2026-11-09T05:38:59Z"
+  },
+  {
     "availabilityRules": [],
     "billingNote": "MiniMax international pay-as-you-go price per 1M tokens after MiniMax's permanent 50% discount (list prices $0.60 input, $0.12 cache read and $2.40 output up to 512K input tokens). Requests with more than 512K (524,288) input tokens use the higher long-context rate. Priority (service_tier priority) costs 1.5x Standard. Prompt caching is automatic: cache reads are billed, cache writes are not. The web_search server tool bills $0.01 per request. Prices on the Chinese mainland platform (minimaxi.com) are in CNY and differ.",
     "calculationDefault": true,
@@ -15676,6 +15716,100 @@
     ],
     "verificationStatus": "verified",
     "verifiedAt": "2026-11-09T04:57:31Z"
+  },
+  {
+    "availabilityRules": [],
+    "billingNote": "MiniMax international pay-as-you-go price, billed by input text characters; do not convert to tokens or minutes. The sync T2A endpoint and the async long-form endpoint (up to 1M characters per request) cost the same. Voice Design ($3 per voice) and Rapid Voice Cloning ($1.5 per voice) are charged once, when the voice is first used. Audio Packages (monthly audio points) are a separate billing option and are not listed here. Prices on the Chinese mainland platform (minimaxi.com) are in CNY and differ.",
+    "calculationDefault": true,
+    "charges": [
+      {
+        "amount": "100",
+        "chargeId": "price:minimax/speech-2.8-hd:standard:short:current:input:text:per_1m_characters",
+        "component": "input",
+        "modality": "text",
+        "unit": "per_1m_characters"
+      }
+    ],
+    "checkedAt": "2026-11-09T05:38:56Z",
+    "contextClass": "short",
+    "currency": "USD",
+    "defaultAvailabilityStatus": "available",
+    "effectiveFrom": null,
+    "effectiveUntil": null,
+    "modelInternalId": "minimax/speech-2.8-hd",
+    "priceAdjustments": [],
+    "pricingId": "price:minimax/speech-2.8-hd:standard:short:current",
+    "pricingStatus": "current",
+    "processingMode": "standard",
+    "promptTokenThreshold": null,
+    "regionPolicy": "global",
+    "regionSelector": {
+      "dataResidencies": [
+        "global"
+      ],
+      "endpointGeographies": [
+        "global"
+      ],
+      "pricingGeography": "global_base"
+    },
+    "sourceDatasetIds": {
+      "publicDatasetIds": [
+        "speech-2.8-hd"
+      ],
+      "websiteIds": []
+    },
+    "sourceRefs": [
+      "source:minimax:platform-minimax-io-docs-pricing-overview-md"
+    ],
+    "verificationStatus": "verified",
+    "verifiedAt": "2026-11-09T05:38:56Z"
+  },
+  {
+    "availabilityRules": [],
+    "billingNote": "MiniMax international pay-as-you-go price, billed by input text characters; do not convert to tokens or minutes. The sync T2A endpoint and the async long-form endpoint (up to 1M characters per request) cost the same. Voice Design ($3 per voice) and Rapid Voice Cloning ($1.5 per voice) are charged once, when the voice is first used. Audio Packages (monthly audio points) are a separate billing option and are not listed here. Prices on the Chinese mainland platform (minimaxi.com) are in CNY and differ.",
+    "calculationDefault": true,
+    "charges": [
+      {
+        "amount": "60",
+        "chargeId": "price:minimax/speech-2.8-turbo:standard:short:current:input:text:per_1m_characters",
+        "component": "input",
+        "modality": "text",
+        "unit": "per_1m_characters"
+      }
+    ],
+    "checkedAt": "2026-11-09T05:38:57Z",
+    "contextClass": "short",
+    "currency": "USD",
+    "defaultAvailabilityStatus": "available",
+    "effectiveFrom": null,
+    "effectiveUntil": null,
+    "modelInternalId": "minimax/speech-2.8-turbo",
+    "priceAdjustments": [],
+    "pricingId": "price:minimax/speech-2.8-turbo:standard:short:current",
+    "pricingStatus": "current",
+    "processingMode": "standard",
+    "promptTokenThreshold": null,
+    "regionPolicy": "global",
+    "regionSelector": {
+      "dataResidencies": [
+        "global"
+      ],
+      "endpointGeographies": [
+        "global"
+      ],
+      "pricingGeography": "global_base"
+    },
+    "sourceDatasetIds": {
+      "publicDatasetIds": [
+        "speech-2.8-turbo"
+      ],
+      "websiteIds": []
+    },
+    "sourceRefs": [
+      "source:minimax:platform-minimax-io-docs-pricing-overview-md"
+    ],
+    "verificationStatus": "verified",
+    "verifiedAt": "2026-11-09T05:38:57Z"
   },
   {
     "availabilityRules": [],

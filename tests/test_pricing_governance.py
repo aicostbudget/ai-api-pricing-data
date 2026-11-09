@@ -208,6 +208,7 @@ class PricingGovernanceTests(unittest.TestCase):
             "google-gemini/gemini-3.1-flash-lite-image",
             "google-gemini/gemini-3-pro-image",
             "meta/muse-image-1.0",
+            "minimax/image-01",
         })
         lifecycle_only = {
             key for key in excluded

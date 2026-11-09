@@ -9,7 +9,7 @@
     "review_required": "display only with warning; no default or recommendation placement",
     "unsafe": "exclude from default calculations and show warning only where explicitly allowed"
   },
-  "effectiveAt": "2026-11-09T05:00:39Z",
+  "effectiveAt": "2026-11-09T05:42:13Z",
   "effectiveTimezone": "UTC",
   "failureBehavior": {
     "atomicWrite": true,
@@ -18,7 +18,7 @@
     "partialJson": "not_written",
     "publicV1Mutation": "forbidden"
   },
-  "generatedAt": "2026-11-09T05:00:39Z",
+  "generatedAt": "2026-11-09T05:42:13Z",
   "generatedAtPolicy": "UTC artifact generation timestamp injected by the generation pipeline",
   "governancePolicy": {
     "classes": [
@@ -43138,6 +43138,143 @@
     },
     {
       "accessAuthority": {
+        "baseRevision": "7aa998c2811017711103b782a3087cadebc0e724",
+        "factSha256": "96ff893e6c3e833719098f61e87a8d7fe9a3b3899bddb56ee72dbc52e92ae756",
+        "kind": "canonical",
+        "revisionScope": "base_revision_plus_fact_digest"
+      },
+      "accessCheckedAt": null,
+      "accessEvidence": [],
+      "accessStatus": "unknown",
+      "aliasTargetInternalId": null,
+      "availability": "active",
+      "batchInputPrice": null,
+      "batchOutputPrice": null,
+      "billingModelInternalId": null,
+      "bindingEvidence": [],
+      "bindingStatus": "unresolved",
+      "blockedFromDefaultReasons": [
+        "missing_verified_current_price"
+      ],
+      "cachedInputPrice": null,
+      "canonicalInternalId": "minimax/image-01",
+      "checkedAt": "2026-11-09T05:38:59Z",
+      "checkedSourceRefs": [
+        "source:minimax:platform-minimax-io-docs-api-reference-image-generation-t2i-md",
+        "source:minimax:platform-minimax-io-docs-pricing-overview-md",
+        "source:minimax:platform-minimax-io-docs-release-notes-models-md"
+      ],
+      "contextWindow": null,
+      "contextWindowStatus": "unknown_not_guessed",
+      "defaultPriceSelectionRule": [
+        "current_effective_utc",
+        "verified",
+        "standard",
+        "text",
+        "default_context_class"
+      ],
+      "defaultSafe": false,
+      "deprecationDate": null,
+      "governanceClass": "PROJECTED_IDENTITY",
+      "governanceDetails": "Structured pricing cannot be represented losslessly by the current public Dataset 1.5 contract.",
+      "governanceReason": "internal_structured_pricing_deferred_from_public_dataset",
+      "governanceSourceCandidateIds": [
+        "minimax/image-01"
+      ],
+      "id": "image-01",
+      "identityType": "canonical_model",
+      "inputPrice": null,
+      "lifecycleStatus": "active",
+      "model": "MiniMax Image-01",
+      "officialSourceUrl": "https://platform.minimax.io/docs/pricing/overview.md",
+      "outputPrice": null,
+      "priceRecords": [
+        {
+          "calculationDefault": true,
+          "checkedAt": "2026-11-09T05:38:59Z",
+          "contextClass": "short",
+          "effectiveFrom": null,
+          "effectiveUntil": null,
+          "pricingId": "price:minimax/image-01:standard:short:current:output_image_any_size",
+          "pricingStatus": "current",
+          "processingMode": "standard",
+          "sourceRefs": [
+            "source:minimax:platform-minimax-io-docs-api-reference-image-generation-t2i-md",
+            "source:minimax:platform-minimax-io-docs-pricing-overview-md",
+            "source:minimax:platform-minimax-io-docs-release-notes-models-md"
+          ],
+          "verificationStatus": "verified",
+          "verifiedAt": "2026-11-09T05:38:59Z"
+        }
+      ],
+      "pricingComponents": [
+        {
+          "amount": "0.0035",
+          "calculationDefault": true,
+          "chargeId": "price:minimax/image-01:standard:short:current:output_image_any_size:output:image:per_image",
+          "component": "output",
+          "condition": {
+            "configuration": {
+              "size": "any"
+            },
+            "contextClass": "short",
+            "effectiveFrom": null,
+            "effectiveUntil": null,
+            "processingMode": "standard",
+            "promptTokenThreshold": null,
+            "regionPolicy": "global",
+            "tierSelection": null
+          },
+          "currency": "USD",
+          "modality": "image",
+          "pricingId": "price:minimax/image-01:standard:short:current:output_image_any_size",
+          "sourceRefs": [
+            "source:minimax:platform-minimax-io-docs-api-reference-image-generation-t2i-md",
+            "source:minimax:platform-minimax-io-docs-pricing-overview-md",
+            "source:minimax:platform-minimax-io-docs-release-notes-models-md"
+          ],
+          "unit": "per_image",
+          "verificationStatus": "verified"
+        }
+      ],
+      "pricingSourceType": "canonical_verified_structured_price",
+      "provider": "minimax",
+      "publicExposure": "excluded",
+      "redirectTargetInternalId": null,
+      "releaseSourceRef": "source:minimax:platform-minimax-io-docs-release-notes-models-md",
+      "releaseSourceUrl": "https://platform.minimax.io/docs/release-notes/models.md",
+      "releaseStage": "stable",
+      "releasedAt": "2025-02-15",
+      "replacementInternalId": null,
+      "retirementDate": null,
+      "routingBehavior": "direct",
+      "routingDetails": {},
+      "selectedBatchPriceRecordId": null,
+      "selectedBillingPriceRecordId": "price:minimax/image-01:standard:short:current:output_image_any_size",
+      "selectedPriceEffectiveFrom": null,
+      "selectedPriceEffectiveUntil": null,
+      "selectedPriceRecordId": null,
+      "sourceRefs": [
+        "source:minimax:platform-minimax-io-docs-api-reference-image-generation-t2i-md",
+        "source:minimax:platform-minimax-io-docs-pricing-overview-md",
+        "source:minimax:platform-minimax-io-docs-release-notes-models-md"
+      ],
+      "sourceUrls": [
+        "https://platform.minimax.io/docs/api-reference/image-generation-t2i.md",
+        "https://platform.minimax.io/docs/pricing/overview.md",
+        "https://platform.minimax.io/docs/release-notes/models.md"
+      ],
+      "status": "latest",
+      "verificationStatus": "verified",
+      "verifiedAt": "2026-11-09T05:38:59Z",
+      "verifiedSourceRefs": [
+        "source:minimax:platform-minimax-io-docs-api-reference-image-generation-t2i-md",
+        "source:minimax:platform-minimax-io-docs-pricing-overview-md",
+        "source:minimax:platform-minimax-io-docs-release-notes-models-md"
+      ]
+    },
+    {
+      "accessAuthority": {
         "baseRevision": "f8fa6cc7da2f2cc4561771c5449b9ea6ae65f03d",
         "factSha256": "330cc0f1300874d21aa3396c946ec51b5093a38968e4babd972584229af35fdb",
         "kind": "canonical",
@@ -44048,6 +44185,318 @@
       "status": "latest",
       "verificationStatus": "verified",
       "verifiedAt": "2026-11-09T04:57:31Z",
+      "verifiedSourceRefs": [
+        "source:minimax:platform-minimax-io-docs-pricing-overview-md"
+      ]
+    },
+    {
+      "accessAuthority": {
+        "baseRevision": "7aa998c2811017711103b782a3087cadebc0e724",
+        "factSha256": "079866ab12360d476ec0d3a1392bc2e466aa1b9100c8a52981db046070175dbc",
+        "kind": "canonical",
+        "revisionScope": "base_revision_plus_fact_digest"
+      },
+      "accessCheckedAt": "2026-11-09T05:38:56Z",
+      "accessEvidence": [
+        {
+          "claimType": "official_access_public",
+          "officialModelId": "speech-2.8-hd",
+          "scope": "Exact model on the MiniMax Open Platform international pay-as-you-go API.",
+          "sourceRef": "source:minimax:platform-minimax-io-docs-api-reference-speech-t2a-http-md",
+          "title": "speech-2.8-hd official model availability documentation",
+          "url": "https://platform.minimax.io/docs/api-reference/speech-t2a-http.md"
+        }
+      ],
+      "accessStatus": "public",
+      "aliasTargetInternalId": null,
+      "availability": "active",
+      "batchInputPrice": null,
+      "batchOutputPrice": null,
+      "billingModelInternalId": null,
+      "bindingEvidence": [
+        {
+          "claimType": "official_identity_binding",
+          "officialModelId": "speech-2.8-hd",
+          "reason": "Exact documented API model ID; no entitlement inherited from a billing target.",
+          "sourceRef": "source:minimax:platform-minimax-io-docs-api-reference-speech-t2a-http-md",
+          "title": "speech-2.8-hd official identity documentation",
+          "url": "https://platform.minimax.io/docs/api-reference/speech-t2a-http.md"
+        }
+      ],
+      "bindingStatus": "approved",
+      "blockedFromDefaultReasons": [
+        "missing_verified_current_price"
+      ],
+      "cachedInputPrice": null,
+      "canonicalInternalId": "minimax/speech-2.8-hd",
+      "checkedAt": "2026-11-09T05:38:56Z",
+      "checkedSourceRefs": [
+        "source:minimax:platform-minimax-io-docs-pricing-overview-md"
+      ],
+      "contextWindow": null,
+      "contextWindowStatus": "unknown_not_guessed",
+      "defaultPriceSelectionRule": [
+        "current_effective_utc",
+        "verified",
+        "standard",
+        "text",
+        "default_context_class"
+      ],
+      "defaultSafe": false,
+      "deprecationDate": null,
+      "governanceClass": "VERIFIED_CANONICAL",
+      "governanceDetails": null,
+      "governanceReason": "canonical_verified_non_token_public_projection",
+      "governanceSourceCandidateIds": [
+        "minimax/speech-2.8-hd"
+      ],
+      "id": "speech-2.8-hd",
+      "identityType": "canonical_model",
+      "inputPrice": null,
+      "lifecycleStatus": "active",
+      "model": "MiniMax Speech 2.8 HD",
+      "officialSourceUrl": "https://platform.minimax.io/docs/pricing/overview.md",
+      "outputPrice": null,
+      "priceRecords": [
+        {
+          "calculationDefault": true,
+          "checkedAt": "2026-11-09T05:38:56Z",
+          "contextClass": "short",
+          "effectiveFrom": null,
+          "effectiveUntil": null,
+          "pricingId": "price:minimax/speech-2.8-hd:standard:short:current",
+          "pricingStatus": "current",
+          "processingMode": "standard",
+          "sourceRefs": [
+            "source:minimax:platform-minimax-io-docs-pricing-overview-md"
+          ],
+          "verificationStatus": "verified",
+          "verifiedAt": "2026-11-09T05:38:56Z"
+        }
+      ],
+      "pricingComponents": [
+        {
+          "amount": "100",
+          "calculationDefault": true,
+          "chargeId": "price:minimax/speech-2.8-hd:standard:short:current:input:text:per_1m_characters",
+          "component": "input",
+          "condition": {
+            "availabilityRules": [],
+            "contextClass": "short",
+            "defaultAvailabilityStatus": "available",
+            "effectiveFrom": null,
+            "effectiveUntil": null,
+            "priceAdjustments": [],
+            "processingMode": "standard",
+            "promptTokenThreshold": null,
+            "regionPolicy": "global",
+            "regionSelector": {
+              "dataResidencies": [
+                "global"
+              ],
+              "endpointGeographies": [
+                "global"
+              ],
+              "pricingGeography": "global_base"
+            },
+            "tierSelection": null
+          },
+          "currency": "USD",
+          "modality": "text",
+          "pricingId": "price:minimax/speech-2.8-hd:standard:short:current",
+          "sourceRefs": [
+            "source:minimax:platform-minimax-io-docs-pricing-overview-md"
+          ],
+          "unit": "per_1m_characters",
+          "verificationStatus": "verified"
+        }
+      ],
+      "pricingSourceType": "canonical_verified_structured_price",
+      "provider": "minimax",
+      "publicExposure": "public",
+      "redirectTargetInternalId": null,
+      "releaseSourceRef": "source:minimax:platform-minimax-io-docs-release-notes-models-md",
+      "releaseSourceUrl": "https://platform.minimax.io/docs/release-notes/models.md",
+      "releaseStage": "stable",
+      "releasedAt": "2026-01-23",
+      "replacementInternalId": null,
+      "retirementDate": null,
+      "routingBehavior": "direct",
+      "routingDetails": {},
+      "selectedBatchPriceRecordId": null,
+      "selectedBillingPriceRecordId": "price:minimax/speech-2.8-hd:standard:short:current",
+      "selectedPriceEffectiveFrom": null,
+      "selectedPriceEffectiveUntil": null,
+      "selectedPriceRecordId": null,
+      "sourceRefs": [
+        "source:minimax:platform-minimax-io-docs-api-reference-speech-t2a-http-md",
+        "source:minimax:platform-minimax-io-docs-pricing-overview-md",
+        "source:minimax:platform-minimax-io-docs-release-notes-models-md"
+      ],
+      "sourceUrls": [
+        "https://platform.minimax.io/docs/api-reference/speech-t2a-http.md",
+        "https://platform.minimax.io/docs/pricing/overview.md",
+        "https://platform.minimax.io/docs/release-notes/models.md"
+      ],
+      "status": "latest",
+      "verificationStatus": "verified",
+      "verifiedAt": "2026-11-09T05:38:56Z",
+      "verifiedSourceRefs": [
+        "source:minimax:platform-minimax-io-docs-pricing-overview-md"
+      ]
+    },
+    {
+      "accessAuthority": {
+        "baseRevision": "7aa998c2811017711103b782a3087cadebc0e724",
+        "factSha256": "2aa2f0dc1ec58edbf507d473c841e80d5ae300bfae7e1e6c75c91a838fcad142",
+        "kind": "canonical",
+        "revisionScope": "base_revision_plus_fact_digest"
+      },
+      "accessCheckedAt": "2026-11-09T05:38:57Z",
+      "accessEvidence": [
+        {
+          "claimType": "official_access_public",
+          "officialModelId": "speech-2.8-turbo",
+          "scope": "Exact model on the MiniMax Open Platform international pay-as-you-go API.",
+          "sourceRef": "source:minimax:platform-minimax-io-docs-api-reference-speech-t2a-http-md",
+          "title": "speech-2.8-turbo official model availability documentation",
+          "url": "https://platform.minimax.io/docs/api-reference/speech-t2a-http.md"
+        }
+      ],
+      "accessStatus": "public",
+      "aliasTargetInternalId": null,
+      "availability": "active",
+      "batchInputPrice": null,
+      "batchOutputPrice": null,
+      "billingModelInternalId": null,
+      "bindingEvidence": [
+        {
+          "claimType": "official_identity_binding",
+          "officialModelId": "speech-2.8-turbo",
+          "reason": "Exact documented API model ID; no entitlement inherited from a billing target.",
+          "sourceRef": "source:minimax:platform-minimax-io-docs-api-reference-speech-t2a-http-md",
+          "title": "speech-2.8-turbo official identity documentation",
+          "url": "https://platform.minimax.io/docs/api-reference/speech-t2a-http.md"
+        }
+      ],
+      "bindingStatus": "approved",
+      "blockedFromDefaultReasons": [
+        "missing_verified_current_price"
+      ],
+      "cachedInputPrice": null,
+      "canonicalInternalId": "minimax/speech-2.8-turbo",
+      "checkedAt": "2026-11-09T05:38:57Z",
+      "checkedSourceRefs": [
+        "source:minimax:platform-minimax-io-docs-pricing-overview-md"
+      ],
+      "contextWindow": null,
+      "contextWindowStatus": "unknown_not_guessed",
+      "defaultPriceSelectionRule": [
+        "current_effective_utc",
+        "verified",
+        "standard",
+        "text",
+        "default_context_class"
+      ],
+      "defaultSafe": false,
+      "deprecationDate": null,
+      "governanceClass": "VERIFIED_CANONICAL",
+      "governanceDetails": null,
+      "governanceReason": "canonical_verified_non_token_public_projection",
+      "governanceSourceCandidateIds": [
+        "minimax/speech-2.8-turbo"
+      ],
+      "id": "speech-2.8-turbo",
+      "identityType": "canonical_model",
+      "inputPrice": null,
+      "lifecycleStatus": "active",
+      "model": "MiniMax Speech 2.8 Turbo",
+      "officialSourceUrl": "https://platform.minimax.io/docs/pricing/overview.md",
+      "outputPrice": null,
+      "priceRecords": [
+        {
+          "calculationDefault": true,
+          "checkedAt": "2026-11-09T05:38:57Z",
+          "contextClass": "short",
+          "effectiveFrom": null,
+          "effectiveUntil": null,
+          "pricingId": "price:minimax/speech-2.8-turbo:standard:short:current",
+          "pricingStatus": "current",
+          "processingMode": "standard",
+          "sourceRefs": [
+            "source:minimax:platform-minimax-io-docs-pricing-overview-md"
+          ],
+          "verificationStatus": "verified",
+          "verifiedAt": "2026-11-09T05:38:57Z"
+        }
+      ],
+      "pricingComponents": [
+        {
+          "amount": "60",
+          "calculationDefault": true,
+          "chargeId": "price:minimax/speech-2.8-turbo:standard:short:current:input:text:per_1m_characters",
+          "component": "input",
+          "condition": {
+            "availabilityRules": [],
+            "contextClass": "short",
+            "defaultAvailabilityStatus": "available",
+            "effectiveFrom": null,
+            "effectiveUntil": null,
+            "priceAdjustments": [],
+            "processingMode": "standard",
+            "promptTokenThreshold": null,
+            "regionPolicy": "global",
+            "regionSelector": {
+              "dataResidencies": [
+                "global"
+              ],
+              "endpointGeographies": [
+                "global"
+              ],
+              "pricingGeography": "global_base"
+            },
+            "tierSelection": null
+          },
+          "currency": "USD",
+          "modality": "text",
+          "pricingId": "price:minimax/speech-2.8-turbo:standard:short:current",
+          "sourceRefs": [
+            "source:minimax:platform-minimax-io-docs-pricing-overview-md"
+          ],
+          "unit": "per_1m_characters",
+          "verificationStatus": "verified"
+        }
+      ],
+      "pricingSourceType": "canonical_verified_structured_price",
+      "provider": "minimax",
+      "publicExposure": "public",
+      "redirectTargetInternalId": null,
+      "releaseSourceRef": "source:minimax:platform-minimax-io-docs-release-notes-models-md",
+      "releaseSourceUrl": "https://platform.minimax.io/docs/release-notes/models.md",
+      "releaseStage": "stable",
+      "releasedAt": "2026-01-23",
+      "replacementInternalId": null,
+      "retirementDate": null,
+      "routingBehavior": "direct",
+      "routingDetails": {},
+      "selectedBatchPriceRecordId": null,
+      "selectedBillingPriceRecordId": "price:minimax/speech-2.8-turbo:standard:short:current",
+      "selectedPriceEffectiveFrom": null,
+      "selectedPriceEffectiveUntil": null,
+      "selectedPriceRecordId": null,
+      "sourceRefs": [
+        "source:minimax:platform-minimax-io-docs-api-reference-speech-t2a-http-md",
+        "source:minimax:platform-minimax-io-docs-pricing-overview-md",
+        "source:minimax:platform-minimax-io-docs-release-notes-models-md"
+      ],
+      "sourceUrls": [
+        "https://platform.minimax.io/docs/api-reference/speech-t2a-http.md",
+        "https://platform.minimax.io/docs/pricing/overview.md",
+        "https://platform.minimax.io/docs/release-notes/models.md"
+      ],
+      "status": "latest",
+      "verificationStatus": "verified",
+      "verifiedAt": "2026-11-09T05:38:57Z",
       "verifiedSourceRefs": [
         "source:minimax:platform-minimax-io-docs-pricing-overview-md"
       ]
