@@ -4,12 +4,12 @@
     "version": "1.0.0",
     "schema_version": "1.11.0",
     "page_url": "https://aicostbudget.com/en/datasets/ai-api-pricing",
-    "last_updated": "2026-11-08T04:25:25Z",
-    "last_verified_at": "2026-11-08T04:25:25Z",
-    "generated_at": "2026-11-08T04:27:32Z",
-    "provider_count": 16,
-    "record_count": 146,
-    "official_source_count": 43,
+    "last_updated": "2026-11-09T04:57:31Z",
+    "last_verified_at": "2026-11-09T04:57:31Z",
+    "generated_at": "2026-11-09T05:00:39Z",
+    "provider_count": 17,
+    "record_count": 148,
+    "official_source_count": 44,
     "currency": "USD",
     "pricing_unit": "Multiple billing units",
     "statistics_scope": "public pricing records returned by the public pricing adapter with Pricing V2 enabled",
@@ -22344,6 +22344,797 @@
           "sourceRef": "source:meta:dev-meta-ai-docs-models-md",
           "title": "sam-3.1 official identity documentation",
           "url": "https://dev.meta.ai/docs/models.md"
+        }
+      ],
+      "conditional_usage_allowances": [],
+      "model_selection": null
+    },
+    {
+      "provider_id": "minimax",
+      "provider": "MiniMax",
+      "model_id": "minimax-m3",
+      "model": "MiniMax M3",
+      "input_price_per_1m_tokens": 0.3,
+      "cached_input_price_per_1m_tokens": 0.06,
+      "output_price_per_1m_tokens": 1.2,
+      "currency": "USD",
+      "pricing_unit": "1M tokens",
+      "status": "latest",
+      "availability": "active",
+      "official_source_url": "https://platform.minimax.io/docs/pricing/overview.md",
+      "verification_status": "verified",
+      "last_verified_at": "2026-11-09",
+      "checked_at": "2026-11-09",
+      "effective_from": null,
+      "effective_until": null,
+      "notes": "",
+      "pricing_tier_count": 2,
+      "pricing_tiers": [
+        {
+          "id": "price:minimax/minimax-m3:standard:long:current",
+          "pricing_id": "price:minimax/minimax-m3:standard:long:current",
+          "label": "Long context",
+          "context_class": "long",
+          "calculation_default": false,
+          "prompt_token_threshold": 524288,
+          "comparison": "greater_than",
+          "token_basis": "total_prompt_tokens",
+          "cached_prompt_tokens_included": true,
+          "whole_request_pricing": true,
+          "processing_mode": "standard",
+          "input_price_per_1m_tokens": 0.6,
+          "cached_input_price_per_1m_tokens": 0.12,
+          "output_price_per_1m_tokens": 2.4,
+          "currency": "USD",
+          "pricing_unit": "1M tokens",
+          "official_source_url": "https://platform.minimax.io/docs/pricing/overview.md",
+          "source_refs": [
+            "source:minimax:platform-minimax-io-docs-pricing-overview-md"
+          ],
+          "last_verified_at": "2026-11-09",
+          "checked_at": "2026-11-09",
+          "verification_status": "verified"
+        },
+        {
+          "id": "price:minimax/minimax-m3:standard:short:current",
+          "pricing_id": "price:minimax/minimax-m3:standard:short:current",
+          "label": "Short context",
+          "context_class": "short",
+          "calculation_default": true,
+          "prompt_token_threshold": 524288,
+          "comparison": "less_than_or_equal",
+          "token_basis": "total_prompt_tokens",
+          "cached_prompt_tokens_included": true,
+          "whole_request_pricing": true,
+          "processing_mode": "standard",
+          "input_price_per_1m_tokens": 0.3,
+          "cached_input_price_per_1m_tokens": 0.06,
+          "output_price_per_1m_tokens": 1.2,
+          "currency": "USD",
+          "pricing_unit": "1M tokens",
+          "official_source_url": "https://platform.minimax.io/docs/pricing/overview.md",
+          "source_refs": [
+            "source:minimax:platform-minimax-io-docs-pricing-overview-md"
+          ],
+          "last_verified_at": "2026-11-09",
+          "checked_at": "2026-11-09",
+          "verification_status": "verified"
+        }
+      ],
+      "time_pricing": null,
+      "pricing_components": [
+        {
+          "pricing_id": "price:minimax/minimax-m3:priority:long:current",
+          "charge_id": "price:minimax/minimax-m3:priority:long:current:cached_input:text:per_1m_tokens",
+          "component": "cached_input",
+          "amount": "0.18",
+          "unit": "per_1m_tokens",
+          "currency": "USD",
+          "modality": "text",
+          "condition": {
+            "processing_mode": "priority",
+            "context_class": "long",
+            "prompt_token_threshold": 524288,
+            "tier_selection": {
+              "comparison": "greater_than",
+              "token_basis": "total_prompt_tokens",
+              "cached_prompt_tokens_included": true,
+              "whole_request_pricing": true
+            },
+            "region_policy": "global",
+            "effective_from": null,
+            "effective_until": null,
+            "region_selector": {
+              "dataResidencies": [
+                "global"
+              ],
+              "endpointGeographies": [
+                "global"
+              ],
+              "pricingGeography": "global_base"
+            },
+            "default_availability_status": "available",
+            "availability_rules": [],
+            "price_adjustments": []
+          },
+          "calculation_default": false,
+          "source_refs": [
+            "source:minimax:platform-minimax-io-docs-pricing-overview-md"
+          ],
+          "source_urls": [
+            "https://platform.minimax.io/docs/pricing/overview.md"
+          ],
+          "verification_status": "verified"
+        },
+        {
+          "pricing_id": "price:minimax/minimax-m3:priority:long:current",
+          "charge_id": "price:minimax/minimax-m3:priority:long:current:input:text:per_1m_tokens",
+          "component": "input",
+          "amount": "0.9",
+          "unit": "per_1m_tokens",
+          "currency": "USD",
+          "modality": "text",
+          "condition": {
+            "processing_mode": "priority",
+            "context_class": "long",
+            "prompt_token_threshold": 524288,
+            "tier_selection": {
+              "comparison": "greater_than",
+              "token_basis": "total_prompt_tokens",
+              "cached_prompt_tokens_included": true,
+              "whole_request_pricing": true
+            },
+            "region_policy": "global",
+            "effective_from": null,
+            "effective_until": null,
+            "region_selector": {
+              "dataResidencies": [
+                "global"
+              ],
+              "endpointGeographies": [
+                "global"
+              ],
+              "pricingGeography": "global_base"
+            },
+            "default_availability_status": "available",
+            "availability_rules": [],
+            "price_adjustments": []
+          },
+          "calculation_default": false,
+          "source_refs": [
+            "source:minimax:platform-minimax-io-docs-pricing-overview-md"
+          ],
+          "source_urls": [
+            "https://platform.minimax.io/docs/pricing/overview.md"
+          ],
+          "verification_status": "verified"
+        },
+        {
+          "pricing_id": "price:minimax/minimax-m3:priority:long:current",
+          "charge_id": "price:minimax/minimax-m3:priority:long:current:output:text:per_1m_tokens",
+          "component": "output",
+          "amount": "3.6",
+          "unit": "per_1m_tokens",
+          "currency": "USD",
+          "modality": "text",
+          "condition": {
+            "processing_mode": "priority",
+            "context_class": "long",
+            "prompt_token_threshold": 524288,
+            "tier_selection": {
+              "comparison": "greater_than",
+              "token_basis": "total_prompt_tokens",
+              "cached_prompt_tokens_included": true,
+              "whole_request_pricing": true
+            },
+            "region_policy": "global",
+            "effective_from": null,
+            "effective_until": null,
+            "region_selector": {
+              "dataResidencies": [
+                "global"
+              ],
+              "endpointGeographies": [
+                "global"
+              ],
+              "pricingGeography": "global_base"
+            },
+            "default_availability_status": "available",
+            "availability_rules": [],
+            "price_adjustments": []
+          },
+          "calculation_default": false,
+          "source_refs": [
+            "source:minimax:platform-minimax-io-docs-pricing-overview-md"
+          ],
+          "source_urls": [
+            "https://platform.minimax.io/docs/pricing/overview.md"
+          ],
+          "verification_status": "verified"
+        },
+        {
+          "pricing_id": "price:minimax/minimax-m3:priority:short:current",
+          "charge_id": "price:minimax/minimax-m3:priority:short:current:cached_input:text:per_1m_tokens",
+          "component": "cached_input",
+          "amount": "0.09",
+          "unit": "per_1m_tokens",
+          "currency": "USD",
+          "modality": "text",
+          "condition": {
+            "processing_mode": "priority",
+            "context_class": "short",
+            "prompt_token_threshold": 524288,
+            "tier_selection": {
+              "comparison": "less_than_or_equal",
+              "token_basis": "total_prompt_tokens",
+              "cached_prompt_tokens_included": true,
+              "whole_request_pricing": true
+            },
+            "region_policy": "global",
+            "effective_from": null,
+            "effective_until": null,
+            "region_selector": {
+              "dataResidencies": [
+                "global"
+              ],
+              "endpointGeographies": [
+                "global"
+              ],
+              "pricingGeography": "global_base"
+            },
+            "default_availability_status": "available",
+            "availability_rules": [],
+            "price_adjustments": []
+          },
+          "calculation_default": false,
+          "source_refs": [
+            "source:minimax:platform-minimax-io-docs-pricing-overview-md"
+          ],
+          "source_urls": [
+            "https://platform.minimax.io/docs/pricing/overview.md"
+          ],
+          "verification_status": "verified"
+        },
+        {
+          "pricing_id": "price:minimax/minimax-m3:priority:short:current",
+          "charge_id": "price:minimax/minimax-m3:priority:short:current:input:text:per_1m_tokens",
+          "component": "input",
+          "amount": "0.45",
+          "unit": "per_1m_tokens",
+          "currency": "USD",
+          "modality": "text",
+          "condition": {
+            "processing_mode": "priority",
+            "context_class": "short",
+            "prompt_token_threshold": 524288,
+            "tier_selection": {
+              "comparison": "less_than_or_equal",
+              "token_basis": "total_prompt_tokens",
+              "cached_prompt_tokens_included": true,
+              "whole_request_pricing": true
+            },
+            "region_policy": "global",
+            "effective_from": null,
+            "effective_until": null,
+            "region_selector": {
+              "dataResidencies": [
+                "global"
+              ],
+              "endpointGeographies": [
+                "global"
+              ],
+              "pricingGeography": "global_base"
+            },
+            "default_availability_status": "available",
+            "availability_rules": [],
+            "price_adjustments": []
+          },
+          "calculation_default": false,
+          "source_refs": [
+            "source:minimax:platform-minimax-io-docs-pricing-overview-md"
+          ],
+          "source_urls": [
+            "https://platform.minimax.io/docs/pricing/overview.md"
+          ],
+          "verification_status": "verified"
+        },
+        {
+          "pricing_id": "price:minimax/minimax-m3:priority:short:current",
+          "charge_id": "price:minimax/minimax-m3:priority:short:current:output:text:per_1m_tokens",
+          "component": "output",
+          "amount": "1.8",
+          "unit": "per_1m_tokens",
+          "currency": "USD",
+          "modality": "text",
+          "condition": {
+            "processing_mode": "priority",
+            "context_class": "short",
+            "prompt_token_threshold": 524288,
+            "tier_selection": {
+              "comparison": "less_than_or_equal",
+              "token_basis": "total_prompt_tokens",
+              "cached_prompt_tokens_included": true,
+              "whole_request_pricing": true
+            },
+            "region_policy": "global",
+            "effective_from": null,
+            "effective_until": null,
+            "region_selector": {
+              "dataResidencies": [
+                "global"
+              ],
+              "endpointGeographies": [
+                "global"
+              ],
+              "pricingGeography": "global_base"
+            },
+            "default_availability_status": "available",
+            "availability_rules": [],
+            "price_adjustments": []
+          },
+          "calculation_default": false,
+          "source_refs": [
+            "source:minimax:platform-minimax-io-docs-pricing-overview-md"
+          ],
+          "source_urls": [
+            "https://platform.minimax.io/docs/pricing/overview.md"
+          ],
+          "verification_status": "verified"
+        },
+        {
+          "pricing_id": "price:minimax/minimax-m3:standard:long:current",
+          "charge_id": "price:minimax/minimax-m3:standard:long:current:cached_input:text:per_1m_tokens",
+          "component": "cached_input",
+          "amount": "0.12",
+          "unit": "per_1m_tokens",
+          "currency": "USD",
+          "modality": "text",
+          "condition": {
+            "processing_mode": "standard",
+            "context_class": "long",
+            "prompt_token_threshold": 524288,
+            "tier_selection": {
+              "comparison": "greater_than",
+              "token_basis": "total_prompt_tokens",
+              "cached_prompt_tokens_included": true,
+              "whole_request_pricing": true
+            },
+            "region_policy": "global",
+            "effective_from": null,
+            "effective_until": null,
+            "region_selector": {
+              "dataResidencies": [
+                "global"
+              ],
+              "endpointGeographies": [
+                "global"
+              ],
+              "pricingGeography": "global_base"
+            },
+            "default_availability_status": "available",
+            "availability_rules": [],
+            "price_adjustments": []
+          },
+          "calculation_default": false,
+          "source_refs": [
+            "source:minimax:platform-minimax-io-docs-pricing-overview-md"
+          ],
+          "source_urls": [
+            "https://platform.minimax.io/docs/pricing/overview.md"
+          ],
+          "verification_status": "verified"
+        },
+        {
+          "pricing_id": "price:minimax/minimax-m3:standard:long:current",
+          "charge_id": "price:minimax/minimax-m3:standard:long:current:input:text:per_1m_tokens",
+          "component": "input",
+          "amount": "0.6",
+          "unit": "per_1m_tokens",
+          "currency": "USD",
+          "modality": "text",
+          "condition": {
+            "processing_mode": "standard",
+            "context_class": "long",
+            "prompt_token_threshold": 524288,
+            "tier_selection": {
+              "comparison": "greater_than",
+              "token_basis": "total_prompt_tokens",
+              "cached_prompt_tokens_included": true,
+              "whole_request_pricing": true
+            },
+            "region_policy": "global",
+            "effective_from": null,
+            "effective_until": null,
+            "region_selector": {
+              "dataResidencies": [
+                "global"
+              ],
+              "endpointGeographies": [
+                "global"
+              ],
+              "pricingGeography": "global_base"
+            },
+            "default_availability_status": "available",
+            "availability_rules": [],
+            "price_adjustments": []
+          },
+          "calculation_default": false,
+          "source_refs": [
+            "source:minimax:platform-minimax-io-docs-pricing-overview-md"
+          ],
+          "source_urls": [
+            "https://platform.minimax.io/docs/pricing/overview.md"
+          ],
+          "verification_status": "verified"
+        },
+        {
+          "pricing_id": "price:minimax/minimax-m3:standard:long:current",
+          "charge_id": "price:minimax/minimax-m3:standard:long:current:output:text:per_1m_tokens",
+          "component": "output",
+          "amount": "2.4",
+          "unit": "per_1m_tokens",
+          "currency": "USD",
+          "modality": "text",
+          "condition": {
+            "processing_mode": "standard",
+            "context_class": "long",
+            "prompt_token_threshold": 524288,
+            "tier_selection": {
+              "comparison": "greater_than",
+              "token_basis": "total_prompt_tokens",
+              "cached_prompt_tokens_included": true,
+              "whole_request_pricing": true
+            },
+            "region_policy": "global",
+            "effective_from": null,
+            "effective_until": null,
+            "region_selector": {
+              "dataResidencies": [
+                "global"
+              ],
+              "endpointGeographies": [
+                "global"
+              ],
+              "pricingGeography": "global_base"
+            },
+            "default_availability_status": "available",
+            "availability_rules": [],
+            "price_adjustments": []
+          },
+          "calculation_default": false,
+          "source_refs": [
+            "source:minimax:platform-minimax-io-docs-pricing-overview-md"
+          ],
+          "source_urls": [
+            "https://platform.minimax.io/docs/pricing/overview.md"
+          ],
+          "verification_status": "verified"
+        },
+        {
+          "pricing_id": "price:minimax/minimax-m3:standard:short:current",
+          "charge_id": "price:minimax/minimax-m3:standard:short:current:cached_input:text:per_1m_tokens",
+          "component": "cached_input",
+          "amount": "0.06",
+          "unit": "per_1m_tokens",
+          "currency": "USD",
+          "modality": "text",
+          "condition": {
+            "processing_mode": "standard",
+            "context_class": "short",
+            "prompt_token_threshold": 524288,
+            "tier_selection": {
+              "comparison": "less_than_or_equal",
+              "token_basis": "total_prompt_tokens",
+              "cached_prompt_tokens_included": true,
+              "whole_request_pricing": true
+            },
+            "region_policy": "global",
+            "effective_from": null,
+            "effective_until": null,
+            "region_selector": {
+              "dataResidencies": [
+                "global"
+              ],
+              "endpointGeographies": [
+                "global"
+              ],
+              "pricingGeography": "global_base"
+            },
+            "default_availability_status": "available",
+            "availability_rules": [],
+            "price_adjustments": []
+          },
+          "calculation_default": true,
+          "source_refs": [
+            "source:minimax:platform-minimax-io-docs-pricing-overview-md"
+          ],
+          "source_urls": [
+            "https://platform.minimax.io/docs/pricing/overview.md"
+          ],
+          "verification_status": "verified"
+        },
+        {
+          "pricing_id": "price:minimax/minimax-m3:standard:short:current",
+          "charge_id": "price:minimax/minimax-m3:standard:short:current:input:text:per_1m_tokens",
+          "component": "input",
+          "amount": "0.3",
+          "unit": "per_1m_tokens",
+          "currency": "USD",
+          "modality": "text",
+          "condition": {
+            "processing_mode": "standard",
+            "context_class": "short",
+            "prompt_token_threshold": 524288,
+            "tier_selection": {
+              "comparison": "less_than_or_equal",
+              "token_basis": "total_prompt_tokens",
+              "cached_prompt_tokens_included": true,
+              "whole_request_pricing": true
+            },
+            "region_policy": "global",
+            "effective_from": null,
+            "effective_until": null,
+            "region_selector": {
+              "dataResidencies": [
+                "global"
+              ],
+              "endpointGeographies": [
+                "global"
+              ],
+              "pricingGeography": "global_base"
+            },
+            "default_availability_status": "available",
+            "availability_rules": [],
+            "price_adjustments": []
+          },
+          "calculation_default": true,
+          "source_refs": [
+            "source:minimax:platform-minimax-io-docs-pricing-overview-md"
+          ],
+          "source_urls": [
+            "https://platform.minimax.io/docs/pricing/overview.md"
+          ],
+          "verification_status": "verified"
+        },
+        {
+          "pricing_id": "price:minimax/minimax-m3:standard:short:current",
+          "charge_id": "price:minimax/minimax-m3:standard:short:current:output:text:per_1m_tokens",
+          "component": "output",
+          "amount": "1.2",
+          "unit": "per_1m_tokens",
+          "currency": "USD",
+          "modality": "text",
+          "condition": {
+            "processing_mode": "standard",
+            "context_class": "short",
+            "prompt_token_threshold": 524288,
+            "tier_selection": {
+              "comparison": "less_than_or_equal",
+              "token_basis": "total_prompt_tokens",
+              "cached_prompt_tokens_included": true,
+              "whole_request_pricing": true
+            },
+            "region_policy": "global",
+            "effective_from": null,
+            "effective_until": null,
+            "region_selector": {
+              "dataResidencies": [
+                "global"
+              ],
+              "endpointGeographies": [
+                "global"
+              ],
+              "pricingGeography": "global_base"
+            },
+            "default_availability_status": "available",
+            "availability_rules": [],
+            "price_adjustments": []
+          },
+          "calculation_default": true,
+          "source_refs": [
+            "source:minimax:platform-minimax-io-docs-pricing-overview-md"
+          ],
+          "source_urls": [
+            "https://platform.minimax.io/docs/pricing/overview.md"
+          ],
+          "verification_status": "verified"
+        }
+      ],
+      "unit_price": null,
+      "billing_unit": null,
+      "billing_quantity": null,
+      "pricing_dimension": null,
+      "released_at": "2026-06-01",
+      "access_status": "public",
+      "access_checked_at": "2026-11-09T04:57:27Z",
+      "access_evidence": [
+        {
+          "claimType": "official_access_public",
+          "officialModelId": "MiniMax-M3",
+          "scope": "Exact model on the MiniMax Open Platform international pay-as-you-go API.",
+          "sourceRef": "source:minimax:platform-minimax-io-docs-guides-text-generation-md",
+          "title": "MiniMax-M3 official model availability documentation",
+          "url": "https://platform.minimax.io/docs/guides/text-generation.md"
+        }
+      ],
+      "binding_status": "approved",
+      "binding_evidence": [
+        {
+          "claimType": "official_identity_binding",
+          "officialModelId": "MiniMax-M3",
+          "reason": "Exact documented API model ID; no entitlement inherited from a billing target.",
+          "sourceRef": "source:minimax:platform-minimax-io-docs-guides-text-generation-md",
+          "title": "MiniMax-M3 official identity documentation",
+          "url": "https://platform.minimax.io/docs/guides/text-generation.md"
+        }
+      ],
+      "conditional_usage_allowances": [],
+      "model_selection": null
+    },
+    {
+      "provider_id": "minimax",
+      "provider": "MiniMax",
+      "model_id": "minimax-m3.1-flash",
+      "model": "MiniMax M3.1 Flash",
+      "input_price_per_1m_tokens": 0.15,
+      "cached_input_price_per_1m_tokens": 0.015,
+      "output_price_per_1m_tokens": 0.6,
+      "currency": "USD",
+      "pricing_unit": "1M tokens",
+      "status": "latest",
+      "availability": "active",
+      "official_source_url": "https://platform.minimax.io/docs/pricing/overview.md",
+      "verification_status": "verified",
+      "last_verified_at": "2026-11-09",
+      "checked_at": "2026-11-09",
+      "effective_from": null,
+      "effective_until": null,
+      "notes": "",
+      "pricing_tier_count": 0,
+      "pricing_tiers": [],
+      "time_pricing": null,
+      "pricing_components": [
+        {
+          "pricing_id": "price:minimax/minimax-m3.1-flash:standard:short:current",
+          "charge_id": "price:minimax/minimax-m3.1-flash:standard:short:current:cached_input:text:per_1m_tokens",
+          "component": "cached_input",
+          "amount": "0.015",
+          "unit": "per_1m_tokens",
+          "currency": "USD",
+          "modality": "text",
+          "condition": {
+            "processing_mode": "standard",
+            "context_class": "short",
+            "prompt_token_threshold": null,
+            "tier_selection": null,
+            "region_policy": "global",
+            "effective_from": null,
+            "effective_until": null,
+            "region_selector": {
+              "dataResidencies": [
+                "global"
+              ],
+              "endpointGeographies": [
+                "global"
+              ],
+              "pricingGeography": "global_base"
+            },
+            "default_availability_status": "available",
+            "availability_rules": [],
+            "price_adjustments": []
+          },
+          "calculation_default": true,
+          "source_refs": [
+            "source:minimax:platform-minimax-io-docs-pricing-overview-md"
+          ],
+          "source_urls": [
+            "https://platform.minimax.io/docs/pricing/overview.md"
+          ],
+          "verification_status": "verified"
+        },
+        {
+          "pricing_id": "price:minimax/minimax-m3.1-flash:standard:short:current",
+          "charge_id": "price:minimax/minimax-m3.1-flash:standard:short:current:input:text:per_1m_tokens",
+          "component": "input",
+          "amount": "0.15",
+          "unit": "per_1m_tokens",
+          "currency": "USD",
+          "modality": "text",
+          "condition": {
+            "processing_mode": "standard",
+            "context_class": "short",
+            "prompt_token_threshold": null,
+            "tier_selection": null,
+            "region_policy": "global",
+            "effective_from": null,
+            "effective_until": null,
+            "region_selector": {
+              "dataResidencies": [
+                "global"
+              ],
+              "endpointGeographies": [
+                "global"
+              ],
+              "pricingGeography": "global_base"
+            },
+            "default_availability_status": "available",
+            "availability_rules": [],
+            "price_adjustments": []
+          },
+          "calculation_default": true,
+          "source_refs": [
+            "source:minimax:platform-minimax-io-docs-pricing-overview-md"
+          ],
+          "source_urls": [
+            "https://platform.minimax.io/docs/pricing/overview.md"
+          ],
+          "verification_status": "verified"
+        },
+        {
+          "pricing_id": "price:minimax/minimax-m3.1-flash:standard:short:current",
+          "charge_id": "price:minimax/minimax-m3.1-flash:standard:short:current:output:text:per_1m_tokens",
+          "component": "output",
+          "amount": "0.6",
+          "unit": "per_1m_tokens",
+          "currency": "USD",
+          "modality": "text",
+          "condition": {
+            "processing_mode": "standard",
+            "context_class": "short",
+            "prompt_token_threshold": null,
+            "tier_selection": null,
+            "region_policy": "global",
+            "effective_from": null,
+            "effective_until": null,
+            "region_selector": {
+              "dataResidencies": [
+                "global"
+              ],
+              "endpointGeographies": [
+                "global"
+              ],
+              "pricingGeography": "global_base"
+            },
+            "default_availability_status": "available",
+            "availability_rules": [],
+            "price_adjustments": []
+          },
+          "calculation_default": true,
+          "source_refs": [
+            "source:minimax:platform-minimax-io-docs-pricing-overview-md"
+          ],
+          "source_urls": [
+            "https://platform.minimax.io/docs/pricing/overview.md"
+          ],
+          "verification_status": "verified"
+        }
+      ],
+      "unit_price": null,
+      "billing_unit": null,
+      "billing_quantity": null,
+      "pricing_dimension": null,
+      "released_at": "2026-10-19",
+      "access_status": "public",
+      "access_checked_at": "2026-11-09T04:57:31Z",
+      "access_evidence": [
+        {
+          "claimType": "official_access_public",
+          "officialModelId": "MiniMax-M3.1-Flash",
+          "scope": "Exact model on the MiniMax Open Platform international pay-as-you-go API.",
+          "sourceRef": "source:minimax:platform-minimax-io-docs-guides-text-generation-md",
+          "title": "MiniMax-M3.1-Flash official model availability documentation",
+          "url": "https://platform.minimax.io/docs/guides/text-generation.md"
+        }
+      ],
+      "binding_status": "approved",
+      "binding_evidence": [
+        {
+          "claimType": "official_identity_binding",
+          "officialModelId": "MiniMax-M3.1-Flash",
+          "reason": "Exact documented API model ID; no entitlement inherited from a billing target.",
+          "sourceRef": "source:minimax:platform-minimax-io-docs-guides-text-generation-md",
+          "title": "MiniMax-M3.1-Flash official identity documentation",
+          "url": "https://platform.minimax.io/docs/guides/text-generation.md"
         }
       ],
       "conditional_usage_allowances": [],

@@ -150,7 +150,9 @@
     "openai/gpt-5.6-cyber": "cb4b161c05f0b0f79fba83e3387909aaa7a5582546b722628c253385fd7e0c42",
     "openai/gpt-6-cyber": "fd6075de40a6f47b3cfd6625d6373cf9be643e7631ac73bf34985697992eb5a5",
     "google-gemini/gemini-omni-1.1-flash": "360c46bf2acb2ef5ccd49668cddbeb58af7e5a02da62d36161d05de6c1af2ec1",
-    "google-gemini/gemini-omni-1.2-flash": "1a4296219b425356a0ec24c82038a862add610b29855cfa5b1da16a51a0166f1"
+    "google-gemini/gemini-omni-1.2-flash": "1a4296219b425356a0ec24c82038a862add610b29855cfa5b1da16a51a0166f1",
+    "minimax/minimax-m3": "7e9f603d043e8325e206ec7cc1517587888b83b223a0a60bef5a2a02f3c56deb",
+    "minimax/minimax-m3.1-flash": "ee86e3a4af57f15d8fba986779986977c1529613726cab2a5bacb6de39acb469"
   },
   "projection": {
     "anthropic/claude-haiku-5-5": "af29b32c2ccf35ff1c0444c94ef97aeb28fa3a230f6207e8ec41b673f4efb078",
@@ -312,7 +314,9 @@
     "openai/gpt-5.6-cyber": "ae892a6b0c9307cb85d193f8027b4a5f320cd0a9af0aca95a014572dbd9cc28c",
     "openai/gpt-6-cyber": "7ea244732b9f118d4a237d0a7f1a792c5e23da056ddaa5a0b16a3b02be5d30b3",
     "google-gemini/gemini-omni-1.1-flash": "80e536da8eedc653b2ded0cd64cf5e8ce29d336beef5fd9993c9c3510dcaa3f2",
-    "google-gemini/gemini-omni-1.2-flash": "e7f66d7efa9e4de87915e422a2870a909123a2fcb57f47ea3981e6049cc99420"
+    "google-gemini/gemini-omni-1.2-flash": "e7f66d7efa9e4de87915e422a2870a909123a2fcb57f47ea3981e6049cc99420",
+    "minimax/minimax-m3": "ab31f54439b2de0a8b5a5b08df44c7a6348fba0d9b5870b02a9230b1c59007e3",
+    "minimax/minimax-m3.1-flash": "bd970cc7797737ef0cb8d0ed52fef88f6db25596b21f145e8667edcc89b7a0e5"
   },
   "evidence_report": "official-pricing-repair-report.md",
   "events_sha256": "a04e3fbb1d4cb049f2d9cfcadfca3b6383fc1bcdc3df6ca0ee6cfddc38e706ed",
@@ -953,5 +957,46 @@
       }
     },
     "rationale": "Release 2026-11-08 adds Google's Gemini Omni Flash video models: gemini-omni-1.2-flash (GA 2026-11-05, video output $12 per 1M tokens) and gemini-omni-1.1-flash (GA 2026-08-27, video output $17.50 per 1M tokens, routed to 1.2 Flash from 2026-12-03); the generator appends one model_added event per model."
+  },
+  "minimax_models_added_extension": {
+    "identities": [
+      "minimax/minimax-m3",
+      "minimax/minimax-m3.1-flash"
+    ],
+    "base_release": "gemini_omni_models_added_extension",
+    "base_event_count": 81,
+    "appended_event_count": 2,
+    "full_event_count": 83,
+    "full_events_sha256": "7f9cc053ba07e553f5d80e9f30d160761f1b529d931822a2b2da24d29483aa95",
+    "appended_events_sha256": "04d6724fa158d487a207855398f034a432ba23000e3780ea04e0b70d944b62e9",
+    "appended_event_ids": [
+      "minimax:minimax-m3:model_added:7209326a0203",
+      "minimax:minimax-m3.1-flash:model_added:66f12fafbd1b"
+    ],
+    "appended_dedupe_keys": [
+      "sha256:7209326a0203ab1d1318512a3a444800df7b3f2008045fbb158828ae4de84ea9",
+      "sha256:66f12fafbd1b560784233193168fb26d6bc3c306c0a40c24674acb591e47b73c"
+    ],
+    "effective_dates": {
+      "minimax/minimax-m3": "2026-06-01",
+      "minimax/minimax-m3.1-flash": "2026-10-19"
+    },
+    "new_statuses": {
+      "minimax/minimax-m3": "active",
+      "minimax/minimax-m3.1-flash": "active"
+    },
+    "new_prices": {
+      "minimax/minimax-m3": {
+        "cached_input": 0.06,
+        "input": 0.3,
+        "output": 1.2
+      },
+      "minimax/minimax-m3.1-flash": {
+        "cached_input": 0.015,
+        "input": 0.15,
+        "output": 0.6
+      }
+    },
+    "rationale": "Release 2026-11-09 adds MiniMax as a provider with MiniMax M3 (released 2026-06-01, $0.30 input / $1.20 output per 1M tokens up to 512K input tokens) and MiniMax M3.1 Flash (released 2026-10-19, $0.15 / $0.60); the generator adds one model_added event per model, placed by effective date."
   }
 }
