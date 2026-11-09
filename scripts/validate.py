@@ -500,15 +500,36 @@ def validate_price_change_events() -> None:
                 fail(f"required price change event {identity} has unexpected {field}: {event[field]}")
 
 
+def freshness_exemption(model: dict, today: str) -> str | None:
+    """Why a record no longer needs price re-verification, or None.
+
+    Retired models and models whose requests are already redirected to another model have no
+    price of their own left to verify; their stored rates are history, not live claims.
+    """
+    if model.get("status") == "retired":
+        return "retired"
+    transition = (model.get("lifecycle") or {}).get("scheduled_transition") or {}
+    if transition.get("kind") == "retirement_redirect" and transition.get("effective_from", "9999-12-31") <= today:
+        return f"requests redirect to {transition['redirect_target_model_id']} since {transition['effective_from']}"
+    return None
+
+
 def freshness_report(days: int, check_urls: bool) -> int:
     now = datetime.now(timezone.utc)
+    today = now.date().isoformat()
     stale: list[str] = []
+    exempt: list[str] = []
     unreachable: list[str] = []
     for model in load_models():
         verified = parse_ts(model["last_verified_at"])
         age = (now - verified).days
         if age > days:
-            stale.append(f"{model['provider_id']}/{model['model_id']} last_verified_at is {age} days old")
+            identity = f"{model['provider_id']}/{model['model_id']}"
+            reason = freshness_exemption(model, today)
+            if reason:
+                exempt.append(f"{identity} last_verified_at is {age} days old (skipped: {reason})")
+            else:
+                stale.append(f"{identity} last_verified_at is {age} days old")
         if check_urls:
             try:
                 request = Request(model["official_source_url"], headers={"User-Agent": "AICostBudget freshness-check/1.0"})
@@ -523,6 +544,9 @@ def freshness_report(days: int, check_urls: bool) -> int:
     lines.append("")
     lines.append("## Stale records")
     lines.extend(f"- {item}" for item in stale) if stale else lines.append("- None")
+    lines.append("")
+    lines.append("## Skipped: retired or redirected")
+    lines.extend(f"- {item}" for item in exempt) if exempt else lines.append("- None")
     lines.append("")
     lines.append("## URL checks")
     lines.extend(f"- {item}" for item in unreachable) if unreachable else lines.append("- None")
