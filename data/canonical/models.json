@@ -8557,8 +8557,8 @@
     "model_id": "gemini-3.7-flash",
     "display_name": "Gemini 3.7 Flash",
     "model_family": "Gemini 3.7",
-    "status": "deprecated",
-    "release_stage": "stable",
+    "status": "retired",
+    "release_stage": "legacy",
     "pricing": {
       "currency": "USD",
       "unit": "1M tokens",
@@ -8619,10 +8619,10 @@
       "https://ai.google.dev/gemini-api/docs/changelog",
       "https://ai.google.dev/gemini-api/docs/deprecations"
     ],
-    "accessed_at": "2026-09-29T12:39:28Z",
-    "last_verified_at": "2026-10-13T13:24:09Z",
+    "accessed_at": "2026-11-09T12:34:02Z",
+    "last_verified_at": "2026-11-09T12:34:02Z",
     "effective_from": "2026-08-13",
-    "notes": "Generally available on 2026-08-13 and deprecated on 2026-10-08. The gemini-3.7-flash endpoint is not shutting down; Gemini API requests are automatically routed to gemini-3.8-flash. The original model ID and historical price records remain preserved, but those historical rates must not be treated as proof of the routed request's settlement price. V1 compatibility fields store introductory Standard and Batch token rates through 2026-12-31. Structured pricing_periods preserves the 2027-01-01 Standard and Batch rates. Separate audio input and cache-storage charges are not represented in V1 scalars.",
+    "notes": "Generally available on 2026-08-13 and deprecated on 2026-10-08. The gemini-3.7-flash endpoint is not shutting down; Gemini API requests are automatically routed to gemini-3.8-flash. The original model ID and historical price records remain preserved, but those historical rates must not be treated as proof of the routed request's settlement price. V1 compatibility fields store introductory Standard and Batch token rates through 2026-12-31. Structured pricing_periods preserves the 2027-01-01 Standard and Batch rates. Separate audio input and cache-storage charges are not represented in V1 scalars. Routing re-checked 2026-11-09: the Deprecations page, changelog (2026-10-08) and model page all say API requests to gemini-3.7-flash are automatically routed to gemini-3.8-flash. Google does not state the billed rate in words, but the pricing page no longer lists Gemini 3.7 Flash, so Gemini 3.8 Flash's published rates are the only ones that apply; the stored Gemini 3.7 Flash rates are history. Recorded as retired from 2026-10-08 in the sense that the slug no longer runs its own model: Google's Deprecations page lists no shutdown date and says the endpoint is not shutting down, so the ID keeps working.",
     "released_at": "2026-08-13",
     "release_evidence": {
       "url": "https://ai.google.dev/gemini-api/docs/changelog",
@@ -8631,7 +8631,22 @@
     },
     "lifecycle": {
       "deprecation_date": "2026-10-08",
-      "replacement_model_id": "gemini-3.8-flash"
+      "replacement_model_id": "gemini-3.8-flash",
+      "retirement_date": "2026-10-08",
+      "scheduled_transition": {
+        "kind": "retirement_redirect",
+        "effective_from": "2026-10-08",
+        "source_slug_remains_resolvable": true,
+        "redirect_target_model_id": "gemini-3.8-flash",
+        "target_configuration": {
+          "model": "gemini-3.8-flash"
+        },
+        "billing_source": "redirect_target",
+        "billing_model_id": "gemini-3.8-flash",
+        "billing_configuration": {
+          "model": "gemini-3.8-flash"
+        }
+      }
     },
     "access_status": "public",
     "access_evidence": [
@@ -9241,7 +9256,7 @@
     "model_id": "gemini-3.5-flash",
     "display_name": "Gemini 3.5 Flash",
     "model_family": "Gemini 3.5",
-    "status": "deprecated",
+    "status": "retired",
     "pricing": {
       "currency": "USD",
       "unit": "1M tokens",
@@ -9260,10 +9275,10 @@
       "https://ai.google.dev/gemini-api/docs/changelog",
       "https://ai.google.dev/gemini-api/docs/deprecations"
     ],
-    "accessed_at": "2026-09-29T11:55:12Z",
-    "last_verified_at": "2026-10-13T13:24:09Z",
+    "accessed_at": "2026-11-09T12:34:16Z",
+    "last_verified_at": "2026-11-09T12:34:16Z",
     "effective_from": "2026-07-03",
-    "notes": "Deprecated on 2026-10-08. The gemini-3.5-flash endpoint is not shutting down; Gemini API requests are automatically routed to gemini-3.6-flash. The original model ID and historical price records remain preserved, but those historical rates must not be treated as proof of the routed request's settlement price. V1 stores Standard input, context-cache, and output prices plus Batch input/output prices. Batch context caching is $0.075 per 1M tokens. Google also lists Flex and Priority tiers; those tiers are not represented in V1 pricing fields.",
+    "notes": "Deprecated on 2026-10-08. The gemini-3.5-flash endpoint is not shutting down; Gemini API requests are automatically routed to gemini-3.6-flash. The original model ID and historical price records remain preserved, but those historical rates must not be treated as proof of the routed request's settlement price. V1 stores Standard input, context-cache, and output prices plus Batch input/output prices. Batch context caching is $0.075 per 1M tokens. Google also lists Flex and Priority tiers; those tiers are not represented in V1 pricing fields. Routing re-checked 2026-11-09: the Deprecations page, changelog (2026-10-08) and model page all say API requests to gemini-3.5-flash are automatically routed to gemini-3.6-flash. Google does not state the billed rate in words, but the pricing page no longer lists Gemini 3.5 Flash, so Gemini 3.6 Flash's published rates are the only ones that apply; the stored Gemini 3.5 Flash rates are history. Recorded as retired from 2026-10-08 in the sense that the slug no longer runs its own model: Google's Deprecations page lists no shutdown date and says the endpoint is not shutting down, so the ID keeps working.",
     "released_at": "2026-05-19",
     "release_evidence": {
       "url": "https://ai.google.dev/gemini-api/docs/changelog",
@@ -9272,7 +9287,22 @@
     },
     "lifecycle": {
       "deprecation_date": "2026-10-08",
-      "replacement_model_id": "gemini-3.6-flash"
+      "replacement_model_id": "gemini-3.6-flash",
+      "retirement_date": "2026-10-08",
+      "scheduled_transition": {
+        "kind": "retirement_redirect",
+        "effective_from": "2026-10-08",
+        "source_slug_remains_resolvable": true,
+        "redirect_target_model_id": "gemini-3.6-flash",
+        "target_configuration": {
+          "model": "gemini-3.6-flash"
+        },
+        "billing_source": "redirect_target",
+        "billing_model_id": "gemini-3.6-flash",
+        "billing_configuration": {
+          "model": "gemini-3.6-flash"
+        }
+      }
     },
     "access_status": "public",
     "access_evidence": [
