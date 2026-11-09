@@ -4650,15 +4650,19 @@
     "afterVerificationStatus": "verified",
     "beforeEvidenceCompleteness": "complete",
     "beforeVerificationStatus": "verified",
-    "blocker": [],
-    "businessCriticality": "production_default_candidate",
+    "blocker": [
+      "criticality_historical",
+      "lifecycle_retired",
+      "not_production_default_candidate"
+    ],
+    "businessCriticality": "historical",
     "currentEffective": true,
     "currentPrices": {
       "cached_input": "0.15",
       "input": "1.5",
       "output": "9"
     },
-    "defaultSafe": true,
+    "defaultSafe": false,
     "modelInternalId": "google-gemini/gemini-3.5-flash",
     "officialEvidence": [
       "https://ai.google.dev/gemini-api/docs/pricing"
@@ -4667,7 +4671,7 @@
     "pricingId": "price:google-gemini/gemini-3.5-flash:standard:short:current",
     "priorityClass": "not_partial",
     "provider": "google-gemini",
-    "reason": "Default-safe gate passed.",
+    "reason": "Default-safe gate blocked by: criticality_historical, lifecycle_retired, not_production_default_candidate",
     "sourceRefs": [
       "source:google-gemini:ai-google-dev-gemini-api-docs-changelog",
       "source:google-gemini:ai-google-dev-gemini-api-docs-deprecations",
@@ -4682,10 +4686,12 @@
     "beforeEvidenceCompleteness": "complete",
     "beforeVerificationStatus": "verified",
     "blocker": [
+      "criticality_historical",
+      "lifecycle_retired",
       "not_production_default_candidate",
       "not_standard_processing_mode"
     ],
-    "businessCriticality": "non_default_tier",
+    "businessCriticality": "historical",
     "currentEffective": true,
     "currentPrices": {
       "cached_input": null,
@@ -4701,7 +4707,7 @@
     "pricingId": "price:google-gemini/gemini-3.5-flash:batch:short:current",
     "priorityClass": "not_partial",
     "provider": "google-gemini",
-    "reason": "Default-safe gate blocked by: not_production_default_candidate, not_standard_processing_mode",
+    "reason": "Default-safe gate blocked by: criticality_historical, lifecycle_retired, not_production_default_candidate, not_standard_processing_mode",
     "sourceRefs": [
       "source:google-gemini:ai-google-dev-gemini-api-docs-changelog",
       "source:google-gemini:ai-google-dev-gemini-api-docs-deprecations",
@@ -5060,22 +5066,26 @@
     "afterVerificationStatus": "verified",
     "beforeEvidenceCompleteness": "complete",
     "beforeVerificationStatus": "verified",
-    "blocker": [],
-    "businessCriticality": "production_default_candidate",
+    "blocker": [
+      "criticality_historical",
+      "lifecycle_retired",
+      "not_production_default_candidate"
+    ],
+    "businessCriticality": "historical",
     "currentEffective": true,
     "currentPrices": {
       "cached_input": "0.075",
       "input": "0.75",
       "output": "3.75"
     },
-    "defaultSafe": true,
+    "defaultSafe": false,
     "modelInternalId": "google-gemini/gemini-3.7-flash",
     "officialEvidence": [],
     "phase25VerifiedAt": null,
     "pricingId": "price:google-gemini/gemini-3.7-flash:standard:short:current:introductory_2026",
     "priorityClass": "not_partial",
     "provider": "google-gemini",
-    "reason": "Default-safe gate passed.",
+    "reason": "Default-safe gate blocked by: criticality_historical, lifecycle_retired, not_production_default_candidate",
     "sourceRefs": [
       "source:google-gemini:ai-google-dev-gemini-api-docs-changelog",
       "source:google-gemini:ai-google-dev-gemini-api-docs-deprecations",
@@ -5091,10 +5101,12 @@
     "beforeEvidenceCompleteness": "complete",
     "beforeVerificationStatus": "verified",
     "blocker": [
+      "criticality_historical",
+      "lifecycle_retired",
       "not_production_default_candidate",
       "not_standard_processing_mode"
     ],
-    "businessCriticality": "non_default_tier",
+    "businessCriticality": "historical",
     "currentEffective": true,
     "currentPrices": {
       "cached_input": "0.0375",
@@ -5108,7 +5120,7 @@
     "pricingId": "price:google-gemini/gemini-3.7-flash:batch:short:current:introductory_2026",
     "priorityClass": "not_partial",
     "provider": "google-gemini",
-    "reason": "Default-safe gate blocked by: not_production_default_candidate, not_standard_processing_mode",
+    "reason": "Default-safe gate blocked by: criticality_historical, lifecycle_retired, not_production_default_candidate, not_standard_processing_mode",
     "sourceRefs": [
       "source:google-gemini:ai-google-dev-gemini-api-docs-changelog",
       "source:google-gemini:ai-google-dev-gemini-api-docs-deprecations",
@@ -5124,10 +5136,12 @@
     "beforeEvidenceCompleteness": "complete",
     "beforeVerificationStatus": "verified",
     "blocker": [
+      "criticality_historical",
+      "lifecycle_retired",
       "not_current_effective",
       "not_production_default_candidate"
     ],
-    "businessCriticality": "future_effective",
+    "businessCriticality": "historical",
     "currentEffective": false,
     "currentPrices": {
       "cached_input": "0.15",
@@ -5141,7 +5155,7 @@
     "pricingId": "price:google-gemini/gemini-3.7-flash:standard:short:future:standard_2027",
     "priorityClass": "not_partial",
     "provider": "google-gemini",
-    "reason": "Default-safe gate blocked by: not_current_effective, not_production_default_candidate",
+    "reason": "Default-safe gate blocked by: criticality_historical, lifecycle_retired, not_current_effective, not_production_default_candidate",
     "sourceRefs": [
       "source:google-gemini:ai-google-dev-gemini-api-docs-changelog",
       "source:google-gemini:ai-google-dev-gemini-api-docs-deprecations",
@@ -5157,11 +5171,13 @@
     "beforeEvidenceCompleteness": "complete",
     "beforeVerificationStatus": "verified",
     "blocker": [
+      "criticality_historical",
+      "lifecycle_retired",
       "not_current_effective",
       "not_production_default_candidate",
       "not_standard_processing_mode"
     ],
-    "businessCriticality": "future_effective",
+    "businessCriticality": "historical",
     "currentEffective": false,
     "currentPrices": {
       "cached_input": "0.075",
@@ -5175,7 +5191,7 @@
     "pricingId": "price:google-gemini/gemini-3.7-flash:batch:short:future:standard_2027",
     "priorityClass": "not_partial",
     "provider": "google-gemini",
-    "reason": "Default-safe gate blocked by: not_current_effective, not_production_default_candidate, not_standard_processing_mode",
+    "reason": "Default-safe gate blocked by: criticality_historical, lifecycle_retired, not_current_effective, not_production_default_candidate, not_standard_processing_mode",
     "sourceRefs": [
       "source:google-gemini:ai-google-dev-gemini-api-docs-changelog",
       "source:google-gemini:ai-google-dev-gemini-api-docs-deprecations",

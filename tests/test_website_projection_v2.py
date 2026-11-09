@@ -364,6 +364,8 @@ class WebsiteProjectionV2Tests(unittest.TestCase):
         self.assertEqual(owners, [
             "deepseek/deepseek-v4-flash",
             "deepseek/deepseek-v4-flash-vision-exp",
+            "google-gemini/gemini-3.5-flash",
+            "google-gemini/gemini-3.7-flash",
             "xai/grok-3",
             "xai/grok-imagine-image-quality",
             "xai/grok-voice-transcribe-1.0",
@@ -721,18 +723,20 @@ class WebsiteProjectionV2Tests(unittest.TestCase):
             ("google-gemini/gemini-3.7-flash", "google-gemini/gemini-3.8-flash"),
         ):
             row = self.by_internal[internal_id]
-            self.assertEqual(row["status"], "deprecated")
-            self.assertEqual(row["lifecycleStatus"], "deprecated")
+            # Requests route to the replacement since 2026-10-08 (structured redirect added 2026-11-09).
+            self.assertEqual(row["status"], "retired")
+            self.assertEqual(row["lifecycleStatus"], "retired")
             self.assertFalse(row["defaultSafe"])
-            self.assertEqual(row["blockedFromDefaultReasons"], ["deprecated_identity"])
+            self.assertIn("retired_identity", row["blockedFromDefaultReasons"])
             self.assertIsNone(row["selectedPriceRecordId"])
             self.assertEqual(
                 (row["inputPrice"], row["cachedInputPrice"], row["outputPrice"], row["batchInputPrice"], row["batchOutputPrice"]),
                 (None, None, None, None, None),
             )
             self.assertEqual(row["deprecationDate"], "2026-10-08")
-            self.assertIsNone(row["retirementDate"])
+            self.assertEqual(row["retirementDate"], "2026-10-08")
             self.assertEqual(row["replacementInternalId"], replacement)
+            self.assertEqual(row["billingModelInternalId"], replacement)
 
     def test_artifact_paths_and_no_runtime_network_dependency(self):
         self.assertEqual(

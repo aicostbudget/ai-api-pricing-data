@@ -268,7 +268,6 @@ class PricingGovernanceTests(unittest.TestCase):
         promoted = {
             "anthropic/claude-fable-5",
             "google-gemini/gemini-3.1-flash-lite",
-            "google-gemini/gemini-3.5-flash",
             "openai/gpt-5.4",
             "openai/gpt-5.4-nano",
             "openai/gpt-5.4-pro",

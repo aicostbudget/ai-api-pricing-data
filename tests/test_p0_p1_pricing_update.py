@@ -205,7 +205,8 @@ class P0P1PricingUpdateTests(unittest.TestCase):
                 component for component in projection["pricingComponents"]
                 if component["condition"]["effectiveFrom"] == "2027-01-01"
             ]
-            self.assertEqual(len(future_components), 16 if model_id in {"gemini-3.6-flash", "gemini-3.8-flash"} else 6)
+            # gemini-3.7-flash bills as gemini-3.8-flash (structured redirect since 2026-11-09), so it projects the same 16.
+            self.assertEqual(len(future_components), 16)
 
         gemini_38 = self.canonical_by_id["gemini-3.8-flash"]
         self.assertEqual(gemini_38["effective_from"], "2026-09-02")
@@ -223,13 +224,11 @@ class P0P1PricingUpdateTests(unittest.TestCase):
         self.assertTrue(gemini_38_projection["defaultSafe"])
 
         gemini_37 = self.canonical_by_id["gemini-3.7-flash"]
-        self.assertEqual(gemini_37["status"], "deprecated")
-        self.assertEqual(gemini_37["release_stage"], "stable")
-        self.assertEqual(gemini_37["lifecycle"], {
-            "deprecation_date": "2026-10-08",
-            "replacement_model_id": "gemini-3.8-flash",
-        })
-        self.assertNotIn("retirement_date", gemini_37["lifecycle"])
+        # Requests route to gemini-3.8-flash since 2026-10-08 (structured redirect added 2026-11-09).
+        self.assertEqual(gemini_37["status"], "retired")
+        self.assertEqual(gemini_37["release_stage"], "legacy")
+        self.assertEqual(gemini_37["lifecycle"]["retirement_date"], "2026-10-08")
+        self.assertEqual(gemini_37["lifecycle"]["scheduled_transition"]["billing_model_id"], "gemini-3.8-flash")
 
     def test_claude_fable_and_mythos_5_1_pricing_and_lifecycle(self):
         expected_prices = {

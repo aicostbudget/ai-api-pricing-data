@@ -10,7 +10,7 @@
     }
   ],
   "access_status": "public",
-  "accessed_at": "2026-09-29T12:39:28Z",
+  "accessed_at": "2026-11-09T12:34:02Z",
   "binding_evidence": [
     {
       "claim_type": "official_identity_binding",
@@ -23,14 +23,29 @@
   "binding_status": "approved",
   "display_name": "Gemini 3.7 Flash",
   "effective_from": "2026-08-13",
-  "last_verified_at": "2026-10-13T13:24:09Z",
+  "last_verified_at": "2026-11-09T12:34:02Z",
   "lifecycle": {
     "deprecation_date": "2026-10-08",
-    "replacement_model_id": "gemini-3.8-flash"
+    "replacement_model_id": "gemini-3.8-flash",
+    "retirement_date": "2026-10-08",
+    "scheduled_transition": {
+      "billing_configuration": {
+        "model": "gemini-3.8-flash"
+      },
+      "billing_model_id": "gemini-3.8-flash",
+      "billing_source": "redirect_target",
+      "effective_from": "2026-10-08",
+      "kind": "retirement_redirect",
+      "redirect_target_model_id": "gemini-3.8-flash",
+      "source_slug_remains_resolvable": true,
+      "target_configuration": {
+        "model": "gemini-3.8-flash"
+      }
+    }
   },
   "model_family": "Gemini 3.7",
   "model_id": "gemini-3.7-flash",
-  "notes": "Generally available on 2026-08-13 and deprecated on 2026-10-08. The gemini-3.7-flash endpoint is not shutting down; Gemini API requests are automatically routed to gemini-3.8-flash. The original model ID and historical price records remain preserved, but those historical rates must not be treated as proof of the routed request's settlement price. V1 compatibility fields store introductory Standard and Batch token rates through 2026-12-31. Structured pricing_periods preserves the 2027-01-01 Standard and Batch rates. Separate audio input and cache-storage charges are not represented in V1 scalars.",
+  "notes": "Generally available on 2026-08-13 and deprecated on 2026-10-08. The gemini-3.7-flash endpoint is not shutting down; Gemini API requests are automatically routed to gemini-3.8-flash. The original model ID and historical price records remain preserved, but those historical rates must not be treated as proof of the routed request's settlement price. V1 compatibility fields store introductory Standard and Batch token rates through 2026-12-31. Structured pricing_periods preserves the 2027-01-01 Standard and Batch rates. Separate audio input and cache-storage charges are not represented in V1 scalars. Routing re-checked 2026-11-09: the Deprecations page, changelog (2026-10-08) and model page all say API requests to gemini-3.7-flash are automatically routed to gemini-3.8-flash. Google does not state the billed rate in words, but the pricing page no longer lists Gemini 3.7 Flash, so Gemini 3.8 Flash's published rates are the only ones that apply; the stored Gemini 3.7 Flash rates are history. Recorded as retired from 2026-10-08 in the sense that the slug no longer runs its own model: Google's Deprecations page lists no shutdown date and says the endpoint is not shutting down, so the ID keeps working.",
   "official_source_url": "https://ai.google.dev/gemini-api/docs/pricing",
   "official_source_urls": [
     "https://ai.google.dev/gemini-api/docs/pricing",
@@ -97,7 +112,7 @@
     "title": "Gemini API Release notes - Gemini 3.7 Flash",
     "url": "https://ai.google.dev/gemini-api/docs/changelog"
   },
-  "release_stage": "stable",
+  "release_stage": "legacy",
   "released_at": "2026-08-13",
-  "status": "deprecated"
+  "status": "retired"
 }

@@ -5,6 +5,8 @@ from datetime import datetime, timezone
 
 # Google deprecated both 2.5 models; on 2026-12-01 their API requests route to these models (release 2026-11-03).
 GEMINI_25_SHUTDOWN = {"gemini-2.5-pro": "gemini-3.8-flash", "gemini-2.5-flash": "gemini-3.5-flash-lite"}
+# Deprecated 2026-10-08 with requests already routed to these models (structured redirect since 2026-11-09).
+GEMINI_FLASH_ROUTED = {"gemini-3.7-flash": "gemini-3.8-flash", "gemini-3.5-flash": "gemini-3.6-flash"}
 
 
 def assert_approved_status(test_case, old, current):
@@ -100,7 +102,7 @@ def assert_gemini_facts_and_verification(test_case, before, after):
             continue
         if current["model_id"] in {"gemini-3.5-flash", "gemini-3.7-flash"}:
             allowed_lifecycle_updates = {
-                "last_verified_at", "accessed_at", "status", "notes", "lifecycle",
+                "last_verified_at", "accessed_at", "status", "release_stage", "notes", "lifecycle",
                 "official_source_urls", "released_at", "release_evidence", "access_status",
                 "access_evidence", "access_checked_at", "binding_status", "binding_evidence",
             }
@@ -108,9 +110,13 @@ def assert_gemini_facts_and_verification(test_case, before, after):
                 {key: value for key, value in current.items() if key not in allowed_lifecycle_updates},
                 {key: value for key, value in old.items() if key not in allowed_lifecycle_updates},
             )
-            test_case.assertEqual(current["status"], "deprecated")
+            # Routing took effect 2026-10-08; recorded as a structured redirect (retired slug) on 2026-11-09.
+            test_case.assertEqual(current["status"], "retired")
+            test_case.assertIn(current.get("release_stage"), {None, "legacy"})
             test_case.assertEqual(current["lifecycle"]["deprecation_date"], "2026-10-08")
-            test_case.assertNotIn("retirement_date", current["lifecycle"])
+            test_case.assertEqual(current["lifecycle"]["retirement_date"], "2026-10-08")
+            target = GEMINI_FLASH_ROUTED[current["model_id"]]
+            test_case.assertEqual(current["lifecycle"]["scheduled_transition"]["billing_model_id"], target)
             continue
         test_case.assertEqual(
             {key: value for key, value in current.items() if key not in ("last_verified_at", "accessed_at", "released_at", "release_evidence", "access_status", "access_evidence", "access_checked_at", "binding_status", "binding_evidence")},

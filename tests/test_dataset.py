@@ -189,11 +189,16 @@ class DatasetTests(unittest.TestCase):
                 "google-gemini/gemini-3.5-flash",
                 "google-gemini/gemini-3.7-flash",
             }
-            self.assertEqual(row["status"], "deprecated" if internal_id in deprecated_ids else "active", internal_id)
+            routed_ids = {"google-gemini/gemini-3.5-flash", "google-gemini/gemini-3.7-flash"}  # retired redirect since 2026-11-09
+            expected_status = "retired" if internal_id in routed_ids else "deprecated" if internal_id in deprecated_ids else "active"
+            self.assertEqual(row["status"], expected_status, internal_id)
             if internal_id == "openai/gpt-5.4-nano":
                 self.assertEqual(row["accessed_at"], row["last_verified_at"], internal_id)
                 self.assertGreaterEqual(row["last_verified_at"][:10], "2026-10-01", internal_id)
-            elif internal_id.startswith("google-gemini/gemini-3.") and row["status"] == "deprecated":
+            elif internal_id in routed_ids:
+                self.assertEqual(row["accessed_at"], row["last_verified_at"], internal_id)
+                self.assertGreaterEqual(row["last_verified_at"][:10], "2026-11-09", internal_id)
+            elif internal_id.startswith("google-gemini/gemini-3.") and row["status"] in {"deprecated", "retired"}:
                 self.assertEqual(row["accessed_at"], expected_verified_at[internal_id], internal_id)
                 self.assertGreaterEqual(row["last_verified_at"][:10], "2026-10-08", internal_id)
             else:

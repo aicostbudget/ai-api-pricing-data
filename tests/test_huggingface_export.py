@@ -228,6 +228,18 @@ class HuggingFaceExportTests(unittest.TestCase):
                     expected_billing_quantity,
                     key,
                 )
+            elif (
+                projected.get("billingModelInternalId") not in (None, projected["canonicalInternalId"])
+                and record["pricing_unit"] == "1M tokens"
+                and any(item["unit"] != "per_1m_tokens" for item in record["pricing_components"])
+            ):
+                # A redirected identity exports its billing target's components (here including cache storage)
+                # next to its own legacy fallback token prices.
+                target = projected["billingModelInternalId"]
+                self.assertTrue(all(item["pricing_id"].startswith(f"price:{target}:") for item in record["pricing_components"]), key)
+                fallback_count += 1
+                self.assertIn("legacy fallback", record["notes"], key)
+                self.assertNotIn("excluded_default_candidate", projected["blockedFromDefaultReasons"], key)
             elif any(
                 item.get("condition", {}).get("usage_tier") is not None
                 for item in record["pricing_components"]

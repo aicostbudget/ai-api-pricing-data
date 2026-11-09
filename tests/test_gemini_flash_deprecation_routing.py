@@ -32,13 +32,20 @@ class GeminiFlashDeprecationRoutingTests(unittest.TestCase):
             with self.subTest(model_id=model_id):
                 model = self.models[model_id]
                 successor = self.models[successor_id]
-                self.assertEqual(model["status"], "deprecated")
+                # Routing took effect 2026-10-08; since 2026-11-09 it is a structured redirect, so the slug
+                # is retired in the data model while Google keeps the endpoint working.
+                self.assertEqual(model["status"], "retired")
                 self.assertEqual(model["lifecycle"], {
                     "deprecation_date": "2026-10-08",
                     "replacement_model_id": successor_id,
+                    "retirement_date": "2026-10-08",
+                    "scheduled_transition": {
+                        "kind": "retirement_redirect", "effective_from": "2026-10-08",
+                        "source_slug_remains_resolvable": True, "redirect_target_model_id": successor_id,
+                        "target_configuration": {"model": successor_id}, "billing_source": "redirect_target",
+                        "billing_model_id": successor_id, "billing_configuration": {"model": successor_id},
+                    },
                 })
-                self.assertNotIn("retirement_date", model["lifecycle"])
-                self.assertNotIn("scheduled_transition", model["lifecycle"])
                 self.assertIn("automatically routed", model["notes"])
                 self.assertIn("not shutting down", model["notes"])
                 self.assertTrue(model["pricing"])
@@ -56,9 +63,10 @@ class GeminiFlashDeprecationRoutingTests(unittest.TestCase):
                 self.assertIn("https://ai.google.dev/gemini-api/docs/changelog", model["official_source_urls"])
                 self.assertIn("https://ai.google.dev/gemini-api/docs/deprecations", model["official_source_urls"])
                 row = projection[f"google-gemini/{model_id}"]
-                self.assertEqual(row["lifecycleStatus"], "deprecated")
+                self.assertEqual(row["lifecycleStatus"], "retired")
                 self.assertEqual(row["deprecationDate"], "2026-10-08")
-                self.assertIsNone(row["retirementDate"])
+                self.assertEqual(row["retirementDate"], "2026-10-08")
+                self.assertEqual(row["billingModelInternalId"], f"google-gemini/{successor_id}")
                 self.assertEqual(row["replacementInternalId"], f"google-gemini/{successor_id}")
                 self.assertFalse(row["defaultSafe"])
                 self.assertIsNone(row["selectedPriceRecordId"])
