@@ -111,6 +111,7 @@ PROVIDER_DISPLAY = {
     "perplexity": "Perplexity",
     "amazon-nova": "Amazon Nova",
     "zhipu-ai": "Z.ai (Zhipu)",
+    "minimax": "MiniMax",
     "openai": "OpenAI",
     "xai": "xAI",
 }

@@ -28,6 +28,7 @@ PROVIDERS = (
     ("perplexity", "Perplexity"),
     ("amazon-nova", "Amazon Nova"),
     ("zhipu-ai", "Z.ai (Zhipu)"),
+    ("minimax", "MiniMax"),
 )
 PAGE = "https://aicostbudget.com/en/providers/{slug}-api-pricing?utm_source=github&utm_medium=referral&utm_campaign=pricing_dataset&utm_content=readme_table_{content}"
 MODEL_JSON = "https://aicostbudget.github.io/ai-api-pricing-data/api/v1/models/{provider}/{model}.json"

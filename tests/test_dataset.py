@@ -55,7 +55,7 @@ class DatasetTests(unittest.TestCase):
         required_providers = {
             "openai", "anthropic", "google-gemini", "xai", "deepseek",
             "mistral-ai", "cohere", "moonshot-ai", "alibaba-qwen", "meta",
-            "perplexity", "amazon-nova", "zhipu-ai",
+            "perplexity", "amazon-nova", "zhipu-ai", "minimax",
         }
         self.assertTrue(required_providers <= {item["provider_id"] for item in providers})
         self.assertTrue(

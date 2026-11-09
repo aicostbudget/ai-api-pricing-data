@@ -68,6 +68,7 @@ PROVIDER_SLUGS = {
     "Perplexity": "perplexity",
     "Amazon Nova": "amazon-nova",
     "Z.ai (Zhipu)": "zhipu-ai",
+    "MiniMax": "minimax",
 }
 
 PROVIDER_DISPLAY = {
@@ -87,6 +88,7 @@ PROVIDER_DISPLAY = {
     "perplexity": "Perplexity",
     "amazon-nova": "Amazon Nova",
     "zhipu-ai": "Z.ai (Zhipu)",
+    "minimax": "MiniMax",
 }
 
 OFFICIAL_DOMAINS = {
@@ -106,6 +108,7 @@ OFFICIAL_DOMAINS = {
     "perplexity": ("docs.perplexity.ai", "perplexity.ai"),
     "amazon-nova": ("pricing.us-east-1.amazonaws.com", "aws.amazon.com", "docs.aws.amazon.com"),
     "zhipu-ai": ("docs.z.ai", "z.ai"),
+    "minimax": ("platform.minimax.io", "minimax.io"),
 }
 
 DEEPSEEK_V4_FLASH_RETIREMENT_AT = "2026-09-10T04:00:00Z"

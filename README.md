@@ -1,6 +1,6 @@
 # AI API Pricing Dataset: LLM prices as JSON, CSV and a free API
 
-Current input, output, cached-input and batch prices for OpenAI, Anthropic Claude, Google Gemini, xAI Grok, DeepSeek, Mistral AI, Cohere, Moonshot AI (Kimi), Alibaba Qwen, Meta, Perplexity, Amazon Nova and Z.ai (Zhipu). Every record links to the provider's own pricing page and carries the date it was last checked. Unknown prices stay `null`, never `0`.
+Current input, output, cached-input and batch prices for OpenAI, Anthropic Claude, Google Gemini, xAI Grok, DeepSeek, Mistral AI, Cohere, Moonshot AI (Kimi), Alibaba Qwen, Meta, Perplexity, Amazon Nova, Z.ai (Zhipu) and MiniMax. Every record links to the provider's own pricing page and carries the date it was last checked. Unknown prices stay `null`, never `0`.
 
 [![Last verified](https://img.shields.io/badge/dynamic/json?url=https%3A%2F%2Faicostbudget.github.io%2Fai-api-pricing-data%2Fapi%2Fv1%2Fmeta.json&query=%24.last_verified_at&label=last%20verified&color=blue)](https://aicostbudget.github.io/ai-api-pricing-data/api/v1/meta.json)
 [![Models](https://img.shields.io/badge/dynamic/json?url=https%3A%2F%2Faicostbudget.github.io%2Fai-api-pricing-data%2Fapi%2Fv1%2Fmeta.json&query=%24.model_count&label=models&color=blue)](https://aicostbudget.github.io/ai-api-pricing-data/api/v1/prices.json)
@@ -124,6 +124,7 @@ Some APIs bill per character, per image or per page instead of per chat token. T
 | Perplexity | [Perplexity Sonar API pricing](https://aicostbudget.com/en/providers/perplexity-api-pricing?utm_source=github&utm_medium=referral&utm_campaign=pricing_dataset&utm_content=perplexity) | Sonar token prices, plus the per-call web search and fetch fees billed on top |
 | Amazon Nova | [Amazon Nova API pricing](https://aicostbudget.com/en/providers/amazon-nova-api-pricing?utm_source=github&utm_medium=referral&utm_campaign=pricing_dataset&utm_content=amazon_nova) | Nova 2 Lite, Pro, Lite and Micro on Amazon Bedrock, with batch and cached input rates |
 | Z.ai (Zhipu) | [Z.ai GLM API pricing](https://aicostbudget.com/en/providers/zhipu-ai-api-pricing?utm_source=github&utm_medium=referral&utm_campaign=pricing_dataset&utm_content=zhipu_ai) | GLM-5.3, GLM-5 and GLM-4.7 international USD prices with cached input |
+| MiniMax | [MiniMax API pricing](https://aicostbudget.com/en/providers/minimax-api-pricing?utm_source=github&utm_medium=referral&utm_campaign=pricing_dataset&utm_content=minimax) | MiniMax M3 and M3.1 Flash international USD prices with long-context, Priority and cached input rates |
 
 ## Dataset Trust & Freshness
 
