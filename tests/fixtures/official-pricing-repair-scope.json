@@ -176,7 +176,12 @@
     "cohere/command-a-plus": "5877f53eb48918ba0699c05d81c661c49c8cd7a3b62162fbd2c67ac7ccd8327b",
     "mistral-ai/mistral-large": "a15a0fad38a9f7602ae170e22c57f4826b4a721804bea22ff89d789aeea79ddb",
     "mistral-ai/mistral-medium-3-5": "7db132a684b0a1b57a0107c8cbd4d16d414af70dd73cb9a2c3831c035adab03c",
-    "openai/gpt-4.1": "b7d97e4a369b766cc25e071f2c97a6f21fefc854197b9fe9288d3e4ea333a9f1"
+    "openai/gpt-4.1": "b7d97e4a369b766cc25e071f2c97a6f21fefc854197b9fe9288d3e4ea333a9f1",
+    "anthropic/claude-fable-5-2": "9a435020e9818e625692d94e617257a03a06b4a11ac11925a064927973d05f33",
+    "anthropic/claude-mythos-5-2": "1363d1f457de1ddcc6bcc1a24b131f062d77344cf298923c5e43b517a2c82f06",
+    "aws/bedrock-claude-fable-5-2": "389ff00990d897814ec13e5cbab6b2758ab6b002c90e9e7c077391a874d45800",
+    "aws/bedrock-claude-mythos-5-2": "32ded3855e44f93550451422c4cf3eb8261ff25458d68ac0bafe946a3267a0ac",
+    "google-cloud/vertex-claude-fable-5-2": "208570f986a83b095a2cdbed9d36bcf5e3c5bc6178899acb43e0c308cc2cd0e3"
   },
   "projection": {
     "anthropic/claude-haiku-5-5": "af29b32c2ccf35ff1c0444c94ef97aeb28fa3a230f6207e8ec41b673f4efb078",
@@ -359,7 +364,12 @@
     "cohere/command-a-plus": "8902f7462e0194c88420321ea461fe84c35557ca6a5d01ae39ee22507be18b27",
     "mistral-ai/mistral-large": "8143578d8dd5ad8beae0458540bfdacf34d58988a9e8beda10603cba86c85825",
     "mistral-ai/mistral-medium-3-5": "bc1657ac9196ee6d3ce2e8c310f4169e04aae93793dac654300ea82d24396071",
-    "openai/gpt-4.1": "5607206b71450a83d67dadbf030f8fcc96644f37605b13d990997e7ec3853376"
+    "openai/gpt-4.1": "5607206b71450a83d67dadbf030f8fcc96644f37605b13d990997e7ec3853376",
+    "anthropic/claude-fable-5-2": "0d1510ed26639a04df68323a86041f331b48c0c705929e6562c8100a1296c8db",
+    "anthropic/claude-mythos-5-2": "3e43be03e87f78d57074c17517810582d33dc9b78d2287d496de931a2e613910",
+    "aws/bedrock-claude-fable-5-2": "3713248859d01c4e874d25c960f58db6acc0d61bc84bd9ac5a7d4339ac8ccd67",
+    "aws/bedrock-claude-mythos-5-2": "e663322bf389068bfb8327949ea62c7624a4beb5d24268a05758ade4f6c60f44",
+    "google-cloud/vertex-claude-fable-5-2": "e81b55c83146af89ee58e6160be771e2935f762400af897e2dc08287801b50f3"
   },
   "evidence_report": "official-pricing-repair-report.md",
   "events_sha256": "a04e3fbb1d4cb049f2d9cfcadfca3b6383fc1bcdc3df6ca0ee6cfddc38e706ed",
@@ -1041,5 +1051,46 @@
       }
     },
     "rationale": "Release 2026-11-09 adds MiniMax as a provider with MiniMax M3 (released 2026-06-01, $0.30 input / $1.20 output per 1M tokens up to 512K input tokens) and MiniMax M3.1 Flash (released 2026-10-19, $0.15 / $0.60); the generator adds one model_added event per model, placed by effective date."
+  },
+  "claude_fable_mythos_5_2_models_added_extension": {
+    "identities": [
+      "anthropic/claude-fable-5-2",
+      "anthropic/claude-mythos-5-2"
+    ],
+    "base_release": "minimax_models_added_extension",
+    "base_event_count": 83,
+    "appended_event_count": 2,
+    "full_event_count": 85,
+    "full_events_sha256": "357ed89cf2cbb4c9b949a686328dc412cac01c1b8cb8aaaa7ebf20734fb0aae4",
+    "appended_events_sha256": "824eacba6547efddb220297796973646f849108cc2da4bcad7e003f30b1ede74",
+    "appended_event_ids": [
+      "anthropic:claude-fable-5-2:model_added:1667519ac97e",
+      "anthropic:claude-mythos-5-2:model_added:31ee9570edc0"
+    ],
+    "appended_dedupe_keys": [
+      "sha256:1667519ac97eb859524b972f38f8f20e537ee31288f1216c2ce4c1a0e470289a",
+      "sha256:31ee9570edc014f6ae5eced867501edec24485803822818c0ef7318ce66f248a"
+    ],
+    "effective_dates": {
+      "anthropic/claude-fable-5-2": "2026-11-09",
+      "anthropic/claude-mythos-5-2": "2026-11-09"
+    },
+    "new_statuses": {
+      "anthropic/claude-fable-5-2": "active",
+      "anthropic/claude-mythos-5-2": "active"
+    },
+    "new_prices": {
+      "anthropic/claude-fable-5-2": {
+        "cached_input": 0.2,
+        "input": 8,
+        "output": 40
+      },
+      "anthropic/claude-mythos-5-2": {
+        "cached_input": 0.2,
+        "input": 8,
+        "output": 40
+      }
+    },
+    "rationale": "Release 2026-11-10 adds Claude Fable 5.2 and Claude Mythos 5.2 (both released 2026-11-09 at $8 input / $40 output per 1M tokens; Mythos 5.2 is restricted to verified organizations); the generator adds one model_added event per model, placed by effective date. The Bedrock and Vertex listings are hosted_model records and produce no events."
   }
 }

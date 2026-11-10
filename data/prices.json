@@ -2,14 +2,14 @@
   "dataset_name": "AICostBudget AI API Pricing Dataset",
   "dataset_version": "1.0.0",
   "description": "Open, machine-readable pricing data for LLM and AI APIs.",
-  "generated_at": "2026-11-09T14:07:29Z",
+  "generated_at": "2026-11-10T04:47:48Z",
   "homepage": "https://aicostbudget.com",
-  "last_verified_at": "2026-11-09T13:44:47Z",
+  "last_verified_at": "2026-11-10T04:45:42Z",
   "licenses": {
     "code": "MIT",
     "data": "CC BY 4.0"
   },
-  "model_count": 184,
+  "model_count": 189,
   "models": [
     {
       "access_checked_at": "2026-10-28T16:44:42Z",
@@ -1852,6 +1852,230 @@
       "status": "active"
     },
     {
+      "access_checked_at": "2026-11-10T04:45:18Z",
+      "access_evidence": [
+        {
+          "claim_type": "official_access_public",
+          "official_model_id": "claude-fable-5-2",
+          "scope": "Documented Claude API model available under ordinary API account requirements; specialized cyber capability grants do not restrict ordinary model access.",
+          "title": "claude-fable-5-2 official model access documentation",
+          "url": "https://platform.claude.com/docs/en/models/fable-5-2/overview"
+        }
+      ],
+      "access_status": "public",
+      "accessed_at": "2026-11-10T04:45:18Z",
+      "binding_evidence": [
+        {
+          "claim_type": "official_identity_binding",
+          "official_model_id": "claude-fable-5-2",
+          "reason": "Exact documented API ID or exact provider/version spelling; no entitlement inherited from billing target.",
+          "title": "claude-fable-5-2 official identity documentation",
+          "url": "https://platform.claude.com/docs/en/models/fable-5-2/overview"
+        }
+      ],
+      "binding_status": "approved",
+      "context_window_tokens": 1000000,
+      "display_name": "Claude Fable 5.2",
+      "effective_from": "2026-11-09",
+      "last_verified_at": "2026-11-10T04:45:18Z",
+      "model_family": "Claude Fable",
+      "model_id": "claude-fable-5-2",
+      "notes": "Released 2026-11-09, with retirement not sooner than 2027-11-09. Standard pricing is $8 input, $0.20 cache read, $10 5-minute cache write, $16 1-hour cache write, and $40 output per 1M tokens, 20% below Claude Fable 5.1 on input and output. Batch input and output receive the published 50% discount ($4 and $20). Fast mode costs $16 input and $80 output per 1M tokens and is not available with the Batch API. The 1M token context window is billed at standard rates.",
+      "official_source_url": "https://platform.claude.com/docs/en/about-claude/pricing",
+      "official_source_urls": [
+        "https://platform.claude.com/docs/en/about-claude/pricing",
+        "https://platform.claude.com/docs/en/models/fable-5-2/overview",
+        "https://platform.claude.com/docs/en/release-notes/overview"
+      ],
+      "price_records": [
+        {
+          "billing_note": "Released 2026-11-09, with retirement not sooner than 2027-11-09. Standard pricing is $8 input, $0.20 cache read, $10 5-minute cache write, $16 1-hour cache write, and $40 output per 1M tokens, 20% below Claude Fable 5.1 on input and output. Batch input and output receive the published 50% discount ($4 and $20). Fast mode costs $16 input and $80 output per 1M tokens and is not available with the Batch API. The 1M token context window is billed at standard rates.",
+          "calculation_default": true,
+          "charges": [
+            {
+              "amount": "8",
+              "component": "input",
+              "id": "price:anthropic/claude-fable-5-2:standard:short:current:input:text:per_1m_tokens",
+              "modality": "text",
+              "unit": "per_1m_tokens"
+            },
+            {
+              "amount": "0.2",
+              "component": "cached_input",
+              "id": "price:anthropic/claude-fable-5-2:standard:short:current:cached_input:text:per_1m_tokens",
+              "modality": "text",
+              "unit": "per_1m_tokens"
+            },
+            {
+              "amount": "10",
+              "component": "cache_write_5m",
+              "id": "price:anthropic/claude-fable-5-2:standard:short:current:cache_write_5m:text:per_1m_tokens",
+              "modality": "text",
+              "unit": "per_1m_tokens"
+            },
+            {
+              "amount": "16",
+              "component": "cache_write_1h",
+              "id": "price:anthropic/claude-fable-5-2:standard:short:current:cache_write_1h:text:per_1m_tokens",
+              "modality": "text",
+              "unit": "per_1m_tokens"
+            },
+            {
+              "amount": "40",
+              "component": "output",
+              "id": "price:anthropic/claude-fable-5-2:standard:short:current:output:text:per_1m_tokens",
+              "modality": "text",
+              "unit": "per_1m_tokens"
+            }
+          ],
+          "checked_at": "2026-11-10T04:45:18Z",
+          "context_class": "short",
+          "currency": "USD",
+          "effective_from": "2026-11-09",
+          "effective_until": null,
+          "id": "price:anthropic/claude-fable-5-2:standard:short:current",
+          "pricing_status": "current",
+          "processing_mode": "standard",
+          "prompt_token_threshold": null,
+          "region_policy": {
+            "availability": {
+              "default": "available",
+              "rules": []
+            },
+            "data_residencies": [
+              "global"
+            ],
+            "endpoint_geographies": [
+              "global"
+            ],
+            "price_adjustments": [],
+            "pricing_geography": "global_base"
+          },
+          "source_refs": [
+            "https://platform.claude.com/docs/en/about-claude/pricing"
+          ],
+          "verification_status": "verified",
+          "verified_at": "2026-11-10T04:45:18Z"
+        },
+        {
+          "billing_note": "Released 2026-11-09, with retirement not sooner than 2027-11-09. Standard pricing is $8 input, $0.20 cache read, $10 5-minute cache write, $16 1-hour cache write, and $40 output per 1M tokens, 20% below Claude Fable 5.1 on input and output. Batch input and output receive the published 50% discount ($4 and $20). Fast mode costs $16 input and $80 output per 1M tokens and is not available with the Batch API. The 1M token context window is billed at standard rates.",
+          "calculation_default": false,
+          "charges": [
+            {
+              "amount": "4",
+              "component": "input",
+              "id": "price:anthropic/claude-fable-5-2:batch:short:current:input:text:per_1m_tokens",
+              "modality": "text",
+              "unit": "per_1m_tokens"
+            },
+            {
+              "amount": "20",
+              "component": "output",
+              "id": "price:anthropic/claude-fable-5-2:batch:short:current:output:text:per_1m_tokens",
+              "modality": "text",
+              "unit": "per_1m_tokens"
+            }
+          ],
+          "checked_at": "2026-11-10T04:45:18Z",
+          "context_class": "short",
+          "currency": "USD",
+          "effective_from": "2026-11-09",
+          "effective_until": null,
+          "id": "price:anthropic/claude-fable-5-2:batch:short:current",
+          "pricing_status": "current",
+          "processing_mode": "batch",
+          "prompt_token_threshold": null,
+          "region_policy": {
+            "availability": {
+              "default": "available",
+              "rules": []
+            },
+            "data_residencies": [
+              "global"
+            ],
+            "endpoint_geographies": [
+              "global"
+            ],
+            "price_adjustments": [],
+            "pricing_geography": "global_base"
+          },
+          "source_refs": [
+            "https://platform.claude.com/docs/en/about-claude/pricing"
+          ],
+          "verification_status": "verified",
+          "verified_at": "2026-11-10T04:45:18Z"
+        },
+        {
+          "billing_note": "Fast-mode input and output pricing ($16 and $80 per 1M tokens) on the Claude API. Fast mode is not available with the Batch API.",
+          "calculation_default": false,
+          "charges": [
+            {
+              "amount": "16",
+              "component": "input",
+              "id": "price:anthropic/claude-fable-5-2:fast:short:current:input:text:per_1m_tokens",
+              "modality": "text",
+              "unit": "per_1m_tokens"
+            },
+            {
+              "amount": "80",
+              "component": "output",
+              "id": "price:anthropic/claude-fable-5-2:fast:short:current:output:text:per_1m_tokens",
+              "modality": "text",
+              "unit": "per_1m_tokens"
+            }
+          ],
+          "checked_at": "2026-11-10T04:45:18Z",
+          "context_class": "short",
+          "currency": "USD",
+          "effective_from": "2026-11-09",
+          "effective_until": null,
+          "id": "price:anthropic/claude-fable-5-2:fast:short:current",
+          "pricing_status": "current",
+          "processing_mode": "fast",
+          "prompt_token_threshold": null,
+          "region_policy": {
+            "availability": {
+              "default": "available",
+              "rules": []
+            },
+            "data_residencies": [
+              "global"
+            ],
+            "endpoint_geographies": [
+              "global"
+            ],
+            "price_adjustments": [],
+            "pricing_geography": "global_base"
+          },
+          "source_refs": [
+            "https://platform.claude.com/docs/en/about-claude/pricing"
+          ],
+          "verification_status": "verified",
+          "verified_at": "2026-11-10T04:45:18Z"
+        }
+      ],
+      "pricing": {
+        "batch_input": 4.0,
+        "batch_output": 20.0,
+        "cache_write": 10.0,
+        "cache_write_1h": 16.0,
+        "cached_input": 0.2,
+        "currency": "USD",
+        "input": 8.0,
+        "output": 40.0,
+        "unit": "1M tokens"
+      },
+      "provider_id": "anthropic",
+      "release_evidence": {
+        "source_type": "official_model_docs",
+        "title": "Claude Fable 5.2 - Claude Platform Docs",
+        "url": "https://platform.claude.com/docs/en/models/fable-5-2/overview"
+      },
+      "release_stage": "stable",
+      "released_at": "2026-11-09",
+      "status": "active"
+    },
+    {
       "access_checked_at": "2026-10-07T04:26:40Z",
       "access_evidence": [
         {
@@ -2529,6 +2753,231 @@
         "currency": "USD",
         "input": 10.0,
         "output": 50.0,
+        "unit": "1M tokens"
+      },
+      "provider_id": "anthropic",
+      "release_stage": "stable",
+      "status": "active"
+    },
+    {
+      "access_checked_at": "2026-11-10T04:45:27Z",
+      "access_evidence": [
+        {
+          "claim_type": "official_access_restricted",
+          "official_model_id": "claude-mythos-5-2",
+          "scope": "Model-specific organization verification, access tier and grant required; verification-program access is restricted.",
+          "title": "claude-mythos-5-2 official model access documentation",
+          "url": "https://platform.claude.com/docs/en/models/mythos-5-2/overview"
+        },
+        {
+          "claim_type": "official_access_restricted",
+          "official_model_id": "claude-mythos-5-2",
+          "scope": "Model-specific organization verification, access tier and grant required; verification-program access is restricted.",
+          "title": "anthropic ordinary API access requirements",
+          "url": "https://support.claude.com/en/articles/14604842-cyber-verification-program"
+        }
+      ],
+      "access_status": "restricted",
+      "accessed_at": "2026-11-10T04:45:27Z",
+      "binding_evidence": [
+        {
+          "claim_type": "official_identity_binding",
+          "official_model_id": "claude-mythos-5-2",
+          "reason": "Exact documented API ID or exact provider/version spelling; no entitlement inherited from billing target.",
+          "title": "claude-mythos-5-2 official identity documentation",
+          "url": "https://platform.claude.com/docs/en/models/mythos-5-2/overview"
+        }
+      ],
+      "binding_status": "approved",
+      "context_window_tokens": 1000000,
+      "display_name": "Claude Mythos 5.2",
+      "effective_from": "2026-11-09",
+      "last_verified_at": "2026-11-10T04:45:27Z",
+      "model_family": "Claude Mythos",
+      "model_id": "claude-mythos-5-2",
+      "notes": "Released 2026-11-09, with access restricted to organizations verified through Anthropic verification programs such as the Cyber Verification Program. It shares Claude Fable 5.2 pricing: $8 input, $0.20 cache read, $10 5-minute cache write, $16 1-hour cache write, and $40 output per 1M tokens. Batch input and output receive the published 50% discount ($4 and $20). Fast mode costs $16 input and $80 output per 1M tokens and is not available with the Batch API.",
+      "official_source_url": "https://platform.claude.com/docs/en/about-claude/pricing",
+      "official_source_urls": [
+        "https://platform.claude.com/docs/en/about-claude/pricing",
+        "https://platform.claude.com/docs/en/models/mythos-5-2/overview",
+        "https://platform.claude.com/docs/en/release-notes/overview"
+      ],
+      "price_records": [
+        {
+          "billing_note": "Released 2026-11-09, with access restricted to organizations verified through Anthropic verification programs such as the Cyber Verification Program. It shares Claude Fable 5.2 pricing: $8 input, $0.20 cache read, $10 5-minute cache write, $16 1-hour cache write, and $40 output per 1M tokens. Batch input and output receive the published 50% discount ($4 and $20). Fast mode costs $16 input and $80 output per 1M tokens and is not available with the Batch API.",
+          "calculation_default": true,
+          "charges": [
+            {
+              "amount": "8",
+              "component": "input",
+              "id": "price:anthropic/claude-mythos-5-2:standard:short:current:input:text:per_1m_tokens",
+              "modality": "text",
+              "unit": "per_1m_tokens"
+            },
+            {
+              "amount": "0.2",
+              "component": "cached_input",
+              "id": "price:anthropic/claude-mythos-5-2:standard:short:current:cached_input:text:per_1m_tokens",
+              "modality": "text",
+              "unit": "per_1m_tokens"
+            },
+            {
+              "amount": "10",
+              "component": "cache_write_5m",
+              "id": "price:anthropic/claude-mythos-5-2:standard:short:current:cache_write_5m:text:per_1m_tokens",
+              "modality": "text",
+              "unit": "per_1m_tokens"
+            },
+            {
+              "amount": "16",
+              "component": "cache_write_1h",
+              "id": "price:anthropic/claude-mythos-5-2:standard:short:current:cache_write_1h:text:per_1m_tokens",
+              "modality": "text",
+              "unit": "per_1m_tokens"
+            },
+            {
+              "amount": "40",
+              "component": "output",
+              "id": "price:anthropic/claude-mythos-5-2:standard:short:current:output:text:per_1m_tokens",
+              "modality": "text",
+              "unit": "per_1m_tokens"
+            }
+          ],
+          "checked_at": "2026-11-10T04:45:27Z",
+          "context_class": "short",
+          "currency": "USD",
+          "effective_from": "2026-11-09",
+          "effective_until": null,
+          "id": "price:anthropic/claude-mythos-5-2:standard:short:current",
+          "pricing_status": "current",
+          "processing_mode": "standard",
+          "prompt_token_threshold": null,
+          "region_policy": {
+            "availability": {
+              "default": "available",
+              "rules": []
+            },
+            "data_residencies": [
+              "global"
+            ],
+            "endpoint_geographies": [
+              "global"
+            ],
+            "price_adjustments": [],
+            "pricing_geography": "global_base"
+          },
+          "source_refs": [
+            "https://platform.claude.com/docs/en/about-claude/pricing"
+          ],
+          "verification_status": "verified",
+          "verified_at": "2026-11-10T04:45:27Z"
+        },
+        {
+          "billing_note": "Released 2026-11-09, with access restricted to organizations verified through Anthropic verification programs such as the Cyber Verification Program. It shares Claude Fable 5.2 pricing: $8 input, $0.20 cache read, $10 5-minute cache write, $16 1-hour cache write, and $40 output per 1M tokens. Batch input and output receive the published 50% discount ($4 and $20). Fast mode costs $16 input and $80 output per 1M tokens and is not available with the Batch API.",
+          "calculation_default": false,
+          "charges": [
+            {
+              "amount": "4",
+              "component": "input",
+              "id": "price:anthropic/claude-mythos-5-2:batch:short:current:input:text:per_1m_tokens",
+              "modality": "text",
+              "unit": "per_1m_tokens"
+            },
+            {
+              "amount": "20",
+              "component": "output",
+              "id": "price:anthropic/claude-mythos-5-2:batch:short:current:output:text:per_1m_tokens",
+              "modality": "text",
+              "unit": "per_1m_tokens"
+            }
+          ],
+          "checked_at": "2026-11-10T04:45:27Z",
+          "context_class": "short",
+          "currency": "USD",
+          "effective_from": "2026-11-09",
+          "effective_until": null,
+          "id": "price:anthropic/claude-mythos-5-2:batch:short:current",
+          "pricing_status": "current",
+          "processing_mode": "batch",
+          "prompt_token_threshold": null,
+          "region_policy": {
+            "availability": {
+              "default": "available",
+              "rules": []
+            },
+            "data_residencies": [
+              "global"
+            ],
+            "endpoint_geographies": [
+              "global"
+            ],
+            "price_adjustments": [],
+            "pricing_geography": "global_base"
+          },
+          "source_refs": [
+            "https://platform.claude.com/docs/en/about-claude/pricing"
+          ],
+          "verification_status": "verified",
+          "verified_at": "2026-11-10T04:45:27Z"
+        },
+        {
+          "billing_note": "Fast-mode input and output pricing ($16 and $80 per 1M tokens) on the Claude API. Fast mode is not available with the Batch API.",
+          "calculation_default": false,
+          "charges": [
+            {
+              "amount": "16",
+              "component": "input",
+              "id": "price:anthropic/claude-mythos-5-2:fast:short:current:input:text:per_1m_tokens",
+              "modality": "text",
+              "unit": "per_1m_tokens"
+            },
+            {
+              "amount": "80",
+              "component": "output",
+              "id": "price:anthropic/claude-mythos-5-2:fast:short:current:output:text:per_1m_tokens",
+              "modality": "text",
+              "unit": "per_1m_tokens"
+            }
+          ],
+          "checked_at": "2026-11-10T04:45:27Z",
+          "context_class": "short",
+          "currency": "USD",
+          "effective_from": "2026-11-09",
+          "effective_until": null,
+          "id": "price:anthropic/claude-mythos-5-2:fast:short:current",
+          "pricing_status": "current",
+          "processing_mode": "fast",
+          "prompt_token_threshold": null,
+          "region_policy": {
+            "availability": {
+              "default": "available",
+              "rules": []
+            },
+            "data_residencies": [
+              "global"
+            ],
+            "endpoint_geographies": [
+              "global"
+            ],
+            "price_adjustments": [],
+            "pricing_geography": "global_base"
+          },
+          "source_refs": [
+            "https://platform.claude.com/docs/en/about-claude/pricing"
+          ],
+          "verification_status": "verified",
+          "verified_at": "2026-11-10T04:45:27Z"
+        }
+      ],
+      "pricing": {
+        "batch_input": 4.0,
+        "batch_output": 20.0,
+        "cache_write": 10.0,
+        "cache_write_1h": 16.0,
+        "cached_input": 0.2,
+        "currency": "USD",
+        "input": 8.0,
+        "output": 40.0,
         "unit": "1M tokens"
       },
       "provider_id": "anthropic",
@@ -4337,6 +4786,128 @@
       "status": "active"
     },
     {
+      "accessed_at": "2026-11-10T04:45:37Z",
+      "display_name": "Claude Fable 5.2 on Amazon Bedrock",
+      "effective_from": null,
+      "hosted_model": {
+        "model_id": "claude-fable-5-2",
+        "platform": "amazon-bedrock",
+        "provider_id": "anthropic"
+      },
+      "input_modality": "text",
+      "last_verified_at": "2026-11-10T04:45:37Z",
+      "model_family": "Claude Fable",
+      "model_id": "bedrock-claude-fable-5-2",
+      "notes": "Claude Fable 5.2 served through Amazon Bedrock. Global endpoint per 1M tokens: input $8, cache read $0.2, cache write 5m $10, cache write 1h $16, output $40; no complete Batch rate published for this model. In-region endpoints (no cross-region inference profile) cost 10% more than the Global profile on every token type.",
+      "official_source_url": "https://pricing.us-east-1.amazonaws.com/offers/v1.0/aws/AmazonBedrockFoundationModels/current/us-east-1/index.json",
+      "official_source_urls": [
+        "https://pricing.us-east-1.amazonaws.com/offers/v1.0/aws/AmazonBedrockFoundationModels/current/us-east-1/index.json",
+        "https://aws.amazon.com/bedrock/pricing/"
+      ],
+      "output_modality": "text",
+      "price_records": [
+        {
+          "billing_note": "Global endpoint price on Amazon Bedrock. In-region endpoints (no cross-region inference profile) cost 10% more than the Global profile on every token type.",
+          "calculation_default": true,
+          "charges": [
+            {
+              "amount": "8",
+              "component": "input",
+              "id": "price:aws/bedrock-claude-fable-5-2:standard:short:current:input:text:per_1m_tokens",
+              "modality": "text",
+              "unit": "per_1m_tokens"
+            },
+            {
+              "amount": "0.2",
+              "component": "cache_read",
+              "id": "price:aws/bedrock-claude-fable-5-2:standard:short:current:cache_read:text:per_1m_tokens",
+              "modality": "text",
+              "unit": "per_1m_tokens"
+            },
+            {
+              "amount": "10",
+              "component": "cache_write_5m",
+              "id": "price:aws/bedrock-claude-fable-5-2:standard:short:current:cache_write_5m:text:per_1m_tokens",
+              "modality": "text",
+              "unit": "per_1m_tokens"
+            },
+            {
+              "amount": "16",
+              "component": "cache_write_1h",
+              "id": "price:aws/bedrock-claude-fable-5-2:standard:short:current:cache_write_1h:text:per_1m_tokens",
+              "modality": "text",
+              "unit": "per_1m_tokens"
+            },
+            {
+              "amount": "40",
+              "component": "output",
+              "id": "price:aws/bedrock-claude-fable-5-2:standard:short:current:output:text:per_1m_tokens",
+              "modality": "text",
+              "unit": "per_1m_tokens"
+            }
+          ],
+          "checked_at": "2026-11-10T04:45:37Z",
+          "context_class": "short",
+          "currency": "USD",
+          "effective_from": null,
+          "effective_until": null,
+          "id": "price:aws/bedrock-claude-fable-5-2:standard:short:current",
+          "pricing_status": "current",
+          "processing_mode": "standard",
+          "prompt_token_threshold": null,
+          "region_policy": {
+            "availability": {
+              "default": "available",
+              "rules": []
+            },
+            "data_residencies": [
+              "global"
+            ],
+            "endpoint_geographies": [
+              "global",
+              "regional"
+            ],
+            "price_adjustments": [
+              {
+                "factor": "1.10",
+                "id": "regional-endpoint-uplift",
+                "operation": "multiply",
+                "selector": {
+                  "endpoint_geographies": [
+                    "regional"
+                  ]
+                },
+                "source_refs": [
+                  "https://pricing.us-east-1.amazonaws.com/offers/v1.0/aws/AmazonBedrockFoundationModels/current/us-east-1/index.json"
+                ]
+              }
+            ],
+            "pricing_geography": "global_base"
+          },
+          "source_refs": [
+            "https://pricing.us-east-1.amazonaws.com/offers/v1.0/aws/AmazonBedrockFoundationModels/current/us-east-1/index.json"
+          ],
+          "verification_status": "verified",
+          "verified_at": "2026-11-10T04:45:37Z"
+        }
+      ],
+      "pricing": {
+        "batch_input": null,
+        "batch_output": null,
+        "cache_write": 10.0,
+        "cache_write_1h": 16.0,
+        "cached_input": 0.2,
+        "currency": "USD",
+        "input": 8.0,
+        "output": 40.0,
+        "unit": "1M tokens"
+      },
+      "provider_id": "aws",
+      "release_stage": "stable",
+      "released_at": null,
+      "status": "active"
+    },
+    {
       "accessed_at": "2026-11-05T15:07:32Z",
       "display_name": "Claude Haiku 4.5 on Amazon Bedrock",
       "effective_from": null,
@@ -4854,6 +5425,128 @@
         "currency": "USD",
         "input": 10.0,
         "output": 50.0,
+        "unit": "1M tokens"
+      },
+      "provider_id": "aws",
+      "release_stage": "stable",
+      "released_at": null,
+      "status": "active"
+    },
+    {
+      "accessed_at": "2026-11-10T04:45:39Z",
+      "display_name": "Claude Mythos 5.2 on Amazon Bedrock",
+      "effective_from": null,
+      "hosted_model": {
+        "model_id": "claude-mythos-5-2",
+        "platform": "amazon-bedrock",
+        "provider_id": "anthropic"
+      },
+      "input_modality": "text",
+      "last_verified_at": "2026-11-10T04:45:39Z",
+      "model_family": "Claude Mythos",
+      "model_id": "bedrock-claude-mythos-5-2",
+      "notes": "Claude Mythos 5.2 served through Amazon Bedrock. Global endpoint per 1M tokens: input $8, cache read $0.2, cache write 5m $10, cache write 1h $16, output $40; no complete Batch rate published for this model. In-region endpoints (no cross-region inference profile) cost 10% more than the Global profile on every token type. Access is limited to organizations verified through Anthropic's verification programs.",
+      "official_source_url": "https://pricing.us-east-1.amazonaws.com/offers/v1.0/aws/AmazonBedrockFoundationModels/current/us-east-1/index.json",
+      "official_source_urls": [
+        "https://pricing.us-east-1.amazonaws.com/offers/v1.0/aws/AmazonBedrockFoundationModels/current/us-east-1/index.json",
+        "https://aws.amazon.com/bedrock/pricing/"
+      ],
+      "output_modality": "text",
+      "price_records": [
+        {
+          "billing_note": "Global endpoint price on Amazon Bedrock. In-region endpoints (no cross-region inference profile) cost 10% more than the Global profile on every token type.",
+          "calculation_default": true,
+          "charges": [
+            {
+              "amount": "8",
+              "component": "input",
+              "id": "price:aws/bedrock-claude-mythos-5-2:standard:short:current:input:text:per_1m_tokens",
+              "modality": "text",
+              "unit": "per_1m_tokens"
+            },
+            {
+              "amount": "0.2",
+              "component": "cache_read",
+              "id": "price:aws/bedrock-claude-mythos-5-2:standard:short:current:cache_read:text:per_1m_tokens",
+              "modality": "text",
+              "unit": "per_1m_tokens"
+            },
+            {
+              "amount": "10",
+              "component": "cache_write_5m",
+              "id": "price:aws/bedrock-claude-mythos-5-2:standard:short:current:cache_write_5m:text:per_1m_tokens",
+              "modality": "text",
+              "unit": "per_1m_tokens"
+            },
+            {
+              "amount": "16",
+              "component": "cache_write_1h",
+              "id": "price:aws/bedrock-claude-mythos-5-2:standard:short:current:cache_write_1h:text:per_1m_tokens",
+              "modality": "text",
+              "unit": "per_1m_tokens"
+            },
+            {
+              "amount": "40",
+              "component": "output",
+              "id": "price:aws/bedrock-claude-mythos-5-2:standard:short:current:output:text:per_1m_tokens",
+              "modality": "text",
+              "unit": "per_1m_tokens"
+            }
+          ],
+          "checked_at": "2026-11-10T04:45:39Z",
+          "context_class": "short",
+          "currency": "USD",
+          "effective_from": null,
+          "effective_until": null,
+          "id": "price:aws/bedrock-claude-mythos-5-2:standard:short:current",
+          "pricing_status": "current",
+          "processing_mode": "standard",
+          "prompt_token_threshold": null,
+          "region_policy": {
+            "availability": {
+              "default": "available",
+              "rules": []
+            },
+            "data_residencies": [
+              "global"
+            ],
+            "endpoint_geographies": [
+              "global",
+              "regional"
+            ],
+            "price_adjustments": [
+              {
+                "factor": "1.10",
+                "id": "regional-endpoint-uplift",
+                "operation": "multiply",
+                "selector": {
+                  "endpoint_geographies": [
+                    "regional"
+                  ]
+                },
+                "source_refs": [
+                  "https://pricing.us-east-1.amazonaws.com/offers/v1.0/aws/AmazonBedrockFoundationModels/current/us-east-1/index.json"
+                ]
+              }
+            ],
+            "pricing_geography": "global_base"
+          },
+          "source_refs": [
+            "https://pricing.us-east-1.amazonaws.com/offers/v1.0/aws/AmazonBedrockFoundationModels/current/us-east-1/index.json"
+          ],
+          "verification_status": "verified",
+          "verified_at": "2026-11-10T04:45:39Z"
+        }
+      ],
+      "pricing": {
+        "batch_input": null,
+        "batch_output": null,
+        "cache_write": 10.0,
+        "cache_write_1h": 16.0,
+        "cached_input": 0.2,
+        "currency": "USD",
+        "input": 8.0,
+        "output": 40.0,
         "unit": "1M tokens"
       },
       "provider_id": "aws",
@@ -8295,6 +8988,190 @@
         "currency": "USD",
         "input": 10.0,
         "output": 50.0,
+        "unit": "1M tokens"
+      },
+      "provider_id": "google-cloud",
+      "release_stage": "stable",
+      "released_at": null,
+      "status": "active"
+    },
+    {
+      "accessed_at": "2026-11-10T04:45:42Z",
+      "display_name": "Claude Fable 5.2 on Google Vertex AI",
+      "effective_from": null,
+      "hosted_model": {
+        "model_id": "claude-fable-5-2",
+        "platform": "google-vertex-ai",
+        "provider_id": "anthropic"
+      },
+      "input_modality": "text",
+      "last_verified_at": "2026-11-10T04:45:42Z",
+      "model_family": "Claude Fable",
+      "model_id": "vertex-claude-fable-5-2",
+      "notes": "Claude Fable 5.2 served through Google Vertex AI. Global endpoint per 1M tokens: input $8, cache read $0.2, cache write 5m $10, cache write 1h $16, output $40; Batch $4 input / $20 output. Regional and multi-region (US, EU) endpoints cost 10% more than the global endpoint on every token type.",
+      "official_source_url": "https://cloud.google.com/model-garden/partner-models/pricing",
+      "official_source_urls": [
+        "https://cloud.google.com/model-garden/partner-models/pricing"
+      ],
+      "output_modality": "text",
+      "price_records": [
+        {
+          "billing_note": "Global endpoint price on Google Vertex AI. Regional and multi-region (US, EU) endpoints cost 10% more than the global endpoint on every token type.",
+          "calculation_default": true,
+          "charges": [
+            {
+              "amount": "8",
+              "component": "input",
+              "id": "price:google-cloud/vertex-claude-fable-5-2:standard:short:current:input:text:per_1m_tokens",
+              "modality": "text",
+              "unit": "per_1m_tokens"
+            },
+            {
+              "amount": "0.2",
+              "component": "cache_read",
+              "id": "price:google-cloud/vertex-claude-fable-5-2:standard:short:current:cache_read:text:per_1m_tokens",
+              "modality": "text",
+              "unit": "per_1m_tokens"
+            },
+            {
+              "amount": "10",
+              "component": "cache_write_5m",
+              "id": "price:google-cloud/vertex-claude-fable-5-2:standard:short:current:cache_write_5m:text:per_1m_tokens",
+              "modality": "text",
+              "unit": "per_1m_tokens"
+            },
+            {
+              "amount": "16",
+              "component": "cache_write_1h",
+              "id": "price:google-cloud/vertex-claude-fable-5-2:standard:short:current:cache_write_1h:text:per_1m_tokens",
+              "modality": "text",
+              "unit": "per_1m_tokens"
+            },
+            {
+              "amount": "40",
+              "component": "output",
+              "id": "price:google-cloud/vertex-claude-fable-5-2:standard:short:current:output:text:per_1m_tokens",
+              "modality": "text",
+              "unit": "per_1m_tokens"
+            }
+          ],
+          "checked_at": "2026-11-10T04:45:42Z",
+          "context_class": "short",
+          "currency": "USD",
+          "effective_from": null,
+          "effective_until": null,
+          "id": "price:google-cloud/vertex-claude-fable-5-2:standard:short:current",
+          "pricing_status": "current",
+          "processing_mode": "standard",
+          "prompt_token_threshold": null,
+          "region_policy": {
+            "availability": {
+              "default": "available",
+              "rules": []
+            },
+            "data_residencies": [
+              "global"
+            ],
+            "endpoint_geographies": [
+              "global",
+              "regional"
+            ],
+            "price_adjustments": [
+              {
+                "factor": "1.10",
+                "id": "regional-endpoint-uplift",
+                "operation": "multiply",
+                "selector": {
+                  "endpoint_geographies": [
+                    "regional"
+                  ]
+                },
+                "source_refs": [
+                  "https://cloud.google.com/model-garden/partner-models/pricing"
+                ]
+              }
+            ],
+            "pricing_geography": "global_base"
+          },
+          "source_refs": [
+            "https://cloud.google.com/model-garden/partner-models/pricing"
+          ],
+          "verification_status": "verified",
+          "verified_at": "2026-11-10T04:45:42Z"
+        },
+        {
+          "billing_note": "Global endpoint price on Google Vertex AI. Regional and multi-region (US, EU) endpoints cost 10% more than the global endpoint on every token type. Batch rate.",
+          "calculation_default": false,
+          "charges": [
+            {
+              "amount": "4",
+              "component": "input",
+              "id": "price:google-cloud/vertex-claude-fable-5-2:batch:short:current:input:text:per_1m_tokens",
+              "modality": "text",
+              "unit": "per_1m_tokens"
+            },
+            {
+              "amount": "20",
+              "component": "output",
+              "id": "price:google-cloud/vertex-claude-fable-5-2:batch:short:current:output:text:per_1m_tokens",
+              "modality": "text",
+              "unit": "per_1m_tokens"
+            }
+          ],
+          "checked_at": "2026-11-10T04:45:42Z",
+          "context_class": "short",
+          "currency": "USD",
+          "effective_from": null,
+          "effective_until": null,
+          "id": "price:google-cloud/vertex-claude-fable-5-2:batch:short:current",
+          "pricing_status": "current",
+          "processing_mode": "batch",
+          "prompt_token_threshold": null,
+          "region_policy": {
+            "availability": {
+              "default": "available",
+              "rules": []
+            },
+            "data_residencies": [
+              "global"
+            ],
+            "endpoint_geographies": [
+              "global",
+              "regional"
+            ],
+            "price_adjustments": [
+              {
+                "factor": "1.10",
+                "id": "regional-endpoint-uplift",
+                "operation": "multiply",
+                "selector": {
+                  "endpoint_geographies": [
+                    "regional"
+                  ]
+                },
+                "source_refs": [
+                  "https://cloud.google.com/model-garden/partner-models/pricing"
+                ]
+              }
+            ],
+            "pricing_geography": "global_base"
+          },
+          "source_refs": [
+            "https://cloud.google.com/model-garden/partner-models/pricing"
+          ],
+          "verification_status": "verified",
+          "verified_at": "2026-11-10T04:45:42Z"
+        }
+      ],
+      "pricing": {
+        "batch_input": 4.0,
+        "batch_output": 20.0,
+        "cache_write": 10.0,
+        "cache_write_1h": 16.0,
+        "cached_input": 0.2,
+        "currency": "USD",
+        "input": 8.0,
+        "output": 40.0,
         "unit": "1M tokens"
       },
       "provider_id": "google-cloud",

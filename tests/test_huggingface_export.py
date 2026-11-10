@@ -505,11 +505,11 @@ class HuggingFaceExportTests(unittest.TestCase):
         self.assertEqual(sorted(item["amount"] for item in cyber_writes), ["15.625", "25"])
         self.assertEqual(
             cache_write_count - phase_b_cache_write_count,
-            45 + 4 + len(expected_new_writes) + len(kimi_writes) + len(kimi_batch_writes) + len(sonnet_55_writes) + len(ultrafast_writes) + len(rosalind_writes) + len(cyber_writes),
+            45 + 4 + 4 + len(expected_new_writes) + len(kimi_writes) + len(kimi_batch_writes) + len(sonnet_55_writes) + len(ultrafast_writes) + len(rosalind_writes) + len(cyber_writes),
         )
         self.assertEqual(
             cache_write_count,
-            45 + 4 + len(expected_new_writes) + len(kimi_writes) + len(kimi_batch_writes) + len(sonnet_55_writes) + phase_b_cache_write_count + len(ultrafast_writes) + len(rosalind_writes) + len(cyber_writes),
+            45 + 4 + 4 + len(expected_new_writes) + len(kimi_writes) + len(kimi_batch_writes) + len(sonnet_55_writes) + phase_b_cache_write_count + len(ultrafast_writes) + len(rosalind_writes) + len(cyber_writes),
         )
         # OpenAI 12-hour cache writes: every price record of the eight GPT-5.6+ models, at 2.5x input,
         # plus GPT-6 Rosalind's two Standard records and one Standard record each for GPT-6-Cyber and GPT-5.6 Cyber.

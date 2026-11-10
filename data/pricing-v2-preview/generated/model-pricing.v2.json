@@ -9,7 +9,7 @@
     "review_required": "display only with warning; no default or recommendation placement",
     "unsafe": "exclude from default calculations and show warning only where explicitly allowed"
   },
-  "effectiveAt": "2026-11-09T14:07:29Z",
+  "effectiveAt": "2026-11-10T04:47:48Z",
   "effectiveTimezone": "UTC",
   "failureBehavior": {
     "atomicWrite": true,
@@ -18,7 +18,7 @@
     "partialJson": "not_written",
     "publicV1Mutation": "forbidden"
   },
-  "generatedAt": "2026-11-09T14:07:29Z",
+  "generatedAt": "2026-11-10T04:47:48Z",
   "generatedAtPolicy": "UTC artifact generation timestamp injected by the generation pipeline",
   "governancePolicy": {
     "classes": [
@@ -4093,6 +4093,470 @@
     },
     {
       "accessAuthority": {
+        "baseRevision": "efb5c2ec71ad8adead5e6fb2a735534c141b58ca",
+        "factSha256": "60783e509eadaadf733854beeb06d4f2d669195326058300eb7afb2ce9c152c2",
+        "kind": "canonical",
+        "revisionScope": "base_revision_plus_fact_digest"
+      },
+      "accessCheckedAt": "2026-11-10T04:45:18Z",
+      "accessEvidence": [
+        {
+          "claimType": "official_access_public",
+          "officialModelId": "claude-fable-5-2",
+          "scope": "Documented Claude API model available under ordinary API account requirements; specialized cyber capability grants do not restrict ordinary model access.",
+          "sourceRef": "source:anthropic:platform-claude-com-docs-en-models-fable-5-2-overview",
+          "title": "claude-fable-5-2 official model access documentation",
+          "url": "https://platform.claude.com/docs/en/models/fable-5-2/overview"
+        }
+      ],
+      "accessStatus": "public",
+      "aliasTargetInternalId": null,
+      "availability": "active",
+      "batchInputPrice": 4,
+      "batchOutputPrice": 20,
+      "billingModelInternalId": null,
+      "bindingEvidence": [
+        {
+          "claimType": "official_identity_binding",
+          "officialModelId": "claude-fable-5-2",
+          "reason": "Exact documented API ID or exact provider/version spelling; no entitlement inherited from billing target.",
+          "sourceRef": "source:anthropic:platform-claude-com-docs-en-models-fable-5-2-overview",
+          "title": "claude-fable-5-2 official identity documentation",
+          "url": "https://platform.claude.com/docs/en/models/fable-5-2/overview"
+        }
+      ],
+      "bindingStatus": "approved",
+      "blockedFromDefaultReasons": [],
+      "cachedInputPrice": 0.2,
+      "canonicalInternalId": "anthropic/claude-fable-5-2",
+      "checkedAt": "2026-11-10T04:45:18Z",
+      "checkedSourceRefs": [
+        "source:anthropic:platform-claude-com-docs-en-about-claude-pricing"
+      ],
+      "contextWindow": null,
+      "contextWindowStatus": "unknown_not_guessed",
+      "defaultPriceSelectionRule": [
+        "current_effective_utc",
+        "verified",
+        "standard",
+        "text",
+        "default_context_class"
+      ],
+      "defaultSafe": true,
+      "deprecationDate": null,
+      "governanceClass": "VERIFIED_CANONICAL",
+      "governanceDetails": null,
+      "governanceReason": "canonical_verified_direct_public_projection",
+      "governanceSourceCandidateIds": [
+        "anthropic/claude-fable-5-2"
+      ],
+      "id": "claude-fable-5-2",
+      "identityType": "canonical_model",
+      "inputPrice": 8,
+      "lifecycleStatus": "active",
+      "model": "Claude Fable 5.2",
+      "officialSourceUrl": "https://platform.claude.com/docs/en/about-claude/pricing",
+      "outputPrice": 40,
+      "priceRecords": [
+        {
+          "calculationDefault": false,
+          "checkedAt": "2026-11-10T04:45:18Z",
+          "contextClass": "short",
+          "effectiveFrom": "2026-11-09",
+          "effectiveUntil": null,
+          "pricingId": "price:anthropic/claude-fable-5-2:batch:short:current",
+          "pricingStatus": "current",
+          "processingMode": "batch",
+          "sourceRefs": [
+            "source:anthropic:platform-claude-com-docs-en-about-claude-pricing"
+          ],
+          "verificationStatus": "verified",
+          "verifiedAt": "2026-11-10T04:45:18Z"
+        },
+        {
+          "calculationDefault": false,
+          "checkedAt": "2026-11-10T04:45:18Z",
+          "contextClass": "short",
+          "effectiveFrom": "2026-11-09",
+          "effectiveUntil": null,
+          "pricingId": "price:anthropic/claude-fable-5-2:fast:short:current",
+          "pricingStatus": "current",
+          "processingMode": "fast",
+          "sourceRefs": [
+            "source:anthropic:platform-claude-com-docs-en-about-claude-pricing"
+          ],
+          "verificationStatus": "verified",
+          "verifiedAt": "2026-11-10T04:45:18Z"
+        },
+        {
+          "calculationDefault": true,
+          "checkedAt": "2026-11-10T04:45:18Z",
+          "contextClass": "short",
+          "effectiveFrom": "2026-11-09",
+          "effectiveUntil": null,
+          "pricingId": "price:anthropic/claude-fable-5-2:standard:short:current",
+          "pricingStatus": "current",
+          "processingMode": "standard",
+          "sourceRefs": [
+            "source:anthropic:platform-claude-com-docs-en-about-claude-pricing"
+          ],
+          "verificationStatus": "verified",
+          "verifiedAt": "2026-11-10T04:45:18Z"
+        }
+      ],
+      "pricingComponents": [
+        {
+          "amount": "4",
+          "calculationDefault": false,
+          "chargeId": "price:anthropic/claude-fable-5-2:batch:short:current:input:text:per_1m_tokens",
+          "component": "input",
+          "condition": {
+            "availabilityRules": [],
+            "contextClass": "short",
+            "defaultAvailabilityStatus": "available",
+            "effectiveFrom": "2026-11-09",
+            "effectiveUntil": null,
+            "priceAdjustments": [],
+            "processingMode": "batch",
+            "promptTokenThreshold": null,
+            "regionPolicy": "global",
+            "regionSelector": {
+              "dataResidencies": [
+                "global"
+              ],
+              "endpointGeographies": [
+                "global"
+              ],
+              "pricingGeography": "global_base"
+            },
+            "tierSelection": null
+          },
+          "currency": "USD",
+          "modality": "text",
+          "pricingId": "price:anthropic/claude-fable-5-2:batch:short:current",
+          "sourceRefs": [
+            "source:anthropic:platform-claude-com-docs-en-about-claude-pricing"
+          ],
+          "unit": "per_1m_tokens",
+          "verificationStatus": "verified"
+        },
+        {
+          "amount": "20",
+          "calculationDefault": false,
+          "chargeId": "price:anthropic/claude-fable-5-2:batch:short:current:output:text:per_1m_tokens",
+          "component": "output",
+          "condition": {
+            "availabilityRules": [],
+            "contextClass": "short",
+            "defaultAvailabilityStatus": "available",
+            "effectiveFrom": "2026-11-09",
+            "effectiveUntil": null,
+            "priceAdjustments": [],
+            "processingMode": "batch",
+            "promptTokenThreshold": null,
+            "regionPolicy": "global",
+            "regionSelector": {
+              "dataResidencies": [
+                "global"
+              ],
+              "endpointGeographies": [
+                "global"
+              ],
+              "pricingGeography": "global_base"
+            },
+            "tierSelection": null
+          },
+          "currency": "USD",
+          "modality": "text",
+          "pricingId": "price:anthropic/claude-fable-5-2:batch:short:current",
+          "sourceRefs": [
+            "source:anthropic:platform-claude-com-docs-en-about-claude-pricing"
+          ],
+          "unit": "per_1m_tokens",
+          "verificationStatus": "verified"
+        },
+        {
+          "amount": "16",
+          "calculationDefault": false,
+          "chargeId": "price:anthropic/claude-fable-5-2:fast:short:current:input:text:per_1m_tokens",
+          "component": "input",
+          "condition": {
+            "availabilityRules": [],
+            "contextClass": "short",
+            "defaultAvailabilityStatus": "available",
+            "effectiveFrom": "2026-11-09",
+            "effectiveUntil": null,
+            "priceAdjustments": [],
+            "processingMode": "fast",
+            "promptTokenThreshold": null,
+            "regionPolicy": "global",
+            "regionSelector": {
+              "dataResidencies": [
+                "global"
+              ],
+              "endpointGeographies": [
+                "global"
+              ],
+              "pricingGeography": "global_base"
+            },
+            "tierSelection": null
+          },
+          "currency": "USD",
+          "modality": "text",
+          "pricingId": "price:anthropic/claude-fable-5-2:fast:short:current",
+          "sourceRefs": [
+            "source:anthropic:platform-claude-com-docs-en-about-claude-pricing"
+          ],
+          "unit": "per_1m_tokens",
+          "verificationStatus": "verified"
+        },
+        {
+          "amount": "80",
+          "calculationDefault": false,
+          "chargeId": "price:anthropic/claude-fable-5-2:fast:short:current:output:text:per_1m_tokens",
+          "component": "output",
+          "condition": {
+            "availabilityRules": [],
+            "contextClass": "short",
+            "defaultAvailabilityStatus": "available",
+            "effectiveFrom": "2026-11-09",
+            "effectiveUntil": null,
+            "priceAdjustments": [],
+            "processingMode": "fast",
+            "promptTokenThreshold": null,
+            "regionPolicy": "global",
+            "regionSelector": {
+              "dataResidencies": [
+                "global"
+              ],
+              "endpointGeographies": [
+                "global"
+              ],
+              "pricingGeography": "global_base"
+            },
+            "tierSelection": null
+          },
+          "currency": "USD",
+          "modality": "text",
+          "pricingId": "price:anthropic/claude-fable-5-2:fast:short:current",
+          "sourceRefs": [
+            "source:anthropic:platform-claude-com-docs-en-about-claude-pricing"
+          ],
+          "unit": "per_1m_tokens",
+          "verificationStatus": "verified"
+        },
+        {
+          "amount": "16",
+          "calculationDefault": true,
+          "chargeId": "price:anthropic/claude-fable-5-2:standard:short:current:cache_write_1h:text:per_1m_tokens",
+          "component": "cache_write_1h",
+          "condition": {
+            "availabilityRules": [],
+            "contextClass": "short",
+            "defaultAvailabilityStatus": "available",
+            "effectiveFrom": "2026-11-09",
+            "effectiveUntil": null,
+            "priceAdjustments": [],
+            "processingMode": "standard",
+            "promptTokenThreshold": null,
+            "regionPolicy": "global",
+            "regionSelector": {
+              "dataResidencies": [
+                "global"
+              ],
+              "endpointGeographies": [
+                "global"
+              ],
+              "pricingGeography": "global_base"
+            },
+            "tierSelection": null
+          },
+          "currency": "USD",
+          "modality": "text",
+          "pricingId": "price:anthropic/claude-fable-5-2:standard:short:current",
+          "sourceRefs": [
+            "source:anthropic:platform-claude-com-docs-en-about-claude-pricing"
+          ],
+          "unit": "per_1m_tokens",
+          "verificationStatus": "verified"
+        },
+        {
+          "amount": "10",
+          "calculationDefault": true,
+          "chargeId": "price:anthropic/claude-fable-5-2:standard:short:current:cache_write_5m:text:per_1m_tokens",
+          "component": "cache_write_5m",
+          "condition": {
+            "availabilityRules": [],
+            "contextClass": "short",
+            "defaultAvailabilityStatus": "available",
+            "effectiveFrom": "2026-11-09",
+            "effectiveUntil": null,
+            "priceAdjustments": [],
+            "processingMode": "standard",
+            "promptTokenThreshold": null,
+            "regionPolicy": "global",
+            "regionSelector": {
+              "dataResidencies": [
+                "global"
+              ],
+              "endpointGeographies": [
+                "global"
+              ],
+              "pricingGeography": "global_base"
+            },
+            "tierSelection": null
+          },
+          "currency": "USD",
+          "modality": "text",
+          "pricingId": "price:anthropic/claude-fable-5-2:standard:short:current",
+          "sourceRefs": [
+            "source:anthropic:platform-claude-com-docs-en-about-claude-pricing"
+          ],
+          "unit": "per_1m_tokens",
+          "verificationStatus": "verified"
+        },
+        {
+          "amount": "0.2",
+          "calculationDefault": true,
+          "chargeId": "price:anthropic/claude-fable-5-2:standard:short:current:cached_input:text:per_1m_tokens",
+          "component": "cached_input",
+          "condition": {
+            "availabilityRules": [],
+            "contextClass": "short",
+            "defaultAvailabilityStatus": "available",
+            "effectiveFrom": "2026-11-09",
+            "effectiveUntil": null,
+            "priceAdjustments": [],
+            "processingMode": "standard",
+            "promptTokenThreshold": null,
+            "regionPolicy": "global",
+            "regionSelector": {
+              "dataResidencies": [
+                "global"
+              ],
+              "endpointGeographies": [
+                "global"
+              ],
+              "pricingGeography": "global_base"
+            },
+            "tierSelection": null
+          },
+          "currency": "USD",
+          "modality": "text",
+          "pricingId": "price:anthropic/claude-fable-5-2:standard:short:current",
+          "sourceRefs": [
+            "source:anthropic:platform-claude-com-docs-en-about-claude-pricing"
+          ],
+          "unit": "per_1m_tokens",
+          "verificationStatus": "verified"
+        },
+        {
+          "amount": "8",
+          "calculationDefault": true,
+          "chargeId": "price:anthropic/claude-fable-5-2:standard:short:current:input:text:per_1m_tokens",
+          "component": "input",
+          "condition": {
+            "availabilityRules": [],
+            "contextClass": "short",
+            "defaultAvailabilityStatus": "available",
+            "effectiveFrom": "2026-11-09",
+            "effectiveUntil": null,
+            "priceAdjustments": [],
+            "processingMode": "standard",
+            "promptTokenThreshold": null,
+            "regionPolicy": "global",
+            "regionSelector": {
+              "dataResidencies": [
+                "global"
+              ],
+              "endpointGeographies": [
+                "global"
+              ],
+              "pricingGeography": "global_base"
+            },
+            "tierSelection": null
+          },
+          "currency": "USD",
+          "modality": "text",
+          "pricingId": "price:anthropic/claude-fable-5-2:standard:short:current",
+          "sourceRefs": [
+            "source:anthropic:platform-claude-com-docs-en-about-claude-pricing"
+          ],
+          "unit": "per_1m_tokens",
+          "verificationStatus": "verified"
+        },
+        {
+          "amount": "40",
+          "calculationDefault": true,
+          "chargeId": "price:anthropic/claude-fable-5-2:standard:short:current:output:text:per_1m_tokens",
+          "component": "output",
+          "condition": {
+            "availabilityRules": [],
+            "contextClass": "short",
+            "defaultAvailabilityStatus": "available",
+            "effectiveFrom": "2026-11-09",
+            "effectiveUntil": null,
+            "priceAdjustments": [],
+            "processingMode": "standard",
+            "promptTokenThreshold": null,
+            "regionPolicy": "global",
+            "regionSelector": {
+              "dataResidencies": [
+                "global"
+              ],
+              "endpointGeographies": [
+                "global"
+              ],
+              "pricingGeography": "global_base"
+            },
+            "tierSelection": null
+          },
+          "currency": "USD",
+          "modality": "text",
+          "pricingId": "price:anthropic/claude-fable-5-2:standard:short:current",
+          "sourceRefs": [
+            "source:anthropic:platform-claude-com-docs-en-about-claude-pricing"
+          ],
+          "unit": "per_1m_tokens",
+          "verificationStatus": "verified"
+        }
+      ],
+      "pricingSourceType": "canonical_verified_price",
+      "provider": "anthropic",
+      "publicExposure": "public",
+      "redirectTargetInternalId": null,
+      "releaseSourceRef": "source:anthropic:platform-claude-com-docs-en-models-fable-5-2-overview",
+      "releaseSourceUrl": "https://platform.claude.com/docs/en/models/fable-5-2/overview",
+      "releaseStage": "stable",
+      "releasedAt": "2026-11-09",
+      "replacementInternalId": null,
+      "retirementDate": null,
+      "routingBehavior": "direct",
+      "routingDetails": {},
+      "selectedBatchPriceRecordId": "price:anthropic/claude-fable-5-2:batch:short:current",
+      "selectedBillingPriceRecordId": "price:anthropic/claude-fable-5-2:standard:short:current",
+      "selectedPriceEffectiveFrom": "2026-11-09",
+      "selectedPriceEffectiveUntil": null,
+      "selectedPriceRecordId": "price:anthropic/claude-fable-5-2:standard:short:current",
+      "sourceRefs": [
+        "source:anthropic:platform-claude-com-docs-en-about-claude-pricing",
+        "source:anthropic:platform-claude-com-docs-en-models-fable-5-2-overview",
+        "source:anthropic:platform-claude-com-docs-en-release-notes-overview"
+      ],
+      "sourceUrls": [
+        "https://platform.claude.com/docs/en/about-claude/pricing",
+        "https://platform.claude.com/docs/en/models/fable-5-2/overview",
+        "https://platform.claude.com/docs/en/release-notes/overview"
+      ],
+      "status": "latest",
+      "verificationStatus": "verified",
+      "verifiedAt": "2026-11-10T04:45:18Z",
+      "verifiedSourceRefs": [
+        "source:anthropic:platform-claude-com-docs-en-about-claude-pricing"
+      ]
+    },
+    {
+      "accessAuthority": {
         "baseRevision": "80c2ec4991bcaaf795fe9192946f5ec770d57f48",
         "factSha256": "3c1eec2251b9501014ebaf9a5b5cb0efb307f362ccf5c98054ad609789eb59df",
         "kind": "canonical",
@@ -5963,6 +6427,478 @@
       "status": "limited",
       "verificationStatus": "verified",
       "verifiedAt": "2026-11-09T10:27:03Z",
+      "verifiedSourceRefs": [
+        "source:anthropic:platform-claude-com-docs-en-about-claude-pricing"
+      ]
+    },
+    {
+      "accessAuthority": {
+        "baseRevision": "efb5c2ec71ad8adead5e6fb2a735534c141b58ca",
+        "factSha256": "521a91ddd1bba5342262876be7d0688c87bc83450ba52c88e31708603d3c32d0",
+        "kind": "canonical",
+        "revisionScope": "base_revision_plus_fact_digest"
+      },
+      "accessCheckedAt": "2026-11-10T04:45:27Z",
+      "accessEvidence": [
+        {
+          "claimType": "official_access_restricted",
+          "officialModelId": "claude-mythos-5-2",
+          "scope": "Model-specific organization verification, access tier and grant required; verification-program access is restricted.",
+          "sourceRef": "source:anthropic:platform-claude-com-docs-en-models-mythos-5-2-overview",
+          "title": "claude-mythos-5-2 official model access documentation",
+          "url": "https://platform.claude.com/docs/en/models/mythos-5-2/overview"
+        },
+        {
+          "claimType": "official_access_restricted",
+          "officialModelId": "claude-mythos-5-2",
+          "scope": "Model-specific organization verification, access tier and grant required; verification-program access is restricted.",
+          "sourceRef": "source:anthropic:support-claude-com-en-articles-14604842-cyber-verification-program",
+          "title": "anthropic ordinary API access requirements",
+          "url": "https://support.claude.com/en/articles/14604842-cyber-verification-program"
+        }
+      ],
+      "accessStatus": "restricted",
+      "aliasTargetInternalId": null,
+      "availability": "active",
+      "batchInputPrice": 4,
+      "batchOutputPrice": 20,
+      "billingModelInternalId": null,
+      "bindingEvidence": [
+        {
+          "claimType": "official_identity_binding",
+          "officialModelId": "claude-mythos-5-2",
+          "reason": "Exact documented API ID or exact provider/version spelling; no entitlement inherited from billing target.",
+          "sourceRef": "source:anthropic:platform-claude-com-docs-en-models-mythos-5-2-overview",
+          "title": "claude-mythos-5-2 official identity documentation",
+          "url": "https://platform.claude.com/docs/en/models/mythos-5-2/overview"
+        }
+      ],
+      "bindingStatus": "approved",
+      "blockedFromDefaultReasons": [],
+      "cachedInputPrice": 0.2,
+      "canonicalInternalId": "anthropic/claude-mythos-5-2",
+      "checkedAt": "2026-11-10T04:45:27Z",
+      "checkedSourceRefs": [
+        "source:anthropic:platform-claude-com-docs-en-about-claude-pricing"
+      ],
+      "contextWindow": null,
+      "contextWindowStatus": "unknown_not_guessed",
+      "defaultPriceSelectionRule": [
+        "current_effective_utc",
+        "verified",
+        "standard",
+        "text",
+        "default_context_class"
+      ],
+      "defaultSafe": true,
+      "deprecationDate": null,
+      "governanceClass": "VERIFIED_CANONICAL",
+      "governanceDetails": null,
+      "governanceReason": "canonical_verified_direct_public_projection",
+      "governanceSourceCandidateIds": [
+        "anthropic/claude-mythos-5-2"
+      ],
+      "id": "claude-mythos-5-2",
+      "identityType": "canonical_model",
+      "inputPrice": 8,
+      "lifecycleStatus": "active",
+      "model": "Claude Mythos 5.2",
+      "officialSourceUrl": "https://platform.claude.com/docs/en/about-claude/pricing",
+      "outputPrice": 40,
+      "priceRecords": [
+        {
+          "calculationDefault": false,
+          "checkedAt": "2026-11-10T04:45:27Z",
+          "contextClass": "short",
+          "effectiveFrom": "2026-11-09",
+          "effectiveUntil": null,
+          "pricingId": "price:anthropic/claude-mythos-5-2:batch:short:current",
+          "pricingStatus": "current",
+          "processingMode": "batch",
+          "sourceRefs": [
+            "source:anthropic:platform-claude-com-docs-en-about-claude-pricing"
+          ],
+          "verificationStatus": "verified",
+          "verifiedAt": "2026-11-10T04:45:27Z"
+        },
+        {
+          "calculationDefault": false,
+          "checkedAt": "2026-11-10T04:45:27Z",
+          "contextClass": "short",
+          "effectiveFrom": "2026-11-09",
+          "effectiveUntil": null,
+          "pricingId": "price:anthropic/claude-mythos-5-2:fast:short:current",
+          "pricingStatus": "current",
+          "processingMode": "fast",
+          "sourceRefs": [
+            "source:anthropic:platform-claude-com-docs-en-about-claude-pricing"
+          ],
+          "verificationStatus": "verified",
+          "verifiedAt": "2026-11-10T04:45:27Z"
+        },
+        {
+          "calculationDefault": true,
+          "checkedAt": "2026-11-10T04:45:27Z",
+          "contextClass": "short",
+          "effectiveFrom": "2026-11-09",
+          "effectiveUntil": null,
+          "pricingId": "price:anthropic/claude-mythos-5-2:standard:short:current",
+          "pricingStatus": "current",
+          "processingMode": "standard",
+          "sourceRefs": [
+            "source:anthropic:platform-claude-com-docs-en-about-claude-pricing"
+          ],
+          "verificationStatus": "verified",
+          "verifiedAt": "2026-11-10T04:45:27Z"
+        }
+      ],
+      "pricingComponents": [
+        {
+          "amount": "4",
+          "calculationDefault": false,
+          "chargeId": "price:anthropic/claude-mythos-5-2:batch:short:current:input:text:per_1m_tokens",
+          "component": "input",
+          "condition": {
+            "availabilityRules": [],
+            "contextClass": "short",
+            "defaultAvailabilityStatus": "available",
+            "effectiveFrom": "2026-11-09",
+            "effectiveUntil": null,
+            "priceAdjustments": [],
+            "processingMode": "batch",
+            "promptTokenThreshold": null,
+            "regionPolicy": "global",
+            "regionSelector": {
+              "dataResidencies": [
+                "global"
+              ],
+              "endpointGeographies": [
+                "global"
+              ],
+              "pricingGeography": "global_base"
+            },
+            "tierSelection": null
+          },
+          "currency": "USD",
+          "modality": "text",
+          "pricingId": "price:anthropic/claude-mythos-5-2:batch:short:current",
+          "sourceRefs": [
+            "source:anthropic:platform-claude-com-docs-en-about-claude-pricing"
+          ],
+          "unit": "per_1m_tokens",
+          "verificationStatus": "verified"
+        },
+        {
+          "amount": "20",
+          "calculationDefault": false,
+          "chargeId": "price:anthropic/claude-mythos-5-2:batch:short:current:output:text:per_1m_tokens",
+          "component": "output",
+          "condition": {
+            "availabilityRules": [],
+            "contextClass": "short",
+            "defaultAvailabilityStatus": "available",
+            "effectiveFrom": "2026-11-09",
+            "effectiveUntil": null,
+            "priceAdjustments": [],
+            "processingMode": "batch",
+            "promptTokenThreshold": null,
+            "regionPolicy": "global",
+            "regionSelector": {
+              "dataResidencies": [
+                "global"
+              ],
+              "endpointGeographies": [
+                "global"
+              ],
+              "pricingGeography": "global_base"
+            },
+            "tierSelection": null
+          },
+          "currency": "USD",
+          "modality": "text",
+          "pricingId": "price:anthropic/claude-mythos-5-2:batch:short:current",
+          "sourceRefs": [
+            "source:anthropic:platform-claude-com-docs-en-about-claude-pricing"
+          ],
+          "unit": "per_1m_tokens",
+          "verificationStatus": "verified"
+        },
+        {
+          "amount": "16",
+          "calculationDefault": false,
+          "chargeId": "price:anthropic/claude-mythos-5-2:fast:short:current:input:text:per_1m_tokens",
+          "component": "input",
+          "condition": {
+            "availabilityRules": [],
+            "contextClass": "short",
+            "defaultAvailabilityStatus": "available",
+            "effectiveFrom": "2026-11-09",
+            "effectiveUntil": null,
+            "priceAdjustments": [],
+            "processingMode": "fast",
+            "promptTokenThreshold": null,
+            "regionPolicy": "global",
+            "regionSelector": {
+              "dataResidencies": [
+                "global"
+              ],
+              "endpointGeographies": [
+                "global"
+              ],
+              "pricingGeography": "global_base"
+            },
+            "tierSelection": null
+          },
+          "currency": "USD",
+          "modality": "text",
+          "pricingId": "price:anthropic/claude-mythos-5-2:fast:short:current",
+          "sourceRefs": [
+            "source:anthropic:platform-claude-com-docs-en-about-claude-pricing"
+          ],
+          "unit": "per_1m_tokens",
+          "verificationStatus": "verified"
+        },
+        {
+          "amount": "80",
+          "calculationDefault": false,
+          "chargeId": "price:anthropic/claude-mythos-5-2:fast:short:current:output:text:per_1m_tokens",
+          "component": "output",
+          "condition": {
+            "availabilityRules": [],
+            "contextClass": "short",
+            "defaultAvailabilityStatus": "available",
+            "effectiveFrom": "2026-11-09",
+            "effectiveUntil": null,
+            "priceAdjustments": [],
+            "processingMode": "fast",
+            "promptTokenThreshold": null,
+            "regionPolicy": "global",
+            "regionSelector": {
+              "dataResidencies": [
+                "global"
+              ],
+              "endpointGeographies": [
+                "global"
+              ],
+              "pricingGeography": "global_base"
+            },
+            "tierSelection": null
+          },
+          "currency": "USD",
+          "modality": "text",
+          "pricingId": "price:anthropic/claude-mythos-5-2:fast:short:current",
+          "sourceRefs": [
+            "source:anthropic:platform-claude-com-docs-en-about-claude-pricing"
+          ],
+          "unit": "per_1m_tokens",
+          "verificationStatus": "verified"
+        },
+        {
+          "amount": "16",
+          "calculationDefault": true,
+          "chargeId": "price:anthropic/claude-mythos-5-2:standard:short:current:cache_write_1h:text:per_1m_tokens",
+          "component": "cache_write_1h",
+          "condition": {
+            "availabilityRules": [],
+            "contextClass": "short",
+            "defaultAvailabilityStatus": "available",
+            "effectiveFrom": "2026-11-09",
+            "effectiveUntil": null,
+            "priceAdjustments": [],
+            "processingMode": "standard",
+            "promptTokenThreshold": null,
+            "regionPolicy": "global",
+            "regionSelector": {
+              "dataResidencies": [
+                "global"
+              ],
+              "endpointGeographies": [
+                "global"
+              ],
+              "pricingGeography": "global_base"
+            },
+            "tierSelection": null
+          },
+          "currency": "USD",
+          "modality": "text",
+          "pricingId": "price:anthropic/claude-mythos-5-2:standard:short:current",
+          "sourceRefs": [
+            "source:anthropic:platform-claude-com-docs-en-about-claude-pricing"
+          ],
+          "unit": "per_1m_tokens",
+          "verificationStatus": "verified"
+        },
+        {
+          "amount": "10",
+          "calculationDefault": true,
+          "chargeId": "price:anthropic/claude-mythos-5-2:standard:short:current:cache_write_5m:text:per_1m_tokens",
+          "component": "cache_write_5m",
+          "condition": {
+            "availabilityRules": [],
+            "contextClass": "short",
+            "defaultAvailabilityStatus": "available",
+            "effectiveFrom": "2026-11-09",
+            "effectiveUntil": null,
+            "priceAdjustments": [],
+            "processingMode": "standard",
+            "promptTokenThreshold": null,
+            "regionPolicy": "global",
+            "regionSelector": {
+              "dataResidencies": [
+                "global"
+              ],
+              "endpointGeographies": [
+                "global"
+              ],
+              "pricingGeography": "global_base"
+            },
+            "tierSelection": null
+          },
+          "currency": "USD",
+          "modality": "text",
+          "pricingId": "price:anthropic/claude-mythos-5-2:standard:short:current",
+          "sourceRefs": [
+            "source:anthropic:platform-claude-com-docs-en-about-claude-pricing"
+          ],
+          "unit": "per_1m_tokens",
+          "verificationStatus": "verified"
+        },
+        {
+          "amount": "0.2",
+          "calculationDefault": true,
+          "chargeId": "price:anthropic/claude-mythos-5-2:standard:short:current:cached_input:text:per_1m_tokens",
+          "component": "cached_input",
+          "condition": {
+            "availabilityRules": [],
+            "contextClass": "short",
+            "defaultAvailabilityStatus": "available",
+            "effectiveFrom": "2026-11-09",
+            "effectiveUntil": null,
+            "priceAdjustments": [],
+            "processingMode": "standard",
+            "promptTokenThreshold": null,
+            "regionPolicy": "global",
+            "regionSelector": {
+              "dataResidencies": [
+                "global"
+              ],
+              "endpointGeographies": [
+                "global"
+              ],
+              "pricingGeography": "global_base"
+            },
+            "tierSelection": null
+          },
+          "currency": "USD",
+          "modality": "text",
+          "pricingId": "price:anthropic/claude-mythos-5-2:standard:short:current",
+          "sourceRefs": [
+            "source:anthropic:platform-claude-com-docs-en-about-claude-pricing"
+          ],
+          "unit": "per_1m_tokens",
+          "verificationStatus": "verified"
+        },
+        {
+          "amount": "8",
+          "calculationDefault": true,
+          "chargeId": "price:anthropic/claude-mythos-5-2:standard:short:current:input:text:per_1m_tokens",
+          "component": "input",
+          "condition": {
+            "availabilityRules": [],
+            "contextClass": "short",
+            "defaultAvailabilityStatus": "available",
+            "effectiveFrom": "2026-11-09",
+            "effectiveUntil": null,
+            "priceAdjustments": [],
+            "processingMode": "standard",
+            "promptTokenThreshold": null,
+            "regionPolicy": "global",
+            "regionSelector": {
+              "dataResidencies": [
+                "global"
+              ],
+              "endpointGeographies": [
+                "global"
+              ],
+              "pricingGeography": "global_base"
+            },
+            "tierSelection": null
+          },
+          "currency": "USD",
+          "modality": "text",
+          "pricingId": "price:anthropic/claude-mythos-5-2:standard:short:current",
+          "sourceRefs": [
+            "source:anthropic:platform-claude-com-docs-en-about-claude-pricing"
+          ],
+          "unit": "per_1m_tokens",
+          "verificationStatus": "verified"
+        },
+        {
+          "amount": "40",
+          "calculationDefault": true,
+          "chargeId": "price:anthropic/claude-mythos-5-2:standard:short:current:output:text:per_1m_tokens",
+          "component": "output",
+          "condition": {
+            "availabilityRules": [],
+            "contextClass": "short",
+            "defaultAvailabilityStatus": "available",
+            "effectiveFrom": "2026-11-09",
+            "effectiveUntil": null,
+            "priceAdjustments": [],
+            "processingMode": "standard",
+            "promptTokenThreshold": null,
+            "regionPolicy": "global",
+            "regionSelector": {
+              "dataResidencies": [
+                "global"
+              ],
+              "endpointGeographies": [
+                "global"
+              ],
+              "pricingGeography": "global_base"
+            },
+            "tierSelection": null
+          },
+          "currency": "USD",
+          "modality": "text",
+          "pricingId": "price:anthropic/claude-mythos-5-2:standard:short:current",
+          "sourceRefs": [
+            "source:anthropic:platform-claude-com-docs-en-about-claude-pricing"
+          ],
+          "unit": "per_1m_tokens",
+          "verificationStatus": "verified"
+        }
+      ],
+      "pricingSourceType": "canonical_verified_price",
+      "provider": "anthropic",
+      "publicExposure": "public",
+      "redirectTargetInternalId": null,
+      "releaseSourceRef": null,
+      "releaseSourceUrl": null,
+      "releaseStage": "stable",
+      "releasedAt": null,
+      "replacementInternalId": null,
+      "retirementDate": null,
+      "routingBehavior": "direct",
+      "routingDetails": {},
+      "selectedBatchPriceRecordId": "price:anthropic/claude-mythos-5-2:batch:short:current",
+      "selectedBillingPriceRecordId": "price:anthropic/claude-mythos-5-2:standard:short:current",
+      "selectedPriceEffectiveFrom": "2026-11-09",
+      "selectedPriceEffectiveUntil": null,
+      "selectedPriceRecordId": "price:anthropic/claude-mythos-5-2:standard:short:current",
+      "sourceRefs": [
+        "source:anthropic:platform-claude-com-docs-en-about-claude-pricing",
+        "source:anthropic:platform-claude-com-docs-en-models-mythos-5-2-overview",
+        "source:anthropic:platform-claude-com-docs-en-release-notes-overview"
+      ],
+      "sourceUrls": [
+        "https://platform.claude.com/docs/en/about-claude/pricing",
+        "https://platform.claude.com/docs/en/models/mythos-5-2/overview",
+        "https://platform.claude.com/docs/en/release-notes/overview"
+      ],
+      "status": "latest",
+      "verificationStatus": "verified",
+      "verifiedAt": "2026-11-10T04:45:27Z",
       "verifiedSourceRefs": [
         "source:anthropic:platform-claude-com-docs-en-about-claude-pricing"
       ]
@@ -10094,6 +11030,357 @@
     },
     {
       "accessAuthority": {
+        "baseRevision": "efb5c2ec71ad8adead5e6fb2a735534c141b58ca",
+        "factSha256": "96ff893e6c3e833719098f61e87a8d7fe9a3b3899bddb56ee72dbc52e92ae756",
+        "kind": "canonical",
+        "revisionScope": "base_revision_plus_fact_digest"
+      },
+      "accessCheckedAt": null,
+      "accessEvidence": [],
+      "accessStatus": "unknown",
+      "aliasTargetInternalId": null,
+      "availability": "active",
+      "batchInputPrice": null,
+      "batchOutputPrice": null,
+      "billingModelInternalId": null,
+      "bindingEvidence": [],
+      "bindingStatus": "unresolved",
+      "blockedFromDefaultReasons": [
+        "cloud_platform_listing"
+      ],
+      "cachedInputPrice": null,
+      "canonicalInternalId": "aws/bedrock-claude-fable-5-2",
+      "checkedAt": "2026-11-10T04:45:37Z",
+      "checkedSourceRefs": [
+        "source:aws:pricing-us-east-1-amazonaws-com-offers-v1-0-aws-AmazonBedrockFoundationModels-cu"
+      ],
+      "contextWindow": null,
+      "contextWindowStatus": "unknown_not_guessed",
+      "defaultPriceSelectionRule": [
+        "current_effective_utc",
+        "verified",
+        "standard",
+        "text",
+        "default_context_class"
+      ],
+      "defaultSafe": false,
+      "deprecationDate": null,
+      "governanceClass": "PROJECTED_IDENTITY",
+      "governanceDetails": "Cloud platform listing of another provider's model; compared on the Website, not a separate public model.",
+      "governanceReason": "cloud_platform_listing_deferred_from_public_dataset",
+      "governanceSourceCandidateIds": [
+        "aws/bedrock-claude-fable-5-2"
+      ],
+      "id": "bedrock-claude-fable-5-2",
+      "identityType": "canonical_model",
+      "inputPrice": null,
+      "lifecycleStatus": "active",
+      "model": "Claude Fable 5.2 on Amazon Bedrock",
+      "officialSourceUrl": "https://pricing.us-east-1.amazonaws.com/offers/v1.0/aws/AmazonBedrockFoundationModels/current/us-east-1/index.json",
+      "outputPrice": null,
+      "priceRecords": [
+        {
+          "calculationDefault": true,
+          "checkedAt": "2026-11-10T04:45:37Z",
+          "contextClass": "short",
+          "effectiveFrom": null,
+          "effectiveUntil": null,
+          "pricingId": "price:aws/bedrock-claude-fable-5-2:standard:short:current",
+          "pricingStatus": "current",
+          "processingMode": "standard",
+          "sourceRefs": [
+            "source:aws:pricing-us-east-1-amazonaws-com-offers-v1-0-aws-AmazonBedrockFoundationModels-cu"
+          ],
+          "verificationStatus": "verified",
+          "verifiedAt": "2026-11-10T04:45:37Z"
+        }
+      ],
+      "pricingComponents": [
+        {
+          "amount": "0.2",
+          "calculationDefault": true,
+          "chargeId": "price:aws/bedrock-claude-fable-5-2:standard:short:current:cache_read:text:per_1m_tokens",
+          "component": "cache_read",
+          "condition": {
+            "availabilityRules": [],
+            "contextClass": "short",
+            "defaultAvailabilityStatus": "available",
+            "effectiveFrom": null,
+            "effectiveUntil": null,
+            "priceAdjustments": [
+              {
+                "factor": "1.1",
+                "operation": "multiply",
+                "priceAdjustmentId": "regional-endpoint-uplift",
+                "selector": {
+                  "endpointGeographies": [
+                    "regional"
+                  ]
+                },
+                "sourceRefs": [
+                  "source:aws:pricing-us-east-1-amazonaws-com-offers-v1-0-aws-AmazonBedrockFoundationModels-cu"
+                ]
+              }
+            ],
+            "processingMode": "standard",
+            "promptTokenThreshold": null,
+            "regionPolicy": "global",
+            "regionSelector": {
+              "dataResidencies": [
+                "global"
+              ],
+              "endpointGeographies": [
+                "global",
+                "regional"
+              ],
+              "pricingGeography": "global_base"
+            },
+            "tierSelection": null
+          },
+          "currency": "USD",
+          "modality": "text",
+          "pricingId": "price:aws/bedrock-claude-fable-5-2:standard:short:current",
+          "sourceRefs": [
+            "source:aws:pricing-us-east-1-amazonaws-com-offers-v1-0-aws-AmazonBedrockFoundationModels-cu"
+          ],
+          "unit": "per_1m_tokens",
+          "verificationStatus": "verified"
+        },
+        {
+          "amount": "16",
+          "calculationDefault": true,
+          "chargeId": "price:aws/bedrock-claude-fable-5-2:standard:short:current:cache_write_1h:text:per_1m_tokens",
+          "component": "cache_write_1h",
+          "condition": {
+            "availabilityRules": [],
+            "contextClass": "short",
+            "defaultAvailabilityStatus": "available",
+            "effectiveFrom": null,
+            "effectiveUntil": null,
+            "priceAdjustments": [
+              {
+                "factor": "1.1",
+                "operation": "multiply",
+                "priceAdjustmentId": "regional-endpoint-uplift",
+                "selector": {
+                  "endpointGeographies": [
+                    "regional"
+                  ]
+                },
+                "sourceRefs": [
+                  "source:aws:pricing-us-east-1-amazonaws-com-offers-v1-0-aws-AmazonBedrockFoundationModels-cu"
+                ]
+              }
+            ],
+            "processingMode": "standard",
+            "promptTokenThreshold": null,
+            "regionPolicy": "global",
+            "regionSelector": {
+              "dataResidencies": [
+                "global"
+              ],
+              "endpointGeographies": [
+                "global",
+                "regional"
+              ],
+              "pricingGeography": "global_base"
+            },
+            "tierSelection": null
+          },
+          "currency": "USD",
+          "modality": "text",
+          "pricingId": "price:aws/bedrock-claude-fable-5-2:standard:short:current",
+          "sourceRefs": [
+            "source:aws:pricing-us-east-1-amazonaws-com-offers-v1-0-aws-AmazonBedrockFoundationModels-cu"
+          ],
+          "unit": "per_1m_tokens",
+          "verificationStatus": "verified"
+        },
+        {
+          "amount": "10",
+          "calculationDefault": true,
+          "chargeId": "price:aws/bedrock-claude-fable-5-2:standard:short:current:cache_write_5m:text:per_1m_tokens",
+          "component": "cache_write_5m",
+          "condition": {
+            "availabilityRules": [],
+            "contextClass": "short",
+            "defaultAvailabilityStatus": "available",
+            "effectiveFrom": null,
+            "effectiveUntil": null,
+            "priceAdjustments": [
+              {
+                "factor": "1.1",
+                "operation": "multiply",
+                "priceAdjustmentId": "regional-endpoint-uplift",
+                "selector": {
+                  "endpointGeographies": [
+                    "regional"
+                  ]
+                },
+                "sourceRefs": [
+                  "source:aws:pricing-us-east-1-amazonaws-com-offers-v1-0-aws-AmazonBedrockFoundationModels-cu"
+                ]
+              }
+            ],
+            "processingMode": "standard",
+            "promptTokenThreshold": null,
+            "regionPolicy": "global",
+            "regionSelector": {
+              "dataResidencies": [
+                "global"
+              ],
+              "endpointGeographies": [
+                "global",
+                "regional"
+              ],
+              "pricingGeography": "global_base"
+            },
+            "tierSelection": null
+          },
+          "currency": "USD",
+          "modality": "text",
+          "pricingId": "price:aws/bedrock-claude-fable-5-2:standard:short:current",
+          "sourceRefs": [
+            "source:aws:pricing-us-east-1-amazonaws-com-offers-v1-0-aws-AmazonBedrockFoundationModels-cu"
+          ],
+          "unit": "per_1m_tokens",
+          "verificationStatus": "verified"
+        },
+        {
+          "amount": "8",
+          "calculationDefault": true,
+          "chargeId": "price:aws/bedrock-claude-fable-5-2:standard:short:current:input:text:per_1m_tokens",
+          "component": "input",
+          "condition": {
+            "availabilityRules": [],
+            "contextClass": "short",
+            "defaultAvailabilityStatus": "available",
+            "effectiveFrom": null,
+            "effectiveUntil": null,
+            "priceAdjustments": [
+              {
+                "factor": "1.1",
+                "operation": "multiply",
+                "priceAdjustmentId": "regional-endpoint-uplift",
+                "selector": {
+                  "endpointGeographies": [
+                    "regional"
+                  ]
+                },
+                "sourceRefs": [
+                  "source:aws:pricing-us-east-1-amazonaws-com-offers-v1-0-aws-AmazonBedrockFoundationModels-cu"
+                ]
+              }
+            ],
+            "processingMode": "standard",
+            "promptTokenThreshold": null,
+            "regionPolicy": "global",
+            "regionSelector": {
+              "dataResidencies": [
+                "global"
+              ],
+              "endpointGeographies": [
+                "global",
+                "regional"
+              ],
+              "pricingGeography": "global_base"
+            },
+            "tierSelection": null
+          },
+          "currency": "USD",
+          "modality": "text",
+          "pricingId": "price:aws/bedrock-claude-fable-5-2:standard:short:current",
+          "sourceRefs": [
+            "source:aws:pricing-us-east-1-amazonaws-com-offers-v1-0-aws-AmazonBedrockFoundationModels-cu"
+          ],
+          "unit": "per_1m_tokens",
+          "verificationStatus": "verified"
+        },
+        {
+          "amount": "40",
+          "calculationDefault": true,
+          "chargeId": "price:aws/bedrock-claude-fable-5-2:standard:short:current:output:text:per_1m_tokens",
+          "component": "output",
+          "condition": {
+            "availabilityRules": [],
+            "contextClass": "short",
+            "defaultAvailabilityStatus": "available",
+            "effectiveFrom": null,
+            "effectiveUntil": null,
+            "priceAdjustments": [
+              {
+                "factor": "1.1",
+                "operation": "multiply",
+                "priceAdjustmentId": "regional-endpoint-uplift",
+                "selector": {
+                  "endpointGeographies": [
+                    "regional"
+                  ]
+                },
+                "sourceRefs": [
+                  "source:aws:pricing-us-east-1-amazonaws-com-offers-v1-0-aws-AmazonBedrockFoundationModels-cu"
+                ]
+              }
+            ],
+            "processingMode": "standard",
+            "promptTokenThreshold": null,
+            "regionPolicy": "global",
+            "regionSelector": {
+              "dataResidencies": [
+                "global"
+              ],
+              "endpointGeographies": [
+                "global",
+                "regional"
+              ],
+              "pricingGeography": "global_base"
+            },
+            "tierSelection": null
+          },
+          "currency": "USD",
+          "modality": "text",
+          "pricingId": "price:aws/bedrock-claude-fable-5-2:standard:short:current",
+          "sourceRefs": [
+            "source:aws:pricing-us-east-1-amazonaws-com-offers-v1-0-aws-AmazonBedrockFoundationModels-cu"
+          ],
+          "unit": "per_1m_tokens",
+          "verificationStatus": "verified"
+        }
+      ],
+      "pricingSourceType": "canonical_verified_structured_price",
+      "provider": "aws",
+      "publicExposure": "excluded",
+      "redirectTargetInternalId": null,
+      "releaseSourceRef": null,
+      "releaseSourceUrl": null,
+      "releaseStage": "stable",
+      "releasedAt": null,
+      "replacementInternalId": null,
+      "retirementDate": null,
+      "routingBehavior": "direct",
+      "routingDetails": {},
+      "selectedBatchPriceRecordId": null,
+      "selectedBillingPriceRecordId": "price:aws/bedrock-claude-fable-5-2:standard:short:current",
+      "selectedPriceEffectiveFrom": null,
+      "selectedPriceEffectiveUntil": null,
+      "selectedPriceRecordId": null,
+      "sourceRefs": [
+        "source:aws:aws-amazon-com-bedrock-pricing",
+        "source:aws:pricing-us-east-1-amazonaws-com-offers-v1-0-aws-AmazonBedrockFoundationModels-cu"
+      ],
+      "sourceUrls": [
+        "https://aws.amazon.com/bedrock/pricing/",
+        "https://pricing.us-east-1.amazonaws.com/offers/v1.0/aws/AmazonBedrockFoundationModels/current/us-east-1/index.json"
+      ],
+      "status": "latest",
+      "verificationStatus": "verified",
+      "verifiedAt": "2026-11-10T04:45:37Z",
+      "verifiedSourceRefs": [
+        "source:aws:pricing-us-east-1-amazonaws-com-offers-v1-0-aws-AmazonBedrockFoundationModels-cu"
+      ]
+    },
+    {
+      "accessAuthority": {
         "baseRevision": "eaa8b5880f4b4439dbf1c4736213bb7e702247d2",
         "factSha256": "96ff893e6c3e833719098f61e87a8d7fe9a3b3899bddb56ee72dbc52e92ae756",
         "kind": "canonical",
@@ -11617,6 +12904,357 @@
       "status": "latest",
       "verificationStatus": "verified",
       "verifiedAt": "2026-11-05T15:07:17Z",
+      "verifiedSourceRefs": [
+        "source:aws:pricing-us-east-1-amazonaws-com-offers-v1-0-aws-AmazonBedrockFoundationModels-cu"
+      ]
+    },
+    {
+      "accessAuthority": {
+        "baseRevision": "efb5c2ec71ad8adead5e6fb2a735534c141b58ca",
+        "factSha256": "96ff893e6c3e833719098f61e87a8d7fe9a3b3899bddb56ee72dbc52e92ae756",
+        "kind": "canonical",
+        "revisionScope": "base_revision_plus_fact_digest"
+      },
+      "accessCheckedAt": null,
+      "accessEvidence": [],
+      "accessStatus": "unknown",
+      "aliasTargetInternalId": null,
+      "availability": "active",
+      "batchInputPrice": null,
+      "batchOutputPrice": null,
+      "billingModelInternalId": null,
+      "bindingEvidence": [],
+      "bindingStatus": "unresolved",
+      "blockedFromDefaultReasons": [
+        "cloud_platform_listing"
+      ],
+      "cachedInputPrice": null,
+      "canonicalInternalId": "aws/bedrock-claude-mythos-5-2",
+      "checkedAt": "2026-11-10T04:45:39Z",
+      "checkedSourceRefs": [
+        "source:aws:pricing-us-east-1-amazonaws-com-offers-v1-0-aws-AmazonBedrockFoundationModels-cu"
+      ],
+      "contextWindow": null,
+      "contextWindowStatus": "unknown_not_guessed",
+      "defaultPriceSelectionRule": [
+        "current_effective_utc",
+        "verified",
+        "standard",
+        "text",
+        "default_context_class"
+      ],
+      "defaultSafe": false,
+      "deprecationDate": null,
+      "governanceClass": "PROJECTED_IDENTITY",
+      "governanceDetails": "Cloud platform listing of another provider's model; compared on the Website, not a separate public model.",
+      "governanceReason": "cloud_platform_listing_deferred_from_public_dataset",
+      "governanceSourceCandidateIds": [
+        "aws/bedrock-claude-mythos-5-2"
+      ],
+      "id": "bedrock-claude-mythos-5-2",
+      "identityType": "canonical_model",
+      "inputPrice": null,
+      "lifecycleStatus": "active",
+      "model": "Claude Mythos 5.2 on Amazon Bedrock",
+      "officialSourceUrl": "https://pricing.us-east-1.amazonaws.com/offers/v1.0/aws/AmazonBedrockFoundationModels/current/us-east-1/index.json",
+      "outputPrice": null,
+      "priceRecords": [
+        {
+          "calculationDefault": true,
+          "checkedAt": "2026-11-10T04:45:39Z",
+          "contextClass": "short",
+          "effectiveFrom": null,
+          "effectiveUntil": null,
+          "pricingId": "price:aws/bedrock-claude-mythos-5-2:standard:short:current",
+          "pricingStatus": "current",
+          "processingMode": "standard",
+          "sourceRefs": [
+            "source:aws:pricing-us-east-1-amazonaws-com-offers-v1-0-aws-AmazonBedrockFoundationModels-cu"
+          ],
+          "verificationStatus": "verified",
+          "verifiedAt": "2026-11-10T04:45:39Z"
+        }
+      ],
+      "pricingComponents": [
+        {
+          "amount": "0.2",
+          "calculationDefault": true,
+          "chargeId": "price:aws/bedrock-claude-mythos-5-2:standard:short:current:cache_read:text:per_1m_tokens",
+          "component": "cache_read",
+          "condition": {
+            "availabilityRules": [],
+            "contextClass": "short",
+            "defaultAvailabilityStatus": "available",
+            "effectiveFrom": null,
+            "effectiveUntil": null,
+            "priceAdjustments": [
+              {
+                "factor": "1.1",
+                "operation": "multiply",
+                "priceAdjustmentId": "regional-endpoint-uplift",
+                "selector": {
+                  "endpointGeographies": [
+                    "regional"
+                  ]
+                },
+                "sourceRefs": [
+                  "source:aws:pricing-us-east-1-amazonaws-com-offers-v1-0-aws-AmazonBedrockFoundationModels-cu"
+                ]
+              }
+            ],
+            "processingMode": "standard",
+            "promptTokenThreshold": null,
+            "regionPolicy": "global",
+            "regionSelector": {
+              "dataResidencies": [
+                "global"
+              ],
+              "endpointGeographies": [
+                "global",
+                "regional"
+              ],
+              "pricingGeography": "global_base"
+            },
+            "tierSelection": null
+          },
+          "currency": "USD",
+          "modality": "text",
+          "pricingId": "price:aws/bedrock-claude-mythos-5-2:standard:short:current",
+          "sourceRefs": [
+            "source:aws:pricing-us-east-1-amazonaws-com-offers-v1-0-aws-AmazonBedrockFoundationModels-cu"
+          ],
+          "unit": "per_1m_tokens",
+          "verificationStatus": "verified"
+        },
+        {
+          "amount": "16",
+          "calculationDefault": true,
+          "chargeId": "price:aws/bedrock-claude-mythos-5-2:standard:short:current:cache_write_1h:text:per_1m_tokens",
+          "component": "cache_write_1h",
+          "condition": {
+            "availabilityRules": [],
+            "contextClass": "short",
+            "defaultAvailabilityStatus": "available",
+            "effectiveFrom": null,
+            "effectiveUntil": null,
+            "priceAdjustments": [
+              {
+                "factor": "1.1",
+                "operation": "multiply",
+                "priceAdjustmentId": "regional-endpoint-uplift",
+                "selector": {
+                  "endpointGeographies": [
+                    "regional"
+                  ]
+                },
+                "sourceRefs": [
+                  "source:aws:pricing-us-east-1-amazonaws-com-offers-v1-0-aws-AmazonBedrockFoundationModels-cu"
+                ]
+              }
+            ],
+            "processingMode": "standard",
+            "promptTokenThreshold": null,
+            "regionPolicy": "global",
+            "regionSelector": {
+              "dataResidencies": [
+                "global"
+              ],
+              "endpointGeographies": [
+                "global",
+                "regional"
+              ],
+              "pricingGeography": "global_base"
+            },
+            "tierSelection": null
+          },
+          "currency": "USD",
+          "modality": "text",
+          "pricingId": "price:aws/bedrock-claude-mythos-5-2:standard:short:current",
+          "sourceRefs": [
+            "source:aws:pricing-us-east-1-amazonaws-com-offers-v1-0-aws-AmazonBedrockFoundationModels-cu"
+          ],
+          "unit": "per_1m_tokens",
+          "verificationStatus": "verified"
+        },
+        {
+          "amount": "10",
+          "calculationDefault": true,
+          "chargeId": "price:aws/bedrock-claude-mythos-5-2:standard:short:current:cache_write_5m:text:per_1m_tokens",
+          "component": "cache_write_5m",
+          "condition": {
+            "availabilityRules": [],
+            "contextClass": "short",
+            "defaultAvailabilityStatus": "available",
+            "effectiveFrom": null,
+            "effectiveUntil": null,
+            "priceAdjustments": [
+              {
+                "factor": "1.1",
+                "operation": "multiply",
+                "priceAdjustmentId": "regional-endpoint-uplift",
+                "selector": {
+                  "endpointGeographies": [
+                    "regional"
+                  ]
+                },
+                "sourceRefs": [
+                  "source:aws:pricing-us-east-1-amazonaws-com-offers-v1-0-aws-AmazonBedrockFoundationModels-cu"
+                ]
+              }
+            ],
+            "processingMode": "standard",
+            "promptTokenThreshold": null,
+            "regionPolicy": "global",
+            "regionSelector": {
+              "dataResidencies": [
+                "global"
+              ],
+              "endpointGeographies": [
+                "global",
+                "regional"
+              ],
+              "pricingGeography": "global_base"
+            },
+            "tierSelection": null
+          },
+          "currency": "USD",
+          "modality": "text",
+          "pricingId": "price:aws/bedrock-claude-mythos-5-2:standard:short:current",
+          "sourceRefs": [
+            "source:aws:pricing-us-east-1-amazonaws-com-offers-v1-0-aws-AmazonBedrockFoundationModels-cu"
+          ],
+          "unit": "per_1m_tokens",
+          "verificationStatus": "verified"
+        },
+        {
+          "amount": "8",
+          "calculationDefault": true,
+          "chargeId": "price:aws/bedrock-claude-mythos-5-2:standard:short:current:input:text:per_1m_tokens",
+          "component": "input",
+          "condition": {
+            "availabilityRules": [],
+            "contextClass": "short",
+            "defaultAvailabilityStatus": "available",
+            "effectiveFrom": null,
+            "effectiveUntil": null,
+            "priceAdjustments": [
+              {
+                "factor": "1.1",
+                "operation": "multiply",
+                "priceAdjustmentId": "regional-endpoint-uplift",
+                "selector": {
+                  "endpointGeographies": [
+                    "regional"
+                  ]
+                },
+                "sourceRefs": [
+                  "source:aws:pricing-us-east-1-amazonaws-com-offers-v1-0-aws-AmazonBedrockFoundationModels-cu"
+                ]
+              }
+            ],
+            "processingMode": "standard",
+            "promptTokenThreshold": null,
+            "regionPolicy": "global",
+            "regionSelector": {
+              "dataResidencies": [
+                "global"
+              ],
+              "endpointGeographies": [
+                "global",
+                "regional"
+              ],
+              "pricingGeography": "global_base"
+            },
+            "tierSelection": null
+          },
+          "currency": "USD",
+          "modality": "text",
+          "pricingId": "price:aws/bedrock-claude-mythos-5-2:standard:short:current",
+          "sourceRefs": [
+            "source:aws:pricing-us-east-1-amazonaws-com-offers-v1-0-aws-AmazonBedrockFoundationModels-cu"
+          ],
+          "unit": "per_1m_tokens",
+          "verificationStatus": "verified"
+        },
+        {
+          "amount": "40",
+          "calculationDefault": true,
+          "chargeId": "price:aws/bedrock-claude-mythos-5-2:standard:short:current:output:text:per_1m_tokens",
+          "component": "output",
+          "condition": {
+            "availabilityRules": [],
+            "contextClass": "short",
+            "defaultAvailabilityStatus": "available",
+            "effectiveFrom": null,
+            "effectiveUntil": null,
+            "priceAdjustments": [
+              {
+                "factor": "1.1",
+                "operation": "multiply",
+                "priceAdjustmentId": "regional-endpoint-uplift",
+                "selector": {
+                  "endpointGeographies": [
+                    "regional"
+                  ]
+                },
+                "sourceRefs": [
+                  "source:aws:pricing-us-east-1-amazonaws-com-offers-v1-0-aws-AmazonBedrockFoundationModels-cu"
+                ]
+              }
+            ],
+            "processingMode": "standard",
+            "promptTokenThreshold": null,
+            "regionPolicy": "global",
+            "regionSelector": {
+              "dataResidencies": [
+                "global"
+              ],
+              "endpointGeographies": [
+                "global",
+                "regional"
+              ],
+              "pricingGeography": "global_base"
+            },
+            "tierSelection": null
+          },
+          "currency": "USD",
+          "modality": "text",
+          "pricingId": "price:aws/bedrock-claude-mythos-5-2:standard:short:current",
+          "sourceRefs": [
+            "source:aws:pricing-us-east-1-amazonaws-com-offers-v1-0-aws-AmazonBedrockFoundationModels-cu"
+          ],
+          "unit": "per_1m_tokens",
+          "verificationStatus": "verified"
+        }
+      ],
+      "pricingSourceType": "canonical_verified_structured_price",
+      "provider": "aws",
+      "publicExposure": "excluded",
+      "redirectTargetInternalId": null,
+      "releaseSourceRef": null,
+      "releaseSourceUrl": null,
+      "releaseStage": "stable",
+      "releasedAt": null,
+      "replacementInternalId": null,
+      "retirementDate": null,
+      "routingBehavior": "direct",
+      "routingDetails": {},
+      "selectedBatchPriceRecordId": null,
+      "selectedBillingPriceRecordId": "price:aws/bedrock-claude-mythos-5-2:standard:short:current",
+      "selectedPriceEffectiveFrom": null,
+      "selectedPriceEffectiveUntil": null,
+      "selectedPriceRecordId": null,
+      "sourceRefs": [
+        "source:aws:aws-amazon-com-bedrock-pricing",
+        "source:aws:pricing-us-east-1-amazonaws-com-offers-v1-0-aws-AmazonBedrockFoundationModels-cu"
+      ],
+      "sourceUrls": [
+        "https://aws.amazon.com/bedrock/pricing/",
+        "https://pricing.us-east-1.amazonaws.com/offers/v1.0/aws/AmazonBedrockFoundationModels/current/us-east-1/index.json"
+      ],
+      "status": "latest",
+      "verificationStatus": "verified",
+      "verifiedAt": "2026-11-10T04:45:39Z",
       "verifiedSourceRefs": [
         "source:aws:pricing-us-east-1-amazonaws-com-offers-v1-0-aws-AmazonBedrockFoundationModels-cu"
       ]
@@ -20214,6 +21852,470 @@
       "status": "latest",
       "verificationStatus": "verified",
       "verifiedAt": "2026-11-05T15:06:12Z",
+      "verifiedSourceRefs": [
+        "source:google-cloud:cloud-google-com-model-garden-partner-models-pricing"
+      ]
+    },
+    {
+      "accessAuthority": {
+        "baseRevision": "efb5c2ec71ad8adead5e6fb2a735534c141b58ca",
+        "factSha256": "96ff893e6c3e833719098f61e87a8d7fe9a3b3899bddb56ee72dbc52e92ae756",
+        "kind": "canonical",
+        "revisionScope": "base_revision_plus_fact_digest"
+      },
+      "accessCheckedAt": null,
+      "accessEvidence": [],
+      "accessStatus": "unknown",
+      "aliasTargetInternalId": null,
+      "availability": "active",
+      "batchInputPrice": null,
+      "batchOutputPrice": null,
+      "billingModelInternalId": null,
+      "bindingEvidence": [],
+      "bindingStatus": "unresolved",
+      "blockedFromDefaultReasons": [
+        "cloud_platform_listing"
+      ],
+      "cachedInputPrice": null,
+      "canonicalInternalId": "google-cloud/vertex-claude-fable-5-2",
+      "checkedAt": "2026-11-10T04:45:42Z",
+      "checkedSourceRefs": [
+        "source:google-cloud:cloud-google-com-model-garden-partner-models-pricing"
+      ],
+      "contextWindow": null,
+      "contextWindowStatus": "unknown_not_guessed",
+      "defaultPriceSelectionRule": [
+        "current_effective_utc",
+        "verified",
+        "standard",
+        "text",
+        "default_context_class"
+      ],
+      "defaultSafe": false,
+      "deprecationDate": null,
+      "governanceClass": "PROJECTED_IDENTITY",
+      "governanceDetails": "Cloud platform listing of another provider's model; compared on the Website, not a separate public model.",
+      "governanceReason": "cloud_platform_listing_deferred_from_public_dataset",
+      "governanceSourceCandidateIds": [
+        "google-cloud/vertex-claude-fable-5-2"
+      ],
+      "id": "vertex-claude-fable-5-2",
+      "identityType": "canonical_model",
+      "inputPrice": null,
+      "lifecycleStatus": "active",
+      "model": "Claude Fable 5.2 on Google Vertex AI",
+      "officialSourceUrl": "https://cloud.google.com/model-garden/partner-models/pricing",
+      "outputPrice": null,
+      "priceRecords": [
+        {
+          "calculationDefault": false,
+          "checkedAt": "2026-11-10T04:45:42Z",
+          "contextClass": "short",
+          "effectiveFrom": null,
+          "effectiveUntil": null,
+          "pricingId": "price:google-cloud/vertex-claude-fable-5-2:batch:short:current",
+          "pricingStatus": "current",
+          "processingMode": "batch",
+          "sourceRefs": [
+            "source:google-cloud:cloud-google-com-model-garden-partner-models-pricing"
+          ],
+          "verificationStatus": "verified",
+          "verifiedAt": "2026-11-10T04:45:42Z"
+        },
+        {
+          "calculationDefault": true,
+          "checkedAt": "2026-11-10T04:45:42Z",
+          "contextClass": "short",
+          "effectiveFrom": null,
+          "effectiveUntil": null,
+          "pricingId": "price:google-cloud/vertex-claude-fable-5-2:standard:short:current",
+          "pricingStatus": "current",
+          "processingMode": "standard",
+          "sourceRefs": [
+            "source:google-cloud:cloud-google-com-model-garden-partner-models-pricing"
+          ],
+          "verificationStatus": "verified",
+          "verifiedAt": "2026-11-10T04:45:42Z"
+        }
+      ],
+      "pricingComponents": [
+        {
+          "amount": "4",
+          "calculationDefault": false,
+          "chargeId": "price:google-cloud/vertex-claude-fable-5-2:batch:short:current:input:text:per_1m_tokens",
+          "component": "input",
+          "condition": {
+            "availabilityRules": [],
+            "contextClass": "short",
+            "defaultAvailabilityStatus": "available",
+            "effectiveFrom": null,
+            "effectiveUntil": null,
+            "priceAdjustments": [
+              {
+                "factor": "1.1",
+                "operation": "multiply",
+                "priceAdjustmentId": "regional-endpoint-uplift",
+                "selector": {
+                  "endpointGeographies": [
+                    "regional"
+                  ]
+                },
+                "sourceRefs": [
+                  "source:google-cloud:cloud-google-com-model-garden-partner-models-pricing"
+                ]
+              }
+            ],
+            "processingMode": "batch",
+            "promptTokenThreshold": null,
+            "regionPolicy": "global",
+            "regionSelector": {
+              "dataResidencies": [
+                "global"
+              ],
+              "endpointGeographies": [
+                "global",
+                "regional"
+              ],
+              "pricingGeography": "global_base"
+            },
+            "tierSelection": null
+          },
+          "currency": "USD",
+          "modality": "text",
+          "pricingId": "price:google-cloud/vertex-claude-fable-5-2:batch:short:current",
+          "sourceRefs": [
+            "source:google-cloud:cloud-google-com-model-garden-partner-models-pricing"
+          ],
+          "unit": "per_1m_tokens",
+          "verificationStatus": "verified"
+        },
+        {
+          "amount": "20",
+          "calculationDefault": false,
+          "chargeId": "price:google-cloud/vertex-claude-fable-5-2:batch:short:current:output:text:per_1m_tokens",
+          "component": "output",
+          "condition": {
+            "availabilityRules": [],
+            "contextClass": "short",
+            "defaultAvailabilityStatus": "available",
+            "effectiveFrom": null,
+            "effectiveUntil": null,
+            "priceAdjustments": [
+              {
+                "factor": "1.1",
+                "operation": "multiply",
+                "priceAdjustmentId": "regional-endpoint-uplift",
+                "selector": {
+                  "endpointGeographies": [
+                    "regional"
+                  ]
+                },
+                "sourceRefs": [
+                  "source:google-cloud:cloud-google-com-model-garden-partner-models-pricing"
+                ]
+              }
+            ],
+            "processingMode": "batch",
+            "promptTokenThreshold": null,
+            "regionPolicy": "global",
+            "regionSelector": {
+              "dataResidencies": [
+                "global"
+              ],
+              "endpointGeographies": [
+                "global",
+                "regional"
+              ],
+              "pricingGeography": "global_base"
+            },
+            "tierSelection": null
+          },
+          "currency": "USD",
+          "modality": "text",
+          "pricingId": "price:google-cloud/vertex-claude-fable-5-2:batch:short:current",
+          "sourceRefs": [
+            "source:google-cloud:cloud-google-com-model-garden-partner-models-pricing"
+          ],
+          "unit": "per_1m_tokens",
+          "verificationStatus": "verified"
+        },
+        {
+          "amount": "0.2",
+          "calculationDefault": true,
+          "chargeId": "price:google-cloud/vertex-claude-fable-5-2:standard:short:current:cache_read:text:per_1m_tokens",
+          "component": "cache_read",
+          "condition": {
+            "availabilityRules": [],
+            "contextClass": "short",
+            "defaultAvailabilityStatus": "available",
+            "effectiveFrom": null,
+            "effectiveUntil": null,
+            "priceAdjustments": [
+              {
+                "factor": "1.1",
+                "operation": "multiply",
+                "priceAdjustmentId": "regional-endpoint-uplift",
+                "selector": {
+                  "endpointGeographies": [
+                    "regional"
+                  ]
+                },
+                "sourceRefs": [
+                  "source:google-cloud:cloud-google-com-model-garden-partner-models-pricing"
+                ]
+              }
+            ],
+            "processingMode": "standard",
+            "promptTokenThreshold": null,
+            "regionPolicy": "global",
+            "regionSelector": {
+              "dataResidencies": [
+                "global"
+              ],
+              "endpointGeographies": [
+                "global",
+                "regional"
+              ],
+              "pricingGeography": "global_base"
+            },
+            "tierSelection": null
+          },
+          "currency": "USD",
+          "modality": "text",
+          "pricingId": "price:google-cloud/vertex-claude-fable-5-2:standard:short:current",
+          "sourceRefs": [
+            "source:google-cloud:cloud-google-com-model-garden-partner-models-pricing"
+          ],
+          "unit": "per_1m_tokens",
+          "verificationStatus": "verified"
+        },
+        {
+          "amount": "16",
+          "calculationDefault": true,
+          "chargeId": "price:google-cloud/vertex-claude-fable-5-2:standard:short:current:cache_write_1h:text:per_1m_tokens",
+          "component": "cache_write_1h",
+          "condition": {
+            "availabilityRules": [],
+            "contextClass": "short",
+            "defaultAvailabilityStatus": "available",
+            "effectiveFrom": null,
+            "effectiveUntil": null,
+            "priceAdjustments": [
+              {
+                "factor": "1.1",
+                "operation": "multiply",
+                "priceAdjustmentId": "regional-endpoint-uplift",
+                "selector": {
+                  "endpointGeographies": [
+                    "regional"
+                  ]
+                },
+                "sourceRefs": [
+                  "source:google-cloud:cloud-google-com-model-garden-partner-models-pricing"
+                ]
+              }
+            ],
+            "processingMode": "standard",
+            "promptTokenThreshold": null,
+            "regionPolicy": "global",
+            "regionSelector": {
+              "dataResidencies": [
+                "global"
+              ],
+              "endpointGeographies": [
+                "global",
+                "regional"
+              ],
+              "pricingGeography": "global_base"
+            },
+            "tierSelection": null
+          },
+          "currency": "USD",
+          "modality": "text",
+          "pricingId": "price:google-cloud/vertex-claude-fable-5-2:standard:short:current",
+          "sourceRefs": [
+            "source:google-cloud:cloud-google-com-model-garden-partner-models-pricing"
+          ],
+          "unit": "per_1m_tokens",
+          "verificationStatus": "verified"
+        },
+        {
+          "amount": "10",
+          "calculationDefault": true,
+          "chargeId": "price:google-cloud/vertex-claude-fable-5-2:standard:short:current:cache_write_5m:text:per_1m_tokens",
+          "component": "cache_write_5m",
+          "condition": {
+            "availabilityRules": [],
+            "contextClass": "short",
+            "defaultAvailabilityStatus": "available",
+            "effectiveFrom": null,
+            "effectiveUntil": null,
+            "priceAdjustments": [
+              {
+                "factor": "1.1",
+                "operation": "multiply",
+                "priceAdjustmentId": "regional-endpoint-uplift",
+                "selector": {
+                  "endpointGeographies": [
+                    "regional"
+                  ]
+                },
+                "sourceRefs": [
+                  "source:google-cloud:cloud-google-com-model-garden-partner-models-pricing"
+                ]
+              }
+            ],
+            "processingMode": "standard",
+            "promptTokenThreshold": null,
+            "regionPolicy": "global",
+            "regionSelector": {
+              "dataResidencies": [
+                "global"
+              ],
+              "endpointGeographies": [
+                "global",
+                "regional"
+              ],
+              "pricingGeography": "global_base"
+            },
+            "tierSelection": null
+          },
+          "currency": "USD",
+          "modality": "text",
+          "pricingId": "price:google-cloud/vertex-claude-fable-5-2:standard:short:current",
+          "sourceRefs": [
+            "source:google-cloud:cloud-google-com-model-garden-partner-models-pricing"
+          ],
+          "unit": "per_1m_tokens",
+          "verificationStatus": "verified"
+        },
+        {
+          "amount": "8",
+          "calculationDefault": true,
+          "chargeId": "price:google-cloud/vertex-claude-fable-5-2:standard:short:current:input:text:per_1m_tokens",
+          "component": "input",
+          "condition": {
+            "availabilityRules": [],
+            "contextClass": "short",
+            "defaultAvailabilityStatus": "available",
+            "effectiveFrom": null,
+            "effectiveUntil": null,
+            "priceAdjustments": [
+              {
+                "factor": "1.1",
+                "operation": "multiply",
+                "priceAdjustmentId": "regional-endpoint-uplift",
+                "selector": {
+                  "endpointGeographies": [
+                    "regional"
+                  ]
+                },
+                "sourceRefs": [
+                  "source:google-cloud:cloud-google-com-model-garden-partner-models-pricing"
+                ]
+              }
+            ],
+            "processingMode": "standard",
+            "promptTokenThreshold": null,
+            "regionPolicy": "global",
+            "regionSelector": {
+              "dataResidencies": [
+                "global"
+              ],
+              "endpointGeographies": [
+                "global",
+                "regional"
+              ],
+              "pricingGeography": "global_base"
+            },
+            "tierSelection": null
+          },
+          "currency": "USD",
+          "modality": "text",
+          "pricingId": "price:google-cloud/vertex-claude-fable-5-2:standard:short:current",
+          "sourceRefs": [
+            "source:google-cloud:cloud-google-com-model-garden-partner-models-pricing"
+          ],
+          "unit": "per_1m_tokens",
+          "verificationStatus": "verified"
+        },
+        {
+          "amount": "40",
+          "calculationDefault": true,
+          "chargeId": "price:google-cloud/vertex-claude-fable-5-2:standard:short:current:output:text:per_1m_tokens",
+          "component": "output",
+          "condition": {
+            "availabilityRules": [],
+            "contextClass": "short",
+            "defaultAvailabilityStatus": "available",
+            "effectiveFrom": null,
+            "effectiveUntil": null,
+            "priceAdjustments": [
+              {
+                "factor": "1.1",
+                "operation": "multiply",
+                "priceAdjustmentId": "regional-endpoint-uplift",
+                "selector": {
+                  "endpointGeographies": [
+                    "regional"
+                  ]
+                },
+                "sourceRefs": [
+                  "source:google-cloud:cloud-google-com-model-garden-partner-models-pricing"
+                ]
+              }
+            ],
+            "processingMode": "standard",
+            "promptTokenThreshold": null,
+            "regionPolicy": "global",
+            "regionSelector": {
+              "dataResidencies": [
+                "global"
+              ],
+              "endpointGeographies": [
+                "global",
+                "regional"
+              ],
+              "pricingGeography": "global_base"
+            },
+            "tierSelection": null
+          },
+          "currency": "USD",
+          "modality": "text",
+          "pricingId": "price:google-cloud/vertex-claude-fable-5-2:standard:short:current",
+          "sourceRefs": [
+            "source:google-cloud:cloud-google-com-model-garden-partner-models-pricing"
+          ],
+          "unit": "per_1m_tokens",
+          "verificationStatus": "verified"
+        }
+      ],
+      "pricingSourceType": "canonical_verified_structured_price",
+      "provider": "google-cloud",
+      "publicExposure": "excluded",
+      "redirectTargetInternalId": null,
+      "releaseSourceRef": null,
+      "releaseSourceUrl": null,
+      "releaseStage": "stable",
+      "releasedAt": null,
+      "replacementInternalId": null,
+      "retirementDate": null,
+      "routingBehavior": "direct",
+      "routingDetails": {},
+      "selectedBatchPriceRecordId": null,
+      "selectedBillingPriceRecordId": "price:google-cloud/vertex-claude-fable-5-2:standard:short:current",
+      "selectedPriceEffectiveFrom": null,
+      "selectedPriceEffectiveUntil": null,
+      "selectedPriceRecordId": null,
+      "sourceRefs": [
+        "source:google-cloud:cloud-google-com-model-garden-partner-models-pricing"
+      ],
+      "sourceUrls": [
+        "https://cloud.google.com/model-garden/partner-models/pricing"
+      ],
+      "status": "latest",
+      "verificationStatus": "verified",
+      "verifiedAt": "2026-11-10T04:45:42Z",
       "verifiedSourceRefs": [
         "source:google-cloud:cloud-google-com-model-garden-partner-models-pricing"
       ]
