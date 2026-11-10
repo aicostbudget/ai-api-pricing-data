@@ -181,7 +181,9 @@
     "anthropic/claude-mythos-5-2": "cd6f01c185a1866e96e8f428d89a69764baa0eb3058260bf5b4b4ad6c73206d7",
     "aws/bedrock-claude-fable-5-2": "389ff00990d897814ec13e5cbab6b2758ab6b002c90e9e7c077391a874d45800",
     "aws/bedrock-claude-mythos-5-2": "32ded3855e44f93550451422c4cf3eb8261ff25458d68ac0bafe946a3267a0ac",
-    "google-cloud/vertex-claude-fable-5-2": "208570f986a83b095a2cdbed9d36bcf5e3c5bc6178899acb43e0c308cc2cd0e3"
+    "google-cloud/vertex-claude-fable-5-2": "208570f986a83b095a2cdbed9d36bcf5e3c5bc6178899acb43e0c308cc2cd0e3",
+    "amazon-nova/nova-2-5-sonic": "5ff6c175eb1da2309b77d233d0cf1579c2a84304978628eb00b9da5f06e82107",
+    "amazon-nova/nova-2-sonic": "273e7162c87df1be4f7c5c6dc58b1322d7faa3ebc13461a84834eeb50e7f452f"
   },
   "projection": {
     "anthropic/claude-haiku-5-5": "af29b32c2ccf35ff1c0444c94ef97aeb28fa3a230f6207e8ec41b673f4efb078",
@@ -369,7 +371,9 @@
     "anthropic/claude-mythos-5-2": "5f7a8bc5a874910f88ccaeb22ae11ead1c96375772b9686846af2a14eec39441",
     "aws/bedrock-claude-fable-5-2": "3713248859d01c4e874d25c960f58db6acc0d61bc84bd9ac5a7d4339ac8ccd67",
     "aws/bedrock-claude-mythos-5-2": "e663322bf389068bfb8327949ea62c7624a4beb5d24268a05758ade4f6c60f44",
-    "google-cloud/vertex-claude-fable-5-2": "e81b55c83146af89ee58e6160be771e2935f762400af897e2dc08287801b50f3"
+    "google-cloud/vertex-claude-fable-5-2": "e81b55c83146af89ee58e6160be771e2935f762400af897e2dc08287801b50f3",
+    "amazon-nova/nova-2-5-sonic": "289c0a27040a93c7b30a0681cfa991b5e7225e73fd22f5695e15a36a601856ff",
+    "amazon-nova/nova-2-sonic": "48fb38a60b25ad44fd585fc6386dd319e4c2b4c4574b2f08ee7f55898353fbf2"
   },
   "evidence_report": "official-pricing-repair-report.md",
   "events_sha256": "a04e3fbb1d4cb049f2d9cfcadfca3b6383fc1bcdc3df6ca0ee6cfddc38e706ed",
@@ -1092,5 +1096,46 @@
       }
     },
     "rationale": "Release 2026-11-10 adds Claude Fable 5.2 and Claude Mythos 5.2 (both released 2026-11-09 at $8 input / $40 output per 1M tokens; Mythos 5.2 is restricted to verified organizations); the generator adds one model_added event per model, placed by effective date. The Bedrock and Vertex listings are hosted_model records and produce no events."
+  },
+  "nova_sonic_models_added_extension": {
+    "identities": [
+      "amazon-nova/nova-2-5-sonic",
+      "amazon-nova/nova-2-sonic"
+    ],
+    "base_release": "claude_fable_mythos_5_2_models_added_extension",
+    "base_event_count": 85,
+    "appended_event_count": 2,
+    "full_event_count": 87,
+    "full_events_sha256": "1930a472fefc0cb082c94132ed6775d7906a2722cd8319f77b814e3d823ae051",
+    "appended_events_sha256": "4450e5b2727c9ba2c6015c380071c3f1885121c34b51e344bb1680a225ac1248",
+    "appended_event_ids": [
+      "amazon-nova:nova-2-5-sonic:model_added:3db5eac559b6",
+      "amazon-nova:nova-2-sonic:model_added:ac12fab75303"
+    ],
+    "appended_dedupe_keys": [
+      "sha256:3db5eac559b6b80553fda11c9dc840ac89a6c938986063e9379668fd6014f0fb",
+      "sha256:ac12fab75303959eb7ff28ae38880a4b910c36dd909e022c7e3fc5f0f5a75103"
+    ],
+    "effective_dates": {
+      "amazon-nova/nova-2-5-sonic": "2026-10-05",
+      "amazon-nova/nova-2-sonic": "2025-12-02"
+    },
+    "new_statuses": {
+      "amazon-nova/nova-2-5-sonic": "active",
+      "amazon-nova/nova-2-sonic": "active"
+    },
+    "new_prices": {
+      "amazon-nova/nova-2-5-sonic": {
+        "cached_input": null,
+        "input": 0.33,
+        "output": 2.75
+      },
+      "amazon-nova/nova-2-sonic": {
+        "cached_input": null,
+        "input": 0.33,
+        "output": 2.75
+      }
+    },
+    "rationale": "Release 2026-11-10-3 adds Amazon Nova 2.5 Sonic (launched 2026-10-05) and Nova 2 Sonic (launched 2025-12-02), speech-to-speech models on Amazon Bedrock at the us-east-1 rates of $3 speech input / $12 speech output / $0.33 text input / $2.75 text output per 1M tokens; the generator adds one model_added event per model, placed by effective date."
   }
 }
