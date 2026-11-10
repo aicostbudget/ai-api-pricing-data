@@ -244,7 +244,7 @@ class P0P1PricingUpdateTests(unittest.TestCase):
         projection_by_id = {row["id"]: row for row in self.v2_projection}
 
         for model_id, expected_availability, expected_status in (
-            ("claude-fable-5-1", "Standard", "latest"),
+            ("claude-fable-5-1", "Standard", "active"),
             ("claude-mythos-5-1", "Limited availability", "limited"),
         ):
             with self.subTest(model=model_id):
@@ -279,12 +279,14 @@ class P0P1PricingUpdateTests(unittest.TestCase):
 
         self.assertEqual(projection_by_id["claude-fable-5"]["status"], "active")
         self.assertNotIn(projection_by_id["claude-fable-5"]["status"], {"latest", "legacy", "deprecated", "retired"})
-        self.assertEqual(projection_by_id["claude-fable-5-1"]["status"], "latest")
+        # Since release 2026-11-10 Claude Fable 5.2 is the only Latest Fable model.
+        self.assertEqual(projection_by_id["claude-fable-5-1"]["status"], "active")
+        self.assertEqual(projection_by_id["claude-fable-5-2"]["status"], "latest")
         self.assertEqual(
             sum(
                 row["status"] == "latest"
                 for row in self.v2_projection
-                if row["provider"] == "anthropic" and row["id"] in {"claude-fable-5", "claude-fable-5-1"}
+                if row["provider"] == "anthropic" and row["id"] in {"claude-fable-5", "claude-fable-5-1", "claude-fable-5-2"}
             ),
             1,
         )
