@@ -26,6 +26,7 @@ OMNI_EXTENSION=SCOPE['gemini_omni_models_added_extension']
 MINIMAX_EXTENSION=SCOPE['minimax_models_added_extension']
 FABLE_52_EXTENSION=SCOPE['claude_fable_mythos_5_2_models_added_extension']
 NOVA_SONIC_EXTENSION=SCOPE['nova_sonic_models_added_extension']
+GEMINI_1113_EXTENSION=SCOPE['gemini_2026_11_13_event_extension']
 EVENTS_PATH='data/price-change-events/events.jsonl'
 DEEPSEEK_METADATA_APPROVAL={
  'identity':'deepseek/deepseek-flash',
@@ -489,6 +490,20 @@ def verify_nova_sonic_release_event_bytes(raw):
   assert row['date_basis']=='provider_announced' and row['effective_from']==ext['effective_dates'][identity],identity
   assert row['new_prices']==ext['new_prices'][identity],identity
  return normalized,lines,rows
+def verify_gemini_1113_release_event_bytes(raw):
+ normalized,lines,rows=event_lines_rows(raw)
+ ext=GEMINI_1113_EXTENSION
+ assert ext['base_release']=='nova_sonic_models_added_extension'
+ assert hashlib.sha256(normalized).hexdigest()==ext['full_events_sha256'],'unapproved Gemini release event content'
+ assert len(rows)==ext['full_event_count']==ext['base_event_count']+ext['appended_event_count']
+ ids=set(ext['appended_event_ids'])
+ appended=[(line,row) for line,row in zip(lines,rows) if row['event_id'] in ids]
+ _,_,base=verify_nova_sonic_release_event_bytes(b''.join(line for line,row in zip(lines,rows) if row['event_id'] not in ids))
+ assert len(base)==ext['base_event_count']
+ assert [row['event_id'] for _,row in appended]==ext['appended_event_ids']
+ assert [row['dedupe_key'] for _,row in appended]==ext['appended_dedupe_keys']
+ assert hashlib.sha256(b''.join(line for line,_ in appended)).hexdigest()==ext['appended_events_sha256']
+ return normalized,lines,rows
 def verify_checkpoint(checkpoint=CHECKPOINT,current_raw=None):
  assert re.fullmatch(r'[0-9a-f]{40}',checkpoint['source_commit']),'invalid checkpoint source commit'
  assert re.fullmatch(r'[0-9a-f]{40}',checkpoint['parent_commit']),'invalid checkpoint parent commit'
@@ -644,7 +659,7 @@ class ClosureScopeTests(unittest.TestCase):
   with self.assertRaisesRegex(AssertionError,'unapproved change: '+mistral['identity']):verify_rows(old,mutated,approved)
  def test_all_current_events_exact_and_correction_is_not_provider_event(self):
   verify_checkpoint(CHECKPOINT)
-  _,_,events=verify_nova_sonic_release_event_bytes((ROOT/EVENTS_PATH).read_bytes())
+  _,_,events=verify_gemini_1113_release_event_bytes((ROOT/EVENTS_PATH).read_bytes())
   self.assertFalse(any(e['model_id']=='gemini-2.5-flash-image' and e['detected_at']=='2026-10-09' for e in events))
  def test_event_digest_pinned_to_approved_commit(self):
   self.assertEqual(SCOPE['events_source_commit'],'1c7ec3eca94f0bfdc99b7ae18616bdce38be8833')
@@ -654,8 +669,10 @@ class ClosureScopeTests(unittest.TestCase):
  def test_e1_checkpoint_identity_scope_and_increment(self):
   self.assertEqual(len(SCOPE['event_checkpoints']),1);blob,rows=verify_checkpoint();self.assertEqual(len(blob.splitlines()),37);self.assertEqual(len(rows),37)
  def test_argon_release_is_the_38_event_base_of_the_mistral_release(self):
-  current=(ROOT/EVENTS_PATH).read_bytes();normalized,lines,rows=verify_nova_sonic_release_event_bytes(current)
-  self.assertEqual(normalized,normalize_event_newlines(current));self.assertEqual(len(rows),87)
+  current=(ROOT/EVENTS_PATH).read_bytes();normalized,lines,rows=verify_gemini_1113_release_event_bytes(current)
+  self.assertEqual(normalized,normalize_event_newlines(current));self.assertEqual(len(rows),90)
+  gemini_ids=set(GEMINI_1113_EXTENSION['appended_event_ids']);nova_release=b''.join(line for line,row in zip(lines,rows) if row['event_id'] not in gemini_ids)
+  normalized,lines,rows=verify_nova_sonic_release_event_bytes(nova_release);self.assertEqual(len(rows),87)
   nova_sonic_ids=set(NOVA_SONIC_EXTENSION['appended_event_ids']);fable_52_release=b''.join(line for line,row in zip(lines,rows) if row['event_id'] not in nova_sonic_ids)
   normalized,lines,rows=verify_fable_52_release_event_bytes(fable_52_release);self.assertEqual(len(rows),85)
   fable_52_ids=set(FABLE_52_EXTENSION['appended_event_ids']);minimax_release=b''.join(line for line,row in zip(lines,rows) if row['event_id'] not in fable_52_ids)
@@ -693,7 +710,7 @@ class ClosureScopeTests(unittest.TestCase):
  def test_event_lf_and_crlf_have_same_approved_digest(self):
   historical=approved_event_bytes();self.assertEqual(verify_event_bytes(historical),historical);self.assertEqual(verify_event_bytes(historical.replace(b'\n',b'\r\n')),historical)
   current=checkpoint_event_bytes();self.assertEqual(verify_current_event_bytes(current)[0],current);self.assertEqual(verify_current_event_bytes(current.replace(b'\n',b'\r\n'))[0],current)
-  release=normalize_event_newlines((ROOT/EVENTS_PATH).read_bytes());self.assertEqual(verify_nova_sonic_release_event_bytes(release)[0],release);self.assertEqual(verify_nova_sonic_release_event_bytes(release.replace(b'\n',b'\r\n'))[0],release)
+  release=normalize_event_newlines((ROOT/EVENTS_PATH).read_bytes());self.assertEqual(verify_gemini_1113_release_event_bytes(release)[0],release);self.assertEqual(verify_gemini_1113_release_event_bytes(release.replace(b'\n',b'\r\n'))[0],release)
  def test_event_field_mutations_rejected(self):
   historical=approved_event_bytes();rows=[json.loads(line) for line in historical.splitlines()];self.assertEqual(encode(rows),historical)
   def fields(value,path=()):

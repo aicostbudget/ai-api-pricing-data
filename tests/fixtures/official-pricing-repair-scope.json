@@ -183,7 +183,9 @@
     "aws/bedrock-claude-mythos-5-2": "32ded3855e44f93550451422c4cf3eb8261ff25458d68ac0bafe946a3267a0ac",
     "google-cloud/vertex-claude-fable-5-2": "208570f986a83b095a2cdbed9d36bcf5e3c5bc6178899acb43e0c308cc2cd0e3",
     "amazon-nova/nova-2-5-sonic": "5ff6c175eb1da2309b77d233d0cf1579c2a84304978628eb00b9da5f06e82107",
-    "amazon-nova/nova-2-sonic": "273e7162c87df1be4f7c5c6dc58b1322d7faa3ebc13461a84834eeb50e7f452f"
+    "amazon-nova/nova-2-sonic": "273e7162c87df1be4f7c5c6dc58b1322d7faa3ebc13461a84834eeb50e7f452f",
+    "google-gemini/gemini-4-carbon": "852ac90ccc18acd0e47a4b820c06e4671615bb1696aef5be80915fd48d9d1098",
+    "google-gemini/gemini-4-hydrogen": "e6200ec84d8c23eaebe79390ad45134469144ebd3ab90e1f4af44adbb52a98d0"
   },
   "projection": {
     "anthropic/claude-haiku-5-5": "af29b32c2ccf35ff1c0444c94ef97aeb28fa3a230f6207e8ec41b673f4efb078",
@@ -373,7 +375,9 @@
     "aws/bedrock-claude-mythos-5-2": "e663322bf389068bfb8327949ea62c7624a4beb5d24268a05758ade4f6c60f44",
     "google-cloud/vertex-claude-fable-5-2": "e81b55c83146af89ee58e6160be771e2935f762400af897e2dc08287801b50f3",
     "amazon-nova/nova-2-5-sonic": "289c0a27040a93c7b30a0681cfa991b5e7225e73fd22f5695e15a36a601856ff",
-    "amazon-nova/nova-2-sonic": "48fb38a60b25ad44fd585fc6386dd319e4c2b4c4574b2f08ee7f55898353fbf2"
+    "amazon-nova/nova-2-sonic": "48fb38a60b25ad44fd585fc6386dd319e4c2b4c4574b2f08ee7f55898353fbf2",
+    "google-gemini/gemini-4-carbon": "42c40fb31b33582da7ce81d9d238f83065f6d8102be955228ef02bf0e112fa96",
+    "google-gemini/gemini-4-hydrogen": "c527d2cf9d3f933cb6a51a31360f3eefe59c142c08b6daa1d8761b3693aefeb6"
   },
   "evidence_report": "official-pricing-repair-report.md",
   "events_sha256": "a04e3fbb1d4cb049f2d9cfcadfca3b6383fc1bcdc3df6ca0ee6cfddc38e706ed",
@@ -1137,5 +1141,24 @@
       }
     },
     "rationale": "Release 2026-11-10-3 adds Amazon Nova 2.5 Sonic (launched 2026-10-05) and Nova 2 Sonic (launched 2025-12-02), speech-to-speech models on Amazon Bedrock at the us-east-1 rates of $3 speech input / $12 speech output / $0.33 text input / $2.75 text output per 1M tokens; the generator adds one model_added event per model, placed by effective date."
+  },
+  "gemini_2026_11_13_event_extension": {
+    "base_release": "nova_sonic_models_added_extension",
+    "base_event_count": 87,
+    "appended_event_count": 3,
+    "full_event_count": 90,
+    "full_events_sha256": "87c6736c2d8d74e90f68f1c5f74dde1015d8c7196e76dfd6fad0af8ef2efabed",
+    "appended_events_sha256": "54495afde69d09f58f65c2bbb0e8fd62b4c707a35d222fd697a2b72686b70edc",
+    "appended_event_ids": [
+      "google-gemini:gemini-4-carbon:model_added:2b4cc6b2b74a",
+      "google-gemini:gemini-4-carbon:scheduled_price_change:48a0edc0a442",
+      "google-gemini:gemini-4-hydrogen:model_added:851aa096c260"
+    ],
+    "appended_dedupe_keys": [
+      "sha256:2b4cc6b2b74a7fd8004641f6f6b3f74f487f2d86965fd2ad1bc47280c9faf77f",
+      "sha256:48a0edc0a4421650cae5412df79d48ba34428d964faf360b4280b490bc70535b",
+      "sha256:851aa096c260d911cbbe88f44d08766cf86bcb988b1b5d11337a045385c5e396"
+    ],
+    "rationale": "Gemini 4 Carbon and Hydrogen launches and the announced 2026-12-01 Carbon standard price change."
   }
 }
