@@ -16949,6 +16949,196 @@
   },
   {
     "provider_id": "meta",
+    "model_id": "muse-ember-1.0",
+    "display_name": "Muse Ember 1.0",
+    "model_family": "Muse",
+    "model_category": "multimodal reasoning",
+    "status": "active",
+    "context_window_tokens": 1048576,
+    "project_context_window": true,
+    "pricing": {
+      "currency": "USD",
+      "unit": "1M tokens",
+      "input": 0.1,
+      "output": 0.5,
+      "cached_input": 0.004,
+      "cache_write": null,
+      "cache_write_1h": null,
+      "batch_input": null,
+      "batch_output": null
+    },
+    "price_records": [
+      {
+        "id": "price:meta/muse-ember-1.0:standard:short:current",
+        "processing_mode": "standard",
+        "context_class": "short",
+        "pricing_status": "current",
+        "calculation_default": true,
+        "prompt_token_threshold": 200000,
+        "effective_from": "2026-11-09",
+        "effective_until": null,
+        "currency": "USD",
+        "charges": [
+          {
+            "id": "price:meta/muse-ember-1.0:standard:short:current:input:text:per_1m_tokens",
+            "component": "input",
+            "modality": "text",
+            "unit": "per_1m_tokens",
+            "amount": "0.10"
+          },
+          {
+            "id": "price:meta/muse-ember-1.0:standard:short:current:cached_input:text:per_1m_tokens",
+            "component": "cached_input",
+            "modality": "text",
+            "unit": "per_1m_tokens",
+            "amount": "0.004"
+          },
+          {
+            "id": "price:meta/muse-ember-1.0:standard:short:current:output:text:per_1m_tokens",
+            "component": "output",
+            "modality": "text",
+            "unit": "per_1m_tokens",
+            "amount": "0.50"
+          }
+        ],
+        "region_policy": {
+          "pricing_geography": "global_base",
+          "endpoint_geographies": [
+            "global"
+          ],
+          "data_residencies": [
+            "global"
+          ],
+          "availability": {
+            "default": "available",
+            "rules": []
+          },
+          "price_adjustments": []
+        },
+        "source_refs": [
+          "https://dev.meta.ai/docs/pricing-rate-limits.md",
+          "https://dev.meta.ai/docs/muse-ember",
+          "https://research.meta.ai/blog/muse-ember"
+        ],
+        "verification_status": "verified",
+        "checked_at": "2026-11-13T13:28:59Z",
+        "verified_at": "2026-11-13T13:28:59Z",
+        "billing_note": "Standard pay-as-you-go on Meta Model API. The tier is based on total input tokens, including cached tokens and conversation history resumed with previous_response_id. At most 200,000 input tokens use short-context rates. Above 200,000 input tokens the long-context rates apply to the entire request.",
+        "tier_selection": {
+          "comparison": "less_than_or_equal",
+          "token_basis": "input_tokens",
+          "cached_prompt_tokens_included": true,
+          "whole_request_pricing": true
+        }
+      },
+      {
+        "id": "price:meta/muse-ember-1.0:standard:long:current",
+        "processing_mode": "standard",
+        "context_class": "long",
+        "pricing_status": "current",
+        "calculation_default": false,
+        "prompt_token_threshold": 200000,
+        "effective_from": "2026-11-09",
+        "effective_until": null,
+        "currency": "USD",
+        "charges": [
+          {
+            "id": "price:meta/muse-ember-1.0:standard:long:current:input:text:per_1m_tokens",
+            "component": "input",
+            "modality": "text",
+            "unit": "per_1m_tokens",
+            "amount": "0.30"
+          },
+          {
+            "id": "price:meta/muse-ember-1.0:standard:long:current:cached_input:text:per_1m_tokens",
+            "component": "cached_input",
+            "modality": "text",
+            "unit": "per_1m_tokens",
+            "amount": "0.012"
+          },
+          {
+            "id": "price:meta/muse-ember-1.0:standard:long:current:output:text:per_1m_tokens",
+            "component": "output",
+            "modality": "text",
+            "unit": "per_1m_tokens",
+            "amount": "1.50"
+          }
+        ],
+        "region_policy": {
+          "pricing_geography": "global_base",
+          "endpoint_geographies": [
+            "global"
+          ],
+          "data_residencies": [
+            "global"
+          ],
+          "availability": {
+            "default": "available",
+            "rules": []
+          },
+          "price_adjustments": []
+        },
+        "source_refs": [
+          "https://dev.meta.ai/docs/pricing-rate-limits.md",
+          "https://dev.meta.ai/docs/muse-ember",
+          "https://research.meta.ai/blog/muse-ember"
+        ],
+        "verification_status": "verified",
+        "checked_at": "2026-11-13T13:28:59Z",
+        "verified_at": "2026-11-13T13:28:59Z",
+        "billing_note": "Standard pay-as-you-go on Meta Model API. The tier is based on total input tokens, including cached tokens and conversation history resumed with previous_response_id. At most 200,000 input tokens use short-context rates. Above 200,000 input tokens the long-context rates apply to the entire request.",
+        "tier_selection": {
+          "comparison": "greater_than",
+          "token_basis": "input_tokens",
+          "cached_prompt_tokens_included": true,
+          "whole_request_pricing": true
+        }
+      }
+    ],
+    "official_source_url": "https://dev.meta.ai/docs/pricing-rate-limits.md",
+    "official_source_urls": [
+      "https://dev.meta.ai/docs/pricing-rate-limits.md",
+      "https://dev.meta.ai/docs/muse-ember",
+      "https://research.meta.ai/blog/muse-ember"
+    ],
+    "accessed_at": "2026-11-13T13:28:59Z",
+    "last_verified_at": "2026-11-13T13:28:59Z",
+    "effective_from": "2026-11-09",
+    "notes": "Standard pay-as-you-go on Meta Model API. The tier is based on total input tokens, including cached tokens and conversation history resumed with previous_response_id. At most 200,000 input tokens use short-context rates. Above 200,000 input tokens the long-context rates apply to the entire request. Supports text, image, video, audio and PDF input, text output, and Responses, Chat Completions and Messages. Standard mode only.",
+    "released_at": "2026-11-09",
+    "release_evidence": {
+      "url": "https://research.meta.ai/blog/muse-ember",
+      "title": "Meta Research: Introducing Our Smallest, Most Efficient Model: Muse Ember",
+      "source_type": "official_release_announcement"
+    },
+    "access_status": "public",
+    "access_evidence": [
+      {
+        "url": "https://dev.meta.ai/docs/muse-ember",
+        "title": "Muse Ember official Model API documentation (access)",
+        "claim_type": "official_access_public",
+        "official_model_id": "muse-ember-1.0",
+        "scope": "Exact hosted model on Meta Model API under ordinary pay-as-you-go account requirements, subject to the Geographic Use Policy."
+      }
+    ],
+    "access_checked_at": "2026-11-13T13:28:59Z",
+    "binding_status": "approved",
+    "binding_evidence": [
+      {
+        "url": "https://dev.meta.ai/docs/muse-ember",
+        "title": "Muse Ember official Model API documentation (binding)",
+        "claim_type": "official_identity_binding",
+        "official_model_id": "muse-ember-1.0",
+        "reason": "Exact documented API model ID; no entitlement inherited from a billing target."
+      }
+    ],
+    "release_stage": "stable",
+    "max_output_tokens": 524288,
+    "input_modality": "text",
+    "output_modality": "text"
+  },
+  {
+    "provider_id": "meta",
     "model_id": "muse-image-1.0",
     "display_name": "Muse Image 1.0",
     "model_family": "Muse Image",
