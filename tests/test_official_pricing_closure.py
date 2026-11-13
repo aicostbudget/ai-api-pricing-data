@@ -28,6 +28,7 @@ FABLE_52_EXTENSION=SCOPE['claude_fable_mythos_5_2_models_added_extension']
 NOVA_SONIC_EXTENSION=SCOPE['nova_sonic_models_added_extension']
 GEMINI_1113_EXTENSION=SCOPE['gemini_2026_11_13_event_extension']
 H3_IMAGE_EXTENSION=SCOPE['minimax_h3_image_models_added_extension']
+MUSE_EMBER_EXTENSION=SCOPE['muse_ember_models_added_extension']
 EVENTS_PATH='data/price-change-events/events.jsonl'
 DEEPSEEK_METADATA_APPROVAL={
  'identity':'deepseek/deepseek-flash',
@@ -519,6 +520,20 @@ def verify_h3_image_release_event_bytes(raw):
  assert [row['dedupe_key'] for _,row in appended]==ext['appended_dedupe_keys']
  assert hashlib.sha256(b''.join(line for line,_ in appended)).hexdigest()==ext['appended_events_sha256']
  return normalized,lines,rows
+def verify_muse_ember_release_event_bytes(raw):
+ normalized,lines,rows=event_lines_rows(raw)
+ ext=MUSE_EMBER_EXTENSION
+ assert ext['base_release']=='minimax_h3_image_models_added_extension'
+ assert hashlib.sha256(normalized).hexdigest()==ext['full_events_sha256'],'unapproved Muse Ember release event content'
+ assert len(rows)==ext['full_event_count']==ext['base_event_count']+ext['appended_event_count']
+ ids=set(ext['appended_event_ids'])
+ appended=[(line,row) for line,row in zip(lines,rows) if row['event_id'] in ids]
+ _,_,base=verify_h3_image_release_event_bytes(b''.join(line for line,row in zip(lines,rows) if row['event_id'] not in ids))
+ assert len(base)==ext['base_event_count']
+ assert [row['event_id'] for _,row in appended]==ext['appended_event_ids']
+ assert [row['dedupe_key'] for _,row in appended]==ext['appended_dedupe_keys']
+ assert hashlib.sha256(b''.join(line for line,_ in appended)).hexdigest()==ext['appended_events_sha256']
+ return normalized,lines,rows
 def verify_checkpoint(checkpoint=CHECKPOINT,current_raw=None):
  assert re.fullmatch(r'[0-9a-f]{40}',checkpoint['source_commit']),'invalid checkpoint source commit'
  assert re.fullmatch(r'[0-9a-f]{40}',checkpoint['parent_commit']),'invalid checkpoint parent commit'
@@ -674,7 +689,7 @@ class ClosureScopeTests(unittest.TestCase):
   with self.assertRaisesRegex(AssertionError,'unapproved change: '+mistral['identity']):verify_rows(old,mutated,approved)
  def test_all_current_events_exact_and_correction_is_not_provider_event(self):
   verify_checkpoint(CHECKPOINT)
-  _,_,events=verify_h3_image_release_event_bytes((ROOT/EVENTS_PATH).read_bytes())
+  _,_,events=verify_muse_ember_release_event_bytes((ROOT/EVENTS_PATH).read_bytes())
   self.assertFalse(any(e['model_id']=='gemini-2.5-flash-image' and e['detected_at']=='2026-10-09' for e in events))
  def test_event_digest_pinned_to_approved_commit(self):
   self.assertEqual(SCOPE['events_source_commit'],'1c7ec3eca94f0bfdc99b7ae18616bdce38be8833')
@@ -684,8 +699,10 @@ class ClosureScopeTests(unittest.TestCase):
  def test_e1_checkpoint_identity_scope_and_increment(self):
   self.assertEqual(len(SCOPE['event_checkpoints']),1);blob,rows=verify_checkpoint();self.assertEqual(len(blob.splitlines()),37);self.assertEqual(len(rows),37)
  def test_argon_release_is_the_38_event_base_of_the_mistral_release(self):
-  current=(ROOT/EVENTS_PATH).read_bytes();normalized,lines,rows=verify_h3_image_release_event_bytes(current)
-  self.assertEqual(normalized,normalize_event_newlines(current));self.assertEqual(len(rows),92)
+  current=(ROOT/EVENTS_PATH).read_bytes();normalized,lines,rows=verify_muse_ember_release_event_bytes(current)
+  self.assertEqual(normalized,normalize_event_newlines(current));self.assertEqual(len(rows),93)
+  ember_ids=set(MUSE_EMBER_EXTENSION['appended_event_ids']);h3_release=b''.join(line for line,row in zip(lines,rows) if row['event_id'] not in ember_ids)
+  normalized,lines,rows=verify_h3_image_release_event_bytes(h3_release);self.assertEqual(len(rows),92)
   h3_ids=set(H3_IMAGE_EXTENSION['appended_event_ids']);gemini_release=b''.join(line for line,row in zip(lines,rows) if row['event_id'] not in h3_ids)
   normalized,lines,rows=verify_gemini_1113_release_event_bytes(gemini_release);self.assertEqual(len(rows),90)
   gemini_ids=set(GEMINI_1113_EXTENSION['appended_event_ids']);nova_release=b''.join(line for line,row in zip(lines,rows) if row['event_id'] not in gemini_ids)
@@ -727,7 +744,7 @@ class ClosureScopeTests(unittest.TestCase):
  def test_event_lf_and_crlf_have_same_approved_digest(self):
   historical=approved_event_bytes();self.assertEqual(verify_event_bytes(historical),historical);self.assertEqual(verify_event_bytes(historical.replace(b'\n',b'\r\n')),historical)
   current=checkpoint_event_bytes();self.assertEqual(verify_current_event_bytes(current)[0],current);self.assertEqual(verify_current_event_bytes(current.replace(b'\n',b'\r\n'))[0],current)
-  release=normalize_event_newlines((ROOT/EVENTS_PATH).read_bytes());self.assertEqual(verify_h3_image_release_event_bytes(release)[0],release);self.assertEqual(verify_h3_image_release_event_bytes(release.replace(b'\n',b'\r\n'))[0],release)
+  release=normalize_event_newlines((ROOT/EVENTS_PATH).read_bytes());self.assertEqual(verify_muse_ember_release_event_bytes(release)[0],release);self.assertEqual(verify_muse_ember_release_event_bytes(release.replace(b'\n',b'\r\n'))[0],release)
  def test_event_field_mutations_rejected(self):
   historical=approved_event_bytes();rows=[json.loads(line) for line in historical.splitlines()];self.assertEqual(encode(rows),historical)
   def fields(value,path=()):

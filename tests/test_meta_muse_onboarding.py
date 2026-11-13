@@ -48,7 +48,7 @@ class MetaMuseOnboardingTests(unittest.TestCase):
         self.assertTrue(provider["pricing_url"].startswith("https://dev.meta.ai/"))
         self.assertEqual(
             {model_id for provider_id, model_id in self.canonical if provider_id == PROVIDER},
-            set(EXPECTED) | {IMAGE_MODEL} | set(NON_TOKEN),
+            set(EXPECTED) | {IMAGE_MODEL, "muse-ember-1.0"} | set(NON_TOKEN),
         )
 
     def test_voice_transcribe_and_sam_are_public_non_token_prices(self):

@@ -1,0 +1,49 @@
+{
+  "model": "meta/muse-ember-1.0",
+  "captured_at": "20261113T132859Z",
+  "expect": [
+    "muse-ember-1.0",
+    "$0.004",
+    "$0.012",
+    "$0.10",
+    "$0.30",
+    "$0.50",
+    "$1.50"
+  ],
+  "pages": [
+    {
+      "url": "https://dev.meta.ai/docs/pricing-rate-limits.md",
+      "http_status": 200,
+      "text_sha256": "64627ae12ee4cd306dd482c6307fce0870a4d01f45928b115af33deee2519432",
+      "passages": [
+        "| Usage | Contributor mode (per 1M tokens) | Standard mode (per 1M tokens) | | :----------- | :------------------------------- | :---------------------------- | | Cached input | $0.002 | $0.15 | | Input | $0.10 | $1.25 | | Output | $0.20 | $4.25 |",
+        "| :----------- | :------------------------------- | :---------------------------- | | Cached input | $0.002 | $0.15 | | Input | $0.10 | $1.25 | | Output | $0.20 | $4.25 | ### Muse Ember",
+        "| Cached input | $0.002 | $0.15 | | Input | $0.10 | $1.25 | | Output | $0.20 | $4.25 | ### Muse Ember Model: `muse-ember-1.0`, in Standard mode only.",
+        "Model: `muse-ember-1.0`, in Standard mode only. Muse Ember has two price tiers, and the input tokens in your API request set the tier, cached tokens included. When a request continues a stored conversation with `previous_response_id`, its input includes that conversation. A request with up to 200K input tokens is billed at the rates in the first column. A request with more is billed at the long-context rates in full, not only for the tokens past 200K. Your invoice and usage dashboard list the tw",
+        "| Usage | Up to 200K input tokens (per 1M tokens) | Over 200K input tokens (per 1M tokens) | | :----------- | :-------------------------------------- | :------------------------------------- | | Cached input | $0.004 | $0.012 | | Input | $0.10 | $0.30 | | Output | $0.50 | $1.50 |",
+        "| :----------- | :-------------------------------------- | :------------------------------------- | | Cached input | $0.004 | $0.012 | | Input | $0.10 | $0.30 | | Output | $0.50 | $1.50 | ### Token pricing notes",
+        "| Cached input | $0.004 | $0.012 | | Input | $0.10 | $0.30 | | Output | $0.50 | $1.50 | ### Token pricing notes These apply to the reasoning models above.",
+        "# Pricing and rate limits Use our models with pay-as-you-go billing on Meta Model API and in [Muse Code](https://dev.meta.ai/docs/muse-code), or in Muse Code with a monthly [subscription](https://dev.meta.ai/docs/muse-code/subscriptions). This page covers pay-as-you-go: Model API bills the reasoning models (Muse Wonder, Muse Spark, and Muse Ember) per token, image generation per image, Muse Voice Transcribe by the hour of audio processed, and Segment Anything Model (SAM) per image or video frame",
+        "### Muse Wonder Model: `muse-wonder-1.0`. | Usage | Contributor mode (per 1M tokens) | Standard mode (per 1M tokens) | | :----------- | :------------------------------- | :---------------------------- | | Cached input | Not available | $0.20 |",
+        "| Usage | Contributor mode (per 1M tokens) | Standard mode (per 1M tokens) | | :----------- | :------------------------------- | :---------------------------- | | Cached input | Not available | $0.20 | | Input | Not available | $4.00 | | Output | Not available | $20.00 |",
+        "| :----------- | :------------------------------- | :---------------------------- | | Cached input | Not available | $0.20 | | Input | Not available | $4.00 | | Output | Not available | $20.00 | ### Muse Spark",
+        "| Cached input | Not available | $0.20 | | Input | Not available | $4.00 | | Output | Not available | $20.00 | ### Muse Spark Models: `muse-spark-1.3`, `muse-spark-1.2`, and `muse-spark-1.1` in Standard mode; `muse-spark-1.3-contributor` and `muse-spark-1.2-contributor` in Contributor mode. Muse Spark 1.1 is Standard mode only.",
+        "### Muse Spark Models: `muse-spark-1.3`, `muse-spark-1.2`, and `muse-spark-1.1` in Standard mode; `muse-spark-1.3-contributor` and `muse-spark-1.2-contributor` in Contributor mode. Muse Spark 1.1 is Standard mode only. | Usage | Contributor mode (per 1M tokens) | Standard mode (per 1M tokens) | | :----------- | :------------------------------- | :---------------------------- | | Cached input | $0.002 | $0.15 |",
+        "- **Cached input costs less**: When part of your prompt matches a [cached prefix](https://dev.meta.ai/docs/prompt-caching), you pay the cached-input rate for those tokens. Check `cached_tokens` in the response to see how many were served from cache. - **No long-context premium on Muse Wonder and Muse Spark**: you pay the same rate whether your context window is mostly empty or almost full. Muse Ember bills requests with more than 200K input tokens at higher rates; see [Muse Ember pricing](https:",
+        "| Usage | Price | | :-------------- | :-------------- | | Generated image | $0.01 per image | [Muse Image](https://dev.meta.ai/docs/models#muse-image) is billed at a flat rate per generated image. The price is the same regardless of prompt length, `reasoning_strength`, or the tools the model uses during generation, including its built-in web and image search, which isn't charged separately. A request that returns `n` images is billed for `n` images. You're billed only for images the model succes",
+        "| Usage | Price | | :-------------- | :------------- | | Audio processed | $0.18 per hour | Streaming and non-streaming transcription are priced the same. Zero data retention (ZDR) is priced at parity with Standard mode. Contributor mode isn't available for Muse Voice Transcribe. Audio time is billed as a separate line item from token usage, rounded down to whole seconds; other endpoints aren't billed for audio time. ### Segment Anything Model 3.1",
+        "Streaming and non-streaming transcription are priced the same. Zero data retention (ZDR) is priced at parity with Standard mode. Contributor mode isn't available for Muse Voice Transcribe. Audio time is billed as a separate line item from token usage, rounded down to whole seconds; other endpoints aren't billed for audio time. ### Segment Anything Model 3.1 [SAM 3.1](https://dev.meta.ai/docs/models#sam-3) segmentation is billed per image and per video frame, not per token. The same prices apply ",
+        "| Usage | Price | | :----------------- | :--------------------- | | Image segmentation | $2.50 per 1,000 images | | Video segmentation | $0.20 per 1,000 frames | ## Rate limits",
+        "| :----------------- | :--------------------- | | Image segmentation | $2.50 per 1,000 images | | Video segmentation | $0.20 per 1,000 frames | ## Rate limits Rate limits apply **per team, not per API key**: requests, tokens, and streams from every key in a team count toward the same limits. Each model below has its own limits, so traffic to one model doesn't use up another's.",
+        "## Rate limits Rate limits apply **per team, not per API key**: requests, tokens, and streams from every key in a team count toward the same limits. Each model below has its own limits, so traffic to one model doesn't use up another's. | Model | Requests per minute (RPM) | Tokens per minute (TPM) | Other limits | | :--------------------------- | :------------------------ | :---------------------- | :---------------------------------------------- | | `muse-wonder-1.0` | 3,000 | 4,000,000 | |",
+        "| `sam-3.1` | 3,000 | None | | | `muse-image-1.0` | 150 | None | | | `muse-voice-transcribe-1.0` | None | None | 256 concurrent streams; 16,000 streams per hour | [SAM 3.1](https://dev.meta.ai/docs/models#sam-3) is [billed per image or frame](https://dev.meta.ai/docs/pricing-rate-limits#sam-pricing) and [Muse Image](https://dev.meta.ai/docs/models#muse-image) is [priced per image](https://dev.meta.ai/docs/pricing-rate-limits#image-generation), so neither has a TPM limit. [Muse Voice Transcribe](",
+        "| `muse-image-1.0` | 150 | None | | | `muse-voice-transcribe-1.0` | None | None | 256 concurrent streams; 16,000 streams per hour | [SAM 3.1](https://dev.meta.ai/docs/models#sam-3) is [billed per image or frame](https://dev.meta.ai/docs/pricing-rate-limits#sam-pricing) and [Muse Image](https://dev.meta.ai/docs/models#muse-image) is [priced per image](https://dev.meta.ai/docs/pricing-rate-limits#image-generation), so neither has a TPM limit. [Muse Voice Transcribe](https://dev.meta.ai/docs/speech",
+        "| `muse-voice-transcribe-1.0` | None | None | 256 concurrent streams; 16,000 streams per hour | [SAM 3.1](https://dev.meta.ai/docs/models#sam-3) is [billed per image or frame](https://dev.meta.ai/docs/pricing-rate-limits#sam-pricing) and [Muse Image](https://dev.meta.ai/docs/models#muse-image) is [priced per image](https://dev.meta.ai/docs/pricing-rate-limits#image-generation), so neither has a TPM limit. [Muse Voice Transcribe](https://dev.meta.ai/docs/speech-to-text) is [billed by audio proces",
+        "Token usage counts only **your** input and output tokens. Meta injects a small amount of steering context into every prompt (a system prompt and related scaffolding); those injected tokens are not billed and are excluded from the token counts reported in your `usage` and by the [token-counting endpoints](https://dev.meta.ai/docs/prompt-caching#injected-tokens). ### Background responses Creating [background responses](https://dev.meta.ai/docs/protocols/responses#using-with-other-features) (`backg"
+      ],
+      "missing_expected": []
+    }
+  ],
+  "changes_since_previous": [],
+  "previous_capture": null
+}

@@ -4,11 +4,11 @@
     "version": "1.0.0",
     "schema_version": "1.11.0",
     "page_url": "https://aicostbudget.com/en/datasets/ai-api-pricing",
-    "last_updated": "2026-11-13T12:48:35Z",
-    "last_verified_at": "2026-11-13T12:48:35Z",
-    "generated_at": "2026-11-13T12:52:08Z",
+    "last_updated": "2026-11-13T13:28:59Z",
+    "last_verified_at": "2026-11-13T13:28:59Z",
+    "generated_at": "2026-11-13T13:30:51Z",
     "provider_count": 17,
-    "record_count": 158,
+    "record_count": 159,
     "official_source_count": 44,
     "currency": "USD",
     "pricing_unit": "Multiple billing units",
@@ -26714,6 +26714,398 @@
           "sourceRef": "source:google-gemini:ai-google-dev-gemini-api-docs-models-gemini-omni-flash",
           "title": "gemini-omni-1.2-flash official identity documentation",
           "url": "https://ai.google.dev/gemini-api/docs/models/gemini-omni-flash"
+        }
+      ],
+      "conditional_usage_allowances": [],
+      "model_selection": null
+    },
+    {
+      "provider_id": "meta",
+      "provider": "Meta",
+      "model_id": "muse-ember-1.0",
+      "model": "Muse Ember 1.0",
+      "input_price_per_1m_tokens": 0.1,
+      "cached_input_price_per_1m_tokens": 0.004,
+      "output_price_per_1m_tokens": 0.5,
+      "currency": "USD",
+      "pricing_unit": "1M tokens",
+      "status": "latest",
+      "availability": "active",
+      "official_source_url": "https://dev.meta.ai/docs/pricing-rate-limits.md",
+      "verification_status": "verified",
+      "last_verified_at": "2026-11-13",
+      "checked_at": "2026-11-13",
+      "effective_from": "2026-11-09",
+      "effective_until": null,
+      "notes": "",
+      "pricing_tier_count": 2,
+      "pricing_tiers": [
+        {
+          "id": "price:meta/muse-ember-1.0:standard:long:current",
+          "pricing_id": "price:meta/muse-ember-1.0:standard:long:current",
+          "label": "Long context",
+          "context_class": "long",
+          "calculation_default": false,
+          "prompt_token_threshold": 200000,
+          "comparison": "greater_than",
+          "token_basis": "input_tokens",
+          "cached_prompt_tokens_included": true,
+          "whole_request_pricing": true,
+          "processing_mode": "standard",
+          "input_price_per_1m_tokens": 0.3,
+          "cached_input_price_per_1m_tokens": 0.012,
+          "output_price_per_1m_tokens": 1.5,
+          "currency": "USD",
+          "pricing_unit": "1M tokens",
+          "official_source_url": "https://dev.meta.ai/docs/pricing-rate-limits.md",
+          "source_refs": [
+            "source:meta:dev-meta-ai-docs-muse-ember",
+            "source:meta:dev-meta-ai-docs-pricing-rate-limits-md",
+            "source:meta:research-meta-ai-blog-muse-ember"
+          ],
+          "last_verified_at": "2026-11-13",
+          "checked_at": "2026-11-13",
+          "verification_status": "verified"
+        },
+        {
+          "id": "price:meta/muse-ember-1.0:standard:short:current",
+          "pricing_id": "price:meta/muse-ember-1.0:standard:short:current",
+          "label": "Short context",
+          "context_class": "short",
+          "calculation_default": true,
+          "prompt_token_threshold": 200000,
+          "comparison": "less_than_or_equal",
+          "token_basis": "input_tokens",
+          "cached_prompt_tokens_included": true,
+          "whole_request_pricing": true,
+          "processing_mode": "standard",
+          "input_price_per_1m_tokens": 0.1,
+          "cached_input_price_per_1m_tokens": 0.004,
+          "output_price_per_1m_tokens": 0.5,
+          "currency": "USD",
+          "pricing_unit": "1M tokens",
+          "official_source_url": "https://dev.meta.ai/docs/pricing-rate-limits.md",
+          "source_refs": [
+            "source:meta:dev-meta-ai-docs-muse-ember",
+            "source:meta:dev-meta-ai-docs-pricing-rate-limits-md",
+            "source:meta:research-meta-ai-blog-muse-ember"
+          ],
+          "last_verified_at": "2026-11-13",
+          "checked_at": "2026-11-13",
+          "verification_status": "verified"
+        }
+      ],
+      "time_pricing": null,
+      "pricing_components": [
+        {
+          "pricing_id": "price:meta/muse-ember-1.0:standard:long:current",
+          "charge_id": "price:meta/muse-ember-1.0:standard:long:current:cached_input:text:per_1m_tokens",
+          "component": "cached_input",
+          "amount": "0.012",
+          "unit": "per_1m_tokens",
+          "currency": "USD",
+          "modality": "text",
+          "condition": {
+            "processing_mode": "standard",
+            "context_class": "long",
+            "prompt_token_threshold": 200000,
+            "tier_selection": {
+              "comparison": "greater_than",
+              "token_basis": "input_tokens",
+              "cached_prompt_tokens_included": true,
+              "whole_request_pricing": true
+            },
+            "region_policy": "global",
+            "effective_from": "2026-11-09",
+            "effective_until": null,
+            "region_selector": {
+              "dataResidencies": [
+                "global"
+              ],
+              "endpointGeographies": [
+                "global"
+              ],
+              "pricingGeography": "global_base"
+            },
+            "default_availability_status": "available",
+            "availability_rules": [],
+            "price_adjustments": []
+          },
+          "calculation_default": false,
+          "source_refs": [
+            "source:meta:dev-meta-ai-docs-muse-ember",
+            "source:meta:dev-meta-ai-docs-pricing-rate-limits-md",
+            "source:meta:research-meta-ai-blog-muse-ember"
+          ],
+          "source_urls": [
+            "https://dev.meta.ai/docs/muse-ember",
+            "https://dev.meta.ai/docs/pricing-rate-limits.md",
+            "https://research.meta.ai/blog/muse-ember"
+          ],
+          "verification_status": "verified"
+        },
+        {
+          "pricing_id": "price:meta/muse-ember-1.0:standard:long:current",
+          "charge_id": "price:meta/muse-ember-1.0:standard:long:current:input:text:per_1m_tokens",
+          "component": "input",
+          "amount": "0.3",
+          "unit": "per_1m_tokens",
+          "currency": "USD",
+          "modality": "text",
+          "condition": {
+            "processing_mode": "standard",
+            "context_class": "long",
+            "prompt_token_threshold": 200000,
+            "tier_selection": {
+              "comparison": "greater_than",
+              "token_basis": "input_tokens",
+              "cached_prompt_tokens_included": true,
+              "whole_request_pricing": true
+            },
+            "region_policy": "global",
+            "effective_from": "2026-11-09",
+            "effective_until": null,
+            "region_selector": {
+              "dataResidencies": [
+                "global"
+              ],
+              "endpointGeographies": [
+                "global"
+              ],
+              "pricingGeography": "global_base"
+            },
+            "default_availability_status": "available",
+            "availability_rules": [],
+            "price_adjustments": []
+          },
+          "calculation_default": false,
+          "source_refs": [
+            "source:meta:dev-meta-ai-docs-muse-ember",
+            "source:meta:dev-meta-ai-docs-pricing-rate-limits-md",
+            "source:meta:research-meta-ai-blog-muse-ember"
+          ],
+          "source_urls": [
+            "https://dev.meta.ai/docs/muse-ember",
+            "https://dev.meta.ai/docs/pricing-rate-limits.md",
+            "https://research.meta.ai/blog/muse-ember"
+          ],
+          "verification_status": "verified"
+        },
+        {
+          "pricing_id": "price:meta/muse-ember-1.0:standard:long:current",
+          "charge_id": "price:meta/muse-ember-1.0:standard:long:current:output:text:per_1m_tokens",
+          "component": "output",
+          "amount": "1.5",
+          "unit": "per_1m_tokens",
+          "currency": "USD",
+          "modality": "text",
+          "condition": {
+            "processing_mode": "standard",
+            "context_class": "long",
+            "prompt_token_threshold": 200000,
+            "tier_selection": {
+              "comparison": "greater_than",
+              "token_basis": "input_tokens",
+              "cached_prompt_tokens_included": true,
+              "whole_request_pricing": true
+            },
+            "region_policy": "global",
+            "effective_from": "2026-11-09",
+            "effective_until": null,
+            "region_selector": {
+              "dataResidencies": [
+                "global"
+              ],
+              "endpointGeographies": [
+                "global"
+              ],
+              "pricingGeography": "global_base"
+            },
+            "default_availability_status": "available",
+            "availability_rules": [],
+            "price_adjustments": []
+          },
+          "calculation_default": false,
+          "source_refs": [
+            "source:meta:dev-meta-ai-docs-muse-ember",
+            "source:meta:dev-meta-ai-docs-pricing-rate-limits-md",
+            "source:meta:research-meta-ai-blog-muse-ember"
+          ],
+          "source_urls": [
+            "https://dev.meta.ai/docs/muse-ember",
+            "https://dev.meta.ai/docs/pricing-rate-limits.md",
+            "https://research.meta.ai/blog/muse-ember"
+          ],
+          "verification_status": "verified"
+        },
+        {
+          "pricing_id": "price:meta/muse-ember-1.0:standard:short:current",
+          "charge_id": "price:meta/muse-ember-1.0:standard:short:current:cached_input:text:per_1m_tokens",
+          "component": "cached_input",
+          "amount": "0.004",
+          "unit": "per_1m_tokens",
+          "currency": "USD",
+          "modality": "text",
+          "condition": {
+            "processing_mode": "standard",
+            "context_class": "short",
+            "prompt_token_threshold": 200000,
+            "tier_selection": {
+              "comparison": "less_than_or_equal",
+              "token_basis": "input_tokens",
+              "cached_prompt_tokens_included": true,
+              "whole_request_pricing": true
+            },
+            "region_policy": "global",
+            "effective_from": "2026-11-09",
+            "effective_until": null,
+            "region_selector": {
+              "dataResidencies": [
+                "global"
+              ],
+              "endpointGeographies": [
+                "global"
+              ],
+              "pricingGeography": "global_base"
+            },
+            "default_availability_status": "available",
+            "availability_rules": [],
+            "price_adjustments": []
+          },
+          "calculation_default": true,
+          "source_refs": [
+            "source:meta:dev-meta-ai-docs-muse-ember",
+            "source:meta:dev-meta-ai-docs-pricing-rate-limits-md",
+            "source:meta:research-meta-ai-blog-muse-ember"
+          ],
+          "source_urls": [
+            "https://dev.meta.ai/docs/muse-ember",
+            "https://dev.meta.ai/docs/pricing-rate-limits.md",
+            "https://research.meta.ai/blog/muse-ember"
+          ],
+          "verification_status": "verified"
+        },
+        {
+          "pricing_id": "price:meta/muse-ember-1.0:standard:short:current",
+          "charge_id": "price:meta/muse-ember-1.0:standard:short:current:input:text:per_1m_tokens",
+          "component": "input",
+          "amount": "0.1",
+          "unit": "per_1m_tokens",
+          "currency": "USD",
+          "modality": "text",
+          "condition": {
+            "processing_mode": "standard",
+            "context_class": "short",
+            "prompt_token_threshold": 200000,
+            "tier_selection": {
+              "comparison": "less_than_or_equal",
+              "token_basis": "input_tokens",
+              "cached_prompt_tokens_included": true,
+              "whole_request_pricing": true
+            },
+            "region_policy": "global",
+            "effective_from": "2026-11-09",
+            "effective_until": null,
+            "region_selector": {
+              "dataResidencies": [
+                "global"
+              ],
+              "endpointGeographies": [
+                "global"
+              ],
+              "pricingGeography": "global_base"
+            },
+            "default_availability_status": "available",
+            "availability_rules": [],
+            "price_adjustments": []
+          },
+          "calculation_default": true,
+          "source_refs": [
+            "source:meta:dev-meta-ai-docs-muse-ember",
+            "source:meta:dev-meta-ai-docs-pricing-rate-limits-md",
+            "source:meta:research-meta-ai-blog-muse-ember"
+          ],
+          "source_urls": [
+            "https://dev.meta.ai/docs/muse-ember",
+            "https://dev.meta.ai/docs/pricing-rate-limits.md",
+            "https://research.meta.ai/blog/muse-ember"
+          ],
+          "verification_status": "verified"
+        },
+        {
+          "pricing_id": "price:meta/muse-ember-1.0:standard:short:current",
+          "charge_id": "price:meta/muse-ember-1.0:standard:short:current:output:text:per_1m_tokens",
+          "component": "output",
+          "amount": "0.5",
+          "unit": "per_1m_tokens",
+          "currency": "USD",
+          "modality": "text",
+          "condition": {
+            "processing_mode": "standard",
+            "context_class": "short",
+            "prompt_token_threshold": 200000,
+            "tier_selection": {
+              "comparison": "less_than_or_equal",
+              "token_basis": "input_tokens",
+              "cached_prompt_tokens_included": true,
+              "whole_request_pricing": true
+            },
+            "region_policy": "global",
+            "effective_from": "2026-11-09",
+            "effective_until": null,
+            "region_selector": {
+              "dataResidencies": [
+                "global"
+              ],
+              "endpointGeographies": [
+                "global"
+              ],
+              "pricingGeography": "global_base"
+            },
+            "default_availability_status": "available",
+            "availability_rules": [],
+            "price_adjustments": []
+          },
+          "calculation_default": true,
+          "source_refs": [
+            "source:meta:dev-meta-ai-docs-muse-ember",
+            "source:meta:dev-meta-ai-docs-pricing-rate-limits-md",
+            "source:meta:research-meta-ai-blog-muse-ember"
+          ],
+          "source_urls": [
+            "https://dev.meta.ai/docs/muse-ember",
+            "https://dev.meta.ai/docs/pricing-rate-limits.md",
+            "https://research.meta.ai/blog/muse-ember"
+          ],
+          "verification_status": "verified"
+        }
+      ],
+      "unit_price": null,
+      "billing_unit": null,
+      "billing_quantity": null,
+      "pricing_dimension": null,
+      "released_at": "2026-11-09",
+      "access_status": "public",
+      "access_checked_at": "2026-11-13T13:28:59Z",
+      "access_evidence": [
+        {
+          "claimType": "official_access_public",
+          "officialModelId": "muse-ember-1.0",
+          "scope": "Exact hosted model on Meta Model API under ordinary pay-as-you-go account requirements, subject to the Geographic Use Policy.",
+          "sourceRef": "source:meta:dev-meta-ai-docs-muse-ember",
+          "title": "Muse Ember official Model API documentation (access)",
+          "url": "https://dev.meta.ai/docs/muse-ember"
+        }
+      ],
+      "binding_status": "approved",
+      "binding_evidence": [
+        {
+          "claimType": "official_identity_binding",
+          "officialModelId": "muse-ember-1.0",
+          "reason": "Exact documented API model ID; no entitlement inherited from a billing target.",
+          "sourceRef": "source:meta:dev-meta-ai-docs-muse-ember",
+          "title": "Muse Ember official Model API documentation (binding)",
+          "url": "https://dev.meta.ai/docs/muse-ember"
         }
       ],
       "conditional_usage_allowances": [],
