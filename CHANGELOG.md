@@ -4,8 +4,15 @@
 
 - Added `data/archive-history/price-changes-2024-2026.v1.json`: 40 price changes from 2024 to 2026 across OpenAI, Anthropic, Google, DeepSeek, Mistral and xAI, each with Wayback Machine captures of the official pricing page before and after the change, plus the announcement when one exists.
 
-- Added a dependency-free Python developer utility, synthetic attempt input, tests, and documentation for estimating first-attempt, retry, fallback, and cost-per-successful-task totals from verified default-safe Pricing V2 token rates.
-- Unsupported or ambiguous billing conditions fail explicitly instead of being treated as zero cost.
+## dataset-2026-10 - 2026-11-01
+
+- Published by the monthly release workflow for October 2026, from snapshot `2026-10-31-2` (130 models from 13 providers, last verified 2026-10-31). The Release notes list 32 price-change-log entries across 8 providers.
+- The release tag points to Dataset commit `8039a9d9ecc72ff22478519af3ea0dd4f3f15fc4` and carries the same eight assets as `dataset-2026-10-10`: GitHub Pages V1 and Pricing V2 JSON, CSV and metadata files, `release-manifest.json`, and `SHA256SUMS.txt`.
+- The tagged source includes the retry and fallback cost diagnostics utility added on 2026-10-11: a dependency-free Python developer utility, synthetic attempt input, tests, and documentation for estimating first-attempt, retry, fallback, and cost-per-successful-task totals from verified default-safe Pricing V2 token rates. Unsupported or ambiguous billing conditions fail explicitly instead of being treated as zero cost.
+
+## mcp-server-v0.1.0 - 2026-10-21 (MCP server bundle, not a dataset release)
+
+- Published the `ai-api-pricing-mcp` 0.1.0 MCPB bundle (`ai-api-pricing-mcp-0.1.0.mcpb`) for Claude Desktop. The Release contains the bundle only and is not a new dataset version; its notes state that the citable dataset release remains `v1.1.0`.
 
 ## dataset-2026-10-10 - 2026-10-10
 
