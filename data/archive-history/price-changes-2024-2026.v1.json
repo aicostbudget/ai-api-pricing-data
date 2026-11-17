@@ -2,9 +2,93 @@
   "schema_version": "1.0",
   "title": "Archived LLM API price changes, 2024-2026",
   "description": "Price changes on official provider pricing pages, reconstructed from Internet Archive Wayback Machine snapshots and provider announcements. Each record links the last archived page that shows the old price and the first that shows the new price. Third-party price lists were used only to find candidates; every record is backed by official pages.",
-  "generated_at": "2026-11-05",
+  "generated_at": "2026-11-19",
   "unit_note": "All prices are USD per 1M tokens.",
   "records": [
+    {
+      "id": "mistral-large-price-cut-2024-05",
+      "provider": "mistral-ai",
+      "model": "Mistral Large",
+      "model_ids": [
+        "mistral-large",
+        "mistral-large-2402"
+      ],
+      "dataset_model_id": null,
+      "change_kind": "price_cut",
+      "unit": "USD per 1M tokens",
+      "tier": "standard",
+      "prices": {
+        "input": {
+          "before": 8,
+          "after": 4
+        },
+        "output": {
+          "before": 24,
+          "after": 12
+        }
+      },
+      "effective_from": null,
+      "date_basis": "snapshot_window",
+      "observed_window": {
+        "last_old_snapshot": "2024-04-25T21:11:09Z",
+        "first_new_snapshot": "2024-05-05T23:08:13Z"
+      },
+      "source_page": "https://mistral.ai/technology/",
+      "before_snapshot": {
+        "archive_url": "https://web.archive.org/web/20240425211109/https://mistral.ai/technology/",
+        "captured_at": "2024-04-25T21:11:09Z",
+        "quote": "mistral-large Top-tier reasoning for high-complexity tasks. The most powerful model of the Mistral AI family. $8/1M tokens $24/1M tokens Input Output mistral-small Cost-e"
+      },
+      "after_snapshot": {
+        "archive_url": "https://web.archive.org/web/20240505230813/https://mistral.ai/technology/",
+        "captured_at": "2024-05-05T23:08:13Z",
+        "quote": "mistral-large Top-tier reasoning for high-complexity tasks. The most powerful model of the Mistral AI family. $4 /1M tokens $12 /1M tokens Input Output mistral-small Cost"
+      },
+      "announcement": null,
+      "notes": "Same page change as mistral-small-price-cut-2024-05."
+    },
+    {
+      "id": "mistral-small-price-cut-2024-05",
+      "provider": "mistral-ai",
+      "model": "Mistral Small",
+      "model_ids": [
+        "mistral-small",
+        "mistral-small-2402"
+      ],
+      "dataset_model_id": null,
+      "change_kind": "price_cut",
+      "unit": "USD per 1M tokens",
+      "tier": "standard",
+      "prices": {
+        "input": {
+          "before": 2,
+          "after": 1
+        },
+        "output": {
+          "before": 6,
+          "after": 3
+        }
+      },
+      "effective_from": null,
+      "date_basis": "snapshot_window",
+      "observed_window": {
+        "last_old_snapshot": "2024-04-25T21:11:09Z",
+        "first_new_snapshot": "2024-05-05T23:08:13Z"
+      },
+      "source_page": "https://mistral.ai/technology/",
+      "before_snapshot": {
+        "archive_url": "https://web.archive.org/web/20240425211109/https://mistral.ai/technology/",
+        "captured_at": "2024-04-25T21:11:09Z",
+        "quote": "mistral-small Cost-efficient reasoning for low-latency workloads. $2/1M tokens $6/1M tokens mistral-medium Will soon be deprecated $2.7/1M tokens $8.1"
+      },
+      "after_snapshot": {
+        "archive_url": "https://web.archive.org/web/20240505230813/https://mistral.ai/technology/",
+        "captured_at": "2024-05-05T23:08:13Z",
+        "quote": "mistral-small Cost-efficient reasoning for low-latency workloads. $1 /1M tokens $3 /1M tokens mistral-medium Will soon be deprecated $2.7 /1M tokens $"
+      },
+      "announcement": null,
+      "notes": "EUR prices on the same page moved from 1.85/5.55 to 0.9/2.8."
+    },
     {
       "id": "google-gemini-1-5-flash-output-price-correction-2024-05",
       "provider": "google-gemini",
@@ -146,6 +230,90 @@
       "notes": "About 78% lower input and 71% lower output price."
     },
     {
+      "id": "cohere-command-r-alias-to-08-2024-2024-08-30",
+      "provider": "cohere",
+      "model": "Command R",
+      "model_ids": [
+        "command-r",
+        "command-r-08-2024"
+      ],
+      "dataset_model_id": null,
+      "change_kind": "alias_repoint",
+      "unit": "USD per 1M tokens",
+      "tier": "standard",
+      "prices": {
+        "input": {
+          "before": 0.5,
+          "after": 0.15
+        },
+        "output": {
+          "before": 1.5,
+          "after": 0.6
+        }
+      },
+      "effective_from": null,
+      "date_basis": "snapshot_window",
+      "observed_window": {
+        "last_old_snapshot": "2024-08-29T19:02:53Z",
+        "first_new_snapshot": "2024-08-30T23:52:18Z"
+      },
+      "source_page": "https://cohere.com/pricing",
+      "before_snapshot": {
+        "archive_url": "https://web.archive.org/web/20240829190253/https://cohere.com/pricing",
+        "captured_at": "2024-08-29T19:02:53Z",
+        "quote": "Command R New Command R is a generative model optimized for long context tasks such as retrieval-augmented generation (RAG) and using external APIs and tools. Input $ 0.50 $ 0.50 / 1M tokens Output $ 1.50 $ 1.50 / 1M tokens Fine-t"
+      },
+      "after_snapshot": {
+        "archive_url": "https://web.archive.org/web/20240830235218/https://cohere.com/pricing",
+        "captured_at": "2024-08-30T23:52:18Z",
+        "quote": "Command R New Command R is a generative model optimized for long context tasks such as retrieval-augmented generation (RAG) and using external APIs and tools. Input $ 0.15 $ 0.15 / 1M tokens Output $ 0.60 $ 0.60 / 1M tokens Fine-t"
+      },
+      "announcement": null,
+      "notes": "The pricing page's Command R row switched to Command R 08-2024; the page says the old Command R 03-2024 keeps $0.50/$1.50 (moved to the FAQ)."
+    },
+    {
+      "id": "cohere-command-r-plus-alias-to-08-2024-2024-08-30",
+      "provider": "cohere",
+      "model": "Command R+",
+      "model_ids": [
+        "command-r-plus",
+        "command-r-plus-08-2024"
+      ],
+      "dataset_model_id": "cohere/command-r-plus-08-2024",
+      "change_kind": "alias_repoint",
+      "unit": "USD per 1M tokens",
+      "tier": "standard",
+      "prices": {
+        "input": {
+          "before": 3,
+          "after": 2.5
+        },
+        "output": {
+          "before": 15,
+          "after": 10
+        }
+      },
+      "effective_from": null,
+      "date_basis": "snapshot_window",
+      "observed_window": {
+        "last_old_snapshot": "2024-08-29T19:02:53Z",
+        "first_new_snapshot": "2024-08-30T23:52:18Z"
+      },
+      "source_page": "https://cohere.com/pricing",
+      "before_snapshot": {
+        "archive_url": "https://web.archive.org/web/20240829190253/https://cohere.com/pricing",
+        "captured_at": "2024-08-29T19:02:53Z",
+        "quote": "Command R+ new Command R+, our most powerful, scalable large language model (LLM) purpose-built to excel at real-world enterprise use cases. Input $ 3.00 $ 3.00 / 1M tokens Output $ 15.00 $ 15.00 / 1M tokens Learn more about Command Command R New Command R is"
+      },
+      "after_snapshot": {
+        "archive_url": "https://web.archive.org/web/20240830235218/https://cohere.com/pricing",
+        "captured_at": "2024-08-30T23:52:18Z",
+        "quote": "Command R+ new Command R+, our most powerful, scalable large language model (LLM) purpose-built to excel at real-world enterprise use cases. Input $ 2.50 $ 2.50 / 1M tokens Output $ 10.00 $ 10.00 / 1M tokens Learn more about Command Command R New Command R is"
+      },
+      "announcement": null,
+      "notes": "The pricing page's Command R+ row switched to Command R+ 08-2024; the page says the old Command R+ 04-2024 keeps $3/$15 (moved to the FAQ)."
+    },
+    {
       "id": "mistral-codestral-2405-price-cut-2024-09-17",
       "provider": "mistral-ai",
       "model": "Codestral",
@@ -158,11 +326,11 @@
       "tier": "standard",
       "prices": {
         "input": {
-          "before": 1.0,
+          "before": 1,
           "after": 0.2
         },
         "output": {
-          "before": 3.0,
+          "before": 3,
           "after": 0.6
         }
       },
@@ -204,12 +372,12 @@
       "tier": "standard",
       "prices": {
         "input": {
-          "before": 3.0,
-          "after": 2.0
+          "before": 3,
+          "after": 2
         },
         "output": {
-          "before": 9.0,
-          "after": 6.0
+          "before": 9,
+          "after": 6
         }
       },
       "effective_from": "2024-09-17",
@@ -282,6 +450,53 @@
         "quote": "forme Technology Technology Models Customization Deployment Prices Business Business Use cases Customer stories About Us About Us Mission Careers News Le Chat Log In Le Chat Log In AI"
       },
       "notes": "Part of the September 2024 price cuts."
+    },
+    {
+      "id": "mistral-small-alias-to-2409-2024-09-17",
+      "provider": "mistral-ai",
+      "model": "Mistral Small",
+      "model_ids": [
+        "mistral-small-latest",
+        "mistral-small-2409"
+      ],
+      "dataset_model_id": null,
+      "change_kind": "alias_repoint",
+      "unit": "USD per 1M tokens",
+      "tier": "standard",
+      "prices": {
+        "input": {
+          "before": 1,
+          "after": 0.2
+        },
+        "output": {
+          "before": 3,
+          "after": 0.6
+        }
+      },
+      "effective_from": "2024-09-17",
+      "date_basis": "provider_announced",
+      "observed_window": {
+        "last_old_snapshot": "2024-09-12T13:27:20Z",
+        "first_new_snapshot": "2024-09-17T19:22:03Z"
+      },
+      "source_page": "https://mistral.ai/technology/",
+      "before_snapshot": {
+        "archive_url": "https://web.archive.org/web/20240912132720/https://mistral.ai/technology/",
+        "captured_at": "2024-09-12T13:27:20Z",
+        "quote": "Mistral Small mistral-small-latest Cost-efficient reasoning, optimised for high volume use cases that require low latency. $1 /1M tokens $3 /1M tokens Mistral Medium mistral-medium"
+      },
+      "after_snapshot": {
+        "archive_url": "https://web.archive.org/web/20240917192203/https://mistral.ai/technology/",
+        "captured_at": "2024-09-17T19:22:03Z",
+        "quote": "Mistral Small 24.09 mistral-small-2409 Cost-efficient, fast, and reliable option for use cases such as translation, summarization, and sentiment analysis. $0.2 /1M tokens $0.6 /1M tokens Model API Name Description Input Output Mis"
+      },
+      "announcement": {
+        "url": "https://mistral.ai/news/september-24-release/",
+        "archive_url": "https://web.archive.org/web/20240917172649/https://mistral.ai/news/september-24-release/",
+        "archived_at": "2024-09-17T17:26:49Z",
+        "quote": "forme Technology Technology Models Customization Deployment Prices Business Business Use cases Customer stories About Us About Us Mission Careers News Le Chat Log In Le Chat Log In AI"
+      },
+      "notes": "Part of the September 2024 price cuts; the Small row moved to the new Mistral Small 24.09 (mistral-small-2409)."
     },
     {
       "id": "openai-gpt-4o-2024-08-06-cached-input-2024-10-01",
@@ -464,12 +679,12 @@
       "tier": "standard",
       "prices": {
         "input": {
-          "before": 5.0,
+          "before": 5,
           "after": 2.5
         },
         "output": {
-          "before": 15.0,
-          "after": 10.0
+          "before": 15,
+          "after": 10
         },
         "batch_input": {
           "before": 2.5,
@@ -514,15 +729,15 @@
         },
         "output": {
           "before": 10.5,
-          "after": 5.0
+          "after": 5
         },
         "input_long": {
-          "before": 7.0,
+          "before": 7,
           "after": 2.5
         },
         "output_long": {
-          "before": 21.0,
-          "after": 10.0
+          "before": 21,
+          "after": 10
         },
         "cached_input": {
           "before": 0.875,
@@ -567,16 +782,16 @@
       "tier": "standard",
       "prices": {
         "input": {
-          "before": 1.0,
+          "before": 1,
           "after": 0.8
         },
         "output": {
-          "before": 5.0,
-          "after": 4.0
+          "before": 5,
+          "after": 4
         },
         "cache_write": {
           "before": 1.25,
-          "after": 1.0
+          "after": 1
         },
         "cache_read": {
           "before": 0.1,
@@ -604,6 +819,53 @@
       "notes": "Price card values are read from the page's embedded content data; the visible page renders the same card."
     },
     {
+      "id": "mistral-small-alias-to-2501-2025-01-30",
+      "provider": "mistral-ai",
+      "model": "Mistral Small",
+      "model_ids": [
+        "mistral-small-latest",
+        "mistral-small-2501"
+      ],
+      "dataset_model_id": null,
+      "change_kind": "alias_repoint",
+      "unit": "USD per 1M tokens",
+      "tier": "standard",
+      "prices": {
+        "input": {
+          "before": 0.2,
+          "after": 0.1
+        },
+        "output": {
+          "before": 0.6,
+          "after": 0.3
+        }
+      },
+      "effective_from": "2025-01-30",
+      "date_basis": "provider_announced",
+      "observed_window": {
+        "last_old_snapshot": "2025-01-30T11:34:49Z",
+        "first_new_snapshot": "2025-01-30T17:15:38Z"
+      },
+      "source_page": "https://mistral.ai/technology/",
+      "before_snapshot": {
+        "archive_url": "https://web.archive.org/web/20250130113449/https://mistral.ai/technology/",
+        "captured_at": "2025-01-30T11:34:49Z",
+        "quote": "Mistral Small 24.09 mistral-small-latest Cost-efficient, fast, and reliable option for use cases such as translation, summarization, and sentiment analysis. $0.2 $0.6 Codestral cod"
+      },
+      "after_snapshot": {
+        "archive_url": "https://web.archive.org/web/20250130171538/https://mistral.ai/technology/",
+        "captured_at": "2025-01-30T17:15:38Z",
+        "quote": "Mistral Small 25.01 mistral-small-latest Cost-efficient, fast, and reliable option for use cases such as translation, summarization, and sentiment analysis. $0.1 $0.3 Codestral cod"
+      },
+      "announcement": {
+        "url": "https://mistral.ai/news/mistral-small-3/",
+        "archive_url": "https://web.archive.org/web/20250130143452/https://mistral.ai/news/mistral-small-3/",
+        "archived_at": "2025-01-30T14:34:52Z",
+        "quote": "January 30, 2025 Mistral AI team Today we’re introducing Mistral Small 3, a latency-optimized 24B-parameter model released under the Apache"
+      },
+      "notes": "mistral-small-latest moved from Mistral Small 24.09 to Mistral Small 3 (25.01), announced 2025-01-30. EUR 0.18/0.54 to 0.1/0.3."
+    },
+    {
       "id": "openai-o1-mini-price-cut-2025-01",
       "provider": "openai",
       "model": "o1-mini",
@@ -617,7 +879,7 @@
       "tier": "standard",
       "prices": {
         "input": {
-          "before": 3.0,
+          "before": 3,
           "after": 1.1
         },
         "cached_input": {
@@ -625,7 +887,7 @@
           "after": 0.55
         },
         "output": {
-          "before": 12.0,
+          "before": 12,
           "after": 4.4
         }
       },
@@ -712,16 +974,16 @@
       "tier": "standard",
       "prices": {
         "input": {
-          "before": 10.0,
-          "after": 2.0
+          "before": 10,
+          "after": 2
         },
         "cached_input": {
           "before": 2.5,
           "after": 0.5
         },
         "output": {
-          "before": 40.0,
-          "after": 8.0
+          "before": 40,
+          "after": 8
         }
       },
       "effective_from": "2025-06-10",
@@ -1333,12 +1595,12 @@
       "tier": "requests over 200K input tokens",
       "prices": {
         "input_over_200k": {
-          "before": 10.0,
-          "after": 5.0
+          "before": 10,
+          "after": 5
         },
         "output_over_200k": {
           "before": 37.5,
-          "after": 25.0
+          "after": 25
         }
       },
       "effective_from": "2026-03-13",
@@ -1379,12 +1641,12 @@
       "tier": "requests over 200K input tokens",
       "prices": {
         "input_over_200k": {
-          "before": 6.0,
-          "after": 3.0
+          "before": 6,
+          "after": 3
         },
         "output_over_200k": {
           "before": 22.5,
-          "after": 15.0
+          "after": 15
         }
       },
       "effective_from": "2026-03-13",
@@ -1600,11 +1862,11 @@
       "tier": "standard",
       "prices": {
         "input": {
-          "before": 2.0,
+          "before": 2,
           "after": 1.25
         },
         "output": {
-          "before": 6.0,
+          "before": 6,
           "after": 2.5
         }
       },
@@ -1641,11 +1903,11 @@
       "tier": "standard",
       "prices": {
         "input": {
-          "before": 2.0,
+          "before": 2,
           "after": 1.25
         },
         "output": {
-          "before": 6.0,
+          "before": 6,
           "after": 2.5
         }
       },
@@ -1727,7 +1989,7 @@
       "tier": "Standard",
       "prices": {
         "input": {
-          "before": 1.0,
+          "before": 1,
           "after": 0.2
         },
         "cached_input": {
@@ -1739,11 +2001,11 @@
           "after": 0.25
         },
         "output": {
-          "before": 6.0,
+          "before": 6,
           "after": 1.2
         },
         "input_long": {
-          "before": 2.0,
+          "before": 2,
           "after": 0.4
         },
         "cached_input_long": {
@@ -1755,7 +2017,7 @@
           "after": 0.5
         },
         "output_long": {
-          "before": 9.0,
+          "before": 9,
           "after": 1.8
         }
       },
@@ -1798,7 +2060,7 @@
       "prices": {
         "input": {
           "before": 2.5,
-          "after": 2.0
+          "after": 2
         },
         "cached_input": {
           "before": 0.25,
@@ -1809,12 +2071,12 @@
           "after": 2.5
         },
         "output": {
-          "before": 15.0,
-          "after": 12.0
+          "before": 15,
+          "after": 12
         },
         "input_long": {
-          "before": 5.0,
-          "after": 4.0
+          "before": 5,
+          "after": 4
         },
         "cached_input_long": {
           "before": 0.5,
@@ -1822,11 +2084,11 @@
         },
         "cache_write_long": {
           "before": 6.25,
-          "after": 5.0
+          "after": 5
         },
         "output_long": {
           "before": 22.5,
-          "after": 18.0
+          "after": 18
         }
       },
       "effective_from": "2026-07-30",

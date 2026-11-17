@@ -233,7 +233,7 @@ The first pricing release of a UTC day uses the plain date. A later release on t
 
 Price changes between snapshots are recorded as events in `data/price-change-events/events.jsonl`; see [price change events](docs/price-change-events.md) for the rules.
 
-Older price changes from OpenAI, Anthropic, Google, DeepSeek, Mistral and xAI, going back to 2024, are in `data/archive-history/price-changes-2024-2026.v1.json`. Each one links the archived pricing page before and after the change; see [archived price changes](docs/archive-price-changes.md).
+Older price changes from OpenAI, Anthropic, Google, DeepSeek, Mistral, Cohere and xAI, going back to 2024, are in `data/archive-history/price-changes-2024-2026.v1.json`. Each one links the archived pricing page before and after the change; see [archived price changes](docs/archive-price-changes.md).
 
 ## Cost per successful task
 

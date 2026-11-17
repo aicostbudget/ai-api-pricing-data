@@ -63,9 +63,11 @@ OpenAI, Anthropic and Google were checked across the whole period. What was chec
   - February to November 2026: `developers.openai.com/api/docs/pricing` was checked capture by capture. From March 2026 only the flagship table is readable; older models in the "All models" table are rendered by JavaScript.
 - Anthropic: the `anthropic.com/api` pricing cards and the documentation models and pricing pages were checked from March 2024 to November 2026. January and February 2024 have no readable official page.
 - Google: `ai.google.dev/pricing` (2024 to February 2025) and `ai.google.dev/gemini-api/docs/pricing` (February 2025 to November 2026) were checked for every text model row.
-- Mistral: pricing page captures after October 2025 are not readable.
-- xAI: the API page shows no prices before April 2025, and the docs site is JavaScript only.
-- DeepSeek, Mistral and xAI were only checked on their main pricing pages; third-party leads were not followed up for them.
+- Mistral: `mistral.ai/technology/` captures were checked from April 2024. The records are two price cuts in May 2024 and two moves of the `mistral-small-latest` alias (September 2024 and January 2025). Before April 2024 the page showed EUR only, so there is no USD before-and-after pair. Pricing page captures after October 2025 are not readable, so 2026 cache prices and the Magistral repricing are not confirmed.
+- Cohere: `cohere.com/pricing` captures were checked from 2024. The only records are the `command-r` and `command-r-plus` aliases moving to their 08-2024 versions on 2024-08-30; Cohere's announcement page is JavaScript only in the archive, so those records use the capture window. Leads for `command`, `command-light` and `command-r7b` were errors in the third-party price list and are not records.
+- xAI: the API page shows no prices before April 2025, and the docs site is JavaScript only. `x.ai/api` stopped listing prices by August 2026 and never listed grok-3 cached-input prices, so cached-input prices for grok-3 and the grok-4.5 cache price change are not confirmed.
+- DeepSeek was only checked on its main pricing page; third-party leads were not followed up for it. Leads for Mistral, Cohere and xAI were checked; the ones that did not hold up are not records.
+- Moonshot, Alibaba, Meta, Amazon and Zhipu are not covered.
 
 ## Fields
 

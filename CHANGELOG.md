@@ -2,7 +2,7 @@
 
 ## Unreleased
 
-- Added `data/archive-history/price-changes-2024-2026.v1.json`: 40 price changes from 2024 to 2026 across OpenAI, Anthropic, Google, DeepSeek, Mistral and xAI, each with Wayback Machine captures of the official pricing page before and after the change, plus the announcement when one exists.
+- Added `data/archive-history/price-changes-2024-2026.v1.json`: 46 price changes from 2024 to 2026 across OpenAI, Anthropic, Google, DeepSeek, Mistral, Cohere and xAI, each with Wayback Machine captures of the official pricing page before and after the change, plus the announcement when one exists.
 
 ## dataset-2026-10 - 2026-11-01
 
