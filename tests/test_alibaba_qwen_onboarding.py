@@ -43,7 +43,7 @@ class AlibabaQwenOnboardingTests(unittest.TestCase):
         self.assertTrue(provider["pricing_url"].startswith("https://www.alibabacloud.com/help/en/model-studio/"))
         self.assertEqual(
             {model_id for provider_id, model_id in self.canonical if provider_id == PROVIDER},
-            set(EXPECTED),
+            set(EXPECTED) | {"qwen4-max"},  # qwen4-max has its own test_qwen4_max_onboarding.py
         )
 
     def test_international_list_prices_and_request_tiers(self):

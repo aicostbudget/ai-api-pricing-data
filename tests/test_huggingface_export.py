@@ -503,18 +503,28 @@ class HuggingFaceExportTests(unittest.TestCase):
         cyber_writes = [item for row in self.records if row["model_id"] in ("gpt-6-cyber", "gpt-5.6-cyber")
                         for item in row["pricing_components"] if item["component"] == "cache_write"]
         self.assertEqual(sorted(item["amount"] for item in cyber_writes), ["15.625", "25"])
+        # GPT-6.2 Astra and Sol (released 2026-11-17): ten price records each, one 30-minute write per record.
+        gpt_62_writes = [item for row in self.records if row["model_id"] in ("gpt-6.2-astra", "gpt-6.2-sol")
+                         for item in row["pricing_components"] if item["component"] == "cache_write"]
+        self.assertEqual(len(gpt_62_writes), 20)
+        # Qwen4 Max bills explicit cache creation at 5-minute and 1-hour TTLs.
+        qwen4_writes = [item for row in self.records if row["model_id"] == "qwen4-max"
+                        for item in row["pricing_components"] if item["component"].startswith("cache_write")]
+        self.assertEqual({item["component"]: item["amount"] for item in qwen4_writes},
+                         {"cache_write_5m": "1.875", "cache_write_1h": "3"})
         self.assertEqual(
             cache_write_count - phase_b_cache_write_count,
-            45 + 4 + 4 + len(expected_new_writes) + len(kimi_writes) + len(kimi_batch_writes) + len(sonnet_55_writes) + len(ultrafast_writes) + len(rosalind_writes) + len(cyber_writes),
+            45 + 4 + 4 + len(expected_new_writes) + len(kimi_writes) + len(kimi_batch_writes) + len(sonnet_55_writes) + len(ultrafast_writes) + len(rosalind_writes) + len(cyber_writes) + len(gpt_62_writes) + len(qwen4_writes),
         )
         self.assertEqual(
             cache_write_count,
-            45 + 4 + 4 + len(expected_new_writes) + len(kimi_writes) + len(kimi_batch_writes) + len(sonnet_55_writes) + phase_b_cache_write_count + len(ultrafast_writes) + len(rosalind_writes) + len(cyber_writes),
+            45 + 4 + 4 + len(expected_new_writes) + len(kimi_writes) + len(kimi_batch_writes) + len(sonnet_55_writes) + phase_b_cache_write_count + len(ultrafast_writes) + len(rosalind_writes) + len(cyber_writes) + len(gpt_62_writes) + len(qwen4_writes),
         )
         # OpenAI 12-hour cache writes: every price record of the eight GPT-5.6+ models, at 2.5x input,
-        # plus GPT-6 Rosalind's two Standard records and one Standard record each for GPT-6-Cyber and GPT-5.6 Cyber.
-        self.assertEqual(len(twelve_hour_writes), 72)
-        self.assertEqual(len({item["charge_id"] for item in twelve_hour_writes}), 72)
+        # plus GPT-6 Rosalind's two Standard records and one Standard record each for GPT-6-Cyber and GPT-5.6 Cyber,
+        # plus every price record (10 each) of GPT-6.2 Astra and GPT-6.2 Sol.
+        self.assertEqual(len(twelve_hour_writes), 92)
+        self.assertEqual(len({item["charge_id"] for item in twelve_hour_writes}), 92)
         self.assertTrue(all(item["charge_id"].startswith("price:openai/gpt-") for item in twelve_hour_writes))
         self.assertTrue(any(not record["pricing_components"] for record in self.records))
 

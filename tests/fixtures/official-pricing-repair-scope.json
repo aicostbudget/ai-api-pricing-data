@@ -188,7 +188,10 @@
     "google-gemini/gemini-4-hydrogen": "e6200ec84d8c23eaebe79390ad45134469144ebd3ab90e1f4af44adbb52a98d0",
     "minimax/minimax-h3-image": "c6c80083f362ab827c1762aa896519ac4c204f90d815486cd31c1fdcd4eab92c",
     "minimax/minimax-h3-image-highspeed": "7475f925053563b63db5f4fe35ee5f907e16c3cd9c5f8e54a34f228a22dbdbd5",
-    "meta/muse-ember-1.0": "a5345034c57ed1a35c9f659dd4ceb254ccbb011a3259a139366beaa9d7fc043d"
+    "meta/muse-ember-1.0": "a5345034c57ed1a35c9f659dd4ceb254ccbb011a3259a139366beaa9d7fc043d",
+    "alibaba-qwen/qwen4-max": "1ce0ae4a4c851e443f3843cac72204911c348375e0494754380002cd0237a30c",
+    "openai/gpt-6.2-astra": "6da8be144cd6612d8747ebe4a90f91743eaa9135e529c2a905dc506cf4befddb",
+    "openai/gpt-6.2-sol": "baeb5999f193b622d4f5bb333867d68c528a39d1b611ef8aef55317ff0c87c8a"
   },
   "projection": {
     "anthropic/claude-haiku-5-5": "af29b32c2ccf35ff1c0444c94ef97aeb28fa3a230f6207e8ec41b673f4efb078",
@@ -383,7 +386,10 @@
     "google-gemini/gemini-4-hydrogen": "c527d2cf9d3f933cb6a51a31360f3eefe59c142c08b6daa1d8761b3693aefeb6",
     "minimax/minimax-h3-image": "7743cbc446e4cc668abc646da315802058034639c84d50a5134fe19ed938106f",
     "minimax/minimax-h3-image-highspeed": "5f6acfa890f590c036d75f6e32831f2b50651e9a3d74b87efcfa301f4d2058dc",
-    "meta/muse-ember-1.0": "0ef5a776f252c204aead4a1fc353d87831370a37456f65ce361ecb5f7a6b6488"
+    "meta/muse-ember-1.0": "0ef5a776f252c204aead4a1fc353d87831370a37456f65ce361ecb5f7a6b6488",
+    "alibaba-qwen/qwen4-max": "85bef1abb1f99e211404da2630a89440019fbf350d683572653c4f7a96218ff6",
+    "openai/gpt-6.2-astra": "adfb2d87d0211a03135c7f3b5b89da405e6b07e36e707c6fbbdb0da932ab6433",
+    "openai/gpt-6.2-sol": "bbdf8960a80deba32517b6afabb376a422fc7ada1280bc72e57be28bb0be8c46"
   },
   "evidence_report": "official-pricing-repair-report.md",
   "events_sha256": "a04e3fbb1d4cb049f2d9cfcadfca3b6383fc1bcdc3df6ca0ee6cfddc38e706ed",
@@ -1198,5 +1204,24 @@
       "sha256:5211b2c03d79e5d25aceab373118028c141028c2b48714219fa7f9f7e02dc054"
     ],
     "rationale": "Muse Ember launch on 2026-11-09. The launch event uses the Standard short-context rates; the price records preserve both tiers."
+  },
+  "gpt_6_2_qwen4_max_models_added_extension": {
+    "base_release": "muse_ember_models_added_extension",
+    "base_event_count": 93,
+    "appended_event_count": 3,
+    "full_event_count": 96,
+    "full_events_sha256": "f39bdca4a24d6362fe9306902395874fcd8c9f19b71b0a329d107fa3989da80a",
+    "appended_events_sha256": "4653dd253c952b9005596300df6820d4afce7b7f8aeda71873b2cc70f4b164aa",
+    "appended_event_ids": [
+      "alibaba-qwen:qwen4-max:model_added:6fa3b49e4e33",
+      "openai:gpt-6.2-astra:model_added:fa7e8fcbcdc9",
+      "openai:gpt-6.2-sol:model_added:f6ae6631b86b"
+    ],
+    "appended_dedupe_keys": [
+      "sha256:6fa3b49e4e330b2833d2eb551c8d134b9b9f2fa67ac51acbbe1ed6fcb3e86288",
+      "sha256:fa7e8fcbcdc958111481b1a495e6e1a8393a81217e0e85de159e494c65d3ce7c",
+      "sha256:f6ae6631b86b6f519019d75f217da94c2270d2ba41cd86c013355bc9194041d5"
+    ],
+    "rationale": "GPT-6.2 Astra and GPT-6.2 Sol launch on 2026-11-17 and the Qwen4 Max listing (no official release date). Launch events use the Standard short-context rates; the price records preserve every processing mode and both context tiers, including the scheduled 2027-03-01 Ultrafast step, which is a future price record and not a scheduled_price_change event because that feed only follows the default Standard mode."
   }
 }
