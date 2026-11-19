@@ -20,6 +20,7 @@ const expectedToolNames = [
   "estimate_monthly_cost",
   "compare_models",
   "price_changes",
+  "get_price_impact",
 ];
 
 function runNode(args, options = {}) {
@@ -80,7 +81,7 @@ function comparableTool(tool) {
   return { name: tool.name, description: tool.description, inputSchema: tool.inputSchema };
 }
 
-test("packed MCPB is self-contained and serves all five tools over stdio", async (t) => {
+test("packed MCPB is self-contained and serves all six tools over stdio", async (t) => {
   const bundleStats = await stat(bundlePath);
   assert.ok(bundleStats.size < 10 * 1024 * 1024, `bundle is ${bundleStats.size} bytes, expected less than 10 MB`);
   const variantStats = await stat(variantBundlePath);

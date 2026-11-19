@@ -2,9 +2,9 @@
   "manifest_version": "0.3",
   "name": "ai-api-pricing-mcp",
   "display_name": "AICostBudget AI API Pricing",
-  "version": "0.1.1",
+  "version": "0.2.0",
   "description": "Read-only AI API pricing lookup, comparison, cost-estimation, and price-change tools with source links.",
-  "long_description": "Provides five read-only tools to look up model prices, list and filter models, estimate monthly token costs, compare model costs, and inspect price-change events. Every successful pricing result includes the official provider source URL and verification date. No API key is required and no telemetry is collected. Runtime network access is limited to the GitHub Pages pricing dataset JSON, the price-change events file, and aicostbudget.com/sitemap.xml; bundled fallback data is used when those endpoints are unavailable.",
+  "long_description": "Provides six read-only tools to look up model prices, list and filter models, estimate monthly token costs, compare model costs, inspect price-change events, and see what each recorded price change does to a monthly workload. Every successful pricing result includes the official provider source URL and verification date. No API key is required and no telemetry is collected. Runtime network access is limited to the GitHub Pages pricing dataset JSON, the price-change events file, and aicostbudget.com/sitemap.xml; bundled fallback data is used when those endpoints are unavailable.",
   "author": {
     "name": "AICostBudget",
     "url": "https://aicostbudget.com"
@@ -55,6 +55,10 @@
     {
       "name": "price_changes",
       "description": "List up to 20 newest source-linked price-change events."
+    },
+    {
+      "name": "get_price_impact",
+      "description": "Show what each recorded price change of one model does to a monthly workload: the monthly cost before and after, the difference, and whether the change is in effect or only announced."
     }
   ],
   "tools_generated": false,

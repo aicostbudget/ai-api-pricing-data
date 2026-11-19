@@ -85,6 +85,9 @@ Create `.vscode/mcp.json`:
 - `estimate_monthly_cost({ model, input_tokens_per_request, output_tokens_per_request, requests_per_month, cached_input_ratio?, use_batch? })`
 - `compare_models({ models, input_tokens_per_request, output_tokens_per_request, requests_per_month })`
 - `price_changes({ since?, provider? })`
+- `get_price_impact({ model, input_tokens_per_request, output_tokens_per_request, requests_per_month, cached_input_ratio?, since?, include_scheduled? })`
+
+`get_price_impact` prices every recorded same-model price change against your workload: the monthly cost before and after each change, the difference, and whether the change is already in effect or only announced. It uses the standard per-1M-token rates in the price-change events. When an event lacks a price your workload needs, that change is listed as not priced with the reason, and a net total over the changes in effect is given only when none of them was left out and each change starts from the price the previous one set. It refuses workloads that the catalog prices from a different tier (for example a long-context tier), and models billed by time of day are not priced. Changes before the first event in the feed are not covered; the result states the feed's start date.
 
 Model matching accepts exact IDs and display names. A fuzzy query that matches multiple models returns an explicit “Did you mean” list instead of silently choosing one. Cost estimates refuse missing required prices; they never substitute a standard, cache, or batch rate.
 
@@ -105,6 +108,9 @@ Assistant → compare_models: Results sorted from lowest to highest estimated to
 
 User: Show OpenAI price changes since 2026-01-01.
 Assistant → price_changes: Up to 20 newest matching events with source URLs and the price monitor link.
+
+User: What did the recorded price changes do to that gpt-4.1 workload?
+Assistant → get_price_impact: Each change in effect or announced, with the monthly cost before and after, and a net total only when every change in effect could be priced.
 ```
 
 ## Troubleshooting

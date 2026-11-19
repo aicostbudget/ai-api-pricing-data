@@ -45,7 +45,7 @@ function assertFooter(result) {
   assert.ok(result.structuredContent);
 }
 
-test("all five tools run through the SDK in-memory transport", async (t) => {
+test("the five lookup tools run through the SDK in-memory transport", async (t) => {
   const { client, server } = await connectedClient();
   t.after(async () => { await client.close(); await server.close(); });
 

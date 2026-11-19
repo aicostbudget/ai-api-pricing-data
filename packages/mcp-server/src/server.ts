@@ -4,12 +4,14 @@ import {
   compareModels,
   estimateCost,
   loadPrices,
+  UnsupportedPricingError,
   type DataSource,
   type FetchLike,
   type ModelPrice,
   type PriceCatalog,
 } from "ai-api-pricing";
 import { bundledPriceChangeEvents } from "./generated/bundled-events.js";
+import { computePriceImpact, eventDate, type ImpactWorkload } from "./impact.js";
 import { bundledModelPageUrls } from "./generated/bundled-pages.js";
 
 const SITEMAP_URL = "https://aicostbudget.com/sitemap.xml";
@@ -42,6 +44,8 @@ interface ToolEnvelope extends Record<string, unknown> {
 export interface PricingMcpServerOptions {
   fetchImpl?: FetchLike;
   pricingSource?: DataSource;
+  /** Clock for the in-effect / scheduled split; tests pin it. */
+  now?: () => Date;
 }
 
 interface PriceChangeResult {
@@ -165,7 +169,7 @@ function parseEvents(jsonl: string): RawRecord[] {
 }
 
 export function createPricingMcpServer(options: PricingMcpServerOptions = {}): McpServer {
-  const server = new McpServer({ name: "ai-api-pricing-mcp", version: "0.1.1" });
+  const server = new McpServer({ name: "ai-api-pricing-mcp", version: "0.2.0" });
   const fetchImpl = options.fetchImpl ?? globalThis.fetch;
   let sitemapCache: { expiresAt: number; urls: Set<string> } | undefined;
 
@@ -394,6 +398,112 @@ export function createPricingMcpServer(options: PricingMcpServerOptions = {}): M
       aicostbudget_url: PRICE_MONITOR_URL,
     };
     return textResult(`${events.length} price change(s).\n${events.map((event) => `${event.detected_at}: ${event.provider_id}/${event.model_id} ${event.change_type}`).join("\n")}`, envelope, result.fallbackReason);
+  });
+
+  server.registerTool("get_price_impact", {
+    title: "Get price impact",
+    description: "Show what each recorded price change of one model does to a monthly workload: the monthly cost before and after, the difference, and whether the change is in effect or only announced.",
+    inputSchema: {
+      model: z.string().min(1),
+      input_tokens_per_request: z.number().int().nonnegative(),
+      output_tokens_per_request: z.number().int().nonnegative(),
+      requests_per_month: z.number().int().nonnegative(),
+      cached_input_ratio: z.number().min(0).max(1).optional(),
+      since: z.string().date().optional(),
+      include_scheduled: z.boolean().optional(),
+    },
+    outputSchema,
+    annotations,
+  }, async (args) => {
+    const prices = await catalog();
+    const resolved = resolveModel(prices, args.model);
+    if (!resolved.model) {
+      return errorResult(`Ambiguous or unknown model '${args.model}'. Did you mean: ${resolved.candidates.map((model) => model.modelId).join(", ")}?`, {
+        sources: unique(resolved.candidates.map((model) => model.officialSourceUrl)),
+        verifiedAt: resolved.candidates.map((model) => model.lastVerifiedAt).sort().at(-1) ?? prices.lastVerifiedAt,
+      });
+    }
+    const model = resolved.model;
+    const pageUrl = await modelPage(model.modelId);
+    const workload: ImpactWorkload = {
+      inputTokensPerRequest: args.input_tokens_per_request,
+      outputTokensPerRequest: args.output_tokens_per_request,
+      requestsPerMonth: args.requests_per_month,
+      cachedInputRatio: args.cached_input_ratio ?? 0,
+    };
+    const fail = (message: string) => errorResult(message, { sources: [model.officialSourceUrl], verifiedAt: model.lastVerifiedAt, pageUrl });
+    // The events carry the standard per-1M-token rates only, so a request that the catalog prices from a long-context tier cannot be evaluated.
+    try {
+      const probe = await estimateCost({ modelId: model.modelId, inputTokens: workload.inputTokensPerRequest, cachedInputTokens: 0, outputTokens: 0, source: prices.source, fetchImpl });
+      const tier = probe.pricesUsed.tierId ? model.pricingTiers.find((candidate) => candidate.id === probe.pricesUsed.tierId) : undefined;
+      const standard = model.pricing;
+      if (tier && (tier.input !== standard.input || tier.output !== standard.output || tier.cachedInput !== standard.cachedInput)) {
+        return fail(`A request of ${workload.inputTokensPerRequest} input tokens is priced from the ${tier.id} tier for ${model.modelId}, at rates other than the standard ones. Price-change events carry only the standard rates, so the impact cannot be calculated for this workload.`);
+      }
+    } catch (error) {
+      if (error instanceof UnsupportedPricingError) return fail(error.message);
+      // A missing current price does not stop the impact calculation: the events carry their own prices.
+    }
+    const result = await priceChanges();
+    const today = (options.now?.() ?? new Date()).toISOString().slice(0, 10);
+    const impact = computePriceImpact(result.events, model.modelId, workload, { since: args.since, includeScheduled: args.include_scheduled, today });
+    const eventDates = result.events.map((event) => eventDate(event)).filter(Boolean).sort();
+    const feedStart = eventDates[0] ?? null;
+
+    let currentMonthly: number | null = null;
+    try {
+      const totalInput = workload.inputTokensPerRequest * workload.requestsPerMonth;
+      currentMonthly = (await estimateCost({
+        modelId: model.modelId, inputTokens: totalInput, cachedInputTokens: Math.round(totalInput * workload.cachedInputRatio),
+        outputTokens: workload.outputTokensPerRequest * workload.requestsPerMonth, source: prices.source, fetchImpl,
+      })).total;
+    } catch {
+      currentMonthly = null;
+    }
+    const notes = [
+      "Prices are the standard per-1M-token rates in the price-change events, before taxes, negotiated discounts, credits, and provider rounding.",
+      feedStart ? `The event feed starts on ${feedStart}; earlier changes are not in it.` : "The event feed has no events.",
+    ];
+    const newestInEffect = impact.entries.find((entry) => entry.status === "in_effect");
+    if (currentMonthly !== null && newestInEffect && Math.abs(newestInEffect.after_monthly_usd - currentMonthly) > 1e-9 * Math.max(1, Math.abs(currentMonthly))) {
+      notes.push(`The newest change in effect ends at ${formatUsd(newestInEffect.after_monthly_usd)} a month, but the current catalog price gives ${formatUsd(currentMonthly)}, so a later change is not in the event feed.`);
+    }
+    const sources = unique([model.officialSourceUrl, ...impact.entries.flatMap((entry) => [entry.official_source_url ?? "", entry.announcement_url ?? ""])]);
+    const verifiedAt = result.events
+      .filter((event) => String(event.model_id).toLowerCase() === model.modelId.toLowerCase())
+      .map((event) => String(event.verified_at ?? "")).sort().at(-1) || model.lastVerifiedAt;
+    const envelope: ToolEnvelope = {
+      data: {
+        model: { model_id: model.modelId, display_name: model.displayName },
+        workload: { ...workload },
+        entries: impact.entries,
+        skipped: impact.skipped,
+        net: impact.net,
+        net_unavailable_reason: impact.net_unavailable_reason,
+        current_monthly_usd: currentMonthly,
+        event_feed: { source: result.source, earliest_event_date: feedStart, events_checked: result.events.length },
+        notes,
+      },
+      source: result.source,
+      bundled_fallback: result.source === "bundled",
+      official_source_urls: sources,
+      verified_at: verifiedAt,
+      aicostbudget_url: pageUrl,
+    };
+    const percent = (value: number | null) => value === null ? "" : ` (${value > 0 ? "+" : value < 0 ? "−" : ""}${Math.abs(value).toFixed(1)}%)`;
+    const money = (value: number) => `${value < 0 ? "−" : value > 0 ? "+" : ""}${formatUsd(Math.abs(value))}`;
+    const label = (entry: { date: string; status: string; date_basis: string }) =>
+      entry.status === "scheduled" ? `${entry.date} (announced, not yet in effect)` : entry.date_basis === "first_observed" ? `${entry.date} (first seen by the monitor)` : entry.date;
+    const lines = [
+      `${model.displayName} (${model.modelId}): ${impact.entries.length} price change(s) priced for ${workload.requestsPerMonth} requests a month, ${workload.inputTokensPerRequest} input and ${workload.outputTokensPerRequest} output tokens each, ${Math.round(workload.cachedInputRatio * 100)}% of input cached.`,
+      ...impact.entries.map((entry) => `${label(entry)}: ${formatUsd(entry.before_monthly_usd)} to ${formatUsd(entry.after_monthly_usd)} a month, ${money(entry.delta_monthly_usd)}${percent(entry.delta_percent)}: ${entry.direction.replaceAll("_", " ")}`),
+      ...impact.skipped.map((item) => `${label(item)}: not priced. ${item.reason}`),
+      impact.net
+        ? `Net across ${impact.net.changes} change(s) in effect, ${impact.net.from_date} to ${impact.net.to_date}: ${formatUsd(impact.net.before_monthly_usd)} to ${formatUsd(impact.net.after_monthly_usd)} a month, ${money(impact.net.delta_monthly_usd)}${percent(impact.net.delta_percent)}.`
+        : `No net total: ${impact.net_unavailable_reason}`,
+      ...notes,
+    ];
+    return textResult(lines.join("\n"), envelope, result.fallbackReason);
   });
 
   return server;
