@@ -2,8 +2,12 @@
 
 ## Unreleased
 
-- Added the `get_price_impact` tool to `ai-api-pricing-mcp` 0.2.0 (not yet published to npm): for one model and a monthly workload it prices each recorded price change before and after, separates changes in effect from announced ones, never assumes a price an event does not list, and gives a net total only when every change in effect could be priced and the changes connect. It refuses workloads priced from a non-standard tier and does not price time-of-day schedules.
 - Added `data/archive-history/price-changes-2024-2026.v1.json`: 46 price changes from 2024 to 2026 across OpenAI, Anthropic, Google, DeepSeek, Mistral, Cohere and xAI, each with Wayback Machine captures of the official pricing page before and after the change, plus the announcement when one exists.
+
+## mcp-server-v0.2.0 - 2026-11-19 (MCP server bundle, not a dataset release)
+
+- Published `ai-api-pricing-mcp` 0.2.0 to npm (`gitHead` `f253b7d7641b83af5c57749ca00979b57264e349`), to the official MCP Registry, and as the `ai-api-pricing-mcp-0.2.0.mcpb` bundle on the GitHub Release `mcp-server-v0.2.0` (SHA-256 `99D8F4A3C2CB0219B1EE34CC508EDE49C65E11EE4598ED62B0A428244A5F9F8A`). The Release contains the MCP server bundle only and is not a new dataset version.
+- Added the `get_price_impact` tool to `ai-api-pricing-mcp`: for one model and a monthly workload it prices each recorded price change before and after, separates changes in effect from announced ones, never assumes a price an event does not list, and gives a net total only when every change in effect could be priced and the changes connect. It refuses workloads priced from a non-standard tier and does not price time-of-day schedules.
 
 ## dataset-2026-10 - 2026-11-01
 

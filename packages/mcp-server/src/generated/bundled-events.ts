@@ -133,6 +133,270 @@ export const bundledPriceChangeEvents: unknown[] = [
     "verified_at": "2026-10-28"
   },
   {
+    "announcement_url": "https://www.alibabacloud.com/help/en/model-studio/model-pricing",
+    "change_type": "model_added",
+    "currency": "USD",
+    "date_basis": "first_observed",
+    "dedupe_key": "sha256:6fa3b49e4e330b2833d2eb551c8d134b9b9f2fa67ac51acbbe1ed6fcb3e86288",
+    "detected_at": "2026-11-18",
+    "effective_from": null,
+    "event_id": "alibaba-qwen:qwen4-max:model_added:6fa3b49e4e33",
+    "model_id": "qwen4-max",
+    "new_lifecycle": null,
+    "new_prices": {
+      "cached_input": 0.075,
+      "input": 1.5,
+      "output": 4.5
+    },
+    "new_status": "active",
+    "notes": "Official API model ID qwen4-max (the model page labels it the latest model). 1,000,000-token context window; maximum input 991,808 tokens (983,616 in thinking mode); maximum output 131,072 tokens (262,144 in thinking mode). Text, image and video input, text output. One untiered rate covers thinking and non-thinking modes up to 1M input tokens. Explicit and implicit cache hits cost $0.075 per 1M tokens; explicit cache creation costs $1.875 (5-minute TTL) or $3 (1-hour TTL). Batch inference is not supported in the International (Singapore) scope; it is supported only for the China (Beijing) deployment, whose prices are not used here. Prices are USD list prices for the International (Singapore) scope; the Global scopes (Hong Kong, Frankfurt, Virginia, Tokyo) and China (Beijing) publish lower rates ($1.413 input, $4.24 output). The official pages read on 2026-11-18 do not state a release date, so released_at stays null.",
+    "official_source_url": "https://www.alibabacloud.com/help/en/model-studio/qwen4-max",
+    "old_lifecycle": null,
+    "old_prices": {
+      "cached_input": null,
+      "input": null,
+      "output": null
+    },
+    "old_status": null,
+    "provider_id": "alibaba-qwen",
+    "schema_version": "1.0",
+    "source_snapshot_after": "data/snapshots/2026-11-18/prices.json",
+    "source_snapshot_before": "data/snapshots/2026-11-13-3/prices.json",
+    "unit": "1M tokens",
+    "verified_at": "2026-11-18"
+  },
+  {
+    "announcement_url": "https://aws.amazon.com/bedrock/pricing/",
+    "change_type": "model_added",
+    "currency": "USD",
+    "date_basis": "provider_announced",
+    "dedupe_key": "sha256:3db5eac559b6b80553fda11c9dc840ac89a6c938986063e9379668fd6014f0fb",
+    "detected_at": "2026-11-10",
+    "effective_from": "2026-10-05",
+    "event_id": "amazon-nova:nova-2-5-sonic:model_added:3db5eac559b6",
+    "model_id": "nova-2-5-sonic",
+    "new_lifecycle": null,
+    "new_prices": {
+      "cached_input": null,
+      "input": 0.33,
+      "output": 2.75
+    },
+    "new_status": "active",
+    "notes": "Bedrock model ID amazon.nova-2-5-sonic. Speech-to-speech model for real-time voice conversations through the InvokeModelWithBidirectionalStream API; speech and text input, speech and text output; 256K-token context, up to 64K output tokens. Launched October 5, 2026 as the successor to Nova 2 Sonic, with better reasoning, instruction following and tool calling. Same us-east-1 price as Nova 2 Sonic; in the other three Regions its speech tokens cost slightly more than Nova 2 Sonic. Available In-Region only in us-east-1, us-west-2, eu-north-1 and ap-northeast-1; no Geo or Global cross-region profile. No batch, flex or prompt caching price is published.",
+    "official_source_url": "https://pricing.us-east-1.amazonaws.com/offers/v1.0/aws/AmazonBedrock/current/us-east-1/index.json",
+    "old_lifecycle": null,
+    "old_prices": {
+      "cached_input": null,
+      "input": null,
+      "output": null
+    },
+    "old_status": null,
+    "provider_id": "amazon-nova",
+    "schema_version": "1.0",
+    "source_snapshot_after": "data/snapshots/2026-11-10-3/prices.json",
+    "source_snapshot_before": "data/snapshots/2026-11-10-2/prices.json",
+    "unit": "1M tokens",
+    "verified_at": "2026-11-10"
+  },
+  {
+    "announcement_url": "https://aws.amazon.com/bedrock/pricing/",
+    "change_type": "model_added",
+    "currency": "USD",
+    "date_basis": "first_observed",
+    "dedupe_key": "sha256:47251f655058a244bc442a55729bc5d0e9a3431fbb9eb2d9da0e16c26cd4e804",
+    "detected_at": "2026-11-04",
+    "effective_from": null,
+    "event_id": "amazon-nova:nova-2-lite:model_added:47251f655058",
+    "model_id": "nova-2-lite",
+    "new_lifecycle": null,
+    "new_prices": {
+      "cached_input": 0.075,
+      "input": 0.3,
+      "output": 2.5
+    },
+    "new_status": "active",
+    "notes": "Bedrock model ID amazon.nova-2-lite-v1:0 (Global profile global.amazon.nova-2-lite-v1:0). Text, image and video input; text output; 1M-token context, up to 64K output tokens; optional reasoning. Launched December 2, 2025. Web grounding bills $0.03 per request. Available through Geo and Global cross-region profiles only (no single-Region endpoint in us-east-1).",
+    "official_source_url": "https://pricing.us-east-1.amazonaws.com/offers/v1.0/aws/AmazonBedrock/current/us-east-1/index.json",
+    "old_lifecycle": null,
+    "old_prices": {
+      "cached_input": null,
+      "input": null,
+      "output": null
+    },
+    "old_status": null,
+    "provider_id": "amazon-nova",
+    "schema_version": "1.0",
+    "source_snapshot_after": "data/snapshots/2026-11-04-2/prices.json",
+    "source_snapshot_before": "data/snapshots/2026-11-04/prices.json",
+    "unit": "1M tokens",
+    "verified_at": "2026-11-04"
+  },
+  {
+    "announcement_url": "https://aws.amazon.com/bedrock/pricing/",
+    "change_type": "model_added",
+    "currency": "USD",
+    "date_basis": "provider_announced",
+    "dedupe_key": "sha256:ac12fab75303959eb7ff28ae38880a4b910c36dd909e022c7e3fc5f0f5a75103",
+    "detected_at": "2026-11-10",
+    "effective_from": "2025-12-02",
+    "event_id": "amazon-nova:nova-2-sonic:model_added:ac12fab75303",
+    "model_id": "nova-2-sonic",
+    "new_lifecycle": null,
+    "new_prices": {
+      "cached_input": null,
+      "input": 0.33,
+      "output": 2.75
+    },
+    "new_status": "active",
+    "notes": "Bedrock model ID amazon.nova-2-sonic-v1:0. Speech-to-speech model for real-time voice conversations through the InvokeModelWithBidirectionalStream API; speech and text input, speech and text output; 1000K-token context, up to 64K output tokens. Launched December 2, 2025; AWS lists end of life no sooner than December 2, 2026, with no EOL date announced. Available In-Region only in us-east-1, us-west-2, eu-north-1 and ap-northeast-1; no Geo or Global cross-region profile. No batch, flex or prompt caching price is published.",
+    "official_source_url": "https://pricing.us-east-1.amazonaws.com/offers/v1.0/aws/AmazonBedrock/current/us-east-1/index.json",
+    "old_lifecycle": null,
+    "old_prices": {
+      "cached_input": null,
+      "input": null,
+      "output": null
+    },
+    "old_status": null,
+    "provider_id": "amazon-nova",
+    "schema_version": "1.0",
+    "source_snapshot_after": "data/snapshots/2026-11-10-3/prices.json",
+    "source_snapshot_before": "data/snapshots/2026-11-10-2/prices.json",
+    "unit": "1M tokens",
+    "verified_at": "2026-11-10"
+  },
+  {
+    "announcement_url": "https://aws.amazon.com/bedrock/pricing/",
+    "change_type": "model_added",
+    "currency": "USD",
+    "date_basis": "first_observed",
+    "dedupe_key": "sha256:c00f9f11e59d6dabd43dada5b50a81ea06454bb7e1a0175ba4bec4ffaa0e26d5",
+    "detected_at": "2026-11-04",
+    "effective_from": null,
+    "event_id": "amazon-nova:nova-lite:model_added:c00f9f11e59d",
+    "model_id": "nova-lite",
+    "new_lifecycle": null,
+    "new_prices": {
+      "cached_input": 0.015,
+      "input": 0.06,
+      "output": 0.24
+    },
+    "new_status": "active",
+    "notes": "Bedrock model ID amazon.nova-lite-v1:0. Text, image and video input; text output; 300K-token context, up to 10K output tokens. Launched December 5, 2024. No Global cross-region profile.",
+    "official_source_url": "https://pricing.us-east-1.amazonaws.com/offers/v1.0/aws/AmazonBedrock/current/us-east-1/index.json",
+    "old_lifecycle": null,
+    "old_prices": {
+      "cached_input": null,
+      "input": null,
+      "output": null
+    },
+    "old_status": null,
+    "provider_id": "amazon-nova",
+    "schema_version": "1.0",
+    "source_snapshot_after": "data/snapshots/2026-11-04-2/prices.json",
+    "source_snapshot_before": "data/snapshots/2026-11-04/prices.json",
+    "unit": "1M tokens",
+    "verified_at": "2026-11-04"
+  },
+  {
+    "announcement_url": "https://aws.amazon.com/bedrock/pricing/",
+    "change_type": "model_added",
+    "currency": "USD",
+    "date_basis": "first_observed",
+    "dedupe_key": "sha256:6cae53ad5b0733d1d290acad87a0363c92ec6bef6e5f4da9c1a2d4c0d3fae9cf",
+    "detected_at": "2026-11-04",
+    "effective_from": null,
+    "event_id": "amazon-nova:nova-micro:model_added:6cae53ad5b07",
+    "model_id": "nova-micro",
+    "new_lifecycle": null,
+    "new_prices": {
+      "cached_input": 0.00875,
+      "input": 0.035,
+      "output": 0.14
+    },
+    "new_status": "active",
+    "notes": "Bedrock model ID amazon.nova-micro-v1:0. Text-only model; 128K-token context, up to 10K output tokens. Launched December 5, 2024. No Global cross-region profile.",
+    "official_source_url": "https://pricing.us-east-1.amazonaws.com/offers/v1.0/aws/AmazonBedrock/current/us-east-1/index.json",
+    "old_lifecycle": null,
+    "old_prices": {
+      "cached_input": null,
+      "input": null,
+      "output": null
+    },
+    "old_status": null,
+    "provider_id": "amazon-nova",
+    "schema_version": "1.0",
+    "source_snapshot_after": "data/snapshots/2026-11-04-2/prices.json",
+    "source_snapshot_before": "data/snapshots/2026-11-04/prices.json",
+    "unit": "1M tokens",
+    "verified_at": "2026-11-04"
+  },
+  {
+    "announcement_url": "https://aws.amazon.com/bedrock/pricing/",
+    "change_type": "model_added",
+    "currency": "USD",
+    "date_basis": "first_observed",
+    "dedupe_key": "sha256:db5479b30c3fdc4c99710af004e566b5df8914887f2efea8d0343ce87c50c647",
+    "detected_at": "2026-11-04",
+    "effective_from": null,
+    "event_id": "amazon-nova:nova-pro:model_added:db5479b30c3f",
+    "model_id": "nova-pro",
+    "new_lifecycle": null,
+    "new_prices": {
+      "cached_input": 0.2,
+      "input": 0.8,
+      "output": 3.2
+    },
+    "new_status": "active",
+    "notes": "Bedrock model ID amazon.nova-pro-v1:0. Text, image and video input; text output; 300K-token context, up to 10K output tokens. Launched December 5, 2024. No Global cross-region profile.",
+    "official_source_url": "https://pricing.us-east-1.amazonaws.com/offers/v1.0/aws/AmazonBedrock/current/us-east-1/index.json",
+    "old_lifecycle": null,
+    "old_prices": {
+      "cached_input": null,
+      "input": null,
+      "output": null
+    },
+    "old_status": null,
+    "provider_id": "amazon-nova",
+    "schema_version": "1.0",
+    "source_snapshot_after": "data/snapshots/2026-11-04-2/prices.json",
+    "source_snapshot_before": "data/snapshots/2026-11-04/prices.json",
+    "unit": "1M tokens",
+    "verified_at": "2026-11-04"
+  },
+  {
+    "announcement_url": "https://platform.claude.com/docs/en/models/fable-5-2/overview",
+    "change_type": "model_added",
+    "currency": "USD",
+    "date_basis": "provider_announced",
+    "dedupe_key": "sha256:1667519ac97eb859524b972f38f8f20e537ee31288f1216c2ce4c1a0e470289a",
+    "detected_at": "2026-11-10",
+    "effective_from": "2026-11-09",
+    "event_id": "anthropic:claude-fable-5-2:model_added:1667519ac97e",
+    "model_id": "claude-fable-5-2",
+    "new_lifecycle": null,
+    "new_prices": {
+      "cached_input": 0.2,
+      "input": 8,
+      "output": 40
+    },
+    "new_status": "active",
+    "notes": "Released 2026-11-09, with retirement not sooner than 2027-11-09. Standard pricing is $8 input, $0.20 cache read, $10 5-minute cache write, $16 1-hour cache write, and $40 output per 1M tokens, 20% below Claude Fable 5.1 on input and output. Batch input and output receive the published 50% discount ($4 and $20). Fast mode costs $16 input and $80 output per 1M tokens and is not available with the Batch API. The 1M token context window is billed at standard rates.",
+    "official_source_url": "https://platform.claude.com/docs/en/about-claude/pricing",
+    "old_lifecycle": null,
+    "old_prices": {
+      "cached_input": null,
+      "input": null,
+      "output": null
+    },
+    "old_status": null,
+    "provider_id": "anthropic",
+    "schema_version": "1.0",
+    "source_snapshot_after": "data/snapshots/2026-11-10/prices.json",
+    "source_snapshot_before": "data/snapshots/2026-11-09-6/prices.json",
+    "unit": "1M tokens",
+    "verified_at": "2026-11-10"
+  },
+  {
     "announcement_url": "https://www.anthropic.com/claude-haiku-5-5",
     "change_type": "model_added",
     "currency": "USD",
@@ -164,6 +428,39 @@ export const bundledPriceChangeEvents: unknown[] = [
     "source_snapshot_before": "data/snapshots/2026-10-08/prices.json",
     "unit": "1M tokens",
     "verified_at": "2026-10-09"
+  },
+  {
+    "announcement_url": "https://platform.claude.com/docs/en/models/mythos-5-2/overview",
+    "change_type": "model_added",
+    "currency": "USD",
+    "date_basis": "provider_announced",
+    "dedupe_key": "sha256:31ee9570edc014f6ae5eced867501edec24485803822818c0ef7318ce66f248a",
+    "detected_at": "2026-11-10",
+    "effective_from": "2026-11-09",
+    "event_id": "anthropic:claude-mythos-5-2:model_added:31ee9570edc0",
+    "model_id": "claude-mythos-5-2",
+    "new_lifecycle": null,
+    "new_prices": {
+      "cached_input": 0.2,
+      "input": 8,
+      "output": 40
+    },
+    "new_status": "active",
+    "notes": "Released 2026-11-09, with access restricted to organizations verified through Anthropic verification programs such as the Cyber Verification Program. It shares Claude Fable 5.2 pricing: $8 input, $0.20 cache read, $10 5-minute cache write, $16 1-hour cache write, and $40 output per 1M tokens. Batch input and output receive the published 50% discount ($4 and $20). Fast mode costs $16 input and $80 output per 1M tokens and is not available with the Batch API.",
+    "official_source_url": "https://platform.claude.com/docs/en/about-claude/pricing",
+    "old_lifecycle": null,
+    "old_prices": {
+      "cached_input": null,
+      "input": null,
+      "output": null
+    },
+    "old_status": null,
+    "provider_id": "anthropic",
+    "schema_version": "1.0",
+    "source_snapshot_after": "data/snapshots/2026-11-10/prices.json",
+    "source_snapshot_before": "data/snapshots/2026-11-09-6/prices.json",
+    "unit": "1M tokens",
+    "verified_at": "2026-11-10"
   },
   {
     "announcement_url": "https://www.anthropic.com/claude-opus-5-5",
@@ -865,6 +1162,56 @@ export const bundledPriceChangeEvents: unknown[] = [
     "change_type": "lifecycle_update",
     "currency": "USD",
     "date_basis": "provider_announced",
+    "dedupe_key": "sha256:580e2117e91e2ba5e619a9afe08c56f9807119b886832d877b4450ae9eb481d9",
+    "detected_at": "2026-11-03",
+    "effective_from": "2026-12-01",
+    "event_id": "google-gemini:gemini-2.5-flash:lifecycle_update:580e2117e91e",
+    "model_id": "gemini-2.5-flash",
+    "new_lifecycle": {
+      "replacement_model_id": "gemini-3.5-flash-lite",
+      "retirement_date": "2026-12-01",
+      "scheduled_transition": {
+        "billing_configuration": {
+          "model": "gemini-3.5-flash-lite"
+        },
+        "billing_model_id": "gemini-3.5-flash-lite",
+        "billing_source": "redirect_target",
+        "effective_from": "2026-12-01",
+        "kind": "retirement_redirect",
+        "redirect_target_model_id": "gemini-3.5-flash-lite",
+        "source_slug_remains_resolvable": true,
+        "target_configuration": {
+          "model": "gemini-3.5-flash-lite"
+        }
+      }
+    },
+    "new_prices": {
+      "cached_input": 0.03,
+      "input": 0.3,
+      "output": 2.5
+    },
+    "new_status": "deprecated",
+    "notes": "Rates are for text/image/video input; Google lists separate audio rates in the official pricing table. Deprecated: no longer selectable in Google AI Studio; API access is limited to users who actively used it before. Effective 2026-12-01, API requests to gemini-2.5-flash are automatically routed to gemini-3.5-flash-lite and billed at Gemini 3.5 Flash-Lite rates (Google lists December 1, 2026 as the earliest possible shutdown date).",
+    "official_source_url": "https://ai.google.dev/gemini-api/docs/deprecations",
+    "old_lifecycle": null,
+    "old_prices": {
+      "cached_input": 0.03,
+      "input": 0.3,
+      "output": 2.5
+    },
+    "old_status": "active",
+    "provider_id": "google-gemini",
+    "schema_version": "1.0",
+    "source_snapshot_after": "data/snapshots/2026-11-03/prices.json",
+    "source_snapshot_before": "data/snapshots/2026-11-02/prices.json",
+    "unit": "1M tokens",
+    "verified_at": "2026-11-03"
+  },
+  {
+    "announcement_url": null,
+    "change_type": "lifecycle_update",
+    "currency": "USD",
+    "date_basis": "provider_announced",
     "dedupe_key": "sha256:f080928257e9caff6a90c0a04237cb72afc4eaada915a39175c2e6e8c752e6dd",
     "detected_at": "2026-10-05",
     "effective_from": "2026-10-02",
@@ -895,6 +1242,56 @@ export const bundledPriceChangeEvents: unknown[] = [
     "source_snapshot_before": "data/snapshots/2026-10-04/prices.json",
     "unit": null,
     "verified_at": "2026-10-05"
+  },
+  {
+    "announcement_url": "https://ai.google.dev/gemini-api/docs/generate-content/caching",
+    "change_type": "lifecycle_update",
+    "currency": "USD",
+    "date_basis": "provider_announced",
+    "dedupe_key": "sha256:4bc629c571cffdec6a2ce8d2a7be0c76afc374fb55d4676769f113c98c96d486",
+    "detected_at": "2026-11-03",
+    "effective_from": "2026-12-01",
+    "event_id": "google-gemini:gemini-2.5-pro:lifecycle_update:4bc629c571cf",
+    "model_id": "gemini-2.5-pro",
+    "new_lifecycle": {
+      "replacement_model_id": "gemini-3.8-flash",
+      "retirement_date": "2026-12-01",
+      "scheduled_transition": {
+        "billing_configuration": {
+          "model": "gemini-3.8-flash"
+        },
+        "billing_model_id": "gemini-3.8-flash",
+        "billing_source": "redirect_target",
+        "effective_from": "2026-12-01",
+        "kind": "retirement_redirect",
+        "redirect_target_model_id": "gemini-3.8-flash",
+        "source_slug_remains_resolvable": true,
+        "target_configuration": {
+          "model": "gemini-3.8-flash"
+        }
+      }
+    },
+    "new_prices": {
+      "cached_input": 0.125,
+      "input": 1.25,
+      "output": 10
+    },
+    "new_status": "deprecated",
+    "notes": "Paid token rates depend on the full prompt length, including cached prefix: at most 200,000 tokens uses short rates, above 200,000 uses long rates for input, cached input and output. Batch and Flex cache-read rates equal Standard; Priority has its own rates. Cached-content storage per token-hour is a separate time charge and not included in token inference estimates; no pricing effective date is stated. Deprecated: no longer selectable in Google AI Studio; API access is limited to users who actively used it before. Effective 2026-12-01, API requests to gemini-2.5-pro are automatically routed to gemini-3.8-flash and billed at Gemini 3.8 Flash rates (Google lists December 1, 2026 as the earliest possible shutdown date).",
+    "official_source_url": "https://ai.google.dev/gemini-api/docs/deprecations",
+    "old_lifecycle": null,
+    "old_prices": {
+      "cached_input": 0.125,
+      "input": 1.25,
+      "output": 10
+    },
+    "old_status": "active",
+    "provider_id": "google-gemini",
+    "schema_version": "1.0",
+    "source_snapshot_after": "data/snapshots/2026-11-03/prices.json",
+    "source_snapshot_before": "data/snapshots/2026-11-02/prices.json",
+    "unit": "1M tokens",
+    "verified_at": "2026-11-03"
   },
   {
     "announcement_url": "https://ai.google.dev/gemini-api/docs/changelog",
@@ -931,6 +1328,35 @@ export const bundledPriceChangeEvents: unknown[] = [
     "source_snapshot_before": "data/snapshots/2026-10-09/prices.json",
     "unit": "1M tokens",
     "verified_at": "2026-10-13"
+  },
+  {
+    "announcement_url": null,
+    "change_type": "scheduled_price_change",
+    "currency": "USD",
+    "date_basis": "provider_announced",
+    "dedupe_key": "sha256:4175d574420a33b51842fe7983740a539502714153a0b83ccb0a5443ae5e6fb7",
+    "detected_at": "2026-10-27",
+    "effective_from": "2027-01-01",
+    "event_id": "google-gemini:gemini-3.6-flash:scheduled_price_change:4175d574420a",
+    "model_id": "gemini-3.6-flash",
+    "new_prices": {
+      "cached_input": 0.15,
+      "input": 1.5,
+      "output": 7.5
+    },
+    "notes": "The official pricing source lists new standard rates for Gemini 3.6 Flash effective 2027-01-01; the current rates apply until then. This announces a future price; it is not an applied price change.",
+    "official_source_url": "https://ai.google.dev/gemini-api/docs/pricing",
+    "old_prices": {
+      "cached_input": 0.075,
+      "input": 0.75,
+      "output": 3.75
+    },
+    "provider_id": "google-gemini",
+    "schema_version": "1.0",
+    "source_snapshot_after": "data/snapshots/2026-10-27-4/prices.json",
+    "source_snapshot_before": "data/snapshots/2026-10-27-3/prices.json",
+    "unit": "1M tokens",
+    "verified_at": "2026-10-27"
   },
   {
     "announcement_url": null,
@@ -996,6 +1422,35 @@ export const bundledPriceChangeEvents: unknown[] = [
     "source_snapshot_before": "data/snapshots/2026-10-09/prices.json",
     "unit": "1M tokens",
     "verified_at": "2026-10-13"
+  },
+  {
+    "announcement_url": "https://ai.google.dev/gemini-api/docs/changelog",
+    "change_type": "scheduled_price_change",
+    "currency": "USD",
+    "date_basis": "provider_announced",
+    "dedupe_key": "sha256:473827defa9298171e26ec1a0525ee02860d2e8dadaee5e4dac74fc0b763495c",
+    "detected_at": "2026-10-09",
+    "effective_from": "2027-01-01",
+    "event_id": "google-gemini:gemini-3.8-flash:scheduled_price_change:473827defa92",
+    "model_id": "gemini-3.8-flash",
+    "new_prices": {
+      "cached_input": 0.15,
+      "input": 1.5,
+      "output": 7.5
+    },
+    "notes": "The official pricing source lists new standard rates for Gemini 3.8 Flash effective 2027-01-01; the current rates apply until then. This announces a future price; it is not an applied price change.",
+    "official_source_url": "https://ai.google.dev/gemini-api/docs/pricing",
+    "old_prices": {
+      "cached_input": 0.075,
+      "input": 0.75,
+      "output": 3.75
+    },
+    "provider_id": "google-gemini",
+    "schema_version": "1.0",
+    "source_snapshot_after": "data/snapshots/2026-10-09/prices.json",
+    "source_snapshot_before": "data/snapshots/2026-10-08/prices.json",
+    "unit": "1M tokens",
+    "verified_at": "2026-10-09"
   },
   {
     "announcement_url": "https://ai.google.dev/gemini-api/docs/models/gemini-3.8-flash-lite-tts",
@@ -1155,6 +1610,130 @@ export const bundledPriceChangeEvents: unknown[] = [
     "verified_at": "2026-10-14"
   },
   {
+    "announcement_url": "https://ai.google.dev/gemini-api/docs/changelog",
+    "change_type": "scheduled_price_change",
+    "currency": "USD",
+    "date_basis": "provider_announced",
+    "dedupe_key": "sha256:ea39fc2672893149e67f80689ce591087968c087515421e4f2f29598fdb01480",
+    "detected_at": "2026-10-14",
+    "effective_from": "2026-12-01",
+    "event_id": "google-gemini:gemini-4-argon:scheduled_price_change:ea39fc267289",
+    "model_id": "gemini-4-argon",
+    "new_prices": {
+      "cached_input": 0.2,
+      "input": 4,
+      "output": 20
+    },
+    "notes": "The official pricing source lists new standard rates for Gemini 4 Argon effective 2026-12-01; the current rates apply until then. This announces a future price; it is not an applied price change.",
+    "official_source_url": "https://ai.google.dev/gemini-api/docs/pricing",
+    "old_prices": {
+      "cached_input": 0.1,
+      "input": 2,
+      "output": 10
+    },
+    "provider_id": "google-gemini",
+    "schema_version": "1.0",
+    "source_snapshot_after": "data/snapshots/2026-10-14/prices.json",
+    "source_snapshot_before": "data/snapshots/2026-10-13/prices.json",
+    "unit": "1M tokens",
+    "verified_at": "2026-10-14"
+  },
+  {
+    "announcement_url": "https://ai.google.dev/gemini-api/docs/models/gemini-4-carbon",
+    "change_type": "model_added",
+    "currency": "USD",
+    "date_basis": "provider_announced",
+    "dedupe_key": "sha256:2b4cc6b2b74a7fd8004641f6f6b3f74f487f2d86965fd2ad1bc47280c9faf77f",
+    "detected_at": "2026-11-13",
+    "effective_from": "2026-11-10",
+    "event_id": "google-gemini:gemini-4-carbon:model_added:2b4cc6b2b74a",
+    "model_id": "gemini-4-carbon",
+    "new_lifecycle": null,
+    "new_prices": {
+      "cached_input": 0.1,
+      "input": 2,
+      "output": 10
+    },
+    "new_status": "active",
+    "notes": "Paid-tier Gemini API model. Introductory pricing applies through 2026-11-30; published higher prices take effect on 2026-12-01. The 1,048,576-token context is unified, with 65,536 maximum synchronous output tokens by default and Long Decode up to 1,048,576. Implicit caching only. Thinking tokens are billed as output.",
+    "official_source_url": "https://ai.google.dev/gemini-api/docs/pricing",
+    "old_lifecycle": null,
+    "old_prices": {
+      "cached_input": null,
+      "input": null,
+      "output": null
+    },
+    "old_status": null,
+    "provider_id": "google-gemini",
+    "schema_version": "1.0",
+    "source_snapshot_after": "data/snapshots/2026-11-13/prices.json",
+    "source_snapshot_before": "data/snapshots/2026-11-10-3/prices.json",
+    "unit": "1M tokens",
+    "verified_at": "2026-11-13"
+  },
+  {
+    "announcement_url": "https://ai.google.dev/gemini-api/docs/changelog",
+    "change_type": "scheduled_price_change",
+    "currency": "USD",
+    "date_basis": "provider_announced",
+    "dedupe_key": "sha256:48a0edc0a4421650cae5412df79d48ba34428d964faf360b4280b490bc70535b",
+    "detected_at": "2026-11-13",
+    "effective_from": "2026-12-01",
+    "event_id": "google-gemini:gemini-4-carbon:scheduled_price_change:48a0edc0a442",
+    "model_id": "gemini-4-carbon",
+    "new_prices": {
+      "cached_input": 0.2,
+      "input": 4,
+      "output": 20
+    },
+    "notes": "The official pricing source lists new standard rates for Gemini 4 Carbon effective 2026-12-01; the current rates apply until then. This announces a future price; it is not an applied price change.",
+    "official_source_url": "https://ai.google.dev/gemini-api/docs/pricing",
+    "old_prices": {
+      "cached_input": 0.1,
+      "input": 2,
+      "output": 10
+    },
+    "provider_id": "google-gemini",
+    "schema_version": "1.0",
+    "source_snapshot_after": "data/snapshots/2026-11-13/prices.json",
+    "source_snapshot_before": "data/snapshots/2026-11-10-3/prices.json",
+    "unit": "1M tokens",
+    "verified_at": "2026-11-13"
+  },
+  {
+    "announcement_url": "https://ai.google.dev/gemini-api/docs/models/gemini-4-hydrogen",
+    "change_type": "model_added",
+    "currency": "USD",
+    "date_basis": "provider_announced",
+    "dedupe_key": "sha256:851aa096c260d911cbbe88f44d08766cf86bcb988b1b5d11337a045385c5e396",
+    "detected_at": "2026-11-13",
+    "effective_from": "2026-11-12",
+    "event_id": "google-gemini:gemini-4-hydrogen:model_added:851aa096c260",
+    "model_id": "gemini-4-hydrogen",
+    "new_lifecycle": null,
+    "new_prices": {
+      "cached_input": 0.075,
+      "input": 1.5,
+      "output": 7.5
+    },
+    "new_status": "active",
+    "notes": "Available on the Gemini API Free and Paid tiers. Thinking levels are low, medium, high (default), and xhigh. The 1,048,576-token context is unified, with 65,536 maximum synchronous output tokens by default and Long Decode up to 1,048,576. Implicit caching only. Thinking tokens are billed as output.",
+    "official_source_url": "https://ai.google.dev/gemini-api/docs/pricing",
+    "old_lifecycle": null,
+    "old_prices": {
+      "cached_input": null,
+      "input": null,
+      "output": null
+    },
+    "old_status": null,
+    "provider_id": "google-gemini",
+    "schema_version": "1.0",
+    "source_snapshot_after": "data/snapshots/2026-11-13/prices.json",
+    "source_snapshot_before": "data/snapshots/2026-11-10-3/prices.json",
+    "unit": "1M tokens",
+    "verified_at": "2026-11-13"
+  },
+  {
     "announcement_url": "https://ai.google.dev/gemini-api/docs/pricing",
     "change_type": "model_added",
     "currency": "USD",
@@ -1186,6 +1765,123 @@ export const bundledPriceChangeEvents: unknown[] = [
     "source_snapshot_before": "data/snapshots/2026-10-08/prices.json",
     "unit": "1M tokens",
     "verified_at": "2026-10-09"
+  },
+  {
+    "announcement_url": "https://ai.google.dev/gemini-api/docs/models/gemini-omni-flash",
+    "change_type": "model_added",
+    "currency": "USD",
+    "date_basis": "provider_announced",
+    "dedupe_key": "sha256:4c3f3a5ed0205a7af44159f44433d007f33ec969a1a1491e851ad023c68b58b4",
+    "detected_at": "2026-11-08",
+    "effective_from": "2026-08-27",
+    "event_id": "google-gemini:gemini-omni-1.1-flash:model_added:4c3f3a5ed020",
+    "model_id": "gemini-omni-1.1-flash",
+    "new_lifecycle": {
+      "replacement_model_id": "gemini-omni-1.2-flash",
+      "retirement_date": "2026-12-03",
+      "retirement_notice_date": "2026-11-05",
+      "scheduled_transition": {
+        "billing_configuration": {
+          "model": "gemini-omni-1.2-flash"
+        },
+        "billing_model_id": "gemini-omni-1.2-flash",
+        "billing_source": "redirect_target",
+        "effective_from": "2026-12-03",
+        "kind": "retirement_redirect",
+        "redirect_target_model_id": "gemini-omni-1.2-flash",
+        "source_slug_remains_resolvable": true,
+        "target_configuration": {
+          "model": "gemini-omni-1.2-flash"
+        }
+      }
+    },
+    "new_prices": {
+      "cached_input": null,
+      "input": 1.5,
+      "output": 9
+    },
+    "new_status": "deprecated",
+    "notes": "Generally available 2026-08-27. Previous-generation video generation and editing model: text, image and video input, video output, clips 3 to 10 seconds at 360p, 720p, 1080p or 4K. Paid tier only. Video output is $17.50 per 1M tokens, about $0.10 per second of 720p video (5,792 tokens per second). Google announced on 2026-11-05 that from 2026-12-03 API requests to gemini-omni-1.1-flash automatically route to gemini-omni-1.2-flash and are billed at Gemini Omni 1.2 Flash rates.",
+    "official_source_url": "https://ai.google.dev/gemini-api/docs/pricing",
+    "old_lifecycle": null,
+    "old_prices": {
+      "cached_input": null,
+      "input": null,
+      "output": null
+    },
+    "old_status": null,
+    "provider_id": "google-gemini",
+    "schema_version": "1.0",
+    "source_snapshot_after": "data/snapshots/2026-11-08/prices.json",
+    "source_snapshot_before": "data/snapshots/2026-11-06-7/prices.json",
+    "unit": "1M tokens",
+    "verified_at": "2026-11-08"
+  },
+  {
+    "announcement_url": "https://ai.google.dev/gemini-api/docs/models/gemini-omni-flash",
+    "change_type": "model_added",
+    "currency": "USD",
+    "date_basis": "provider_announced",
+    "dedupe_key": "sha256:a68bdf92e34f3690f106daee178c5ef97d6353fc04d618d8f3455349488b1f6d",
+    "detected_at": "2026-11-08",
+    "effective_from": "2026-11-05",
+    "event_id": "google-gemini:gemini-omni-1.2-flash:model_added:a68bdf92e34f",
+    "model_id": "gemini-omni-1.2-flash",
+    "new_lifecycle": null,
+    "new_prices": {
+      "cached_input": null,
+      "input": 1.5,
+      "output": 9
+    },
+    "new_status": "active",
+    "notes": "Generally available 2026-11-05. Video generation and conversational editing model: text, image and video input; video with native audio and text output. Clips are 3 to 15 seconds at 360p, 720p, 1080p or 4K (24 FPS); 1080p and 4K use upsampling. Input limit 131,072 tokens, output limit 65,536 tokens. Paid tier only; no Batch or caching. Video output is $12 per 1M tokens, which Google puts at about $0.07 per second of 720p video (5,792 tokens per second), 30% below Gemini Omni 1.1 Flash.",
+    "official_source_url": "https://ai.google.dev/gemini-api/docs/pricing",
+    "old_lifecycle": null,
+    "old_prices": {
+      "cached_input": null,
+      "input": null,
+      "output": null
+    },
+    "old_status": null,
+    "provider_id": "google-gemini",
+    "schema_version": "1.0",
+    "source_snapshot_after": "data/snapshots/2026-11-08/prices.json",
+    "source_snapshot_before": "data/snapshots/2026-11-06-7/prices.json",
+    "unit": "1M tokens",
+    "verified_at": "2026-11-08"
+  },
+  {
+    "announcement_url": "https://dev.meta.ai/docs/muse-ember",
+    "change_type": "model_added",
+    "currency": "USD",
+    "date_basis": "provider_announced",
+    "dedupe_key": "sha256:5211b2c03d79e5d25aceab373118028c141028c2b48714219fa7f9f7e02dc054",
+    "detected_at": "2026-11-13",
+    "effective_from": "2026-11-09",
+    "event_id": "meta:muse-ember-1.0:model_added:5211b2c03d79",
+    "model_id": "muse-ember-1.0",
+    "new_lifecycle": null,
+    "new_prices": {
+      "cached_input": 0.004,
+      "input": 0.1,
+      "output": 0.5
+    },
+    "new_status": "active",
+    "notes": "Standard pay-as-you-go on Meta Model API. The tier is based on total input tokens, including cached tokens and conversation history resumed with previous_response_id. At most 200,000 input tokens use short-context rates. Above 200,000 input tokens the long-context rates apply to the entire request. Supports text, image, video, audio and PDF input, text output, and Responses, Chat Completions and Messages. Standard mode only.",
+    "official_source_url": "https://dev.meta.ai/docs/pricing-rate-limits.md",
+    "old_lifecycle": null,
+    "old_prices": {
+      "cached_input": null,
+      "input": null,
+      "output": null
+    },
+    "old_status": null,
+    "provider_id": "meta",
+    "schema_version": "1.0",
+    "source_snapshot_after": "data/snapshots/2026-11-13-3/prices.json",
+    "source_snapshot_before": "data/snapshots/2026-11-13-2/prices.json",
+    "unit": "1M tokens",
+    "verified_at": "2026-11-13"
   },
   {
     "announcement_url": "https://dev.meta.ai/docs/models.md",
@@ -1254,6 +1950,138 @@ export const bundledPriceChangeEvents: unknown[] = [
     "verified_at": "2026-10-28"
   },
   {
+    "announcement_url": "https://platform.minimax.io/docs/guides/models-intro.md",
+    "change_type": "model_added",
+    "currency": "USD",
+    "date_basis": "provider_announced",
+    "dedupe_key": "sha256:25e417c9ec4ca075ba4fa780073386364c5ebdc1a2488f782a8d01f4ff3fb292",
+    "detected_at": "2026-11-13",
+    "effective_from": "2026-11-10",
+    "event_id": "minimax:minimax-h3-image:model_added:25e417c9ec4c",
+    "model_id": "minimax-h3-image",
+    "new_lifecycle": null,
+    "new_prices": {
+      "cached_input": null,
+      "input": 2.3,
+      "output": null
+    },
+    "new_status": "active",
+    "notes": "Official API model ID MiniMax-H3-Image. International pay-as-you-go base API rates per million tokens, with separate text input, image input, and image output charges. This model supports text-to-image generation and image editing with reference images.",
+    "official_source_url": "https://platform.minimax.io/docs/pricing/overview.md",
+    "old_lifecycle": null,
+    "old_prices": {
+      "cached_input": null,
+      "input": null,
+      "output": null
+    },
+    "old_status": null,
+    "provider_id": "minimax",
+    "schema_version": "1.0",
+    "source_snapshot_after": "data/snapshots/2026-11-13-2/prices.json",
+    "source_snapshot_before": "data/snapshots/2026-11-13/prices.json",
+    "unit": "1M tokens",
+    "verified_at": "2026-11-13"
+  },
+  {
+    "announcement_url": "https://platform.minimax.io/docs/guides/models-intro.md",
+    "change_type": "model_added",
+    "currency": "USD",
+    "date_basis": "provider_announced",
+    "dedupe_key": "sha256:3678dbf31088a2c5add35e5bf1942e2bdb8ec583d9206197073ec42a8e0a29dc",
+    "detected_at": "2026-11-13",
+    "effective_from": "2026-11-10",
+    "event_id": "minimax:minimax-h3-image-highspeed:model_added:3678dbf31088",
+    "model_id": "minimax-h3-image-highspeed",
+    "new_lifecycle": null,
+    "new_prices": {
+      "cached_input": null,
+      "input": 2.3,
+      "output": null
+    },
+    "new_status": "active",
+    "notes": "Official API model ID MiniMax-H3-Image-Highspeed. International pay-as-you-go base API rates per million tokens, with separate text input, image input, and image output charges. This model supports text-to-image generation and image editing with reference images.",
+    "official_source_url": "https://platform.minimax.io/docs/pricing/overview.md",
+    "old_lifecycle": null,
+    "old_prices": {
+      "cached_input": null,
+      "input": null,
+      "output": null
+    },
+    "old_status": null,
+    "provider_id": "minimax",
+    "schema_version": "1.0",
+    "source_snapshot_after": "data/snapshots/2026-11-13-2/prices.json",
+    "source_snapshot_before": "data/snapshots/2026-11-13/prices.json",
+    "unit": "1M tokens",
+    "verified_at": "2026-11-13"
+  },
+  {
+    "announcement_url": "https://platform.minimax.io/docs/guides/text-generation.md",
+    "change_type": "model_added",
+    "currency": "USD",
+    "date_basis": "provider_announced",
+    "dedupe_key": "sha256:7209326a0203ab1d1318512a3a444800df7b3f2008045fbb158828ae4de84ea9",
+    "detected_at": "2026-11-09",
+    "effective_from": "2026-06-01",
+    "event_id": "minimax:minimax-m3:model_added:7209326a0203",
+    "model_id": "minimax-m3",
+    "new_lifecycle": null,
+    "new_prices": {
+      "cached_input": 0.06,
+      "input": 0.3,
+      "output": 1.2
+    },
+    "new_status": "active",
+    "notes": "Official API model ID MiniMax-M3. Released 2026-06-01. Multimodal coding and agent model: text, image and video input, 1,000,000-token context window, up to 524,288 (512K) output tokens. Billed at Standard or Priority, with a higher rate above 512K input tokens; MiniMax publishes no Batch rate.",
+    "official_source_url": "https://platform.minimax.io/docs/pricing/overview.md",
+    "old_lifecycle": null,
+    "old_prices": {
+      "cached_input": null,
+      "input": null,
+      "output": null
+    },
+    "old_status": null,
+    "provider_id": "minimax",
+    "schema_version": "1.0",
+    "source_snapshot_after": "data/snapshots/2026-11-09/prices.json",
+    "source_snapshot_before": "data/snapshots/2026-11-08/prices.json",
+    "unit": "1M tokens",
+    "verified_at": "2026-11-09"
+  },
+  {
+    "announcement_url": "https://platform.minimax.io/docs/guides/text-generation.md",
+    "change_type": "model_added",
+    "currency": "USD",
+    "date_basis": "provider_announced",
+    "dedupe_key": "sha256:66f12fafbd1b560784233193168fb26d6bc3c306c0a40c24674acb591e47b73c",
+    "detected_at": "2026-11-09",
+    "effective_from": "2026-10-19",
+    "event_id": "minimax:minimax-m3.1-flash:model_added:66f12fafbd1b",
+    "model_id": "minimax-m3.1-flash",
+    "new_lifecycle": null,
+    "new_prices": {
+      "cached_input": 0.015,
+      "input": 0.15,
+      "output": 0.6
+    },
+    "new_status": "active",
+    "notes": "Official API model ID MiniMax-M3.1-Flash. Released 2026-10-19 as an open-weight model. Text, image and video input, 1,000,000-token context window, up to 524,288 (512K) output tokens, thinking depth set with effort (low to max). MiniMax publishes no Batch, Priority or long-context rate for it.",
+    "official_source_url": "https://platform.minimax.io/docs/pricing/overview.md",
+    "old_lifecycle": null,
+    "old_prices": {
+      "cached_input": null,
+      "input": null,
+      "output": null
+    },
+    "old_status": null,
+    "provider_id": "minimax",
+    "schema_version": "1.0",
+    "source_snapshot_after": "data/snapshots/2026-11-09/prices.json",
+    "source_snapshot_before": "data/snapshots/2026-11-08/prices.json",
+    "unit": "1M tokens",
+    "verified_at": "2026-11-09"
+  },
+  {
     "announcement_url": null,
     "change_type": "price_update",
     "currency": "USD",
@@ -1281,6 +2109,35 @@ export const bundledPriceChangeEvents: unknown[] = [
     "source_snapshot_before": "data/snapshots/2026-07-09/prices.json",
     "unit": "1M tokens",
     "verified_at": "2026-07-27"
+  },
+  {
+    "announcement_url": null,
+    "change_type": "price_update",
+    "currency": "USD",
+    "date_basis": "first_observed",
+    "dedupe_key": "sha256:620e4dfaff3e621695fb42ecf5704f77ec46227563eb12455b0ea0c9004e5a5a",
+    "detected_at": "2026-10-31",
+    "effective_from": null,
+    "event_id": "mistral-ai:mistral-large-4:price_update:620e4dfaff3e",
+    "model_id": "mistral-large-4",
+    "new_prices": {
+      "cached_input": 0.07,
+      "input": 0.7,
+      "output": 2.1
+    },
+    "notes": "Effective date was not published by the provider in the source used for this event.",
+    "official_source_url": "https://docs.mistral.ai/models/mistral-large-4-0",
+    "old_prices": {
+      "cached_input": 0.14,
+      "input": 1.36,
+      "output": 4.18
+    },
+    "provider_id": "mistral-ai",
+    "schema_version": "1.0",
+    "source_snapshot_after": "data/snapshots/2026-10-31-2/prices.json",
+    "source_snapshot_before": "data/snapshots/2026-10-31/prices.json",
+    "unit": "1M tokens",
+    "verified_at": "2026-10-31"
   },
   {
     "announcement_url": "https://docs.mistral.ai/resources/changelogs",
@@ -1481,6 +2338,80 @@ export const bundledPriceChangeEvents: unknown[] = [
     "change_type": "lifecycle_update",
     "currency": "USD",
     "date_basis": "provider_announced",
+    "dedupe_key": "sha256:94186ad0ba4b5befe7134041b8ea31b355369c56db2f754f37abbe5de0d19f5c",
+    "detected_at": "2026-11-06",
+    "effective_from": "2026-10-14",
+    "event_id": "openai:gpt-4o:lifecycle_update:94186ad0ba4b",
+    "model_id": "gpt-4o",
+    "new_lifecycle": {
+      "deprecation_date": "2026-10-14",
+      "replacement_model_id": "gpt-6-luna",
+      "retirement_date": "2027-01-14"
+    },
+    "new_prices": {
+      "cached_input": 1.25,
+      "input": 2.5,
+      "output": 10
+    },
+    "new_status": "deprecated",
+    "notes": "The model was absent from the before snapshot. This late-discovered lifecycle fact does not imply a model launch or a previous active state. OpenAI lists gpt-4o as Deprecated; the dated snapshots gpt-4o-2024-08-06 and gpt-4o-2024-11-20 shut down on 2027-01-14 (notice 2026-10-14) with gpt-6-luna as the recommended replacement. The older snapshot gpt-4o-2024-05-13 shut down on 2026-10-23.",
+    "official_source_url": "https://developers.openai.com/api/docs/deprecations",
+    "old_lifecycle": null,
+    "old_prices": {
+      "cached_input": null,
+      "input": null,
+      "output": null
+    },
+    "old_status": null,
+    "provider_id": "openai",
+    "schema_version": "1.0",
+    "source_snapshot_after": "data/snapshots/2026-11-06-4/prices.json",
+    "source_snapshot_before": "data/snapshots/2026-11-06-3/prices.json",
+    "unit": "1M tokens",
+    "verified_at": "2026-11-06"
+  },
+  {
+    "announcement_url": null,
+    "change_type": "lifecycle_update",
+    "currency": "USD",
+    "date_basis": "provider_announced",
+    "dedupe_key": "sha256:ca05fce35797c2f1f72d4f8c7526a8552e3c3195b0e25b0fdaf3308d7ecd26e3",
+    "detected_at": "2026-11-06",
+    "effective_from": "2026-10-14",
+    "event_id": "openai:gpt-4o-mini:lifecycle_update:ca05fce35797",
+    "model_id": "gpt-4o-mini",
+    "new_lifecycle": {
+      "deprecation_date": "2026-10-14",
+      "replacement_model_id": "gpt-6-luna",
+      "retirement_date": "2027-01-14"
+    },
+    "new_prices": {
+      "cached_input": 0.075,
+      "input": 0.15,
+      "output": 0.6
+    },
+    "new_status": "deprecated",
+    "notes": "The model was absent from the before snapshot. This late-discovered lifecycle fact does not imply a model launch or a previous active state. OpenAI lists gpt-4o-mini as Deprecated; the snapshot gpt-4o-mini-2024-07-18 shuts down on 2027-01-14 (notice 2026-10-14) with gpt-6-luna as the recommended replacement.",
+    "official_source_url": "https://developers.openai.com/api/docs/deprecations",
+    "old_lifecycle": null,
+    "old_prices": {
+      "cached_input": null,
+      "input": null,
+      "output": null
+    },
+    "old_status": null,
+    "provider_id": "openai",
+    "schema_version": "1.0",
+    "source_snapshot_after": "data/snapshots/2026-11-06-4/prices.json",
+    "source_snapshot_before": "data/snapshots/2026-11-06-3/prices.json",
+    "unit": "1M tokens",
+    "verified_at": "2026-11-06"
+  },
+  {
+    "announcement_url": null,
+    "change_type": "lifecycle_update",
+    "currency": "USD",
+    "date_basis": "provider_announced",
     "dedupe_key": "sha256:1228e67213979dfd523158aaa4f92e9b98417e5f6f17d77b20b134c12029eba8",
     "detected_at": "2026-10-05",
     "effective_from": "2026-10-01",
@@ -1549,6 +2480,80 @@ export const bundledPriceChangeEvents: unknown[] = [
     "source_snapshot_before": "data/snapshots/2026-10-04/prices.json",
     "unit": null,
     "verified_at": "2026-10-05"
+  },
+  {
+    "announcement_url": "https://developers.openai.com/api/docs/pricing",
+    "change_type": "lifecycle_update",
+    "currency": "USD",
+    "date_basis": "provider_announced",
+    "dedupe_key": "sha256:8cddca91c8e3dde56bca4d851d2b10126a8460aa4a45fac6f08b668a14ccba8f",
+    "detected_at": "2026-11-06",
+    "effective_from": "2026-06-11",
+    "event_id": "openai:gpt-5:lifecycle_update:8cddca91c8e3",
+    "model_id": "gpt-5",
+    "new_lifecycle": {
+      "deprecation_date": "2026-06-11",
+      "replacement_model_id": "gpt-5.6-sol",
+      "retirement_date": "2026-12-11"
+    },
+    "new_prices": {
+      "cached_input": 0.125,
+      "input": 1.25,
+      "output": 10
+    },
+    "new_status": "deprecated",
+    "notes": "OpenAI lists gpt-5 as Deprecated; gpt-5 and its snapshot gpt-5-2025-08-07 shut down on 2026-12-11 (notice 2026-06-11) with gpt-5.6-sol as the recommended replacement. V1 batch fields keep the Batch guide's 50% discount.",
+    "official_source_url": "https://developers.openai.com/api/docs/deprecations",
+    "old_lifecycle": null,
+    "old_prices": {
+      "cached_input": 0.125,
+      "input": 1.25,
+      "output": 10
+    },
+    "old_status": "deprecated",
+    "provider_id": "openai",
+    "schema_version": "1.0",
+    "source_snapshot_after": "data/snapshots/2026-11-06-4/prices.json",
+    "source_snapshot_before": "data/snapshots/2026-11-06-3/prices.json",
+    "unit": "1M tokens",
+    "verified_at": "2026-11-06"
+  },
+  {
+    "announcement_url": null,
+    "change_type": "lifecycle_update",
+    "currency": "USD",
+    "date_basis": "provider_announced",
+    "dedupe_key": "sha256:ee04ea07315ce5eebb4ea8f1891f93039ed70445860a619091e703479c03bdc4",
+    "detected_at": "2026-11-06",
+    "effective_from": "2026-06-11",
+    "event_id": "openai:gpt-5-mini:lifecycle_update:ee04ea07315c",
+    "model_id": "gpt-5-mini",
+    "new_lifecycle": {
+      "deprecation_date": "2026-06-11",
+      "replacement_model_id": "gpt-5.6-terra",
+      "retirement_date": "2026-12-11"
+    },
+    "new_prices": {
+      "cached_input": 0.025,
+      "input": 0.25,
+      "output": 2
+    },
+    "new_status": "deprecated",
+    "notes": "The model was absent from the before snapshot. This late-discovered lifecycle fact does not imply a model launch or a previous active state. OpenAI lists gpt-5-mini as Deprecated; gpt-5-mini and its snapshot gpt-5-mini-2025-08-07 shut down on 2026-12-11 (notice 2026-06-11) with gpt-5.6-terra as the recommended replacement.",
+    "official_source_url": "https://developers.openai.com/api/docs/deprecations",
+    "old_lifecycle": null,
+    "old_prices": {
+      "cached_input": null,
+      "input": null,
+      "output": null
+    },
+    "old_status": null,
+    "provider_id": "openai",
+    "schema_version": "1.0",
+    "source_snapshot_after": "data/snapshots/2026-11-06-4/prices.json",
+    "source_snapshot_before": "data/snapshots/2026-11-06-3/prices.json",
+    "unit": "1M tokens",
+    "verified_at": "2026-11-06"
   },
   {
     "announcement_url": null,
@@ -1699,6 +2704,75 @@ export const bundledPriceChangeEvents: unknown[] = [
   },
   {
     "announcement_url": null,
+    "change_type": "lifecycle_update",
+    "currency": "USD",
+    "date_basis": "provider_announced",
+    "dedupe_key": "sha256:452bb91c185069867e6013a1f9e36db844fb4a57747f03d83095b68b61125469",
+    "detected_at": "2026-11-06",
+    "effective_from": "2026-11-05",
+    "event_id": "openai:gpt-5.5-cyber-preview:lifecycle_update:452bb91c1850",
+    "model_id": "gpt-5.5-cyber-preview",
+    "new_lifecycle": {
+      "deprecation_date": "2026-11-05",
+      "retirement_date": "2027-02-01"
+    },
+    "new_prices": {
+      "cached_input": null,
+      "input": null,
+      "output": null
+    },
+    "new_status": "deprecated",
+    "notes": "The model was absent from the before snapshot. This late-discovered lifecycle fact does not imply a model launch or a previous active state. Deprecated 2026-11-05; OpenAI removes it from the API on 2027-02-01. OpenAI recommends the most capable cyber model available to the customer without naming a replacement ID. No public price is asserted.",
+    "official_source_url": "https://developers.openai.com/api/docs/deprecations",
+    "old_lifecycle": null,
+    "old_prices": {
+      "cached_input": null,
+      "input": null,
+      "output": null
+    },
+    "old_status": null,
+    "provider_id": "openai",
+    "schema_version": "1.0",
+    "source_snapshot_after": "data/snapshots/2026-11-06-6/prices.json",
+    "source_snapshot_before": "data/snapshots/2026-11-06-5/prices.json",
+    "unit": null,
+    "verified_at": "2026-11-06"
+  },
+  {
+    "announcement_url": "https://developers.openai.com/api/docs/pricing",
+    "change_type": "model_added",
+    "currency": "USD",
+    "date_basis": "provider_announced",
+    "dedupe_key": "sha256:df7a7e10ed47a47f19d86911b24967d54ea6a543bffa5876ed3b1f3e787cb43a",
+    "detected_at": "2026-11-06",
+    "effective_from": "2026-08-07",
+    "event_id": "openai:gpt-5.6-cyber:model_added:df7a7e10ed47",
+    "model_id": "gpt-5.6-cyber",
+    "new_lifecycle": null,
+    "new_prices": {
+      "cached_input": 1.25,
+      "input": 12.5,
+      "output": 75
+    },
+    "new_status": "active",
+    "notes": "OpenAI released GPT-5.6 Cyber on 2026-08-07 as an alias for purpose-trained cybersecurity models, available to Daybreak Red customers once Daybreak Red is enabled for the requesting project. Responses API only; Batch is not supported and no Flex or Fast rows exist. Not listed among the data-residency models, so no regional uplift is recorded. Model page: 400,000-token context window, 272,000 max input tokens, 128,000 max output tokens.",
+    "official_source_url": "https://developers.openai.com/api/docs/models/gpt-5.6-cyber",
+    "old_lifecycle": null,
+    "old_prices": {
+      "cached_input": null,
+      "input": null,
+      "output": null
+    },
+    "old_status": null,
+    "provider_id": "openai",
+    "schema_version": "1.0",
+    "source_snapshot_after": "data/snapshots/2026-11-06-7/prices.json",
+    "source_snapshot_before": "data/snapshots/2026-11-06-6/prices.json",
+    "unit": "1M tokens",
+    "verified_at": "2026-11-06"
+  },
+  {
+    "announcement_url": null,
     "change_type": "price_update",
     "currency": "USD",
     "date_basis": "first_observed",
@@ -1725,6 +2799,39 @@ export const bundledPriceChangeEvents: unknown[] = [
     "source_snapshot_before": "data/snapshots/2026-08-11/prices.json",
     "unit": "1M tokens",
     "verified_at": "2026-08-22"
+  },
+  {
+    "announcement_url": "https://developers.openai.com/api/docs/pricing",
+    "change_type": "model_added",
+    "currency": "USD",
+    "date_basis": "provider_announced",
+    "dedupe_key": "sha256:72418ce23fb46ac77d620087d6b10d8153920c7e35e1fda39f9de7cdb8872658",
+    "detected_at": "2026-11-06",
+    "effective_from": "2026-11-05",
+    "event_id": "openai:gpt-6-cyber:model_added:72418ce23fb4",
+    "model_id": "gpt-6-cyber",
+    "new_lifecycle": null,
+    "new_prices": {
+      "cached_input": 2,
+      "input": 20,
+      "output": 100
+    },
+    "new_status": "active",
+    "notes": "OpenAI released GPT-6-Cyber on 2026-11-05 for authorized vulnerability investigation, reproduction and fix verification. Access requires Daybreak Red approval plus additional model approval, enabled per project. The pricing page and model page list only Standard short-context rates; Batch is not supported and no Flex or Fast rows exist. Not listed among the data-residency models, so no regional uplift is recorded. Model page: 1,050,000-token context window, 922,000 max input tokens, 128,000 max output tokens.",
+    "official_source_url": "https://developers.openai.com/api/docs/models/gpt-6-cyber",
+    "old_lifecycle": null,
+    "old_prices": {
+      "cached_input": null,
+      "input": null,
+      "output": null
+    },
+    "old_status": null,
+    "provider_id": "openai",
+    "schema_version": "1.0",
+    "source_snapshot_after": "data/snapshots/2026-11-06-7/prices.json",
+    "source_snapshot_before": "data/snapshots/2026-11-06-6/prices.json",
+    "unit": "1M tokens",
+    "verified_at": "2026-11-06"
   },
   {
     "announcement_url": "https://openai.com/index/introducing-gpt-6-sol-and-luna/",
@@ -1843,6 +2950,39 @@ export const bundledPriceChangeEvents: unknown[] = [
     "source_snapshot_before": "data/snapshots/2026-09-14/prices.json",
     "unit": "1M tokens",
     "verified_at": "2026-09-23"
+  },
+  {
+    "announcement_url": "https://developers.openai.com/api/docs/changelog",
+    "change_type": "model_added",
+    "currency": "USD",
+    "date_basis": "provider_announced",
+    "dedupe_key": "sha256:170bbeab59dd4e41f3b77fa782eed4aa6f67f62de77e10ef64e42646290e0a59",
+    "detected_at": "2026-11-06",
+    "effective_from": "2026-10-30",
+    "event_id": "openai:gpt-6-rosalind:model_added:170bbeab59dd",
+    "model_id": "gpt-6-rosalind",
+    "new_lifecycle": null,
+    "new_prices": {
+      "cached_input": 1.5,
+      "input": 15,
+      "output": 75
+    },
+    "new_status": "active",
+    "notes": "OpenAI released GPT-6 Rosalind on 2026-10-30 as a life sciences model. Access is limited to organizations approved for Rosalind Research through OpenAI's trusted-access program, for internal research by authorized users. The pricing page lists only Standard short- and long-context rates (no Batch, Flex, Fast or Priority rows); short context is 272K input tokens or fewer, per OpenAI's short/long context definition. Rosalind is not listed among the data-residency models, so no regional uplift is recorded. OpenAI publishes no model page or context window for it.",
+    "official_source_url": "https://developers.openai.com/api/docs/pricing",
+    "old_lifecycle": null,
+    "old_prices": {
+      "cached_input": null,
+      "input": null,
+      "output": null
+    },
+    "old_status": null,
+    "provider_id": "openai",
+    "schema_version": "1.0",
+    "source_snapshot_after": "data/snapshots/2026-11-06-3/prices.json",
+    "source_snapshot_before": "data/snapshots/2026-11-06-2/prices.json",
+    "unit": "1M tokens",
+    "verified_at": "2026-11-06"
   },
   {
     "announcement_url": "https://developers.openai.com/api/docs/pricing",
@@ -2029,6 +3169,109 @@ export const bundledPriceChangeEvents: unknown[] = [
     "verified_at": "2026-10-27"
   },
   {
+    "announcement_url": "https://developers.openai.com/api/docs/pricing",
+    "change_type": "model_added",
+    "currency": "USD",
+    "date_basis": "provider_announced",
+    "dedupe_key": "sha256:fa7e8fcbcdc958111481b1a495e6e1a8393a81217e0e85de159e494c65d3ce7c",
+    "detected_at": "2026-11-18",
+    "effective_from": "2026-11-17",
+    "event_id": "openai:gpt-6.2-astra:model_added:fa7e8fcbcdc9",
+    "model_id": "gpt-6.2-astra",
+    "new_lifecycle": null,
+    "new_prices": {
+      "cached_input": 0.4,
+      "input": 8,
+      "output": 40
+    },
+    "new_status": "active",
+    "notes": "Released 2026-11-17 through the Responses and Chat Completions APIs; tool calling requires the Responses API. The official model contract has a 1,050,000-token context window, 922,000 max input tokens and 128,000 max output tokens, with text and image input and text output. Standard, Batch, Fast and Ultrafast absolute rates are stored on both sides of the strict greater-than 272,000 input-token boundary. Short-context rates are the official pricing-page values; long-context rates apply the official model-page rule (input, cached-input and cache-write rates double, output costs 1.5 times, Batch costs 50% and Fast 2 times Standard for the same context length), which the pricing page's explicit Ultrafast long-context rows confirm. Ultrafast costs 3 times Standard through 2027-02-28 and 6 times Standard from 2027-03-01 (Pacific time); both periods are stored, the second as a future record. Flex processing is not listed for this model on the official pricing page. Regional processing uses the official 10% uplift; Standard, Batch and Fast support US and EU data residency, Ultrafast supports global processing and US data residency only. Discounted background completion windows (2h is 30% below Standard, 8h is 40% below Standard; public beta, Responses API, Standard processing) are not modeled as a processing mode.",
+    "official_source_url": "https://developers.openai.com/api/docs/models/gpt-6.2-astra",
+    "old_lifecycle": null,
+    "old_prices": {
+      "cached_input": null,
+      "input": null,
+      "output": null
+    },
+    "old_status": null,
+    "provider_id": "openai",
+    "schema_version": "1.0",
+    "source_snapshot_after": "data/snapshots/2026-11-18/prices.json",
+    "source_snapshot_before": "data/snapshots/2026-11-13-3/prices.json",
+    "unit": "1M tokens",
+    "verified_at": "2026-11-18"
+  },
+  {
+    "announcement_url": "https://developers.openai.com/api/docs/pricing",
+    "change_type": "model_added",
+    "currency": "USD",
+    "date_basis": "provider_announced",
+    "dedupe_key": "sha256:f6ae6631b86b6f519019d75f217da94c2270d2ba41cd86c013355bc9194041d5",
+    "detected_at": "2026-11-18",
+    "effective_from": "2026-11-17",
+    "event_id": "openai:gpt-6.2-sol:model_added:f6ae6631b86b",
+    "model_id": "gpt-6.2-sol",
+    "new_lifecycle": null,
+    "new_prices": {
+      "cached_input": 0.1,
+      "input": 2,
+      "output": 10
+    },
+    "new_status": "active",
+    "notes": "Released 2026-11-17 through the Responses and Chat Completions APIs; tool calling requires the Responses API. The official model contract has a 1,050,000-token context window, 922,000 max input tokens and 128,000 max output tokens, with text and image input and text output. Standard, Batch, Fast and Ultrafast absolute rates are stored on both sides of the strict greater-than 272,000 input-token boundary. Short-context rates are the official pricing-page values; long-context rates apply the official model-page rule (input, cached-input and cache-write rates double, output costs 1.5 times, Batch costs 50% and Fast 2 times Standard for the same context length), which the pricing page's explicit Ultrafast long-context rows confirm. Ultrafast costs 3 times Standard through 2027-02-28 and 6 times Standard from 2027-03-01 (Pacific time); both periods are stored, the second as a future record. Flex processing is not listed for this model on the official pricing page. Regional processing uses the official 10% uplift; Standard, Batch and Fast support US and EU data residency, Ultrafast supports global processing and US data residency only. Discounted background completion windows (2h is 30% below Standard, 8h is 40% below Standard; public beta, Responses API, Standard processing) are not modeled as a processing mode.",
+    "official_source_url": "https://developers.openai.com/api/docs/models/gpt-6.2-sol",
+    "old_lifecycle": null,
+    "old_prices": {
+      "cached_input": null,
+      "input": null,
+      "output": null
+    },
+    "old_status": null,
+    "provider_id": "openai",
+    "schema_version": "1.0",
+    "source_snapshot_after": "data/snapshots/2026-11-18/prices.json",
+    "source_snapshot_before": "data/snapshots/2026-11-13-3/prices.json",
+    "unit": "1M tokens",
+    "verified_at": "2026-11-18"
+  },
+  {
+    "announcement_url": "https://developers.openai.com/api/docs/pricing",
+    "change_type": "lifecycle_update",
+    "currency": "USD",
+    "date_basis": "provider_announced",
+    "dedupe_key": "sha256:d918793107fbbf29dc1be6f903a9feaee64043709894492bc14cbce0670ccdc2",
+    "detected_at": "2026-11-06",
+    "effective_from": "2026-06-11",
+    "event_id": "openai:o3:lifecycle_update:d918793107fb",
+    "model_id": "o3",
+    "new_lifecycle": {
+      "deprecation_date": "2026-06-11",
+      "replacement_model_id": "gpt-5.6-sol",
+      "retirement_date": "2026-12-11"
+    },
+    "new_prices": {
+      "cached_input": 0.5,
+      "input": 2,
+      "output": 8
+    },
+    "new_status": "deprecated",
+    "notes": "OpenAI lists o3 as Deprecated; o3 and its snapshot o3-2025-04-16 shut down on 2026-12-11 (notice 2026-06-11) with gpt-5.6-sol as the recommended replacement. The model page also lists Batch prices of $1 input, $0.25 cached input and $4 output; V1 has no batch_cached_input field.",
+    "official_source_url": "https://developers.openai.com/api/docs/deprecations",
+    "old_lifecycle": null,
+    "old_prices": {
+      "cached_input": 0.5,
+      "input": 2,
+      "output": 8
+    },
+    "old_status": "deprecated",
+    "provider_id": "openai",
+    "schema_version": "1.0",
+    "source_snapshot_after": "data/snapshots/2026-11-06-4/prices.json",
+    "source_snapshot_before": "data/snapshots/2026-11-06-3/prices.json",
+    "unit": "1M tokens",
+    "verified_at": "2026-11-06"
+  },
+  {
     "announcement_url": null,
     "change_type": "lifecycle_update",
     "currency": "USD",
@@ -2103,6 +3346,39 @@ export const bundledPriceChangeEvents: unknown[] = [
     "verified_at": "2026-10-05"
   },
   {
+    "announcement_url": "https://docs.perplexity.ai/docs/getting-started/pricing.md",
+    "change_type": "model_added",
+    "currency": "USD",
+    "date_basis": "first_observed",
+    "dedupe_key": "sha256:78886224b7061dcdc245b5862b8b0517c41b91a130857500f06fa282487fd11d",
+    "detected_at": "2026-11-04",
+    "effective_from": null,
+    "event_id": "perplexity:sonar:model_added:78886224b706",
+    "model_id": "sonar",
+    "new_lifecycle": null,
+    "new_prices": {
+      "cached_input": 0.0625,
+      "input": 0.25,
+      "output": 2.5
+    },
+    "new_status": "active",
+    "notes": "Official Agent API model ID perplexity/sonar. Search-grounded answers with citations. Sonar Pro, Sonar Reasoning Pro and Sonar Deep Research are no longer listed after the September 27, 2026 Chat Completions retirement. Perplexity does not publish a context window or maximum output length for Sonar in the Agent API docs; unknown values are not represented as zero.",
+    "official_source_url": "https://docs.perplexity.ai/docs/agent-api/models.md",
+    "old_lifecycle": null,
+    "old_prices": {
+      "cached_input": null,
+      "input": null,
+      "output": null
+    },
+    "old_status": null,
+    "provider_id": "perplexity",
+    "schema_version": "1.0",
+    "source_snapshot_after": "data/snapshots/2026-11-04-2/prices.json",
+    "source_snapshot_before": "data/snapshots/2026-11-04/prices.json",
+    "unit": "1M tokens",
+    "verified_at": "2026-11-04"
+  },
+  {
     "announcement_url": null,
     "change_type": "cached_price_added",
     "currency": "USD",
@@ -2163,6 +3439,75 @@ export const bundledPriceChangeEvents: unknown[] = [
     "source_snapshot_before": "data/snapshots/2026-09-21/prices.json",
     "unit": "1M tokens",
     "verified_at": "2026-09-23"
+  },
+  {
+    "announcement_url": "https://docs.x.ai/developers/models/grok-imagine-image-pro",
+    "change_type": "lifecycle_update",
+    "currency": "USD",
+    "date_basis": "provider_announced",
+    "dedupe_key": "sha256:dbcbab3bee6362614b4cd6fee4f5f7fc4f8312bfc6be23af370cba13ff5aa3cc",
+    "detected_at": "2026-11-02",
+    "effective_from": "2026-11-02",
+    "event_id": "xai:grok-imagine-image-quality:lifecycle_update:dbcbab3bee63",
+    "model_id": "grok-imagine-image-quality",
+    "new_lifecycle": {
+      "replacement_model_id": "grok-imagine-image-2.0",
+      "retirement_date": "2026-11-02",
+      "retirement_notice_date": "2026-09-02",
+      "scheduled_transition": {
+        "billing_configuration": {
+          "quality": "low"
+        },
+        "billing_model_id": "grok-imagine-image-2.0",
+        "billing_source": "redirect_target",
+        "effective_from": "2026-11-02",
+        "kind": "retirement_redirect",
+        "redirect_target_model_id": "grok-imagine-image-2.0",
+        "source_slug_remains_resolvable": true,
+        "target_configuration": {
+          "quality": "low"
+        }
+      }
+    },
+    "new_prices": {
+      "cached_input": null,
+      "input": null,
+      "output": null
+    },
+    "new_status": "retired",
+    "notes": "Retired 2026-11-02 (xAI 60-day notice from 2026-09-02). The slug still resolves and is served by grok-imagine-image-2.0 with quality=low, billed at the grok-imagine-image-2.0 low rate. The per-image amounts kept here are the last published rates before retirement: $0.01 per input image, $0.05 per 1K output image, $0.06 per 1.5K (1408x1408) output image, and $0.07 per 2K output image.",
+    "official_source_url": "https://docs.x.ai/developers/pricing",
+    "old_lifecycle": {
+      "replacement_model_id": "grok-imagine-image-2.0",
+      "retirement_date": "2026-11-02",
+      "retirement_notice_date": "2026-09-02",
+      "scheduled_transition": {
+        "billing_configuration": {
+          "quality": "low"
+        },
+        "billing_model_id": "grok-imagine-image-2.0",
+        "billing_source": "redirect_target",
+        "effective_from": "2026-11-02",
+        "kind": "retirement_redirect",
+        "redirect_target_model_id": "grok-imagine-image-2.0",
+        "source_slug_remains_resolvable": true,
+        "target_configuration": {
+          "quality": "low"
+        }
+      }
+    },
+    "old_prices": {
+      "cached_input": null,
+      "input": null,
+      "output": null
+    },
+    "old_status": "deprecated",
+    "provider_id": "xai",
+    "schema_version": "1.0",
+    "source_snapshot_after": "data/snapshots/2026-11-02/prices.json",
+    "source_snapshot_before": "data/snapshots/2026-10-31-2/prices.json",
+    "unit": null,
+    "verified_at": "2026-11-02"
   },
   {
     "announcement_url": "https://docs.x.ai/developers/models/speech-to-text",
@@ -2233,5 +3578,203 @@ export const bundledPriceChangeEvents: unknown[] = [
     "source_snapshot_before": "data/snapshots/2026-10-04/prices.json",
     "unit": null,
     "verified_at": "2026-10-05"
+  },
+  {
+    "announcement_url": "https://docs.z.ai/guides/llm/glm-4.7.md",
+    "change_type": "model_added",
+    "currency": "USD",
+    "date_basis": "first_observed",
+    "dedupe_key": "sha256:541dc75edc04f50524a2ccfd6cc776b932643c374f37346cb883c8e378b72794",
+    "detected_at": "2026-11-04",
+    "effective_from": null,
+    "event_id": "zhipu-ai:glm-4.7:model_added:541dc75edc04",
+    "model_id": "glm-4.7",
+    "new_lifecycle": null,
+    "new_prices": {
+      "cached_input": 0.11,
+      "input": 0.6,
+      "output": 2.2
+    },
+    "new_status": "active",
+    "notes": "Official API model ID glm-4.7. Text model with a 200K-token context window and up to 128K output tokens. Z.ai does not publish a release date or Batch rate in its API pricing; unknown values are not represented as zero.",
+    "official_source_url": "https://docs.z.ai/guides/overview/pricing.md",
+    "old_lifecycle": null,
+    "old_prices": {
+      "cached_input": null,
+      "input": null,
+      "output": null
+    },
+    "old_status": null,
+    "provider_id": "zhipu-ai",
+    "schema_version": "1.0",
+    "source_snapshot_after": "data/snapshots/2026-11-04-2/prices.json",
+    "source_snapshot_before": "data/snapshots/2026-11-04/prices.json",
+    "unit": "1M tokens",
+    "verified_at": "2026-11-04"
+  },
+  {
+    "announcement_url": "https://docs.z.ai/guides/llm/glm-5.md",
+    "change_type": "model_added",
+    "currency": "USD",
+    "date_basis": "first_observed",
+    "dedupe_key": "sha256:8a74d890a2ec5a6f433d5375adeec466bd0ba53a5b8c19dd34a0cd929525307a",
+    "detected_at": "2026-11-04",
+    "effective_from": null,
+    "event_id": "zhipu-ai:glm-5:model_added:8a74d890a2ec",
+    "model_id": "glm-5",
+    "new_lifecycle": null,
+    "new_prices": {
+      "cached_input": 0.2,
+      "input": 1,
+      "output": 3.2
+    },
+    "new_status": "active",
+    "notes": "Official API model ID glm-5. Text model with a 200K-token context window and up to 128K output tokens. Z.ai does not publish a release date or Batch rate in its API pricing; unknown values are not represented as zero.",
+    "official_source_url": "https://docs.z.ai/guides/overview/pricing.md",
+    "old_lifecycle": null,
+    "old_prices": {
+      "cached_input": null,
+      "input": null,
+      "output": null
+    },
+    "old_status": null,
+    "provider_id": "zhipu-ai",
+    "schema_version": "1.0",
+    "source_snapshot_after": "data/snapshots/2026-11-04-2/prices.json",
+    "source_snapshot_before": "data/snapshots/2026-11-04/prices.json",
+    "unit": "1M tokens",
+    "verified_at": "2026-11-04"
+  },
+  {
+    "announcement_url": "https://docs.z.ai/guides/llm/glm-5.2.md",
+    "change_type": "model_added",
+    "currency": "USD",
+    "date_basis": "first_observed",
+    "dedupe_key": "sha256:db2423665f14f54c98d2f16a05f38e0716f2791adfb140e7884dc1166bc0d672",
+    "detected_at": "2026-11-04",
+    "effective_from": null,
+    "event_id": "zhipu-ai:glm-5.2:model_added:db2423665f14",
+    "model_id": "glm-5.2",
+    "new_lifecycle": null,
+    "new_prices": {
+      "cached_input": 0.26,
+      "input": 1.4,
+      "output": 4.4
+    },
+    "new_status": "active",
+    "notes": "Official API model ID glm-5.2. Previous flagship, same base model as GLM-5.3 and the same price. 1M-token context, up to 128K output tokens. Z.ai does not publish a release date or Batch rate in its API pricing; unknown values are not represented as zero.",
+    "official_source_url": "https://docs.z.ai/guides/overview/pricing.md",
+    "old_lifecycle": null,
+    "old_prices": {
+      "cached_input": null,
+      "input": null,
+      "output": null
+    },
+    "old_status": null,
+    "provider_id": "zhipu-ai",
+    "schema_version": "1.0",
+    "source_snapshot_after": "data/snapshots/2026-11-04-2/prices.json",
+    "source_snapshot_before": "data/snapshots/2026-11-04/prices.json",
+    "unit": "1M tokens",
+    "verified_at": "2026-11-04"
+  },
+  {
+    "announcement_url": "https://docs.z.ai/guides/llm/glm-5.3.md",
+    "change_type": "model_added",
+    "currency": "USD",
+    "date_basis": "first_observed",
+    "dedupe_key": "sha256:d9e06b358f219d8fc8d4d2fb57f44f254ab4decd000a2de1854b22ea8417812f",
+    "detected_at": "2026-11-04",
+    "effective_from": null,
+    "event_id": "zhipu-ai:glm-5.3:model_added:d9e06b358f21",
+    "model_id": "glm-5.3",
+    "new_lifecycle": null,
+    "new_prices": {
+      "cached_input": 0.26,
+      "input": 1.4,
+      "output": 4.4
+    },
+    "new_status": "active",
+    "notes": "Official API model ID glm-5.3. Flagship model. Text input only, 1M-token context, up to 128K output tokens. Reasoning is always on (effort low, high or max). Z.ai does not publish a release date or Batch rate in its API pricing; unknown values are not represented as zero.",
+    "official_source_url": "https://docs.z.ai/guides/overview/pricing.md",
+    "old_lifecycle": null,
+    "old_prices": {
+      "cached_input": null,
+      "input": null,
+      "output": null
+    },
+    "old_status": null,
+    "provider_id": "zhipu-ai",
+    "schema_version": "1.0",
+    "source_snapshot_after": "data/snapshots/2026-11-04-2/prices.json",
+    "source_snapshot_before": "data/snapshots/2026-11-04/prices.json",
+    "unit": "1M tokens",
+    "verified_at": "2026-11-04"
+  },
+  {
+    "announcement_url": "https://docs.z.ai/guides/vlm/glm-5.3-flash.md",
+    "change_type": "model_added",
+    "currency": "USD",
+    "date_basis": "first_observed",
+    "dedupe_key": "sha256:424543d76b5c6417d582b0ae16c70e00508dc47e0ffe0d6875d3ac1fbd4ef0da",
+    "detected_at": "2026-11-04",
+    "effective_from": null,
+    "event_id": "zhipu-ai:glm-5.3-flash:model_added:424543d76b5c",
+    "model_id": "glm-5.3-flash",
+    "new_lifecycle": null,
+    "new_prices": {
+      "cached_input": 0.03,
+      "input": 0.15,
+      "output": 0.5
+    },
+    "new_status": "active",
+    "notes": "Official API model ID glm-5.3-flash. Low-cost multimodal model: text, image, video and file input; text output; 1M-token context, up to 128K output tokens. Z.ai does not publish a release date or Batch rate in its API pricing; unknown values are not represented as zero.",
+    "official_source_url": "https://docs.z.ai/guides/overview/pricing.md",
+    "old_lifecycle": null,
+    "old_prices": {
+      "cached_input": null,
+      "input": null,
+      "output": null
+    },
+    "old_status": null,
+    "provider_id": "zhipu-ai",
+    "schema_version": "1.0",
+    "source_snapshot_after": "data/snapshots/2026-11-04-2/prices.json",
+    "source_snapshot_before": "data/snapshots/2026-11-04/prices.json",
+    "unit": "1M tokens",
+    "verified_at": "2026-11-04"
+  },
+  {
+    "announcement_url": "https://docs.z.ai/guides/vlm/glm-5.3-flash.md",
+    "change_type": "model_added",
+    "currency": "USD",
+    "date_basis": "first_observed",
+    "dedupe_key": "sha256:babe8ab568eb630367a085e19ce72dcf24971c284d2f3c48f02a07caf5c14c5e",
+    "detected_at": "2026-11-04",
+    "effective_from": null,
+    "event_id": "zhipu-ai:glm-5.3-flashx:model_added:babe8ab568eb",
+    "model_id": "glm-5.3-flashx",
+    "new_lifecycle": null,
+    "new_prices": {
+      "cached_input": 0.075,
+      "input": 0.37,
+      "output": 1.25
+    },
+    "new_status": "active",
+    "notes": "Official API model ID glm-5.3-flashx. Faster serving of GLM-5.3-Flash (about 200 tokens/s per Z.ai). Text, image, video and file input; 1M-token context, up to 128K output tokens. Z.ai does not publish a release date or Batch rate in its API pricing; unknown values are not represented as zero.",
+    "official_source_url": "https://docs.z.ai/guides/overview/pricing.md",
+    "old_lifecycle": null,
+    "old_prices": {
+      "cached_input": null,
+      "input": null,
+      "output": null
+    },
+    "old_status": null,
+    "provider_id": "zhipu-ai",
+    "schema_version": "1.0",
+    "source_snapshot_after": "data/snapshots/2026-11-04-2/prices.json",
+    "source_snapshot_before": "data/snapshots/2026-11-04/prices.json",
+    "unit": "1M tokens",
+    "verified_at": "2026-11-04"
   }
 ];
