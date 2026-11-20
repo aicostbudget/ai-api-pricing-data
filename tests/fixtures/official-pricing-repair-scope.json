@@ -191,7 +191,8 @@
     "meta/muse-ember-1.0": "a5345034c57ed1a35c9f659dd4ceb254ccbb011a3259a139366beaa9d7fc043d",
     "alibaba-qwen/qwen4-max": "1ce0ae4a4c851e443f3843cac72204911c348375e0494754380002cd0237a30c",
     "openai/gpt-6.2-astra": "6da8be144cd6612d8747ebe4a90f91743eaa9135e529c2a905dc506cf4befddb",
-    "openai/gpt-6.2-sol": "baeb5999f193b622d4f5bb333867d68c528a39d1b611ef8aef55317ff0c87c8a"
+    "openai/gpt-6.2-sol": "baeb5999f193b622d4f5bb333867d68c528a39d1b611ef8aef55317ff0c87c8a",
+    "google-gemini/gemini-4-neon": "517d08762ac4357e5beb076314695d4f06d31bcda4bc7d6e1b33c948f1f9de5b"
   },
   "projection": {
     "anthropic/claude-haiku-5-5": "af29b32c2ccf35ff1c0444c94ef97aeb28fa3a230f6207e8ec41b673f4efb078",
@@ -389,7 +390,8 @@
     "meta/muse-ember-1.0": "0ef5a776f252c204aead4a1fc353d87831370a37456f65ce361ecb5f7a6b6488",
     "alibaba-qwen/qwen4-max": "85bef1abb1f99e211404da2630a89440019fbf350d683572653c4f7a96218ff6",
     "openai/gpt-6.2-astra": "adfb2d87d0211a03135c7f3b5b89da405e6b07e36e707c6fbbdb0da932ab6433",
-    "openai/gpt-6.2-sol": "bbdf8960a80deba32517b6afabb376a422fc7ada1280bc72e57be28bb0be8c46"
+    "openai/gpt-6.2-sol": "bbdf8960a80deba32517b6afabb376a422fc7ada1280bc72e57be28bb0be8c46",
+    "google-gemini/gemini-4-neon": "7a4c1b8a6670ad24b71377d386992c5ffbb753e094dfe39155ce695ca0131e06"
   },
   "evidence_report": "official-pricing-repair-report.md",
   "events_sha256": "a04e3fbb1d4cb049f2d9cfcadfca3b6383fc1bcdc3df6ca0ee6cfddc38e706ed",
@@ -1223,5 +1225,20 @@
       "sha256:f6ae6631b86b6f519019d75f217da94c2270d2ba41cd86c013355bc9194041d5"
     ],
     "rationale": "GPT-6.2 Astra and GPT-6.2 Sol launch on 2026-11-17 and the Qwen4 Max listing (no official release date). Launch events use the Standard short-context rates; the price records preserve every processing mode and both context tiers, including the scheduled 2027-03-01 Ultrafast step, which is a future price record and not a scheduled_price_change event because that feed only follows the default Standard mode."
+  },
+  "gemini_4_neon_model_added_extension": {
+    "base_release": "gpt_6_2_qwen4_max_models_added_extension",
+    "base_event_count": 96,
+    "appended_event_count": 1,
+    "full_event_count": 97,
+    "full_events_sha256": "a0cbefd852c48af8ffdfd633ba310650491e12eac77153ae84962ac64a5a5d61",
+    "appended_events_sha256": "d591ee2d26a2228e45a5d6aace0714a9d5b260cccb2c7c31f72f25776f2c7457",
+    "appended_event_ids": [
+      "google-gemini:gemini-4-neon:model_added:618e8a25fb9d"
+    ],
+    "appended_dedupe_keys": [
+      "sha256:618e8a25fb9d8fc36b155ce4c420d7d88f2d0a5e4f893e539bc718b623618128"
+    ],
+    "rationale": "Gemini 4 Neon went generally available on 2026-11-18 (Gemini API changelog) at $3 input / $0.15 cached input / $15 output per 1M tokens on the paid tier, with Batch, Flex and Priority rates and no scheduled price step. The launch event uses the Standard short-context rates."
   }
 }
