@@ -572,9 +572,15 @@ def governance_metadata(
     details = None
 
     if internal_id in hosted_listing_ids():
-        governance_class = "PROJECTED_IDENTITY"
+        retired = identity["lifecycleStatus"] == "retired"
+        governance_class = "HISTORICAL_REFERENCE" if retired else "PROJECTED_IDENTITY"
         reason = "cloud_platform_listing_deferred_from_public_dataset"
-        details = "Cloud platform listing of another provider's model; compared on the Website, not a separate public model."
+        details = (
+            "Retired cloud platform listing of another provider's model; its last published rates are kept as a "
+            "historical reference."
+            if retired else
+            "Cloud platform listing of another provider's model; compared on the Website, not a separate public model."
+        )
         pricing_source = "canonical_verified_structured_price"
         public_exposure = "excluded"
     elif internal_id in excluded_reasons:
