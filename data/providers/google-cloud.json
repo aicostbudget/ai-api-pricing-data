@@ -2575,7 +2575,7 @@
       "status": "active"
     },
     {
-      "accessed_at": "2026-11-05T12:07:09Z",
+      "accessed_at": "2026-11-20T17:05:41Z",
       "display_name": "Gemini 3.6 Flash on Google Vertex AI",
       "effective_from": null,
       "hosted_model": {
@@ -2584,13 +2584,18 @@
         "provider_id": "google-gemini"
       },
       "input_modality": "text",
-      "last_verified_at": "2026-11-05T12:07:09Z",
+      "last_verified_at": "2026-11-20T17:05:41Z",
+      "lifecycle": {
+        "replacement_model_id": "vertex-gemini-3.8-flash",
+        "retirement_date": "2026-11-19"
+      },
       "model_family": "Gemini 3.6",
       "model_id": "vertex-gemini-3.6-flash",
-      "notes": "Gemini 3.6 Flash served through Google Vertex AI (Agent Platform). Global endpoint per 1M tokens through 2026-12-31: input $0.75, cached input $0.075, output $3.75 (Priority $1.35 / $0.135 / $6.75; Batch and Flex $0.375 / $0.0375 / $1.875). From 2027-01-01: input $1.50, cached input $0.15, output $7.50 (Priority $2.70 / $0.27 / $13.50; Batch and Flex $0.75 / $0.075 / $3.75). Explicit cache storage is $1.00 per 1M tokens per hour throughout, unlike the Gemini API's $0.50 introductory storage rate. Non-global (regional and multi-region) endpoints cost 10% more than the global endpoint on every token type. The rates through 2026-12-31 are promotional: Google Cloud provides the promotional rate as credits worth 50% of net spend on this model, issued monthly and expiring 30 days after issue, rather than as a lower invoice price.",
+      "notes": "Retired on 2026-11-19: Google Cloud's model page says Gemini 3.6 Flash will be retired on November 19, 2026 and tells customers to upgrade to Gemini 3.8 Flash. It does not say that requests are routed to Gemini 3.8 Flash, so no redirect is recorded. The Gemini API listing of Gemini 3.6 Flash is a separate platform with no shutdown date announced and is unchanged. The prices below are the last rates Google Cloud published; the pricing page still lists them. Gemini 3.6 Flash served through Google Vertex AI (Agent Platform). Global endpoint per 1M tokens through 2026-12-31: input $0.75, cached input $0.075, output $3.75 (Priority $1.35 / $0.135 / $6.75; Batch and Flex $0.375 / $0.0375 / $1.875). From 2027-01-01: input $1.50, cached input $0.15, output $7.50 (Priority $2.70 / $0.27 / $13.50; Batch and Flex $0.75 / $0.075 / $3.75). Explicit cache storage is $1.00 per 1M tokens per hour throughout, unlike the Gemini API's $0.50 introductory storage rate. Non-global (regional and multi-region) endpoints cost 10% more than the global endpoint on every token type. The rates through 2026-12-31 are promotional: Google Cloud provides the promotional rate as credits worth 50% of net spend on this model, issued monthly and expiring 30 days after issue, rather than as a lower invoice price.",
       "official_source_url": "https://cloud.google.com/vertex-ai/generative-ai/pricing",
       "official_source_urls": [
-        "https://cloud.google.com/vertex-ai/generative-ai/pricing"
+        "https://cloud.google.com/vertex-ai/generative-ai/pricing",
+        "https://cloud.google.com/vertex-ai/generative-ai/docs/models/gemini/3-6-flash"
       ],
       "output_modality": "text",
       "price_records": [
@@ -2627,7 +2632,7 @@
               "unit": "per_1m_tokens_per_hour"
             }
           ],
-          "checked_at": "2026-11-05T12:07:09Z",
+          "checked_at": "2026-11-20T17:05:41Z",
           "context_class": "short",
           "currency": "USD",
           "effective_from": "2026-08-13",
@@ -2669,7 +2674,7 @@
             "https://cloud.google.com/vertex-ai/generative-ai/pricing"
           ],
           "verification_status": "verified",
-          "verified_at": "2026-11-05T12:07:09Z"
+          "verified_at": "2026-11-20T17:05:41Z"
         },
         {
           "billing_note": "Global endpoint price on Google Vertex AI, including explicit cache storage per million cached tokens per hour. Non-global (regional and multi-region) endpoints cost 10% more than the global endpoint on every token type. Grounding is priced separately. Promotional rate: Google Cloud provides the promotional rate as credits worth 50% of net spend on this model, issued monthly and expiring 30 days after issue, rather than as a lower invoice price. Batch rate.",
@@ -2704,7 +2709,7 @@
               "unit": "per_1m_tokens_per_hour"
             }
           ],
-          "checked_at": "2026-11-05T12:07:09Z",
+          "checked_at": "2026-11-20T17:05:41Z",
           "context_class": "short",
           "currency": "USD",
           "effective_from": "2026-08-13",
@@ -2746,7 +2751,7 @@
             "https://cloud.google.com/vertex-ai/generative-ai/pricing"
           ],
           "verification_status": "verified",
-          "verified_at": "2026-11-05T12:07:09Z"
+          "verified_at": "2026-11-20T17:05:41Z"
         },
         {
           "billing_note": "Global endpoint price on Google Vertex AI, including explicit cache storage per million cached tokens per hour. Non-global (regional and multi-region) endpoints cost 10% more than the global endpoint on every token type. Grounding is priced separately. Promotional rate: Google Cloud provides the promotional rate as credits worth 50% of net spend on this model, issued monthly and expiring 30 days after issue, rather than as a lower invoice price. Flex rate.",
@@ -2781,7 +2786,7 @@
               "unit": "per_1m_tokens_per_hour"
             }
           ],
-          "checked_at": "2026-11-05T12:07:09Z",
+          "checked_at": "2026-11-20T17:05:41Z",
           "context_class": "short",
           "currency": "USD",
           "effective_from": null,
@@ -2823,7 +2828,7 @@
             "https://cloud.google.com/vertex-ai/generative-ai/pricing"
           ],
           "verification_status": "verified",
-          "verified_at": "2026-11-05T12:07:09Z"
+          "verified_at": "2026-11-20T17:05:41Z"
         },
         {
           "billing_note": "Global endpoint price on Google Vertex AI, including explicit cache storage per million cached tokens per hour. Non-global (regional and multi-region) endpoints cost 10% more than the global endpoint on every token type. Grounding is priced separately. Promotional rate: Google Cloud provides the promotional rate as credits worth 50% of net spend on this model, issued monthly and expiring 30 days after issue, rather than as a lower invoice price. Priority rate.",
@@ -2858,7 +2863,7 @@
               "unit": "per_1m_tokens_per_hour"
             }
           ],
-          "checked_at": "2026-11-05T12:07:09Z",
+          "checked_at": "2026-11-20T17:05:41Z",
           "context_class": "short",
           "currency": "USD",
           "effective_from": null,
@@ -2900,7 +2905,7 @@
             "https://cloud.google.com/vertex-ai/generative-ai/pricing"
           ],
           "verification_status": "verified",
-          "verified_at": "2026-11-05T12:07:09Z"
+          "verified_at": "2026-11-20T17:05:41Z"
         },
         {
           "billing_note": "Global endpoint price on Google Vertex AI, including explicit cache storage per million cached tokens per hour. Non-global (regional and multi-region) endpoints cost 10% more than the global endpoint on every token type. Grounding is priced separately.",
@@ -2935,7 +2940,7 @@
               "unit": "per_1m_tokens_per_hour"
             }
           ],
-          "checked_at": "2026-11-05T12:07:09Z",
+          "checked_at": "2026-11-20T17:05:41Z",
           "context_class": "short",
           "currency": "USD",
           "effective_from": "2027-01-01",
@@ -2977,7 +2982,7 @@
             "https://cloud.google.com/vertex-ai/generative-ai/pricing"
           ],
           "verification_status": "verified",
-          "verified_at": "2026-11-05T12:07:09Z"
+          "verified_at": "2026-11-20T17:05:41Z"
         },
         {
           "billing_note": "Global endpoint price on Google Vertex AI, including explicit cache storage per million cached tokens per hour. Non-global (regional and multi-region) endpoints cost 10% more than the global endpoint on every token type. Grounding is priced separately. Batch rate.",
@@ -3012,7 +3017,7 @@
               "unit": "per_1m_tokens_per_hour"
             }
           ],
-          "checked_at": "2026-11-05T12:07:09Z",
+          "checked_at": "2026-11-20T17:05:41Z",
           "context_class": "short",
           "currency": "USD",
           "effective_from": "2027-01-01",
@@ -3054,7 +3059,7 @@
             "https://cloud.google.com/vertex-ai/generative-ai/pricing"
           ],
           "verification_status": "verified",
-          "verified_at": "2026-11-05T12:07:09Z"
+          "verified_at": "2026-11-20T17:05:41Z"
         },
         {
           "billing_note": "Global endpoint price on Google Vertex AI, including explicit cache storage per million cached tokens per hour. Non-global (regional and multi-region) endpoints cost 10% more than the global endpoint on every token type. Grounding is priced separately. Flex rate.",
@@ -3089,7 +3094,7 @@
               "unit": "per_1m_tokens_per_hour"
             }
           ],
-          "checked_at": "2026-11-05T12:07:09Z",
+          "checked_at": "2026-11-20T17:05:41Z",
           "context_class": "short",
           "currency": "USD",
           "effective_from": "2027-01-01",
@@ -3131,7 +3136,7 @@
             "https://cloud.google.com/vertex-ai/generative-ai/pricing"
           ],
           "verification_status": "verified",
-          "verified_at": "2026-11-05T12:07:09Z"
+          "verified_at": "2026-11-20T17:05:41Z"
         },
         {
           "billing_note": "Global endpoint price on Google Vertex AI, including explicit cache storage per million cached tokens per hour. Non-global (regional and multi-region) endpoints cost 10% more than the global endpoint on every token type. Grounding is priced separately. Priority rate.",
@@ -3166,7 +3171,7 @@
               "unit": "per_1m_tokens_per_hour"
             }
           ],
-          "checked_at": "2026-11-05T12:07:09Z",
+          "checked_at": "2026-11-20T17:05:41Z",
           "context_class": "short",
           "currency": "USD",
           "effective_from": "2027-01-01",
@@ -3208,7 +3213,7 @@
             "https://cloud.google.com/vertex-ai/generative-ai/pricing"
           ],
           "verification_status": "verified",
-          "verified_at": "2026-11-05T12:07:09Z"
+          "verified_at": "2026-11-20T17:05:41Z"
         }
       ],
       "pricing": {
@@ -3226,7 +3231,7 @@
       "provider_id": "google-cloud",
       "release_stage": "stable",
       "released_at": null,
-      "status": "active"
+      "status": "retired"
     },
     {
       "accessed_at": "2026-11-05T12:07:09Z",
