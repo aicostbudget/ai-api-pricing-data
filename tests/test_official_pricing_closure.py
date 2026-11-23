@@ -13,6 +13,7 @@ TTS_CACHE_EXTENSION=SCOPE['gemini_38_tts_cache_removal_extension']
 BACKFILL_EXTENSION=SCOPE['model_added_backfill_extension']
 KIMI_K2_EXTENSION=SCOPE['kimi_k2_lifecycle_extension']
 MISTRAL_LIST_CUT_EXTENSION=SCOPE['mistral_large_4_list_cut_extension']
+MISTRAL_REVERIFY_1123=SCOPE['mistral_large_4_reverify_1123_extension']
 GROK_QUALITY_EXTENSION=SCOPE['grok_imagine_quality_retirement_extension']
 GEMINI_25_EXTENSION=SCOPE['gemini_25_shutdown_redirect_extension']
 P3_EXTENSION=SCOPE['p3_providers_model_added_extension']
@@ -683,6 +684,7 @@ class ClosureScopeTests(unittest.TestCase):
   list_cut=MISTRAL_LIST_CUT_EXTENSION
   self.assertEqual(approved[mistral['identity']],list_cut['canonical_before_sha256'])
   approved[mistral['identity']]=list_cut['canonical_after_sha256']
+  reverify_1123=MISTRAL_REVERIFY_1123;self.assertEqual(approved[mistral['identity']],reverify_1123['canonical_before_sha256']);approved[mistral['identity']]=reverify_1123['canonical_after_sha256']
   for identity_g25 in GEMINI_25_EXTENSION['identities']:
    self.assertEqual(approved[identity_g25],GEMINI_25_EXTENSION['canonical_before_sha256'][identity_g25])
    approved[identity_g25]=GEMINI_25_EXTENSION['canonical_after_sha256'][identity_g25]
@@ -706,6 +708,7 @@ class ClosureScopeTests(unittest.TestCase):
    approved[identity_eu]=OPENAI_EU_EXTENSION['projection_after_sha256'][identity_eu]
   self.assertEqual(approved[mistral['identity']],MISTRAL_LIST_CUT_EXTENSION['projection_before_sha256'])
   approved[mistral['identity']]=MISTRAL_LIST_CUT_EXTENSION['projection_after_sha256']
+  reverify_1123=MISTRAL_REVERIFY_1123;self.assertEqual(approved[mistral['identity']],reverify_1123['projection_before_sha256']);approved[mistral['identity']]=reverify_1123['projection_after_sha256']
   for identity_g25 in GEMINI_25_EXTENSION['identities']:
    self.assertEqual(approved[identity_g25],GEMINI_25_EXTENSION['projection_before_sha256'][identity_g25])
    approved[identity_g25]=GEMINI_25_EXTENSION['projection_after_sha256'][identity_g25]
