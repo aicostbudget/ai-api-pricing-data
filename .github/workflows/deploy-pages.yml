@@ -61,14 +61,24 @@ jobs:
           RECOVERY_DIGEST: ${{ inputs.recovery_digest }}
           GITHUB_TOKEN: ${{ github.token }}
         run: python scripts/check_release_gate.py --kind pages --recovery
+      # The public meta.json names the source commit (canonical data plus its snapshot), never the
+      # pushed artifact commit: read that identity from the committed file and rebuild from it.
+      - name: Resolve the source revision the public API describes
+        id: identity
+        if: ${{ !inputs.recovery_mode }}
+        run: python scripts/public_release_identity.py resolve
       - name: Build public API once
         env:
-          SOURCE_COMMIT_SHA: ${{ inputs.recovery_mode && inputs.recovery_source_sha || github.sha }}
-        run: python scripts/build.py
+          SOURCE_COMMIT_SHA: ${{ inputs.recovery_mode && inputs.recovery_source_sha || steps.identity.outputs.release_sha }}
+          PUBLIC_GENERATED_AT: ${{ steps.identity.outputs.generated_at }}
+        run: python scripts/build.py ${PUBLIC_GENERATED_AT:+--generated-at "$PUBLIC_GENERATED_AT"}
+      - name: Require the rebuilt public API to equal the committed one
+        if: ${{ !inputs.recovery_mode }}
+        run: python scripts/public_release_identity.py check-rebuild
       - name: Validate public API
         run: python scripts/validate.py
       - name: Prepare allowlisted Pages artifact
-        run: python scripts/prepare_pages_artifact.py pages-dist --release-sha "${{ inputs.recovery_mode && inputs.recovery_source_sha || github.sha }}"
+        run: python scripts/prepare_pages_artifact.py pages-dist --release-sha "${{ inputs.recovery_mode && inputs.recovery_source_sha || steps.identity.outputs.release_sha }}"
       - uses: actions/configure-pages@v6
         with:
           enablement: false
@@ -79,4 +89,4 @@ jobs:
         id: deployment
         uses: actions/deploy-pages@v5
       - name: Verify public Pages revision and parity
-        run: python scripts/verify_pages_deployment.py --release-sha "${{ inputs.recovery_mode && inputs.recovery_source_sha || github.sha }}"
+        run: python scripts/verify_pages_deployment.py --release-sha "${{ inputs.recovery_mode && inputs.recovery_source_sha || steps.identity.outputs.release_sha }}"

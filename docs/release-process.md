@@ -22,7 +22,7 @@ EDIT
 
 普通流程没有 Release Plan、plan digest、checkpoint、resume、pre-tag 或多阶段状态文件。失败后不得自动进入第二条发布链。
 
-Pages 只发布 allowlisted `api/**`，不得包含仓库内部文件。构建时 `SOURCE_COMMIT_SHA` 等于审核 revision，公网 metadata 必须精确匹配该 revision。
+Pages 只发布 allowlisted `api/**`，不得包含仓库内部文件。公网 metadata 的 `source_commit_sha` 是源提交（canonical 与快照），不是被推送的生成提交：文件里写不下包含它自己的提交哈希。workflow 先用 `scripts/public_release_identity.py resolve` 从已提交的 `api/v1/meta.json` 读出源提交 SHA 和 `generated_at`，再以它们作为 `SOURCE_COMMIT_SHA` 和 `--generated-at` 重建，`check-rebuild` 要求重建结果与已提交的 `api/`、`data/` 逐字节相同，否则不发布。因此线上 `meta.json` 与仓库里提交的那份相同；公网 metadata 必须精确匹配该源提交。Forward Recovery 仍按显式输入的源提交构建。字段含义与自查方法见 [provenance](provenance.md)。
 
 Hugging Face 仍只允许 `prices.json`、`prices.csv`、`train.csv`、`meta.json`；发布器继续要求干净 fresh clone、remote HEAD 未移动、fast-forward-only 且禁止 force push。
 
