@@ -2,14 +2,14 @@
   "dataset_name": "AICostBudget AI API Pricing Dataset",
   "dataset_version": "1.0.0",
   "description": "Open, machine-readable pricing data for LLM and AI APIs.",
-  "generated_at": "2026-11-23T14:56:38Z",
+  "generated_at": "2026-11-25T12:02:21Z",
   "homepage": "https://aicostbudget.com",
-  "last_verified_at": "2026-11-23T14:49:50Z",
+  "last_verified_at": "2026-11-25T11:57:07Z",
   "licenses": {
     "code": "MIT",
     "data": "CC BY 4.0"
   },
-  "model_count": 204,
+  "model_count": 206,
   "models": [
     {
       "access_checked_at": "2026-10-28T16:44:42Z",
@@ -21162,6 +21162,131 @@
       "status": "active"
     },
     {
+      "access_checked_at": "2026-11-25T11:57:07Z",
+      "access_evidence": [
+        {
+          "claim_type": "official_access_public",
+          "official_model_id": "genie-4",
+          "scope": "The exact model is documented for paid Gemini API access on the Interactions API; it is not available on the Free tier.",
+          "title": "genie-4 official model access documentation",
+          "url": "https://ai.google.dev/gemini-api/docs/models/genie-4"
+        }
+      ],
+      "access_status": "public",
+      "accessed_at": "2026-11-25T11:57:07Z",
+      "binding_evidence": [
+        {
+          "claim_type": "official_identity_binding",
+          "official_model_id": "genie-4",
+          "reason": "The official model page documents the exact Gemini API model code.",
+          "title": "genie-4 official identity documentation",
+          "url": "https://ai.google.dev/gemini-api/docs/models/genie-4"
+        }
+      ],
+      "binding_status": "approved",
+      "display_name": "Genie 4",
+      "effective_from": "2026-11-19",
+      "input_modality": "text",
+      "last_verified_at": "2026-11-25T11:57:07Z",
+      "model_category": "video_generation",
+      "model_family": "Genie",
+      "model_id": "genie-4",
+      "notes": "Generally available 2026-11-19 on the Interactions API (not the Live API) for real-time interactive world generation: a world is seeded from text, a 16:9 reference image or both and steered live; the output is a streaming 1280x720, 24 fps video with synchronized 48 kHz stereo audio. A session lasts up to 120 seconds; serving regions are the United States, Western Europe and Japan. Paid tier only; no Free tier, Batch, Flex, Priority or context caching. Video output (audio included) is $17.50 per 1M tokens at 240 tokens per frame (5,760 tokens per second), which Google puts at about $0.10 per second.",
+      "official_source_url": "https://ai.google.dev/gemini-api/docs/pricing",
+      "official_source_urls": [
+        "https://ai.google.dev/gemini-api/docs/pricing",
+        "https://ai.google.dev/gemini-api/docs/models/genie-4",
+        "https://ai.google.dev/gemini-api/docs/changelog"
+      ],
+      "output_modality": "video",
+      "price_records": [
+        {
+          "billing_note": "Paid-tier Standard token rates; no Free tier, Batch, Flex, Priority or caching. Input is $1.50 per 1M tokens for text and the reference image. Video output, with the synchronized 48 kHz stereo audio included, is billed per emitted video output token at 240 tokens per frame (5,760 tokens per second at 24 fps): about $0.10 per second (about $6.05 per minute). Sessions last up to 120 seconds and billing continues until the session is ended.",
+          "calculation_default": true,
+          "charges": [
+            {
+              "amount": "1.5",
+              "component": "input",
+              "id": "price:google-gemini/genie-4:standard:short:current:input:text:per_1m_tokens",
+              "modality": "text",
+              "unit": "per_1m_tokens"
+            },
+            {
+              "amount": "1.5",
+              "component": "input",
+              "id": "price:google-gemini/genie-4:standard:short:current:input:image:per_1m_tokens",
+              "modality": "image",
+              "unit": "per_1m_tokens"
+            },
+            {
+              "amount": "9",
+              "component": "output",
+              "id": "price:google-gemini/genie-4:standard:short:current:output:text:per_1m_tokens",
+              "modality": "text",
+              "unit": "per_1m_tokens"
+            },
+            {
+              "amount": "17.5",
+              "component": "output",
+              "id": "price:google-gemini/genie-4:standard:short:current:output:video:per_1m_tokens",
+              "modality": "video",
+              "unit": "per_1m_tokens"
+            }
+          ],
+          "checked_at": "2026-11-25T11:57:07Z",
+          "context_class": "short",
+          "currency": "USD",
+          "effective_from": "2026-11-19",
+          "effective_until": null,
+          "id": "price:google-gemini/genie-4:standard:short:current",
+          "pricing_status": "current",
+          "processing_mode": "standard",
+          "prompt_token_threshold": null,
+          "region_policy": {
+            "availability": {
+              "default": "available",
+              "rules": []
+            },
+            "data_residencies": [
+              "global"
+            ],
+            "endpoint_geographies": [
+              "global"
+            ],
+            "price_adjustments": [],
+            "pricing_geography": "global_base"
+          },
+          "source_refs": [
+            "https://ai.google.dev/gemini-api/docs/pricing",
+            "https://ai.google.dev/gemini-api/docs/models/genie-4",
+            "https://ai.google.dev/gemini-api/docs/changelog"
+          ],
+          "verification_status": "verified",
+          "verified_at": "2026-11-25T11:57:07Z"
+        }
+      ],
+      "pricing": {
+        "batch_input": null,
+        "batch_output": null,
+        "cache_write": null,
+        "cache_write_1h": null,
+        "cached_input": null,
+        "currency": "USD",
+        "input": 1.5,
+        "output": 9.0,
+        "unit": "1M tokens"
+      },
+      "provider_id": "google-gemini",
+      "release_evidence": {
+        "source_type": "official_changelog",
+        "title": "Gemini API release notes: Genie 4 generally available",
+        "url": "https://ai.google.dev/gemini-api/docs/changelog"
+      },
+      "release_stage": "stable",
+      "released_at": "2026-11-19",
+      "status": "active"
+    },
+    {
       "access_checked_at": "2026-11-13T13:28:59Z",
       "access_evidence": [
         {
@@ -39338,15 +39463,15 @@
       "status": "active"
     },
     {
-      "accessed_at": "2026-11-05T15:04:39Z",
+      "accessed_at": "2026-11-25T11:56:43Z",
       "display_name": "GPT-Live 1",
       "effective_from": "2026-09-10",
       "input_modality": "audio",
-      "last_verified_at": "2026-11-05T15:04:39Z",
+      "last_verified_at": "2026-11-25T11:56:43Z",
       "model_category": "realtime_voice",
       "model_family": "GPT-Live",
       "model_id": "gpt-live-1",
-      "notes": "OpenAI released GPT-Live 1 as generally available in the API on 2026-09-10. The $0.05 per minute price covers the Live voice-session layer and is billed per second without rounding up to a whole minute. Backend model and tool usage are billed separately. Null token-price fields mean not applicable, not free.",
+      "notes": "OpenAI released GPT-Live 1 as generally available in the API on 2026-09-10. The $0.05 per minute price covers the Live voice-session layer and is billed per second without rounding up to a whole minute. Backend model and tool usage are billed separately. From 2026-11-19 OpenAI also lists a lower Standby rate of $0.02 per minute for WebRTC sessions while inference is paused; Standby is not modeled as a separate processing mode or charge. Null token-price fields mean not applicable, not free.",
       "official_source_url": "https://developers.openai.com/api/docs/models/gpt-live-1",
       "official_source_urls": [
         "https://developers.openai.com/api/docs/models/gpt-live-1",
@@ -39356,7 +39481,7 @@
       "output_modality": "audio",
       "price_records": [
         {
-          "billing_note": "The $0.05 per minute price applies to GPT-Live 1 voice-session duration and is billed per second without rounding up to a whole minute. Backend model and tool usage are billed separately.",
+          "billing_note": "The $0.05 per minute price applies to GPT-Live 1 voice-session duration and is billed per second without rounding up to a whole minute. Backend model and tool usage are billed separately. From 2026-11-19 OpenAI also lists a lower Standby rate of $0.02 per minute for WebRTC sessions while inference is paused; Standby is not modeled as a separate processing mode or charge.",
           "calculation_default": true,
           "charges": [
             {
@@ -39367,7 +39492,7 @@
               "unit": "per_minute"
             }
           ],
-          "checked_at": "2026-11-05T15:04:39Z",
+          "checked_at": "2026-11-25T11:56:43Z",
           "context_class": "short",
           "currency": "USD",
           "effective_from": "2026-09-10",
@@ -39396,7 +39521,7 @@
             "https://developers.openai.com/api/docs/changelog"
           ],
           "verification_status": "verified",
-          "verified_at": "2026-11-05T15:04:39Z"
+          "verified_at": "2026-11-25T11:56:43Z"
         }
       ],
       "pricing": {
@@ -39412,6 +39537,89 @@
       },
       "provider_id": "openai",
       "release_stage": "stable",
+      "status": "active"
+    },
+    {
+      "accessed_at": "2026-11-25T11:56:34Z",
+      "display_name": "GPT-Live 1.1",
+      "effective_from": "2026-11-19",
+      "input_modality": "audio",
+      "last_verified_at": "2026-11-25T11:56:34Z",
+      "model_category": "realtime_voice",
+      "model_family": "GPT-Live",
+      "model_id": "gpt-live-1.1",
+      "notes": "OpenAI released GPT-Live 1.1 on 2026-11-19 (Live API, v1/live/sessions); it improves pronunciation, accent consistency and transcription in multilingual voice conversations. The $0.05 per minute price covers the Live voice-session layer and is billed per second without rounding up to a whole minute. Backend model and tool usage are billed separately. From 2026-11-19 OpenAI also lists a lower Standby rate of $0.02 per minute for WebRTC sessions while inference is paused; Standby is not modeled as a separate processing mode or charge. Null token-price fields mean not applicable, not free.",
+      "official_source_url": "https://developers.openai.com/api/docs/models/gpt-live-1.1",
+      "official_source_urls": [
+        "https://developers.openai.com/api/docs/models/gpt-live-1.1",
+        "https://developers.openai.com/api/docs/pricing",
+        "https://developers.openai.com/api/docs/changelog"
+      ],
+      "output_modality": "audio",
+      "price_records": [
+        {
+          "billing_note": "The $0.05 per minute price applies to GPT-Live 1.1 voice-session duration and is billed per second without rounding up to a whole minute. Backend model and tool usage are billed separately. From 2026-11-19 OpenAI also lists a lower Standby rate of $0.02 per minute for WebRTC sessions while inference is paused; Standby is not modeled as a separate processing mode or charge.",
+          "calculation_default": true,
+          "charges": [
+            {
+              "amount": "0.05",
+              "component": "session_duration",
+              "id": "price:openai/gpt-live-1.1:standard:short:current:session_duration:audio:per_minute",
+              "modality": "audio",
+              "unit": "per_minute"
+            }
+          ],
+          "checked_at": "2026-11-25T11:56:34Z",
+          "context_class": "short",
+          "currency": "USD",
+          "effective_from": "2026-11-19",
+          "effective_until": null,
+          "id": "price:openai/gpt-live-1.1:standard:short:current",
+          "pricing_status": "current",
+          "processing_mode": "standard",
+          "prompt_token_threshold": null,
+          "region_policy": {
+            "availability": {
+              "default": "available",
+              "rules": []
+            },
+            "data_residencies": [
+              "global"
+            ],
+            "endpoint_geographies": [
+              "global"
+            ],
+            "price_adjustments": [],
+            "pricing_geography": "global_base"
+          },
+          "source_refs": [
+            "https://developers.openai.com/api/docs/models/gpt-live-1.1",
+            "https://developers.openai.com/api/docs/pricing",
+            "https://developers.openai.com/api/docs/changelog"
+          ],
+          "verification_status": "verified",
+          "verified_at": "2026-11-25T11:56:34Z"
+        }
+      ],
+      "pricing": {
+        "batch_input": null,
+        "batch_output": null,
+        "cache_write": null,
+        "cache_write_1h": null,
+        "cached_input": null,
+        "currency": "USD",
+        "input": null,
+        "output": null,
+        "unit": null
+      },
+      "provider_id": "openai",
+      "release_evidence": {
+        "source_type": "official_changelog",
+        "title": "OpenAI API changelog: GPT-Live-1.1 (Nov 19)",
+        "url": "https://developers.openai.com/api/docs/changelog"
+      },
+      "release_stage": "stable",
+      "released_at": "2026-11-19",
       "status": "active"
     },
     {
@@ -44276,7 +44484,7 @@
       "status": "active"
     }
   ],
-  "official_source_count": 75,
+  "official_source_count": 76,
   "official_sources": [
     "https://ai.google.dev/gemini-api/docs/deprecations",
     "https://ai.google.dev/gemini-api/docs/models/gemini-nano-banana-2.1",
@@ -44311,6 +44519,7 @@
     "https://developers.openai.com/api/docs/models/gpt-6.2-astra",
     "https://developers.openai.com/api/docs/models/gpt-6.2-sol",
     "https://developers.openai.com/api/docs/models/gpt-live-1",
+    "https://developers.openai.com/api/docs/models/gpt-live-1.1",
     "https://developers.openai.com/api/docs/models/o3",
     "https://developers.openai.com/api/docs/pricing",
     "https://docs.anthropic.com/en/docs/about-claude/pricing",

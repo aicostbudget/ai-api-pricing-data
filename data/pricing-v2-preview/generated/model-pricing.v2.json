@@ -9,7 +9,7 @@
     "review_required": "display only with warning; no default or recommendation placement",
     "unsafe": "exclude from default calculations and show warning only where explicitly allowed"
   },
-  "effectiveAt": "2026-11-23T14:56:38Z",
+  "effectiveAt": "2026-11-25T12:02:21Z",
   "effectiveTimezone": "UTC",
   "failureBehavior": {
     "atomicWrite": true,
@@ -18,7 +18,7 @@
     "partialJson": "not_written",
     "publicV1Mutation": "forbidden"
   },
-  "generatedAt": "2026-11-23T14:56:38Z",
+  "generatedAt": "2026-11-25T12:02:21Z",
   "generatedAtPolicy": "UTC artifact generation timestamp injected by the generation pipeline",
   "governancePolicy": {
     "classes": [
@@ -54311,6 +54311,279 @@
     },
     {
       "accessAuthority": {
+        "baseRevision": "d17c552d5315a83cd6a3cb53f7450e45f6029468",
+        "factSha256": "1e21089da9c90d91ce07b633d81a4dd98c96c894ac7bdd421f7ad3a27bab3510",
+        "kind": "canonical",
+        "revisionScope": "base_revision_plus_fact_digest"
+      },
+      "accessCheckedAt": "2026-11-25T11:57:07Z",
+      "accessEvidence": [
+        {
+          "claimType": "official_access_public",
+          "officialModelId": "genie-4",
+          "scope": "The exact model is documented for paid Gemini API access on the Interactions API; it is not available on the Free tier.",
+          "sourceRef": "source:google-gemini:ai-google-dev-gemini-api-docs-models-genie-4",
+          "title": "genie-4 official model access documentation",
+          "url": "https://ai.google.dev/gemini-api/docs/models/genie-4"
+        }
+      ],
+      "accessStatus": "public",
+      "aliasTargetInternalId": null,
+      "availability": "active",
+      "batchInputPrice": null,
+      "batchOutputPrice": null,
+      "billingModelInternalId": null,
+      "bindingEvidence": [
+        {
+          "claimType": "official_identity_binding",
+          "officialModelId": "genie-4",
+          "reason": "The official model page documents the exact Gemini API model code.",
+          "sourceRef": "source:google-gemini:ai-google-dev-gemini-api-docs-models-genie-4",
+          "title": "genie-4 official identity documentation",
+          "url": "https://ai.google.dev/gemini-api/docs/models/genie-4"
+        }
+      ],
+      "bindingStatus": "approved",
+      "blockedFromDefaultReasons": [],
+      "cachedInputPrice": null,
+      "canonicalInternalId": "google-gemini/genie-4",
+      "checkedAt": "2026-11-25T11:57:07Z",
+      "checkedSourceRefs": [
+        "source:google-gemini:ai-google-dev-gemini-api-docs-changelog",
+        "source:google-gemini:ai-google-dev-gemini-api-docs-models-genie-4",
+        "source:google-gemini:ai-google-dev-gemini-api-docs-pricing"
+      ],
+      "contextWindow": null,
+      "contextWindowStatus": "unknown_not_guessed",
+      "defaultPriceSelectionRule": [
+        "current_effective_utc",
+        "verified",
+        "standard",
+        "text",
+        "default_context_class"
+      ],
+      "defaultSafe": true,
+      "deprecationDate": null,
+      "governanceClass": "VERIFIED_CANONICAL",
+      "governanceDetails": null,
+      "governanceReason": "canonical_verified_direct_public_projection",
+      "governanceSourceCandidateIds": [
+        "google-gemini/genie-4"
+      ],
+      "id": "genie-4",
+      "identityType": "canonical_model",
+      "inputPrice": 1.5,
+      "lifecycleStatus": "active",
+      "model": "Genie 4",
+      "officialSourceUrl": "https://ai.google.dev/gemini-api/docs/pricing",
+      "outputPrice": 9,
+      "priceRecords": [
+        {
+          "calculationDefault": true,
+          "checkedAt": "2026-11-25T11:57:07Z",
+          "contextClass": "short",
+          "effectiveFrom": "2026-11-19",
+          "effectiveUntil": null,
+          "pricingId": "price:google-gemini/genie-4:standard:short:current",
+          "pricingStatus": "current",
+          "processingMode": "standard",
+          "sourceRefs": [
+            "source:google-gemini:ai-google-dev-gemini-api-docs-changelog",
+            "source:google-gemini:ai-google-dev-gemini-api-docs-models-genie-4",
+            "source:google-gemini:ai-google-dev-gemini-api-docs-pricing"
+          ],
+          "verificationStatus": "verified",
+          "verifiedAt": "2026-11-25T11:57:07Z"
+        }
+      ],
+      "pricingComponents": [
+        {
+          "amount": "1.5",
+          "calculationDefault": true,
+          "chargeId": "price:google-gemini/genie-4:standard:short:current:input:image:per_1m_tokens",
+          "component": "input",
+          "condition": {
+            "availabilityRules": [],
+            "contextClass": "short",
+            "defaultAvailabilityStatus": "available",
+            "effectiveFrom": "2026-11-19",
+            "effectiveUntil": null,
+            "priceAdjustments": [],
+            "processingMode": "standard",
+            "promptTokenThreshold": null,
+            "regionPolicy": "global",
+            "regionSelector": {
+              "dataResidencies": [
+                "global"
+              ],
+              "endpointGeographies": [
+                "global"
+              ],
+              "pricingGeography": "global_base"
+            },
+            "tierSelection": null
+          },
+          "currency": "USD",
+          "modality": "image",
+          "pricingId": "price:google-gemini/genie-4:standard:short:current",
+          "sourceRefs": [
+            "source:google-gemini:ai-google-dev-gemini-api-docs-changelog",
+            "source:google-gemini:ai-google-dev-gemini-api-docs-models-genie-4",
+            "source:google-gemini:ai-google-dev-gemini-api-docs-pricing"
+          ],
+          "unit": "per_1m_tokens",
+          "verificationStatus": "verified"
+        },
+        {
+          "amount": "1.5",
+          "calculationDefault": true,
+          "chargeId": "price:google-gemini/genie-4:standard:short:current:input:text:per_1m_tokens",
+          "component": "input",
+          "condition": {
+            "availabilityRules": [],
+            "contextClass": "short",
+            "defaultAvailabilityStatus": "available",
+            "effectiveFrom": "2026-11-19",
+            "effectiveUntil": null,
+            "priceAdjustments": [],
+            "processingMode": "standard",
+            "promptTokenThreshold": null,
+            "regionPolicy": "global",
+            "regionSelector": {
+              "dataResidencies": [
+                "global"
+              ],
+              "endpointGeographies": [
+                "global"
+              ],
+              "pricingGeography": "global_base"
+            },
+            "tierSelection": null
+          },
+          "currency": "USD",
+          "modality": "text",
+          "pricingId": "price:google-gemini/genie-4:standard:short:current",
+          "sourceRefs": [
+            "source:google-gemini:ai-google-dev-gemini-api-docs-changelog",
+            "source:google-gemini:ai-google-dev-gemini-api-docs-models-genie-4",
+            "source:google-gemini:ai-google-dev-gemini-api-docs-pricing"
+          ],
+          "unit": "per_1m_tokens",
+          "verificationStatus": "verified"
+        },
+        {
+          "amount": "9",
+          "calculationDefault": true,
+          "chargeId": "price:google-gemini/genie-4:standard:short:current:output:text:per_1m_tokens",
+          "component": "output",
+          "condition": {
+            "availabilityRules": [],
+            "contextClass": "short",
+            "defaultAvailabilityStatus": "available",
+            "effectiveFrom": "2026-11-19",
+            "effectiveUntil": null,
+            "priceAdjustments": [],
+            "processingMode": "standard",
+            "promptTokenThreshold": null,
+            "regionPolicy": "global",
+            "regionSelector": {
+              "dataResidencies": [
+                "global"
+              ],
+              "endpointGeographies": [
+                "global"
+              ],
+              "pricingGeography": "global_base"
+            },
+            "tierSelection": null
+          },
+          "currency": "USD",
+          "modality": "text",
+          "pricingId": "price:google-gemini/genie-4:standard:short:current",
+          "sourceRefs": [
+            "source:google-gemini:ai-google-dev-gemini-api-docs-changelog",
+            "source:google-gemini:ai-google-dev-gemini-api-docs-models-genie-4",
+            "source:google-gemini:ai-google-dev-gemini-api-docs-pricing"
+          ],
+          "unit": "per_1m_tokens",
+          "verificationStatus": "verified"
+        },
+        {
+          "amount": "17.5",
+          "calculationDefault": true,
+          "chargeId": "price:google-gemini/genie-4:standard:short:current:output:video:per_1m_tokens",
+          "component": "output",
+          "condition": {
+            "availabilityRules": [],
+            "contextClass": "short",
+            "defaultAvailabilityStatus": "available",
+            "effectiveFrom": "2026-11-19",
+            "effectiveUntil": null,
+            "priceAdjustments": [],
+            "processingMode": "standard",
+            "promptTokenThreshold": null,
+            "regionPolicy": "global",
+            "regionSelector": {
+              "dataResidencies": [
+                "global"
+              ],
+              "endpointGeographies": [
+                "global"
+              ],
+              "pricingGeography": "global_base"
+            },
+            "tierSelection": null
+          },
+          "currency": "USD",
+          "modality": "video",
+          "pricingId": "price:google-gemini/genie-4:standard:short:current",
+          "sourceRefs": [
+            "source:google-gemini:ai-google-dev-gemini-api-docs-changelog",
+            "source:google-gemini:ai-google-dev-gemini-api-docs-models-genie-4",
+            "source:google-gemini:ai-google-dev-gemini-api-docs-pricing"
+          ],
+          "unit": "per_1m_tokens",
+          "verificationStatus": "verified"
+        }
+      ],
+      "pricingSourceType": "canonical_verified_price",
+      "provider": "google-gemini",
+      "publicExposure": "public",
+      "redirectTargetInternalId": null,
+      "releaseSourceRef": "source:google-gemini:ai-google-dev-gemini-api-docs-changelog",
+      "releaseSourceUrl": "https://ai.google.dev/gemini-api/docs/changelog",
+      "releaseStage": "stable",
+      "releasedAt": "2026-11-19",
+      "replacementInternalId": null,
+      "retirementDate": null,
+      "routingBehavior": "direct",
+      "routingDetails": {},
+      "selectedBatchPriceRecordId": null,
+      "selectedBillingPriceRecordId": "price:google-gemini/genie-4:standard:short:current",
+      "selectedPriceEffectiveFrom": "2026-11-19",
+      "selectedPriceEffectiveUntil": null,
+      "selectedPriceRecordId": "price:google-gemini/genie-4:standard:short:current",
+      "sourceRefs": [
+        "source:google-gemini:ai-google-dev-gemini-api-docs-changelog",
+        "source:google-gemini:ai-google-dev-gemini-api-docs-models-genie-4",
+        "source:google-gemini:ai-google-dev-gemini-api-docs-pricing"
+      ],
+      "sourceUrls": [
+        "https://ai.google.dev/gemini-api/docs/changelog",
+        "https://ai.google.dev/gemini-api/docs/models/genie-4",
+        "https://ai.google.dev/gemini-api/docs/pricing"
+      ],
+      "status": "latest",
+      "verificationStatus": "verified",
+      "verifiedAt": "2026-11-25T11:57:07Z",
+      "verifiedSourceRefs": [
+        "source:google-gemini:ai-google-dev-gemini-api-docs-changelog",
+        "source:google-gemini:ai-google-dev-gemini-api-docs-models-genie-4",
+        "source:google-gemini:ai-google-dev-gemini-api-docs-pricing"
+      ]
+    },
+    {
+      "accessAuthority": {
         "baseRevision": "fd21caac7daa18de7ffa844b9cbbd77d5565c61b",
         "factSha256": "3cd7691d0e483ef98aa8e11ece47ddbc9fc5e21de3b86772abd2946348189ca8",
         "kind": "canonical",
@@ -103842,7 +104115,7 @@
       "batchInputPrice": null,
       "batchOutputPrice": null,
       "billingModelInternalId": null,
-      "billingNote": "The $0.05 per minute price applies to GPT-Live 1 voice-session duration and is billed per second without rounding up to a whole minute. Backend model and tool usage are billed separately.",
+      "billingNote": "The $0.05 per minute price applies to GPT-Live 1 voice-session duration and is billed per second without rounding up to a whole minute. Backend model and tool usage are billed separately. From 2026-11-19 OpenAI also lists a lower Standby rate of $0.02 per minute for WebRTC sessions while inference is paused; Standby is not modeled as a separate processing mode or charge.",
       "bindingEvidence": [],
       "bindingStatus": "unresolved",
       "blockedFromDefaultReasons": [
@@ -103850,7 +104123,7 @@
       ],
       "cachedInputPrice": null,
       "canonicalInternalId": "openai/gpt-live-1",
-      "checkedAt": "2026-11-05T15:04:39Z",
+      "checkedAt": "2026-11-25T11:56:43Z",
       "checkedSourceRefs": [
         "source:openai:developers-openai-com-api-docs-changelog",
         "source:openai:developers-openai-com-api-docs-models-gpt-live-1",
@@ -103883,7 +104156,7 @@
       "priceRecords": [
         {
           "calculationDefault": true,
-          "checkedAt": "2026-11-05T15:04:39Z",
+          "checkedAt": "2026-11-25T11:56:43Z",
           "contextClass": "short",
           "effectiveFrom": "2026-09-10",
           "effectiveUntil": null,
@@ -103896,7 +104169,7 @@
             "source:openai:developers-openai-com-api-docs-pricing"
           ],
           "verificationStatus": "verified",
-          "verifiedAt": "2026-11-05T15:04:39Z"
+          "verifiedAt": "2026-11-25T11:56:43Z"
         }
       ],
       "pricingComponents": [
@@ -103967,10 +104240,157 @@
       ],
       "status": "latest",
       "verificationStatus": "verified",
-      "verifiedAt": "2026-11-05T15:04:39Z",
+      "verifiedAt": "2026-11-25T11:56:43Z",
       "verifiedSourceRefs": [
         "source:openai:developers-openai-com-api-docs-changelog",
         "source:openai:developers-openai-com-api-docs-models-gpt-live-1",
+        "source:openai:developers-openai-com-api-docs-pricing"
+      ]
+    },
+    {
+      "accessAuthority": {
+        "baseRevision": "d17c552d5315a83cd6a3cb53f7450e45f6029468",
+        "factSha256": "96ff893e6c3e833719098f61e87a8d7fe9a3b3899bddb56ee72dbc52e92ae756",
+        "kind": "canonical",
+        "revisionScope": "base_revision_plus_fact_digest"
+      },
+      "accessCheckedAt": null,
+      "accessEvidence": [],
+      "accessStatus": "unknown",
+      "aliasTargetInternalId": null,
+      "availability": "active",
+      "batchInputPrice": null,
+      "batchOutputPrice": null,
+      "billingModelInternalId": null,
+      "billingNote": "The $0.05 per minute price applies to GPT-Live 1.1 voice-session duration and is billed per second without rounding up to a whole minute. Backend model and tool usage are billed separately. From 2026-11-19 OpenAI also lists a lower Standby rate of $0.02 per minute for WebRTC sessions while inference is paused; Standby is not modeled as a separate processing mode or charge.",
+      "bindingEvidence": [],
+      "bindingStatus": "unresolved",
+      "blockedFromDefaultReasons": [
+        "missing_verified_current_price"
+      ],
+      "cachedInputPrice": null,
+      "canonicalInternalId": "openai/gpt-live-1.1",
+      "checkedAt": "2026-11-25T11:56:34Z",
+      "checkedSourceRefs": [
+        "source:openai:developers-openai-com-api-docs-changelog",
+        "source:openai:developers-openai-com-api-docs-models-gpt-live-1-1",
+        "source:openai:developers-openai-com-api-docs-pricing"
+      ],
+      "contextWindow": null,
+      "contextWindowStatus": "unknown_not_guessed",
+      "defaultPriceSelectionRule": [
+        "current_effective_utc",
+        "verified",
+        "standard",
+        "text",
+        "default_context_class"
+      ],
+      "defaultSafe": false,
+      "deprecationDate": null,
+      "governanceClass": "VERIFIED_CANONICAL",
+      "governanceDetails": null,
+      "governanceReason": "canonical_verified_non_token_public_projection",
+      "governanceSourceCandidateIds": [
+        "openai/gpt-live-1.1"
+      ],
+      "id": "gpt-live-1.1",
+      "identityType": "canonical_model",
+      "inputPrice": null,
+      "lifecycleStatus": "active",
+      "model": "GPT-Live 1.1",
+      "officialSourceUrl": "https://developers.openai.com/api/docs/pricing",
+      "outputPrice": null,
+      "priceRecords": [
+        {
+          "calculationDefault": true,
+          "checkedAt": "2026-11-25T11:56:34Z",
+          "contextClass": "short",
+          "effectiveFrom": "2026-11-19",
+          "effectiveUntil": null,
+          "pricingId": "price:openai/gpt-live-1.1:standard:short:current",
+          "pricingStatus": "current",
+          "processingMode": "standard",
+          "sourceRefs": [
+            "source:openai:developers-openai-com-api-docs-changelog",
+            "source:openai:developers-openai-com-api-docs-models-gpt-live-1-1",
+            "source:openai:developers-openai-com-api-docs-pricing"
+          ],
+          "verificationStatus": "verified",
+          "verifiedAt": "2026-11-25T11:56:34Z"
+        }
+      ],
+      "pricingComponents": [
+        {
+          "amount": "0.05",
+          "calculationDefault": true,
+          "chargeId": "price:openai/gpt-live-1.1:standard:short:current:session_duration:audio:per_minute",
+          "component": "session_duration",
+          "condition": {
+            "availabilityRules": [],
+            "contextClass": "short",
+            "defaultAvailabilityStatus": "available",
+            "effectiveFrom": "2026-11-19",
+            "effectiveUntil": null,
+            "priceAdjustments": [],
+            "processingMode": "standard",
+            "promptTokenThreshold": null,
+            "regionPolicy": "global",
+            "regionSelector": {
+              "dataResidencies": [
+                "global"
+              ],
+              "endpointGeographies": [
+                "global"
+              ],
+              "pricingGeography": "global_base"
+            },
+            "tierSelection": null
+          },
+          "currency": "USD",
+          "modality": "audio",
+          "pricingId": "price:openai/gpt-live-1.1:standard:short:current",
+          "sourceRefs": [
+            "source:openai:developers-openai-com-api-docs-changelog",
+            "source:openai:developers-openai-com-api-docs-models-gpt-live-1-1",
+            "source:openai:developers-openai-com-api-docs-pricing"
+          ],
+          "unit": "per_minute",
+          "verificationStatus": "verified"
+        }
+      ],
+      "pricingSourceType": "canonical_verified_structured_price",
+      "provider": "openai",
+      "publicExposure": "public",
+      "redirectTargetInternalId": null,
+      "releaseSourceRef": "source:openai:developers-openai-com-api-docs-changelog",
+      "releaseSourceUrl": "https://developers.openai.com/api/docs/changelog",
+      "releaseStage": "stable",
+      "releasedAt": "2026-11-19",
+      "replacementInternalId": null,
+      "retirementDate": null,
+      "routingBehavior": "direct",
+      "routingDetails": {},
+      "selectedBatchPriceRecordId": null,
+      "selectedBillingPriceRecordId": "price:openai/gpt-live-1.1:standard:short:current",
+      "selectedPriceEffectiveFrom": "2026-11-19",
+      "selectedPriceEffectiveUntil": null,
+      "selectedPriceRecordId": null,
+      "sourceRefs": [
+        "source:openai:developers-openai-com-api-docs-changelog",
+        "source:openai:developers-openai-com-api-docs-models-gpt-live-1-1",
+        "source:openai:developers-openai-com-api-docs-pricing"
+      ],
+      "sourceUrls": [
+        "https://developers.openai.com/api/docs/changelog",
+        "https://developers.openai.com/api/docs/models/gpt-live-1.1",
+        "https://developers.openai.com/api/docs/pricing"
+      ],
+      "status": "latest",
+      "verificationStatus": "verified",
+      "verifiedAt": "2026-11-25T11:56:34Z",
+      "verifiedSourceRefs": [
+        "source:openai:developers-openai-com-api-docs-changelog",
+        "source:openai:developers-openai-com-api-docs-models-gpt-live-1-1",
         "source:openai:developers-openai-com-api-docs-pricing"
       ]
     },
